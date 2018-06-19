@@ -12,6 +12,7 @@
 
 	<name>recheck</name>
 	<description>The API and simple implementation for recheck</description>
+	<url>https://retest.de/recheck</url>
 
 	<licenses>
 		<license>
