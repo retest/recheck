@@ -21,6 +21,38 @@
 		</license>
 	</licenses>
 
+	<prerequisites>
+		<maven>3.2</maven>
+	</prerequisites>
+
+	<organization>
+		<name>ReTest GmbH</name>
+		<url>https://retest.de/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>roessler</id>
+			<name>Dr. Jeremias Rößler</name>
+			<email>jeremias.roessler@retest.de</email>
+		</developer>
+		<developer>
+			<id>kraus</id>
+			<name>Daniel Kraus</name>
+			<email>daniel.kraus@retest.de</email>
+		</developer>
+		<developer>
+			<id>vietz</id>
+			<name>Martin Vietz</name>
+			<email>martin.vietz@retest.de</email>
+		</developer>
+		<developer>
+			<id>dillmann</id>
+			<name>Johannes Dillmann</name>
+			<email>johannes.dillmann@retest.de</email>
+		</developer>
+	</developers>
+
 	<properties>
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
