@@ -11,22 +11,21 @@
 	<packaging>jar</packaging>
 
 	<name>recheck</name>
-	<description>The API and simple implementation for recheck</description>
+	<description>Replace traditional assertions with a single check.</description>
 	<url>https://retest.de/recheck</url>
 
 	<licenses>
 		<license>
-			<name>GNU Affero General Public License</name>
-			<url>http://www.gnu.org/licenses/agpl-3.0.de.html</url>
+			<name>GNU Affero General Public License (AGPL), Version 3</name>
+			<url>https://gnu.org/licenses/agpl-3.0.html</url>
 		</license>
 	</licenses>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.6</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<junit.platform.version>1.2.0</junit.platform.version>
 	</properties>
 
 	<scm>
@@ -35,13 +34,6 @@
 		<developerConnection>scm:git:https://github.com/retest/recheck.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
-
-	<repositories>
-		<repository>
-			<id>nexus-retest</id>
-			<url>https://nexus.retest.org/repository/all/</url>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -61,6 +53,8 @@
 			<artifactId>guava</artifactId>
 			<version>11.0.2</version>
 		</dependency>
+
+		<!-- test dependencies -->
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -84,14 +78,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.21.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>${junit.platform.version}</version>
-					</dependency>
-				</dependencies>
+				<version>2.22.0</version>
 			</plugin>
 
 			<plugin>
