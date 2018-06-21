@@ -1,25 +1,6 @@
-# Eclipse
+# Eclipse.
 .classpath
 .project
-.settings
 
-# Maven
-target
-
-# Editor Backup Files
-*~
-
-# Git Merge
-*.orig
-
-# ReTest
-**/retest-workspace/recorded/201*-*
-**/retest-workspace/tests/201*-*
-**/retest-workspace/suites/201*-*
-**/retest-workspace/execsuites/201*-*
-**/retest-workspace/execsuites/generated-suite_*
-
-**/retest-workspace/crashes/*
-**/retest-workspace/generations/*
-**/retest-workspace/testreports/*
-**/retest-workspace/logs/*
+# Maven.
+/target/
