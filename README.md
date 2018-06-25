@@ -9,7 +9,7 @@ recheck is a general framework that allows replacing manual asserts and checking
 
 ## Features
 
-* Easy creation and maintenance of checks for web, XML and Java Swing (more coming).
+* Easy creation and maintenance of checks for [web](https://github.com/retest/recheck-web/) and [Java Swing](http://retest.org/) (more coming).
 * Semantic comparison of contents.
 * Easily ignore volatile elements, attributes or sections.
 * One-click maintenance to update tests with intended changes.
