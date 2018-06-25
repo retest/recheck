@@ -13,7 +13,7 @@
 	<name>recheck</name>
 	<description>Replace traditional assertions with a single check.</description>
 	<url>https://retest.de/recheck/</url>
-	
+
 	<organization>
 		<name>ReTest GmbH</name>
 		<url>https://retest.de/</url>
@@ -114,6 +114,34 @@
 					<goals>install</goals>
 					<tagNameFormat>v@{project.version}</tagNameFormat>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>bundle-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>bundle-javadoc</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
