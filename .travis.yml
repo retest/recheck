@@ -9,3 +9,15 @@ cache:
     - ${HOME}/.m2/
 
 install: true
+
+before_deploy: mvn package -DskipTests
+
+deploy:
+  provider: releases
+  api_key: "${GH_TOKEN}"
+  file_glob: true
+  file: "./target/recheck-*.jar"
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master

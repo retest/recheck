@@ -18,7 +18,7 @@ recheck is a general framework that allows replacing manual asserts and checking
 
 ### Prerequisites
 
-Currently only available as a Java API.
+Currently only available as a Java API with support for JUnit 4.
 
 ### Installing
 
