@@ -12,7 +12,7 @@
 
 	<name>recheck</name>
 	<description>Replace traditional assertions with a single check.</description>
-	<url>https://retest.de/recheck</url>
+	<url>https://retest.de/recheck/</url>
 	
 	<organization>
 		<name>ReTest GmbH</name>
@@ -57,7 +57,7 @@
 	</properties>
 
 	<scm>
-		<url>https://github.com/retest/recheck</url>
+		<url>https://github.com/retest/recheck/</url>
 		<connection>scm:git:https://github.com/retest/recheck.git</connection>
 		<developerConnection>scm:git:https://github.com/retest/recheck.git</developerConnection>
 		<tag>HEAD</tag>
