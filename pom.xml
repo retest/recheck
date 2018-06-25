@@ -12,7 +12,35 @@
 
 	<name>recheck</name>
 	<description>Replace traditional assertions with a single check.</description>
-	<url>https://retest.de/recheck</url>
+	<url>https://retest.de/recheck/</url>
+	
+	<organization>
+		<name>ReTest GmbH</name>
+		<url>https://retest.de/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>roessler</id>
+			<name>Dr. Jeremias Rößler</name>
+			<email>jeremias.roessler@retest.de</email>
+		</developer>
+		<developer>
+			<id>kraus</id>
+			<name>Daniel Kraus</name>
+			<email>daniel.kraus@retest.de</email>
+		</developer>
+		<developer>
+			<id>vietz</id>
+			<name>Martin Vietz</name>
+			<email>martin.vietz@retest.de</email>
+		</developer>
+		<developer>
+			<id>dillmann</id>
+			<name>Johannes Dillmann</name>
+			<email>johannes.dillmann@retest.de</email>
+		</developer>
+	</developers>
 
 	<licenses>
 		<license>
@@ -29,7 +57,7 @@
 	</properties>
 
 	<scm>
-		<url>https://github.com/retest/recheck</url>
+		<url>https://github.com/retest/recheck/</url>
 		<connection>scm:git:https://github.com/retest/recheck.git</connection>
 		<developerConnection>scm:git:https://github.com/retest/recheck.git</developerConnection>
 		<tag>HEAD</tag>
@@ -39,7 +67,7 @@
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>retest-model</artifactId>
-			<version>2.2.0</version>
+			<version>2.3.0</version>
 		</dependency>
 
 		<dependency>
