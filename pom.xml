@@ -55,8 +55,8 @@
 
 	<scm>
 		<url>https://github.com/retest/recheck/</url>
-		<connection>scm:git:https://github.com/retest/recheck.git</connection>
-		<developerConnection>scm:git:https://github.com/retest/recheck.git</developerConnection>
+		<connection>scm:git:git@github.com:retest/recheck.git</connection>
+		<developerConnection>scm:git:git@github.com:retest/recheck.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
