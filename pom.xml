@@ -157,6 +157,7 @@
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.6</version>
 				<configuration>
+				    <skip>${gpg.skip}</skip>
 				    <keyname>0x99045A9A</keyname>
 				    <passphrase>${GPG_PASSPHRASE}</passphrase>
 				</configuration> 
