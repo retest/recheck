@@ -20,7 +20,7 @@ before_install:
 
 install: true
 
-before_deploy: mvn package -DskipTests --settings mvnsettings.xml
+before_deploy: mvn package -DskipTests --settings .travis.settings.xml
 
 deploy:
   provider: releases
