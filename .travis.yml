@@ -15,7 +15,9 @@ before_install:
 
 install: true
 
-before_deploy: mvn package -DskipTests --settings .travis.settings.xml
+before_deploy:
+  - cp .travis.settings.xml "${HOME}/.m2/settings.xml"
+  - mvn package -DskipTests
 
 deploy:
   provider: releases
@@ -27,4 +29,4 @@ deploy:
     tags: true
     branch: master
 
-after_deploy: mvn deploy -DskipTests --settings .travis.settings.xml
+after_deploy: mvn deploy -DskipTests
