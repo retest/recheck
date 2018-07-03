@@ -25,10 +25,9 @@ Currently only available as a Java API with support for JUnit 4.
 
 ### Installing
 
-You only need to download recheck directly, if you plan to implement it for an additional interface. 
-If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/), see [features](#features)), you would rather reference that implementation directly, e.g. by maven, and have the transitive dependencies be auto-resolved. 
+You only need to download recheck directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/), see ["Features" section](#features)), you would rather reference this implementation, for instance via Maven, and have the transitive dependencies be automatically resolved.
 
-You can install recheck using the [latest release](https://github.com/retest/recheck/releases), or by adding it as a maven dependency in your pom:
+You can install recheck using the [latest release](https://github.com/retest/recheck/releases/) or by adding it as a Maven dependency in your POM:
 
 ```
 <dependency>
