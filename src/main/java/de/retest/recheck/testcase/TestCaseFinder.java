@@ -1,17 +1,17 @@
 package de.retest.recheck.testcase;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.theories.Theory;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.base.Optional;
 
 public class TestCaseFinder {
+
+	private static final List<TestFramework> testFrameworks = Arrays.asList( (TestFramework) new JunitVintage() );
+
+	private TestCaseFinder() {}
 
 	public static StackTraceElement findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
@@ -37,9 +37,22 @@ public class TestCaseFinder {
 
 	private static boolean isTestCase( final StackTraceElement element ) {
 		final Method method = tryToFindMethodForStackTraceElement( element );
-		return method != null && (method.isAnnotationPresent( Test.class ) || method.isAnnotationPresent( Theory.class )
-				|| method.isAnnotationPresent( Before.class ) || method.isAnnotationPresent( After.class )
-				|| method.isAnnotationPresent( BeforeClass.class ) || method.isAnnotationPresent( AfterClass.class ));
+
+		if ( method == null ) {
+			return false;
+		}
+
+		final Annotation[] annotations = method.getAnnotations();
+		for ( final Annotation annotation : annotations ) {
+			final String annotationName = annotation.annotationType().getName();
+			for ( final TestFramework testFramework : testFrameworks ) {
+				if ( testFramework.isTestCase( annotationName ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	private static Method tryToFindMethodForStackTraceElement( final StackTraceElement element ) {
