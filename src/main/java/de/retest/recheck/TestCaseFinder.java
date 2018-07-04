@@ -11,9 +11,6 @@ import org.junit.experimental.theories.Theory;
 
 import com.google.common.base.Optional;
 
-/**
- * This class is a duplicate of class TestCaseFinder in testutils module.
- */
 public class TestCaseFinder {
 
 	public static StackTraceElement findTestCaseMethodInStack() {
