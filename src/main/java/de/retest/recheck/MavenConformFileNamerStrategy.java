@@ -5,6 +5,7 @@ import java.io.File;
 import com.google.common.base.Joiner;
 
 import de.retest.persistence.FileNamer;
+import de.retest.recheck.testcase.TestCaseFinder;
 
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 

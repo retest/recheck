@@ -1,4 +1,4 @@
-package de.retest.recheck;
+package de.retest.recheck.testcase;
 
 import java.lang.reflect.Method;
 
