@@ -29,4 +29,5 @@ deploy:
     tags: true
     branch: master
 
-after_deploy: mvn deploy -DskipTests
+after_deploy:
+  - mvn deploy -DskipTests
