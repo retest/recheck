@@ -9,7 +9,8 @@ import com.google.common.base.Optional;
 
 public class TestCaseFinder {
 
-	private static final List<TestFramework> testFrameworks = Arrays.asList( new JunitVintage(), new JunitJupiter() );
+	private static final List<TestFramework> testFrameworks =
+			Arrays.asList( new JunitVintage(), new JunitJupiter(), new TestNg() );
 
 	private TestCaseFinder() {}
 
