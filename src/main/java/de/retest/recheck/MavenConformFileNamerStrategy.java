@@ -5,6 +5,7 @@ import java.io.File;
 import com.google.common.base.Joiner;
 
 import de.retest.persistence.FileNamer;
+import de.retest.recheck.testcase.TestCaseFinder;
 
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
@@ -28,7 +29,6 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
 	@Override
 	public String getTestClassName() {
-		// TODO Use Approval API here instead... and remove duplicated class TestCaseFinder afterwards
 		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
 		if ( testMethodStack != null ) {
 			final String className = testMethodStack.getClassName();
@@ -39,7 +39,6 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
 	@Override
 	public String getTestMethodName() {
-		// TODO Use Approval API here instead... and remove duplicated class TestCaseFinder afterwards
 		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
 		if ( testMethodStack != null ) {
 			return testMethodStack.getMethodName();
