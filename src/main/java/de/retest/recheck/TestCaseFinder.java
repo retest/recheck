@@ -10,6 +10,10 @@ import com.google.common.base.Optional;
 
 public class TestCaseFinder {
 
+	/*
+	 * TODO We need a special implementation for data-driven testing with annotations such as JUnit's @Theory, because
+	 * then a single method is invoked multiple times.
+	 */
 	private static final Set<String> testCaseAnnotations = new HashSet<String>( Arrays.asList( //
 			"org.junit.Test", // JUnit Vintage (v4)
 			"org.junit.jupiter.api.Test", // JUnit Jupiter (v5)
