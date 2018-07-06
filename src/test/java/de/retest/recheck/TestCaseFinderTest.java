@@ -1,4 +1,4 @@
-package de.retest.recheck.testcase;
+package de.retest.recheck;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
