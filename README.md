@@ -18,18 +18,18 @@ recheck is a general framework that allows replacing manual asserts and checking
 * The Git for your interface.
 
 
-### Prerequisites
+## Prerequisites
 
 Currently available as a Java API with support for JUnit Vintage (v4), JUnit Jupiter (v5) and TestNG.
 
 
-### Installing
+## Usage
 
 You only need to download recheck directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/), see ["Features" section](#features)), you would rather reference this implementation, for instance via Maven, and have the transitive dependencies be automatically resolved.
 
 You can install recheck using the [latest release](https://github.com/retest/recheck/releases/) or by adding it as a Maven dependency in your POM:
 
-```
+```xml
 <dependency>
 	<groupId>de.retest</groupId>
 	<artifactId>recheck</artifactId>
@@ -38,12 +38,7 @@ You can install recheck using the [latest release](https://github.com/retest/rec
 ```
 
 
-## License
-
-This project is licensed under the [AGPL license](LICENSE).
-
-
-### Building
+## Building
 
 To build this project locally, you have to skip JAR signing.
 
@@ -59,3 +54,7 @@ For making releases use:
 mvn release:prepare -Darguments="-Dgpg.skip=true"
 ```
 
+
+## License
+
+This project is licensed under the [AGPL license](LICENSE).
