@@ -33,7 +33,7 @@ You can install recheck using the [latest release](https://github.com/retest/rec
 <dependency>
 	<groupId>de.retest</groupId>
 	<artifactId>recheck</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 </dependency>
 ```
 
