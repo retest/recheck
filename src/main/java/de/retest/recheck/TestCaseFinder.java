@@ -1,20 +1,23 @@
 package de.retest.recheck;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.theories.Theory;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.common.base.Optional;
 
-/**
- * This class is a duplicate of class TestCaseFinder in testutils module.
- */
 public class TestCaseFinder {
+
+	/*
+	 * TODO We need a special implementation for data-driven testing with annotations such as JUnit's @Theory, because
+	 * then a single method is invoked multiple times.
+	 */
+	private static final Set<String> testCaseAnnotations = new HashSet<String>( Arrays.asList( //
+			"org.junit.Test", // JUnit Vintage (v4)
+			"org.junit.jupiter.api.Test", // JUnit Jupiter (v5)
+			"org.testng.annotations.Test" ) ); // TestNG
 
 	public static StackTraceElement findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
@@ -40,9 +43,19 @@ public class TestCaseFinder {
 
 	private static boolean isTestCase( final StackTraceElement element ) {
 		final Method method = tryToFindMethodForStackTraceElement( element );
-		return method != null && (method.isAnnotationPresent( Test.class ) || method.isAnnotationPresent( Theory.class )
-				|| method.isAnnotationPresent( Before.class ) || method.isAnnotationPresent( After.class )
-				|| method.isAnnotationPresent( BeforeClass.class ) || method.isAnnotationPresent( AfterClass.class ));
+		if ( method == null ) {
+			return false;
+		}
+
+		final Annotation[] annotations = method.getAnnotations();
+		for ( final Annotation annotation : annotations ) {
+			final String annotationName = annotation.annotationType().getName();
+			if ( testCaseAnnotations.contains( annotationName ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static Method tryToFindMethodForStackTraceElement( final StackTraceElement element ) {
