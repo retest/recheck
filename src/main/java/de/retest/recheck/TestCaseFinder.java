@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.base.Optional;
-
 public class TestCaseFinder {
 
 	/*
@@ -21,24 +19,24 @@ public class TestCaseFinder {
 
 	public static StackTraceElement findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
-			final Optional<StackTraceElement> testCaseStackElement = findTestCaseMethodInStack( stack );
-			if ( testCaseStackElement.isPresent() ) {
-				return testCaseStackElement.get();
+			final StackTraceElement testCaseStackElement = findTestCaseMethodInStack( stack );
+			if ( testCaseStackElement != null ) {
+				return testCaseStackElement;
 			}
 		}
 		return null;
 	}
 
-	private static Optional<StackTraceElement> findTestCaseMethodInStack( final StackTraceElement[] trace ) {
+	private static StackTraceElement findTestCaseMethodInStack( final StackTraceElement[] trace ) {
 		boolean inTestCase = false;
 		for ( int i = 0; i < trace.length; i++ ) {
 			if ( isTestCase( trace[i] ) ) {
 				inTestCase = true;
 			} else if ( inTestCase ) {
-				return Optional.of( trace[i - 1] );
+				return trace[i - 1];
 			}
 		}
-		return Optional.absent();
+		return null;
 	}
 
 	private static boolean isTestCase( final StackTraceElement element ) {
