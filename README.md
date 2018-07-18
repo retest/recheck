@@ -31,26 +31,18 @@ You can install recheck using the [latest release](https://github.com/retest/rec
 
 ```xml
 <dependency>
-	<groupId>de.retest</groupId>
-	<artifactId>recheck</artifactId>
-	<version>0.2.0</version>
+  <groupId>de.retest</groupId>
+  <artifactId>recheck</artifactId>
+  <version>0.4.0</version>
 </dependency>
 ```
 
 
-## Building
+## Deploying
 
-To build this project locally, you have to skip JAR signing.
+To trigger a deployment via Travis CI, you have to skip JAR signing locally:
 
-For normal builds use:
-
-```
-mvn deploy -Dgpg.skip=true
-```
-
-For making releases use:
-
-```
+```bash
 mvn release:prepare -Darguments="-Dgpg.skip=true"
 ```
 
