@@ -13,9 +13,24 @@ public class TestCaseFinder {
 	 * then a single method is invoked multiple times.
 	 */
 	private static final Set<String> testCaseAnnotations = new HashSet<String>( Arrays.asList( //
-			"org.junit.Test", // JUnit Vintage (v4)
-			"org.junit.jupiter.api.Test", // JUnit Jupiter (v5)
-			"org.testng.annotations.Test" ) ); // TestNG
+			// JUnit Vintage (v4)
+			"org.junit.Test", //
+			"org.junit.Before", //
+			"org.junit.After", //
+			"org.junit.BeforeClass", //
+			"org.junit.AfterClass", //
+			// JUnit Jupiter (v5)
+			"org.junit.jupiter.api.Test", //
+			"org.junit.jupiter.api.BeforeEach", //
+			"org.junit.jupiter.api.AfterEach", //
+			"org.junit.jupiter.api.BeforeAll", //
+			"org.junit.jupiter.api.AfterAll", //
+			// TestNG
+			"org.testng.annotations.Test", //
+			"org.testng.annotations.BeforeMethod", //
+			"org.testng.annotations.AfterMethod", //
+			"org.testng.annotations.BeforeClass", //
+			"org.testng.annotations.AfterClass" ) );
 
 	public static StackTraceElement findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
