@@ -38,15 +38,6 @@ You can install recheck using the [latest release](https://github.com/retest/rec
 ```
 
 
-## Deploying
-
-To trigger a deployment via Travis CI, you have to skip JAR signing locally:
-
-```bash
-mvn release:prepare -Darguments="-Dgpg.skip=true"
-```
-
-
 ## License
 
 This project is licensed under the [AGPL license](LICENSE).
