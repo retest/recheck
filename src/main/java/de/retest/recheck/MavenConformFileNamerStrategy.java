@@ -15,13 +15,13 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 			@Override
 			public File getFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File( "src/test/resources/retest/recheck" + File.separator + baseName + "." + extension );
+				return new File( "src/test/resources/retest/recheck" + File.separator + baseName + extension );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File( "target/test-classes/retest/recheck" + File.separator + baseName + "." + extension );
+				return new File( "target/test-classes/retest/recheck" + File.separator + baseName + extension );
 			}
 		};
 	}
