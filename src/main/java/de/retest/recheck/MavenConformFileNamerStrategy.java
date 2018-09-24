@@ -8,7 +8,8 @@ import de.retest.persistence.FileNamer;
 
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
-	public static final String WORKSPACE_DEFAULT = "src/test/resources/retest/";
+	public static final String DEFAULT_RETEST_WORKSPACE_PATH = "src/test/resources/retest/";
+	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "target/test-classes/retest/";
 
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
@@ -17,15 +18,15 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 			@Override
 			public File getFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File( WORKSPACE_DEFAULT + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName
-						+ extension );
+				return new File( DEFAULT_RETEST_WORKSPACE_PATH + File.separator + RECHECK_FOLDER_NAME + File.separator
+						+ baseName + extension );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File( "target/test-classes/retest/" + File.separator + RECHECK_FOLDER_NAME
-						+ File.separator + baseName + extension );
+				return new File( DEFAULT_RETEST_TESTREPORTS_PATH + File.separator + RECHECK_FOLDER_NAME + File.separator
+						+ baseName + extension );
 			}
 		};
 	}
