@@ -17,17 +17,15 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 			@Override
 			public File getFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File(
-						WORKSPACE_DEFAULT + System.getProperty( RECHECK_FOLDER_PROPERTY, RECHECK_FOLDER_DEFAULT )
-								+ File.separator + baseName + extension );
+				return new File( WORKSPACE_DEFAULT + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName
+						+ extension );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File( "target/test-classes/retest/"
-						+ System.getProperty( RECHECK_FOLDER_PROPERTY, RECHECK_FOLDER_DEFAULT ) + File.separator
-						+ baseName + extension );
+				return new File( "target/test-classes/retest/" + File.separator + RECHECK_FOLDER_NAME
+						+ File.separator + baseName + extension );
 			}
 		};
 	}

@@ -4,9 +4,8 @@ import de.retest.persistence.FileNamer;
 
 public interface FileNamerStrategy {
 
-	public static final String RECHECK_FILE_EXTENSION = "recheck";
-	public static final String RECHECK_FOLDER_PROPERTY = "de.retest.RecheckFolder";
-	public static final String RECHECK_FOLDER_DEFAULT = "recheck";
+	public static final String RECHECK_FILE_EXTENSION = ".recheck";
+	public static final String RECHECK_FOLDER_NAME = "recheck";
 
 	public FileNamer createFileNamer( String... baseNames );
 
