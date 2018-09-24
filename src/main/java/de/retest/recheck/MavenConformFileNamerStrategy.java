@@ -8,6 +8,8 @@ import de.retest.persistence.FileNamer;
 
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
+	public static final String WORKSPACE_DEFAULT = "src/test/resources/retest/";
+
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
 		return new FileNamer() {
@@ -15,9 +17,9 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 			@Override
 			public File getFile( final String extension ) {
 				final String baseName = Joiner.on( "/" ).join( baseNames );
-				return new File( "src/test/resources/retest/"
-						+ System.getProperty( RECHECK_FOLDER_PROPERTY, RECHECK_FOLDER_DEFAULT ) + File.separator
-						+ baseName + extension );
+				return new File(
+						WORKSPACE_DEFAULT + System.getProperty( RECHECK_FOLDER_PROPERTY, RECHECK_FOLDER_DEFAULT )
+								+ File.separator + baseName + extension );
 			}
 
 			@Override
