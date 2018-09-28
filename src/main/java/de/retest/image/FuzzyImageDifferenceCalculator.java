@@ -63,9 +63,9 @@ public class FuzzyImageDifferenceCalculator implements ImageDifferenceCalculator
 		final int numRows = (int) Math.ceil( img1.getHeight() / (float) blocksize );
 		final int numCols = (int) Math.ceil( img1.getWidth() / (float) blocksize );
 		// loop through whole image and compare individual blocks of images
-		String textual = "";
+		StringBuilder textual = new StringBuilder();
 		for ( int row = 0; row < numRows; row++ ) {
-			textual += "|";
+			textual.append( "|" );
 			for ( int col = 0; col < numCols; col++ ) {
 				final int b1 = getAverageBrightness( getSubImage( img1, col, row ) );
 				final int b2 = getAverageBrightness( getSubImage( img2, col, row ) );
@@ -77,11 +77,11 @@ public class FuzzyImageDifferenceCalculator implements ImageDifferenceCalculator
 					gc.drawRect( col * blocksize, row * blocksize, blocksize - 1, blocksize - 1 );
 					numdiffs++;
 				}
-				textual += diff > sensitivity ? "X" : " ";
+				textual.append( diff > sensitivity ? "X" : " " );
 			}
-			textual += "|";
-			logger.warn( textual );
-			textual = "";
+			textual.append( "|" );
+			logger.warn( textual.toString() );
+			textual = new StringBuilder();
 		}
 		if ( numdiffs == 0 ) {
 			// ensure no rounding errors...
