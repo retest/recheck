@@ -25,9 +25,9 @@ public class FuzzyImageDifferenceCalculator implements ImageDifferenceCalculator
 	private static final org.slf4j.Logger logger =
 			org.slf4j.LoggerFactory.getLogger( FuzzyImageDifferenceCalculator.class );
 
-	private final int blocksize = 10;
-	private final int sensitivity = 3;
-	private final double stabilizer = 25.0;
+	private static final int BLOCKSIZE = 10;
+	private static final int SENSITIVITY = 3;
+	private static final double STABILIZER = 25.0;
 
 	public ImageDifference compare( final String file1, final String file2 ) throws IOException {
 		return compare( readImage( file1 ), readImage( file2 ) );
@@ -60,8 +60,8 @@ public class FuzzyImageDifferenceCalculator implements ImageDifferenceCalculator
 		img2 = toBufferedImage( GrayFilter.createDisabledImage( img2 ) );
 		// set to a match by default, if a change is found then flag non-match
 		int numdiffs = 0;
-		final int numRows = (int) Math.ceil( img1.getHeight() / (float) blocksize );
-		final int numCols = (int) Math.ceil( img1.getWidth() / (float) blocksize );
+		final int numRows = (int) Math.ceil( img1.getHeight() / (float) BLOCKSIZE );
+		final int numCols = (int) Math.ceil( img1.getWidth() / (float) BLOCKSIZE );
 		// loop through whole image and compare individual blocks of images
 		StringBuilder textual = new StringBuilder();
 		for ( int row = 0; row < numRows; row++ ) {
@@ -70,14 +70,14 @@ public class FuzzyImageDifferenceCalculator implements ImageDifferenceCalculator
 				final int b1 = getAverageBrightness( getSubImage( img1, col, row ) );
 				final int b2 = getAverageBrightness( getSubImage( img2, col, row ) );
 				final int diff = Math.abs( b1 - b2 );
-				if ( diff > sensitivity ) {
+				if ( diff > SENSITIVITY ) {
 					// the difference in a certain region has passed the threshold value
 					// draw an indicator on the change image to show where change was detected.
 					// TODO Merge borders of neighboring blocks
-					gc.drawRect( col * blocksize, row * blocksize, blocksize - 1, blocksize - 1 );
+					gc.drawRect( col * BLOCKSIZE, row * BLOCKSIZE, BLOCKSIZE - 1, BLOCKSIZE - 1 );
 					numdiffs++;
 				}
-				textual.append( diff > sensitivity ? "X" : " " );
+				textual.append( diff > SENSITIVITY ? "X" : " " );
 			}
 			textual.append( "|" );
 			logger.warn( textual.toString() );
@@ -101,14 +101,14 @@ public class FuzzyImageDifferenceCalculator implements ImageDifferenceCalculator
 				total += r.getSample( r.getMinX() + x, r.getMinY() + y, 0 );
 			}
 		}
-		return (int) (total / (r.getWidth() / stabilizer * (r.getHeight() / stabilizer)));
+		return (int) (total / (r.getWidth() / STABILIZER * (r.getHeight() / STABILIZER)));
 	}
 
 	private BufferedImage getSubImage( final BufferedImage img, final int col, final int row ) {
-		final int x = col * blocksize;
-		final int width = Math.abs( Math.min( img.getWidth() - x, blocksize - 1 ) );
-		final int y = row * blocksize;
-		final int height = Math.abs( Math.min( img.getHeight() - y, blocksize - 1 ) );
+		final int x = col * BLOCKSIZE;
+		final int width = Math.abs( Math.min( img.getWidth() - x, BLOCKSIZE - 1 ) );
+		final int y = row * BLOCKSIZE;
+		final int height = Math.abs( Math.min( img.getHeight() - y, BLOCKSIZE - 1 ) );
 		return img.getSubimage( x, y, width, height );
 	}
 }
