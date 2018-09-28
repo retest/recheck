@@ -35,8 +35,7 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 	public String getTestClassName() {
 		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
 		if ( testMethodStack != null ) {
-			final String className = testMethodStack.getClassName();
-			return className;
+			return testMethodStack.getClassName();
 		}
 		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
 	}
