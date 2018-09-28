@@ -74,7 +74,7 @@ public class TestCaseFinder {
 	}
 
 	private static Method tryToFindMethodForStackTraceElement( final StackTraceElement element ) {
-		Class<?> clazz;
+		final Class<?> clazz;
 		Method method = null;
 
 		try {
