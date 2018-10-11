@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-public class TestCaseFinderTest {
+public class TestCaseFinderJunitVintageTest {
 
 	@Test
 	public void junit_vintage_test_cases_should_be_found() throws Exception {
