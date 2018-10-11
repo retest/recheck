@@ -25,6 +25,7 @@ public class TestCaseFinder {
 			"org.junit.jupiter.api.AfterEach", //
 			"org.junit.jupiter.api.BeforeAll", //
 			"org.junit.jupiter.api.AfterAll", //
+			"org.junit.jupiter.params.ParameterizedTest", //
 			// TestNG
 			"org.testng.annotations.Test", //
 			"org.testng.annotations.BeforeMethod", //
@@ -72,7 +73,7 @@ public class TestCaseFinder {
 	}
 
 	private static Method tryToFindMethodForStackTraceElement( final StackTraceElement element ) {
-		Class<?> clazz;
+		final Class<?> clazz;
 		Method method = null;
 
 		try {
