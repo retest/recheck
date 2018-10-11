@@ -8,11 +8,13 @@ import java.util.Set;
 
 public class TestCaseFinder {
 
+	private TestCaseFinder() {}
+
 	/*
 	 * TODO We need a special implementation for data-driven testing with annotations such as JUnit's @Theory, because
 	 * then a single method is invoked multiple times.
 	 */
-	private static final Set<String> testCaseAnnotations = new HashSet<String>( Arrays.asList( //
+	private static final Set<String> testCaseAnnotations = new HashSet<>( Arrays.asList( //
 			// JUnit Vintage (v4)
 			"org.junit.Test", //
 			"org.junit.Before", //

@@ -7,3 +7,7 @@
 
 # Artifact from signing JARs.
 retest-gmbh-gpg.asc
+
+# IntelliJ
+.idea/
+*.iml
