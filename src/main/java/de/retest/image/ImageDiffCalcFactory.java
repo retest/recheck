@@ -2,9 +2,11 @@ package de.retest.image;
 
 public class ImageDiffCalcFactory {
 
+	private ImageDiffCalcFactory() {}
+
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( ImageDiffCalcFactory.class );
 
-	private static String IMAGE_DIFFERENCE_CALCULATOR = "de.retest.image.DifferenceCalculator";
+	private static final String IMAGE_DIFFERENCE_CALCULATOR = "de.retest.image.DifferenceCalculator";
 
 	public static ImageDifferenceCalculator getConfiguredImageDifferenceCalculator() {
 		final String configured = System.getProperty( IMAGE_DIFFERENCE_CALCULATOR );

@@ -36,7 +36,9 @@ public class ExactImageDifferenceCalculator implements ImageDifferenceCalculator
 		img1 = toBufferedImage( scaleToSameSize( img1, img2 ) );
 		img2 = toBufferedImage( scaleToSameSize( img2, img1 ) );
 		// convert images to pixel arrays...
-		final int w = img1.getWidth(), h = img1.getHeight(), highlight = Color.MAGENTA.getRGB();
+		final int w = img1.getWidth();
+		final int h = img1.getHeight();
+		final int highlight = Color.MAGENTA.getRGB();
 		final int[] p1 = img1.getRGB( 0, 0, w, h, null, 0, w );
 		final int[] p2 = img2.getRGB( 0, 0, w, h, null, 0, w );
 		// compare img1 to img2, pixel by pixel. If different, highlight img1's pixel...

@@ -32,7 +32,7 @@ public interface RecheckAdapter {
 
 	/**
 	 * Returns a {@code DefaultValueFinder} for the converted element attributes. Default values of attributes are
-	 * omitted in the result.replay to not bloat it.
+	 * omitted in the replay.result to not bloat it.
 	 *
 	 * @return The DefaultValueFinder for the converted element attributes
 	 */
