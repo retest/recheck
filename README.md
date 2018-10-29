@@ -23,7 +23,7 @@ recheck is a general framework that allows replacing manual asserts and checking
 
 Currently available as a Java API with support for JUnit Vintage (v4), JUnit Jupiter (v5) and TestNG.
 
-## Set up
+## Setup
 
 You only need to download recheck directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/), see ["Features" section](#features)), you would rather reference this implementation, for instance via Maven, and have the transitive dependencies be automatically resolved.
 
