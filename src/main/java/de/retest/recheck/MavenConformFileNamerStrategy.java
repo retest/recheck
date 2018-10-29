@@ -2,8 +2,6 @@ package de.retest.recheck;
 
 import java.io.File;
 
-import com.google.common.base.Joiner;
-
 import de.retest.persistence.FileNamer;
 
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
@@ -17,14 +15,14 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
 			@Override
 			public File getFile( final String extension ) {
-				final String baseName = Joiner.on( "/" ).join( baseNames );
+				final String baseName = String.join( "/", baseNames );
 				return new File( DEFAULT_RETEST_WORKSPACE_PATH + File.separator + RECHECK_FOLDER_NAME + File.separator
 						+ baseName + extension );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
-				final String baseName = Joiner.on( "/" ).join( baseNames );
+				final String baseName = String.join( "/", baseNames );
 				return new File( DEFAULT_RETEST_TESTREPORTS_PATH + File.separator + RECHECK_FOLDER_NAME + File.separator
 						+ baseName + extension );
 			}
