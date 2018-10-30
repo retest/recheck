@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>retest-model</artifactId>
-			<version>4.0.2</version>
+			<version>5.0.0</version>
 		</dependency>
 
 		<dependency>
