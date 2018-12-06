@@ -92,13 +92,18 @@
 		</dependency>
 
 		<dependency>
+			<groupId>de.retest</groupId>
+			<artifactId>retest-sut-api</artifactId>
+			<version>3.2.0-beta</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
 		</dependency>
 
 		<!-- test dependencies -->
-
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
