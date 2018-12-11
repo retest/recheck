@@ -9,6 +9,10 @@ public class RecheckAdapters {
 
 	private static final ServiceLoader<RecheckAdapter> adapters = ServiceLoader.load( RecheckAdapter.class );
 
+	private RecheckAdapters() {
+
+	}
+
 	public static RecheckAdapter findAdapterFor( final Object toVerify ) {
 		return StreamSupport.stream( adapters.spliterator(), false ) //
 				.filter( adapter -> adapter.canCheck( toVerify ) ) //

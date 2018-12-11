@@ -18,6 +18,10 @@ public class RecheckSutState {
 	private static final XmlFolderPersistence<SutState> sutStatePersistence =
 			new XmlFolderPersistence<>( getXmlTransformer() );
 
+	private RecheckSutState() {
+
+	}
+
 	public static SutState convert( final Object toVerify, final RecheckAdapter adapter ) {
 		final Set<RootElement> converted = adapter.convert( toVerify );
 		if ( converted == null || converted.isEmpty() ) {

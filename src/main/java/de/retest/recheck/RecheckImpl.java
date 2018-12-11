@@ -77,8 +77,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	@Override
-	public void check( final Object toVerify, final RecheckAdapter adapter, final String currentStep )
-			throws IllegalArgumentException {
+	public void check( final Object toVerify, final RecheckAdapter adapter, final String currentStep ) {
 		if ( currentTestResult == null ) {
 			logger.warn( "Please call 'startTest()' before performing a check." );
 			startTest();
@@ -103,8 +102,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
 
-		final ActionReplayResult actionReplayResult = finder.findDifferences( actual, expected );
-		return actionReplayResult;
+		return finder.findDifferences( actual, expected );
 	}
 
 	@Override
@@ -128,7 +126,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
 		final Set<Object> uniqueDifferences = finishedTestResult.getUniqueDifferences();
-		if ( uniqueDifferences.size() > 0 ) {
+		if ( uniqueDifferences.isEmpty() ) {
 			throw new AssertionError( "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
 					+ "You can review the details by using our GUI from https://retest.de/review/." //
 					+ "\n\nThe following differences have been found in \'" + suiteName //
