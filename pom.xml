@@ -92,13 +92,24 @@
 		</dependency>
 
 		<dependency>
+			<groupId>de.retest</groupId>
+			<artifactId>retest-sut-api</artifactId>
+			<version>3.2.0-beta</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.25</version>
 		</dependency>
 
-		<!-- test dependencies -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8.1</version>
+		</dependency>
 
+		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
@@ -117,6 +128,20 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
 			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit-pioneer</groupId>
+			<artifactId>junit-pioneer</artifactId>
+			<version>0.1.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.23.0</version>
 			<scope>test</scope>
 		</dependency>
 

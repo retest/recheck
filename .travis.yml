@@ -2,7 +2,7 @@ language: java
 sudo: false
 
 env:
-  - MVN="mvn --settings ${TRAVIS_BUILD_DIR}/.travis.settings.xml"
+  - MVN="mvn --update-snapshots --settings ${TRAVIS_BUILD_DIR}/.travis.settings.xml"
 
 addons:
   sonarcloud:
