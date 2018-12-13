@@ -94,7 +94,7 @@
 		<dependency>
 			<groupId>de.retest</groupId>
 			<artifactId>retest-sut-api</artifactId>
-			<version>3.2.0-beta</version>
+			<version>3.2.0</version>
 		</dependency>
 
 		<dependency>
