@@ -29,7 +29,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private String formatElementDifference( final ElementDifference difference, final String indent ) {
 		final IdentifyingAttributes id = difference.getIdentifyingAttributes();
-		final String prefix = String.format( "%s%s at '%s':\n", indent, id, id.getPath() );
+		final String prefix = String.format( "%s%s at '%s':%n", indent, id, id.getPath() );
 		return prefix + to( difference, indent + "\t" );
 	}
 
