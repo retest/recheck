@@ -127,11 +127,18 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		currentTestResult = null;
 		final Set<Object> uniqueDifferences = finishedTestResult.getUniqueDifferences();
 		if ( !uniqueDifferences.isEmpty() ) {
-			throw new AssertionError( "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
-					+ "You can review the details by using our GUI from https://retest.de/review/." //
-					+ "\n\nThe following differences have been found in \'" + suiteName //
-					+ "\'(with " + finishedTestResult.getActionReplayResults().size() + " check(s)):" //
-					+ "\n" + finishedTestResult.toString() );
+			final String message;
+			if ( finishedTestResult.hasNoRecheckFiles() ) {
+				message = "'" + suiteName + "'"
+						+ finishedTestResult.toString().substring( finishedTestResult.toString().lastIndexOf( ':' ) );
+			} else {
+				message = "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
+						+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
+						+ "\nThe following differences have been found in \'" + suiteName //
+						+ "\'(with " + finishedTestResult.getActionReplayResults().size() + " check(s)):" //
+						+ "\n" + finishedTestResult.toString();
+			}
+			throw new AssertionError( message );
 		}
 	}
 
