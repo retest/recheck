@@ -127,17 +127,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		currentTestResult = null;
 		final Set<Object> uniqueDifferences = finishedTestResult.getUniqueDifferences();
 		if ( !uniqueDifferences.isEmpty() ) {
-			final String message;
-			if ( finishedTestResult.hasNoRecheckFiles() ) {
-				message = "'" + suiteName + "'"
-						+ finishedTestResult.toString().substring( finishedTestResult.toString().lastIndexOf( ':' ) );
-			} else {
-				message = "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
-						+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
-						+ "\nThe following differences have been found in \'" + suiteName //
-						+ "\'(with " + finishedTestResult.getActionReplayResults().size() + " check(s)):" //
-						+ "\n" + finishedTestResult.toString();
-			}
+			final String message =
+					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
+							: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
 	}
@@ -184,5 +176,18 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			armed = false;
 			Runtime.getRuntime().removeShutdownHook( this );
 		}
+	}
+
+	private String getNoRecheckFilesErrorMessage( final TestReplayResult finishedTestResult ) {
+		return "'" + suiteName + "'"
+				+ finishedTestResult.toString().substring( finishedTestResult.toString().lastIndexOf( ':' ) );
+	}
+
+	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
+		return "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
+				+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
+				+ "\nThe following differences have been found in \'" + suiteName //
+				+ "\'(with " + finishedTestResult.getActionReplayResults().size() + " check(s)):" //
+				+ "\n" + finishedTestResult.toString();
 	}
 }
