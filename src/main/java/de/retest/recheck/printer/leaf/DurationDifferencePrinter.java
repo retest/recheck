@@ -14,13 +14,14 @@ public class DurationDifferencePrinter implements Printer<DurationDifference> {
 	public String toString( final DurationDifference difference, final String indent ) {
 		final long actual = (long) difference.getActual();
 		final long expected = (long) difference.getExpected();
-		if (actual < expected) { // format can't handle negative values
+		if ( actual < expected ) { // format can't handle negative values
 			return indent + "-" + format( expected - actual );
 		}
 		return indent + format( actual - expected );
 	}
 
 	private static String format( final long duration ) {
+		// TODO Unobfuscate DurationUtil and then use it here.
 		return DurationFormatUtils.formatDuration( duration, SECONDS_FORMAT, false ) + SECONDS_SUFFIX;
 	}
 }
