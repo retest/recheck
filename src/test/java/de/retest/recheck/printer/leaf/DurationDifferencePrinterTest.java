@@ -19,7 +19,7 @@ class DurationDifferencePrinterTest {
 	}
 
 	@Test
-	void toString_should_print_difference() {
+	void toString_should_handle_positive_difference() {
 		final DurationDifference difference = mock( DurationDifference.class );
 		when( difference.getExpected() ).thenReturn( 0L );
 		when( difference.getActual() ).thenReturn( 1L );
@@ -27,6 +27,17 @@ class DurationDifferencePrinterTest {
 		final String string = cut.toString( difference );
 
 		assertThat( string ).isEqualTo( "0.001 s" );
+	}
+
+	@Test
+	void toString_should_handle_negative_difference() {
+		final DurationDifference difference = mock( DurationDifference.class );
+		when( difference.getExpected() ).thenReturn( 1L );
+		when( difference.getActual() ).thenReturn( 0L );
+
+		final String string = cut.toString( difference );
+
+		assertThat( string ).isEqualTo( "-0.001 s" );
 	}
 
 	@Test
