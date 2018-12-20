@@ -3,8 +3,8 @@ package de.retest.recheck.printer.leaf;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.retest.recheck.printer.PrinterValueProvider;
 import de.retest.recheck.printer.Printer;
+import de.retest.recheck.printer.PrinterValueProvider;
 import de.retest.ui.diff.DurationDifference;
 import de.retest.ui.diff.IdentifyingAttributesDifference;
 import de.retest.ui.diff.InsertedDeletedElementDifference;
@@ -37,11 +37,7 @@ public class MultiLeafDifferencePrinter implements Printer<LeafDifference> {
 
 	@SuppressWarnings( "unchecked" )
 	private Printer<LeafDifference> findPrinter( final LeafDifference difference ) {
-		return printers.entrySet().stream() //
-				.filter( entry -> entry.getKey().isInstance( difference ) ) //
-				.map( entry -> (Printer<LeafDifference>) entry.getValue() ) // cast here due to generic incompatibility
-				.findAny() //
-				.orElse( DefaultPrinter.INSTANCE );
+		return (Printer<LeafDifference>) printers.getOrDefault( difference.getClass(), DefaultPrinter.INSTANCE );
 	}
 
 	private enum DefaultPrinter implements Printer<LeafDifference> {
