@@ -63,7 +63,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<junit.jupiter.version>5.3.1</junit.jupiter.version>
+		<junit.jupiter.version>5.3.2</junit.jupiter.version>
 	</properties>
 
 	<scm>
@@ -134,14 +134,14 @@
 		<dependency>
 			<groupId>org.junit-pioneer</groupId>
 			<artifactId>junit-pioneer</artifactId>
-			<version>0.1.2</version>
+			<version>0.3.0</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.23.0</version>
+			<version>2.23.4</version>
 			<scope>test</scope>
 		</dependency>
 
