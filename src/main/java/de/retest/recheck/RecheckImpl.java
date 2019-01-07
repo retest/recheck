@@ -1,6 +1,8 @@
 package de.retest.recheck;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -14,9 +16,11 @@ import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
 import de.retest.recheck.persistence.RecheckSutState;
+import de.retest.recheck.printer.TestReplayResultPrinter;
 import de.retest.report.ActionReplayResult;
 import de.retest.report.SuiteReplayResult;
 import de.retest.report.TestReplayResult;
+import de.retest.ui.DefaultValueFinder;
 import de.retest.ui.descriptors.SutState;
 
 public class RecheckImpl implements Recheck, SutStateLoader {
@@ -32,6 +36,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final String suiteName;
 
 	private TestReplayResult currentTestResult;
+
+	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
+	private final TestReplayResultPrinter printer = new TestReplayResultPrinter( usedFinders::get );
 
 	public RecheckImpl() {
 		this( new MavenConformFileNamerStrategy() );
@@ -90,6 +97,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	protected ActionReplayResult createActionReplayResult( final Object toVerify, final RecheckAdapter adapter,
 			final String currentStep ) {
+		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
+		usedFinders.put( currentStep, defaultFinder );
+
 		final FileNamer fileNamer = createFileName( currentStep );
 		final File file = fileNamer.getFile( RecheckFileUtil.RECHECK_FILE_EXTENSION );
 
@@ -188,6 +198,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
 				+ "\nThe following differences have been found in \'" + suiteName //
 				+ "\'(with " + finishedTestResult.getActionReplayResults().size() + " check(s)):" //
-				+ "\n" + finishedTestResult.toString();
+				+ "\n" + printer.toString( finishedTestResult );
 	}
 }
