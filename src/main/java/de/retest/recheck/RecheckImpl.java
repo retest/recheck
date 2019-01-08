@@ -45,6 +45,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		this( new MavenConformFileNamerStrategy() );
 	}
 
+	public RecheckImpl( final FileNamerStrategy fileNamerStrategy, final String suiteName ) {
+		this( new RecheckOptions( fileNamerStrategy, suiteName ) );
+	}
+
 	public RecheckImpl( final FileNamerStrategy fileNamerStrategy ) {
 		this( fileNamerStrategy, fileNamerStrategy.getTestClassName() );
 	}
@@ -53,13 +57,13 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		this( new MavenConformFileNamerStrategy(), suiteName );
 	}
 
-	public RecheckImpl( final FileNamerStrategy fileNamerStrategy, final String suiteName ) {
+	public RecheckImpl( final RecheckOptions options ) {
 		ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
 		ensureConfigurationInitialized();
 		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		Runtime.getRuntime().addShutdownHook( capWarner );
-		this.fileNamerStrategy = fileNamerStrategy;
-		this.suiteName = suiteName;
+		fileNamerStrategy = options.getFileNamerStrategy();
+		suiteName = options.getSuiteName();
 		suite = ReplayResultProvider.getInstance().getSuite( suiteName );
 	}
 
