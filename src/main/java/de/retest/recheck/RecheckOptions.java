@@ -3,7 +3,7 @@ package de.retest.recheck;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.retest.ui.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.ShouldIgnore;
 
 public class RecheckOptions {
 
