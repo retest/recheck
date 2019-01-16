@@ -66,14 +66,8 @@ class RecheckImplTest {
 
 		assertThatThrownBy( cut::capTest ) //
 				.isExactlyInstanceOf( AssertionError.class ) //
-				.hasMessageStartingWith( "\nA detailed report will be created at '" )//
-				.hasMessageEndingWith(
-						".result'. You can review the details by using our GUI from https://retest.de/review/.\n" //
-								+ "\nThe following differences have been found in 'SomeTestClass' (with 1 check(s)):\n" //
-								+ "Test 'Some test' has 1 difference(s) (1 unique) in the following checks:\n" //
-								+ "Check 'Some step' resulted in:\n" //
-								+ "\t" + NoRecheckFileActionReplayResult.MSG_LONG )
-				.hasMessageContaining( "SomeTestClass" );
+				.hasMessageStartingWith( "'SomeTestClass': \n" + //
+						"No recheck file found. First time test was run? Created recheck file now, don't forget to commit...\n" );
 
 	}
 
