@@ -11,7 +11,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
@@ -20,7 +19,6 @@ import org.junitpioneer.jupiter.TempDirectory.TempDir;
 import de.retest.recheck.RecheckAdapter;
 import de.retest.ui.descriptors.RootElement;
 
-@Disabled
 @ExtendWith( TempDirectory.class )
 class RecheckSutStateTest {
 
