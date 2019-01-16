@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
@@ -26,7 +25,6 @@ import de.retest.ui.DefaultValueFinder;
 import de.retest.ui.descriptors.IdentifyingAttributes;
 import de.retest.ui.descriptors.RootElement;
 
-@Disabled
 @ExtendWith( TempDirectory.class )
 class RecheckImplTest {
 
