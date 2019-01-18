@@ -69,7 +69,7 @@ public class DiffPrinterTest {
 
 	@Test
 	public void should_print_only_given_checks() {
-		final DiffPrinter cut = new DiffPrinter( asList( "Call-to-Action-1" ), System.out );
+		final DiffPrinter cut = new DiffPrinter( singletonList( "Call-to-Action-1" ), System.out );
 
 		final ReplayResult report = mockReplayResult( asList( "Call-to-Action-1", "Call-to-Action-2" ),
 				asList( "elementDiff-1", "elementDiff-2", "elementDiff-3" ) );
@@ -109,8 +109,7 @@ public class DiffPrinterTest {
 		final SuiteReplayResult suiteResult =
 				new SuiteReplayResult( mock( ExecutableSuite.class ), 1, mock( GroundState.class ) );
 		suiteResult.addTest( testResult );
-		final ReplayResult report = new ReplayResult( suiteResult );
-		return report;
+		return new ReplayResult( suiteResult );
 	}
 
 	@Test

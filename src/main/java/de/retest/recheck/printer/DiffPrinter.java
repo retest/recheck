@@ -53,7 +53,6 @@ public class DiffPrinter {
 
 	private ReplayResult loadReport( final File latestReport ) throws IOException {
 		final Persistence<ReplayResult> resultPersistence = new KryoPersistence<>();
-		final ReplayResult report = resultPersistence.load( latestReport.toURI() );
-		return report;
+		return resultPersistence.load( latestReport.toURI() );
 	}
 }
