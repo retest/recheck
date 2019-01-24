@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import de.retest.remote.SelectionCallback;
-import de.retest.remote.SelectionController;
 import de.retest.ui.actions.Action;
 import de.retest.ui.actions.ActionExecutionResult;
 import de.retest.ui.actions.ExceptionWrapper;
@@ -157,8 +155,6 @@ public abstract class Environment<T> implements DefaultValueFinder {
 			final Serializable attributesKey ) {
 		return false;
 	}
-
-	public abstract SelectionController startComponentSelection( final SelectionCallback callback );
 
 	/**
 	 * Returns the execution trace in whatever format the current environment delivers / supports.
