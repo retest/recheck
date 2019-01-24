@@ -102,6 +102,13 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.8.1</version>
 		</dependency>
+		
+		<!-- retest-model -->
+		<dependency>
+			<groupId>net.java.quickcheck</groupId>
+			<artifactId>quickcheck</artifactId>
+			<version>0.6</version>
+		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>
