@@ -124,8 +124,9 @@ public class DiffPrinterTest {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.toString() ).thenReturn( "Type [text]" );
 
-		final ElementDifference elementDiff = new ElementDifference( "id", identifyingAttributes, attributeDiffs, null,
-				null, null, Collections.emptyList() );
+		//		final ElementDifference elementDiff = new ElementDifference( "id", identifyingAttributes, attributeDiffs, null,
+		//				null, null, Collections.emptyList() );
+		final ElementDifference elementDiff = mock( ElementDifference.class );
 
 		final RootElementDifference rootDiff = mock( RootElementDifference.class );
 		when( rootDiff.getNonEmptyDifferences() ).thenReturn( Collections.singletonList( elementDiff ) );
