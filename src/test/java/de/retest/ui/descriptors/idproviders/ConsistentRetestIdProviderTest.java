@@ -8,8 +8,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.descriptors.idproviders.ConsistentRetestIdProvider;
-import de.retest.ui.descriptors.idproviders.RetestIdProvider;
 
 public class ConsistentRetestIdProviderTest {
 

@@ -1,7 +1,6 @@
 package de.retest.recheck;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import de.retest.report.SuiteReplayResult;
 import de.retest.suite.ExecutableSuite;
