@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.ui.descriptors.AttributeDifference;
+import de.retest.ui.diff.AttributeDifference;
 
 class AttributeDifferencePrinterTest {
 

@@ -22,9 +22,9 @@ import de.retest.report.SuiteReplayResult;
 import de.retest.report.TestReplayResult;
 import de.retest.suite.ExecutableSuite;
 import de.retest.ui.actions.Action;
-import de.retest.ui.descriptors.AttributeDifference;
 import de.retest.ui.descriptors.GroundState;
 import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.diff.AttributeDifference;
 import de.retest.ui.diff.AttributesDifference;
 import de.retest.ui.diff.ElementDifference;
 import de.retest.ui.diff.RootElementDifference;
@@ -124,8 +124,9 @@ public class DiffPrinterTest {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.toString() ).thenReturn( "Type [text]" );
 
-		final ElementDifference elementDiff = new ElementDifference( "id", identifyingAttributes, attributeDiffs, null,
-				null, null, Collections.emptyList() );
+		//		final ElementDifference elementDiff = new ElementDifference( "id", identifyingAttributes, attributeDiffs, null,
+		//				null, null, Collections.emptyList() );
+		final ElementDifference elementDiff = mock( ElementDifference.class );
 
 		final RootElementDifference rootDiff = mock( RootElementDifference.class );
 		when( rootDiff.getNonEmptyDifferences() ).thenReturn( Collections.singletonList( elementDiff ) );

@@ -2,7 +2,7 @@ package de.retest.recheck.printer;
 
 import java.io.Serializable;
 
-import de.retest.ui.descriptors.AttributeDifference;
+import de.retest.ui.diff.AttributeDifference;
 
 public class AttributeDifferencePrinter implements Printer<AttributeDifference> {
 

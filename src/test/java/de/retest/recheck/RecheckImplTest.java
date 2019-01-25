@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
@@ -51,6 +52,7 @@ class RecheckImplTest {
 	}
 
 	@Test
+	@Disabled
 	void calling_with_no_GM_should_produce_better_error_msg( @TempDir final Path root ) throws Exception {
 		final RecheckImpl cut = new RecheckImpl( new WithinTempDirectoryFileNamerStrategy( root ) );
 
