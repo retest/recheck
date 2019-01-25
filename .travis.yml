@@ -33,14 +33,6 @@ before_deploy:
   - ${MVN} verify -DskipTests -Psign
 
 deploy:
-  # draft release on GitHub
-  - provider: releases
-    api_key: "${GH_TOKEN}"
-    skip_cleanup: true
-    draft: true
-    on:
-      tags: true
-
   # deploy artifacts to Maven Central
   - provider: script
     script: ${MVN} deploy -DskipTests -Psign
