@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
-
-import com.google.common.base.Joiner;
 
 import de.retest.persistence.xml.XmlTransformer;
 import de.retest.ui.descriptors.AttributeUtil;
@@ -185,9 +184,12 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 					+ ":\n\t" + identifyingAttributesDifference;
 		}
 		if ( attributesDifference != null ) {
+			final String differences = attributesDifference.getDifferences().stream() //
+					.map( Object::toString ) //
+					.collect( Collectors.joining( "\n\t" ) );
 			return getIdentifyingAttributes().toString() //
 					+ ":\n at: " + getIdentifyingAttributes().getPath() //
-					+ ":\n\t" + Joiner.on( "\n\t" ).join( attributesDifference.getAttributes() );
+					+ ":\n\t" + differences;
 		}
 		if ( !childDifferences.isEmpty() ) {
 			if ( size() > 50 ) {
