@@ -12,16 +12,20 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import de.retest.elementcollection.ElementCollection;
 import de.retest.elementcollection.RecheckIgnore;
+import de.retest.report.ActionReplayResult;
 import de.retest.report.ReplayResult;
 import de.retest.report.SuiteReplayResult;
 import de.retest.report.TestReplayResult;
+import de.retest.report.action.ActionReplayData;
+import de.retest.report.action.DifferenceRetriever;
+import de.retest.report.action.WindowRetriever;
 import de.retest.suite.ExecutableSuite;
 import de.retest.ui.actions.Action;
+import de.retest.ui.descriptors.Element;
 import de.retest.ui.descriptors.GroundState;
 import de.retest.ui.descriptors.IdentifyingAttributes;
 import de.retest.ui.diff.AttributeDifference;
@@ -30,7 +34,6 @@ import de.retest.ui.diff.ElementDifference;
 import de.retest.ui.diff.RootElementDifference;
 import de.retest.ui.diff.StateDifference;
 
-@Ignore( "Test needs obfuscated classes and will be enabled with new retest-sut-api release" )
 public class DiffPrinterTest {
 
 	@BeforeClass
@@ -100,10 +103,9 @@ public class DiffPrinterTest {
 			final Action action = mock( Action.class );
 			when( action.toString() ).thenReturn( checkName );
 			final StateDifference difference = new StateDifference( differences, null );
-			// TODO: can be reactivated when new retest-sut-api is released
-			//final ActionReplayResult actionResult = ActionReplayResult.withDifference( ActionReplayData.of( action ),
-			//WindowRetriever.empty(), DifferenceRetriever.of( difference ), 12L );
-			//testResult.addAction( actionResult );
+			final ActionReplayResult actionResult = ActionReplayResult.withDifference( ActionReplayData.of( action ),
+					WindowRetriever.empty(), DifferenceRetriever.of( difference ), 12L );
+			testResult.addAction( actionResult );
 		}
 
 		final SuiteReplayResult suiteResult =
@@ -124,9 +126,12 @@ public class DiffPrinterTest {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.toString() ).thenReturn( "Type [text]" );
 
-		//		final ElementDifference elementDiff = new ElementDifference( "id", identifyingAttributes, attributeDiffs, null,
-		//				null, null, Collections.emptyList() );
-		final ElementDifference elementDiff = mock( ElementDifference.class );
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "id" );
+		when( element.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+
+		final ElementDifference elementDiff =
+				new ElementDifference( element, attributeDiffs, null, null, null, Collections.emptyList() );
 
 		final RootElementDifference rootDiff = mock( RootElementDifference.class );
 		when( rootDiff.getNonEmptyDifferences() ).thenReturn( Collections.singletonList( elementDiff ) );
@@ -137,10 +142,9 @@ public class DiffPrinterTest {
 		when( action.toString() ).thenReturn( "testCheck" );
 
 		final StateDifference difference = new StateDifference( Collections.singletonList( rootDiff ), null );
-		//TODO: can be reactivated when new retest-sut-api is released
-		//final ActionReplayResult actionResult = ActionReplayResult.withDifference( ActionReplayData.of( action ),
-		//WindowRetriever.empty(), DifferenceRetriever.of( difference ), 12L );
-		//testResult.addAction( actionResult );
+		final ActionReplayResult actionResult = ActionReplayResult.withDifference( ActionReplayData.of( action ),
+				WindowRetriever.empty(), DifferenceRetriever.of( difference ), 12L );
+		testResult.addAction( actionResult );
 
 		final SuiteReplayResult suiteResult =
 				new SuiteReplayResult( mock( ExecutableSuite.class ), 1, mock( GroundState.class ) );
