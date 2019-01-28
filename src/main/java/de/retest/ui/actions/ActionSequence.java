@@ -19,7 +19,7 @@ import de.retest.ui.descriptors.GroundState;
 public class ActionSequence extends Persistable implements ActionList {
 
 	private static final long serialVersionUID = 1L;
-	private static final int PERSISTENCE_VERSION = 21;
+	private static final int PERSISTENCE_VERSION = 22;
 
 	@XmlAnyElement( lax = true )
 	private final List<Action> actions;
@@ -32,7 +32,7 @@ public class ActionSequence extends Persistable implements ActionList {
 
 	@SuppressWarnings( "unused" ) // only for JAXB
 	private ActionSequence() {
-		this( "", null, new ArrayList<Action>() );
+		this( "", null, new ArrayList<>() );
 	}
 
 	public ActionSequence( final String testName, final GroundState groundState, final List<Action> actions ) {

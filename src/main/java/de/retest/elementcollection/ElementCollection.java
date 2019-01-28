@@ -31,7 +31,7 @@ import de.retest.ui.review.ActionChangeSet;
 public class ElementCollection extends Persistable implements Iterable<Element> {
 
 	private static final long serialVersionUID = 1L;
-	private static final int PERSISTENCE_VERSION = 17;
+	private static final int PERSISTENCE_VERSION = 18;
 
 	@XmlElement
 	private final List<Element> elements = new ArrayList<>();
