@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -23,8 +24,6 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import com.google.common.base.Charsets;
-
 import de.retest.util.DeleteOnCloseFileInputStream;
 import net.jpountz.lz4.LZ4BlockInputStream;
 import net.jpountz.lz4.LZ4BlockOutputStream;
@@ -39,37 +38,39 @@ public abstract class XmlTransformer {
 
 	public final InputStream transform( final InputStream inputStream ) {
 		try {
-			reset();
-
 			// Since these files can become pretty big, storing them in memory might lead to OutOfMemoryErrors.
 			final File tmpFile = File.createTempFile( "retest-migration-", ".xml.lz4" );
 			tmpFile.deleteOnExit();
 			logger.debug( "Creating temporary file {} for XML migration. File will be deleted upon exit.",
 					canonicalPathQuietly( tmpFile ) );
-			final LZ4BlockOutputStream out = new LZ4BlockOutputStream( new FileOutputStream( tmpFile ) );
+
+			convertAndWriteToFile( inputStream, tmpFile );
+			return new LZ4BlockInputStream( new DeleteOnCloseFileInputStream( tmpFile ) );
+		} catch ( final IOException e ) {
+			throw new RuntimeException( e );
+		}
+	}
+
+	private void convertAndWriteToFile( final InputStream inputStream, final File tmpFile ) throws IOException {
+		try ( final LZ4BlockOutputStream out = new LZ4BlockOutputStream( new FileOutputStream( tmpFile ) ) ) {
+			reset();
 
 			final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-			final XMLEventReader eventReader = inputFactory.createXMLEventReader( inputStream, Charsets.UTF_8.name() );
+			final XMLEventReader eventReader =
+					inputFactory.createXMLEventReader( inputStream, StandardCharsets.UTF_8.name() );
 			final XMLEventWriter eventWriter =
-					XMLOutputFactory.newInstance().createXMLEventWriter( out, Charsets.UTF_8.name() );
+					XMLOutputFactory.newInstance().createXMLEventWriter( out, StandardCharsets.UTF_8.name() );
 
 			while ( eventReader.hasNext() ) {
 				final XMLEvent nextEvent = eventReader.nextEvent();
 				convert( nextEvent, eventWriter );
 			}
-
 			eventReader.close();
 			eventWriter.flush();
 			eventWriter.close();
-			out.close();
 
-			return new LZ4BlockInputStream( new DeleteOnCloseFileInputStream( tmpFile ) );
-		} catch ( final XMLStreamException e ) {
+		} catch ( final XMLStreamException | FactoryConfigurationError e ) {
 			throw new RuntimeException( e );
-		} catch ( final FactoryConfigurationError e ) {
-			throw new RuntimeException( e );
-		} catch ( final IOException exc ) {
-			throw new RuntimeException( exc );
 		}
 	}
 
