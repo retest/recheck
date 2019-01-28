@@ -57,6 +57,24 @@ public class XmlMigratorTest {
 		assertThat( firstChildIdentAttributes.getPath() ).isEqualTo( "Window[1]/JRootPane[1]/JPane[1]" );
 	}
 
+	@Test
+	public void loading_recheck_state_from_v3_1_0_should_work() throws Exception {
+		final File xmlFile = new File( "src/test/resources/migration/XmlMigratorTest-retest-v3.1.0.xml" );
+		final NamedBufferedInputStream bin =
+				new NamedBufferedInputStream( new FileInputStream( xmlFile ), xmlFile.getName() );
+
+		final XmlVersionCheckResult resultChecker = XmlVersionCheckResult.create( bin );
+
+		assertThat( resultChecker.isCompatible() ).isFalse();
+
+		final BufferedInputStream migratedXml = XmlMigrator.tryToMigrate( resultChecker, bin );
+
+		final StringWriter writer = new StringWriter();
+		IOUtils.copy( migratedXml, writer, StandardCharsets.UTF_8 );
+
+		ApprovalsUtil.verifyXml( writer.toString() );
+	}
+
 	@Ignore( "Unignore as soon as we have migration steps for retest v2." )
 	@Test
 	public void parse_migrated_xml_and_check_result() throws Exception {
