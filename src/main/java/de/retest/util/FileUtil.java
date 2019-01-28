@@ -30,12 +30,7 @@ public class FileUtil {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( FileUtil.class );
 
-	public static FileFilter PNG_FILTER = new FileFilter() {
-		@Override
-		public boolean accept( final File pathname ) {
-			return pathname.getName().endsWith( ".png" );
-		}
-	};
+	public static final FileFilter PNG_FILTER = file -> file.getName().endsWith( ".png" );
 
 	public static String readFileToString( final File source ) {
 		if ( source == null ) {
@@ -256,7 +251,7 @@ public class FileUtil {
 	}
 
 	public static <T> T readFromFile( final File file, final Reader<T> reader ) throws IOException {
-		try ( NamedBufferedInputStream in =
+		try ( final NamedBufferedInputStream in =
 				new NamedBufferedInputStream( new FileInputStream( file ), file.getName() ) ) {
 			return reader.read( in );
 		} catch ( final Exception e ) {
@@ -265,7 +260,7 @@ public class FileUtil {
 	}
 
 	public static <T> T tryReadFromFile( final File file, final Reader<T> reader ) {
-		try ( NamedBufferedInputStream in =
+		try ( final NamedBufferedInputStream in =
 				new NamedBufferedInputStream( new FileInputStream( file ), file.getName() ) ) {
 			return reader.read( in );
 		} catch ( final IOException e ) {
@@ -334,7 +329,7 @@ public class FileUtil {
 	}
 
 	public static double getFileSizeInMB( final File report ) {
-		try ( InputStream stream = new FileInputStream( report ) ) {
+		try ( final InputStream stream = new FileInputStream( report ) ) {
 			return stream.available() / 1024.0 / 1024.0;
 		} catch ( final IOException e ) {
 			logger.warn( "Exception getting file length of file '{}'.", canonicalPathQuietly( report ), e );
