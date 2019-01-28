@@ -79,7 +79,7 @@ public class RootElementDifferenceFinder {
 
 	private double compareContainedComponents( final RootElement expected, final RootElement bestWindow ) {
 		return getNumberOfChildDifferences( expected, bestWindow )
-				/ (getNumberOfChildComponents( expected, bestWindow ) + 1);
+				/ (getNumberOfChildComponents( expected, bestWindow ) + 1.0);
 	}
 
 	private int getNumberOfChildDifferences( final RootElement expected, final RootElement bestWindow ) {

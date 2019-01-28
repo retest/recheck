@@ -71,7 +71,7 @@ public class ThreadUtil {
 			try {
 				Thread.sleep( ms );
 			} catch ( final InterruptedException exc ) {
-				Thread.interrupted();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

@@ -25,7 +25,7 @@ class AttributesDifferencePrinterTest {
 	@Test
 	void toString_should_be_empty_when_no_differences() {
 		final AttributesDifference difference = mock( AttributesDifference.class );
-		when( difference.getAttributes() ).thenReturn( Collections.emptyList() );
+		when( difference.getDifferences() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( difference );
 
@@ -35,7 +35,7 @@ class AttributesDifferencePrinterTest {
 	@Test
 	void toString_should_not_print_indent_if_empty() {
 		final AttributesDifference difference = mock( AttributesDifference.class );
-		when( difference.getAttributes() ).thenReturn( Collections.emptyList() );
+		when( difference.getDifferences() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( difference, "____" );
 
@@ -47,7 +47,7 @@ class AttributesDifferencePrinterTest {
 		final AttributeDifference d1 = new AttributeDifference( "a", "a", "b" );
 
 		final AttributesDifference difference = mock( AttributesDifference.class );
-		when( difference.getAttributes() ).thenReturn( Collections.singletonList( d1 ) );
+		when( difference.getDifferences() ).thenReturn( Collections.singletonList( d1 ) );
 
 		final String string = cut.toString( difference );
 
@@ -59,7 +59,7 @@ class AttributesDifferencePrinterTest {
 		final AttributeDifference d1 = new AttributeDifference( "a", "a", "b" );
 
 		final AttributesDifference difference = mock( AttributesDifference.class );
-		when( difference.getAttributes() ).thenReturn( Collections.singletonList( d1 ) );
+		when( difference.getDifferences() ).thenReturn( Collections.singletonList( d1 ) );
 
 		final String string = cut.toString( difference, "____" );
 
@@ -71,7 +71,7 @@ class AttributesDifferencePrinterTest {
 		final AttributeDifference d1 = new AttributeDifference( "a", "a", "b" );
 
 		final AttributesDifference difference = mock( AttributesDifference.class );
-		when( difference.getAttributes() ).thenReturn( Arrays.asList( d1, d1 ) );
+		when( difference.getDifferences() ).thenReturn( Arrays.asList( d1, d1 ) );
 
 		final String string = cut.toString( difference );
 
@@ -83,7 +83,7 @@ class AttributesDifferencePrinterTest {
 		final AttributeDifference d1 = new AttributeDifference( "a", "a", "b" );
 
 		final AttributesDifference difference = mock( AttributesDifference.class );
-		when( difference.getAttributes() ).thenReturn( Arrays.asList( d1, d1 ) );
+		when( difference.getDifferences() ).thenReturn( Arrays.asList( d1, d1 ) );
 
 		final String string = cut.toString( difference, "____" );
 

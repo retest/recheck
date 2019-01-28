@@ -75,7 +75,7 @@ public class AttributesDifference implements Difference {
 		return actual;
 	}
 
-	public List<AttributeDifference> getAttributes() {
+	public List<AttributeDifference> getDifferences() {
 		return differences;
 	}
 

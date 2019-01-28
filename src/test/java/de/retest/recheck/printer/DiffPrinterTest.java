@@ -119,7 +119,7 @@ public class DiffPrinterTest {
 						new AttributeDifference( "attribute2", "13", "4711" ) );
 
 		final AttributesDifference attributeDiffs = mock( AttributesDifference.class );
-		when( attributeDiffs.getAttributes() ).thenReturn( attributes );
+		when( attributeDiffs.getDifferences() ).thenReturn( attributes );
 
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.toString() ).thenReturn( "Type [text]" );
