@@ -283,7 +283,7 @@ public final class ReflectionUtilities {
 	}
 
 	public static boolean isThreadDeathWhileClosingSuT( final Throwable e ) {
-		if ( e != null && e instanceof ThreadDeath ) {
+		if ( e instanceof ThreadDeath ) {
 			for ( final StackTraceElement stackElement : e.getStackTrace() ) {
 				if ( "sun.awt.AppContext".equals( stackElement.getClassName() )
 						&& "dispose".equals( stackElement.getMethodName() ) ) {
