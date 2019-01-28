@@ -96,9 +96,9 @@ public class Configuration {
 	public static Properties getUserConfigProps() {
 		final Properties result = new Properties();
 		// userConfigFileProps overwrites retestDefaultProps
-		result.putAll( instance.systemPropertyHandler.userConfigFileProps );
+		result.putAll( instance.systemPropertyHandler.getUserConfigFileProps() );
 		// originConsoleProps overwrites userConfigFileProps,
-		result.putAll( instance.systemPropertyHandler.originConsoleProps );
+		result.putAll( instance.systemPropertyHandler.getOriginConsoleProps() );
 		return result;
 	}
 }
