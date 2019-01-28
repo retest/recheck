@@ -3,6 +3,7 @@ package de.retest.ui.diff;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.retest.elementcollection.RecheckIgnore;
 import de.retest.ui.descriptors.AdditionalAttributeDifference;
@@ -24,12 +25,8 @@ public class IdentifyingAttributesDifferenceFinder {
 
 	public IdentifyingAttributesDifference differenceFor( final IdentifyingAttributes expected,
 			final IdentifyingAttributes actual ) {
-		if ( expected == null ) {
-			throw new NullPointerException( "Expected cannot be null!" );
-		}
-		if ( actual == null ) {
-			throw new NullPointerException( "Actual cannot be null!" );
-		}
+		Objects.requireNonNull( expected, "Expected cannot be null!" );
+		Objects.requireNonNull( actual, "Actual cannot be null!" );
 
 		final List<AttributeDifference> attributeDifferences = new ArrayList<>();
 
