@@ -6,7 +6,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TestCaseFinder {
+
+	private static final Logger logger = LoggerFactory.getLogger( TestCaseFinder.class );
 
 	private TestCaseFinder() {}
 
@@ -83,16 +88,19 @@ public class TestCaseFinder {
 		} catch ( final ClassNotFoundException e ) {
 			return null;
 		}
-
-		for ( final Method methodCandidate : clazz.getDeclaredMethods() ) {
-			if ( methodCandidate.getName().equals( element.getMethodName() ) ) {
-				if ( method == null ) {
-					method = methodCandidate;
-				} else {
-					// two methods with same name found, can't determine correct one!
-					return null;
+		try {
+			for ( final Method methodCandidate : clazz.getDeclaredMethods() ) {
+				if ( methodCandidate.getName().equals( element.getMethodName() ) ) {
+					if ( method == null ) {
+						method = methodCandidate;
+					} else {
+						// two methods with same name found, can't determine correct one!
+						return null;
+					}
 				}
 			}
+		} catch ( final NoClassDefFoundError noClass ) {
+			logger.error( "Could not analyze method due to NoClassDefFoundError: ", noClass );
 		}
 		return method;
 	}
