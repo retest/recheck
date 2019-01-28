@@ -128,7 +128,7 @@ public class RootElementDifference implements Difference {
 	ScreenshotAttributeDifference getScreenshotDifference() {
 		final AttributesDifference attributesDifference = elementDifference.getAttributesDifference();
 		if ( attributesDifference != null ) {
-			final List<AttributeDifference> diffs = attributesDifference.getAttributes();
+			final List<AttributeDifference> diffs = attributesDifference.getDifferences();
 			for ( final AttributeDifference attrDiff : diffs ) {
 				if ( attrDiff instanceof ScreenshotAttributeDifference ) {
 					return (ScreenshotAttributeDifference) attrDiff;

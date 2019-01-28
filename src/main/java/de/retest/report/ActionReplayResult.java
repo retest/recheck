@@ -202,12 +202,13 @@ public class ActionReplayResult implements Serializable {
 		for ( final ElementDifference elementDifference : getElementDifferences() ) {
 			final AttributesDifference attributesDifference = elementDifference.getAttributesDifference();
 			if ( attributesDifference != null ) {
-				uniqueDifferences.addAll( attributesDifference.getAttributes() );
+				uniqueDifferences.addAll( attributesDifference.getDifferences() );
 			}
 			final LeafDifference identAttrDiff = elementDifference.getIdentifyingAttributesDifference();
 			if ( identAttrDiff != null ) {
 				if ( identAttrDiff instanceof IdentifyingAttributesDifference ) {
-					uniqueDifferences.addAll( ((IdentifyingAttributesDifference) identAttrDiff).getAttributes() );
+					uniqueDifferences
+							.addAll( ((IdentifyingAttributesDifference) identAttrDiff).getAttributeDifferences() );
 				} else {
 					// DurationDifference or InsertedDeletedElementDifference
 					uniqueDifferences.add( identAttrDiff );

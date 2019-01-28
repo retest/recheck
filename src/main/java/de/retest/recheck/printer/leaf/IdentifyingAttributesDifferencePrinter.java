@@ -17,7 +17,7 @@ public class IdentifyingAttributesDifferencePrinter implements Printer<Identifyi
 
 	@Override
 	public String toString( final IdentifyingAttributesDifference difference, final String indent ) {
-		return difference.getAttributes().stream() //
+		return difference.getAttributeDifferences().stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}

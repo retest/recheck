@@ -88,10 +88,11 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	public List<AttributeDifference> getAttributeDifferences() {
 		final List<AttributeDifference> differences = new ArrayList<>();
 		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
-			differences.addAll( ((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributes() );
+			differences.addAll(
+					((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributeDifferences() );
 		}
 		if ( attributesDifference != null ) {
-			differences.addAll( attributesDifference.getAttributes() );
+			differences.addAll( attributesDifference.getDifferences() );
 		}
 		return differences;
 	}
