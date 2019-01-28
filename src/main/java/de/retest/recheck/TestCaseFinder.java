@@ -45,7 +45,7 @@ public class TestCaseFinder {
 		return null;
 	}
 
-	private static StackTraceElement findTestCaseMethodInStack( final StackTraceElement[] trace ) {
+	public static StackTraceElement findTestCaseMethodInStack( final StackTraceElement[] trace ) {
 		boolean inTestCase = false;
 		for ( int i = 0; i < trace.length; i++ ) {
 			if ( isTestCase( trace[i] ) ) {

@@ -8,6 +8,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -442,4 +444,7 @@ public class FileUtil {
 		return null;
 	}
 
+	public static URI getFileUriForClasspathRelativPath( final String path ) throws URISyntaxException {
+		return Object.class.getResource( path ).toURI();
+	}
 }
