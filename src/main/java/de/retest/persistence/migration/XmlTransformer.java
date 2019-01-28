@@ -56,6 +56,7 @@ public abstract class XmlTransformer {
 			reset();
 
 			final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+			inputFactory.setProperty( XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE );
 			final XMLEventReader eventReader =
 					inputFactory.createXMLEventReader( inputStream, StandardCharsets.UTF_8.name() );
 			final XMLEventWriter eventWriter =
