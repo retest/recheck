@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
+import de.retest.elementcollection.RecheckIgnore;
 import de.retest.report.SuiteReplayResult;
 
 @ExtendWith( TempDirectory.class )
@@ -23,6 +24,7 @@ class RecheckReplayResultUtilTest {
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
 		file = temp.resolve( "replay.result" ).toFile();
+		RecheckIgnore.getTestInstance();
 	}
 
 	@Test
