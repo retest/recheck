@@ -6,7 +6,6 @@ import static de.retest.ui.descriptors.StringAttribute.parameterTypeInteger;
 import static de.retest.ui.descriptors.StringAttribute.parameterTypeString;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,7 +28,6 @@ public class StringAttributeTest {
 	}
 
 	@Test
-	@Ignore
 	public void parse_should_throw_error_if_not_valid() throws Exception {
 		exception.expect( ParameterParseException.class );
 		exception.expectMessage( "Value must be 'true' or 'false' (ignoring case)." );
