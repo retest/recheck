@@ -32,10 +32,6 @@ public final class ReflectionUtilities {
 	@SuppressWarnings( "unchecked" )
 	public static <T> T getFromField( final Object object, final String fieldName ) {
 		final Field field = getField( object.getClass(), fieldName );
-		if ( field == null ) {
-			throw new RuntimeException( new NoSuchFieldException(
-					"Field '" + fieldName + "' not found in class '" + object.getClass() + "' or any superclass" ) );
-		}
 		try {
 			return (T) field.get( object );
 		} catch ( final IllegalAccessException exception ) {
@@ -65,9 +61,11 @@ public final class ReflectionUtilities {
 				currentClass = currentClass.getSuperclass();
 			}
 		}
-		if ( field != null ) {
-			field.setAccessible( true );
+		if ( field == null ) {
+			throw new RuntimeException( new NoSuchFieldException(
+					"Field '" + fieldName + "' not found in class '" + clazz + "' or any superclass" ) );
 		}
+		field.setAccessible( true );
 		return field;
 	}
 
@@ -75,11 +73,6 @@ public final class ReflectionUtilities {
 			throws IncompatibleTypesException {
 		final Field field = getField( object.getClass(), fieldName );
 		try {
-			if ( field == null ) {
-				throw new RuntimeException( new NoSuchFieldException( "Field '" + fieldName + "' not found in class '"
-						+ object.getClass() + "' or any superclass" ) );
-			}
-
 			// remove final modifier from field
 			final Field modifiersField = Field.class.getDeclaredField( "modifiers" );
 			modifiersField.setAccessible( true );
@@ -97,11 +90,6 @@ public final class ReflectionUtilities {
 	public static void setStaticField( final Class<?> clazz, final String fieldName, final Object value ) {
 		try {
 			final Field field = getField( clazz, fieldName );
-			if ( field == null ) {
-				throw new RuntimeException( new NoSuchFieldException(
-						"Field '" + fieldName + "' not found in class '" + clazz + "' or any superclass" ) );
-			}
-
 			// remove final modifier from field
 			final Field modifiersField = Field.class.getDeclaredField( "modifiers" );
 			modifiersField.setAccessible( true );
