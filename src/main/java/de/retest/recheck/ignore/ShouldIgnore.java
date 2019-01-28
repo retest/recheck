@@ -1,14 +1,20 @@
 package de.retest.recheck.ignore;
 
-import java.io.Serializable;
-
 import de.retest.ui.descriptors.Element;
 import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.diff.AttributeDifference;
 
 /**
- * General interface to ignoring changes.
+ * General interface to ignore changes during Diffing
  *
- * Can be implemented by a file, or implementation delivered by the user.
+ * In principal, we create a diff for everything that differs, and put that into the result file. Then it is up to the
+ * UI (GUI or CLI) to hide ignored differences – this is what this interface is for. This is pretty much inline with how
+ * Git works – the diff is there, it just doesn't show up when ignored.
+ *
+ * For more details, see <a href="https://github.com/retest/recheck/wiki/How-Ignore-works-in-recheck" target="_top">the
+ * GitHub wiki</a>.
+ *
+ * Can be implemented by reading a file, or by an implementation delivered by the user.
  */
 public interface ShouldIgnore {
 
@@ -23,15 +29,6 @@ public interface ShouldIgnore {
 	boolean shouldIgnoreElement( final Element element );
 
 	/**
-	 * Same as {@link #shouldIgnoreElement(Element)}, but implemented on the basis of the elements
-	 * {@link IdentifyingAttributes}.
-	 *
-	 * Note that if either this method, or the {@link #shouldIgnoreElement(Element)} returning <code>true</code>
-	 * suffices, and both are called.
-	 */
-	boolean shouldIgnoreElement( final IdentifyingAttributes identifyingAttributes );
-
-	/**
 	 * Returns <code>true</code> if the given attribute difference as specified by the triple (attribute-key,
 	 * expectedValue, actualValue) should be ignored for the given element as specified by its
 	 * {@link IdentifyingAttributes}.
@@ -40,18 +37,6 @@ public interface ShouldIgnore {
 	 * elements. But sometimes one wants to specify that a certain difference is meaningless, such as
 	 * <code>Times Roman</code> vs. <code>Times New Roman</code> for font-family or a 5px difference for outline.
 	 */
-	boolean shouldIgnoreAttributeDifference( final IdentifyingAttributes element, final String key,
-			Serializable expectedValue, Serializable actualValue );
-
-	/**
-	 * Same as {@link #shouldIgnoreAttributeDifference(IdentifyingAttributes, String, Serializable, Serializable)}, but
-	 * implemented on the basis of the elements retestId.
-	 *
-	 * Note that if either this method, or the
-	 * {@link #shouldIgnoreAttributeDifference(IdentifyingAttributes, String, Serializable, Serializable)} returning
-	 * <code>true</code> suffices, and both are called.
-	 */
-	boolean shouldIgnoreAttributeDifference( final String elementRetestId, final String key, Serializable expectedValue,
-			Serializable actualValue );
+	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );
 
 }

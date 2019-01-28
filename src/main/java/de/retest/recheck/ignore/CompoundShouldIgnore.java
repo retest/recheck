@@ -1,10 +1,9 @@
 package de.retest.recheck.ignore;
 
-import java.io.Serializable;
 import java.util.List;
 
 import de.retest.ui.descriptors.Element;
-import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.diff.AttributeDifference;
 
 public class CompoundShouldIgnore implements ShouldIgnore {
 
@@ -25,31 +24,10 @@ public class CompoundShouldIgnore implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final IdentifyingAttributes identifyingAttributes ) {
+	public boolean shouldIgnoreAttributeDifference( final Element element,
+			final AttributeDifference attributeDifference ) {
 		for ( final ShouldIgnore shouldIgnore : shouldIgnores ) {
-			if ( shouldIgnore.shouldIgnoreElement( identifyingAttributes ) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean shouldIgnoreAttributeDifference( final IdentifyingAttributes comp, final String key,
-			final Serializable expectedValue, final Serializable actualValue ) {
-		for ( final ShouldIgnore shouldIgnore : shouldIgnores ) {
-			if ( shouldIgnore.shouldIgnoreAttributeDifference( comp, key, expectedValue, actualValue ) ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean shouldIgnoreAttributeDifference( final String elementRetestId, final String key,
-			final Serializable expectedValue, final Serializable actualValue ) {
-		for ( final ShouldIgnore shouldIgnore : shouldIgnores ) {
-			if ( shouldIgnore.shouldIgnoreAttributeDifference( elementRetestId, key, expectedValue, actualValue ) ) {
+			if ( shouldIgnore.shouldIgnoreAttributeDifference( element, attributeDifference ) ) {
 				return true;
 			}
 		}

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.retest.ui.descriptors.Element;
+import de.retest.ui.diff.AttributeDifference;
 
 class JSShouldIgnoreImplTest {
 
@@ -57,14 +58,18 @@ class JSShouldIgnoreImplTest {
 			@Override
 			Reader readScriptFile() {
 				return new StringReader( //
-						"function shouldIgnoreAttributeDifference(elementRetestId, key, expectedValue, actualValue) { " //
-								+ "if (key == 'outline') {" //
-								+ "  return expectedValue - actualValue < 5;" //
-								+ "} " //
+						"function shouldIgnoreAttributeDifference(element, diff) { " //
+								+ "  if (diff.key == 'outline') {" //
+								+ "    return Math.abs(diff.expected - diff.actual) < 5;" //
+								+ "  } " //
+								+ "  return false;" //
 								+ "}" );
 			}
 		};
-		assertThat( cut.shouldIgnoreAttributeDifference( "someRetestId", "outline", "580", "576" ) ).isTrue();
-		assertThat( cut.shouldIgnoreAttributeDifference( "someRetestId", "outline", "580", "500" ) ).isFalse();
+		final Element element = Mockito.mock( Element.class );
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "578" ) ) )
+				.isTrue();
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "500" ) ) )
+				.isFalse();
 	}
 }

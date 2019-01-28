@@ -2,7 +2,6 @@ package de.retest.recheck.ignore;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.ui.descriptors.Element;
-import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.diff.AttributeDifference;
 
 public class JSShouldIgnoreImpl implements ShouldIgnore {
 
@@ -52,21 +51,9 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final IdentifyingAttributes identifyingAttributes ) {
-		return false;
-	}
-
-	@Override
-	public boolean shouldIgnoreAttributeDifference( final IdentifyingAttributes comp, final String key,
-			final Serializable expectedValue, final Serializable actualValue ) {
-		return false;
-	}
-
-	@Override
-	public boolean shouldIgnoreAttributeDifference( final String elementRetestId, final String key,
-			final Serializable expectedValue, final Serializable actualValue ) {
-		return callBooleanJSFunction( "shouldIgnoreAttributeDifference", elementRetestId, key, expectedValue,
-				actualValue );
+	public boolean shouldIgnoreAttributeDifference( final Element element,
+			final AttributeDifference attributeDifference ) {
+		return callBooleanJSFunction( "shouldIgnoreAttributeDifference", element, attributeDifference );
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
