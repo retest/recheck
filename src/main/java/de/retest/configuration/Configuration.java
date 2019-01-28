@@ -18,16 +18,16 @@ public class Configuration {
 
 	private static Configuration instance;
 
+	private static final Object lockField = new Object[0];
+
 	static boolean isLoaded() {
 		return instance != null && instance.retestWorkspace != null;
 	}
 
 	public static void ensureLoaded() {
-		if ( instance == null ) {
-			synchronized ( Configuration.class ) {
-				if ( instance == null ) {
-					instance = new Configuration();
-				}
+		synchronized ( lockField ) {
+			if ( instance == null ) {
+				instance = new Configuration();
 			}
 		}
 		instance.systemPropertyHandler.checkSystemPropertyStillIsCorrect();

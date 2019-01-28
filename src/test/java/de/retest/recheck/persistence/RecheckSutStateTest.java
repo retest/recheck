@@ -11,7 +11,6 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
@@ -40,7 +39,6 @@ class RecheckSutStateTest {
 	}
 
 	@Test
-	@Disabled
 	void convert_should_throw_exception_if_adapter_returns_null() {
 		final Object convert = mock( Object.class );
 		final RecheckAdapter adapter = mock( RecheckAdapter.class );
@@ -51,7 +49,6 @@ class RecheckSutStateTest {
 	}
 
 	@Test
-	@Disabled
 	void convert_should_throw_exception_if_adapter_returns_empty_set() {
 		final Object convert = mock( Object.class );
 		final RecheckAdapter adapter = mock( RecheckAdapter.class );
@@ -62,7 +59,6 @@ class RecheckSutStateTest {
 	}
 
 	@Test
-	@Disabled
 	void convert_should_create_state_if_adapter_returns_set() {
 		final Object convert = mock( Object.class );
 		final RecheckAdapter adapter = mock( RecheckAdapter.class );
@@ -72,7 +68,6 @@ class RecheckSutStateTest {
 	}
 
 	@Test
-	@Disabled
 	void convert_should_not_check_object_is_null_and_let_adapter_handle() {
 		final RecheckAdapter adapter = mock( RecheckAdapter.class );
 		when( adapter.convert( any() ) ).thenReturn( Collections.singleton( mock( RootElement.class ) ) );

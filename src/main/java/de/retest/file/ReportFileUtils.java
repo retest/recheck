@@ -17,14 +17,15 @@ public class ReportFileUtils {
 	public static final String REPORT_FILE_EXTENSION = ".result";
 	public static final String REPORT_FILE_DEFAULT_FILE_NAME = "replay" + REPORT_FILE_EXTENSION;
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd-HH-mm" );
+	private static final String DATE_FORMAT = "yyyy-MM-dd-HH-mm";
 
 	public static File deleteLatestAndCreateReportDir() {
 		final File latest = getLatestReportDir();
 		if ( latest.exists() ) {
 			FileUtil.deleteRecursively( latest );
 		}
-		final File reportDir = new File( getBaseDir(), "report-" + dateFormat.format( new Date() ) );
+		final File reportDir =
+				new File( getBaseDir(), "report-" + new SimpleDateFormat( DATE_FORMAT ).format( new Date() ) );
 		checkReportDir( reportDir );
 		return reportDir;
 	}

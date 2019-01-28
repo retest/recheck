@@ -14,7 +14,7 @@ public class AttributesDifferencePrinter implements Printer<AttributesDifference
 
 	@Override
 	public String toString( final AttributesDifference difference, final String indent ) {
-		return difference.getAttributes().stream() //
+		return difference.getDifferences().stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}

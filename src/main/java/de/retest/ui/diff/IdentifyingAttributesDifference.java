@@ -89,7 +89,7 @@ public class IdentifyingAttributesDifference implements LeafDifference {
 		return Collections.emptyList();
 	}
 
-	public List<AttributeDifference> getAttributes() {
+	public List<AttributeDifference> getAttributeDifferences() {
 		return attributeDifferences;
 	}
 }
