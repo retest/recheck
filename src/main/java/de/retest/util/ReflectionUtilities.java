@@ -22,7 +22,7 @@ public final class ReflectionUtilities {
 
 	public static List<Field> getAllFields( Class<?> clazz ) {
 		final List<Field> result = new ArrayList<>();
-		while ( !clazz.getName().equals( "java.lang.Object" ) ) {
+		while ( !clazz.equals( Object.class ) ) {
 			result.addAll( Arrays.asList( clazz.getDeclaredFields() ) );
 			clazz = clazz.getSuperclass();
 		}
@@ -58,7 +58,7 @@ public final class ReflectionUtilities {
 	public static Field getField( final Class<?> clazz, final String fieldName ) {
 		Field field = null;
 		Class<?> currentClass = clazz;
-		while ( field == null && !currentClass.getName().equals( "java.lang.Object" ) ) {
+		while ( field == null && !currentClass.equals( Object.class ) ) {
 			try {
 				field = currentClass.getDeclaredField( fieldName );
 			} catch ( final NoSuchFieldException exc ) {
