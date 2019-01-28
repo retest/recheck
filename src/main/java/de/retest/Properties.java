@@ -221,7 +221,8 @@ public class Properties {
 		return null;
 	}
 
-	public static final String[] INSTALL_DIR_FILE_LIST = { "retest-all.jar", "retest", "retest-gui.exe", "retest.bat" };
+	private static final String[] INSTALL_DIR_FILE_LIST =
+			{ "retest-all.jar", "retest", "retest-gui.exe", "retest.bat" };
 
 	private static boolean containsReTestInstallation( final File installDirCandidate ) {
 		int c = 0;
