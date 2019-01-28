@@ -23,7 +23,7 @@ import de.retest.ui.review.TestChangeSet;
 public class ExecutableSuite extends Persistable {
 
 	private static final long serialVersionUID = 4L;
-	private static final int PERSISTENCE_VERSION = 22;
+	private static final int PERSISTENCE_VERSION = 23;
 
 	@XmlAttribute
 	private final String uuid;

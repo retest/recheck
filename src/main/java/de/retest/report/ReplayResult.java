@@ -29,7 +29,7 @@ import de.retest.ui.review.GoldenMasterSource;
 public class ReplayResult extends Persistable {
 
 	private static final long serialVersionUID = 1L;
-	private static final int PERSISTENCE_VERSION = 18;
+	private static final int PERSISTENCE_VERSION = 19;
 
 	@XmlElement
 	private final ElementCollection ignoredElements;

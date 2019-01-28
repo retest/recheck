@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reTestXmlDataContainer dataType="de.retest.suite.ExecutableSuite" reTestVersion="unspecified development version" dataTypeVersion="19">
+	<data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="executableSuite">
+		<tests>
+			<initialState uuid="deprecated uuid attribute">
+				<descriptors screenId="97692013" screen="frame" title="MissingElementsDemo-Window">
+					<identifyingAttributes xsi:type="identifyingSwingAttributes">
+						<attributes>
+							<attribute xsi:type="pathAttribute" key="path">Window</attribute>
+							<attribute xsi:type="suffixAttribute" key="suffix"></attribute>
+							<attribute xsi:type="stringAttribute" key="type">sut.MissingElementsDemo</attribute>
+							<attribute xsi:type="stringAttribute" key="name">frame</attribute>
+							<attribute xsi:type="weightedTextAttribute" key="text">MissingElementsDemo</attribute>
+							<attribute xsi:type="codeLocAttribute" key="codeLoc">[sut.MissingElementsDemo.&lt;init&gt;(MissingElementsDemo.java:25),
+								sut.MissingElementsDemo.createAndShowGUI(MissingElementsDemo.java:64),
+								sut.MissingElementsDemo$2.run(MissingElementsDemo.java:75)]
+							</attribute>
+							<attribute xsi:type="outlineAttribute" key="outline">
+								<x>-1</x>
+								<y>-1</y>
+								<height>-1</height>
+								<width>-1</width>
+							</attribute>
+							<attribute xsi:type="contextAttribute" key="context"></attribute>
+						</attributes>
+					</identifyingAttributes>
+					<attributes></attributes>
+					<containedElements>
+						<identifyingAttributes xsi:type="identifyingSwingAttributes">
+							<attributes>
+								<attribute xsi:type="pathAttribute" key="path">Window/JRootPane/JPane</attribute>
+								<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
+								<attribute xsi:type="stringAttribute" key="type">javax.swing.JPane</attribute>
+								<attribute xsi:type="codeLocAttribute" key="codeLoc">[sut.MissingElementsDemo.&lt;init&gt;(MissingElementsDemo.java:25),
+									sut.MissingElementsDemo.createAndShowGUI(MissingElementsDemo.java:64),
+									sut.MissingElementsDemo$2.run(MissingElementsDemo.java:75)]
+								</attribute>
+								<attribute xsi:type="outlineAttribute" key="outline">
+									<x>0</x>
+									<y>0</y>
+									<height>61</height>
+									<width>85</width>
+								</attribute>
+								<attribute xsi:type="weightedTextAttribute" key="text"></attribute>
+								<attribute xsi:type="stringAttribute" key="name"></attribute>
+								<attribute xsi:type="contextAttribute" key="context"></attribute>
+							</attributes>
+						</identifyingAttributes>
+						<attributes></attributes>
+						<containedElements></containedElements>
+					</containedElements>
+					<screenshot>
+						<persistenceId>JLayeredPane_fe160bbb-28c5-41fc-bec7-dc40be99b538</persistenceId>
+						<type>PNG</type>
+					</screenshot>
+				</descriptors>
+			</initialState>
+			<name>missing-elements.actions</name>
+			<sumDuration>177</sumDuration>
+			<startupDuration>3</startupDuration>
+		</tests>
+		<groundState>
+			<executionDate>2016-06-29T17:06:19.744+02:00</executionDate>
+			<randomSeed>1</randomSeed>
+		</groundState>
+		<sumDuration>177</sumDuration>
+	</data>
+</reTestXmlDataContainer>
