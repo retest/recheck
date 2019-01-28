@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="2.0.0-beta.6" dataType="de.retest.suite.ExecutableSuite" dataTypeVersion="19">
+	<data uuid="787929c6-7c1b-414e-b7ef-db46807b3acd" xsi:type="executableSuite">
+		<tests>
+			<initialState>
+				<descriptors screenId="73596745" screen="Login" title="Login">
+					<identifyingAttributes xsi:type="identifyingSwingAttributes">
+						<attributes>
+							<attribute key="codeLoc" xsi:type="codeLocAttribute"/>
+							<attribute key="context" xsi:type="contextAttribute"/>
+							<attribute key="name" xsi:type="stringAttribute">dialog</attribute>
+							<attribute key="outline" xsi:type="outlineAttribute">
+								<x>-1</x>
+								<y>-1</y>
+								<height>-1</height>
+								<width>-1</width>
+							</attribute>
+							<attribute key="path" xsi:type="pathAttribute">Window</attribute>
+							<attribute key="suffix" xsi:type="suffixAttribute"></attribute>
+							<attribute key="text" xsi:type="weightedTextAttribute">Login</attribute>
+							<attribute key="type" xsi:type="stringAttribute">info.retest.swing.demo.LoginDialog</attribute>
+						</attributes>
+					</identifyingAttributes>
+					<containedComponents>
+						<identifyingAttributes xsi:type="identifyingSwingAttributes">
+							<attributes>
+								<attribute key="codeLoc" xsi:type="codeLocAttribute"/>
+								<attribute key="context" xsi:type="contextAttribute"/>
+								<attribute key="name" xsi:type="stringAttribute"/>
+								<attribute key="outline" xsi:type="outlineAttribute">
+									<x>3</x>
+									<y>0</y>
+									<height>187</height>
+									<width>229</width>
+								</attribute>
+								<attribute key="path" xsi:type="pathAttribute">Window/JRootPane_0</attribute>
+								<attribute key="suffix" xsi:type="suffixAttribute">0</attribute>
+								<attribute key="text" xsi:type="weightedTextAttribute"/>
+								<attribute key="type" xsi:type="stringAttribute">javax.swing.JRootPane</attribute>
+							</attributes>
+						</identifyingAttributes>
+						<attributes>
+							<attributes>
+								<entry>
+									<key>backgroundColor</key>
+									<value xsi:type="xsd:string">#D6D9DF</value>
+								</entry>
+								<entry>
+									<key>fontFamily</key>
+									<value xsi:type="xsd:string">SansSerif</value>
+								</entry>
+								<entry>
+									<key>foregroundColor</key>
+									<value xsi:type="xsd:string">#000000</value>
+								</entry>
+							</attributes>
+						</attributes>
+					</containedComponents>
+					<screenshot>
+						<persistenceId>JLayeredPane_543b2ac8a901c04e922e2a64f45efca6e06695381fb7ca07998cb76094f9201b</persistenceId>
+						<type>PNG</type>
+					</screenshot>
+				</descriptors>
+			</initialState>
+		</tests>
+	</data>
+</reTestXmlDataContainer>

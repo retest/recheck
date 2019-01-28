@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<identifyingAttributes xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<attributes>
+		<attribute key="path" xsi:type="pathAttribute">Window[1]/path[1]/component[1]</attribute>
+		<attribute key="suffix" xsi:type="suffixAttribute">1</attribute>
+		<attribute key="type" xsi:type="stringAttribute">de.retest.persistence.PathAdapterIntTest$component</attribute>
+	</attributes>
+</identifyingAttributes>
