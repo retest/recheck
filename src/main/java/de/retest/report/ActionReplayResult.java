@@ -280,9 +280,14 @@ public class ActionReplayResult implements Serializable {
 		if ( hasError() ) {
 			return "Check \'" + description + "\' resulted in " + (error != null ? error : targetNotFound);
 		}
-		final String diffs = getElementDifferences().stream() //
-				.map( elementDifference -> "\t" + elementDifference.toString().replace( "\n", "\n\t" ) ) //
-				.collect( Collectors.joining( "\n" ) );
+		final String diffs;
+		if ( !getElementDifferences().isEmpty() ) {
+			diffs = getElementDifferences().stream() //
+					.map( elementDifference -> "\t" + elementDifference.toString().replace( "\n", "\n\t" ) ) //
+					.collect( Collectors.joining( "\n" ) );
+		} else {
+			diffs = "No differences found!";
+		}
 		return "Check \'" + description + "\' resulted in:\n" + diffs;
 	}
 }
