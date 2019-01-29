@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import de.retest.persistence.Persistence;
 import de.retest.persistence.bin.KryoPersistence;
+import de.retest.report.ActionReplayResult;
 import de.retest.report.ReplayResult;
+import de.retest.report.SuiteReplayResult;
+import de.retest.report.TestReplayResult;
 
 public class DiffPrinter {
 
@@ -40,14 +43,17 @@ public class DiffPrinter {
 
 	public String generateFilteredDiffString( final ReplayResult report ) {
 		final StringBuilder result = new StringBuilder();
-		report.getSuiteReplayResults().stream() //
-				.flatMap( suiteResult -> suiteResult.getTestReplayResults().stream() ) //
-				.flatMap( testResult -> testResult.getActionReplayResults().stream() ) //
-				.forEach( actionReplayResult -> {
+
+		for ( final SuiteReplayResult suiteResult : report.getSuiteReplayResults() ) {
+			for ( final TestReplayResult testResult : suiteResult.getTestReplayResults() ) {
+				result.append( testResult.getName() ).append( ":\n" );
+				for ( final ActionReplayResult actionReplayResult : testResult.getActionReplayResults() ) {
 					if ( checks.isEmpty() || checks.contains( actionReplayResult.getDescription() ) ) {
 						result.append( actionReplayResult.toStringDetailed() ).append( "\n" );
 					}
-				} );
+				}
+			}
+		}
 		return result.toString();
 	}
 
