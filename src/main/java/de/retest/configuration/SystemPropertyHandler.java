@@ -11,10 +11,10 @@ class SystemPropertyHandler {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( SystemPropertyHandler.class );
 
-	public Properties originConsoleProps;
-	public Properties retestDefaultProps;
-	public Properties userConfigFileProps;
-	public Properties runtimeProps;
+	private final Properties originConsoleProps;
+	private final Properties retestDefaultProps;
+	private final Properties userConfigFileProps;
+	private final Properties runtimeProps;
 
 	public Properties newSystemProps;
 
@@ -29,8 +29,8 @@ class SystemPropertyHandler {
 		// runtimeProps overwrites originConsoleProps,
 		// originConsoleProps overwrites userConfigFileProps,
 		// userConfigFileProps overwrites retestDefaultProps
-		runtimeProps =
-				new Properties( new PropertiesList( originConsoleProps, userConfigFileProps, retestDefaultProps ) );
+		runtimeProps = new Properties(
+				new PropertiesList( originConsoleProps, userConfigFileProps, retestDefaultProps ) );
 		newSystemProps = new PropertyVariableResolver( new SpecialProperties( runtimeProps ) );
 		// replaces the originConsoleProps
 		System.setProperties( newSystemProps );
@@ -81,4 +81,19 @@ class SystemPropertyHandler {
 		newSystemProps.clear();
 	}
 
+	public Properties getOriginConsoleProps() {
+		return originConsoleProps;
+	}
+
+	public Properties getRetestDefaultProps() {
+		return retestDefaultProps;
+	}
+
+	public Properties getUserConfigFileProps() {
+		return userConfigFileProps;
+	}
+
+	public Properties getRuntimeProps() {
+		return runtimeProps;
+	}
 }
