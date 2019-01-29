@@ -49,7 +49,8 @@ public class DiffPrinterTest {
 				mockReplayResult( singletonList( "Call-to-Action" ), singletonList( "elementDiff" ) );
 
 		final String result = cut.generateFilteredDiffString( report );
-		assertThat( result ).isEqualTo( "Check 'Call-to-Action' resulted in:\n\telementDiff\n" );
+		assertThat( result ).isEqualTo( "testName:\n" //
+				+ "Check 'Call-to-Action' resulted in:\n\telementDiff\n" );
 	}
 
 	@Test
@@ -60,7 +61,8 @@ public class DiffPrinterTest {
 				asList( "elementDiff-1", "elementDiff-2", "elementDiff-3" ) );
 
 		final String result = cut.generateFilteredDiffString( report );
-		assertThat( result ).isEqualTo( "Check 'Call-to-Action-1' resulted in:" //
+		assertThat( result ).isEqualTo( "testName:\n" //
+				+ "Check 'Call-to-Action-1' resulted in:" //
 				+ "\n\telementDiff-1" //
 				+ "\n\telementDiff-2" //
 				+ "\n\telementDiff-3\n" //
@@ -78,7 +80,8 @@ public class DiffPrinterTest {
 				asList( "elementDiff-1", "elementDiff-2", "elementDiff-3" ) );
 
 		final String result = cut.generateFilteredDiffString( report );
-		assertThat( result ).isEqualTo( "Check 'Call-to-Action-1' resulted in:" //
+		assertThat( result ).isEqualTo( "testName:\n" //
+				+ "Check 'Call-to-Action-1' resulted in:" //
 				+ "\n\telementDiff-1" //
 				+ "\n\telementDiff-2" //
 				+ "\n\telementDiff-3\n" );
@@ -155,7 +158,8 @@ public class DiffPrinterTest {
 		final DiffPrinter cut = new DiffPrinter( System.out );
 
 		final String result = cut.generateFilteredDiffString( report );
-		assertThat( result ).isEqualTo( "Check 'testCheck' resulted in:" //
+		assertThat( result ).isEqualTo( "testName:\n" //
+				+ "Check 'testCheck' resulted in:" //
 				+ "\n\tType [text]:" //
 				+ "\n\t at: null:" //
 				+ "\n\t\t" + "attribute: expected=\"rock\", actual=\"rick\"" //
