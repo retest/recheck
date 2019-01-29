@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" dataType="de.retest.elementcollection.ElementCollection" reTestVersion="unspecified development version" dataTypeVersion="15">
+	<data xsi:type="excludedComponents">
+		<excludedComponents>
+			<identifyingAttributes xsi:type="identifyingSwingAttributes">
+				<attributes>
+					<attribute xsi:type="codeLocAttribute" key="codeLoc">[info.retest.swing.demo.LoginDialog.&lt;init&gt;(LoginDialog.java:102), info.retest.swing.demo.MainFrame.initialize(MainFrame.java:79), info.retest.swing.demo.MainFrame.&lt;init&gt;(MainFrame.java:66)]</attribute>
+					<attribute xsi:type="contextAttribute" key="context"></attribute>
+					<attribute xsi:type="stringAttribute" key="name"></attribute>
+					<attribute xsi:type="outlineAttribute" key="outline">
+						<x>46</x>
+						<y>156</y>
+						<height>15</height>
+						<width>136</width>
+					</attribute>
+					<attribute xsi:type="pathAttribute" key="path">Window/JRootPane_0/JLayeredPane_0/JPanel_0/JPanel_0/JPanel_0/JLabel_0</attribute>
+					<attribute xsi:type="suffixAttribute" key="suffix">0</attribute>
+					<attribute xsi:type="weightedTextAttribute" key="text">2018/01/15 00:05:07</attribute>
+					<attribute xsi:type="stringAttribute" key="type">javax.swing.JLabel</attribute>
+				</attributes>
+			</identifyingAttributes>
+			<attributes></attributes>
+			<screenshot>
+				<persistenceId>JLabel_6052eb73aa0f91f566c639c5b64934c6c29884399284e44c744fe375cb3c8ada</persistenceId>
+				<type>PNG</type>
+			</screenshot>
+		</excludedComponents>
+		<excludedAttributes></excludedAttributes>
+	</data>
+</reTestXmlDataContainer>
