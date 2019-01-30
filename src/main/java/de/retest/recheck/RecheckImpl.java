@@ -60,7 +60,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	public RecheckImpl( final RecheckOptions options ) {
 		ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
 		ensureConfigurationInitialized();
-		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();

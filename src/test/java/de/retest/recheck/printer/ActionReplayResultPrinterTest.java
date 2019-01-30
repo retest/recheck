@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,11 +22,6 @@ import de.retest.recheck.ui.diff.ElementDifference;
 class ActionReplayResultPrinterTest {
 
 	ActionReplayResultPrinter cut;
-
-	@BeforeAll
-	static void setUpOnce() {
-		RecheckIgnore.getTestInstance();
-	}
 
 	@BeforeEach
 	void setUp() {

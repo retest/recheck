@@ -5,23 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.ui.descriptors.AdditionalAttributeDifference;
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.util.ObjectUtil;
 
 public class IdentifyingAttributesDifferenceFinder {
-
-	private final RecheckIgnore recheckIgnore;
-
-	public IdentifyingAttributesDifferenceFinder() {
-		this( RecheckIgnore.getInstance() );
-	}
-
-	public IdentifyingAttributesDifferenceFinder( final RecheckIgnore recheckIgnore ) {
-		this.recheckIgnore = recheckIgnore;
-	}
 
 	public IdentifyingAttributesDifference differenceFor( final IdentifyingAttributes expected,
 			final IdentifyingAttributes actual ) {
@@ -37,9 +26,6 @@ public class IdentifyingAttributesDifferenceFinder {
 			final String key = expectedAttr.getKey();
 			final Serializable expectedValue = expectedAttr.getValue();
 			final Serializable actualValue = actual.get( key );
-			if ( recheckIgnore.shouldIgnoreAttribute( expected, key ) ) {
-				continue;
-			}
 			if ( key.equals( "path" ) ) {
 				if ( pathDiffers( expected, actual ) ) {
 					attributeDifferences.add( new AttributeDifference( key, expected.getPath(), actual.getPath() ) );

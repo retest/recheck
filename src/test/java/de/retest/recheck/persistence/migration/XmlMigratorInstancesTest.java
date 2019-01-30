@@ -36,7 +36,6 @@ public class XmlMigratorInstancesTest {
 		// Never remove entries from this list, only add new ones!
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.ui.actions.ActionSequence" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.suite.CapturedSuite" ) ).isNotNull();
-		assertThat( XmlMigratorInstances.get( "de.retest.recheck.elementcollection.ElementCollection" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.suite.ExecutableSuite" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.report.ReplayResult" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.test.Test" ) ).isNotNull();
@@ -48,7 +47,6 @@ public class XmlMigratorInstancesTest {
 		// Exceptions: ReplayResult and StateGraph (who have their own tests).
 		assertThat( XmlMigratorInstances.get( ActionSequence.class.getName() ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( CapturedSuite.class.getName() ) ).isNotNull();
-		assertThat( XmlMigratorInstances.get( ElementCollection.class.getName() ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( ExecutableSuite.class.getName() ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( de.retest.recheck.test.Test.class.getName() ) ).isNotNull();
 	}
