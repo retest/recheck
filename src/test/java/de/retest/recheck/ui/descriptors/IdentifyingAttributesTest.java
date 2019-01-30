@@ -1,5 +1,6 @@
 package de.retest.recheck.ui.descriptors;
 
+import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.TYPE_ATTRIBUTE_KEY;
 import static de.retest.recheck.ui.Path.fromString;
 import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.create;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,13 +18,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.OutlineAttribute;
-import de.retest.recheck.ui.descriptors.PathAttribute;
-import de.retest.recheck.ui.descriptors.StringAttribute;
-import de.retest.recheck.ui.descriptors.SuffixAttribute;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class IdentifyingAttributesTest {
@@ -182,6 +178,18 @@ public class IdentifyingAttributesTest {
 		final IdentifyingAttributes differentOutline = new IdentifyingAttributes( differentOutlineAttributes );
 
 		assertThat( original.match( differentOutline ) ).isLessThan( 1.0 );
+	}
+
+	@Test
+	public void ignored_attribute_should_not_influence_result() {
+		final IdentifyingAttributes expected =
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class );
+		final IdentifyingAttributes actual = IdentifyingAttributes
+				.create( Path.fromString( "Window[1]/path[1]/component[1]" ), otherComponent.class );
+
+		GloballyIgnoredAttributes.getTestInstance( Arrays.asList( TYPE_ATTRIBUTE_KEY ) );
+		assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.01 ) );
+		GloballyIgnoredAttributes.getTestInstance();
 	}
 
 	@Test( expected = IllegalArgumentException.class )

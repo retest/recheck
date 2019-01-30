@@ -12,14 +12,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Joiner;
 
-import de.retest.recheck.ExecutingTestContext;
-import de.retest.recheck.elementcollection.ElementCollection;
-import de.retest.recheck.elementcollection.RecheckIgnore;
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.persistence.GoldenMasterSourceSuppressDefaultAdapter;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.review.GoldenMasterSource;
@@ -31,15 +30,16 @@ public class ReplayResult extends Persistable {
 	private static final long serialVersionUID = 1L;
 	private static final int PERSISTENCE_VERSION = 19;
 
-	@XmlElement
-	private final ElementCollection ignoredElements;
-
 	@XmlElement( name = "suite" )
 	private final List<SuiteReplayResult> suiteReplayResults = new ArrayList<>();
 
 	@XmlAttribute
 	@XmlJavaTypeAdapter( GoldenMasterSourceSuppressDefaultAdapter.class )
 	private final GoldenMasterSource source;
+
+	@XmlElement
+	@XmlElementWrapper( name = "ignoredAttributes" )
+	private final List<String> ignoredAttributes;
 
 	public static ReplayResult fromApi( final SuiteReplayResult newSuite ) {
 		return new ReplayResult( GoldenMasterSource.API, newSuite );
@@ -48,7 +48,7 @@ public class ReplayResult extends Persistable {
 	public ReplayResult() {
 		super( PERSISTENCE_VERSION );
 		source = RECORDED;
-		ignoredElements = RecheckIgnore.getInstance().getIgnored();
+		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
 	public ReplayResult( final SuiteReplayResult newSuite ) {
@@ -58,8 +58,8 @@ public class ReplayResult extends Persistable {
 	public ReplayResult( final GoldenMasterSource source, final SuiteReplayResult newSuite ) {
 		super( PERSISTENCE_VERSION );
 		this.source = source;
+		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 		suiteReplayResults.add( newSuite );
-		ignoredElements = RecheckIgnore.getInstance().getIgnored();
 	}
 
 	public void addSuite( final SuiteReplayResult newReplayResult ) {
@@ -164,10 +164,6 @@ public class ReplayResult extends Persistable {
 			result += suiteReplayResult.getNumberOfTestsWithChanges();
 		}
 		return result;
-	}
-
-	public RecheckIgnore getLocalRecheckIgnore( final ExecutingTestContext context ) {
-		return new RecheckIgnore( ignoredElements, context.getIgnoredTypes() );
 	}
 
 	public GoldenMasterSource getGoldenMasterSource() {
