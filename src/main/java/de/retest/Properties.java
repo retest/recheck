@@ -274,11 +274,11 @@ public class Properties {
 	}
 
 	public static FileOutputFormat getFileOutputFormat() {
-		final String format = System.getProperty( FILE_OUTPUT_FORMAT, FileOutputFormat.ZIP.toString() );
-		if ( format.equalsIgnoreCase( FileOutputFormat.PLAIN.toString() ) ) {
-			return FileOutputFormat.PLAIN;
+		final String format = System.getProperty( FILE_OUTPUT_FORMAT, FileOutputFormat.PLAIN.toString() );
+		if ( format.equalsIgnoreCase( FileOutputFormat.ZIP.toString() ) ) {
+			return FileOutputFormat.ZIP;
 		}
-		return FileOutputFormat.ZIP;
+		return FileOutputFormat.PLAIN;
 	}
 
 	public static boolean getBooleanWithTrueAsDefault( final String key ) {
