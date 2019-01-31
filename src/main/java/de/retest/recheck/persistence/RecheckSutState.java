@@ -8,15 +8,15 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import de.retest.persistence.xml.XmlFolderPersistence;
+import de.retest.Properties;
+import de.retest.persistence.PersistenceFactory;
 import de.retest.recheck.RecheckAdapter;
 import de.retest.ui.descriptors.RootElement;
 import de.retest.ui.descriptors.SutState;
 
 public class RecheckSutState {
 
-	private static final XmlFolderPersistence<SutState> sutStatePersistence =
-			new XmlFolderPersistence<>( getXmlTransformer() );
+	private static final PersistenceFactory persistenceFactory = new PersistenceFactory( getXmlTransformer() );
 
 	private RecheckSutState() {
 
@@ -32,7 +32,7 @@ public class RecheckSutState {
 
 	public static SutState createNew( final File file, final SutState actual ) {
 		try {
-			sutStatePersistence.save( file.toURI(), actual );
+			persistenceFactory.getPersistence().save( file.toURI(), actual );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException( "Could not save sut state '" + actual + "' to '" + file + "'.", e );
 		}
@@ -44,11 +44,11 @@ public class RecheckSutState {
 			return null;
 		}
 		// Folder could exist, but not the retest.xml...
-		if ( !new File( file, sutStatePersistence.getXmlFileName() ).exists() ) {
+		if ( !new File( file, Properties.DEFAULT_XML_FILE_NAME ).exists() ) {
 			return null;
 		}
 		try {
-			return sutStatePersistence.load( file.toURI() );
+			return (SutState) persistenceFactory.getPersistence().load( file.toURI() );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException( "Could not load sut state from '" + file + "'.", e );
 		}
