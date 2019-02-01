@@ -17,7 +17,7 @@ public class CreateChangesetForAllDifferencesFlow {
 	private final ReplayResult replayResult;
 	private final ReviewResult reviewResult;
 
-	public CreateChangesetForAllDifferencesFlow( final ReplayResult replayResult ) {
+	private CreateChangesetForAllDifferencesFlow( final ReplayResult replayResult ) {
 		this.replayResult = replayResult;
 		reviewResult = new ReviewResult();
 	}
@@ -28,7 +28,7 @@ public class CreateChangesetForAllDifferencesFlow {
 		return flow.reviewResult;
 	}
 
-	public void execute() {
+	private void execute() {
 		for ( final SuiteReplayResult suite : replayResult.getSuiteReplayResults() ) {
 			final SuiteChangeSet suiteChangeSet =
 					reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
@@ -50,7 +50,7 @@ public class CreateChangesetForAllDifferencesFlow {
 		}
 	}
 
-	protected void addAllElementDifferences( final ActionReplayResult actionReplayResult,
+	private void addAllElementDifferences( final ActionReplayResult actionReplayResult,
 			final ActionChangeSet actionChangeSet ) {
 		for ( final ElementDifference elementDifference : actionReplayResult.getElementDifferences() ) {
 			if ( elementDifference.isInsertion() ) {
