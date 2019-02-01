@@ -36,8 +36,14 @@ public class CreateChangesetForAllDifferencesFlow {
 				final TestChangeSet testChangeSet = suiteChangeSet.createTestChangeSet();
 				boolean first = true;
 				for ( final ActionReplayResult actionReplayResult : test.getActionReplayResults() ) {
+					final String description = actionReplayResult.getDescription();
+					final String stateFilePath = actionReplayResult.getStateFilePath();
 					if ( first ) {
-						addAllElementDifferences( actionReplayResult, testChangeSet.getInitialStateChangeSet() );
+						if ( testChangeSet.getInitialStateChangeSet().isEmpty() ) {
+							addAllElementDifferences( actionReplayResult, testChangeSet.createInitialActionChangeSet( description, stateFilePath ) );
+						} else {
+							addAllElementDifferences( actionReplayResult, testChangeSet.getInitialStateChangeSet() );
+						}
 						first = false;
 					} else {
 						final ActionChangeSet actionChangeSet = testChangeSet.createActionChangeSet();
