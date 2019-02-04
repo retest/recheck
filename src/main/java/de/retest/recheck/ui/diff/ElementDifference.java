@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import javax.xml.bind.Marshaller;
 
 import de.retest.recheck.persistence.xml.XmlTransformer;
+import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.ShouldIgnoreUtil;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -84,11 +86,12 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return differences;
 	}
 
-	public List<AttributeDifference> getAttributeDifferences() {
+	public List<AttributeDifference> getAttributeDifferences( final ShouldIgnore ignore ) {
 		final List<AttributeDifference> differences = new ArrayList<>();
 		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
-			differences.addAll(
-					((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributeDifferences() );
+			final List<AttributeDifference> attributeDifferences =
+					((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributeDifferences();
+			differences.addAll( ShouldIgnoreUtil.removeIgnored( ignore, attributeDifferences ) );
 		}
 		if ( attributesDifference != null ) {
 			differences.addAll( attributesDifference.getDifferences() );
