@@ -13,8 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
-import de.retest.elementcollection.RecheckIgnore;
-import de.retest.report.SuiteReplayResult;
+import de.retest.recheck.elementcollection.RecheckIgnore;
+import de.retest.recheck.report.SuiteReplayResult;
 
 @ExtendWith( TempDirectory.class )
 class RecheckReplayResultUtilTest {

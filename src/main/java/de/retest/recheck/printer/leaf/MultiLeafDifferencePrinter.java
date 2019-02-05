@@ -5,10 +5,10 @@ import java.util.Map;
 
 import de.retest.recheck.printer.Printer;
 import de.retest.recheck.printer.PrinterValueProvider;
-import de.retest.ui.diff.DurationDifference;
-import de.retest.ui.diff.IdentifyingAttributesDifference;
-import de.retest.ui.diff.InsertedDeletedElementDifference;
-import de.retest.ui.diff.LeafDifference;
+import de.retest.recheck.ui.diff.DurationDifference;
+import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
+import de.retest.recheck.ui.diff.LeafDifference;
 
 public class MultiLeafDifferencePrinter implements Printer<LeafDifference> {
 

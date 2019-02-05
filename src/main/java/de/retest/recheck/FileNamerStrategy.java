@@ -1,6 +1,6 @@
 package de.retest.recheck;
 
-import de.retest.persistence.FileNamer;
+import de.retest.recheck.persistence.FileNamer;
 
 public interface FileNamerStrategy {
 

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ReplayResultProvider;
-import de.retest.report.SuiteReplayResult;
+import de.retest.recheck.report.SuiteReplayResult;
 
 class ReplayResultProviderTest {
 

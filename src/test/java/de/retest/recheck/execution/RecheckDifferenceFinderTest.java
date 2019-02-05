@@ -10,12 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.LoadRecheckIgnoreUtil;
-import de.retest.report.ActionReplayResult;
-import de.retest.ui.Path;
-import de.retest.ui.descriptors.Attributes;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.descriptors.RootElement;
-import de.retest.ui.descriptors.SutState;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.descriptors.Attributes;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.SutState;
 
 class RecheckDifferenceFinderTest {
 

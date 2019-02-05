@@ -10,8 +10,8 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.report.ActionReplayResult;
-import de.retest.report.TestReplayResult;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.TestReplayResult;
 
 class TestReplayResultPrinterTest {
 

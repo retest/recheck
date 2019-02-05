@@ -2,8 +2,8 @@ package de.retest.recheck.printer;
 
 import java.io.Serializable;
 
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
 public interface PrinterValueProvider {
 

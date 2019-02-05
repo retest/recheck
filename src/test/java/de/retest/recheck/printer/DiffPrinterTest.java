@@ -14,25 +14,25 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.retest.elementcollection.ElementCollection;
-import de.retest.elementcollection.RecheckIgnore;
-import de.retest.report.ActionReplayResult;
-import de.retest.report.ReplayResult;
-import de.retest.report.SuiteReplayResult;
-import de.retest.report.TestReplayResult;
-import de.retest.report.action.ActionReplayData;
-import de.retest.report.action.DifferenceRetriever;
-import de.retest.report.action.WindowRetriever;
-import de.retest.suite.ExecutableSuite;
-import de.retest.ui.actions.Action;
-import de.retest.ui.descriptors.Element;
-import de.retest.ui.descriptors.GroundState;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.diff.AttributeDifference;
-import de.retest.ui.diff.AttributesDifference;
-import de.retest.ui.diff.ElementDifference;
-import de.retest.ui.diff.RootElementDifference;
-import de.retest.ui.diff.StateDifference;
+import de.retest.recheck.elementcollection.ElementCollection;
+import de.retest.recheck.elementcollection.RecheckIgnore;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.report.action.ActionReplayData;
+import de.retest.recheck.report.action.DifferenceRetriever;
+import de.retest.recheck.report.action.WindowRetriever;
+import de.retest.recheck.suite.ExecutableSuite;
+import de.retest.recheck.ui.actions.Action;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.GroundState;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.diff.AttributesDifference;
+import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.RootElementDifference;
+import de.retest.recheck.ui.diff.StateDifference;
 
 public class DiffPrinterTest {
 

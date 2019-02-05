@@ -1,11 +1,11 @@
 package de.retest.recheck.printer;
 
 import de.retest.recheck.printer.leaf.MultiLeafDifferencePrinter;
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.diff.AttributesDifference;
-import de.retest.ui.diff.ElementDifference;
-import de.retest.ui.diff.LeafDifference;
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.diff.AttributesDifference;
+import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.LeafDifference;
 
 public class ElementDifferencePrinter implements Printer<ElementDifference> {
 

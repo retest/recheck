@@ -3,15 +3,15 @@ package de.retest.recheck;
 import java.util.Collections;
 import java.util.Set;
 
-import de.retest.report.ActionReplayResult;
-import de.retest.report.action.ActionReplayData;
-import de.retest.report.action.DifferenceRetriever;
-import de.retest.report.action.ErrorHolder;
-import de.retest.report.action.WindowRetriever;
-import de.retest.ui.descriptors.SutState;
-import de.retest.ui.diff.RootElementDifference;
-import de.retest.ui.diff.RootElementDifferenceFinder;
-import de.retest.ui.diff.StateDifference;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.action.ActionReplayData;
+import de.retest.recheck.report.action.DifferenceRetriever;
+import de.retest.recheck.report.action.ErrorHolder;
+import de.retest.recheck.report.action.WindowRetriever;
+import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.RootElementDifference;
+import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
+import de.retest.recheck.ui.diff.StateDifference;
 
 public class NoRecheckFileActionReplayResult extends ActionReplayResult {
 

@@ -15,7 +15,7 @@ import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
 import de.retest.recheck.LoadRecheckIgnoreUtil;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
-import de.retest.report.SuiteReplayResult;
+import de.retest.recheck.report.SuiteReplayResult;
 
 @ExtendWith( TempDirectory.class )
 class RecheckReplayResultUtilTest {

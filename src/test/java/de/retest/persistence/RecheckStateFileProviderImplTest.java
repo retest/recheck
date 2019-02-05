@@ -1,6 +1,6 @@
 package de.retest.persistence;
 
-import static de.retest.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
+import static de.retest.recheck.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -14,7 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
-import de.retest.util.junit.jupiter.SystemProperty;
+import de.retest.recheck.persistence.NoStateFileFoundException;
+import de.retest.recheck.persistence.RecheckStateFileProviderImpl;
+import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 @ExtendWith( TempDirectory.class )
 class RecheckStateFileProviderImplTest {

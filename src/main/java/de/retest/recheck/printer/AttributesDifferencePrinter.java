@@ -2,7 +2,7 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.ui.diff.AttributesDifference;
+import de.retest.recheck.ui.diff.AttributesDifference;
 
 public class AttributesDifferencePrinter implements Printer<AttributesDifference> {
 

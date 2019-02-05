@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import de.retest.persistence.xml.TestPersistable;
-import de.retest.persistence.xml.XmlTransformer;
-import de.retest.ui.Path;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.util.ApprovalsUtil;
+import de.retest.recheck.persistence.xml.TestPersistable;
+import de.retest.recheck.persistence.xml.XmlTransformer;
+import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.util.ApprovalsUtil;
 
 public class PathAdapterIntTest {
 

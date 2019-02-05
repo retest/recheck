@@ -17,7 +17,7 @@ import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
 import de.retest.recheck.RecheckAdapter;
-import de.retest.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.RootElement;
 
 @ExtendWith( TempDirectory.class )
 class RecheckSutStateTest {

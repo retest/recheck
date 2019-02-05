@@ -1,6 +1,6 @@
 package de.retest.suite.flow;
 
-import static de.retest.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
+import static de.retest.recheck.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -13,16 +13,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.configuration.Configuration;
-import de.retest.persistence.Persistence;
-import de.retest.persistence.PersistenceFactory;
-import de.retest.persistence.xml.util.StdXmlClassesProvider;
-import de.retest.ui.descriptors.Element;
-import de.retest.ui.descriptors.SutState;
-import de.retest.ui.diff.AttributeDifference;
-import de.retest.ui.review.ReviewResult;
-import de.retest.ui.review.SuiteChangeSet;
-import de.retest.util.junit.vintage.SystemProperty;
+import de.retest.recheck.configuration.Configuration;
+import de.retest.recheck.persistence.Persistence;
+import de.retest.recheck.persistence.PersistenceFactory;
+import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.review.ReviewResult;
+import de.retest.recheck.ui.review.SuiteChangeSet;
+import de.retest.recheck.util.junit.vintage.SystemProperty;
 
 public class ApplyChangesToStatesFlowTest {
 
@@ -50,7 +50,7 @@ public class ApplyChangesToStatesFlowTest {
 
 		final Persistence<SutState> persistence = persistenceFactory.getPersistence();
 		final File originalFile = new File( FILE );
-		final File temporaryFile = temporaryFolder.newFile("check_GUI_with_review_license.launch.recheck");
+		final File temporaryFile = temporaryFolder.newFile( "check_GUI_with_review_license.launch.recheck" );
 
 		FileUtils.copyFile( originalFile, temporaryFile );
 		final SutState before = persistence.load( temporaryFile.toURI() );
@@ -60,7 +60,8 @@ public class ApplyChangesToStatesFlowTest {
 		final Element toChange = before.getRootElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 ).getContainedElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 );
-		acceptedChanges.createTestChangeSet().createActionChangeSet( ACTION, temporaryFile.getPath() ).getAttributesChanges()
+		acceptedChanges.createTestChangeSet().createActionChangeSet( ACTION, temporaryFile.getPath() )
+				.getAttributesChanges()
 				.add( toChange.getIdentifyingAttributes(), new AttributeDifference( "enabled", "false", "true" ) );
 
 		ApplyChangesToStatesFlow.apply( persistence, acceptedChanges );

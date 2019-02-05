@@ -2,7 +2,7 @@ package de.retest.recheck;
 
 import java.io.File;
 
-import de.retest.persistence.FileNamer;
+import de.retest.recheck.persistence.FileNamer;
 
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 

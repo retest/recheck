@@ -2,9 +2,9 @@ package de.retest.recheck;
 
 import java.util.ArrayList;
 
-import de.retest.report.SuiteReplayResult;
-import de.retest.suite.ExecutableSuite;
-import de.retest.ui.descriptors.GroundState;
+import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.suite.ExecutableSuite;
+import de.retest.recheck.ui.descriptors.GroundState;
 
 public class ReplayResultProvider {
 

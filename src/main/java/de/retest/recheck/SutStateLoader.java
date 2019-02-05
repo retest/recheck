@@ -2,7 +2,7 @@ package de.retest.recheck;
 
 import java.io.File;
 
-import de.retest.ui.descriptors.SutState;
+import de.retest.recheck.ui.descriptors.SutState;
 
 public interface SutStateLoader {
 

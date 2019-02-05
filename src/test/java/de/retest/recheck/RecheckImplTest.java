@@ -20,10 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
-import de.retest.persistence.FileNamer;
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.descriptors.RootElement;
+import de.retest.recheck.persistence.FileNamer;
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.RootElement;
 
 @ExtendWith( TempDirectory.class )
 class RecheckImplTest {
