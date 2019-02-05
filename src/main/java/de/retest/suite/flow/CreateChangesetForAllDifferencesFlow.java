@@ -22,13 +22,13 @@ public class CreateChangesetForAllDifferencesFlow {
 		reviewResult = new ReviewResult();
 	}
 
-	public static ReviewResult createChangesetForAllChanges( final ReplayResult replayResult ) {
+	public static ReviewResult create( final ReplayResult replayResult ) {
 		final CreateChangesetForAllDifferencesFlow flow = new CreateChangesetForAllDifferencesFlow( replayResult );
-		flow.execute();
+		flow.create();
 		return flow.reviewResult;
 	}
 
-	private void execute() {
+	private void create() {
 		for ( final SuiteReplayResult suite : replayResult.getSuiteReplayResults() ) {
 			final SuiteChangeSet suiteChangeSet =
 					reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
