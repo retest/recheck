@@ -32,7 +32,7 @@ public class ApplyChangesToStatesFlow {
 		recheckStateFileProvider = new RecheckStateFileProviderImpl( persistence );
 	}
 
-	public List<String> apply( final SuiteChangeSet acceptedChanges ) throws NoStateFileFoundException {
+	private List<String> apply( final SuiteChangeSet acceptedChanges ) throws NoStateFileFoundException {
 		final List<String> updatedFiles = new ArrayList<>();
 		for ( final TestChangeSet testChangeSet : acceptedChanges.getTestChangeSets() ) {
 			updatedFiles.addAll( apply( testChangeSet ) );
@@ -40,7 +40,7 @@ public class ApplyChangesToStatesFlow {
 		return updatedFiles;
 	}
 
-	public List<String> apply( final TestChangeSet testChangeSet ) throws NoStateFileFoundException {
+	private List<String> apply( final TestChangeSet testChangeSet ) throws NoStateFileFoundException {
 		if ( testChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
@@ -56,7 +56,7 @@ public class ApplyChangesToStatesFlow {
 		return updatedFiles;
 	}
 
-	public List<String> apply( final ActionChangeSet actionChangeSet ) throws NoStateFileFoundException {
+	private List<String> apply( final ActionChangeSet actionChangeSet ) throws NoStateFileFoundException {
 		if ( actionChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
