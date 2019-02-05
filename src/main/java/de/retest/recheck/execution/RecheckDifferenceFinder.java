@@ -5,15 +5,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.report.ActionReplayResult;
-import de.retest.report.action.ActionReplayData;
-import de.retest.report.action.DifferenceRetriever;
-import de.retest.report.action.WindowRetriever;
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.SutState;
-import de.retest.ui.diff.DifferenceResult;
-import de.retest.ui.diff.RootElementDifference;
-import de.retest.ui.diff.RootElementDifferenceFinder;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.action.ActionReplayData;
+import de.retest.recheck.report.action.DifferenceRetriever;
+import de.retest.recheck.report.action.WindowRetriever;
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.DifferenceResult;
+import de.retest.recheck.ui.diff.RootElementDifference;
+import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 
 public class RecheckDifferenceFinder {
 

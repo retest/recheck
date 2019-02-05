@@ -10,15 +10,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.elementcollection.RecheckIgnore;
 import de.retest.recheck.NoRecheckFileActionReplayResult;
-import de.retest.report.ActionReplayResult;
-import de.retest.ui.actions.ExceptionWrapper;
-import de.retest.ui.actions.TargetNotFoundException;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.descriptors.RootElement;
-import de.retest.ui.descriptors.SutState;
-import de.retest.ui.diff.ElementDifference;
+import de.retest.recheck.elementcollection.RecheckIgnore;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.ui.actions.ExceptionWrapper;
+import de.retest.recheck.ui.actions.TargetNotFoundException;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.ElementDifference;
 
 class ActionReplayResultPrinterTest {
 

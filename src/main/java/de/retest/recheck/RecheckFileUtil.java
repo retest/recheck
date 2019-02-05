@@ -3,7 +3,7 @@ package de.retest.recheck;
 import java.io.File;
 import java.io.FilenameFilter;
 
-import de.retest.util.FileUtil;
+import de.retest.recheck.util.FileUtil;
 
 public class RecheckFileUtil {
 

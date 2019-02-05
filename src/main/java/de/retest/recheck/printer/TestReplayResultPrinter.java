@@ -3,9 +3,9 @@ package de.retest.recheck.printer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import de.retest.report.ActionReplayResult;
-import de.retest.report.TestReplayResult;
-import de.retest.ui.DefaultValueFinder;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.ui.DefaultValueFinder;
 
 public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 

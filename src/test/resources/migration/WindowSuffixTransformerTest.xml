@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="2.0.0-beta.6" dataType="de.retest.suite.ExecutableSuite" dataTypeVersion="19">
+<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="2.0.0-beta.6" dataType="de.retest.recheck.suite.ExecutableSuite" dataTypeVersion="19">
 	<data uuid="787929c6-7c1b-414e-b7ef-db46807b3acd" xsi:type="executableSuite">
 		<tests>
 			<initialState>

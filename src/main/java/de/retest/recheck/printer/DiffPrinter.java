@@ -9,9 +9,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.persistence.Persistence;
-import de.retest.persistence.bin.KryoPersistence;
-import de.retest.report.ReplayResult;
+import de.retest.recheck.persistence.Persistence;
+import de.retest.recheck.persistence.bin.KryoPersistence;
+import de.retest.recheck.report.ReplayResult;
 
 public class DiffPrinter {
 
