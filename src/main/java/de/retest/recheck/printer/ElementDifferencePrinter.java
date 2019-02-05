@@ -1,8 +1,5 @@
 package de.retest.recheck.printer;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import de.retest.recheck.printer.leaf.MultiLeafDifferencePrinter;
 import de.retest.ui.DefaultValueFinder;
 import de.retest.ui.descriptors.IdentifyingAttributes;
@@ -20,11 +17,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	@Override
 	public String toString( final ElementDifference difference, final String indent ) {
-		final List<ElementDifference> elementDifferences = difference.getElementDifferences();
-		return elementDifferences.stream() //
-				.limit( 50 ) //
-				.map( e -> formatElementDifference( e, indent ) ) //
-				.collect( Collectors.joining( "\n" ) );
+		return formatElementDifference( difference, indent );
 	}
 
 	private String formatElementDifference( final ElementDifference difference, final String indent ) {
