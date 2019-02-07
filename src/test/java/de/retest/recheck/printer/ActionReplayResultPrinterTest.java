@@ -73,6 +73,7 @@ class ActionReplayResultPrinterTest {
 
 		final ElementDifference rootDifference = mock( ElementDifference.class );
 		when( rootDifference.getElementDifferences() ).thenReturn( Collections.singletonList( childDifference ) );
+		when( rootDifference.getIdentifyingAttributes() ).thenReturn( mock );
 
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
