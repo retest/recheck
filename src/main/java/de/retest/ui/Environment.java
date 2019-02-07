@@ -9,7 +9,6 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import de.retest.ui.actions.Action;
 import de.retest.ui.actions.ActionExecutionResult;
-import de.retest.ui.actions.ExceptionWrapper;
 import de.retest.ui.actions.TargetNotFoundException;
 import de.retest.ui.components.Component;
 import de.retest.ui.components.RootContainer;
@@ -21,26 +20,6 @@ import de.retest.ui.image.Screenshot;
 public abstract class Environment<T> implements DefaultValueFinder {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( Environment.class );
-
-	protected CrashDetector crashDetector = new CrashDetector() {
-		@Override
-		public boolean hasCrashed() {
-			return false;
-		}
-
-		@Override
-		public ExceptionWrapper getCrashCause() {
-			return null;
-		}
-	};
-
-	public void setCrashDetector( final CrashDetector crashDetector ) {
-		this.crashDetector = crashDetector;
-	}
-
-	public CrashDetector getCrashDetector() {
-		return crashDetector;
-	}
 
 	public static interface Task {
 		void execute();
