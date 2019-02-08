@@ -8,11 +8,10 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import de.retest.Properties;
-import de.retest.persistence.PersistenceFactory;
+import de.retest.recheck.Properties;
 import de.retest.recheck.RecheckAdapter;
-import de.retest.ui.descriptors.RootElement;
-import de.retest.ui.descriptors.SutState;
+import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.SutState;
 
 public class RecheckSutState {
 

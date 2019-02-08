@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.ui.diff.InsertedDeletedElementDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 
 class InsertedDeletedElementDifferencePrinterTest {
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="1.7.0-SNAPSHOT" dataType="de.retest.suite.ExecutableSuite" dataTypeVersion="17">
+<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="1.7.0-SNAPSHOT" dataType="de.retest.recheck.suite.ExecutableSuite" dataTypeVersion="17">
     <data uuid="e6416613-4c57-4b04-820d-2b0436c6c99a" xsi:type="executableSuite">
         <tests>
             <initialState uuid="deprecated uuid attribute">

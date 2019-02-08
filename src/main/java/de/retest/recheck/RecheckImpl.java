@@ -8,20 +8,20 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.configuration.Configuration;
-import de.retest.file.ReportFileUtils;
-import de.retest.persistence.FileNamer;
+import de.retest.recheck.configuration.Configuration;
 import de.retest.recheck.execution.GuiLauncher;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
+import de.retest.recheck.file.ReportFileUtils;
+import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.printer.TestReplayResultPrinter;
-import de.retest.report.ActionReplayResult;
-import de.retest.report.SuiteReplayResult;
-import de.retest.report.TestReplayResult;
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.SutState;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.SutState;
 
 public class RecheckImpl implements Recheck, SutStateLoader {
 

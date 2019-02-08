@@ -2,8 +2,8 @@ package de.retest.recheck;
 
 import java.util.Set;
 
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.RootElement;
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.RootElement;
 
 /**
  * Interface to help recheck transform an arbitrary object into its internal format to allow persistence, state diffing

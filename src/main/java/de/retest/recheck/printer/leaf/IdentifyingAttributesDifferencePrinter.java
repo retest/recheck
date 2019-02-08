@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import de.retest.recheck.printer.AttributeDifferencePrinter;
 import de.retest.recheck.printer.Printer;
 import de.retest.recheck.printer.PrinterValueProvider;
-import de.retest.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 
 public class IdentifyingAttributesDifferencePrinter implements Printer<IdentifyingAttributesDifference> {
 

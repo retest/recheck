@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.ui.diff.DurationDifference;
+import de.retest.recheck.ui.diff.DurationDifference;
 
 class DurationDifferencePrinterTest {
 

@@ -1,7 +1,7 @@
 package de.retest.recheck.printer.leaf;
 
 import de.retest.recheck.printer.Printer;
-import de.retest.ui.diff.InsertedDeletedElementDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 
 public class InsertedDeletedElementDifferencePrinter implements Printer<InsertedDeletedElementDifference> {
 

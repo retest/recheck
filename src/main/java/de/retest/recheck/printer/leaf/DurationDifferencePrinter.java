@@ -3,7 +3,7 @@ package de.retest.recheck.printer.leaf;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import de.retest.recheck.printer.Printer;
-import de.retest.ui.diff.DurationDifference;
+import de.retest.recheck.ui.diff.DurationDifference;
 
 public class DurationDifferencePrinter implements Printer<DurationDifference> {
 

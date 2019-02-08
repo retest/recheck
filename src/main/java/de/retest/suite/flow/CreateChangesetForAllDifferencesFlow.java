@@ -1,16 +1,16 @@
 package de.retest.suite.flow;
 
-import de.retest.report.ActionReplayResult;
-import de.retest.report.ReplayResult;
-import de.retest.report.SuiteReplayResult;
-import de.retest.report.TestReplayResult;
-import de.retest.ui.diff.ElementDifference;
-import de.retest.ui.diff.IdentifyingAttributesDifference;
-import de.retest.ui.diff.InsertedDeletedElementDifference;
-import de.retest.ui.review.ActionChangeSet;
-import de.retest.ui.review.ReviewResult;
-import de.retest.ui.review.SuiteChangeSet;
-import de.retest.ui.review.TestChangeSet;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
+import de.retest.recheck.ui.review.ActionChangeSet;
+import de.retest.recheck.ui.review.ReviewResult;
+import de.retest.recheck.ui.review.SuiteChangeSet;
+import de.retest.recheck.ui.review.TestChangeSet;
 
 public class CreateChangesetForAllDifferencesFlow {
 
@@ -40,7 +40,8 @@ public class CreateChangesetForAllDifferencesFlow {
 					final String stateFilePath = actionReplayResult.getStateFilePath();
 					if ( first ) {
 						if ( testChangeSet.getInitialStateChangeSet().isEmpty() ) {
-							addAllElementDifferences( actionReplayResult, testChangeSet.createInitialActionChangeSet( description, stateFilePath ) );
+							addAllElementDifferences( actionReplayResult,
+									testChangeSet.createInitialActionChangeSet( description, stateFilePath ) );
 						} else {
 							addAllElementDifferences( actionReplayResult, testChangeSet.getInitialStateChangeSet() );
 						}
@@ -81,4 +82,3 @@ public class CreateChangesetForAllDifferencesFlow {
 		}
 	}
 }
-

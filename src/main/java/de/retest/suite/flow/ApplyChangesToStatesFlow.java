@@ -8,14 +8,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.persistence.NoStateFileFoundException;
-import de.retest.persistence.Persistence;
-import de.retest.persistence.RecheckStateFileProvider;
-import de.retest.persistence.RecheckStateFileProviderImpl;
-import de.retest.ui.descriptors.SutState;
-import de.retest.ui.review.ActionChangeSet;
-import de.retest.ui.review.SuiteChangeSet;
-import de.retest.ui.review.TestChangeSet;
+import de.retest.recheck.persistence.NoStateFileFoundException;
+import de.retest.recheck.persistence.Persistence;
+import de.retest.recheck.persistence.RecheckStateFileProvider;
+import de.retest.recheck.persistence.RecheckStateFileProviderImpl;
+import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.review.ActionChangeSet;
+import de.retest.recheck.ui.review.SuiteChangeSet;
+import de.retest.recheck.ui.review.TestChangeSet;
 
 public class ApplyChangesToStatesFlow {
 
@@ -71,4 +71,3 @@ public class ApplyChangesToStatesFlow {
 		return Collections.singletonList( actionChangeSet.getDescription() );
 	}
 }
-

@@ -10,8 +10,8 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.diff.ElementDifference;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.diff.ElementDifference;
 
 class ElementDifferencePrinterTest {
 
