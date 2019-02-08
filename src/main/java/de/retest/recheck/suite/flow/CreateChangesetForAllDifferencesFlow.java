@@ -1,4 +1,4 @@
-package de.retest.suite.flow;
+package de.retest.recheck.suite.flow;
 
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;

@@ -17,6 +17,7 @@ import de.retest.recheck.configuration.Configuration;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
+import de.retest.recheck.suite.flow.ApplyChangesToStatesFlow;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributeDifference;
