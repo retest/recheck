@@ -1,4 +1,4 @@
-package de.retest.suite.flow;
+package de.retest.recheck.suite.flow;
 
 import java.io.File;
 import java.util.ArrayList;
