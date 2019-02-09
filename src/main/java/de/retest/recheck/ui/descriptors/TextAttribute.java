@@ -19,7 +19,7 @@ public class TextAttribute extends StringAttribute {
 	}
 
 	public TextAttribute( final String key, final String value, final String variableName ) {
-		super( key, value != null ? value.trim() : null, variableName );
+		super( key, value, variableName );
 	}
 
 	@Override
