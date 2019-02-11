@@ -27,3 +27,8 @@ deploy:
     script: ci/deploy.sh
     on:
       tags: true
+  - provider: releases
+    api_key: "${GH_TOKEN}"
+    draft: true
+    on:
+      tags: true
