@@ -22,7 +22,6 @@ script: ci/script.sh
 before_deploy: ci/before_deploy.sh
 
 deploy:
-  # deploy artifacts to Maven Central
   - provider: script
     script: ci/deploy.sh
     on:
