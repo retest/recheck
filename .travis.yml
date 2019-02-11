@@ -22,8 +22,12 @@ script: ci/script.sh
 before_deploy: ci/before_deploy.sh
 
 deploy:
-  # deploy artifacts to Maven Central
   - provider: script
     script: ci/deploy.sh
+    on:
+      tags: true
+  - provider: releases
+    api_key: "${GH_TOKEN}"
+    draft: true
     on:
       tags: true
