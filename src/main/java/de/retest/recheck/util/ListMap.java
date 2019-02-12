@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 /**
  * This class implements a {@link Map} but does neither use a native order of elements (as would be implemented with
  * {@link Comparator} or {@link Comparable} and a {@link TreeMap}) nor does it depend on the {@link Object#hashCode()}
@@ -32,7 +34,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final ArrayList<Mapping<K, V>> mappings = new ArrayList<>();
+	private final ArrayList<Pair<K, V>> mappings = new ArrayList<>();
 
 	public ListMap() {}
 
@@ -52,7 +54,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
 	@Override
 	public boolean containsKey( final Object k1 ) {
-		for ( final Mapping<K, V> mapping : mappings ) {
+		for ( final Pair<K, V> mapping : mappings ) {
 			final K k2 = mapping.getKey();
 			if ( k1 == null && k2 == null || k2 != null && k2.equals( k1 ) ) {
 				return true;
@@ -63,7 +65,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
 	@Override
 	public boolean containsValue( final Object v1 ) {
-		for ( final Mapping<K, V> mapping : mappings ) {
+		for ( final Pair<K, V> mapping : mappings ) {
 			final V v2 = mapping.getValue();
 			if ( v1 == null && v2 == null || v2 != null && v2.equals( v1 ) ) {
 				return true;
@@ -93,14 +95,14 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 				return result;
 			}
 		}
-		mappings.add( new Mapping<>( k1, value ) );
+		mappings.add( Pair.of( k1, value ) );
 		return null;
 	}
 
 	@Override
 	public V remove( final Object k1 ) {
 		for ( int idx = 0; idx < mappings.size(); idx++ ) {
-			final Mapping<K, V> mapping = mappings.get( idx );
+			final Pair<K, V> mapping = mappings.get( idx );
 			final K k2 = mapping.getKey();
 			if ( k1 == null && k2 == null || k2 != null && k2.equals( k1 ) ) {
 				mappings.remove( idx );
@@ -125,7 +127,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 	@Override
 	public Set<K> keySet() {
 		final ListSet<K> result = new ListSet<>();
-		for ( final Mapping<K, V> mapping : mappings ) {
+		for ( final Pair<K, V> mapping : mappings ) {
 			result.add( mapping.getKey() );
 		}
 		return result;
@@ -134,7 +136,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 	@Override
 	public Collection<V> values() {
 		final ArrayList<V> result = new ArrayList<>();
-		for ( final Mapping<K, V> mapping : mappings ) {
+		for ( final Pair<K, V> mapping : mappings ) {
 			result.add( mapping.getValue() );
 		}
 		return result;
@@ -144,8 +146,8 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 	public Set<Map.Entry<K, V>> entrySet() {
 		final Set<Map.Entry<K, V>> result = new ListSet<>();
 		for ( int idx = 0; idx < mappings.size(); idx++ ) {
-			final Mapping<K, V> mapping = mappings.get( idx );
-			result.add( new Mapping<>( mapping.getKey(), mapping.getValue() ) );
+			final Pair<K, V> mapping = mappings.get( idx );
+			result.add( Pair.of( mapping.getKey(), mapping.getValue() ) );
 		}
 		return result;
 	}
