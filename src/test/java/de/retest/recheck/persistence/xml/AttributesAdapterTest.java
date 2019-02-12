@@ -2,8 +2,6 @@ package de.retest.recheck.persistence.xml;
 
 import static org.mockito.Mockito.mock;
 
-import java.io.FileNotFoundException;
-
 import javax.swing.JButton;
 
 import org.junit.jupiter.api.Test;
@@ -16,10 +14,10 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.util.ApprovalsUtil;
 
-public class AttributesAdapterTest {
+class AttributesAdapterTest {
 
 	@Test
-	public void inheriting_attributes_should_be_persistable() throws FileNotFoundException {
+	void inheriting_attributes_should_be_persistable() throws Exception {
 		// load xml
 		final XmlTransformer xmlTransformer = new XmlTransformer( StdXmlClassesProvider.getXmlDataClasses() );
 

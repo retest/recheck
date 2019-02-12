@@ -13,10 +13,10 @@ import de.retest.recheck.persistence.migration.XmlTransformer;
 import de.retest.recheck.persistence.migration.transformers.AddRetestIdTestTransformer.RetestIdCreator;
 import de.retest.recheck.util.ApprovalsUtil;
 
-public class AddRetestIdTestTransformerTest {
+class AddRetestIdTestTransformerTest {
 
 	@Test
-	public void retestId_should_be_added() throws Exception {
+	void retestId_should_be_added() throws Exception {
 		final InputStream inputStream =
 				new FileInputStream( new File( "src/test/resources/migration/AddRetestIdTestTransformer.xml" ) );
 
