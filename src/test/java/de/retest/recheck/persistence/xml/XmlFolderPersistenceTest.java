@@ -4,52 +4,50 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.file.Path;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
+import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
 import de.retest.recheck.ioerror.ReTestLoadException;
 import de.retest.recheck.ioerror.ReTestSaveException;
-import de.retest.recheck.persistence.xml.XmlFolderPersistence;
-import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.util.ApprovalsUtil;
 import de.retest.recheck.util.FileUtil;
 
+@ExtendWith( TempDirectory.class )
 public class XmlFolderPersistenceTest {
 
-	@Rule
-	public final TemporaryFolder temp = new TemporaryFolder();
-
+	File baseFolder;
 	XmlFolderPersistence<TestPersistable> persistence;
 	private XmlTransformer xmlTransformer;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	public void setUp( @TempDir final Path temp ) {
+		baseFolder = temp.toFile();
 		xmlTransformer = new XmlTransformer( TestPersistable.class );
 		persistence = new XmlFolderPersistence<>( xmlTransformer );
 	}
 
 	@Test
 	public void simple_save_to_folder() throws Exception {
-		final File folder = temp.newFolder();
 		final TestPersistable element = new TestPersistable();
 
-		persistence.save( folder.toURI(), element );
+		persistence.save( baseFolder.toURI(), element );
 
-		final File retestXmlFile = new File( folder, "retest.xml" );
+		final File retestXmlFile = new File( baseFolder, "retest.xml" );
 		assertThat( retestXmlFile ).exists();
 		ApprovalsUtil.verifyXml( FileUtil.readFileToString( retestXmlFile ) );
 	}
 
 	@Test
 	public void try_to_save_to_folder_where_a_file_with_the_same_name_already_exists() throws Exception {
-		final File file = temp.newFile();
 		final TestPersistable element = new TestPersistable();
 		try {
-			persistence.save( file.toURI(), element );
+			persistence.save( baseFolder.toURI(), element );
 		} catch ( final Exception e ) {
 			assertThat( e ).isInstanceOf( ReTestSaveException.class );
 		}

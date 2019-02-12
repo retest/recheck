@@ -17,11 +17,10 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.persistence.Persistable;
-import de.retest.recheck.persistence.xml.util.LazyScreenshotZipPersistence;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 import de.retest.recheck.util.FileUtil.Writer;
@@ -41,7 +40,7 @@ public class LazyScreenshotZipPersistenceTest {
 
 	Screenshot screenshot1duplicate;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		screenshotPersistence = new LazyScreenshotZipPersistence();
 

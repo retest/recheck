@@ -7,24 +7,23 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
+import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
 import de.retest.recheck.persistence.Persistable;
-import de.retest.recheck.persistence.xml.util.ScreenshotFolderPersistence;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.FileUtil.Writer;
 
+@ExtendWith( TempDirectory.class )
 public class ScreenshotFolderPersistenceTest {
-
-	@Rule
-	public final TemporaryFolder temp = new TemporaryFolder();
 
 	ScreenshotFolderPersistence screenshotPersistence;
 	File baseFolder;
@@ -37,9 +36,9 @@ public class ScreenshotFolderPersistenceTest {
 	Screenshot emptyScreenshot;
 	File emptyImageFile;
 
-	@Before
-	public void setUp() throws Exception {
-		baseFolder = temp.newFolder();
+	@BeforeEach
+	public void setUp( @TempDir final Path temp ) throws Exception {
+		baseFolder = temp.toFile();
 		screenshotFolder = new File( baseFolder, "screenshot" );
 		screenshotPersistence = new ScreenshotFolderPersistence( baseFolder );
 

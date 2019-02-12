@@ -9,10 +9,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.persistence.migration.XmlTransformer;
-import de.retest.recheck.persistence.migration.transformers.Path2XPathTransformer;
 import de.retest.recheck.util.ApprovalsUtil;
 
 public class Path2XPathTransformerTest {
