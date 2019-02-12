@@ -5,9 +5,8 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.persistence.migration.transformers.WindowSuffixTransformer;
 import de.retest.recheck.util.ApprovalsUtil;
 
 public class WindowSuffixTransformerTest {

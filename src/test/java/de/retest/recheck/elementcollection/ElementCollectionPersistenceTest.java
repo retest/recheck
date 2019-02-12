@@ -6,10 +6,9 @@ import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.elementcollection.ElementCollection;
 import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
@@ -20,7 +19,7 @@ public class ElementCollectionPersistenceTest {
 
 	private XmlTransformer xmlTransformer;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		xmlTransformer = new XmlTransformer( ElementCollection.class );
 	}

@@ -6,47 +6,47 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.io.IOUtils;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junitpioneer.jupiter.TempDirectory;
+import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
 import de.retest.recheck.ioerror.ReTestLoadException;
 import de.retest.recheck.ioerror.ReTestSaveException;
-import de.retest.recheck.persistence.xml.XmlTransformer;
-import de.retest.recheck.persistence.xml.XmlZipPersistence;
 import de.retest.recheck.util.ApprovalsUtil;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.FileUtil.ZipReader;
 
+@ExtendWith( TempDirectory.class )
 public class XmlZipPersistenceTest {
 
-	@Rule
-	public final TemporaryFolder temp = new TemporaryFolder();
+	File baseFolder;
 
 	XmlZipPersistence<TestPersistable> persistence;
 	private XmlTransformer xmlTransformer;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	public void setUp( @TempDir final Path temp ) {
+		baseFolder = temp.toFile();
 		xmlTransformer = new XmlTransformer( TestPersistable.class );
 		persistence = new XmlZipPersistence<>( xmlTransformer );
 	}
 
 	@Test
 	public void simple_save_to_file() throws Exception {
-		final File file = temp.newFile();
 		final TestPersistable element = new TestPersistable();
 
-		persistence.save( file.toURI(), element );
+		persistence.save( baseFolder.toURI(), element );
 
-		assertThat( file ).exists();
-		ApprovalsUtil.verifyXml( readReTestXml( file ) );
+		assertThat( baseFolder ).exists();
+		ApprovalsUtil.verifyXml( readReTestXml( baseFolder ) );
 	}
 
 	private String readReTestXml( final File file ) throws IOException {
@@ -63,10 +63,9 @@ public class XmlZipPersistenceTest {
 
 	@Test
 	public void try_to_save_to_file_where_a_folder_with_the_same_name_already_exists() throws Exception {
-		final File folder = temp.newFolder();
 		final TestPersistable element = new TestPersistable();
 		try {
-			persistence.save( folder.toURI(), element );
+			persistence.save( baseFolder.toURI(), element );
 		} catch ( final Exception e ) {
 			assertThat( e ).isInstanceOf( ReTestSaveException.class );
 		}
@@ -83,8 +82,7 @@ public class XmlZipPersistenceTest {
 
 	@Test
 	public void try_to_load_from_non_existing_file() throws Exception {
-		final File folder = temp.newFolder();
-		final File file = new File( folder, "this will hopefully never exist" );
+		final File file = new File( baseFolder, "this will hopefully never exist" );
 		assertThat( file ).doesNotExist();
 		try {
 			persistence.load( file.toURI() );

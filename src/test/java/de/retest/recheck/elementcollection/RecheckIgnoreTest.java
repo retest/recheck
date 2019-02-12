@@ -6,10 +6,8 @@ import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.elementcollection.ElementCollection;
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
@@ -101,5 +99,6 @@ public class RecheckIgnoreTest {
 		assertThat( recheckIgnore.getIgnored() ).isEmpty();
 	}
 
-	private static class window {}
+	private static class window {
+	}
 }

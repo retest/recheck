@@ -10,10 +10,9 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.persistence.migration.XmlMigrator;
 import de.retest.recheck.persistence.migration.transformers.IncompatibleChangesTransformer;
 import de.retest.recheck.persistence.xml.ReTestXmlDataContainer;
 import de.retest.recheck.persistence.xml.XmlTransformer;
@@ -76,7 +75,7 @@ public class XmlMigratorTest {
 		ApprovalsUtil.verifyXml( writer.toString() );
 	}
 
-	@Ignore( "Unignore as soon as we have migration steps for retest v2." )
+	@Disabled( "Unignore as soon as we have migration steps for retest v2." )
 	@Test
 	public void parse_migrated_xml_and_check_result() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/XmlMigratorTest-v1.xml" );
@@ -103,7 +102,7 @@ public class XmlMigratorTest {
 				.isEqualTo( "Window/JRootPane_0/JPane_1" );
 	}
 
-	@Ignore( "Unignore as soon as we have migration steps for retest v2." )
+	@Disabled( "Unignore as soon as we have migration steps for retest v2." )
 	@Test
 	public void migrate_element_collection() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/recheck_ignore.xml" );

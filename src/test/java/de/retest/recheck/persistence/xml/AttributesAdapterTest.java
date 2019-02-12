@@ -6,11 +6,9 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.elementcollection.ElementCollection;
-import de.retest.recheck.persistence.xml.ReTestXmlDataContainer;
-import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
