@@ -16,13 +16,14 @@ class ProjectConfigurationTest {
 		cut.ensureProjectConfigurationInitialized();
 
 		final Path projectConfigFolder = getProjectRoot().resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
-		final Path projectConfigProperties = projectConfigFolder.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
+		final Path projectConfigProperties =
+				projectConfigFolder.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
 
-		assertThat( projectConfigFolder.toFile().exists() ).isTrue();
-		assertThat( projectConfigFolder.toFile().isDirectory() ).isTrue();
+		assertThat( projectConfigFolder ).exists();
+		assertThat( projectConfigFolder ).isDirectory();
 
-		assertThat( projectConfigProperties.toFile().exists() ).isTrue();
-		assertThat( projectConfigProperties.toFile().isFile() ).isTrue();
+		assertThat( projectConfigProperties ).exists();
+		assertThat( projectConfigProperties ).isRegularFile();
 	}
 
 }
