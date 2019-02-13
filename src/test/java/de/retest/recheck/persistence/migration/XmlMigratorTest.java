@@ -23,10 +23,10 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.util.ApprovalsUtil;
 import de.retest.recheck.util.NamedBufferedInputStream;
 
-public class XmlMigratorTest {
+class XmlMigratorTest {
 
 	@Test
-	public void migrating_xml_from_retest_v1_should_throw_IncompatibleTypesException() throws Exception {
+	void migrating_xml_from_retest_v1_should_throw_IncompatibleTypesException() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/XmlMigratorTest-v1.xml" );
 		final NamedBufferedInputStream bin =
 				new NamedBufferedInputStream( new FileInputStream( xmlFile ), xmlFile.getName() );
@@ -43,7 +43,7 @@ public class XmlMigratorTest {
 	}
 
 	@Test
-	public void parsing_and_checking_xml_from_retest_v2_0_should_work() throws Exception {
+	void parsing_and_checking_xml_from_retest_v2_0_should_work() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/XmlMigratorTest-v2.xml" );
 		final ExecutableSuite executableSuite = new XmlTransformer()
 				.<ReTestXmlDataContainer<ExecutableSuite>> fromXML( new FileInputStream( xmlFile ) ).data();
@@ -58,7 +58,7 @@ public class XmlMigratorTest {
 	}
 
 	@Test
-	public void loading_recheck_state_from_v3_1_0_should_work() throws Exception {
+	void loading_recheck_state_from_v3_1_0_should_work() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/XmlMigratorTest-retest-v3.1.0.xml" );
 		final NamedBufferedInputStream bin =
 				new NamedBufferedInputStream( new FileInputStream( xmlFile ), xmlFile.getName() );
@@ -77,7 +77,7 @@ public class XmlMigratorTest {
 
 	@Disabled( "Unignore as soon as we have migration steps for retest v2." )
 	@Test
-	public void parse_migrated_xml_and_check_result() throws Exception {
+	void parse_migrated_xml_and_check_result() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/XmlMigratorTest-v1.xml" );
 		final NamedBufferedInputStream bin =
 				new NamedBufferedInputStream( new FileInputStream( xmlFile ), xmlFile.getName() );
@@ -104,7 +104,7 @@ public class XmlMigratorTest {
 
 	@Disabled( "Unignore as soon as we have migration steps for retest v2." )
 	@Test
-	public void migrate_element_collection() throws Exception {
+	void migrate_element_collection() throws Exception {
 		final File xmlFile = new File( "src/test/resources/migration/recheck_ignore.xml" );
 		final NamedBufferedInputStream bin =
 				new NamedBufferedInputStream( new FileInputStream( xmlFile ), xmlFile.getName() );

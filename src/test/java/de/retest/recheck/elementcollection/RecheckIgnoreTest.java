@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.persistence.Persistence;
@@ -15,40 +16,45 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 
-public class RecheckIgnoreTest {
+class RecheckIgnoreTest {
 
-	private static final Element SOME = Element.create( "id", mock( Element.class ),
-			IdentifyingAttributes.create( Path.fromString(
-					"Window[1]/JRootPane[1]/JLayeredPane[1]/TableSelectionDemo[1]/JScrollPane[2]/JTextArea[1]" ),
-					"javax.swing.JTextArea" ),
-			new Attributes() );
+	Element some;
 
-	@Test
-	public void ignored_component_should_be_ignored() throws Exception {
-		final RecheckIgnore ignored = RecheckIgnore.getTestInstance();
-		ignored.ignoreElement( SOME );
-
-		assertThat( ignored.shouldIgnoreElement( SOME ) ).isTrue();
-		assertThat( ignored.shouldIgnoreElement( SOME.getIdentifyingAttributes() ) ).isTrue();
+	@BeforeEach
+	void setUp() throws Exception {
+		some = Element.create( "id", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString(
+						"Window[1]/JRootPane[1]/JLayeredPane[1]/TableSelectionDemo[1]/JScrollPane[2]/JTextArea[1]" ),
+						"javax.swing.JTextArea" ),
+				new Attributes() );
 	}
 
 	@Test
-	public void not_ignored_elements_should_not_be_ignored() throws Exception {
+	void ignored_component_should_be_ignored() throws Exception {
 		final RecheckIgnore ignored = RecheckIgnore.getTestInstance();
+		ignored.ignoreElement( some );
 
-		assertThat( ignored.shouldIgnoreElement( SOME ) ).isFalse();
-		assertThat( ignored.shouldIgnoreElement( SOME.getIdentifyingAttributes() ) ).isFalse();
+		assertThat( ignored.shouldIgnoreElement( some ) ).isTrue();
+		assertThat( ignored.shouldIgnoreElement( some.getIdentifyingAttributes() ) ).isTrue();
 	}
 
 	@Test
-	public void filter_should_remove_ignored_elements() throws Exception {
+	void not_ignored_elements_should_not_be_ignored() throws Exception {
 		final RecheckIgnore ignored = RecheckIgnore.getTestInstance();
-		ignored.ignoreElement( SOME );
+
+		assertThat( ignored.shouldIgnoreElement( some ) ).isFalse();
+		assertThat( ignored.shouldIgnoreElement( some.getIdentifyingAttributes() ) ).isFalse();
+	}
+
+	@Test
+	void filter_should_remove_ignored_elements() throws Exception {
+		final RecheckIgnore ignored = RecheckIgnore.getTestInstance();
+		ignored.ignoreElement( some );
 		final ArrayList<RootElement> windows = new ArrayList<>();
 		final RootElement rootElement =
 				new RootElement( "id", IdentifyingAttributes.create( fromString( "window[1]" ), window.class ),
 						new Attributes(), null, null, 0, "Title" );
-		rootElement.addChildren( SOME );
+		rootElement.addChildren( some );
 		windows.add( rootElement );
 		assertThat( windows.get( 0 ).getContainedElements() ).hasSize( 1 );
 
@@ -57,20 +63,20 @@ public class RecheckIgnoreTest {
 	}
 
 	@Test
-	public void only_ignored_attribute_should_be_ignored() throws Exception {
+	void only_ignored_attribute_should_be_ignored() throws Exception {
 		final RecheckIgnore ignored = RecheckIgnore.getTestInstance();
-		ignored.ignoreAttribute( SOME, "text" );
-		assertThat( ignored.shouldIgnoreAttribute( SOME.getIdentifyingAttributes(), "text" ) ).isTrue();
-		assertThat( ignored.shouldIgnoreAttribute( SOME.getIdentifyingAttributes(), "color" ) ).isFalse();
-		assertThat( ignored.shouldIgnoreElement( SOME ) ).isFalse();
-		ignored.unignoreAttribute( "id", SOME.getIdentifyingAttributes(), "text" );
-		assertThat( ignored.shouldIgnoreAttribute( SOME.getIdentifyingAttributes(), "text" ) ).isFalse();
-		assertThat( ignored.shouldIgnoreAttribute( SOME.getIdentifyingAttributes(), "color" ) ).isFalse();
-		assertThat( ignored.shouldIgnoreElement( SOME ) ).isFalse();
+		ignored.ignoreAttribute( some, "text" );
+		assertThat( ignored.shouldIgnoreAttribute( some.getIdentifyingAttributes(), "text" ) ).isTrue();
+		assertThat( ignored.shouldIgnoreAttribute( some.getIdentifyingAttributes(), "color" ) ).isFalse();
+		assertThat( ignored.shouldIgnoreElement( some ) ).isFalse();
+		ignored.unignoreAttribute( "id", some.getIdentifyingAttributes(), "text" );
+		assertThat( ignored.shouldIgnoreAttribute( some.getIdentifyingAttributes(), "text" ) ).isFalse();
+		assertThat( ignored.shouldIgnoreAttribute( some.getIdentifyingAttributes(), "color" ) ).isFalse();
+		assertThat( ignored.shouldIgnoreElement( some ) ).isFalse();
 	}
 
 	@Test
-	public void different_ignored_identifyingAttributes_should_still_be_ignored() throws Exception {
+	void different_ignored_identifyingAttributes_should_still_be_ignored() throws Exception {
 		final Path path = fromString(
 				"Window[1]/JRootPane[1]/JLayeredPane[1]/TableSelectionDemo[1]/JScrollPane[2]/JTextArea[1]" );
 		final String type = "javax.swing.JTextArea";
@@ -84,7 +90,7 @@ public class RecheckIgnoreTest {
 	}
 
 	@Test
-	public void reload_should_overwritte_current_ignored_elements() throws Exception {
+	void reload_should_overwritte_current_ignored_elements() throws Exception {
 		final Element element0 = mock( Element.class );
 		final ElementCollection elementCollection0 = new ElementCollection();
 		elementCollection0.add( element0 );
@@ -99,6 +105,5 @@ public class RecheckIgnoreTest {
 		assertThat( recheckIgnore.getIgnored() ).isEmpty();
 	}
 
-	private static class window {
-	}
+	class window {}
 }

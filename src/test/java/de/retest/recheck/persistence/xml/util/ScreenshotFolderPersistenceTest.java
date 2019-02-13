@@ -23,7 +23,7 @@ import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.FileUtil.Writer;
 
 @ExtendWith( TempDirectory.class )
-public class ScreenshotFolderPersistenceTest {
+class ScreenshotFolderPersistenceTest {
 
 	ScreenshotFolderPersistence screenshotPersistence;
 	File baseFolder;
@@ -37,7 +37,7 @@ public class ScreenshotFolderPersistenceTest {
 	File emptyImageFile;
 
 	@BeforeEach
-	public void setUp( @TempDir final Path temp ) throws Exception {
+	void setUp( @TempDir final Path temp ) throws Exception {
 		baseFolder = temp.toFile();
 		screenshotFolder = new File( baseFolder, "screenshot" );
 		screenshotPersistence = new ScreenshotFolderPersistence( baseFolder );
@@ -53,7 +53,7 @@ public class ScreenshotFolderPersistenceTest {
 	}
 
 	@Test
-	public void nothing_happens_if_there_is_no_screenshot() throws Exception {
+	void nothing_happens_if_there_is_no_screenshot() throws Exception {
 		final Persistable obj1 = mock( Persistable.class );
 		final Object obj2 = mock( Object.class );
 
@@ -67,7 +67,7 @@ public class ScreenshotFolderPersistenceTest {
 	}
 
 	@Test
-	public void save_screenshot_to_image_file() {
+	void save_screenshot_to_image_file() {
 		screenshotPersistence.getMarshallListener().afterMarshal( filledScreenshot );
 
 		assertThat( filledImageFile ).exists();
@@ -75,7 +75,7 @@ public class ScreenshotFolderPersistenceTest {
 	}
 
 	@Test
-	public void save_works_with_existing_dir() throws Exception {
+	void save_works_with_existing_dir() throws Exception {
 		screenshotPersistence.getMarshallListener().afterMarshal( filledScreenshot );
 		assertThat( filledImageFile ).exists();
 	}
@@ -84,7 +84,7 @@ public class ScreenshotFolderPersistenceTest {
 	// TODO what if screenshot folder is not write able?
 
 	@Test
-	public void make_screenshot_dir_lazy() throws Exception {
+	void make_screenshot_dir_lazy() throws Exception {
 		assertThat( screenshotFolder ).doesNotExist();
 
 		screenshotPersistence.getMarshallListener().afterMarshal( filledScreenshot );
@@ -92,7 +92,7 @@ public class ScreenshotFolderPersistenceTest {
 	}
 
 	@Test
-	public void make_no_screenshot_dir_if_there_are_no_images() throws Exception {
+	void make_no_screenshot_dir_if_there_are_no_images() throws Exception {
 		screenshotPersistence.getMarshallListener().afterMarshal( new Object() );
 		screenshotPersistence.getMarshallListener().afterMarshal( "" );
 
@@ -102,7 +102,7 @@ public class ScreenshotFolderPersistenceTest {
 	// load
 
 	@Test
-	public void load_image_to_screenshot() throws Exception {
+	void load_image_to_screenshot() throws Exception {
 		createImageFileForEmptyScreenshot();
 
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( emptyScreenshot, null );
@@ -111,7 +111,7 @@ public class ScreenshotFolderPersistenceTest {
 	}
 
 	@Test
-	public void load_not_existing_image_to_screenshot() {
+	void load_not_existing_image_to_screenshot() {
 		final Pair<Screenshot, Screenshot> parent = Pair.of( emptyScreenshot, emptyScreenshot );
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( emptyScreenshot, parent );
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( parent, new Object() );
@@ -120,7 +120,7 @@ public class ScreenshotFolderPersistenceTest {
 		assertThat( parent.getRight() ).isNull();
 	}
 
-	private void createImageFileForEmptyScreenshot() throws IOException {
+	void createImageFileForEmptyScreenshot() throws IOException {
 		FileUtil.writeToFile( emptyImageFile, new Writer() {
 			@Override
 			public void write( final FileOutputStream out ) throws IOException {

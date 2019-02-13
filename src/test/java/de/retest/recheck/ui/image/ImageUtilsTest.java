@@ -14,11 +14,8 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import de.retest.recheck.ui.image.ImageUtils;
 
 public class ImageUtilsTest {
 
@@ -105,7 +102,7 @@ public class ImageUtilsTest {
 	public void exact_height_should_return_null() throws Exception {
 		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
 		final BufferedImage cut = ImageUtils.cutImage( image, new Rectangle( 0, image.getHeight(), 20, 20 ) );
-		Assertions.assertThat( cut ).isNull();
+		assertThat( cut ).isNull();
 	}
 
 	@Test
@@ -119,7 +116,7 @@ public class ImageUtilsTest {
 	public void exact_width_should_return_null() throws Exception {
 		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
 		final BufferedImage cut = ImageUtils.cutImage( image, new Rectangle( image.getWidth(), 10, 20, 20 ) );
-		Assertions.assertThat( cut ).isNull();
+		assertThat( cut ).isNull();
 	}
 
 	@Test
@@ -155,22 +152,22 @@ public class ImageUtilsTest {
 	public void icon_path_should_not_contain_paths() throws Exception {
 		final Icon winFileIcon = Mockito.mock( Icon.class );
 		Mockito.when( winFileIcon.toString() ).thenReturn( "C:/Some/path/ with blanks /icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( winFileIcon ) ).isEqualTo( "icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( winFileIcon ) ).isEqualTo( "icon.png" );
 
 		final Icon linuxFileIcon = Mockito.mock( Icon.class );
 		Mockito.when( linuxFileIcon.toString() ).thenReturn( "/Some/path/ with blanks /icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( linuxFileIcon ) ).isEqualTo( "icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( linuxFileIcon ) ).isEqualTo( "icon.png" );
 	}
 
 	@Test
 	public void icon_path_should_not_contain_paths_file_protocol() throws Exception {
 		final Icon winIcon = Mockito.mock( Icon.class );
 		Mockito.when( winIcon.toString() ).thenReturn( "file:C:/Some/path/ with blanks /icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( winIcon ) ).isEqualTo( "icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( winIcon ) ).isEqualTo( "icon.png" );
 
 		final Icon linuxIcon = Mockito.mock( Icon.class );
 		Mockito.when( linuxIcon.toString() ).thenReturn( "file:/Some/path/ with blanks /icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( linuxIcon ) ).isEqualTo( "icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( linuxIcon ) ).isEqualTo( "icon.png" );
 	}
 
 	@Test
@@ -178,14 +175,12 @@ public class ImageUtilsTest {
 		final Icon jarWinIcon = Mockito.mock( Icon.class );
 		Mockito.when( jarWinIcon.toString() )
 				.thenReturn( "jar:file:C:/Some/path/ with blanks /icons.jar!/com/package/icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( jarWinIcon ) )
-				.isEqualTo( "icons.jar!/com/package/icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( jarWinIcon ) ).isEqualTo( "icons.jar!/com/package/icon.png" );
 
 		final Icon jarLinuxIcon = Mockito.mock( Icon.class );
 		Mockito.when( jarLinuxIcon.toString() )
 				.thenReturn( "jar:file:/Some/path/ with blanks /icons.jar!/com/package/icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( jarLinuxIcon ) )
-				.isEqualTo( "icons.jar!/com/package/icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( jarLinuxIcon ) ).isEqualTo( "icons.jar!/com/package/icon.png" );
 	}
 
 	@Test
@@ -193,7 +188,7 @@ public class ImageUtilsTest {
 		final Icon bundleresourceIcon = Mockito.mock( Icon.class );
 		Mockito.when( bundleresourceIcon.toString() )
 				.thenReturn( "file:bundleresource:/Some/path/ with blanks /icon.png" );
-		Assertions.assertThat( ImageUtils.getTextFromIcon( bundleresourceIcon ) ).isEqualTo( "icon.png" );
+		assertThat( ImageUtils.getTextFromIcon( bundleresourceIcon ) ).isEqualTo( "icon.png" );
 	}
 
 	@Test

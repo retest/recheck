@@ -15,17 +15,17 @@ import de.retest.recheck.ui.descriptors.Attributes;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
-public class ElementCollectionPersistenceTest {
+class ElementCollectionPersistenceTest {
 
-	private XmlTransformer xmlTransformer;
+	XmlTransformer xmlTransformer;
 
 	@BeforeEach
-	public void setUp() {
+	void setUp() {
 		xmlTransformer = new XmlTransformer( ElementCollection.class );
 	}
 
 	@Test
-	public void persisted_and_loaded_attributes_should_be_same() throws Exception {
+	void persisted_and_loaded_attributes_should_be_same() throws Exception {
 		final ElementCollection persisted = new ElementCollection();
 		final Element element = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]" ), getClass() ), new Attributes() );
@@ -37,7 +37,7 @@ public class ElementCollectionPersistenceTest {
 	}
 
 	@Test
-	public void check_persisted_xml() throws Exception {
+	void check_persisted_xml() throws Exception {
 		final ElementCollection persisted = new ElementCollection();
 		final Element element = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]" ), getClass() ), new Attributes() );

@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.persistence.migration.XmlTransformer;
 import de.retest.recheck.util.ApprovalsUtil;
 
-public class Path2XPathTransformerTest {
+class Path2XPathTransformerTest {
 
 	@Test
-	public void test_toXPath() {
+	void test_toXPath() {
 		assertThat( toXPath( "Window_0" ) ).isEqualTo( "Window[1]" );
 		assertThat( toXPath( "Window_0/RootPane_0" ) ).isEqualTo( "Window[1]/RootPane[1]" );
 
@@ -35,7 +35,7 @@ public class Path2XPathTransformerTest {
 	}
 
 	@Test
-	public void path_should_be_transformed() throws Exception {
+	void path_should_be_transformed() throws Exception {
 		final InputStream inputStream =
 				new FileInputStream( new File( "src/test/resources/migration/Path2XPathTransformer.xml" ) );
 

@@ -26,7 +26,7 @@ import de.retest.recheck.ui.image.Screenshot.ImageType;
 import de.retest.recheck.util.FileUtil.Writer;
 import de.retest.recheck.util.FileUtil.ZipReader;
 
-public class LazyScreenshotZipPersistenceTest {
+class LazyScreenshotZipPersistenceTest {
 
 	LazyScreenshotZipPersistence screenshotPersistence;
 
@@ -41,7 +41,7 @@ public class LazyScreenshotZipPersistenceTest {
 	Screenshot screenshot1duplicate;
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		screenshotPersistence = new LazyScreenshotZipPersistence();
 
 		imageBytes1 = "testcontent1".getBytes();
@@ -56,7 +56,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void nothing_happens_if_there_is_no_screenshot() throws Exception {
+	void nothing_happens_if_there_is_no_screenshot() throws Exception {
 		final Persistable obj1 = mock( Persistable.class );
 		final Object obj2 = mock( Object.class );
 
@@ -73,7 +73,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void marshallListener_fills_only_list() {
+	void marshallListener_fills_only_list() {
 		final Screenshot obj1 = mock( Screenshot.class );
 		final Persistable obj2 = mock( Persistable.class );
 		final Screenshot obj3 = mock( Screenshot.class );
@@ -92,7 +92,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void unmarshallListener_fills_only_list() throws Exception {
+	void unmarshallListener_fills_only_list() throws Exception {
 		final Screenshot obj1 = mock( Screenshot.class );
 		final Persistable obj2 = mock( Persistable.class );
 		final Screenshot obj3 = mock( Screenshot.class );
@@ -111,7 +111,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void write_screenshots_to_zipfile_works() throws Exception {
+	void write_screenshots_to_zipfile_works() throws Exception {
 		final File zipFile = getTmpZipfile();
 
 		screenshotPersistence.screenshots.add( screenshot1 );
@@ -147,7 +147,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void writing_of_duplicates() throws Exception {
+	void writing_of_duplicates() throws Exception {
 		final File zipFile = getTmpZipfile();
 
 		screenshotPersistence.screenshots.add( screenshot1 );
@@ -180,7 +180,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void read_screenshots_from_zipfile_works() throws Exception {
+	void read_screenshots_from_zipfile_works() throws Exception {
 		final File zipFile = getTmpZipfile();
 		// clear BinaryData for test
 		screenshot1.setBinaryData( new byte[0] );
@@ -221,7 +221,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void reading_of_duplicates() throws Exception {
+	void reading_of_duplicates() throws Exception {
 		final File zipFile = getTmpZipfile();
 
 		screenshotPersistence.screenshots.add( screenshot1 );
@@ -256,7 +256,7 @@ public class LazyScreenshotZipPersistenceTest {
 	}
 
 	@Test
-	public void reading_of_missing_screenshot_zip_entries() throws Exception {
+	void reading_of_missing_screenshot_zip_entries() throws Exception {
 		final File zipFile = getTmpZipfile();
 
 		screenshotPersistence.screenshots.add( screenshot1 );
@@ -286,7 +286,7 @@ public class LazyScreenshotZipPersistenceTest {
 		assertThat( parent.getLeft() ).isNull();
 	}
 
-	private File getTmpZipfile() throws IOException {
+	File getTmpZipfile() throws IOException {
 		return File.createTempFile( "tmptestzip", Long.toString( System.currentTimeMillis() ) );
 	}
 

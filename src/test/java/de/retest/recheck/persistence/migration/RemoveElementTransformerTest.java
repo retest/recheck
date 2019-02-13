@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.util.ApprovalsUtil;
 
-public class RemoveElementTransformerTest {
+class RemoveElementTransformerTest {
 
 	@Test
-	public void simple_xml_element_should_be_removed() throws Exception {
+	void simple_xml_element_should_be_removed() throws Exception {
 		final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" //
 				+ "<root>\n" //
 				+ "\t<parent>\n" //
@@ -27,7 +27,7 @@ public class RemoveElementTransformerTest {
 	}
 
 	@Test
-	public void extended_xml_should_be_removed_correctly() throws Exception {
+	void extended_xml_should_be_removed_correctly() throws Exception {
 		final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" //
 				+ "<root>\n" //
 				+ "\t<parent>\n" //
