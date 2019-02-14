@@ -13,8 +13,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.retest.recheck.elementcollection.ElementCollection;
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;

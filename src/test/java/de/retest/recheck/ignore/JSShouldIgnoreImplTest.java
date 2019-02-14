@@ -8,8 +8,8 @@ import java.io.StringReader;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import de.retest.ui.descriptors.Element;
-import de.retest.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 class JSShouldIgnoreImplTest {
 

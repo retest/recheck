@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import de.retest.recheck.elementcollection.RecheckIgnore;
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.image.ImageDiffCalcFactory;
 import de.retest.recheck.image.ImageDifference;
 import de.retest.recheck.image.ImageDifferenceCalculator;
@@ -59,7 +59,7 @@ public class AttributesDifferenceFinder {
 		if ( expected == null ) {
 			return null;
 		}
-		if ( RecheckIgnore.getInstance().shouldIgnoreAttribute( identAttributes, key ) ) {
+		if ( GloballyIgnoredAttributes.getInstance().shouldIgnoreAttribute( key ) ) {
 			return null;
 		}
 		if ( Objects.equals( expected, actual ) ) {

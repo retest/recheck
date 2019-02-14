@@ -2,7 +2,7 @@ package de.retest.recheck.ignore;
 
 import java.util.List;
 
-import de.retest.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 /**
  * Focus on individual ShouldIgnores. This allows to have a global CompoundShouldIgnore, that combines all individual

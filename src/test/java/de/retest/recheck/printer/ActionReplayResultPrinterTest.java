@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.NoRecheckFileActionReplayResult;
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
 import de.retest.recheck.ui.actions.TargetNotFoundException;

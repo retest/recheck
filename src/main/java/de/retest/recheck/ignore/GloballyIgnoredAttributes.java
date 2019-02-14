@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.retest.Properties;
+import de.retest.recheck.Properties;
 
 /**
  * General interface to ignore changes during Matching

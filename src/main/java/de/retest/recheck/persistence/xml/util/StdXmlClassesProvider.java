@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.retest.recheck.elementcollection.ElementCollection;
 import de.retest.recheck.persistence.xml.ReTestXmlDataContainer;
 import de.retest.recheck.suite.CapturedSuite;
 import de.retest.recheck.suite.ExecutableSuite;
@@ -42,7 +41,6 @@ public class StdXmlClassesProvider {
 			ParameterizedAction.class, //
 			ActionSequence.class, //
 			CapturedSuite.class, //
-			ElementCollection.class, //
 			ExecutableSuite.class, //
 			ReTestXmlDataContainer.class, //
 			de.retest.recheck.test.Test.class, //

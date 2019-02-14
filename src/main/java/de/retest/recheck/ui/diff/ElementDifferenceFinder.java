@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.retest.ui.DefaultValueFinder;
-import de.retest.ui.descriptors.Element;
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.Element;
 

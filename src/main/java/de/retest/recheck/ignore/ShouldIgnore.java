@@ -1,8 +1,8 @@
 package de.retest.recheck.ignore;
 
-import de.retest.ui.descriptors.Element;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 /**
  * General interface to ignore changes during Diffing

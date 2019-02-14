@@ -14,8 +14,8 @@ import javax.script.ScriptException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.ui.descriptors.Element;
-import de.retest.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class JSShouldIgnoreImpl implements ShouldIgnore {
 

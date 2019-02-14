@@ -43,7 +43,7 @@ public class StdXmlClassesProvider {
 			CapturedSuite.class, //
 			ExecutableSuite.class, //
 			ReTestXmlDataContainer.class, //
-			de.retest.test.Test.class, //
+			de.retest.recheck.test.Test.class, //
 			// we need these to handle subtypes properly: (see RET-357)
 			DefaultAttribute.class, //
 			PathAttribute.class, //
