@@ -33,7 +33,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		try {
 			engine.eval( readScriptFile() );
 		} catch ( final ScriptException e ) {
-			throw new RuntimeException( e );
+			throw new IllegalArgumentException( e );
 		}
 	}
 
@@ -41,7 +41,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		try {
 			return Files.newBufferedReader( Paths.get( JS_IGNORE_DEFAULT_FILE_NAME ), StandardCharsets.UTF_8 );
 		} catch ( final IOException e ) {
-			throw new RuntimeException( e );
+			throw new IllegalArgumentException( e );
 		}
 	}
 
@@ -62,9 +62,9 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		try {
 			return (boolean) inv.invokeFunction( functionName, args );
 		} catch ( final ScriptException e ) {
-			throw new RuntimeException( "JS `" + functionName + "` method caused an exception: ", e );
+			throw new IllegalArgumentException( "JS `" + functionName + "` method caused an exception: ", e );
 		} catch ( final NoSuchMethodException e ) {
-			logger.warn( "Specified JS ignore file has no `" + functionName + "` function." );
+			logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
 		}
 		return false;
 	}

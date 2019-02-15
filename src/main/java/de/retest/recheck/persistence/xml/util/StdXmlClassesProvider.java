@@ -32,6 +32,8 @@ import de.retest.recheck.ui.diff.StateDifference;
 
 public class StdXmlClassesProvider {
 
+	private StdXmlClassesProvider() {}
+
 	static {
 		ParameterType.registerStdParameterTypes();
 	}

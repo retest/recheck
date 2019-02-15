@@ -12,6 +12,8 @@ import de.retest.recheck.ui.diff.AttributeDifference;
  */
 public class ShouldIgnoreUtil {
 
+	private ShouldIgnoreUtil() {}
+
 	public static List<AttributeDifference> removeIgnored( final ShouldIgnore ignore,
 			final List<AttributeDifference> attributeDifferences ) {
 		// TODO Implement

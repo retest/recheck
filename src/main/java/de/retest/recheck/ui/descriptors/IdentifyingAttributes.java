@@ -33,8 +33,8 @@ import de.retest.recheck.util.ChecksumCalculator;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
 
-	public static String PATH_ATTRIBUTE_KEY = "path";
-	public static String TYPE_ATTRIBUTE_KEY = "type";
+	public static final String PATH_ATTRIBUTE_KEY = "path";
+	public static final String TYPE_ATTRIBUTE_KEY = "type";
 
 	// "suffix" implicitly contained via "path"
 	private static final List<String> identifyingAttributes =
