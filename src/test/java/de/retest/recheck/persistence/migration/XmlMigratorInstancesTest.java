@@ -19,8 +19,7 @@ public class XmlMigratorInstancesTest {
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" )
 				.getXmlTransformersFor( 9999 ) ).containsExactly();
 	}
-
-	@Ignore( "Reenable as soon as we have changes again." )
+	
 	@Test
 	public void get_XSLT_for_a_version_that_has_a_change() throws Exception {
 		// We cannot compare the whole list because the test will break as soon as we get the next migration for this type.
@@ -28,7 +27,7 @@ public class XmlMigratorInstancesTest {
 		// not just an individual entry.
 
 		assertThat(
-				XmlMigratorInstances.get( "de.retest.ui.descriptors.SutState" ).getXmlTransformersFor( 1 ).get( 0 ) )
+				XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" ).getXmlTransformersFor( 1 ).get( 0 ) )
 						.isInstanceOf( AddRetestIdTestTransformer.class );
 	}
 
