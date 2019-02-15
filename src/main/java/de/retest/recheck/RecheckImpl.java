@@ -42,19 +42,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final TestReplayResultPrinter printer = new TestReplayResultPrinter( usedFinders::get );
 
 	public RecheckImpl() {
-		this( new MavenConformFileNamerStrategy() );
+		this( new RecheckOptions() );
 	}
 
-	public RecheckImpl( final FileNamerStrategy fileNamerStrategy, final String suiteName ) {
-		this( new RecheckOptions( fileNamerStrategy, suiteName ) );
-	}
-
-	public RecheckImpl( final FileNamerStrategy fileNamerStrategy ) {
-		this( fileNamerStrategy, fileNamerStrategy.getTestClassName() );
-	}
-
-	public RecheckImpl( final String suiteName ) {
-		this( new MavenConformFileNamerStrategy(), suiteName );
+	public RecheckImpl( FileNamerStrategy fileNamerStrategy ) {
+		this( new RecheckOptions( fileNamerStrategy, fileNamerStrategy.getTestClassName() ) );
 	}
 
 	public RecheckImpl( final RecheckOptions options ) {
