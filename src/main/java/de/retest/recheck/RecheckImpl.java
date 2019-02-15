@@ -45,7 +45,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		this( new RecheckOptions() );
 	}
 
-	public RecheckImpl( FileNamerStrategy fileNamerStrategy ) {
+	public RecheckImpl( final FileNamerStrategy fileNamerStrategy ) {
 		this( new RecheckOptions( fileNamerStrategy, fileNamerStrategy.getTestClassName() ) );
 	}
 
