@@ -39,7 +39,7 @@ class RecheckImplTest {
 	@Test
 	void exec_suite_name_should_be_used_for_result_file_name() throws Exception {
 		final String execSuiteName = "FooBar";
-		final RecheckImpl cut = new RecheckImpl( new MavenConformFileNamerStrategy(), execSuiteName );
+		final RecheckImpl cut = new RecheckImpl( new RecheckOptions( new MavenConformFileNamerStrategy(), execSuiteName ) );
 		final String resultFileName = cut.getResultFile().getName();
 		assertThat( resultFileName ).isEqualTo( execSuiteName + ".result" );
 	}

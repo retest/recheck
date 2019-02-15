@@ -11,11 +11,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.retest.recheck.elementcollection.ElementCollection;
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -35,11 +32,6 @@ import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 
 public class DiffPrinterTest {
-
-	@BeforeClass
-	public static void setup() {
-		RecheckIgnore.getTestInstance( new ElementCollection() );
-	}
 
 	@Test
 	public void null_should_not_cause_exc() {

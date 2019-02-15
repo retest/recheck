@@ -6,10 +6,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.LoadRecheckIgnoreUtil;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
@@ -18,11 +16,6 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
 
 class RecheckDifferenceFinderTest {
-
-	@BeforeEach
-	void setUp() {
-		LoadRecheckIgnoreUtil.loadRecheckIgnore();
-	}
 
 	@Test
 	void find_differences_should_find_for_states() {

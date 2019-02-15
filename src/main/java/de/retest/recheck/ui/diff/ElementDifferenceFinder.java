@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.retest.recheck.elementcollection.RecheckIgnore;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.Element;
 
@@ -59,13 +58,9 @@ public class ElementDifferenceFinder {
 		final Collection<ElementDifference> childDifferences = new ArrayList<>();
 
 		if ( expected == null ) {
-			if ( !RecheckIgnore.getInstance().shouldIgnoreElement( actual ) ) {
-				identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( null, actual );
-			}
+			identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( null, actual );
 		} else {
-			if ( RecheckIgnore.getInstance().shouldIgnoreElement( expected ) ) {
-				// do nothing
-			} else if ( actual == null ) {
+			if ( actual == null ) {
 				identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( expected, null );
 			} else {
 				identifyingAttributesDifference = identAttrDiffFinder
@@ -89,13 +84,9 @@ public class ElementDifferenceFinder {
 		final Collection<ElementDifference> childDifferences = new ArrayList<>();
 
 		if ( expected == null ) {
-			if ( !RecheckIgnore.getInstance().shouldIgnoreElement( actual ) ) {
-				identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( null, actual );
-			}
+			identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( null, actual );
 		} else {
-			if ( RecheckIgnore.getInstance().shouldIgnoreElement( expected ) ) {
-				// do nothing
-			} else if ( actual == null ) {
+			if ( actual == null ) {
 				identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( expected, null );
 			} else {
 				identifyingAttributesDifference = identAttrDiffFinder

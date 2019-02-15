@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -32,9 +33,13 @@ import de.retest.recheck.util.ChecksumCalculator;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
 
+	public static final String PATH_ATTRIBUTE_KEY = "path";
+	public static final String TYPE_ATTRIBUTE_KEY = "type";
+
 	// "suffix" implicitly contained via "path"
-	private static final List<String> identifyingAttributes = Collections.unmodifiableList(
-			Arrays.asList( "path", "type", "name", "text", "codeLoc", "x", "y", "height", "width", "context" ) );
+	private static final List<String> identifyingAttributes =
+			Collections.unmodifiableList( Arrays.asList( PATH_ATTRIBUTE_KEY, TYPE_ATTRIBUTE_KEY, "name", "text",
+					"codeLoc", "x", "y", "height", "width", "context" ) );
 
 	/**
 	 * Sum of all weights.
@@ -68,7 +73,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 			throw new IllegalArgumentException( "Type must not be empty." );
 		}
 		return new ArrayList<>( Arrays.asList( new PathAttribute( path ), //
-				new StringAttribute( "type", type ), //
+				new StringAttribute( TYPE_ATTRIBUTE_KEY, type ), //
 				new SuffixAttribute( path.getElement().getSuffix() ) )//
 		);
 	}
@@ -82,7 +87,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	}
 
 	public String getType() {
-		return get( "type" );
+		return get( TYPE_ATTRIBUTE_KEY );
 	}
 
 	public OutlineAttribute getOutline() {
@@ -106,7 +111,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	}
 
 	public Path getPathTyped() {
-		return ((PathAttribute) attributes.get( "path" )).getValue();
+		return ((PathAttribute) attributes.get( PATH_ATTRIBUTE_KEY )).getValue();
 	}
 
 	public String getParentPath() {
@@ -155,9 +160,12 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		double unifyingFactor = 0.0;
 		final Set<Attribute> otherAttributes = new HashSet<>( other.attributes.values() );
 		for ( final Attribute attribute : attributes.values() ) {
-			unifyingFactor += attribute.getWeight();
 			final Attribute otherAttribute = other.getAttribute( attribute.getKey() );
 			otherAttributes.remove( otherAttribute );
+			if ( GloballyIgnoredAttributes.getInstance().shouldIgnoreAttribute( attribute.getKey() ) ) {
+				continue;
+			}
+			unifyingFactor += attribute.getWeight();
 			if ( otherAttribute != null ) {
 				result += attribute.getWeight() * attribute.match( otherAttribute );
 			}

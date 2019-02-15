@@ -11,3 +11,6 @@ retest-gmbh-gpg.asc
 # IntelliJ
 .idea/
 *.iml
+
+# .retest folder
+.retest/

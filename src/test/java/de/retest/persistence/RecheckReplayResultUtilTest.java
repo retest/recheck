@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
-import de.retest.recheck.LoadRecheckIgnoreUtil;
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
 import de.retest.recheck.report.SuiteReplayResult;
 
@@ -25,7 +25,7 @@ class RecheckReplayResultUtilTest {
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
 		file = temp.resolve( "replay.result" ).toFile();
-		LoadRecheckIgnoreUtil.loadRecheckIgnore();
+		GloballyIgnoredAttributes.getTestInstance().getIgnoredAttributesList();
 	}
 
 	@Test
