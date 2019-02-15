@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.configuration.Configuration;
+import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.GuiLauncher;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
@@ -53,6 +54,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	public RecheckImpl( final FileNamerStrategy fileNamerStrategy, final String suiteName ) {
+		ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
 		ensureConfigurationInitialized();
 		LoadRecheckIgnoreUtil.loadRecheckIgnore();
 		Runtime.getRuntime().addShutdownHook( capWarner );
