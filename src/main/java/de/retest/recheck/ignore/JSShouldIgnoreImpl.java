@@ -64,6 +64,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 			if ( callResult == null ) {
 				logger.warn( "{} returned 'null' instead of a boolean value. Interpreting that as 'false'.",
 						functionName );
+				return false;
 			}
 			if ( !(callResult instanceof Boolean) ) {
 				throw new ClassCastException(

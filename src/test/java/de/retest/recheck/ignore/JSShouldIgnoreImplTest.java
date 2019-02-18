@@ -74,6 +74,21 @@ class JSShouldIgnoreImplTest {
 	}
 
 	@Test
+	void shouldIgnoreAttributeDifference_return_null_should_be_false() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+			@Override
+			Reader readScriptFile() {
+				return new StringReader( //
+						"function shouldIgnoreAttributeDifference(element, diff) { " //
+								+ "  return;" //
+								+ "}" );
+			}
+		};
+		final Element element = Mockito.mock( Element.class );
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "578" ) ) )
+				.isFalse();
+	}
+	@Test
 	void shouldIgnoreAttributeDifference_ignore_URL_example_implementation() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
 			@Override
