@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -88,6 +89,23 @@ class JSShouldIgnoreImplTest {
 		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "578" ) ) )
 				.isFalse();
 	}
+
+	@Test
+	void shouldIgnoreAttributeDifference_return_non_boolean_should_throw_exc() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+			@Override
+			Reader readScriptFile() {
+				return new StringReader( //
+						"function shouldIgnoreAttributeDifference(element, diff) { " //
+								+ "  return \"this is not a bool\";" //
+								+ "}" );
+			}
+		};
+		final Element element = Mockito.mock( Element.class );
+		assertThrows( ClassCastException.class, () -> cut.shouldIgnoreAttributeDifference( element,
+				new AttributeDifference( "outline", "580", "578" ) ) );
+	}
+
 	@Test
 	void shouldIgnoreAttributeDifference_ignore_URL_example_implementation() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {

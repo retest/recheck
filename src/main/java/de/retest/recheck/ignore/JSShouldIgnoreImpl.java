@@ -67,8 +67,8 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 				return false;
 			}
 			if ( !(callResult instanceof Boolean) ) {
-				throw new ClassCastException(
-						callResult + " of type " + callResult.getClass() + " cannot be cast to java.lang.Boolean." );
+				throw new ClassCastException( "'" + callResult + "' of type " + callResult.getClass()
+						+ " cannot be cast to java.lang.Boolean." );
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
