@@ -15,14 +15,20 @@ public class RecheckIgnoreUtil {
 
 	public static Optional<Path> getIgnoreFile() {
 		final String projectBasePath = System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" );
-		final Path projectConfig = ProjectConfigurationUtil.findProjectConfigurationFolder(
-				Paths.get( projectBasePath ) );
-		final Path ignoreFile = projectConfig.resolve( ProjectConfiguration.RECHECK_IGNORE );
-
-		if ( ignoreFile.toFile().exists() ) {
-			return Optional.of( ignoreFile );
+		if ( !projectBasePath.isEmpty() ) {
+			final Path projectConfig = ProjectConfigurationUtil.findProjectConfigurationFolder(
+					Paths.get( projectBasePath ) );
+			final Path ignoreFile = projectConfig.resolve( ProjectConfiguration.RECHECK_IGNORE );
+			if ( ignoreFile.toFile().exists() ) {
+				return Optional.of( ignoreFile );
+			}
+		} else {
+			final Path ignoreFile = ProjectConfigurationUtil.findProjectConfigurationFolder().resolve(
+					ProjectConfiguration.RECHECK_IGNORE );
+			if ( ignoreFile.toFile().exists() ) {
+				return Optional.of( ignoreFile );
+			}
 		}
-
 		return Optional.empty();
 	}
 }
