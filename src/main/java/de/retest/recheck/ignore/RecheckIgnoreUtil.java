@@ -14,8 +14,8 @@ public class RecheckIgnoreUtil {
 	}
 
 	public static Optional<Path> getIgnoreFile() {
-		final Path projectRoot = ProjectConfigurationUtil.findProjectConfiguration();
-		final Path ignoreFile = projectRoot.resolve( RECHECK_IGNORE );
+		final Path projectConfig = ProjectConfigurationUtil.findProjectConfiguration();
+		final Path ignoreFile = projectConfig.resolve( RECHECK_IGNORE );
 
 		if ( ignoreFile.toFile().exists() ) {
 			return Optional.of( ignoreFile );
