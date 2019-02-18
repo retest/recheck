@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -53,7 +54,7 @@ class JSShouldIgnoreImplTest {
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_example_implementation() {
+	void shouldIgnoreAttributeDifference_example_implementation() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
 			@Override
 			Reader readScriptFile() {
@@ -71,5 +72,61 @@ class JSShouldIgnoreImplTest {
 				.isTrue();
 		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "500" ) ) )
 				.isFalse();
+	}
+
+	@Test
+	void shouldIgnoreAttributeDifference_return_null_should_be_false() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+			@Override
+			Reader readScriptFile() {
+				return new StringReader( //
+						"function shouldIgnoreAttributeDifference(element, diff) { " //
+								+ "  return;" //
+								+ "}" );
+			}
+		};
+		final Element element = Mockito.mock( Element.class );
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "578" ) ) )
+				.isFalse();
+	}
+
+	@Test
+	void shouldIgnoreAttributeDifference_return_non_boolean_should_throw_exc() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+			@Override
+			Reader readScriptFile() {
+				return new StringReader( //
+						"function shouldIgnoreAttributeDifference(element, diff) { " //
+								+ "  return \"this is not a bool\";" //
+								+ "}" );
+			}
+		};
+		final Element element = Mockito.mock( Element.class );
+		assertThrows( ClassCastException.class, () -> cut.shouldIgnoreAttributeDifference( element,
+				new AttributeDifference( "outline", "580", "578" ) ) );
+	}
+
+	@Test
+	void shouldIgnoreAttributeDifference_ignore_URL_example_implementation() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+			@Override
+			Reader readScriptFile() {
+				return new StringReader( //
+						"function shouldIgnoreAttributeDifference(element, diff) { " //
+								+ "  re = /http[s]?:\\/\\/[\\w.:\\d\\-]*/;" //
+								+ "  cleanExpected = diff.expected.replace(re, '');" //
+								+ "  cleanActual = diff.actual.replace(re, '');" //
+								+ "  return cleanExpected === cleanActual;" //
+								+ "}" );
+			}
+		};
+		final Element element = Mockito.mock( Element.class );
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "background-image",
+				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
+				"url(\"http://icullen-website-public-spring4-8:8080/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")" ) ) )
+						.isTrue();
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "background-image",
+				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
+				"url(\"http://icullen-website-public-spring4-8:8080/some-other-URL.png\")" ) ) ).isFalse();
 	}
 }

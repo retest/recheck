@@ -60,7 +60,17 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		final Invocable inv = (Invocable) engine;
 		// call function from script file
 		try {
-			return (boolean) inv.invokeFunction( functionName, args );
+			final Object callResult = inv.invokeFunction( functionName, args );
+			if ( callResult == null ) {
+				logger.warn( "{} returned 'null' instead of a boolean value. Interpreting that as 'false'.",
+						functionName );
+				return false;
+			}
+			if ( !(callResult instanceof Boolean) ) {
+				throw new ClassCastException( "'" + callResult + "' of type " + callResult.getClass()
+						+ " cannot be cast to java.lang.Boolean." );
+			}
+			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
 			throw new IllegalArgumentException( "JS `" + functionName + "` method caused an exception: ", e );
 		} catch ( final NoSuchMethodException e ) {
