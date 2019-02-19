@@ -20,6 +20,11 @@ public class ProjectConfiguration {
 	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
 
+	/**
+	 * This property can be used to overwrite the local project folder. This should only be used for tests.
+	 */
+	public static final String RETEST_PROJECT_ROOT = "de.retest.recheck.project.root";
+
 	private ProjectConfiguration() {
 
 	}
@@ -57,7 +62,7 @@ public class ProjectConfiguration {
 
 	private void createEmptyProjectConfigurationIfNeeded( final Path configFile, final String defaultFile ) {
 		if ( !configFile.toFile().exists() ) {
-			try ( InputStream is = getInputStreamFrom( defaultFile ) ) {
+			try ( final InputStream is = getInputStreamFrom( defaultFile ) ) {
 				Files.copy( is, configFile );
 				logger.info( "Creating empty recheck configuration in {}.", configFile );
 			} catch ( final IOException e ) {

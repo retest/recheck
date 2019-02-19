@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
@@ -13,13 +14,21 @@ public class RecheckIgnoreUtil {
 	}
 
 	public static Optional<Path> getIgnoreFile() {
-		final Path projectConfig = ProjectConfigurationUtil.findProjectConfiguration();
-		final Path ignoreFile = projectConfig.resolve( ProjectConfiguration.RECHECK_IGNORE );
-
-		if ( ignoreFile.toFile().exists() ) {
-			return Optional.of( ignoreFile );
+		final String projectBasePath = System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" );
+		if ( !projectBasePath.isEmpty() ) {
+			final Path projectConfig = ProjectConfigurationUtil.findProjectConfigurationFolder(
+					Paths.get( projectBasePath ) );
+			final Path ignoreFile = projectConfig.resolve( ProjectConfiguration.RECHECK_IGNORE );
+			if ( ignoreFile.toFile().exists() ) {
+				return Optional.of( ignoreFile );
+			}
+		} else {
+			final Path ignoreFile = ProjectConfigurationUtil.findProjectConfigurationFolder().resolve(
+					ProjectConfiguration.RECHECK_IGNORE );
+			if ( ignoreFile.toFile().exists() ) {
+				return Optional.of( ignoreFile );
+			}
 		}
-
 		return Optional.empty();
 	}
 }
