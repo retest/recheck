@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class MavenProjectRootFinder implements ProjectRootFinder {
 
-	private static final Logger logger = LoggerFactory.getLogger( ProjectRootFinder.class );
+	private static final Logger logger = LoggerFactory.getLogger( MavenProjectRootFinder.class );
 	private final Set<Path> indicators = new HashSet<>();
 
 	public MavenProjectRootFinder() {
