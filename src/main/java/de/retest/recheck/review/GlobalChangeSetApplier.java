@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -23,6 +24,8 @@ import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.counter.NopCounter;
 
 public class GlobalChangeSetApplier {
+
+	private static final ShouldIgnore SHOULD_IGNORE_NOTHING = null;
 
 	private final Counter counter;
 
@@ -81,7 +84,8 @@ public class GlobalChangeSetApplier {
 	private void fillAttributeDifferencesLookupMap( final ActionReplayResult actionReplayResult,
 			final ElementDifference componentDiff ) {
 		final IdentifyingAttributes identifyingAttributes = componentDiff.getIdentifyingAttributes();
-		for ( final AttributeDifference attributeDifference : componentDiff.getAttributeDifferences( null ) ) {
+		for ( final AttributeDifference attributeDifference : componentDiff.getAttributeDifferences(
+				SHOULD_IGNORE_NOTHING ) ) {
 			attributeDiffsLookupMap.put( ImmutablePair.of( identifyingAttributes, attributeDifference ),
 					actionReplayResult );
 		}

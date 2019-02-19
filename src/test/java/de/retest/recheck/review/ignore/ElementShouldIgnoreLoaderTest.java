@@ -12,7 +12,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.review.ignore.ElementShouldIgnore.ElementShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 
-public class ElementShouldIgnoreLoaderTest {
+class ElementShouldIgnoreLoaderTest {
 
 	ElementShouldIgnoreLoader cut;
 	ElementShouldIgnore ignore;

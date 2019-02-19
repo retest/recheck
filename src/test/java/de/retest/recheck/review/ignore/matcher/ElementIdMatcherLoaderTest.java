@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 
-public class ElementIdMatcherLoaderTest {
+class ElementIdMatcherLoaderTest {
 
 	ElementIdMatcher matcher;
 	ElementIdMatcherLoader cut;

@@ -8,12 +8,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;
@@ -30,7 +31,7 @@ import de.retest.recheck.ui.review.ReviewResult;
 import de.retest.recheck.ui.review.SuiteChangeSet;
 import de.retest.recheck.ui.review.TestChangeSet;
 
-public class GlobalChangeSetApplierTest {
+class GlobalChangeSetApplierTest {
 
 	private GlobalChangeSetApplier globalApplier;
 
@@ -61,8 +62,8 @@ public class GlobalChangeSetApplierTest {
 	private AttributeChanges attributeChangeSet1;
 	private AttributeChanges attributeChangeSet2;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		identifyingAttributes = mock( IdentifyingAttributes.class );
 		attributeDifference = mock( AttributeDifference.class );
 
@@ -133,7 +134,7 @@ public class GlobalChangeSetApplierTest {
 	// Create.
 
 	@Test
-	public void create_should_read_all_elements_from_replayResult() {
+	void create_should_read_all_elements_from_replayResult() {
 		verify( replayResult, only() ).getSuiteReplayResults();
 		verify( suiteReplayResult, only() ).getTestReplayResults();
 		verify( testReplayResult, only() ).getActionReplayResults();
@@ -147,7 +148,7 @@ public class GlobalChangeSetApplierTest {
 	// Add/remove element differences.
 
 	@Test
-	public void add_for_all_ident_should_add_ident_change_set() throws Exception {
+	void add_for_all_ident_should_add_ident_change_set() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -158,7 +159,7 @@ public class GlobalChangeSetApplierTest {
 	}
 
 	@Test
-	public void add_for_all_state_should_add_state_change_set() throws Exception {
+	void add_for_all_state_should_add_state_change_set() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -169,7 +170,7 @@ public class GlobalChangeSetApplierTest {
 	}
 
 	@Test
-	public void remove_for_all_ident_should_remove_ident_change_set() throws Exception {
+	void remove_for_all_ident_should_remove_ident_change_set() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -180,7 +181,7 @@ public class GlobalChangeSetApplierTest {
 	}
 
 	@Test
-	public void remove_for_all_state_should_remove_state_change_set() throws Exception {
+	void remove_for_all_state_should_remove_state_change_set() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -190,18 +191,20 @@ public class GlobalChangeSetApplierTest {
 		verify( attributeChangeSet2, atLeastOnce() ).remove( identifyingAttributes, attributeDifference );
 	}
 
-	@Test( expected = AssertionError.class )
-	public void missing_introduce_should_yield_AssertionError() throws Exception {
+	@Test
+	void missing_introduce_should_yield_AssertionError() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		// Intentionally missing introduce call for actionReplayResult2 and actionChangeSet2.
 
-		globalApplier.removeChangeSetForAllEqualAttributesChanges( identifyingAttributes, attributeDifference );
+		assertThrows( AssertionError.class, () -> {
+			globalApplier.removeChangeSetForAllEqualAttributesChanges( identifyingAttributes, attributeDifference );
+		} );
 	}
 
 	// Add/remove inserted/deleted differences.
 
 	@Test
-	public void add_inserted_difference_should_add_inserted_change_set_for_all() throws Exception {
+	void add_inserted_difference_should_add_inserted_change_set_for_all() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -212,7 +215,7 @@ public class GlobalChangeSetApplierTest {
 	}
 
 	@Test
-	public void add_deleted_difference_should_add_deleted_change_set_for_all() throws Exception {
+	void add_deleted_difference_should_add_deleted_change_set_for_all() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -223,7 +226,7 @@ public class GlobalChangeSetApplierTest {
 	}
 
 	@Test
-	public void remove_inserted_difference_should_remove_inserted_change_set_for_all() throws Exception {
+	void remove_inserted_difference_should_remove_inserted_change_set_for_all() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 
@@ -234,7 +237,7 @@ public class GlobalChangeSetApplierTest {
 	}
 
 	@Test
-	public void remove_deleted_difference_should_remove_deleted_change_set_for_all() throws Exception {
+	void remove_deleted_difference_should_remove_deleted_change_set_for_all() throws Exception {
 		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
 		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
 

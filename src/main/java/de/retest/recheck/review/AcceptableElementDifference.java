@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.AttributesDifference;
@@ -14,6 +15,8 @@ import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
 
 public class AcceptableElementDifference {
+
+	private static final ShouldIgnore SHOULD_IGNORE_NOTHING = null;
 
 	private final ElementDifference elementDifference;
 	private final List<AttributeDifference> identifyingAttributesAttributesDifferences;
@@ -82,7 +85,7 @@ public class AcceptableElementDifference {
 
 	public void accept( final AttributeDifference attributeDifference ) {
 		final IdentifyingAttributes identifyingAttributes = elementDifference.getIdentifyingAttributes();
-		assert elementDifference.getAttributeDifferences( null ).contains( attributeDifference );
+		assert elementDifference.getAttributeDifferences( SHOULD_IGNORE_NOTHING ).contains( attributeDifference );
 		if ( elementDifference.isInsertion() ) {
 			globalChangeApplier.addChangeSetForAllEqualInsertedChanges(
 					((InsertedDeletedElementDifference) elementDifference.getIdentifyingAttributesDifference())
