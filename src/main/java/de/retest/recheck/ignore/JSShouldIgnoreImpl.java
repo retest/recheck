@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -22,24 +22,22 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	private static final Logger logger = LoggerFactory.getLogger( JSShouldIgnoreImpl.class );
 
 	private static final String JS_ENGINE_NAME = "JavaScript";
-	public static final String JS_IGNORE_DEFAULT_FILE_NAME = "recheck.ignore.js";
 
 	private final ScriptEngine engine;
 
-	public JSShouldIgnoreImpl() {
+	public JSShouldIgnoreImpl( final Path ignoreFilePath ) {
 		final ScriptEngineManager manager = new ScriptEngineManager();
 		engine = manager.getEngineByName( JS_ENGINE_NAME );
-		// read script file
 		try {
-			engine.eval( readScriptFile() );
+			engine.eval( readScriptFile( ignoreFilePath ) );
 		} catch ( final ScriptException e ) {
 			throw new IllegalArgumentException( e );
 		}
 	}
 
-	Reader readScriptFile() {
+	Reader readScriptFile( final Path ignoreFilePath ) {
 		try {
-			return Files.newBufferedReader( Paths.get( JS_IGNORE_DEFAULT_FILE_NAME ), StandardCharsets.UTF_8 );
+			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
 		} catch ( final IOException e ) {
 			throw new IllegalArgumentException( e );
 		}

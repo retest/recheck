@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,9 +17,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void no_shouldIgnoreElement_function_should_not_cause_exception() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( "" );
 			}
 		};
@@ -27,9 +28,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldIgnoreElement_should_be_called() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( "function shouldIgnoreElement(element) { return true; }" );
 			}
 		};
@@ -38,9 +39,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldIgnoreElement_should_be_called_with_element_param() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
 						"function shouldIgnoreElement(element) { " //
 								+ "if (element != null) {" //
@@ -55,9 +56,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldIgnoreAttributeDifference_example_implementation() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
 						"function shouldIgnoreAttributeDifference(element, diff) { " //
 								+ "  if (diff.key == 'outline') {" //
@@ -76,9 +77,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldIgnoreAttributeDifference_return_null_should_be_false() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
 						"function shouldIgnoreAttributeDifference(element, diff) { " //
 								+ "  return;" //
@@ -92,9 +93,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldIgnoreAttributeDifference_return_non_boolean_should_throw_exc() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
 						"function shouldIgnoreAttributeDifference(element, diff) { " //
 								+ "  return \"this is not a bool\";" //
@@ -108,9 +109,9 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldIgnoreAttributeDifference_ignore_URL_example_implementation() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
-			Reader readScriptFile() {
+			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
 						"function shouldIgnoreAttributeDifference(element, diff) { " //
 								+ "  re = /http[s]?:\\/\\/[\\w.:\\d\\-]*/;" //
