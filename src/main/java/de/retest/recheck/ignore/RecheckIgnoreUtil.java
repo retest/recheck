@@ -14,17 +14,24 @@ public class RecheckIgnoreUtil {
 	}
 
 	public static Optional<Path> getIgnoreFile() {
+		return getRetestFile( ProjectConfiguration.RECHECK_IGNORE );
+	}
+
+	public static Optional<Path> getIgnoreRuleFile() {
+		return getRetestFile( ProjectConfiguration.RECHECK_IGNORE_JSRULES );
+	}
+
+	private static Optional<Path> getRetestFile( final String filename ) {
 		final String projectBasePath = System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" );
 		if ( !projectBasePath.isEmpty() ) {
-			final Path projectConfig = ProjectConfigurationUtil.findProjectConfigurationFolder(
-					Paths.get( projectBasePath ) );
-			final Path ignoreFile = projectConfig.resolve( ProjectConfiguration.RECHECK_IGNORE );
+			final Path projectConfig =
+					ProjectConfigurationUtil.findProjectConfigurationFolder( Paths.get( projectBasePath ) );
+			final Path ignoreFile = projectConfig.resolve( filename );
 			if ( ignoreFile.toFile().exists() ) {
 				return Optional.of( ignoreFile );
 			}
 		} else {
-			final Path ignoreFile = ProjectConfigurationUtil.findProjectConfigurationFolder().resolve(
-					ProjectConfiguration.RECHECK_IGNORE );
+			final Path ignoreFile = ProjectConfigurationUtil.findProjectConfigurationFolder().resolve( filename );
 			if ( ignoreFile.toFile().exists() ) {
 				return Optional.of( ignoreFile );
 			}

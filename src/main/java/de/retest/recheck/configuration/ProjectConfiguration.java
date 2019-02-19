@@ -19,6 +19,7 @@ public class ProjectConfiguration {
 	public static final String RETEST_PROJECT_CONFIG_FOLDER = ".retest";
 	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
+	public static final String RECHECK_IGNORE_JSRULES = "recheck.ignore.js";
 
 	/**
 	 * This property can be used to overwrite the local project folder. This should only be used for tests.
