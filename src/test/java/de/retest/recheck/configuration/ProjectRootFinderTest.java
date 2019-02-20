@@ -1,9 +1,7 @@
 package de.retest.recheck.configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -14,7 +12,7 @@ class ProjectRootFinderTest {
 	@Test
 	void project_root_should_be_found() throws Exception {
 		final Path expected = Paths.get( "" ).toAbsolutePath();
-		final Path actual = ProjectRootFinderUtil.getProjectRoot();
+		final Path actual = ProjectRootFinderUtil.getProjectRoot().get();
 
 		assertThat( expected ).isEqualTo( actual );
 	}
@@ -24,27 +22,24 @@ class ProjectRootFinderTest {
 		final Path expected = Paths.get( "" ).toAbsolutePath();
 		final Path pathInTarget = Paths.get( "target/test-classes" ).toAbsolutePath();
 
-		final Path actual = ProjectRootFinderUtil.getProjectRoot( pathInTarget );
+		final Path actual = ProjectRootFinderUtil.getProjectRoot( pathInTarget ).get();
 
 		assertThat( expected ).isEqualTo( actual );
 	}
 
 	@Test
-	void project_root_should_throw_error_on_root_base() throws Exception {
-		assertThatThrownBy( () -> ProjectRootFinderUtil.getProjectRoot( Paths.get( "/" ) ) )
-				.isInstanceOf( UncheckedIOException.class );
+	void project_root_should_be_empty_on_root_base() throws Exception {
+		assertThat( ProjectRootFinderUtil.getProjectRoot( Paths.get( "/" ) ) ).isNotPresent();
 	}
 
 	@Test
-	void project_root_should_throw_error_on_non_existing_base() throws Exception {
-		assertThatThrownBy( () -> ProjectRootFinderUtil.getProjectRoot( Paths.get( "/bla/blub/42" ) ) )
-				.isInstanceOf( UncheckedIOException.class );
+	void project_root_should_be_empty_on_non_existing_base() throws Exception {
+		assertThat( ProjectRootFinderUtil.getProjectRoot( Paths.get( "/bla/blub/42" ) ) ).isNotPresent();
 	}
 
 	@Test
-	void project_root_should_throw_error_on_null_base() throws Exception {
-		assertThatThrownBy( () -> ProjectRootFinderUtil.getProjectRoot( null ) )
-				.isInstanceOf( UncheckedIOException.class );
+	void project_root_should_be_empty_on_null_base() throws Exception {
+		assertThat( ProjectRootFinderUtil.getProjectRoot( null ) ).isNotPresent();
 	}
 
 }
