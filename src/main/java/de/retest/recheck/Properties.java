@@ -115,9 +115,7 @@ public class Properties {
 		if ( isDevEnvironment() ) {
 			return new File( System.getProperty( JVM_EXECUTION_DIR ) );
 		}
-
-		throw new ConfigurationException( new Property( INSTALL_DIRECTORY ),
-				"Configured retest install directory is wrong!" );
+		return null;
 	}
 
 	public static boolean isDevEnvironment() {
