@@ -3,6 +3,7 @@ package de.retest.recheck.ignore;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.awt.Rectangle;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Path;
@@ -60,19 +61,22 @@ class JSShouldIgnoreImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function shouldIgnoreAttributeDifference(element, diff) { " //
-								+ "  if (diff.key == 'outline') {" //
-								+ "    return Math.abs(diff.expected - diff.actual) < 5;" //
-								+ "  } " //
-								+ "  return false;" //
-								+ "}" );
+						"function shouldIgnoreAttributeDifference(element, diff) { \n" //
+								+ "  if (diff.key == 'outline') {\n" //
+								+ "    return (Math.abs(diff.expected.x - diff.actual.x) <= 5) && \n" //
+								+ "			  (Math.abs(diff.expected.y - diff.actual.y) <= 5) && \n" //
+								+ "			  (Math.abs(diff.expected.width - diff.actual.width) <= 5) && \n" //
+								+ "			  (Math.abs(diff.expected.height - diff.actual.height) <= 5);\n" //
+								+ "  } \n" //
+								+ "  return false;\n" //
+								+ "}\n" );
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "578" ) ) )
-				.isTrue();
-		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline", "580", "500" ) ) )
-				.isFalse();
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline",
+				new Rectangle( 580, 610, 200, 20 ), new Rectangle( 578, 605, 200, 20 ) ) ) ).isTrue();
+		assertThat( cut.shouldIgnoreAttributeDifference( element, new AttributeDifference( "outline",
+				new Rectangle( 580, 610, 200, 20 ), new Rectangle( 500, 605, 200, 20 ) ) ) ).isFalse();
 	}
 
 	@Test
