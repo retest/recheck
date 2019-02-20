@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.ui.descriptors.SutState;
 
 public class RecheckStateFileProviderImpl implements RecheckStateFileProvider {
@@ -27,7 +28,10 @@ public class RecheckStateFileProviderImpl implements RecheckStateFileProvider {
 
 	@Override
 	public File getRecheckStateFile( final String filePath ) throws NoStateFileFoundException {
-		final Path projectRootStates = getStates( getProjectRoot(), filePath );
+		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot() //
+				.orElseThrow( () -> new NoStateFileFoundException( filePath ) );
+		final Path projectRootStates = getStates( projectRoot, filePath );
+
 		if ( projectRootStates != null ) {
 			return projectRootStates.toFile();
 		}
@@ -72,14 +76,6 @@ public class RecheckStateFileProviderImpl implements RecheckStateFileProvider {
 			throw new UncheckedIOException( "Could not apply changes to SUT state file '" + canonicalPathQuietly + "'.",
 					e );
 		}
-	}
-
-	private Path getProjectRoot() {
-		final String projectRoot = System.getProperty( RECHECK_PROJECT_ROOT );
-		if ( projectRoot != null ) {
-			return Paths.get( projectRoot );
-		}
-		return null;
 	}
 
 }
