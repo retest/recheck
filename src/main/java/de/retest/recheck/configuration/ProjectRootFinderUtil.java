@@ -18,7 +18,7 @@ public class ProjectRootFinderUtil {
 	public static Optional<Path> getProjectRoot() {
 		final Path baseFolder = Paths.get( System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" ) );
 
-		return getProjectRoot( baseFolder );
+		return getProjectRoot( baseFolder.toAbsolutePath() );
 	}
 
 	public static Optional<Path> getProjectRoot( final Path basePath ) {

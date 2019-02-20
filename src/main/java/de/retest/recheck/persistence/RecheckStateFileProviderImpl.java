@@ -44,7 +44,7 @@ public class RecheckStateFileProviderImpl implements RecheckStateFileProvider {
 			logger.debug( "Looking for SUT state files in '{}'.", projectRoot );
 			final Path statePath = Paths.get( projectRoot.toAbsolutePath().toString(), filePath );
 			if ( statePath.toFile().exists() ) {
-				return statePath;
+				return statePath.toAbsolutePath();
 			}
 		}
 		return null;

@@ -31,7 +31,7 @@ public class MavenProjectRootFinder implements ProjectRootFinder {
 		for ( Path currentFolder = basePath; currentFolder != null; currentFolder = currentFolder.getParent() ) {
 			if ( containsSubPath( currentFolder ) ) {
 				logger.debug( "Found project root in {}.", currentFolder );
-				return Optional.of( currentFolder );
+				return Optional.of( currentFolder.toAbsolutePath() );
 			}
 		}
 
