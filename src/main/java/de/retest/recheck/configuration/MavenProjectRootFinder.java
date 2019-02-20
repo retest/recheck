@@ -20,11 +20,6 @@ public class MavenProjectRootFinder implements ProjectRootFinder {
 	}
 
 	@Override
-	public Optional<Path> findProjectRoot() {
-		return findProjectRoot( Paths.get( "" ).toAbsolutePath() );
-	}
-
-	@Override
 	public Optional<Path> findProjectRoot( final Path basePath ) {
 		if ( basePath == null || !basePath.toFile().exists() ) {
 			logger.error( "Project root not found, base path does not exist." );
