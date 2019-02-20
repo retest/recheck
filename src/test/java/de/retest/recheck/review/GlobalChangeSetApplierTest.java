@@ -1,6 +1,7 @@
 package de.retest.recheck.review;
 
-import static org.mockito.Matchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
@@ -8,7 +9,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.ReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -32,6 +33,8 @@ import de.retest.recheck.ui.review.SuiteChangeSet;
 import de.retest.recheck.ui.review.TestChangeSet;
 
 class GlobalChangeSetApplierTest {
+
+	private final static ShouldIgnore SHOULD_IGNORE_NOTHING = null;
 
 	private GlobalChangeSetApplier globalApplier;
 
@@ -83,32 +86,34 @@ class GlobalChangeSetApplierTest {
 
 		when( replayResult.getSuiteReplayResults() ).thenReturn( Arrays.asList( suiteReplayResult ) );
 		when( suiteReplayResult.getTestReplayResults() ).thenReturn( Arrays.asList( testReplayResult ) );
-		when( testReplayResult.getActionReplayResults() ).thenReturn(
-				Arrays.asList( actionReplayResult1, actionReplayResult2 ) );
+		when( testReplayResult.getActionReplayResults() )
+				.thenReturn( Arrays.asList( actionReplayResult1, actionReplayResult2 ) );
 
-		final List<ElementDifference> elementDifferences1 = Arrays.asList( elementDifference1, insertedDifference,
-				deletedDifference );
+		final List<ElementDifference> elementDifferences1 =
+				Arrays.asList( elementDifference1, insertedDifference, deletedDifference );
 		when( actionReplayResult1.getElementDifferences() ).thenReturn( elementDifferences1 );
-		when( elementDifference1.getAttributeDifferences( null ) ).thenReturn( Arrays.asList( attributeDifference ) );
+		when( elementDifference1.getAttributeDifferences( SHOULD_IGNORE_NOTHING ) )
+				.thenReturn( Arrays.asList( attributeDifference ) );
 		when( elementDifference1.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 
-		final List<ElementDifference> elementDifferences2 = Arrays.asList( elementDifference2, insertedDifference,
-				deletedDifference );
+		final List<ElementDifference> elementDifferences2 =
+				Arrays.asList( elementDifference2, insertedDifference, deletedDifference );
 		when( actionReplayResult2.getElementDifferences() ).thenReturn( elementDifferences2 );
-		when( elementDifference2.getAttributeDifferences( null ) ).thenReturn( Arrays.asList( attributeDifference ) );
+		when( elementDifference2.getAttributeDifferences( SHOULD_IGNORE_NOTHING ) )
+				.thenReturn( Arrays.asList( attributeDifference ) );
 		when( elementDifference2.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 
 		when( component.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 		when( insertedDifference.isInsertionOrDeletion() ).thenReturn( true );
 		when( insertedDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
-		when( (InsertedDeletedElementDifference) insertedDifference.getIdentifyingAttributesDifference() ).thenReturn(
-				insertedLeafDifference );
+		when( (InsertedDeletedElementDifference) insertedDifference.getIdentifyingAttributesDifference() )
+				.thenReturn( insertedLeafDifference );
 		when( insertedLeafDifference.isInserted() ).thenReturn( true );
 		when( insertedLeafDifference.getActual() ).thenReturn( component );
 		when( deletedDifference.isInsertionOrDeletion() ).thenReturn( true );
 		when( deletedDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
-		when( (InsertedDeletedElementDifference) deletedDifference.getIdentifyingAttributesDifference() ).thenReturn(
-				deletedLeafDifference );
+		when( (InsertedDeletedElementDifference) deletedDifference.getIdentifyingAttributesDifference() )
+				.thenReturn( deletedLeafDifference );
 		when( deletedLeafDifference.isInserted() ).thenReturn( false );
 
 		reviewResult = mock( ReviewResult.class );
@@ -139,7 +144,7 @@ class GlobalChangeSetApplierTest {
 		verify( suiteReplayResult, only() ).getTestReplayResults();
 		verify( testReplayResult, only() ).getActionReplayResults();
 		verify( actionReplayResult1, only() ).getElementDifferences();
-		verify( elementDifference1, times( 1 ) ).getAttributeDifferences( null );
+		verify( elementDifference1, times( 1 ) ).getAttributeDifferences( SHOULD_IGNORE_NOTHING );
 		verify( elementDifference1, times( 1 ) ).getIdentifyingAttributes();
 		verify( elementDifference1, times( 1 ) ).isInsertionOrDeletion();
 		verifyNoMoreInteractions( elementDifference1 );
