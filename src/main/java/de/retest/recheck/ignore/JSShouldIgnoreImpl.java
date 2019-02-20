@@ -37,6 +37,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 
 	Reader readScriptFile( final Path ignoreFilePath ) {
 		try {
+			logger.info( "Reading JS ignore rules file from {}.", ignoreFilePath );
 			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
 		} catch ( final IOException e ) {
 			throw new IllegalArgumentException( e );
