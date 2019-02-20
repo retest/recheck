@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
 
-import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -85,15 +85,23 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return differences;
 	}
 
-	public List<AttributeDifference> getAttributeDifferences( final ShouldIgnore ignore ) {
+	public List<AttributeDifference> getAttributeDifferences( final ShouldIgnore input ) {
 		final List<AttributeDifference> differences = new ArrayList<>();
+		final ShouldIgnore ignore = input != null ? input : ShouldIgnore.IGNORE_NOTHING;
+		if ( ignore.shouldIgnoreElement( element ) ) {
+			return differences;
+		}
 		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
 			final List<AttributeDifference> attributeDifferences =
 					((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributeDifferences();
-			differences.addAll( attributeDifferences );
+			differences.addAll(
+					attributeDifferences.stream().filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) )
+							.collect( Collectors.toList() ) );
 		}
 		if ( attributesDifference != null ) {
-			differences.addAll( attributesDifference.getDifferences() );
+			differences.addAll( attributesDifference.getDifferences().stream()
+					.filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) )
+					.collect( Collectors.toList() ) );
 		}
 		return differences;
 	}

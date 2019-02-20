@@ -3,6 +3,7 @@ package de.retest.recheck.printer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -10,9 +11,12 @@ import de.retest.recheck.ui.DefaultValueFinder;
 public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private final Function<String, DefaultValueFinder> defaultValueFinder;
+	private final ShouldIgnore ignore;
 
-	public TestReplayResultPrinter( final Function<String, DefaultValueFinder> defaultValueFinder ) {
+	public TestReplayResultPrinter( final Function<String, DefaultValueFinder> defaultValueFinder,
+			final ShouldIgnore ignore ) {
 		this.defaultValueFinder = defaultValueFinder;
+		this.ignore = ignore;
 	}
 
 	@Override
@@ -27,7 +31,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	private String testResult( final TestReplayResult result ) {
 		final String name = result.getName();
 		final int differences = result.getDifferencesCount();
-		final int unique = result.getUniqueDifferences().size();
+		final int unique = result.getDifferences( ignore ).size();
 		return String.format( "Test '%s' has %d differences (%d unique):", name, differences, unique );
 	}
 

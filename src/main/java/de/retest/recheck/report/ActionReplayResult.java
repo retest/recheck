@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.ErrorHolder;
@@ -27,9 +28,7 @@ import de.retest.recheck.ui.actions.TargetNotFoundWrapper;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
-import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
-import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -197,25 +196,12 @@ public class ActionReplayResult implements Serializable {
 		return differences;
 	}
 
-	public Set<Object> getUniqueDifferences() {
-		final Set<Object> uniqueDifferences = new HashSet<>();
+	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
+		final Set<LeafDifference> result = new HashSet<>();
 		for ( final ElementDifference elementDifference : getElementDifferences() ) {
-			final AttributesDifference attributesDifference = elementDifference.getAttributesDifference();
-			if ( attributesDifference != null ) {
-				uniqueDifferences.addAll( attributesDifference.getDifferences() );
-			}
-			final LeafDifference identAttrDiff = elementDifference.getIdentifyingAttributesDifference();
-			if ( identAttrDiff != null ) {
-				if ( identAttrDiff instanceof IdentifyingAttributesDifference ) {
-					uniqueDifferences
-							.addAll( ((IdentifyingAttributesDifference) identAttrDiff).getAttributeDifferences() );
-				} else {
-					// DurationDifference or InsertedDeletedElementDifference
-					uniqueDifferences.add( identAttrDiff );
-				}
-			}
+			result.addAll( elementDifference.getAttributeDifferences( ignore ) );
 		}
-		return uniqueDifferences;
+		return result;
 	}
 
 	public List<RootElement> getWindows() {

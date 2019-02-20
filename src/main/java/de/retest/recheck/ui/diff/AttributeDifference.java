@@ -6,6 +6,7 @@ import static de.retest.recheck.util.ObjectUtil.nextHashCode;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ import de.retest.recheck.util.ChecksumCalculator;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
-public class AttributeDifference implements Comparable<AttributeDifference>, Serializable {
+public class AttributeDifference implements LeafDifference, Comparable<AttributeDifference>, Serializable {
 
 	private static final Logger logger = LoggerFactory.getLogger( AttributeDifference.class );
 
@@ -64,10 +65,12 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 		return key;
 	}
 
+	@Override
 	public Serializable getExpected() {
 		return (Serializable) expected;
 	}
 
+	@Override
 	public Serializable getActual() {
 		return (Serializable) actual;
 	}
@@ -145,5 +148,20 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 			result.append( " # " ).append( attributeDifference.identifier() );
 		}
 		return ChecksumCalculator.getInstance().sha256( result.toString() );
+	}
+
+	@Override
+	public int size() {
+		return 0;
+	}
+
+	@Override
+	public List<ElementDifference> getNonEmptyDifferences() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<ElementDifference> getElementDifferences() {
+		return Collections.emptyList();
 	}
 }

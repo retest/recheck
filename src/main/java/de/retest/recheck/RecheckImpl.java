@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
+import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
 import de.retest.recheck.persistence.RecheckSutState;
@@ -18,8 +19,10 @@ import de.retest.recheck.printer.TestReplayResultPrinter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.LeafDifference;
 
 public class RecheckImpl implements Recheck, SutStateLoader {
 
@@ -36,7 +39,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private TestReplayResult currentTestResult;
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
-	private final TestReplayResultPrinter printer = new TestReplayResultPrinter( usedFinders::get );
+	private final TestReplayResultPrinter printer;
+	private final GlobalIgnoreApplier ignoreApplier;
 
 	public RecheckImpl() {
 		this( new RecheckOptions() );
@@ -53,6 +57,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();
 		suite = ReplayResultProvider.getInstance().getSuite( suiteName );
+		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
+		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
 	}
 
 	private static void ensureConfigurationInitialized() {
@@ -128,7 +134,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite.addTest( currentTestResult );
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
-		final Set<Object> uniqueDifferences = finishedTestResult.getUniqueDifferences();
+		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( ignoreApplier );
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message =
 					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
