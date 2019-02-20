@@ -1,9 +1,9 @@
 package de.retest.suite.flow;
 
-import static de.retest.recheck.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.configuration.Configuration;
+import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
@@ -33,15 +34,17 @@ public class ApplyChangesToStatesFlowTest {
 	private static final String FILE = "src/test/resources/recheck/" + SUITE + "/" + TEST + "." + ACTION + ".recheck";
 
 	@Rule
-	public TemporaryFolder temporaryFolder = new TemporaryFolder();
+	public TemporaryFolder temp = new TemporaryFolder();
 
 	@Rule
-	public SystemProperty recheckDirProp = new SystemProperty( RECHECK_PROJECT_ROOT );
+	public SystemProperty recheckDirProp = new SystemProperty( ProjectConfiguration.RETEST_PROJECT_ROOT );
 
 	@Before
 	public void setUp() throws Exception {
 		Configuration.resetRetest();
-		recheckDirProp.setValue( "/" );
+		recheckDirProp.setValue( temp.getRoot().getAbsolutePath().toString() );
+		Files.createDirectories( temp.getRoot().toPath().resolve( "src/main/java" ) );
+		Files.createDirectories( temp.getRoot().toPath().resolve( "src/test/java" ) );
 	}
 
 	@Test
@@ -51,7 +54,7 @@ public class ApplyChangesToStatesFlowTest {
 
 		final Persistence<SutState> persistence = persistenceFactory.getPersistence();
 		final File originalFile = new File( FILE );
-		final File temporaryFile = temporaryFolder.newFile( "check_GUI_with_review_license.launch.recheck" );
+		final File temporaryFile = temp.newFile( "check_GUI_with_review_license.launch.recheck" );
 
 		FileUtils.copyFile( originalFile, temporaryFile );
 		final SutState before = persistence.load( temporaryFile.toURI() );
@@ -61,7 +64,7 @@ public class ApplyChangesToStatesFlowTest {
 		final Element toChange = before.getRootElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 ).getContainedElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 );
-		acceptedChanges.createTestChangeSet().createActionChangeSet( ACTION, temporaryFile.getPath() )
+		acceptedChanges.createTestChangeSet().createActionChangeSet( ACTION, temporaryFile.getName() )
 				.getAttributesChanges()
 				.add( toChange.getIdentifyingAttributes(), new AttributeDifference( "enabled", "false", "true" ) );
 

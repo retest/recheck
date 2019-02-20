@@ -1,11 +1,11 @@
 package de.retest.persistence;
 
-import static de.retest.recheck.persistence.RecheckStateFileProviderImpl.RECHECK_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
+import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.persistence.NoStateFileFoundException;
 import de.retest.recheck.persistence.RecheckStateFileProviderImpl;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
@@ -45,24 +46,25 @@ class RecheckStateFileProviderImplTest {
 	}
 
 	@Test
-	@SystemProperty( key = RECHECK_PROJECT_ROOT )
+	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void existing_file_outside_project_root_should_throw_error( @TempDir final Path tempFolder ) throws IOException {
 		final File existingFile = tempFolder.resolve( EXISTING_FILE ).toFile();
 		existingFile.createNewFile();
 
-		System.setProperty( RECHECK_PROJECT_ROOT, tempFolder.toString() );
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
 		assertThatThrownBy( () -> cut.getRecheckStateFile( existingFile.getPath() ) )
 				.isInstanceOf( NoStateFileFoundException.class );
 	}
 
 	@Test
-	@SystemProperty( key = RECHECK_PROJECT_ROOT )
+	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void existing_file_in_project_root_should_be_ok( @TempDir final Path tempFolder ) throws Exception {
 		final File existingFile = tempFolder.resolve( EXISTING_FILE ).toFile();
 		existingFile.createNewFile();
-
-		System.setProperty( RECHECK_PROJECT_ROOT, tempFolder.toString() );
+		Files.createDirectories( tempFolder.resolve( "src/main/java" ) );
+		Files.createDirectories( tempFolder.resolve( "src/test/java" ) );
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
 		final File f = cut.getRecheckStateFile( EXISTING_FILE );
 

@@ -15,7 +15,7 @@ class ProjectConfigurationTest {
 	void local_config_file_should_be_created() throws Exception {
 		cut.ensureProjectConfigurationInitialized();
 
-		final Path configFolder = getProjectRoot().resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
+		final Path configFolder = getProjectRoot().get().resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
 		final Path configFile = configFolder.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
 		final Path ignpreFile = configFolder.resolve( ProjectConfiguration.RECHECK_IGNORE );
 
