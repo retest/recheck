@@ -5,6 +5,8 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -24,6 +26,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	private static final String JS_ENGINE_NAME = "JavaScript";
 
 	private final ScriptEngine engine;
+	private final Set<String> unknownFunctions = new HashSet<>();
 
 	public JSShouldIgnoreImpl( final Path ignoreFilePath ) {
 		final ScriptEngineManager manager = new ScriptEngineManager();
@@ -37,6 +40,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 
 	Reader readScriptFile( final Path ignoreFilePath ) {
 		try {
+			logger.info( "Reading JS ignore rules file from {}.", ignoreFilePath );
 			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
 		} catch ( final IOException e ) {
 			throw new IllegalArgumentException( e );
@@ -55,6 +59,9 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
+		if ( unknownFunctions.contains( functionName ) ) {
+			return false;
+		}
 		final Invocable inv = (Invocable) engine;
 		// call function from script file
 		try {
@@ -73,6 +80,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 			throw new IllegalArgumentException( "JS `" + functionName + "` method caused an exception: ", e );
 		} catch ( final NoSuchMethodException e ) {
 			logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
+			unknownFunctions.add( functionName );
 		}
 		return false;
 	}

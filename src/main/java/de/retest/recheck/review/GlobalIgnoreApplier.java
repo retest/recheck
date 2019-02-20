@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import de.retest.recheck.ignore.ShouldIgnore;
-import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
 import de.retest.recheck.review.ignore.ElementShouldIgnore;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class GlobalIgnoreApplier implements ShouldIgnore {
 
@@ -57,7 +57,7 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 		remove( ignore -> ignore.shouldIgnoreElement( element ) );
 	}
 
-	private void add( final ShouldIgnore ignore ) {
+	public void add( final ShouldIgnore ignore ) {
 		ignored.add( ignore );
 		counter.add();
 	}
