@@ -8,9 +8,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.configuration.Configuration;
 import de.retest.recheck.configuration.ProjectConfiguration;
-import de.retest.recheck.execution.GuiLauncher;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.file.ReportFileUtils;
@@ -27,7 +25,7 @@ import de.retest.recheck.ui.descriptors.SutState;
 public class RecheckImpl implements Recheck, SutStateLoader {
 
 	private static final String WORKSPACE_DEFAULT = "src/test/resources/retest/";
-	private static final String CONFIG_PATH = WORKSPACE_DEFAULT + Configuration.RETEST_PROPERTIES_FILE_NAME;
+	private static final String CONFIG_PATH = WORKSPACE_DEFAULT + Properties.RETEST_PROPERTIES_FILE_NAME;
 
 	private static final Logger logger = LoggerFactory.getLogger( RecheckImpl.class );
 
@@ -59,10 +57,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private static void ensureConfigurationInitialized() {
-		if ( System.getProperty( Configuration.PROP_CONFIG_FILE_PATH ) == null ) {
-			System.setProperty( Configuration.PROP_CONFIG_FILE_PATH, CONFIG_PATH );
+		if ( System.getProperty( Properties.PROP_CONFIG_FILE_PATH ) == null ) {
+			System.setProperty( Properties.PROP_CONFIG_FILE_PATH, CONFIG_PATH );
 		}
-		Configuration.ensureLoaded();
 	}
 
 	@Override
@@ -98,7 +95,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		usedFinders.put( currentStep, defaultFinder );
 
 		final FileNamer fileNamer = createFileName( currentStep );
-		final File file = fileNamer.getFile( RecheckFileUtil.RECHECK_FILE_EXTENSION );
+		final File file = fileNamer.getFile( Properties.RECHECK_FILE_EXTENSION );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
 		final SutState expected = loadExpected( file );
@@ -154,9 +151,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		} finally {
 			final File file = getResultFile();
 			RecheckReplayResultUtil.persist( suite, file );
-			if ( suite.getDifferencesCount() > 0 ) {
-				GuiLauncher.launchRetestGui( file );
-			}
 		}
 	}
 

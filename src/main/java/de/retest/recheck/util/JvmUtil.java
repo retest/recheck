@@ -13,8 +13,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
-import de.retest.recheck.Properties;
-
 public class JvmUtil {
 
 	static final String DEBUG_OPTION = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005";
@@ -42,10 +40,6 @@ public class JvmUtil {
 			builder.append( FileUtil.canonicalPathQuietly( urlFile ) + File.pathSeparator );
 		}
 		return builder.toString();
-	}
-
-	public static String getDebugOptions() {
-		return Boolean.getBoolean( Properties.REMOTE_DEBUG ) ? DEBUG_OPTION : null;
 	}
 
 	public static String toArg( final Object key ) {
