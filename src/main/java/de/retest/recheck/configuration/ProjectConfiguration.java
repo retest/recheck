@@ -38,7 +38,8 @@ public class ProjectConfiguration {
 	}
 
 	public void ensureProjectConfigurationInitialized() {
-		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot();
+		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot()
+				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
 		final Path projectConfigFolder = projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
 		final Path projectConfigFile = projectConfigFolder.resolve( RETEST_PROJECT_PROPERTIES );
 		final Path projectIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE );

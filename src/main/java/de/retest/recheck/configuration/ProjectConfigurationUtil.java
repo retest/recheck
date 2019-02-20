@@ -9,12 +9,15 @@ public class ProjectConfigurationUtil {
 	}
 
 	public static Path findProjectConfigurationFolder() {
-		return ProjectRootFinderUtil.getProjectRoot().resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
+		return ProjectRootFinderUtil.getProjectRoot()
+				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) )
+				.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
 	}
 
 	public static Path findProjectConfigurationFolder( final Path path ) {
-		return ProjectRootFinderUtil.getProjectRoot( path ).resolve(
-				ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
+		return ProjectRootFinderUtil.getProjectRoot( path )
+				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) )
+				.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
 	}
 
 	public static Path findProjectConfiguration() {
