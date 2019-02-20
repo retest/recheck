@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import de.retest.recheck.ignore.ShouldIgnore;
-import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
 import de.retest.recheck.review.ignore.ElementShouldIgnore;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
@@ -15,20 +14,21 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class GlobalIgnoreApplier implements ShouldIgnore {
 
-	private final Counter counter;
+	private final HasUnsafedChangesListener listener;
 	private final List<ShouldIgnore> ignored = new ArrayList<>();
 
-	private GlobalIgnoreApplier( final Counter counter, final List<ShouldIgnore> ignored ) {
-		this.counter = counter;
+	private GlobalIgnoreApplier( final HasUnsafedChangesListener listener, final List<ShouldIgnore> ignored ) {
+		this.listener = listener;
 		this.ignored.addAll( ignored );
 	}
 
-	public static GlobalIgnoreApplier create( final Counter counter ) {
-		return new GlobalIgnoreApplier( counter, Collections.emptyList() );
+	public static GlobalIgnoreApplier create( final HasUnsafedChangesListener listener ) {
+		return new GlobalIgnoreApplier( listener, Collections.emptyList() );
 	}
 
-	public static GlobalIgnoreApplier create( final Counter counter, final PersistableGlobalIgnoreApplier applier ) {
-		return new GlobalIgnoreApplier( counter, applier.getIgnores() );
+	public static GlobalIgnoreApplier create( final HasUnsafedChangesListener listener,
+			final PersistableGlobalIgnoreApplier applier ) {
+		return new GlobalIgnoreApplier( listener, applier.getIgnores() );
 	}
 
 	@Override
@@ -59,12 +59,12 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 
 	public void add( final ShouldIgnore ignore ) {
 		ignored.add( ignore );
-		counter.add();
+		listener.nowHasUnsafedChanges();
 	}
 
 	private void remove( final Predicate<ShouldIgnore> filter ) {
 		ignored.removeIf( filter );
-		counter.remove();
+		listener.nowHasUnsafedChanges();
 	}
 
 	private boolean any( final Predicate<ShouldIgnore> ignore ) {

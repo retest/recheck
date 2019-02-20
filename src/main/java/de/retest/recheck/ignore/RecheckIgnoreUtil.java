@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.review.GlobalIgnoreApplier;
-import de.retest.recheck.review.counter.NopCounter;
+import de.retest.recheck.review.HasUnsafedChangesListener;
 import de.retest.recheck.review.workers.LoadShouldIgnoreWorker;
 
 public class RecheckIgnoreUtil {
@@ -40,11 +40,11 @@ public class RecheckIgnoreUtil {
 	public static GlobalIgnoreApplier loadRecheckIgnore() {
 		try {
 			final LoadShouldIgnoreWorker loadShouldIgnoreWorker =
-					new LoadShouldIgnoreWorker( NopCounter.getInstance() );
+					new LoadShouldIgnoreWorker( HasUnsafedChangesListener.NOOP_LISTENER );
 			return loadShouldIgnoreWorker.load();
 		} catch ( final Exception e ) {
 			logger.error( "Could not load recheck ignore file.", e );
-			return GlobalIgnoreApplier.create( NopCounter.getInstance() );
+			return GlobalIgnoreApplier.create( HasUnsafedChangesListener.NOOP_LISTENER );
 		}
 	}
 }

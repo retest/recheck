@@ -5,4 +5,7 @@ public interface Counter {
 	void add();
 
 	void remove();
+
+	int getCount();
+
 }
