@@ -34,9 +34,12 @@ public class LoadShouldIgnoreWorker {
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
-		if ( RecheckIgnoreUtil.getIgnoreRuleFile().isPresent() ) {
-			result.add( new JSShouldIgnoreImpl( RecheckIgnoreUtil.getIgnoreRuleFile().get() ) );
+
+		final Optional<Path> ignoreRuleFile = RecheckIgnoreUtil.getIgnoreRuleFile();
+		if ( ignoreRuleFile.isPresent() ) {
+			result.add( new JSShouldIgnoreImpl( ignoreRuleFile.get() ) );
 		}
+
 		return result;
 	}
 }
