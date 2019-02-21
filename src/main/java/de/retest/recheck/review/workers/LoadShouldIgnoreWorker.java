@@ -42,4 +42,12 @@ public class LoadShouldIgnoreWorker {
 
 		return result;
 	}
+
+	public Counter getCounter() {
+		return counter;
+	}
+
+	public Consumer<GlobalIgnoreApplier> getApplier() {
+		return applier;
+	}
 }
