@@ -34,6 +34,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		}
 		final String diffs = difference.getAllElementDifferences().stream() //
 				.filter( diff -> !ignore.shouldIgnoreElement( diff.getElement() ) ) //
+				.filter( diff -> !diff.getAttributeDifferences( ignore ).isEmpty() )
 				.map( diff -> printer.toString( diff, indent + "\t" ) ) //
 				.collect( Collectors.joining( "\n" ) );
 		return prefix + diffs;
