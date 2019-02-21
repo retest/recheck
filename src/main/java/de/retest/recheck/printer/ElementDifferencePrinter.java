@@ -1,18 +1,20 @@
 package de.retest.recheck.printer;
 
-import de.retest.recheck.printer.leaf.MultiLeafDifferencePrinter;
+import java.util.stream.Collectors;
+
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
-import de.retest.recheck.ui.diff.LeafDifference;
 
 public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private final DefaultValueFinder finder;
+	private final ShouldIgnore ignore;
 
-	public ElementDifferencePrinter( final DefaultValueFinder finder ) {
+	public ElementDifferencePrinter( final DefaultValueFinder finder, final ShouldIgnore ignore ) {
 		this.finder = finder;
+		this.ignore = ignore;
 	}
 
 	@Override
@@ -28,16 +30,9 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private String to( final ElementDifference difference, final String indent ) {
 		final PrinterValueProvider defaults = PrinterValueProvider.of( finder, difference.getIdentifyingAttributes() );
-		final LeafDifference identifyingAttributesDifference = difference.getIdentifyingAttributesDifference();
-		if ( identifyingAttributesDifference != null ) {
-			final MultiLeafDifferencePrinter printer = new MultiLeafDifferencePrinter( defaults );
-			return printer.toString( identifyingAttributesDifference, indent );
-		}
-		final AttributesDifference attributesDifference = difference.getAttributesDifference();
-		if ( attributesDifference != null ) {
-			final AttributesDifferencePrinter printer = new AttributesDifferencePrinter( defaults );
-			return printer.toString( attributesDifference, indent );
-		}
-		return indent + "noDifferences";
+		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( defaults );
+		return difference.getAttributeDifferences( ignore ).stream() //
+				.map( d -> delegate.toString( d, indent ) ) //
+				.collect( Collectors.joining( "\n" ) );
 	}
 }

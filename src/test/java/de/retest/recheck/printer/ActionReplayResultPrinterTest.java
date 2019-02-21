@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
 import de.retest.recheck.ui.actions.TargetNotFoundException;
@@ -24,7 +25,8 @@ class ActionReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
+		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
+				ShouldIgnore.IGNORE_NOTHING );
 	}
 
 	@Test

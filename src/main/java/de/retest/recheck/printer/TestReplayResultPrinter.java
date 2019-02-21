@@ -37,7 +37,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {
 		final DefaultValueFinder finder = defaultValueFinder.apply( result.getDescription() );
-		final ActionReplayResultPrinter printer = new ActionReplayResultPrinter( finder );
+		final ActionReplayResultPrinter printer = new ActionReplayResultPrinter( finder, ignore );
 		return printer.toString( result, indent );
 	}
 }
