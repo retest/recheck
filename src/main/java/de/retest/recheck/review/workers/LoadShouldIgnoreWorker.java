@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
@@ -18,11 +17,9 @@ import de.retest.recheck.review.ignore.io.Loaders;
 public class LoadShouldIgnoreWorker {
 
 	private final Counter counter;
-	private final Consumer<GlobalIgnoreApplier> applier;
 
-	public LoadShouldIgnoreWorker( final Counter counter, final Consumer<GlobalIgnoreApplier> applier ) {
+	public LoadShouldIgnoreWorker( final Counter counter ) {
 		this.counter = counter;
-		this.applier = applier;
 	}
 
 	public GlobalIgnoreApplier load() throws IOException {
@@ -45,9 +42,5 @@ public class LoadShouldIgnoreWorker {
 
 	public Counter getCounter() {
 		return counter;
-	}
-
-	public Consumer<GlobalIgnoreApplier> getApplier() {
-		return applier;
 	}
 }

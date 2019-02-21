@@ -39,4 +39,17 @@ public interface ShouldIgnore {
 	 */
 	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );
 
+	public static final ShouldIgnore IGNORE_NOTHING = new ShouldIgnore() {
+
+		@Override
+		public boolean shouldIgnoreElement( final Element element ) {
+			return false;
+		}
+
+		@Override
+		public boolean shouldIgnoreAttributeDifference( final Element element,
+				final AttributeDifference attributeDifference ) {
+			return false;
+		}
+	};
 }
