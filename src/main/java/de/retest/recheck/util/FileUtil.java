@@ -17,12 +17,7 @@ import java.util.List;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.SystemUtils;
 
-import de.retest.recheck.Properties;
-import de.retest.recheck.configuration.Configuration;
-import de.retest.recheck.configuration.ConfigurationException;
-import de.retest.recheck.configuration.Property;
 import de.retest.recheck.ioerror.ReTestLoadException;
 import de.retest.recheck.ioerror.ReTestSaveException;
 
@@ -343,7 +338,8 @@ public class FileUtil {
 			// TODO Convert URL using encoding
 			final URL url = new URL( input );
 			return new NamedBufferedInputStream( url.openStream(), input );
-		} catch ( final IOException exc ) {}
+		} catch ( final IOException exc ) {
+		}
 		File result = null;
 		// relative path
 		result = new File( baseDir, input ).getCanonicalFile();
@@ -371,28 +367,6 @@ public class FileUtil {
 		return result;
 	}
 
-	public static File ensureFolderInWorkDir( final String shortName, final String property,
-			final String defaultValue ) {
-		final File folder =
-				new File( Configuration.getRetestWorkspace(), System.getProperty( property, defaultValue ) );
-		if ( folder.exists() && !folder.isDirectory() ) {
-			throw new ConfigurationException( new Property( property ), "The configured " + shortName + "-folder "
-					+ canonicalPathQuietly( folder ) + " exist but is not a folder!" );
-		}
-		if ( !folder.exists() ) {
-			logger.info( "Creating {}-folder: {}.", shortName, canonicalPathQuietly( folder ) );
-			if ( !folder.mkdirs() ) {
-				throw new ConfigurationException( new Property( property ), "The configured " + shortName + "-folder "
-						+ canonicalPathQuietly( folder ) + " does not exist and cannot be created!" );
-			}
-		}
-		if ( !folder.canRead() || !folder.canWrite() ) {
-			throw new ConfigurationException( new Property( property ), "The configured " + shortName + "-folder "
-					+ canonicalPathQuietly( folder ) + " cannot be read and or written to!" );
-		}
-		return folder;
-	}
-
 	public static File readableCanonicalFileOrNull( final File file ) {
 		if ( file.exists() && file.canRead() ) {
 			return canonicalFileQuietly( file );
@@ -413,30 +387,6 @@ public class FileUtil {
 
 	private static boolean canAll( final File file ) {
 		return file.canRead() && file.canWrite() && file.canExecute();
-	}
-
-	public static File findExecutable( final String executable ) {
-		File file = new File( executable );
-		if ( file.exists() ) {
-			logger.debug( "Executable '{}' found under '{}'.", executable, file.getAbsolutePath() );
-			return file;
-		}
-
-		final List<String> path = Properties.getPath();
-		logger.debug( "Searching for executable '{}' in '{}'.", executable, path );
-		for ( final String element : path ) {
-			if ( SystemUtils.IS_OS_WINDOWS && !executable.endsWith( ".exe" ) ) {
-				file = new File( element, executable + ".exe" );
-			} else {
-				file = new File( element, executable );
-			}
-			if ( file.exists() ) {
-				logger.debug( "Executable '{}' found under '{}'.", executable, file.getAbsolutePath() );
-				return file;
-			}
-		}
-
-		return null;
 	}
 
 	public static URI getFileUriForClasspathRelativPath( final String path ) throws URISyntaxException {

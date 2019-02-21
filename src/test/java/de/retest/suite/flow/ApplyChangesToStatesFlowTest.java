@@ -13,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import de.retest.recheck.configuration.Configuration;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.PersistenceFactory;
@@ -41,7 +40,6 @@ public class ApplyChangesToStatesFlowTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Configuration.resetRetest();
 		recheckDirProp.setValue( temp.getRoot().getAbsolutePath().toString() );
 		Files.createDirectories( temp.getRoot().toPath().resolve( "src/main/java" ) );
 		Files.createDirectories( temp.getRoot().toPath().resolve( "src/test/java" ) );

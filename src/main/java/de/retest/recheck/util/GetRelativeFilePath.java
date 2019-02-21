@@ -3,8 +3,6 @@ package de.retest.recheck.util;
 import java.io.File;
 import java.io.IOException;
 
-import de.retest.recheck.configuration.Configuration;
-
 public class GetRelativeFilePath {
 
 	public static final String TEST_FILE_SEPARATOR = "/";
@@ -34,22 +32,8 @@ public class GetRelativeFilePath {
 		return FileUtil.canonicalPathQuietly( file );
 	}
 
-	public static String getWorkspaceRelativeFilePath( final File file ) {
-		return getRelativeFilePathSilently( Configuration.getRetestWorkspace(), file );
-	}
-
 	public static File fromRelativePath( final File rootDir, final String file ) {
 		return new File( rootDir, file );
-	}
-
-	public static File fromRelativeWorkspace( final String relativePath ) {
-		// '/' is solaris, unix, etc.
-		// 'C:\', 'AB:\' is Windows
-		// see https://docs.oracle.com/javase/tutorial/essential/io/pathOps.html
-		if ( relativePath.startsWith( "/" ) || relativePath.contains( ":\\" ) ) {
-			return new File( relativePath );
-		}
-		return fromRelativePath( Configuration.getRetestWorkspace(), relativePath );
 	}
 
 	public static String getRelativeFilePathSilently( final File baseFile, final File file ) {

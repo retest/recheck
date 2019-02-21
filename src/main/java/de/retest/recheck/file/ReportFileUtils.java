@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.retest.recheck.Properties;
-import de.retest.recheck.configuration.Configuration;
 import de.retest.recheck.util.FileUtil;
 
 public class ReportFileUtils {
@@ -55,13 +54,7 @@ public class ReportFileUtils {
 
 	public static File getBaseDir() {
 		final String testresultsDirProperty = System.getProperty( Properties.TESTRESULTS_REPORTSDIR );
-		File baseDir = null;
-		if ( testresultsDirProperty == null ) {
-			baseDir = new File( Configuration.getRetestWorkspace(), Properties.TESTRESULTS_REPORTSDIR_DEFAULT );
-		} else {
-			baseDir = new File( testresultsDirProperty );
-		}
-		return baseDir;
+		return new File( testresultsDirProperty );
 	}
 
 	public static File getActionDir( final File reportDir, final int testNr, final int actionNr ) {
