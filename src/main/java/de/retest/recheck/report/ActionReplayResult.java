@@ -185,7 +185,10 @@ public class ActionReplayResult implements Serializable {
 		return stateFilePath;
 	}
 
-	public List<ElementDifference> getElementDifferences() {
+	/**
+	 * Return <em>all</em> child differences recursively (also child-child differences).
+	 */
+	public List<ElementDifference> getAllElementDifferences() {
 		final List<ElementDifference> differences = new ArrayList<>();
 		if ( stateDifference != null ) {
 			differences.addAll( stateDifference.getNonEmptyDifferences() );
@@ -198,7 +201,7 @@ public class ActionReplayResult implements Serializable {
 
 	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
 		final Set<LeafDifference> result = new HashSet<>();
-		for ( final ElementDifference elementDifference : getElementDifferences() ) {
+		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
 			result.addAll( elementDifference.getAttributeDifferences( ignore ) );
 		}
 		return result;
@@ -259,14 +262,14 @@ public class ActionReplayResult implements Serializable {
 		if ( hasError() ) {
 			return description + " resulted in " + (error != null ? error : targetNotFound);
 		}
-		return description + " resulted in " + getElementDifferences().size() + " differences.";
+		return description + " resulted in " + getAllElementDifferences().size() + " differences.";
 	}
 
 	public String toStringDetailed() {
 		if ( hasError() ) {
 			return "Check \'" + description + "\' resulted in " + (error != null ? error : targetNotFound);
 		}
-		final String diffs = getElementDifferences().stream() //
+		final String diffs = getAllElementDifferences().stream() //
 				.map( elementDifference -> "\t" + elementDifference.toString().replace( "\n", "\n\t" ) ) //
 				.collect( Collectors.joining( "\n" ) );
 		return "Check \'" + description + "\' resulted in:\n" + diffs;

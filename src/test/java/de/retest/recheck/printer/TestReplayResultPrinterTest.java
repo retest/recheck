@@ -1,5 +1,6 @@
 package de.retest.recheck.printer;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 
 class TestReplayResultPrinterTest {
@@ -53,6 +55,7 @@ class TestReplayResultPrinterTest {
 	void toString_should_print_difference() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
+		when( a1.getAllElementDifferences() ).thenReturn( singletonList( mock( ElementDifference.class ) ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferencesCount() ).thenReturn( 1 );

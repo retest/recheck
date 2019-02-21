@@ -93,7 +93,7 @@ public class TestReplayResult implements Serializable {
 	public int getDifferencesCount() {
 		int differences = 0;
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			differences += actionReplayResult.getElementDifferences().size();
+			differences += actionReplayResult.getAllElementDifferences().size();
 		}
 		return differences;
 	}

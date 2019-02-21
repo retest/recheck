@@ -70,7 +70,7 @@ class ActionReplayResultPrinterTest {
 
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
-		when( result.getElementDifferences() ).thenReturn( Collections.singletonList( rootDifference ) );
+		when( result.getAllElementDifferences() ).thenReturn( Collections.singletonList( rootDifference ) );
 
 		final String string = cut.toString( result );
 
@@ -80,7 +80,7 @@ class ActionReplayResultPrinterTest {
 	@Test
 	void toString_should_respect_indent() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
-		when( result.getElementDifferences() ).thenReturn( Collections.emptyList() );
+		when( result.getAllElementDifferences() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( result, "____" );
 

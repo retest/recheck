@@ -58,7 +58,7 @@ public class GlobalChangeSetApplier {
 		for ( final SuiteReplayResult suiteReplayResult : replayResult.getSuiteReplayResults() ) {
 			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
 				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-					for ( final ElementDifference componentDiff : actionReplayResult.getElementDifferences() ) {
+					for ( final ElementDifference componentDiff : actionReplayResult.getAllElementDifferences() ) {
 						if ( componentDiff.isInsertionOrDeletion() ) {
 							fillInsertedDeletedDifferencesLookupMaps( actionReplayResult, componentDiff );
 						} else {

@@ -29,7 +29,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		if ( difference instanceof NoRecheckFileActionReplayResult ) {
 			return prefix + indent + "\t" + difference.toStringDetailed();
 		}
-		final String diffs = difference.getElementDifferences().stream() //
+		final String diffs = difference.getAllElementDifferences().stream() //
 				.map( elementDifference -> printer.toString( elementDifference, indent + "\t" ) ) //
 				.collect( Collectors.joining( "\n" ) );
 		return prefix + diffs;
