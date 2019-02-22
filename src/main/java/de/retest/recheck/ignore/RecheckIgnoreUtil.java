@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
-import de.retest.recheck.configuration.ProjectConfigurationUtil;
+import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.workers.LoadShouldIgnoreWorker;
@@ -29,19 +29,11 @@ public class RecheckIgnoreUtil {
 
 	private static Optional<Path> getRetestFile( final String filename ) {
 		final String projectBasePath = System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" );
-		if ( !projectBasePath.isEmpty() ) {
-			final Path projectConfig =
-					ProjectConfigurationUtil.findProjectConfigurationFolder( Paths.get( projectBasePath ) );
-			final Path ignoreFile = projectConfig.resolve( filename );
-			if ( ignoreFile.toFile().exists() ) {
-				return Optional.of( ignoreFile );
-			}
-		} else {
-			final Path ignoreFile = ProjectConfigurationUtil.findProjectConfigurationFolder().resolve( filename );
-			if ( ignoreFile.toFile().exists() ) {
-				return Optional.of( ignoreFile );
-			}
+		final Optional<Path> projectRoot = ProjectRootFinderUtil.getProjectRoot( Paths.get( projectBasePath ) );
+		if ( projectRoot.isPresent() ) {
+			return Optional.of( projectRoot.get().resolve( filename ) );
 		}
+
 		return Optional.empty();
 	}
 
