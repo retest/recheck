@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
-import de.retest.recheck.file.ReportFileUtils;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckReplayResultUtil;
 import de.retest.recheck.persistence.RecheckSutState;
@@ -155,7 +154,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	public File getResultFile() {
-		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( ReportFileUtils.REPORT_FILE_EXTENSION );
+		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.REPORT_FILE_EXTENSION );
 	}
 
 	private class CapWarner extends Thread {

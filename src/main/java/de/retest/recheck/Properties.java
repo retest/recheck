@@ -1,7 +1,6 @@
 package de.retest.recheck;
 
 public class Properties {
-	public static final String TESTRESULTS_REPORTSDIR = "de.retest.testresults.reportsDir";
 	public static final String VALUES_SEPARATOR = ";";
 	public static final String FILE_OUTPUT_FORMAT = "de.retest.output.Format";
 	public static final String DEFAULT_XML_FILE_NAME = "retest.xml";
@@ -13,6 +12,7 @@ public class Properties {
 	public static final String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
 	public static final String PROP_CONFIG_FILE_PATH = "de.retest.configFile";
 	public static final String RECHECK_FOLDER_NAME = "recheck";
+	public static final String REPORT_FILE_EXTENSION = ".result";
 
 	public static enum FileOutputFormat {
 		PLAIN,
