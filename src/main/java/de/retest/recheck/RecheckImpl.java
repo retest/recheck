@@ -138,7 +138,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message =
 					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
-							: getDifferencesErrorMessage( uniqueDifferences, finishedTestResult );
+							: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
 	}
@@ -189,8 +189,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				+ finishedTestResult.toString().substring( finishedTestResult.toString().lastIndexOf( ':' ) );
 	}
 
-	private String getDifferencesErrorMessage( final Set<LeafDifference> uniqueDifferences,
-			final TestReplayResult finishedTestResult ) {
+	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
 		return "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
 				+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
 				+ "\nThe following differences have been found in \'" + suiteName //
