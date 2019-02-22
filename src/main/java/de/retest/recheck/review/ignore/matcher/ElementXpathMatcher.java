@@ -23,6 +23,11 @@ public class ElementXpathMatcher implements Matcher<Element> {
 		return element.getIdentifyingAttributes().getPath().matches( xpath );
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementXpathMatcherLoader.FORMAT, xpath );
+	}
+
 	public static final class ElementXpathMatcherLoader extends RegexLoader<ElementXpathMatcher> {
 
 		private static final String XPATH = "xpath=";
@@ -42,7 +47,7 @@ public class ElementXpathMatcher implements Matcher<Element> {
 
 		@Override
 		public String save( final ElementXpathMatcher ignore ) {
-			return String.format( FORMAT, ignore.xpath );
+			return ignore.toString();
 		}
 	}
 }

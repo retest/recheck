@@ -29,6 +29,17 @@ class LoadersTest {
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.toList() );
 		assertThat( ignores.size() ).isEqualTo( 7 );
+
+		assertThat( ignores.toString() ).isEqualTo( "[" //
+				+ "# This is a comment, " //
+				+ "matcher: id=title, key: font, " //
+				+ "matcher: id=banner, " //
+				+ "matcher: retestid=banner, " //
+				+ "matcher: retestid=banner, key: outline, " //
+				+ "matcher: key: outline, " //
+				+ "matcher: xpath=/html[1]/div[1]/div[1]/div[1], " //
+				+ "matcher: xpath=/html[1]/div[1]/div[1]/div[2], key: background-url" //
+				+ "]" );
 	}
 
 }

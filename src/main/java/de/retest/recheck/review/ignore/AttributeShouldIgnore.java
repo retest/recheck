@@ -27,6 +27,11 @@ public class AttributeShouldIgnore implements ShouldIgnore {
 		return attributeDifference.getKey().equals( attribute );
 	}
 
+	@Override
+	public String toString() {
+		return String.format( AttributeShouldIgnoreLoader.FORMAT, attribute );
+	}
+
 	public static class AttributeShouldIgnoreLoader extends RegexLoader<AttributeShouldIgnore> {
 
 		private static final String MATCHER = "matcher: ";
@@ -46,7 +51,7 @@ public class AttributeShouldIgnore implements ShouldIgnore {
 
 		@Override
 		public String save( final AttributeShouldIgnore ignore ) {
-			return String.format( FORMAT, ignore.attribute );
+			return ignore.toString();
 		}
 	}
 }

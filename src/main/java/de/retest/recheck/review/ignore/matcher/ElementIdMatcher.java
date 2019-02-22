@@ -24,6 +24,11 @@ public class ElementIdMatcher implements Matcher<Element> {
 		return elementId != null && elementId.matches( id );
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementIdMatcherLoader.FORMAT, id );
+	}
+
 	public static final class ElementIdMatcherLoader extends RegexLoader<ElementIdMatcher> {
 
 		private static final String ID = "id=";
@@ -43,7 +48,7 @@ public class ElementIdMatcher implements Matcher<Element> {
 
 		@Override
 		public String save( final ElementIdMatcher ignore ) {
-			return String.format( FORMAT, ignore.id );
+			return ignore.toString();
 		}
 	}
 }

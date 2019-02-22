@@ -15,12 +15,17 @@ public class ElementRetestIdMatcher implements Matcher<Element> {
 	}
 
 	private ElementRetestIdMatcher( final String id ) {
-		this.retestid = id;
+		retestid = id;
 	}
 
 	@Override
 	public boolean test( final Element element ) {
 		return element.getRetestId().matches( retestid );
+	}
+
+	@Override
+	public String toString() {
+		return String.format( ElementRetestIdMatcherLoader.FORMAT, retestid );
 	}
 
 	public static final class ElementRetestIdMatcherLoader extends RegexLoader<ElementRetestIdMatcher> {
@@ -42,7 +47,7 @@ public class ElementRetestIdMatcher implements Matcher<Element> {
 
 		@Override
 		public String save( final ElementRetestIdMatcher ignore ) {
-			return String.format( FORMAT, ignore.retestid );
+			return ignore.toString();
 		}
 	}
 }

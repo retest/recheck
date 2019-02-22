@@ -30,6 +30,11 @@ public class ElementShouldIgnore implements ShouldIgnore {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementShouldIgnoreLoader.FORMAT, matcher.toString() );
+	}
+
 	public static class ElementShouldIgnoreLoader extends RegexLoader<ElementShouldIgnore> {
 
 		private static final String MATCHER = "matcher: ";
@@ -50,8 +55,7 @@ public class ElementShouldIgnore implements ShouldIgnore {
 
 		@Override
 		public String save( final ElementShouldIgnore ignore ) {
-			final Loader<Matcher> loader = Loaders.get( Matcher.class );
-			return String.format( FORMAT, loader.save( ignore.matcher ) );
+			return ignore.toString();
 		}
 	}
 }
