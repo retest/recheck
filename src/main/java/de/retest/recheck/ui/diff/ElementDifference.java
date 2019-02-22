@@ -85,25 +85,22 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return differences;
 	}
 
-	public List<AttributeDifference> getAttributeDifferences( final ShouldIgnore input ) {
+	public List<AttributeDifference> getAttributeDifferences( final ShouldIgnore ignore ) {
 		final List<AttributeDifference> differences = new ArrayList<>();
-		final ShouldIgnore ignore = input != null ? input : ShouldIgnore.IGNORE_NOTHING;
-		if ( ignore.shouldIgnoreElement( element ) ) {
-			return differences;
-		}
 		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
 			final List<AttributeDifference> attributeDifferences =
 					((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributeDifferences();
-			differences.addAll(
-					attributeDifferences.stream().filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) )
-							.collect( Collectors.toList() ) );
+			differences.addAll( attributeDifferences );
 		}
 		if ( attributesDifference != null ) {
-			differences.addAll( attributesDifference.getDifferences().stream()
-					.filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) )
-					.collect( Collectors.toList() ) );
+			differences.addAll( attributesDifference.getDifferences() );
 		}
-		return differences;
+		if ( ignore == null ) {
+			return differences;
+		}
+		return differences.stream() //
+				.filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) ) //
+				.collect( Collectors.toList() );
 	}
 
 	public String getIdentifier() {
