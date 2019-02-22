@@ -20,6 +20,7 @@ class LoadersTest {
 				"matcher: retestid=banner", //
 				"matcher: retestid=banner", //
 				"matcher: retestid=banner, key: outline", //
+				"matcher: key: outline", //
 				"matcher: xpath=/html[1]/div[1]/div[1]/div[1]", //
 				"matcher: xpath=/html[1]/div[1]/div[1]/div[2], key: background-url" //
 		};
