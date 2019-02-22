@@ -9,7 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 
 import de.retest.recheck.Properties;
 import de.retest.recheck.Properties.FileOutputFormat;
-import de.retest.recheck.file.ReportFileUtils;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
 import de.retest.recheck.persistence.xml.XmlTransformer;
@@ -61,7 +60,7 @@ public class PersistenceFactory {
 	private FileOutputFormat getFormatForIdentifier( final URI identifier ) {
 		final String filename = FilenameUtils.getName( identifier.getPath() );
 
-		if ( filename.endsWith( ReportFileUtils.REPORT_FILE_EXTENSION ) ) {
+		if ( filename.endsWith( Properties.REPORT_FILE_EXTENSION ) ) {
 			return FileOutputFormat.KRYO;
 		}
 
