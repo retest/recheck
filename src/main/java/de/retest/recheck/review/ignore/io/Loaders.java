@@ -16,6 +16,8 @@ import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher.ElementRetestIdMatcherLoader;
+import de.retest.recheck.review.ignore.matcher.ElementXpathMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementXpathMatcher.ElementXpathMatcherLoader;
 
 public class Loaders {
 
@@ -27,6 +29,7 @@ public class Loaders {
 		final List<Pair<Class<?>, Loader<?>>> pairs = new ArrayList<>();
 		pairs.add( Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ) );
 		pairs.add( Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ) );
+		pairs.add( Pair.of( ElementXpathMatcher.class, new ElementXpathMatcherLoader() ) );
 		pairs.add( Pair.of( ElementAttributeShouldIgnore.class, new ElementAttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ElementShouldIgnore.class, new ElementShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ShouldIgnoreComment.class, new IgnoreCommentLoader() ) );

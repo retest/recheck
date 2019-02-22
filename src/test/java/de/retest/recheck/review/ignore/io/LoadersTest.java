@@ -20,12 +20,14 @@ class LoadersTest {
 				"matcher: retestid=banner", //
 				"matcher: retestid=banner", //
 				"matcher: retestid=banner, key: outline", //
+				"matcher: xpath=/html[1]/div[1]/div[1]/div[1]", //
+				"matcher: xpath=/html[1]/div[1]/div[1]/div[2], key: background-url" //
 		};
 		final List<ShouldIgnore> ignores = Loaders.load( Arrays.asList( lines ).stream() ) //
 				.filter( ShouldIgnore.class::isInstance ) //
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.toList() );
-		assertThat( ignores.size() ).isEqualTo( 5 );
+		assertThat( ignores.size() ).isEqualTo( 7 );
 	}
 
 }
