@@ -14,6 +14,8 @@ import de.retest.recheck.review.ignore.IgnoreCommentLoader;
 import de.retest.recheck.review.ignore.IgnoreCommentLoader.ShouldIgnoreComment;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
+import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher.ElementRetestIdMatcherLoader;
 
 public class Loaders {
 
@@ -24,6 +26,7 @@ public class Loaders {
 	private static List<Pair<Class<?>, Loader<?>>> registerLoaders() {
 		final List<Pair<Class<?>, Loader<?>>> pairs = new ArrayList<>();
 		pairs.add( Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ) );
+		pairs.add( Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ) );
 		pairs.add( Pair.of( ElementAttributeShouldIgnore.class, new ElementAttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ElementShouldIgnore.class, new ElementShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ShouldIgnoreComment.class, new IgnoreCommentLoader() ) );

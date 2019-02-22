@@ -3,8 +3,8 @@ package de.retest.recheck.review.ignore.matcher;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.review.ignore.io.RegexLoader;
+import de.retest.recheck.ui.descriptors.Element;
 
 public class ElementIdMatcher implements Matcher<Element> {
 
@@ -20,7 +20,8 @@ public class ElementIdMatcher implements Matcher<Element> {
 
 	@Override
 	public boolean test( final Element element ) {
-		return id.equals( element.getRetestId() );
+		final String elementId = element.getIdentifyingAttributes().get( "id" );
+		return elementId != null && elementId.matches( id );
 	}
 
 	public static final class ElementIdMatcherLoader extends RegexLoader<ElementIdMatcher> {
