@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.descriptors.Element;
 
-class ElementIdMatcherTest {
+class ElementRetestIdMatcherTest {
 
-	ElementIdMatcher cut;
+	ElementRetestIdMatcher cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
-		cut = new ElementIdMatcher( element );
+		cut = new ElementRetestIdMatcher( element );
 	}
 
 	@Test

@@ -7,9 +7,9 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
-import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 
 class ElementShouldIgnoreTest {
 
@@ -19,7 +19,7 @@ class ElementShouldIgnoreTest {
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
-		final ElementIdMatcher matcher = new ElementIdMatcher( element );
+		final ElementRetestIdMatcher matcher = new ElementRetestIdMatcher( element );
 		cut = new ElementShouldIgnore( matcher );
 	}
 
