@@ -44,6 +44,14 @@ public class Loaders {
 				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + clazz ) );
 	}
 
+	public static <T> Loader<T> get( final String line ) {
+		return (Loader<T>) registeredLoaders.stream() //
+				.filter( pair -> pair.getRight().canLoad( line ) ) //
+				.findFirst() //
+				.map( Pair::getRight ) //
+				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + line ) );
+	}
+
 	public static Stream<String> save( final Stream<?> objects ) {
 		return objects.map( Loaders::save );
 	}
