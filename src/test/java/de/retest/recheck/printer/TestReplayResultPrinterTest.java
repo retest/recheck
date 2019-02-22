@@ -1,5 +1,7 @@
 package de.retest.recheck.printer;
 
+import static de.retest.recheck.ignore.ShouldIgnore.IGNORE_NOTHING;
+import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -10,8 +12,8 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.diff.ElementDifference;
@@ -23,27 +25,24 @@ class TestReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new TestReplayResultPrinter( s -> ( identifyingAttributes, attributeKey, attributeValue ) -> false,
-				null );
+		cut = new TestReplayResultPrinter( s -> ( identAttributes, key, value ) -> false, IGNORE_NOTHING );
 	}
 
 	@Test
 	void toString_should_print_differences_if_empty() {
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferencesCount() ).thenReturn( 0 );
-		when( result.getDifferences( ShouldIgnore.IGNORE_NOTHING ) ).thenReturn( Collections.emptySet() );
+		when( result.getDifferences( IGNORE_NOTHING ) ).thenReturn( Collections.emptySet() );
 		when( result.getActionReplayResults() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 0 differences (0 unique):\n" );
+		assertThat( string ).isEqualTo( "Test 'null' has 0 differences in 0 states:\n" );
 	}
 
 	@Test
 	void toString_should_respect_indent_if_empty() {
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferencesCount() ).thenReturn( 0 );
-		when( result.getDifferences( ShouldIgnore.IGNORE_NOTHING ) ).thenReturn( Collections.emptySet() );
+		when( result.getDifferences( IGNORE_NOTHING ) ).thenReturn( Collections.emptySet() );
 		when( result.getActionReplayResults() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( result, "____" );
@@ -59,13 +58,12 @@ class TestReplayResultPrinterTest {
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferencesCount() ).thenReturn( 1 );
-		when( result.getDifferences( ShouldIgnore.IGNORE_NOTHING ) )
-				.thenReturn( Collections.singleton( mock( LeafDifference.class ) ) );
-		when( result.getActionReplayResults() ).thenReturn( Collections.singletonList( a1 ) );
+		when( result.getActionReplayResults() ).thenReturn( singletonList( a1 ) );
+		when( result.getDifferences( Mockito.any() ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 1 differences (1 unique):\nfoo resulted in:\n" );
+		assertThat( string ).isEqualTo( "Test 'null' has 1 differences in 1 states:\nfoo resulted in:\n" );
 	}
 
 	@Test
@@ -74,9 +72,7 @@ class TestReplayResultPrinterTest {
 		when( a1.getDescription() ).thenReturn( "foo" );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferencesCount() ).thenReturn( 1 );
-		when( result.getDifferences( ShouldIgnore.IGNORE_NOTHING ) )
-				.thenReturn( Collections.singleton( mock( LeafDifference.class ) ) );
+		when( result.getDifferences( IGNORE_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 		when( result.getActionReplayResults() ).thenReturn( Collections.singletonList( a1 ) );
 
 		final String string = cut.toString( result, "____" );
@@ -93,14 +89,12 @@ class TestReplayResultPrinterTest {
 		when( a2.getDescription() ).thenReturn( "bar" );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferencesCount() ).thenReturn( 2 );
-		when( result.getDifferences( ShouldIgnore.IGNORE_NOTHING ) )
-				.thenReturn( Collections.singleton( mock( LeafDifference.class ) ) );
+		when( result.getDifferences( IGNORE_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 		when( result.getActionReplayResults() ).thenReturn( Arrays.asList( a1, a2 ) );
 
 		final String string = cut.toString( result );
 
 		assertThat( string )
-				.isEqualTo( "Test 'null' has 2 differences (1 unique):\nfoo resulted in:\n\nbar resulted in:\n" );
+				.isEqualTo( "Test 'null' has 1 differences in 2 states:\nfoo resulted in:\n\nbar resulted in:\n" );
 	}
 }

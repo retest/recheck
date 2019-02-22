@@ -31,7 +31,8 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	private String testResult( final TestReplayResult result ) {
 		final String name = result.getName();
 		final int differences = result.getDifferences( ignore ).size();
-		return String.format( "Test '%s' has %d differences:", name, differences );
+		return String.format( "Test '%s' has %d differences in %d states:", name, differences,
+				result.getActionReplayResults().size() );
 	}
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {

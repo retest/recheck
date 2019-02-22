@@ -76,7 +76,7 @@ class ActionReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).startsWith( "foo resulted in:\n\tIdentifying at 'path/to/element':\n\t\tnoDifferences" );
+		assertThat( string ).startsWith( "foo resulted in:\n" );
 	}
 
 	@Test

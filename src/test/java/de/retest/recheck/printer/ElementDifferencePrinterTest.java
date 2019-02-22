@@ -94,6 +94,5 @@ class ElementDifferencePrinterTest {
 		final String string = cut.toString( difference, "____" );
 
 		assertThat( string ).startsWith( "____" );
-		assertThat( string ).contains( "\n____" );
 	}
 }
