@@ -11,18 +11,19 @@ public class ProjectConfigurationUtil {
 
 	public static Optional<Path> findProjectConfiguration() {
 		final Optional<Path> projectConfigurationFolder = ProjectRootFinderUtil.getProjectRoot();
-		return projectConfigurationFolder.isPresent()
-				? projectConfigurationFolder
-						.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) )
-				: projectConfigurationFolder;
+		return findProjectConfiguration( projectConfigurationFolder );
 	}
 
 	public static Optional<Path> findProjectConfiguration( final Path path ) {
 		final Optional<Path> projectConfigurationFolder = ProjectRootFinderUtil.getProjectRoot( path );
-		return projectConfigurationFolder.isPresent()
-				? projectConfigurationFolder
-						.map( path1 -> path1.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) )
-				: projectConfigurationFolder;
+		return findProjectConfiguration( projectConfigurationFolder );
 	}
 
+	private static Optional<Path> findProjectConfiguration( final Optional<Path> projectConfigurationFolder ) {
+		if ( projectConfigurationFolder.isPresent() ) {
+			return Optional.of( projectConfigurationFolder.get() //
+					.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) );
+		}
+		return Optional.empty();
+	}
 }
