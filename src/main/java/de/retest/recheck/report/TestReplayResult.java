@@ -16,6 +16,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ui.diff.LeafDifference;
 
 @XmlRootElement( name = "test" )
 @XmlAccessorType( XmlAccessType.FIELD )
@@ -80,10 +82,10 @@ public class TestReplayResult implements Serializable {
 		return uiElementsCount;
 	}
 
-	public Set<Object> getUniqueDifferences() {
-		final Set<Object> diffs = new HashSet<>();
+	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
+		final Set<LeafDifference> diffs = new HashSet<>();
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			diffs.addAll( actionReplayResult.getUniqueDifferences() );
+			diffs.addAll( actionReplayResult.getDifferences( ignore ) );
 		}
 		return diffs;
 	}
@@ -91,7 +93,7 @@ public class TestReplayResult implements Serializable {
 	public int getDifferencesCount() {
 		int differences = 0;
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			differences += actionReplayResult.getElementDifferences().size();
+			differences += actionReplayResult.getAllElementDifferences().size();
 		}
 		return differences;
 	}
@@ -108,7 +110,7 @@ public class TestReplayResult implements Serializable {
 	@Override
 	public String toString() {
 		String result = "Test \'" + getName() + "\' has " + getDifferencesCount() + " difference(s) ("
-				+ getUniqueDifferences().size() + " unique): \n";
+				+ getDifferences( ShouldIgnore.IGNORE_NOTHING ).size() + " unique): \n";
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
 			result += actionReplayResult.toStringDetailed() + "\n";
 		}

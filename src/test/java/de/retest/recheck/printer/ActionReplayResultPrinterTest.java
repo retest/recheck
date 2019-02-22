@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
 import de.retest.recheck.ui.actions.TargetNotFoundException;
@@ -24,7 +25,8 @@ class ActionReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
+		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
+				ShouldIgnore.IGNORE_NOTHING );
 	}
 
 	@Test
@@ -70,17 +72,17 @@ class ActionReplayResultPrinterTest {
 
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
-		when( result.getElementDifferences() ).thenReturn( Collections.singletonList( rootDifference ) );
+		when( result.getAllElementDifferences() ).thenReturn( Collections.singletonList( rootDifference ) );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).startsWith( "foo resulted in:\n\tIdentifying at 'path/to/element':\n\t\tnoDifferences" );
+		assertThat( string ).startsWith( "foo resulted in:\n" );
 	}
 
 	@Test
 	void toString_should_respect_indent() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
-		when( result.getElementDifferences() ).thenReturn( Collections.emptyList() );
+		when( result.getAllElementDifferences() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( result, "____" );
 

@@ -3,6 +3,7 @@ package de.retest.recheck.printer;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
@@ -10,9 +11,11 @@ import de.retest.recheck.ui.actions.ExceptionWrapper;
 public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private final ElementDifferencePrinter printer;
+	private final ShouldIgnore ignore;
 
-	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder ) {
-		printer = new ElementDifferencePrinter( defaultValueFinder );
+	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final ShouldIgnore ignore ) {
+		printer = new ElementDifferencePrinter( defaultValueFinder, ignore );
+		this.ignore = ignore;
 	}
 
 	@Override
@@ -29,8 +32,10 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		if ( difference instanceof NoRecheckFileActionReplayResult ) {
 			return prefix + indent + "\t" + difference.toStringDetailed();
 		}
-		final String diffs = difference.getElementDifferences().stream() //
-				.map( elementDifference -> printer.toString( elementDifference, indent + "\t" ) ) //
+		final String diffs = difference.getAllElementDifferences().stream() //
+				.filter( diff -> !ignore.shouldIgnoreElement( diff.getElement() ) ) //
+				.filter( diff -> !diff.getAttributeDifferences( ignore ).isEmpty() )
+				.map( diff -> printer.toString( diff, indent + "\t" ) ) //
 				.collect( Collectors.joining( "\n" ) );
 		return prefix + diffs;
 	}

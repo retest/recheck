@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
 
-import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -95,7 +95,12 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( attributesDifference != null ) {
 			differences.addAll( attributesDifference.getDifferences() );
 		}
-		return differences;
+		if ( ignore == null ) {
+			return differences;
+		}
+		return differences.stream() //
+				.filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) ) //
+				.collect( Collectors.toList() );
 	}
 
 	public String getIdentifier() {

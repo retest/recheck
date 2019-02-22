@@ -114,7 +114,7 @@ public class SuiteReplayResult implements Serializable {
 		int diffsCount = 0;
 		for ( final TestReplayResult testReplayResult : testReplayResults ) {
 			for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-				diffsCount += actionReplayResult.getElementDifferences().size();
+				diffsCount += actionReplayResult.getAllElementDifferences().size();
 			}
 		}
 		return diffsCount;

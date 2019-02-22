@@ -59,7 +59,7 @@ public class CreateChangesetForAllDifferencesFlow {
 
 	private void addAllElementDifferences( final ActionReplayResult actionReplayResult,
 			final ActionChangeSet actionChangeSet ) {
-		for ( final ElementDifference elementDifference : actionReplayResult.getElementDifferences() ) {
+		for ( final ElementDifference elementDifference : actionReplayResult.getAllElementDifferences() ) {
 			if ( elementDifference.isInsertion() ) {
 				actionChangeSet.addInsertChange(
 						((InsertedDeletedElementDifference) elementDifference.getIdentifyingAttributesDifference())
