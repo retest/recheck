@@ -1,6 +1,7 @@
 package de.retest.recheck.configuration;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 public class ProjectConfigurationUtil {
 
@@ -8,24 +9,20 @@ public class ProjectConfigurationUtil {
 
 	}
 
-	public static Path findProjectConfigurationFolder() {
-		return ProjectRootFinderUtil.getProjectRoot()
-				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) )
-				.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
+	public static Optional<Path> findProjectConfiguration() {
+		final Optional<Path> projectConfigurationFolder = ProjectRootFinderUtil.getProjectRoot();
+		return projectConfigurationFolder.isPresent()
+				? projectConfigurationFolder
+						.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) )
+				: projectConfigurationFolder;
 	}
 
-	public static Path findProjectConfigurationFolder( final Path path ) {
-		return ProjectRootFinderUtil.getProjectRoot( path )
-				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) )
-				.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER );
-	}
-
-	public static Path findProjectConfiguration() {
-		return findProjectConfigurationFolder().resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
-	}
-
-	public static Path findProjectConfiguration( final Path path ) {
-		return findProjectConfigurationFolder( path ).resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
+	public static Optional<Path> findProjectConfiguration( final Path path ) {
+		final Optional<Path> projectConfigurationFolder = ProjectRootFinderUtil.getProjectRoot( path );
+		return projectConfigurationFolder.isPresent()
+				? projectConfigurationFolder
+						.map( path1 -> path1.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) )
+				: projectConfigurationFolder;
 	}
 
 }
