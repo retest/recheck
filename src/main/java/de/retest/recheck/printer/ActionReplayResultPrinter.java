@@ -30,7 +30,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 			return prefix + indent + "\t" + targetNotFound;
 		}
 		if ( difference instanceof NoRecheckFileActionReplayResult ) {
-			return prefix + indent + "\t" + difference.toStringDetailed();
+			return prefix + indent + "\t" + NoRecheckFileActionReplayResult.MSG_LONG;
 		}
 		final String diffs = difference.getAllElementDifferences().stream() //
 				.filter( diff -> !ignore.shouldIgnoreElement( diff.getElement() ) ) //

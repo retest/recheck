@@ -109,12 +109,11 @@ public class TestReplayResult implements Serializable {
 
 	@Override
 	public String toString() {
-		String result = "Test \'" + getName() + "\' has " + getDifferencesCount() + " difference(s) ("
-				+ getDifferences( ShouldIgnore.IGNORE_NOTHING ).size() + " unique): \n";
-		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			result += actionReplayResult.toStringDetailed() + "\n";
-		}
-		return result;
+		return "TestReplayResult('" + getName() + "'" //
+				+ ", Actions: " + getActionReplayResults().size() //
+				+ ", Checked Elements: " + getCheckedUiElementsCount() //
+				+ ", Differences: " + getDifferencesCount() //
+				+ ")";
 	}
 
 	public boolean isEmpty() {

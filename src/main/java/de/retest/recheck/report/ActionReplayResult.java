@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -260,18 +259,10 @@ public class ActionReplayResult implements Serializable {
 	@Override
 	public String toString() {
 		if ( hasError() ) {
-			return description + " resulted in " + (error != null ? error : targetNotFound);
+			return "ActionReplayResult('" + description + "' has an error: " + (error != null ? error : targetNotFound)
+					+ ")";
 		}
-		return description + " resulted in " + getAllElementDifferences().size() + " differences.";
-	}
-
-	public String toStringDetailed() {
-		if ( hasError() ) {
-			return "Check \'" + description + "\' resulted in " + (error != null ? error : targetNotFound);
-		}
-		final String diffs = getAllElementDifferences().stream() //
-				.map( elementDifference -> "\t" + elementDifference.toString().replace( "\n", "\n\t" ) ) //
-				.collect( Collectors.joining( "\n" ) );
-		return "Check \'" + description + "\' resulted in:\n" + diffs;
+		return "ActionReplayResult('" + description + "' resulted in " + getAllElementDifferences().size()
+				+ " differences.";
 	}
 }

@@ -13,8 +13,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.common.base.Joiner;
-
 import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.GroundState;
 
@@ -143,7 +141,12 @@ public class SuiteReplayResult implements Serializable {
 
 	@Override
 	public String toString() {
-		return "suite " + getSuiteName() + ":\n" + Joiner.on( "\n" ).join( testReplayResults );
+		return "SuiteReplayResult('" + getSuiteName() + "'" //
+				+ ", Actions: " + getNumberOfActions() //
+				+ ", Checked Elements: " + getCheckedUiElementsCount() //
+				+ ", Differences: " + getDifferencesCount() //
+				+ ", Errors: " + getErrorsCount() //
+				+ ")";
 	}
 
 	public String getSuiteUuid() {

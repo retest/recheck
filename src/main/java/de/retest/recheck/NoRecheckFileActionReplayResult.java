@@ -21,7 +21,7 @@ import de.retest.recheck.ui.diff.StateDifference;
 public class NoRecheckFileActionReplayResult extends ActionReplayResult {
 
 	private static final String MSG_SHORT = "No recheck file found.";
-	static final String MSG_LONG =
+	public static final String MSG_LONG =
 			MSG_SHORT + " First time test was run? Created recheck file now, don't forget to commit...";
 
 	private static final long serialVersionUID = 1L;
@@ -72,11 +72,6 @@ public class NoRecheckFileActionReplayResult extends ActionReplayResult {
 				return MSG_SHORT;
 			}
 		} );
-	}
-
-	@Override
-	public String toStringDetailed() {
-		return MSG_LONG;
 	}
 
 	@Override
