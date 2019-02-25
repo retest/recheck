@@ -28,12 +28,12 @@ class LoadersTest {
 				.filter( ShouldIgnore.class::isInstance ) //
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.toList() );
-		assertThat( ignores.size() ).isEqualTo( 7 );
+		assertThat( ignores.size() ).isEqualTo( 8 );
 
 		assertThat( ignores.toString() ).isEqualTo( "[" //
 				+ "# This is a comment, " //
-				+ "matcher: id=title, key: font, " //
-				+ "matcher: id=banner, " //
+				+ "matcher: retestid=title, key: font, " //
+				+ "matcher: retestid=banner, " //
 				+ "matcher: retestid=banner, " //
 				+ "matcher: retestid=banner, key: outline, " //
 				+ "matcher: key: outline, " //
