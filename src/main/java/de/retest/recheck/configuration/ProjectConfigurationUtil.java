@@ -7,15 +7,23 @@ public class ProjectConfigurationUtil {
 
 	private ProjectConfigurationUtil() {}
 
-	public static Optional<Path> findProjectConfiguration() {
-		return ProjectRootFinderUtil.getProjectRoot().map( ProjectConfigurationUtil::resolveProperties );
+	public static Optional<Path> findProjectConfigurationFolder() {
+		return ProjectRootFinderUtil.getProjectRoot()
+				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER ) );
 	}
 
-	public static Optional<Path> findProjectConfiguration( final Path path ) {
-		return ProjectRootFinderUtil.getProjectRoot( path ).map( ProjectConfigurationUtil::resolveProperties );
+	public static Optional<Path> findProjectConfigurationFolder( final Path basePath ) {
+		return ProjectRootFinderUtil.getProjectRoot( basePath )
+				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER ) );
 	}
 
-	private static Path resolveProperties( final Path path ) {
-		return path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
+	public static Optional<Path> findProjectConfigurationProperties() {
+		return ProjectRootFinderUtil.getProjectRoot()
+				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) );
+	}
+
+	public static Optional<Path> findProjectConfigurationProperties( final Path basePath ) {
+		return ProjectRootFinderUtil.getProjectRoot( basePath )
+				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) );
 	}
 }
