@@ -11,13 +11,10 @@ public class ProjectRootFinderUtil {
 
 	private static final Set<ProjectRootFinder> projectRootFinder = Sets.newHashSet( new MavenProjectRootFinder() );
 
-	private ProjectRootFinderUtil() {
-
-	}
+	private ProjectRootFinderUtil() {}
 
 	public static Optional<Path> getProjectRoot() {
 		final Path baseFolder = Paths.get( System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" ) );
-
 		return getProjectRoot( baseFolder.toAbsolutePath() );
 	}
 

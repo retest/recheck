@@ -10,7 +10,25 @@ import org.junit.jupiter.api.Test;
 class ProjectRootFinderTest {
 
 	@Test
-	void project_root_should_be_found() throws Exception {
+	void project_root_should_be_found_from_absolute_path() throws Exception {
+		final Path expected = Paths.get( "" ).toAbsolutePath();
+		final Path actual = ProjectRootFinderUtil.getProjectRoot( Paths.get( "" ).toAbsolutePath() ).get();
+
+		assertThat( expected ).isEqualTo( actual );
+	}
+
+	@Test
+	void project_root_should_be_found_from_absolute_subpath() throws Exception {
+		final Path expected = Paths.get( "" ).toAbsolutePath();
+		final Path pathInTarget = Paths.get( "target/test-classes" ).toAbsolutePath();
+
+		final Path actual = ProjectRootFinderUtil.getProjectRoot( pathInTarget ).get();
+
+		assertThat( expected ).isEqualTo( actual );
+	}
+
+	@Test
+	void project_root_should_be_found_from_relative_path() throws Exception {
 		final Path expected = Paths.get( "" ).toAbsolutePath();
 		final Path actual = ProjectRootFinderUtil.getProjectRoot().get();
 
@@ -18,9 +36,9 @@ class ProjectRootFinderTest {
 	}
 
 	@Test
-	void project_root_should_be_found_from_subpath() throws Exception {
+	void project_root_should_be_found_from_relative_subpath() throws Exception {
 		final Path expected = Paths.get( "" ).toAbsolutePath();
-		final Path pathInTarget = Paths.get( "target/test-classes" ).toAbsolutePath();
+		final Path pathInTarget = Paths.get( "target/test-classes" );
 
 		final Path actual = ProjectRootFinderUtil.getProjectRoot( pathInTarget ).get();
 
