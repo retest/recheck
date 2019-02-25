@@ -5,25 +5,17 @@ import java.util.Optional;
 
 public class ProjectConfigurationUtil {
 
-	private ProjectConfigurationUtil() {
-
-	}
+	private ProjectConfigurationUtil() {}
 
 	public static Optional<Path> findProjectConfiguration() {
-		final Optional<Path> projectConfigurationFolder = ProjectRootFinderUtil.getProjectRoot();
-		return findProjectConfiguration( projectConfigurationFolder );
+		return ProjectRootFinderUtil.getProjectRoot().map( ProjectConfigurationUtil::resolveProperties );
 	}
 
 	public static Optional<Path> findProjectConfiguration( final Path path ) {
-		final Optional<Path> projectConfigurationFolder = ProjectRootFinderUtil.getProjectRoot( path );
-		return findProjectConfiguration( projectConfigurationFolder );
+		return ProjectRootFinderUtil.getProjectRoot( path ).map( ProjectConfigurationUtil::resolveProperties );
 	}
 
-	private static Optional<Path> findProjectConfiguration( final Optional<Path> projectConfigurationFolder ) {
-		if ( projectConfigurationFolder.isPresent() ) {
-			return Optional.of( projectConfigurationFolder.get() //
-					.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) );
-		}
-		return Optional.empty();
+	private static Path resolveProperties( final Path path ) {
+		return path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
 	}
 }

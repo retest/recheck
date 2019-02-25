@@ -32,10 +32,7 @@ public class LoadShouldIgnoreWorker {
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
-		final Optional<Path> ignoreRuleFile = RecheckIgnoreUtil.getIgnoreRuleFile();
-		if ( ignoreRuleFile.isPresent() ) {
-			result.add( new JSShouldIgnoreImpl( ignoreRuleFile.get() ) );
-		}
+		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSShouldIgnoreImpl( file ) ) );
 
 		return result;
 	}
