@@ -29,8 +29,8 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 	}
 
 	private String to( final ElementDifference difference, final String indent ) {
-		final PrinterValueProvider defaults = PrinterValueProvider.of( finder, difference.getIdentifyingAttributes() );
-		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( defaults );
+		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
+		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder );
 		return difference.getAttributeDifferences( ignore ).stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
