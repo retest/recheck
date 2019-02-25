@@ -30,11 +30,8 @@ public class RecheckIgnoreUtil {
 	private static Optional<Path> getRetestFile( final String filename ) {
 		final String projectBasePath = System.getProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "" );
 		final Optional<Path> projectRoot = ProjectRootFinderUtil.getProjectRoot( Paths.get( projectBasePath ) );
-		if ( projectRoot.isPresent() ) {
-			return Optional.of( projectRoot.get().resolve( filename ) );
-		}
+		return projectRoot.map( path -> path.resolve( filename ) );
 
-		return Optional.empty();
 	}
 
 	public static GlobalIgnoreApplier loadRecheckIgnore() {
