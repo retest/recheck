@@ -9,7 +9,7 @@ public interface PrinterValueProvider {
 
 	boolean isDefault( String key, Serializable value );
 
-	static PrinterValueProvider of( DefaultValueFinder finder, IdentifyingAttributes attributes ) {
-		return (key, value) -> finder != null && finder.isDefaultValue( attributes, key, value );
+	static PrinterValueProvider of( final DefaultValueFinder finder, final IdentifyingAttributes attributes ) {
+		return ( key, value ) -> finder != null && finder.isDefaultValue( attributes, key, value );
 	}
 }

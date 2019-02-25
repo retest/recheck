@@ -1,6 +1,5 @@
 package de.retest.recheck.printer;
 
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.ignore.ShouldIgnore;
@@ -10,12 +9,11 @@ import de.retest.recheck.ui.DefaultValueFinder;
 
 public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
-	private final Function<String, DefaultValueFinder> defaultValueFinder;
+	private final DefaultValueFinderProvider provider;
 	private final ShouldIgnore ignore;
 
-	public TestReplayResultPrinter( final Function<String, DefaultValueFinder> defaultValueFinder,
-			final ShouldIgnore ignore ) {
-		this.defaultValueFinder = defaultValueFinder;
+	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final ShouldIgnore ignore ) {
+		this.provider = provider;
 		this.ignore = ignore;
 	}
 
@@ -36,7 +34,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	}
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {
-		final DefaultValueFinder finder = defaultValueFinder.apply( result.getDescription() );
+		final DefaultValueFinder finder = provider.findForAction( result.getDescription() );
 		final ActionReplayResultPrinter printer = new ActionReplayResultPrinter( finder, ignore );
 		return printer.toString( result, indent );
 	}

@@ -1,6 +1,7 @@
 package de.retest.recheck.printer;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -8,6 +9,8 @@ import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 class AttributeDifferencePrinterTest {
@@ -16,7 +19,8 @@ class AttributeDifferencePrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new AttributeDifferencePrinter( new PrinterFinder() );
+		final IdentifyingAttributes attributes = mock( IdentifyingAttributes.class );
+		cut = new AttributeDifferencePrinter( attributes, new PrinterFinder() );
 	}
 
 	@Test
@@ -55,10 +59,11 @@ class AttributeDifferencePrinterTest {
 		assertThat( string ).contains( "expected=\"(default)\"" );
 	}
 
-	class PrinterFinder implements PrinterValueProvider {
+	class PrinterFinder implements DefaultValueFinder {
 
 		@Override
-		public boolean isDefault( final String key, final Serializable value ) {
+		public boolean isDefaultValue( final IdentifyingAttributes attributes, final String key,
+				final Serializable value ) {
 			return Objects.equals( "a", value );
 		}
 	}
