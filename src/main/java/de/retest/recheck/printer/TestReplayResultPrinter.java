@@ -19,18 +19,20 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	@Override
 	public String toString( final TestReplayResult difference, final String indent ) {
-		final String status = indent + testResult( difference );
-		final String differences = difference.getActionReplayResults().stream() //
-				.map( a -> formatAction( a, indent ) ) //
-				.collect( Collectors.joining( "\n" ) );
-		return status + "\n" + differences;
+		return indent + createDescription( difference ) + "\n" + createDifferences( difference, indent );
 	}
 
-	private String testResult( final TestReplayResult result ) {
+	private String createDescription( final TestReplayResult result ) {
 		final String name = result.getName();
 		final int differences = result.getDifferences( ignore ).size();
-		return String.format( "Test '%s' has %d differences in %d states:", name, differences,
-				result.getActionReplayResults().size() );
+		final int states = result.getActionReplayResults().size();
+		return String.format( "Test '%s' has %d differences in %d states:", name, differences, states );
+	}
+
+	private String createDifferences( final TestReplayResult difference, final String indent ) {
+		return difference.getActionReplayResults().stream() //
+				.map( a -> formatAction( a, indent ) ) //
+				.collect( Collectors.joining( "\n" ) );
 	}
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {

@@ -20,24 +20,31 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	@Override
 	public String toString( final ActionReplayResult difference, final String indent ) {
-		final String prefix = indent + difference.getDescription() + " resulted in:\n";
+		final String prefix = indent + createDescription( difference ) + "\n";
+		final String nextIndent = indent + "\t";
 		final ExceptionWrapper error = difference.getThrowableWrapper();
 		if ( error != null ) {
-			return prefix + indent + "\t" + error;
+			return prefix + nextIndent + error;
 		}
 		final Throwable targetNotFound = difference.getTargetNotFoundException();
 		if ( targetNotFound != null ) {
-			return prefix + indent + "\t" + targetNotFound;
+			return prefix + nextIndent + targetNotFound;
 		}
 		if ( difference instanceof NoRecheckFileActionReplayResult ) {
-			return prefix + indent + "\t" + NoRecheckFileActionReplayResult.MSG_LONG;
+			return prefix + nextIndent + NoRecheckFileActionReplayResult.MSG_LONG;
 		}
-		final String diffs = difference.getAllElementDifferences().stream() //
-				.filter( diff -> !ignore.shouldIgnoreElement( diff.getElement() ) ) //
-				.filter( diff -> !diff.getAttributeDifferences( ignore ).isEmpty() )
-				.map( diff -> printer.toString( diff, indent + "\t" ) ) //
-				.collect( Collectors.joining( "\n" ) );
-		return prefix + diffs;
+		return prefix + createDifferences( difference, nextIndent );
 	}
 
+	private String createDescription( final ActionReplayResult difference ) {
+		return difference.getDescription() + " resulted in:";
+	}
+
+	private String createDifferences( final ActionReplayResult difference, final String indent ) {
+		return difference.getAllElementDifferences().stream() //
+				.filter( diff -> !ignore.shouldIgnoreElement( diff.getElement() ) ) //
+				.filter( diff -> !diff.getAttributeDifferences( ignore ).isEmpty() )
+				.map( diff -> printer.toString( diff, indent ) ) //
+				.collect( Collectors.joining( "\n" ) );
+	}
 }

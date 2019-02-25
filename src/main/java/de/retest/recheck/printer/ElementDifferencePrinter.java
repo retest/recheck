@@ -19,16 +19,15 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	@Override
 	public String toString( final ElementDifference difference, final String indent ) {
-		return formatElementDifference( difference, indent );
+		return indent + createDescription( difference ) + "\n" + createDifferences( difference, indent + "\t" );
 	}
 
-	private String formatElementDifference( final ElementDifference difference, final String indent ) {
-		final IdentifyingAttributes id = difference.getIdentifyingAttributes();
-		final String prefix = String.format( "%s%s at '%s':%n", indent, id, id.getPath() );
-		return prefix + to( difference, indent + "\t" );
+	private String createDescription( final ElementDifference difference ) {
+		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
+		return attributes + " at '" + attributes.getPath() + "':";
 	}
 
-	private String to( final ElementDifference difference, final String indent ) {
+	private String createDifferences( final ElementDifference difference, final String indent ) {
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
 		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder );
 		return difference.getAttributeDifferences( ignore ).stream() //
