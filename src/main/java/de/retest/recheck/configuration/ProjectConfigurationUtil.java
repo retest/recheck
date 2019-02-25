@@ -16,14 +16,4 @@ public class ProjectConfigurationUtil {
 		return ProjectRootFinderUtil.getProjectRoot( basePath )
 				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER ) );
 	}
-
-	public static Optional<Path> findProjectConfigurationProperties() {
-		return ProjectRootFinderUtil.getProjectRoot()
-				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) );
-	}
-
-	public static Optional<Path> findProjectConfigurationProperties( final Path basePath ) {
-		return ProjectRootFinderUtil.getProjectRoot( basePath )
-				.map( path -> path.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES ) );
-	}
 }
