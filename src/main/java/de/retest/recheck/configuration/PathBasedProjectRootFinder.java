@@ -9,12 +9,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MavenProjectRootFinder implements ProjectRootFinder {
+public class PathBasedProjectRootFinder implements ProjectRootFinder {
 
-	private static final Logger logger = LoggerFactory.getLogger( MavenProjectRootFinder.class );
+	private static final Logger logger = LoggerFactory.getLogger( PathBasedProjectRootFinder.class );
 	private final Set<Path> indicators = new HashSet<>();
 
-	public MavenProjectRootFinder() {
+	public PathBasedProjectRootFinder() {
 		indicators.add( Paths.get( "src/main/java" ) );
 		indicators.add( Paths.get( "src/test/java" ) );
 	}

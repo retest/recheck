@@ -9,7 +9,7 @@ import com.google.common.collect.Sets;
 
 public class ProjectRootFinderUtil {
 
-	private static final Set<ProjectRootFinder> projectRootFinder = Sets.newHashSet( new MavenProjectRootFinder() );
+	private static final Set<ProjectRootFinder> projectRootFinder = Sets.newHashSet( new PathBasedProjectRootFinder() );
 
 	private ProjectRootFinderUtil() {}
 
