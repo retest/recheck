@@ -15,6 +15,7 @@ public class PathBasedProjectRootFinder implements ProjectRootFinder {
 	private final Set<Path> indicators = new HashSet<>();
 
 	public PathBasedProjectRootFinder() {
+		indicators.add( Paths.get( ".retest" ) );
 		indicators.add( Paths.get( "src/main/java" ) );
 		indicators.add( Paths.get( "src/test/java" ) );
 	}
