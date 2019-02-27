@@ -2,6 +2,8 @@ package de.retest.recheck.printer;
 
 import java.io.Serializable;
 
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class AttributeDifferencePrinter implements Printer<AttributeDifference> {
@@ -10,10 +12,12 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 
 	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
 
-	private final PrinterValueProvider defaultProvider;
+	private final IdentifyingAttributes attributes;
+	private final DefaultValueFinder defaultProvider;
 
-	public AttributeDifferencePrinter( final PrinterValueProvider defaultProvider ) {
-		this.defaultProvider = defaultProvider;
+	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder finder ) {
+		this.attributes = attributes;
+		defaultProvider = finder;
 	}
 
 	@Override
@@ -32,7 +36,7 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	}
 
 	private boolean isActualDefault( final AttributeDifference difference ) {
-		return defaultProvider.isDefault( difference.getKey(), difference.getActual() );
+		return defaultProvider.isDefaultValue( attributes, difference.getKey(), difference.getActual() );
 	}
 
 	private String printActualDefaultDifference( final AttributeDifference difference ) {

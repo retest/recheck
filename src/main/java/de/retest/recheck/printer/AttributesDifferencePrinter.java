@@ -2,14 +2,16 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
+import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributesDifference;
 
 public class AttributesDifferencePrinter implements Printer<AttributesDifference> {
 
 	private final AttributeDifferencePrinter delegate;
 
-	public AttributesDifferencePrinter( final PrinterValueProvider finder ) {
-		delegate = new AttributeDifferencePrinter( finder );
+	public AttributesDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder finder ) {
+		delegate = new AttributeDifferencePrinter( attributes, finder );
 	}
 
 	@Override

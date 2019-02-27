@@ -136,9 +136,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		currentTestResult = null;
 		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( ignoreApplier );
 		if ( !uniqueDifferences.isEmpty() ) {
-			final String message =
-					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
-							: getDifferencesErrorMessage( finishedTestResult );
+			final String message = finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage()
+					: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
 	}
@@ -184,9 +183,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
-	private String getNoRecheckFilesErrorMessage( final TestReplayResult finishedTestResult ) {
-		return "'" + suiteName + "'"
-				+ finishedTestResult.toString().substring( finishedTestResult.toString().lastIndexOf( ':' ) );
+	private String getNoRecheckFilesErrorMessage() {
+		return "'" + suiteName + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG;
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {

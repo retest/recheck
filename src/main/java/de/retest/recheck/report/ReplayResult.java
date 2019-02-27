@@ -16,8 +16,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.google.common.base.Joiner;
-
 import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.persistence.GoldenMasterSourceSuppressDefaultAdapter;
 import de.retest.recheck.persistence.Persistable;
@@ -81,7 +79,12 @@ public class ReplayResult extends Persistable {
 
 	@Override
 	public String toString() {
-		return Joiner.on( "\n" ).join( suiteReplayResults );
+		return "ReplayResult(Tests: " + getNumberOfTests() //
+				+ ", Actions: " + getNumberOfActions() //
+				+ ", Checked Elements: " + getCheckedUiElementsCount() //
+				+ ", Differences: " + getDifferencesCount() //
+				+ ", Errors: " + getErrorsCount() //
+				+ ")";
 	}
 
 	public int getNumberOfTests() {
