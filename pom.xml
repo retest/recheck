@@ -104,7 +104,6 @@
 			<version>0.6</version>
 		</dependency>
 
-
 		<!-- retest-sut-api -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
