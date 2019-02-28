@@ -15,15 +15,15 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 			@Override
 			public File getFile( final String extension ) {
 				final String baseName = String.join( "/", baseNames );
-				return new File( DEFAULT_RETEST_WORKSPACE_PATH + File.separator + RECHECK_FOLDER_NAME + File.separator
-						+ baseName + extension );
+				return new File( DEFAULT_RETEST_WORKSPACE_PATH + File.separator + Properties.RECHECK_FOLDER_NAME
+						+ File.separator + baseName + extension );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
 				final String baseName = String.join( "/", baseNames );
-				return new File( DEFAULT_RETEST_TESTREPORTS_PATH + File.separator + RECHECK_FOLDER_NAME + File.separator
-						+ baseName + extension );
+				return new File( DEFAULT_RETEST_TESTREPORTS_PATH + File.separator + Properties.RECHECK_FOLDER_NAME
+						+ File.separator + baseName + extension );
 			}
 		};
 	}
