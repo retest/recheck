@@ -12,7 +12,6 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
 		return new FileNamer() {
-
 			@Override
 			public File getFile( final String extension ) {
 				final String baseName = String.join( "/", baseNames );
@@ -29,21 +28,4 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 		};
 	}
 
-	@Override
-	public String getTestClassName() {
-		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
-		if ( testMethodStack != null ) {
-			return testMethodStack.getClassName();
-		}
-		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
-	}
-
-	@Override
-	public String getTestMethodName() {
-		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
-		if ( testMethodStack != null ) {
-			return testMethodStack.getMethodName();
-		}
-		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
-	}
 }

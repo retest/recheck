@@ -9,7 +9,20 @@ public interface FileNamerStrategy {
 
 	public FileNamer createFileNamer( String... baseNames );
 
-	public String getTestClassName();
+	default String getTestClassName() {
+		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
+		if ( testMethodStack != null ) {
+			return testMethodStack.getClassName();
+		}
+		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
+	}
 
-	String getTestMethodName();
+	default String getTestMethodName() {
+		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
+		if ( testMethodStack != null ) {
+			return testMethodStack.getMethodName();
+		}
+		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
+	}
+
 }
