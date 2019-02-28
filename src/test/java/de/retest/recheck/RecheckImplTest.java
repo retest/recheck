@@ -39,8 +39,9 @@ class RecheckImplTest {
 	@Test
 	void exec_suite_name_should_be_used_for_result_file_name() throws Exception {
 		final String suiteName = "FooBar";
-		final RecheckOptions opts = new RecheckOptions();
-		opts.setSuiteName( suiteName );
+		final RecheckOptions opts = RecheckOptions.builder() //
+				.suiteName( suiteName ) //
+				.build();
 		final RecheckImpl cut = new RecheckImpl( opts );
 		final String resultFileName = cut.getResultFile().getName();
 		assertThat( resultFileName ).isEqualTo( suiteName + ".result" );
@@ -48,16 +49,18 @@ class RecheckImplTest {
 
 	@Test
 	void calling_check_without_startTest_should_work( @TempDir final Path root ) throws Exception {
-		final RecheckOptions opts = new RecheckOptions();
-		opts.setFileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) );
+		final RecheckOptions opts = RecheckOptions.builder() //
+				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
+				.build();
 		final RecheckImpl cut = new RecheckImpl( opts );
 		cut.check( "String", new DummyStringRecheckAdapter(), "step" );
 	}
 
 	@Test
 	void calling_with_no_GM_should_produce_better_error_msg( @TempDir final Path root ) throws Exception {
-		final RecheckOptions opts = new RecheckOptions();
-		opts.setFileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) );
+		final RecheckOptions opts = RecheckOptions.builder() //
+				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
+				.build();
 		final RecheckImpl cut = new RecheckImpl( opts );
 
 		final RootElement rootElement = mock( RootElement.class );

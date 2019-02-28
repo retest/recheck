@@ -1,24 +1,16 @@
 package de.retest.recheck;
 
+import lombok.Builder;
+import lombok.Value;
+
+@Builder
+@Value
 public class RecheckOptions {
 
-	private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
-	private String suiteName = fileNamerStrategy.getTestClassName();
+	@Builder.Default
+	FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
 
-	public FileNamerStrategy getFileNamerStrategy() {
-		return fileNamerStrategy;
-	}
-
-	public void setFileNamerStrategy( final FileNamerStrategy fileNamerStrategy ) {
-		this.fileNamerStrategy = fileNamerStrategy;
-	}
-
-	public String getSuiteName() {
-		return suiteName;
-	}
-
-	public void setSuiteName( final String suiteName ) {
-		this.suiteName = suiteName;
-	}
+	@Builder.Default
+	String suiteName = new MavenConformFileNamerStrategy().getTestClassName();
 
 }
