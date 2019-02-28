@@ -96,6 +96,12 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.8.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.6</version>
+		</dependency>
 		
 		<!-- retest-model -->
 		<dependency>
@@ -103,7 +109,6 @@
 			<artifactId>quickcheck</artifactId>
 			<version>0.6</version>
 		</dependency>
-
 
 		<!-- retest-sut-api -->
 		<dependency>

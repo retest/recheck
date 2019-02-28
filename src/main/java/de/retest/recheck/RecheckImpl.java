@@ -43,11 +43,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final GlobalIgnoreApplier ignoreApplier;
 
 	public RecheckImpl() {
-		this( new RecheckOptions() );
-	}
-
-	public RecheckImpl( final FileNamerStrategy fileNamerStrategy ) {
-		this( new RecheckOptions( fileNamerStrategy, fileNamerStrategy.getTestClassName() ) );
+		this( RecheckOptions.builder().build() );
 	}
 
 	public RecheckImpl( final RecheckOptions options ) {
