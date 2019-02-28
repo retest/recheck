@@ -8,9 +8,9 @@ import lombok.Value;
 public class RecheckOptions {
 
 	@Builder.Default
-	FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
+	private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
 
 	@Builder.Default
-	String suiteName = new MavenConformFileNamerStrategy().getTestClassName();
+	private String suiteName = new MavenConformFileNamerStrategy().getTestClassName();
 
 }
