@@ -7,7 +7,7 @@ import de.retest.recheck.persistence.FileNamer;
 public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 
 	public static final String DEFAULT_RETEST_WORKSPACE_PATH = "src/test/resources/retest/";
-	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "build/test-results/test";
+	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "build/test-results/test/";
 
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
