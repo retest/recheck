@@ -12,19 +12,21 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
 		return new FileNamer() {
-
 			@Override
 			public File getFile( final String extension ) {
-				final String baseName = String.join( "/", baseNames );
-				return new File( DEFAULT_RETEST_WORKSPACE_PATH + File.separator + baseName + extension );
+				return toFile( DEFAULT_RETEST_WORKSPACE_PATH, extension, baseNames );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
-				final String baseName = String.join( "/", baseNames );
-				return new File( DEFAULT_RETEST_TESTREPORTS_PATH + File.separator + baseName + extension );
+				return toFile( DEFAULT_RETEST_TESTREPORTS_PATH, extension, baseNames );
 			}
 		};
+	}
+
+	private File toFile( final String prefix, final String extension, final String... baseNames ) {
+		final String baseName = String.join( File.separator, baseNames );
+		return new File( prefix + File.separator + baseName + extension );
 	}
 
 }
