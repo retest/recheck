@@ -25,6 +25,7 @@ public interface ShouldIgnore {
 	 *
 	 * @param element
 	 *            The element in question.
+	 * @return <code>true</code> if the given element should be completely ignored.
 	 */
 	boolean shouldIgnoreElement( final Element element );
 
@@ -36,6 +37,12 @@ public interface ShouldIgnore {
 	 * Note that for some elements all values of a given attribute key could be ignored, or an attribute key for all
 	 * elements. But sometimes one wants to specify that a certain difference is meaningless, such as
 	 * <code>Times Roman</code> vs. <code>Times New Roman</code> for font-family or a 5px difference for outline.
+	 *
+	 * @param element
+	 *            The element in question.
+	 * @param attributeDifference
+	 *            The attribute difference for the given element.
+	 * @return <code>true</code> if the given attribute difference should be ignored.
 	 */
 	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );
 
