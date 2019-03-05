@@ -185,7 +185,9 @@ public class ActionReplayResult implements Serializable {
 	}
 
 	/**
-	 * Return <em>all</em> child differences recursively (also child-child differences).
+	 * Recursively gets <em>all</em> element differences (including child-child-... differences).
+	 *
+	 * @return all element differences
 	 */
 	public List<ElementDifference> getAllElementDifferences() {
 		final List<ElementDifference> differences = new ArrayList<>();
