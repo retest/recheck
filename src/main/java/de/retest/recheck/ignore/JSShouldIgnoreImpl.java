@@ -26,7 +26,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	private static final String JS_ENGINE_NAME = "JavaScript";
 
 	private final ScriptEngine engine;
-	private final Set<String> unknownFunctions = new HashSet<>();
+	private final Set<String> errorFunctions = new HashSet<>();
 
 	public JSShouldIgnoreImpl( final Path ignoreFilePath ) {
 		final ScriptEngineManager manager = new ScriptEngineManager();
@@ -60,7 +60,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
-		if ( unknownFunctions.contains( functionName ) ) {
+		if ( errorFunctions.contains( functionName ) ) {
 			return false;
 		}
 		final Invocable inv = (Invocable) engine;
@@ -74,13 +74,15 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 			}
 			if ( !(callResult instanceof Boolean) ) {
 				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean.", callResult, callResult.getClass() );
+				errorFunctions.add( functionName );
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
 			logger.error( "JS '{}' method caused an exception: {}", functionName, e.getMessage() );
+			errorFunctions.add( functionName );
 		} catch ( final NoSuchMethodException e ) {
 			logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
-			unknownFunctions.add( functionName );
+			errorFunctions.add( functionName );
 		}
 		return false;
 	}
