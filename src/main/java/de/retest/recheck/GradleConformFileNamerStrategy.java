@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import static de.retest.recheck.Properties.RECHECK_FOLDER_NAME;
+
 import java.io.File;
 import java.util.Objects;
 
@@ -21,7 +23,7 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 	}
 
 	public static final String DEFAULT_RETEST_WORKSPACE_PATH = "src/%s/resources/retest/";
-	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "build/test-results/%s/";
+	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "build/test-results/%s/retest/";
 
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
@@ -41,7 +43,7 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 	private File toFile( final String prefixFormat, final String extension, final String... baseNames ) {
 		final String baseName = String.join( File.separator, baseNames );
 		final String prefix = String.format( prefixFormat, sourceSetName );
-		return new File( prefix + File.separator + baseName + extension );
+		return new File( prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
 	}
 
 }
