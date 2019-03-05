@@ -33,8 +33,8 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		engine = manager.getEngineByName( JS_ENGINE_NAME );
 		try {
 			engine.eval( readScriptFile( ignoreFilePath ) );
-		} catch ( final ScriptException e ) {
-			throw new IllegalArgumentException( e );
+		} catch ( final Exception e ) {
+			logger.error( "Reading script file '{}' caused exception: ", ignoreFilePath, e );
 		}
 	}
 
@@ -72,12 +72,11 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 				return false;
 			}
 			if ( !(callResult instanceof Boolean) ) {
-				throw new ClassCastException( "'" + callResult + "' of type " + callResult.getClass()
-						+ " cannot be cast to java.lang.Boolean." );
+				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean.", callResult, callResult.getClass() );
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
-			throw new IllegalArgumentException( "JS `" + functionName + "` method caused an exception: ", e );
+			logger.error( "JS '{}' method caused an exception: {}", functionName, e.getMessage() );
 		} catch ( final NoSuchMethodException e ) {
 			logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
 			unknownFunctions.add( functionName );
