@@ -1,7 +1,7 @@
 package de.retest.recheck.ignore;
 
-import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,8 +42,9 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		try {
 			logger.info( "Reading JS ignore rules file from {}.", ignoreFilePath );
 			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
-		} catch ( final IOException e ) {
-			throw new IllegalArgumentException( e );
+		} catch ( final Exception e ) {
+			logger.error( "Error opening JS file from '{}': ", ignoreFilePath, e );
+			return new StringReader( "" );
 		}
 	}
 

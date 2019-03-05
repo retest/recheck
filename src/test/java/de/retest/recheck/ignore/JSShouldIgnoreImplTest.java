@@ -39,6 +39,12 @@ class JSShouldIgnoreImplTest {
 	}
 
 	@Test
+	void nonexistent_file_should_not_cause_exception() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {};
+		cut.shouldIgnoreElement( Mockito.mock( Element.class ) );
+	}
+
+	@Test
 	void shouldIgnoreElement_should_be_called() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
