@@ -32,20 +32,19 @@ class GradleConformFileNamerStrategyTest {
 		final File resultFile = fileNamer.getResultFile( Properties.REPORT_FILE_EXTENSION );
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/integrationTest/resources/retest/recheck/foo/bar.recheck" );
-		assertThat( resultFile.getPath() ).isEqualTo( "build/test-results/integrationTest/retest/recheck/foo/bar.result" );
+		assertThat( resultFile.getPath() )
+				.isEqualTo( "build/test-results/integrationTest/retest/recheck/foo/bar.result" );
 	}
 
 	@Test
 	void should_not_allow_null_source_set_name() {
 		assertThatThrownBy( () -> new GradleConformFileNamerStrategy( null ) )
-				.isExactlyInstanceOf( NullPointerException.class )
-				.hasMessage( "sourceSetName cannot be null!" );
+				.isExactlyInstanceOf( NullPointerException.class ).hasMessage( "sourceSetName cannot be null!" );
 	}
 
 	@Test
 	void should_not_allow_empty_source_set_name() {
 		assertThatThrownBy( () -> new GradleConformFileNamerStrategy( "" ) )
-				.isExactlyInstanceOf( IllegalArgumentException.class )
-				.hasMessage( "sourceSetName cannot be empty!" );
+				.isExactlyInstanceOf( IllegalArgumentException.class ).hasMessage( "sourceSetName cannot be empty!" );
 	}
 }

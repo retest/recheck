@@ -12,7 +12,7 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 		this( "test" );
 	}
 
-	public GradleConformFileNamerStrategy( String sourceSetName ) {
+	public GradleConformFileNamerStrategy( final String sourceSetName ) {
 		Objects.requireNonNull( sourceSetName, "sourceSetName cannot be null!" );
 		if ( sourceSetName.isEmpty() ) {
 			throw new IllegalArgumentException( "sourceSetName cannot be empty!" );
