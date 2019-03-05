@@ -7,13 +7,31 @@ import java.util.Objects;
 
 import de.retest.recheck.persistence.FileNamer;
 
+/**
+ * Gradle-conform file namer strategy that uses the following paths:
+ * <ul>
+ * <li>Golden Master files: <code>src/${SOURCE_SET_NAME}/resources/retest/recheck/</code></li>
+ * <li>Result files: <code>build/test-results/${SOURCE_SET_NAME}/retest/recheck/</code></li>
+ * </ul>
+ * If not set, "test" will be used for <code>${SOURCE_SET_NAME}</code>.
+ */
 public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 	private final String sourceSetName;
 
+	/**
+	 * Creates a Gradle-conform file namer strategy using "test" for <code>${SOURCE_SET_NAME}</code>.
+	 */
 	public GradleConformFileNamerStrategy() {
 		this( "test" );
 	}
 
+	/**
+	 * Creates a Gradle-conform file namer strategy using <code>sourceSetName</code> for
+	 * <code>${SOURCE_SET_NAME}</code>.
+	 *
+	 * @param sourceSetName
+	 *            value for <code>${SOURCE_SET_NAME}</code>
+	 */
 	public GradleConformFileNamerStrategy( final String sourceSetName ) {
 		Objects.requireNonNull( sourceSetName, "sourceSetName cannot be null!" );
 		if ( sourceSetName.isEmpty() ) {

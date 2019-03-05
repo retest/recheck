@@ -6,6 +6,13 @@ import java.io.File;
 
 import de.retest.recheck.persistence.FileNamer;
 
+/**
+ * Maven-conform file namer strategy that uses the following paths:
+ * <ul>
+ * <li>Golden Master files: <code>src/test/resources/retest/recheck/</code></li>
+ * <li>Result files: <code>target/test-classes/retest/recheck/</code></li>
+ * </ul>
+ */
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
 	public static final String DEFAULT_RETEST_WORKSPACE_PATH = "src/test/resources/retest/";
