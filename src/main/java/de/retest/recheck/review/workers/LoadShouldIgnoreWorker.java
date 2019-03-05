@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import de.retest.recheck.ignore.JSShouldIgnoreImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.GlobalIgnoreApplier;
@@ -29,7 +30,11 @@ public class LoadShouldIgnoreWorker {
 				.filter( ShouldIgnore.class::isInstance ) //
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
-		return GlobalIgnoreApplier.create( counter, ignoreApplier );
+		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
+
+		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSShouldIgnoreImpl( file ) ) );
+
+		return result;
 	}
 
 	public Counter getCounter() {
