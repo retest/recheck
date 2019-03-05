@@ -22,20 +22,20 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 		this.sourceSetName = sourceSetName;
 	}
 
-	public static final String DEFAULT_RETEST_WORKSPACE_PATH = "src/%s/resources/retest/";
-	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "build/test-results/%s/retest/";
+	public static final String DEFAULT_RETEST_WORKSPACE_PATH_FORMAT = "src/%s/resources/retest/";
+	public static final String DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT = "build/test-results/%s/retest/";
 
 	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
 		return new FileNamer() {
 			@Override
 			public File getFile( final String extension ) {
-				return toFile( DEFAULT_RETEST_WORKSPACE_PATH, extension, baseNames );
+				return toFile( DEFAULT_RETEST_WORKSPACE_PATH_FORMAT, extension, baseNames );
 			}
 
 			@Override
 			public File getResultFile( final String extension ) {
-				return toFile( DEFAULT_RETEST_TESTREPORTS_PATH, extension, baseNames );
+				return toFile( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, extension, baseNames );
 			}
 		};
 	}
