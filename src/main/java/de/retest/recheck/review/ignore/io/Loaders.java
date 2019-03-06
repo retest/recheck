@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
@@ -42,6 +43,14 @@ public class Loaders {
 				.findFirst() //
 				.map( Pair::getRight ) //
 				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + clazz ) );
+	}
+
+	public static <T> Loader<T> get( final String line ) {
+		return (Loader<T>) registeredLoaders.stream() //
+				.filter( pair -> pair.getRight().canLoad( line ) ) //
+				.findFirst() //
+				.map( Pair::getRight ) //
+				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + line ) );
 	}
 
 	public static Stream<String> save( final Stream<?> objects ) {
