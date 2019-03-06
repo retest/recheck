@@ -9,13 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectConfiguration {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger( ProjectConfiguration.class );
 
 	public static final String RETEST_PROJECT_CONFIG_FOLDER = ".retest";
 	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
-	public static final String RECHECK_IGNORE_JSRULES = "recheck.js.ignore";
+	public static final String RECHECK_IGNORE_JSRULES = "recheck.ignore.js";
 
 	private static final String DEFAULT_PREFIX = "default-";
 	private static final String RETEST_PROJECT_DEFAULTS = DEFAULT_PREFIX + RETEST_PROJECT_PROPERTIES;
