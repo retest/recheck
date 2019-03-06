@@ -27,4 +27,9 @@ public abstract class RegexLoader<T> implements Loader<T> {
 	}
 
 	protected abstract T load( final MatchResult matcher );
+
+	@Override
+	public String save( final T ignore ) {
+		return ignore.toString();
+	}
 }

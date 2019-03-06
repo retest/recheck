@@ -33,6 +33,11 @@ public class ElementAttributeShouldIgnore implements ShouldIgnore {
 		return matcher.test( element ) && key.equals( attributeDifference.getKey() );
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementAttributeShouldIgnoreLoader.FORMAT, matcher.toString(), key );
+	}
+
 	public static class ElementAttributeShouldIgnoreLoader extends RegexLoader<ElementAttributeShouldIgnore> {
 
 		private static final String MATCHER = "matcher: ";
@@ -51,12 +56,6 @@ public class ElementAttributeShouldIgnore implements ShouldIgnore {
 			final Loader<Matcher> loader = Loaders.get( ElementRetestIdMatcher.class );
 			final String key = regex.group( 2 );
 			return new ElementAttributeShouldIgnore( loader.load( matcher ), key );
-		}
-
-		@Override
-		public String save( final ElementAttributeShouldIgnore ignore ) {
-			final Loader<Matcher> loader = Loaders.get( ElementRetestIdMatcher.class );
-			return String.format( FORMAT, loader.save( ignore.matcher ), ignore.key );
 		}
 	}
 }

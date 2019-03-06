@@ -27,6 +27,10 @@ public class IgnoreCommentLoader implements Loader<ShouldIgnoreComment> {
 			return false;
 		}
 
+		@Override
+		public String toString() {
+			return "# " + comment;
+		}
 	}
 
 	@Override
@@ -41,6 +45,6 @@ public class IgnoreCommentLoader implements Loader<ShouldIgnoreComment> {
 
 	@Override
 	public String save( final ShouldIgnoreComment ignore ) {
-		return "# " + ignore.comment;
+		return ignore.toString();
 	}
 }
