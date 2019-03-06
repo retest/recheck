@@ -1,16 +1,16 @@
 package de.retest.recheck.review.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.review.ignore.ElementShouldIgnore.ElementShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
 class ElementShouldIgnoreLoaderTest {
 
@@ -21,8 +21,12 @@ class ElementShouldIgnoreLoaderTest {
 	void setUp() {
 		cut = new ElementShouldIgnoreLoader();
 
+		final IdentifyingAttributes attributes = mock( IdentifyingAttributes.class );
+		when( attributes.get( "id" ) ).thenReturn( "abc" );
+
 		final Element element = mock( Element.class );
-		when( element.getRetestId() ).thenReturn( "abc" );
+		when( element.getIdentifyingAttributes() ).thenReturn( attributes );
+
 		final ElementIdMatcher matcher = new ElementIdMatcher( element );
 		ignore = new ElementShouldIgnore( matcher );
 	}
