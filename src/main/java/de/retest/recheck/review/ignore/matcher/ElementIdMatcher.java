@@ -11,7 +11,8 @@ public class ElementIdMatcher implements Matcher<Element> {
 	private final String id;
 
 	public ElementIdMatcher( final Element element ) {
-		this( element.getRetestId() );
+		this( element.getIdentifyingAttributes().get( "id" ) != null
+				? element.getIdentifyingAttributes().get( "id" ).toString() : "" );
 	}
 
 	private ElementIdMatcher( final String id ) {
@@ -22,6 +23,11 @@ public class ElementIdMatcher implements Matcher<Element> {
 	public boolean test( final Element element ) {
 		final String elementId = element.getIdentifyingAttributes().get( "id" );
 		return elementId != null && elementId.matches( id );
+	}
+
+	@Override
+	public String toString() {
+		return String.format( ElementIdMatcherLoader.FORMAT, id );
 	}
 
 	public static final class ElementIdMatcherLoader extends RegexLoader<ElementIdMatcher> {
@@ -39,11 +45,6 @@ public class ElementIdMatcher implements Matcher<Element> {
 		protected ElementIdMatcher load( final MatchResult matcher ) {
 			final String id = matcher.group( 1 );
 			return new ElementIdMatcher( id );
-		}
-
-		@Override
-		public String save( final ElementIdMatcher ignore ) {
-			return String.format( FORMAT, ignore.id );
 		}
 	}
 }

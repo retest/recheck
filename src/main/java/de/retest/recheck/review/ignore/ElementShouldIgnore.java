@@ -4,12 +4,12 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import de.retest.recheck.ignore.ShouldIgnore;
-import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.review.ignore.io.Loaders;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.review.ignore.matcher.Matcher;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class ElementShouldIgnore implements ShouldIgnore {
 
@@ -30,6 +30,11 @@ public class ElementShouldIgnore implements ShouldIgnore {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementShouldIgnoreLoader.FORMAT, matcher.toString() );
+	}
+
 	public static class ElementShouldIgnoreLoader extends RegexLoader<ElementShouldIgnore> {
 
 		private static final String MATCHER = "matcher: ";
@@ -44,14 +49,8 @@ public class ElementShouldIgnore implements ShouldIgnore {
 		@Override
 		protected ElementShouldIgnore load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
-			final Loader<Matcher> loader = Loaders.get( Matcher.class );
+			final Loader<Matcher> loader = Loaders.get( matcher );
 			return new ElementShouldIgnore( loader.load( matcher ) );
-		}
-
-		@Override
-		public String save( final ElementShouldIgnore ignore ) {
-			final Loader<Matcher> loader = Loaders.get( Matcher.class );
-			return String.format( FORMAT, loader.save( ignore.matcher ) );
 		}
 	}
 }

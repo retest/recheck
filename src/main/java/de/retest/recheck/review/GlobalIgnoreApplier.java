@@ -9,7 +9,7 @@ import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
 import de.retest.recheck.review.ignore.ElementShouldIgnore;
-import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
@@ -37,7 +37,7 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
-		add( new ElementAttributeShouldIgnore( new ElementRetestIdMatcher( element ), difference.getKey() ) );
+		add( new ElementAttributeShouldIgnore( new ElementXPathMatcher( element ), difference.getKey() ) );
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -50,7 +50,7 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 	}
 
 	public void ignoreElement( final Element element ) {
-		add( new ElementShouldIgnore( new ElementRetestIdMatcher( element ) ) );
+		add( new ElementShouldIgnore( new ElementXPathMatcher( element ) ) );
 	}
 
 	public void unignoreElement( final Element element ) {

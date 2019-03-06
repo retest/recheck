@@ -23,6 +23,11 @@ public class ElementRetestIdMatcher implements Matcher<Element> {
 		return element.getRetestId().matches( retestid );
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementRetestIdMatcherLoader.FORMAT, retestid );
+	}
+
 	public static final class ElementRetestIdMatcherLoader extends RegexLoader<ElementRetestIdMatcher> {
 
 		private static final String RETEST_ID = "retestid=";
@@ -38,11 +43,6 @@ public class ElementRetestIdMatcher implements Matcher<Element> {
 		protected ElementRetestIdMatcher load( final MatchResult matcher ) {
 			final String id = matcher.group( 1 );
 			return new ElementRetestIdMatcher( id );
-		}
-
-		@Override
-		public String save( final ElementRetestIdMatcher ignore ) {
-			return String.format( FORMAT, ignore.retestid );
 		}
 	}
 }

@@ -7,7 +7,6 @@ import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.review.ignore.io.Loaders;
 import de.retest.recheck.review.ignore.io.RegexLoader;
-import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.review.ignore.matcher.Matcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -33,6 +32,11 @@ public class ElementAttributeShouldIgnore implements ShouldIgnore {
 		return matcher.test( element ) && key.equals( attributeDifference.getKey() );
 	}
 
+	@Override
+	public String toString() {
+		return String.format( ElementAttributeShouldIgnoreLoader.FORMAT, matcher.toString(), key );
+	}
+
 	public static class ElementAttributeShouldIgnoreLoader extends RegexLoader<ElementAttributeShouldIgnore> {
 
 		private static final String MATCHER = "matcher: ";
@@ -48,15 +52,9 @@ public class ElementAttributeShouldIgnore implements ShouldIgnore {
 		@Override
 		protected ElementAttributeShouldIgnore load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
-			final Loader<Matcher> loader = Loaders.get( ElementRetestIdMatcher.class );
+			final Loader<Matcher> loader = Loaders.get( matcher );
 			final String key = regex.group( 2 );
 			return new ElementAttributeShouldIgnore( loader.load( matcher ), key );
-		}
-
-		@Override
-		public String save( final ElementAttributeShouldIgnore ignore ) {
-			final Loader<Matcher> loader = Loaders.get( ElementRetestIdMatcher.class );
-			return String.format( FORMAT, loader.save( ignore.matcher ), ignore.key );
 		}
 	}
 }
