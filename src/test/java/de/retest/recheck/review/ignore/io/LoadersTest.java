@@ -16,8 +16,8 @@ class LoadersTest {
 	void test() {
 		final String[] lines = new String[] { //
 				"# This is a comment", //
-				"matcher: retestid=title, key: font", //
-				"matcher: retestid=banner", //
+				"matcher: id=title, key: font", //
+				"matcher: id=banner", //
 				"matcher: retestid=banner", //
 				"matcher: retestid=banner, key: outline", //
 				"\t ", // this is an empty line with invisible whitespace chars
@@ -33,8 +33,8 @@ class LoadersTest {
 
 		assertThat( ignores.toString() ).isEqualTo( "[" //
 				+ "# This is a comment, " //
-				+ "matcher: retestid=title, key: font, " //
-				+ "matcher: retestid=banner, " //
+				+ "matcher: id=title, key: font, " //
+				+ "matcher: id=banner, " //
 				+ "matcher: retestid=banner, " //
 				+ "matcher: retestid=banner, key: outline, " //
 				+ "key=outline, " //
