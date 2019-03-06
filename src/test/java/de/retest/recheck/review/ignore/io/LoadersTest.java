@@ -16,14 +16,14 @@ class LoadersTest {
 	void test() {
 		final String[] lines = new String[] { //
 				"# This is a comment", //
-				"matcher: id=title, key: font", //
+				"matcher: id=title, attribute: font", //
 				"matcher: id=banner", //
 				"matcher: retestid=banner", //
-				"matcher: retestid=banner, key: outline", //
+				"matcher: retestid=banner, attribute: outline", //
 				"\t ", // this is an empty line with invisible whitespace chars
-				"key=outline", //
+				"attribute=outline", //
 				"matcher: xpath=/html[1]/div[1]/div[1]/div[1]", //
-				"matcher: xpath=/html[1]/div[1]/div[1]/div[2], key: background-url" //
+				"matcher: xpath=/html[1]/div[1]/div[1]/div[2], attribute: background-url" //
 		};
 		final List<ShouldIgnore> ignores = Loaders.load( Arrays.asList( lines ).stream() ) //
 				.filter( ShouldIgnore.class::isInstance ) //
@@ -33,13 +33,13 @@ class LoadersTest {
 
 		assertThat( ignores.toString() ).isEqualTo( "[" //
 				+ "# This is a comment, " //
-				+ "matcher: id=title, key: font, " //
+				+ "matcher: id=title, attribute: font, " //
 				+ "matcher: id=banner, " //
 				+ "matcher: retestid=banner, " //
-				+ "matcher: retestid=banner, key: outline, " //
-				+ "key=outline, " //
+				+ "matcher: retestid=banner, attribute: outline, " //
+				+ "attribute=outline, " //
 				+ "matcher: xpath=/html[1]/div[1]/div[1]/div[1], " //
-				+ "matcher: xpath=/html[1]/div[1]/div[1]/div[2], key: background-url" //
+				+ "matcher: xpath=/html[1]/div[1]/div[1]/div[2], attribute: background-url" //
 				+ "]" );
 	}
 

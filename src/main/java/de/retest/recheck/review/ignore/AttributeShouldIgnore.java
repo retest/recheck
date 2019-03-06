@@ -34,7 +34,7 @@ public class AttributeShouldIgnore implements ShouldIgnore {
 
 	public static class AttributeShouldIgnoreLoader extends RegexLoader<AttributeShouldIgnore> {
 
-		private static final String KEY = "key=";
+		private static final String KEY = "attribute=";
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(.+)" );
 
