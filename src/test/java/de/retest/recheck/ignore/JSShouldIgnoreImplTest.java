@@ -28,6 +28,23 @@ class JSShouldIgnoreImplTest {
 	}
 
 	@Test
+	void invalid_shouldIgnoreElement_function_should_not_cause_exception() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( "asdasd.asd.asd();" );
+			}
+		};
+		cut.shouldIgnoreElement( Mockito.mock( Element.class ) );
+	}
+
+	@Test
+	void nonexistent_file_should_not_cause_exception() {
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {};
+		cut.shouldIgnoreElement( Mockito.mock( Element.class ) );
+	}
+
+	@Test
 	void shouldIgnoreElement_should_be_called() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override

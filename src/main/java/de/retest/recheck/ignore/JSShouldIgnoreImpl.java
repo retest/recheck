@@ -1,7 +1,7 @@
 package de.retest.recheck.ignore;
 
-import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,15 +26,15 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	private static final String JS_ENGINE_NAME = "JavaScript";
 
 	private final ScriptEngine engine;
-	private final Set<String> unknownFunctions = new HashSet<>();
+	private final Set<String> errorFunctions = new HashSet<>();
 
 	public JSShouldIgnoreImpl( final Path ignoreFilePath ) {
 		final ScriptEngineManager manager = new ScriptEngineManager();
 		engine = manager.getEngineByName( JS_ENGINE_NAME );
 		try {
 			engine.eval( readScriptFile( ignoreFilePath ) );
-		} catch ( final ScriptException e ) {
-			throw new IllegalArgumentException( e );
+		} catch ( final Exception e ) {
+			logger.error( "Reading script file '{}' caused exception: ", ignoreFilePath, e );
 		}
 	}
 
@@ -42,8 +42,9 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 		try {
 			logger.info( "Reading JS ignore rules file from {}.", ignoreFilePath );
 			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
-		} catch ( final IOException e ) {
-			throw new IllegalArgumentException( e );
+		} catch ( final Exception e ) {
+			logger.error( "Error opening JS file from '{}': ", ignoreFilePath, e );
+			return new StringReader( "" );
 		}
 	}
 
@@ -59,7 +60,7 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
-		if ( unknownFunctions.contains( functionName ) ) {
+		if ( errorFunctions.contains( functionName ) ) {
 			return false;
 		}
 		final Invocable inv = (Invocable) engine;
@@ -72,15 +73,16 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 				return false;
 			}
 			if ( !(callResult instanceof Boolean) ) {
-				throw new ClassCastException( "'" + callResult + "' of type " + callResult.getClass()
-						+ " cannot be cast to java.lang.Boolean." );
+				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean.", callResult, callResult.getClass() );
+				errorFunctions.add( functionName );
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
-			throw new IllegalArgumentException( "JS `" + functionName + "` method caused an exception: ", e );
+			logger.error( "JS '{}' method caused an exception: {}", functionName, e.getMessage() );
+			errorFunctions.add( functionName );
 		} catch ( final NoSuchMethodException e ) {
 			logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
-			unknownFunctions.add( functionName );
+			errorFunctions.add( functionName );
 		}
 		return false;
 	}
