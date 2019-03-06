@@ -9,17 +9,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectConfiguration {
-
+	
 	private static final Logger logger = LoggerFactory.getLogger( ProjectConfiguration.class );
-	private static final String RETEST_PROJECT_DEFAULTS = "retest-project-defaults.properties";
-	private static final String RECHECK_IGNORE_DEFAULTS = "recheck-project-defaults.ignore";
-
-	private static ProjectConfiguration instance;
 
 	public static final String RETEST_PROJECT_CONFIG_FOLDER = ".retest";
 	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
-	public static final String RECHECK_IGNORE_JSRULES = "recheck.ignore.js";
+	public static final String RECHECK_IGNORE_JSRULES = "recheck.js.ignore";
+
+	private static final String DEFAULT_PREFIX = "default-";
+	private static final String RETEST_PROJECT_DEFAULTS = DEFAULT_PREFIX + RETEST_PROJECT_PROPERTIES;
+	private static final String RECHECK_IGNORE_DEFAULTS = DEFAULT_PREFIX + RECHECK_IGNORE;
+	private static final String RECHECK_IGNORE_JSRULES_DEFAULTS = DEFAULT_PREFIX + RECHECK_IGNORE_JSRULES;
+
+	private static ProjectConfiguration instance;
 
 	/**
 	 * This property can be used to overwrite the local project folder. This should only be used for tests.
@@ -43,10 +46,12 @@ public class ProjectConfiguration {
 		final Path projectConfigFolder = projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
 		final Path projectConfigFile = projectConfigFolder.resolve( RETEST_PROJECT_PROPERTIES );
 		final Path projectIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE );
+		final Path projectRuleIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE_JSRULES );
 
 		createProjectConfigurationFolderIfNeeded( projectConfigFolder );
 		createEmptyProjectConfigurationIfNeeded( projectConfigFile, RETEST_PROJECT_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectIgnoreFile, RECHECK_IGNORE_DEFAULTS );
+		createEmptyProjectConfigurationIfNeeded( projectRuleIgnoreFile, RECHECK_IGNORE_JSRULES_DEFAULTS );
 	}
 
 	private void createProjectConfigurationFolderIfNeeded( final Path configFolder ) {
