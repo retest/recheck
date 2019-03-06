@@ -63,7 +63,9 @@ public class Loaders {
 	}
 
 	public static Stream<?> load( final Stream<String> lines ) {
-		return lines.map( Loaders::load );
+		return lines.map( String::trim ) //
+				.filter( StringUtils::isNotEmpty ) //
+				.map( Loaders::load );
 	}
 
 	private static <T> T load( final String line ) {
