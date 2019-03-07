@@ -24,7 +24,7 @@ public class AttributeShouldIgnore implements ShouldIgnore {
 	@Override
 	public boolean shouldIgnoreAttributeDifference( final Element element,
 			final AttributeDifference attributeDifference ) {
-		return attributeDifference.getKey().equals( attribute );
+		return attributeDifference.getKey().matches( attribute );
 	}
 
 	@Override
