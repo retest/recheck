@@ -8,10 +8,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ui.Environment;
 import de.retest.recheck.ui.components.Component;
 import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.image.Screenshot;
 
 @XmlAccessorType( XmlAccessType.FIELD )
@@ -49,7 +51,7 @@ public abstract class AbstractAction implements Action {
 
 	@Override
 	public int compareTo( final Action other ) {
-		return getActionIdentifyingAttributes().compareTo( other.getActionIdentifyingAttributes() );
+		return getActionIdentifyingAttributesOf( this ).compareTo( getActionIdentifyingAttributesOf( other ) );
 	}
 
 	@Override
@@ -66,7 +68,7 @@ public abstract class AbstractAction implements Action {
 		}
 		if ( object instanceof AbstractAction ) {
 			final AbstractAction other = (AbstractAction) object;
-			if ( getActionIdentifyingAttributes().equals( other.getActionIdentifyingAttributes() ) ) {
+			if ( getActionIdentifyingAttributesOf( this ).equals( getActionIdentifyingAttributesOf( other ) ) ) {
 				return true;
 			}
 		}
@@ -97,14 +99,14 @@ public abstract class AbstractAction implements Action {
 				"Tried to execute a action with wrong component peer" );
 	}
 
-	@Override
-	public ActionIdentifyingAttributes getActionIdentifyingAttributes() {
+	private static Pair<Class<? extends Action>, IdentifyingAttributes>
+			getActionIdentifyingAttributesOf( final Action action ) {
 		// We cannot show e.g. which text is entered here!
 		// Problem: We enter random text in a text field
 		// This gives us a new state in which
 		// entering random text in the text field is unexplored
 		// Thus we do it again (loop forever)
-		return new ActionIdentifyingAttributes( element.getIdentifyingAttributes(), getClass().getName() );
+		return Pair.of( action.getClass(), action.getTargetElement().getIdentifyingAttributes() );
 	}
 
 	@Override
@@ -114,7 +116,7 @@ public abstract class AbstractAction implements Action {
 
 	@Override
 	public int hashCode() {
-		return getActionIdentifyingAttributes().hashCode();
+		return getActionIdentifyingAttributesOf( this ).hashCode();
 	}
 
 	@Override
