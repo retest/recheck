@@ -4,25 +4,19 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlTransient;
-
-@XmlAccessorType( XmlAccessType.FIELD )
+/**
+ * Path should be persisted as String, use {@link PathAdapter}.
+ */
 public class Path implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String PATH_SEPARATOR = "/";
 
-	@XmlElement
 	private final Path parentPath;
 
-	@XmlElement
 	private final PathElement element;
 
-	@XmlTransient
 	private String toStringCache;
 
 	private Path() {
