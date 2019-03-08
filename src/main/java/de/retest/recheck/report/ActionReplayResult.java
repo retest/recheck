@@ -265,6 +265,6 @@ public class ActionReplayResult implements Serializable {
 					+ ")";
 		}
 		return "ActionReplayResult('" + description + "' resulted in " + getAllElementDifferences().size()
-				+ " differences.";
+				+ " differences.)";
 	}
 }
