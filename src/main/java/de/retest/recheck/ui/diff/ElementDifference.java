@@ -48,7 +48,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		this.childDifferences.addAll( childDifferences );
 	}
 
-	public Screenshot mark( final Screenshot screenshot ) {
+	public Screenshot mark( final Screenshot screenshot, final ShouldIgnore ignore ) {
 		if ( screenshot == null ) {
 			return null;
 		}
@@ -56,7 +56,10 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( childDifferences != null ) {
 			for ( final Difference childDifference : childDifferences ) {
 				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
+					if ( !ignore.shouldIgnoreElement( element )
+							&& !compDiff.getAttributeDifferences( ignore ).isEmpty() ) {
+						marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
+					}
 				}
 			}
 		}
