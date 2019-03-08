@@ -25,6 +25,8 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.SystemUtils;
+
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 
 public class ImageUtils {
@@ -325,7 +327,7 @@ public class ImageUtils {
 
 	public static int extractScale() {
 		final int defaultScale = 1;
-		if ( !GraphicsEnvironment.isHeadless() ) {
+		if ( !GraphicsEnvironment.isHeadless() && SystemUtils.IS_OS_MAC ) {
 			final GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			final GraphicsDevice device = environment.getDefaultScreenDevice();
 			try {
