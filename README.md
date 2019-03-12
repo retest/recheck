@@ -8,7 +8,6 @@
 
 recheck is a general framework that allows replacing manual asserts and checking everything at once.
 
-
 ## Features
 
 * Easy creation and maintenance of checks for [web](https://github.com/retest/recheck-web/) and [Java Swing](http://retest.org/) (more coming).
@@ -17,7 +16,6 @@ recheck is a general framework that allows replacing manual asserts and checking
 * One-click maintenance to update tests with intended changes.
 * No unexpected changes go unnoticed.
 * The Git for your interface.
-
 
 ## Prerequisites
 
@@ -29,9 +27,13 @@ You only need to download recheck directly if you plan to implement it for an ad
 
 Download recheck here on [GitHub](https://https://github.com/retest/recheck/releases) or add it as dependency through [Maven Central](https://search.maven.org/search?q=g:de.retest%20a:recheck):
 
-* group ID: `de.retest`
-* artifact ID: `recheck`
-* version: [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
+```xml
+<dependency>
+	<groupId>de.retest</groupId>
+	<artifactId>recheck</artifactId>
+	<version><!-- see above --></version>
+</dependency>
+```
 
 ## License
 
