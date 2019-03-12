@@ -8,7 +8,6 @@
 
 recheck is a general framework that allows replacing manual asserts and checking everything at once.
 
-
 ## Features
 
 * Easy creation and maintenance of checks for [web](https://github.com/retest/recheck-web/) and [Java Swing](http://retest.org/) (more coming).
@@ -18,20 +17,23 @@ recheck is a general framework that allows replacing manual asserts and checking
 * No unexpected changes go unnoticed.
 * The Git for your interface.
 
-
 ## Prerequisites
 
 Currently available as a Java API with support for JUnit Vintage (v4), JUnit Jupiter (v5) and TestNG.
 
 ## Setup
 
-You only need to download recheck directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/), see ["Features" section](#features)), you would rather reference this implementation, for instance via Maven, and have the transitive dependencies be automatically resolved.
+You only have to use recheck directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/)), you would rather reference this implementation.
 
-Download recheck here on [GitHub](https://https://github.com/retest/recheck/releases) or add it as dependency through [Maven Central](https://search.maven.org/search?q=g:de.retest%20a:recheck):
+However, if you want to use recheck, you can add it as a dependency through [Maven Central](https://search.maven.org/search?q=g:de.retest%20a:recheck): [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
 
-* group ID: `de.retest`
-* artifact ID: `recheck`
-* version: [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
+```xml
+<dependency>
+  <groupId>de.retest</groupId>
+  <artifactId>recheck</artifactId>
+  <version><!-- latest version, see above link --></version>
+</dependency>
+```
 
 ## License
 
