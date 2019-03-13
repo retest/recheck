@@ -56,9 +56,6 @@ public class AttributesDifferenceFinder {
 
 	private AttributeDifference differenceFor( final IdentifyingAttributes identAttributes, final Serializable expected,
 			final Serializable actual, final String key ) {
-		if ( expected == null ) {
-			return null;
-		}
 		if ( GloballyIgnoredAttributes.getInstance().shouldIgnoreAttribute( key ) ) {
 			return null;
 		}
