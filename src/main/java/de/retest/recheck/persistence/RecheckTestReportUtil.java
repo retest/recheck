@@ -23,6 +23,7 @@ public class RecheckTestReportUtil {
 	public static void persist( final SuiteReplayResult suite, final File file ) {
 		logger.info( "Persisting test report to file '{}'.", FileUtil.canonicalPathQuietly( file ) );
 		try {
+			FileUtil.ensureFolder( file );
 			persistence.save( file.toURI(), TestReport.fromApi( suite ) );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException( "Could not save test report.", e );
