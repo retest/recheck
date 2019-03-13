@@ -56,7 +56,7 @@ public enum XmlMigratorInstances {
 					.toList();
 		}
 	},
-	de_retest_recheck_report_ReplayResult() {
+	de_retest_recheck_report_TestReport() {
 		@Override
 		List<Pair<Integer, XmlTransformer>> migrations() {
 			return new MigrationPairs() //
