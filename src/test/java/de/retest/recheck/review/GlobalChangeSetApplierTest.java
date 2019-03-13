@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.descriptors.Element;
@@ -41,7 +41,7 @@ class GlobalChangeSetApplierTest {
 	private IdentifyingAttributes identifyingAttributes;
 	private AttributeDifference attributeDifference;
 
-	private ReplayResult replayResult;
+	private TestReport testReport;
 	private SuiteReplayResult suiteReplayResult;
 	private TestReplayResult testReplayResult;
 	private ActionReplayResult actionReplayResult1;
@@ -70,7 +70,7 @@ class GlobalChangeSetApplierTest {
 		identifyingAttributes = mock( IdentifyingAttributes.class );
 		attributeDifference = mock( AttributeDifference.class );
 
-		replayResult = mock( ReplayResult.class );
+		testReport = mock( TestReport.class );
 		suiteReplayResult = mock( SuiteReplayResult.class );
 		testReplayResult = mock( TestReplayResult.class );
 		actionReplayResult1 = mock( ActionReplayResult.class );
@@ -84,7 +84,7 @@ class GlobalChangeSetApplierTest {
 		deletedDifference = mock( ElementDifference.class );
 		deletedLeafDifference = mock( InsertedDeletedElementDifference.class );
 
-		when( replayResult.getSuiteReplayResults() ).thenReturn( Arrays.asList( suiteReplayResult ) );
+		when( testReport.getSuiteReplayResults() ).thenReturn( Arrays.asList( suiteReplayResult ) );
 		when( suiteReplayResult.getTestReplayResults() ).thenReturn( Arrays.asList( testReplayResult ) );
 		when( testReplayResult.getActionReplayResults() )
 				.thenReturn( Arrays.asList( actionReplayResult1, actionReplayResult2 ) );
@@ -133,14 +133,14 @@ class GlobalChangeSetApplierTest {
 		when( actionChangeSet2.getIdentAttributeChanges() ).thenReturn( identifyingAttributesChangeSet2 );
 		when( actionChangeSet2.getAttributesChanges() ).thenReturn( attributeChangeSet2 );
 
-		globalApplier = GlobalChangeSetApplier.create( replayResult );
+		globalApplier = GlobalChangeSetApplier.create( testReport );
 	}
 
 	// Create.
 
 	@Test
 	void create_should_read_all_elements_from_replayResult() {
-		verify( replayResult, only() ).getSuiteReplayResults();
+		verify( testReport, only() ).getSuiteReplayResults();
 		verify( suiteReplayResult, only() ).getTestReplayResults();
 		verify( testReplayResult, only() ).getActionReplayResults();
 		verify( actionReplayResult1, only() ).getAllElementDifferences();

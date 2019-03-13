@@ -1,6 +1,6 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.Properties.WINDOWCHILDS_MATCH_THRESHOLD;
+import static de.retest.recheck.Properties.WINDOW_CHILDS_MATCH_THRESHOLD;
 import static de.retest.recheck.Properties.WINDOW_MATCH_THRESHOLD;
 
 import java.util.ArrayList;
@@ -70,7 +70,7 @@ public class RootElementDifferenceFinder {
 		logger.info( "Best match of window {} did not exceed MATCH_THRESHOLD with {}: {}",
 				expected.getIdentifyingAttributes(), bestMatch, bestWindow );
 		final double containedComponentsMatch = compareContainedComponents( expected, bestWindow );
-		if ( containedComponentsMatch >= WINDOWCHILDS_MATCH_THRESHOLD ) {
+		if ( containedComponentsMatch >= WINDOW_CHILDS_MATCH_THRESHOLD ) {
 			logger.info( "Best match of window hat a match of contained components of {}.", containedComponentsMatch );
 			return bestWindow;
 		}

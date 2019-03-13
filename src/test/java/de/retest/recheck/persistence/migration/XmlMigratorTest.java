@@ -38,7 +38,7 @@ class XmlMigratorTest {
 			XmlMigrator.tryToMigrate( resultChecker, bin );
 			fail();
 		} catch ( final Throwable t ) {
-			assertThat( t.getMessage() ).isEqualTo( IncompatibleChangesTransformer.VERSION_2_ERROR_MESSAGE );
+			assertThat( t.getMessage() ).isEqualTo( IncompatibleChangesTransformer.RETEST_VERSION_2_ERROR_MESSAGE );
 		}
 	}
 

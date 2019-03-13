@@ -11,7 +11,7 @@ import com.google.common.collect.Multimap;
 
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.descriptors.Element;
@@ -29,22 +29,22 @@ public class GlobalChangeSetApplier {
 
 	private final Counter counter;
 
-	private GlobalChangeSetApplier( final ReplayResult replayResult, final Counter counter ) {
+	private GlobalChangeSetApplier( final TestReport testReport, final Counter counter ) {
 		this.counter = counter;
 		attributeDiffsLookupMap = ArrayListMultimap.create();
 		insertedDiffsLookupMap = ArrayListMultimap.create();
 		deletedDiffsLookupMap = ArrayListMultimap.create();
 		actionChangeSetLookupMap = new HashMap<>();
 
-		fillReplayResultLookupMaps( replayResult );
+		fillReplayResultLookupMaps( testReport );
 	}
 
-	public static GlobalChangeSetApplier create( final ReplayResult replayResult ) {
-		return create( replayResult, NopCounter.getInstance() );
+	public static GlobalChangeSetApplier create( final TestReport testReport ) {
+		return create( testReport, NopCounter.getInstance() );
 	}
 
-	public static GlobalChangeSetApplier create( final ReplayResult replayResult, final Counter counter ) {
-		return new GlobalChangeSetApplier( replayResult, counter );
+	public static GlobalChangeSetApplier create( final TestReport testReport, final Counter counter ) {
+		return new GlobalChangeSetApplier( testReport, counter );
 	}
 
 	// Replay result lookup maps.
@@ -54,15 +54,15 @@ public class GlobalChangeSetApplier {
 	private final Multimap<Element, ActionReplayResult> insertedDiffsLookupMap;
 	private final Multimap<IdentifyingAttributes, ActionReplayResult> deletedDiffsLookupMap;
 
-	private void fillReplayResultLookupMaps( final ReplayResult replayResult ) {
-		for ( final SuiteReplayResult suiteReplayResult : replayResult.getSuiteReplayResults() ) {
+	private void fillReplayResultLookupMaps( final TestReport testReport ) {
+		for ( final SuiteReplayResult suiteReplayResult : testReport.getSuiteReplayResults() ) {
 			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
 				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-					for ( final ElementDifference componentDiff : actionReplayResult.getAllElementDifferences() ) {
-						if ( componentDiff.isInsertionOrDeletion() ) {
-							fillInsertedDeletedDifferencesLookupMaps( actionReplayResult, componentDiff );
+					for ( final ElementDifference elementDiff : actionReplayResult.getAllElementDifferences() ) {
+						if ( elementDiff.isInsertionOrDeletion() ) {
+							fillInsertedDeletedDifferencesLookupMaps( actionReplayResult, elementDiff );
 						} else {
-							fillAttributeDifferencesLookupMap( actionReplayResult, componentDiff );
+							fillAttributeDifferencesLookupMap( actionReplayResult, elementDiff );
 						}
 					}
 				}
@@ -71,20 +71,20 @@ public class GlobalChangeSetApplier {
 	}
 
 	private void fillInsertedDeletedDifferencesLookupMaps( final ActionReplayResult actionReplayResult,
-			final ElementDifference componentDiff ) {
-		final InsertedDeletedElementDifference insertedDeletedComponentDiff =
-				(InsertedDeletedElementDifference) componentDiff.getIdentifyingAttributesDifference();
-		if ( insertedDeletedComponentDiff.isInserted() ) {
-			insertedDiffsLookupMap.put( insertedDeletedComponentDiff.getActual(), actionReplayResult );
+			final ElementDifference elementDiff ) {
+		final InsertedDeletedElementDifference insertedDeletedElementDiff =
+				(InsertedDeletedElementDifference) elementDiff.getIdentifyingAttributesDifference();
+		if ( insertedDeletedElementDiff.isInserted() ) {
+			insertedDiffsLookupMap.put( insertedDeletedElementDiff.getActual(), actionReplayResult );
 		} else {
-			deletedDiffsLookupMap.put( componentDiff.getIdentifyingAttributes(), actionReplayResult );
+			deletedDiffsLookupMap.put( elementDiff.getIdentifyingAttributes(), actionReplayResult );
 		}
 	}
 
 	private void fillAttributeDifferencesLookupMap( final ActionReplayResult actionReplayResult,
-			final ElementDifference componentDiff ) {
-		final IdentifyingAttributes identifyingAttributes = componentDiff.getIdentifyingAttributes();
-		for ( final AttributeDifference attributeDifference : componentDiff.getAttributeDifferences(
+			final ElementDifference elementDiff ) {
+		final IdentifyingAttributes identifyingAttributes = elementDiff.getIdentifyingAttributes();
+		for ( final AttributeDifference attributeDifference : elementDiff.getAttributeDifferences(
 				SHOULD_IGNORE_NOTHING ) ) {
 			attributeDiffsLookupMap.put( ImmutablePair.of( identifyingAttributes, attributeDifference ),
 					actionReplayResult );

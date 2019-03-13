@@ -26,7 +26,7 @@ public class GloballyIgnoredAttributes {
 
 	public static final String IGNORED_ATTRIBUTES_PROPERTY = "de.retest.recheck.ignore.attributes";
 	private static final List<String> ignoredGlobal =
-			Arrays.asList( System.getProperty( IGNORED_ATTRIBUTES_PROPERTY, "" ).split( Properties.VALUES_SEPARATOR ) );
+			Arrays.asList( System.getProperty( IGNORED_ATTRIBUTES_PROPERTY, "" ).split( Properties.PROPERTY_VALUE_SEPARATOR ) );
 
 	private static GloballyIgnoredAttributes instance;
 

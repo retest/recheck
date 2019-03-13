@@ -17,7 +17,7 @@ public enum XmlMigratorInstances {
 		@Override
 		List<Pair<Integer, XmlTransformer>> migrations() {
 			return new MigrationPairs() //
-					.add( 17, IncompatibleChangesTransformer.version2() ) //
+					.add( 17, IncompatibleChangesTransformer.retestVersion2() ) //
 					.add( 18, new WindowSuffixTransformer() ) //
 					.add( 19, new Path2XPathTransformer() ) //
 					.add( 20, new AddRetestIdTestTransformer() ) //
@@ -36,7 +36,7 @@ public enum XmlMigratorInstances {
 		@Override
 		List<Pair<Integer, XmlTransformer>> migrations() {
 			return new MigrationPairs() //
-					.add( 14, IncompatibleChangesTransformer.version2() ) //
+					.add( 14, IncompatibleChangesTransformer.retestVersion2() ) //
 					.add( 15, new Path2XPathTransformer() ) //
 					.add( 16, new AddRetestIdTestTransformer() ) //
 					.add( 17, new ContainedComponents2ContainedElementsTransformer() ) //
@@ -47,7 +47,7 @@ public enum XmlMigratorInstances {
 		@Override
 		List<Pair<Integer, XmlTransformer>> migrations() {
 			return new MigrationPairs() //
-					.add( 18, IncompatibleChangesTransformer.version2() ) //
+					.add( 18, IncompatibleChangesTransformer.retestVersion2() ) //
 					.add( 19, new WindowSuffixTransformer() ) //
 					.add( 20, new Path2XPathTransformer() ) //
 					.add( 21, new AddRetestIdTestTransformer() ) //
@@ -59,10 +59,7 @@ public enum XmlMigratorInstances {
 		@Override
 		List<Pair<Integer, XmlTransformer>> migrations() {
 			return new MigrationPairs() //
-					.add( 15, IncompatibleChangesTransformer.version2() ) //
-					.add( 16, new Path2XPathTransformer() ) //
-					.add( 17, new AddRetestIdTestTransformer() ) //
-					.add( 18, new ContainedComponents2ContainedElementsTransformer() ) //
+					.add( 20, IncompatibleChangesTransformer.recheckVersion1() ) //
 					.toList();
 		}
 	},

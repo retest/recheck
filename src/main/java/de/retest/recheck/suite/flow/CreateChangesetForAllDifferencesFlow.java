@@ -1,7 +1,7 @@
 package de.retest.recheck.suite.flow;
 
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.ReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.diff.ElementDifference;
@@ -14,22 +14,22 @@ import de.retest.recheck.ui.review.TestChangeSet;
 
 public class CreateChangesetForAllDifferencesFlow {
 
-	private final ReplayResult replayResult;
+	private final TestReport testReport;
 	private final ReviewResult reviewResult;
 
-	private CreateChangesetForAllDifferencesFlow( final ReplayResult replayResult ) {
-		this.replayResult = replayResult;
+	private CreateChangesetForAllDifferencesFlow( final TestReport testReport ) {
+		this.testReport = testReport;
 		reviewResult = new ReviewResult();
 	}
 
-	public static ReviewResult create( final ReplayResult replayResult ) {
-		final CreateChangesetForAllDifferencesFlow flow = new CreateChangesetForAllDifferencesFlow( replayResult );
+	public static ReviewResult create( final TestReport testReport ) {
+		final CreateChangesetForAllDifferencesFlow flow = new CreateChangesetForAllDifferencesFlow( testReport );
 		flow.create();
 		return flow.reviewResult;
 	}
 
 	private void create() {
-		for ( final SuiteReplayResult suite : replayResult.getSuiteReplayResults() ) {
+		for ( final SuiteReplayResult suite : testReport.getSuiteReplayResults() ) {
 			final SuiteChangeSet suiteChangeSet =
 					reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
 			for ( final TestReplayResult test : suite.getTestReplayResults() ) {

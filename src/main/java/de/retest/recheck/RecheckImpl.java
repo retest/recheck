@@ -13,7 +13,7 @@ import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
-import de.retest.recheck.persistence.RecheckReplayResultUtil;
+import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.printer.TestReplayResultPrinter;
 import de.retest.recheck.report.ActionReplayResult;
@@ -52,14 +52,14 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();
-		suite = ReplayResultProvider.getInstance().getSuite( suiteName );
+		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
 		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
 		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
 	}
 
 	private static void ensureConfigurationInitialized() {
-		if ( System.getProperty( Properties.PROP_CONFIG_FILE_PATH ) == null ) {
-			System.setProperty( Properties.PROP_CONFIG_FILE_PATH, CONFIG_PATH );
+		if ( System.getProperty( Properties.CONFIG_FILE_PROPERTY ) == null ) {
+			System.setProperty( Properties.CONFIG_FILE_PROPERTY, CONFIG_PATH );
 		}
 	}
 
@@ -96,7 +96,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		usedFinders.put( currentStep, defaultFinder );
 
 		final FileNamer fileNamer = createFileName( currentStep );
-		final File file = fileNamer.getFile( Properties.RECHECK_FILE_EXTENSION );
+		final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
 		final SutState expected = loadExpected( file );
@@ -150,12 +150,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			}
 		} finally {
 			final File file = getResultFile();
-			RecheckReplayResultUtil.persist( suite, file );
+			RecheckTestReportUtil.persist( suite, file );
 		}
 	}
 
 	public File getResultFile() {
-		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.REPORT_FILE_EXTENSION );
+		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
 	}
 
 	private class CapWarner extends Thread {

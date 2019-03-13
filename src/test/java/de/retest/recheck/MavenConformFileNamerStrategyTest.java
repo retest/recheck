@@ -15,11 +15,11 @@ class MavenConformFileNamerStrategyTest {
 		final FileNamerStrategy cut = new MavenConformFileNamerStrategy();
 
 		final FileNamer fileNamer = cut.createFileNamer( "foo", "bar" );
-		final File recheckFile = fileNamer.getFile( Properties.RECHECK_FILE_EXTENSION );
-		final File resultFile = fileNamer.getResultFile( Properties.REPORT_FILE_EXTENSION );
+		final File recheckFile = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final File resultFile = fileNamer.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/test/resources/retest/recheck/foo/bar.recheck" );
-		assertThat( resultFile.getPath() ).isEqualTo( "target/test-classes/retest/recheck/foo/bar.result" );
+		assertThat( resultFile.getPath() ).isEqualTo( "target/test-classes/retest/recheck/foo/bar.report" );
 	}
 
 }
