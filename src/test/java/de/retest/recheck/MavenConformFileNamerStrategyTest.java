@@ -19,7 +19,7 @@ class MavenConformFileNamerStrategyTest {
 		final File resultFile = fileNamer.getResultFile( Properties.REPORT_FILE_EXTENSION );
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/test/resources/retest/recheck/foo/bar.recheck" );
-		assertThat( resultFile.getPath() ).isEqualTo( "target/test-classes/retest/recheck/foo/bar.result" );
+		assertThat( resultFile.getPath() ).isEqualTo( "target/test-classes/retest/recheck/foo/bar.report" );
 	}
 
 }

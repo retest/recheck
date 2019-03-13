@@ -22,7 +22,7 @@ class RecheckReplayResultUtilTest {
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
-		file = temp.resolve( "replay.result" ).toFile();
+		file = temp.resolve( "test.report" ).toFile();
 	}
 
 	@Test

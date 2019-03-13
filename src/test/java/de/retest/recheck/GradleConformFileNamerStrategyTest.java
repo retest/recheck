@@ -20,7 +20,7 @@ class GradleConformFileNamerStrategyTest {
 		final File resultFile = fileNamer.getResultFile( Properties.REPORT_FILE_EXTENSION );
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/test/resources/retest/recheck/foo/bar.recheck" );
-		assertThat( resultFile.getPath() ).isEqualTo( "build/test-results/test/retest/recheck/foo/bar.result" );
+		assertThat( resultFile.getPath() ).isEqualTo( "build/test-results/test/retest/recheck/foo/bar.report" );
 	}
 
 	@Test
@@ -33,7 +33,7 @@ class GradleConformFileNamerStrategyTest {
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/integrationTest/resources/retest/recheck/foo/bar.recheck" );
 		assertThat( resultFile.getPath() )
-				.isEqualTo( "build/test-results/integrationTest/retest/recheck/foo/bar.result" );
+				.isEqualTo( "build/test-results/integrationTest/retest/recheck/foo/bar.report" );
 	}
 
 	@Test
