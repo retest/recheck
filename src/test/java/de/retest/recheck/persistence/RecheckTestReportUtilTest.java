@@ -18,31 +18,31 @@ import de.retest.recheck.report.SuiteReplayResult;
 @ExtendWith( TempDirectory.class )
 class RecheckTestReportUtilTest {
 
-	File file;
-	File fileMissingFolders;
+	File testReport;
+	File testReportMissingFolders;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
-		file = temp.resolve( "test.report" ).toFile();
-		fileMissingFolders = temp.resolve( "retest" + File.separator + "recheck" + File.separator + "test.report" ).toFile();
+		testReport = temp.resolve( "test.report" ).toFile();
+		testReportMissingFolders = temp.resolve( "missing/folder/test.report" ).toFile();
 	}
 
 	@Test
-	void persist_should_create_report_if_no_errors() {
+	void persist_should_create_report_when_there_are_no_diffs() {
 		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
 		when( replayResult.getDifferencesCount() ).thenReturn( 0 );
 
-		RecheckTestReportUtil.persist( replayResult, file );
-		assertThat( file.exists() ).isTrue();
+		RecheckTestReportUtil.persist( replayResult, testReport );
+		assertThat( testReport.exists() ).isTrue();
 	}
 
 	@Test
-	void persist_should_create_report_if_errors() {
+	void persist_should_create_report_when_there_are_diffs() {
 		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
 		when( replayResult.getDifferencesCount() ).thenReturn( 1 );
 
-		RecheckTestReportUtil.persist( replayResult, file );
-		assertThat( file.exists() ).isTrue();
+		RecheckTestReportUtil.persist( replayResult, testReport );
+		assertThat( testReport.exists() ).isTrue();
 	}
 
 	@Test
@@ -50,6 +50,6 @@ class RecheckTestReportUtilTest {
 		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
 		when( replayResult.getDifferencesCount() ).thenReturn( 0 );
 
-		RecheckTestReportUtil.persist( replayResult, fileMissingFolders );
+		RecheckTestReportUtil.persist( replayResult, testReportMissingFolders );
 	}
 }

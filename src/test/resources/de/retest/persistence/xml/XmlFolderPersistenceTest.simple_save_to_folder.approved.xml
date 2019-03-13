@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.persistence.xml.TestPersistable" dataTypeVersion="9001">
-	<data xsi:type="testPersistable"/>
-</reTestXmlDataContainer>
