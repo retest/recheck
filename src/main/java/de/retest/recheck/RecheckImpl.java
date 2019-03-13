@@ -13,7 +13,7 @@ import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
-import de.retest.recheck.persistence.RecheckReplayResultUtil;
+import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.printer.TestReplayResultPrinter;
 import de.retest.recheck.report.ActionReplayResult;
@@ -52,7 +52,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();
-		suite = ReplayResultProvider.getInstance().getSuite( suiteName );
+		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
 		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
 		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
 	}
@@ -150,7 +150,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			}
 		} finally {
 			final File file = getResultFile();
-			RecheckReplayResultUtil.persist( suite, file );
+			RecheckTestReportUtil.persist( suite, file );
 		}
 	}
 

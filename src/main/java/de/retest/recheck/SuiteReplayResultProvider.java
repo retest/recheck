@@ -6,22 +6,22 @@ import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.GroundState;
 
-public class ReplayResultProvider {
+public class SuiteReplayResultProvider {
 
-	private static ReplayResultProvider instance;
+	private static SuiteReplayResultProvider instance;
 
-	public static ReplayResultProvider getInstance() {
+	public static SuiteReplayResultProvider getInstance() {
 		if ( instance == null ) {
-			instance = new ReplayResultProvider();
+			instance = new SuiteReplayResultProvider();
 		}
 		return instance;
 	}
 
-	static ReplayResultProvider getTestInstance() {
-		return new ReplayResultProvider();
+	static SuiteReplayResultProvider getTestInstance() {
+		return new SuiteReplayResultProvider();
 	}
 
-	private ReplayResultProvider() {}
+	private SuiteReplayResultProvider() {}
 
 	private SuiteReplayResult currentSuite;
 

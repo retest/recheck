@@ -1,4 +1,4 @@
-package de.retest.recheck.persistence;
+package de.retest.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -13,16 +13,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junitpioneer.jupiter.TempDirectory;
 import org.junitpioneer.jupiter.TempDirectory.TempDir;
 
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
+import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.report.SuiteReplayResult;
 
 @ExtendWith( TempDirectory.class )
-class RecheckReplayResultUtilTest {
+class RecheckTestReportUtilTest {
 
 	File file;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
 		file = temp.resolve( "test.report" ).toFile();
+		GloballyIgnoredAttributes.getTestInstance().getIgnoredAttributesList();
 	}
 
 	@Test
@@ -30,7 +33,7 @@ class RecheckReplayResultUtilTest {
 		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
 		when( replayResult.getDifferencesCount() ).thenReturn( 0 );
 
-		RecheckReplayResultUtil.persist( replayResult, file );
+		RecheckTestReportUtil.persist( replayResult, file );
 		assertThat( file.exists() ).isTrue();
 	}
 
@@ -39,7 +42,7 @@ class RecheckReplayResultUtilTest {
 		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
 		when( replayResult.getDifferencesCount() ).thenReturn( 1 );
 
-		RecheckReplayResultUtil.persist( replayResult, file );
+		RecheckTestReportUtil.persist( replayResult, file );
 		assertThat( file.exists() ).isTrue();
 	}
 }

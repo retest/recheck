@@ -23,7 +23,7 @@ import de.retest.recheck.ui.review.GoldenMasterSource;
 
 @XmlRootElement( name = "testreport" )
 @XmlAccessorType( XmlAccessType.FIELD )
-public class ReplayResult extends Persistable {
+public class TestReport extends Persistable {
 
 	private static final long serialVersionUID = 1L;
 	private static final int PERSISTENCE_VERSION = 19;
@@ -39,21 +39,21 @@ public class ReplayResult extends Persistable {
 	@XmlElementWrapper( name = "ignoredAttributes" )
 	private final List<String> ignoredAttributes;
 
-	public static ReplayResult fromApi( final SuiteReplayResult newSuite ) {
-		return new ReplayResult( GoldenMasterSource.API, newSuite );
+	public static TestReport fromApi( final SuiteReplayResult newSuite ) {
+		return new TestReport( GoldenMasterSource.API, newSuite );
 	}
 
-	public ReplayResult() {
+	public TestReport() {
 		super( PERSISTENCE_VERSION );
 		source = RECORDED;
 		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
-	public ReplayResult( final SuiteReplayResult newSuite ) {
+	public TestReport( final SuiteReplayResult newSuite ) {
 		this( GoldenMasterSource.RECORDED, newSuite );
 	}
 
-	public ReplayResult( final GoldenMasterSource source, final SuiteReplayResult newSuite ) {
+	public TestReport( final GoldenMasterSource source, final SuiteReplayResult newSuite ) {
 		super( PERSISTENCE_VERSION );
 		this.source = source;
 		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
@@ -79,7 +79,7 @@ public class ReplayResult extends Persistable {
 
 	@Override
 	public String toString() {
-		return "ReplayResult(Tests: " + getNumberOfTests() //
+		return "TestReport(Tests: " + getNumberOfTests() //
 				+ ", Actions: " + getNumberOfActions() //
 				+ ", Checked Elements: " + getCheckedUiElementsCount() //
 				+ ", Differences: " + getDifferencesCount() //

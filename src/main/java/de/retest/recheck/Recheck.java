@@ -55,12 +55,12 @@ public interface Recheck {
 	/**
 	 * Tells recheck that the test has finished. If one or more checks during this tests resulted in differences, this
 	 * triggers an {@link AssertionError} to be thrown like any other assertion would. Still, the differences are
-	 * persisted as replay results into the target folder.
+	 * persisted as test reports into the target folder.
 	 */
 	void capTest() throws AssertionError;
 
 	/**
-	 * Finishes recheck and persists the replay result. Starting the review GUI is sensible.
+	 * Finishes recheck and persists the test report. Starting the review GUI is sensible.
 	 */
 	void cap();
 
