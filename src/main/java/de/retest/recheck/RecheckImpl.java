@@ -58,8 +58,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private static void ensureConfigurationInitialized() {
-		if ( System.getProperty( Properties.PROP_CONFIG_FILE_PATH ) == null ) {
-			System.setProperty( Properties.PROP_CONFIG_FILE_PATH, CONFIG_PATH );
+		if ( System.getProperty( Properties.CONFIG_FILE_PROPERTY ) == null ) {
+			System.setProperty( Properties.CONFIG_FILE_PROPERTY, CONFIG_PATH );
 		}
 	}
 
@@ -96,7 +96,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		usedFinders.put( currentStep, defaultFinder );
 
 		final FileNamer fileNamer = createFileName( currentStep );
-		final File file = fileNamer.getFile( Properties.RECHECK_FILE_EXTENSION );
+		final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
 		final SutState expected = loadExpected( file );
@@ -155,7 +155,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	public File getResultFile() {
-		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.REPORT_FILE_EXTENSION );
+		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
 	}
 
 	private class CapWarner extends Thread {

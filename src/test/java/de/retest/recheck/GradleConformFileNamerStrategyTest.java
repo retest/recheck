@@ -16,8 +16,8 @@ class GradleConformFileNamerStrategyTest {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy();
 
 		final FileNamer fileNamer = cut.createFileNamer( "foo", "bar" );
-		final File recheckFile = fileNamer.getFile( Properties.RECHECK_FILE_EXTENSION );
-		final File resultFile = fileNamer.getResultFile( Properties.REPORT_FILE_EXTENSION );
+		final File recheckFile = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final File resultFile = fileNamer.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/test/resources/retest/recheck/foo/bar.recheck" );
 		assertThat( resultFile.getPath() ).isEqualTo( "build/test-results/test/retest/recheck/foo/bar.report" );
@@ -28,8 +28,8 @@ class GradleConformFileNamerStrategyTest {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy( "integrationTest" );
 
 		final FileNamer fileNamer = cut.createFileNamer( "foo", "bar" );
-		final File recheckFile = fileNamer.getFile( Properties.RECHECK_FILE_EXTENSION );
-		final File resultFile = fileNamer.getResultFile( Properties.REPORT_FILE_EXTENSION );
+		final File recheckFile = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final File resultFile = fileNamer.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
 
 		assertThat( recheckFile.getPath() ).isEqualTo( "src/integrationTest/resources/retest/recheck/foo/bar.recheck" );
 		assertThat( resultFile.getPath() )

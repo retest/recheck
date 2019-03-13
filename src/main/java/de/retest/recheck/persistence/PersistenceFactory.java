@@ -60,7 +60,7 @@ public class PersistenceFactory {
 	private FileOutputFormat getFormatForIdentifier( final URI identifier ) {
 		final String filename = FilenameUtils.getName( identifier.getPath() );
 
-		if ( filename.endsWith( Properties.REPORT_FILE_EXTENSION ) ) {
+		if ( filename.endsWith( Properties.TEST_REPORT_FILE_EXTENSION ) ) {
 			return FileOutputFormat.KRYO;
 		}
 

@@ -1,6 +1,6 @@
 package de.retest.recheck;
 
-import static de.retest.recheck.Properties.REPORT_FILE_EXTENSION;
+import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +34,7 @@ class RecheckImplTest {
 		final String suiteName = getClass().getName();
 		final RecheckImpl cut = new RecheckImpl();
 		final String resultFileName = cut.getResultFile().getName();
-		assertThat( resultFileName ).isEqualTo( suiteName + REPORT_FILE_EXTENSION );
+		assertThat( resultFileName ).isEqualTo( suiteName + TEST_REPORT_FILE_EXTENSION );
 	}
 
 	@Test
@@ -45,7 +45,7 @@ class RecheckImplTest {
 				.build();
 		final RecheckImpl cut = new RecheckImpl( opts );
 		final String resultFileName = cut.getResultFile().getName();
-		assertThat( resultFileName ).isEqualTo( suiteName + REPORT_FILE_EXTENSION );
+		assertThat( resultFileName ).isEqualTo( suiteName + TEST_REPORT_FILE_EXTENSION );
 	}
 
 	@Test
