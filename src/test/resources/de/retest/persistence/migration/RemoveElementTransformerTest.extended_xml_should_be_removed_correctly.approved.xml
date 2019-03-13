@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><root>
-	<parent>
-		
-		
-		<keep>Test</keep>
-		
-	</parent>
-	<remove>Test3</remove>
-</root>
