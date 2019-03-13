@@ -1,4 +1,4 @@
-package de.retest.persistence;
+package de.retest.recheck.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
