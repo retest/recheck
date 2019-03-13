@@ -12,7 +12,7 @@ public class Properties {
 	public static final String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
 	public static final String PROP_CONFIG_FILE_PATH = "de.retest.configFile";
 	public static final String RECHECK_FOLDER_NAME = "recheck";
-	public static final String REPORT_FILE_EXTENSION = ".result";
+	public static final String REPORT_FILE_EXTENSION = ".report";
 
 	public static enum FileOutputFormat {
 		PLAIN,
