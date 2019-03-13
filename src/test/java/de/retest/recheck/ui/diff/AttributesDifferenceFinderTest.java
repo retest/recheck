@@ -76,6 +76,17 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
+	public void added_attribute() {
+		final MutableAttributes attributes2 = new MutableAttributes();
+		attributes2.put( "key", "value2" );
+		final AttributesDifference difference =
+				cut.differenceFor( element( new MutableAttributes().immutable() ), element( attributes2.immutable() ) );
+
+		assertThat( difference.size() ).isEqualTo( 1 );
+		assertThat( difference.toString() ).isEqualTo( "{key: expected=\"null\", actual=\"value2\"}" );
+	}
+
+	@Test
 	@Ignore
 	public void attributesDifference_with_different_key_and_different_values() {
 		final MutableAttributes attributes1 = new MutableAttributes();
