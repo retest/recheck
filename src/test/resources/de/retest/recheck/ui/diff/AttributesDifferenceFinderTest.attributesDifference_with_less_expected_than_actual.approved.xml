@@ -1,0 +1,9 @@
+<attributesDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" differenceId="aeb46b023fb28df81a30394ce4e9822bfe2eac07f74832e80d844a8efa388178">
+	<differences key="key2" attributeDifferenceId="46cb03830259ae4ec134e64705cceffe25e67bc5b10af4ec29bf5853222aa0a0">
+		<expected xsi:type="xsd:string">value2</expected>
+		<actual xsi:type="xsd:string">different-value</actual>
+	</differences>
+	<differences key="key3" attributeDifferenceId="89dc6ae7f06a9f46b565af03eab0ece0bf6024d3659b7e3a1d03573cfeb0b59d">
+		<actual xsi:type="xsd:string">value3</actual>
+	</differences>
+</attributesDifference>
