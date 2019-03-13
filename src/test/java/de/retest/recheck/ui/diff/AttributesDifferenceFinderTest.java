@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -87,7 +86,6 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
-	@Ignore
 	public void attributesDifference_with_different_key_and_different_values() {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key1", "value1" );
@@ -127,7 +125,6 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
-	@Ignore
 	public void attributesDifference_with_less_expected_than_actual() {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key1", "value1" );
