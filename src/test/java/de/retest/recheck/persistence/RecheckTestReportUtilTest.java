@@ -19,10 +19,12 @@ import de.retest.recheck.report.SuiteReplayResult;
 class RecheckTestReportUtilTest {
 
 	File file;
+	File fileMissingFolders;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
 		file = temp.resolve( "test.report" ).toFile();
+		fileMissingFolders = temp.resolve( "retest" + File.separator + "recheck" + File.separator + "test.report" ).toFile();
 	}
 
 	@Test
@@ -41,5 +43,13 @@ class RecheckTestReportUtilTest {
 
 		RecheckTestReportUtil.persist( replayResult, file );
 		assertThat( file.exists() ).isTrue();
+	}
+
+	@Test
+	void persist_should_create_missing_folders() {
+		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
+		when( replayResult.getDifferencesCount() ).thenReturn( 0 );
+
+		RecheckTestReportUtil.persist( replayResult, fileMissingFolders );
 	}
 }
