@@ -8,13 +8,20 @@ import de.retest.recheck.persistence.migration.XmlTransformer;
 
 public class IncompatibleChangesTransformer extends XmlTransformer {
 
-	public static final String VERSION_2_ERROR_MESSAGE =
+	public static final String RETEST_VERSION_2_ERROR_MESSAGE =
 			"The internal changes (ParameterizedAction) are incompatible. Please re-record your actions with retest version 2+.";
+
+	public static final String RECHECK_VERSION_1_ERROR_MESSAGE =
+			"The internal changes are incompatible. Please re-run your tests with recheck version 1+.";
 
 	private final String msg;
 
-	public static IncompatibleChangesTransformer version2() {
-		return new IncompatibleChangesTransformer( VERSION_2_ERROR_MESSAGE );
+	public static IncompatibleChangesTransformer retestVersion2() {
+		return new IncompatibleChangesTransformer( RETEST_VERSION_2_ERROR_MESSAGE );
+	}
+
+	public static IncompatibleChangesTransformer recheckVersion1() {
+		return new IncompatibleChangesTransformer( RECHECK_VERSION_1_ERROR_MESSAGE );
 	}
 
 	private IncompatibleChangesTransformer( final String msg ) {
