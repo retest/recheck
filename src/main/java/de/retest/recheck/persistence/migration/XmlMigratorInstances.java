@@ -55,7 +55,7 @@ public enum XmlMigratorInstances {
 					.toList();
 		}
 	},
-	de_retest_recheck_report_TestReport() {
+	de_retest_recheck_report_ReplayResult() {
 		@Override
 		List<Pair<Integer, XmlTransformer>> migrations() {
 			return new MigrationPairs() //
@@ -76,6 +76,14 @@ public enum XmlMigratorInstances {
 			return new MigrationPairs() //
 					.add( 1, new AddRetestIdTestTransformer() ) //
 					.add( 2, new ContainedComponents2ContainedElementsTransformer() ) //
+					.toList();
+		}
+	},
+	de_retest_recheck_report_TestReport() {
+		@Override
+		List<Pair<Integer, XmlTransformer>> migrations() {
+			return new MigrationPairs() //
+					.add( 20, IncompatibleChangesTransformer.recheckVersion1() ) //
 					.toList();
 		}
 	};
