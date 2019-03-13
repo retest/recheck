@@ -18,6 +18,8 @@ public class RecheckTestReportUtil {
 
 	private static final Persistence<TestReport> persistence = new KryoPersistence<>();
 
+	private RecheckTestReportUtil() {}
+
 	public static void persist( final SuiteReplayResult suite, final File file ) {
 		logger.info( "Persisting test report to file '{}'.", FileUtil.canonicalPathQuietly( file ) );
 		try {
