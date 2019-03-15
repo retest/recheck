@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.ui.descriptors.SutState" dataTypeVersion="3">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.ui.descriptors.SutState" dataTypeVersion="3">
 	<data xsi:type="sutState">
 		<descriptors screenId="1" retestId="html" screen="retest - Java Swing GUI Testing" title="retest - Java Swing GUI Testing">
 			<identifyingAttributes>
