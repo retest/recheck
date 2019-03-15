@@ -3,16 +3,13 @@ package de.retest.recheck.ui.descriptors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.Rectangle;
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXB;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.OutlineAttribute;
+import de.retest.recheck.persistence.xml.XmlTransformer;
 
 public class OutlineAttributeTest {
 
@@ -32,11 +29,11 @@ public class OutlineAttributeTest {
 
 	@Test
 	public void getValue_roundtrip_should_return_equal_rectangle() throws Exception {
-		final StringWriter writer = new StringWriter();
-		JAXB.marshal( attribute, writer );
-		final StringReader xml = new StringReader( writer.getBuffer().toString() );
-		final OutlineAttribute roundTrip = JAXB.unmarshal( xml, OutlineAttribute.class );
-
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		final XmlTransformer xmlTransformer = new XmlTransformer();
+		xmlTransformer.toXML( attribute, baos );
+		final OutlineAttribute roundTrip =
+				(OutlineAttribute) xmlTransformer.fromXML( new ByteArrayInputStream( baos.toByteArray() ) );
 		assertThat( roundTrip.getValue() ).isEqualTo( outline );
 	}
 
