@@ -336,8 +336,7 @@ public class FileUtil {
 			// TODO Convert URL using encoding
 			final URL url = new URL( input );
 			return new NamedBufferedInputStream( url.openStream(), input );
-		} catch ( final IOException exc ) {
-		}
+		} catch ( final IOException exc ) {}
 		File result = null;
 		// relative path
 		result = new File( baseDir, input ).getCanonicalFile();
