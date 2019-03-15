@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><reTestXmlDataContainer reTestVersion="unspecified development version" dataType="de.retest.suite.ExecutableSuite" dataTypeVersion="19">
+<?xml version="1.0" encoding="UTF-8"?><reTestXmlDataContainer reTestVersion="unspecified development version" dataType="de.retest.suite.ExecutableSuite" dataTypeVersion="19">
     <data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="executableSuite">
         <tests>
             <initialState uuid="deprecated uuid attribute">

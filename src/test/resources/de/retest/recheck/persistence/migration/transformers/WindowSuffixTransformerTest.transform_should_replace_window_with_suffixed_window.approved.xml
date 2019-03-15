@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.suite.ExecutableSuite" dataTypeVersion="19">
+<?xml version="1.0" encoding="UTF-8"?><reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.suite.ExecutableSuite" dataTypeVersion="19">
 	<data xsi:type="executableSuite" uuid="787929c6-7c1b-414e-b7ef-db46807b3acd">
 		<tests>
 			<initialState>
