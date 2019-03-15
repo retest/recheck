@@ -72,7 +72,7 @@ class XmlZipPersistenceTest {
 
 	@Test
 	void simple_load_from_folder() throws Exception {
-		final URI identifier = FileUtil.getFileUriForClasspathRelativPath( "/persistence/simple_zip_persisted.zip" );
+		final URI identifier = getClass().getResource( "/persistence/simple_zip_persisted.zip" ).toURI();
 
 		final TestPersistable element = persistence.load( identifier );
 

@@ -55,7 +55,7 @@ class XmlFolderPersistenceTest {
 
 	@Test
 	void simple_load_from_folder() throws Exception {
-		final URI identifier = FileUtil.getFileUriForClasspathRelativPath( "/persistence/simple_folder_persisted" );
+		final URI identifier = getClass().getResource( "/persistence/simple_folder_persisted" ).toURI();
 
 		final TestPersistable element = persistence.load( identifier );
 
