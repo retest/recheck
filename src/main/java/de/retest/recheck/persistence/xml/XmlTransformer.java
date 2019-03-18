@@ -146,7 +146,6 @@ public class XmlTransformer {
 		try {
 			final Class<?>[] contextClasses = StdXmlClassesProvider.getXmlDataClasses( additionalClazzes );
 			return JAXBContextFactory.createContext( contextClasses, Collections.emptyMap() );
-
 		} catch ( final JAXBException e ) {
 			throw new RuntimeException( e );
 		}
