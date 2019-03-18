@@ -203,7 +203,9 @@ public class ActionReplayResult implements Serializable {
 	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
 		final Set<LeafDifference> result = new HashSet<>();
 		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
-			result.addAll( elementDifference.getAttributeDifferences( ignore ) );
+			if ( !ignore.shouldIgnoreElement( elementDifference.getElement() ) ) {
+				result.addAll( elementDifference.getAttributeDifferences( ignore ) );
+			}
 		}
 		return result;
 	}
