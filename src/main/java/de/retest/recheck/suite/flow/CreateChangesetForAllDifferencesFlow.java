@@ -30,7 +30,8 @@ public class CreateChangesetForAllDifferencesFlow {
 
 	private void create() {
 		for ( final SuiteReplayResult suite : testReport.getSuiteReplayResults() ) {
-			final SuiteChangeSet suiteChangeSet = reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
+			final SuiteChangeSet suiteChangeSet =
+					reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
 			for ( final TestReplayResult test : suite.getTestReplayResults() ) {
 				final TestChangeSet testChangeSet = suiteChangeSet.createTestChangeSet();
 				boolean first = true;
@@ -46,7 +47,8 @@ public class CreateChangesetForAllDifferencesFlow {
 						}
 						first = false;
 					} else {
-						final ActionChangeSet actionChangeSet = testChangeSet.createActionChangeSet();
+						final ActionChangeSet actionChangeSet =
+								testChangeSet.createActionChangeSet( description, goldenMasterPath );
 						if ( actionReplayResult.getStateDifference() != null ) {
 							addAllElementDifferences( actionReplayResult, actionChangeSet );
 						}
