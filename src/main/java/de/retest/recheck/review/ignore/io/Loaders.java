@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
@@ -17,6 +16,8 @@ import de.retest.recheck.review.ignore.ElementShouldIgnore.ElementShouldIgnoreLo
 import de.retest.recheck.review.ignore.IgnoreCommentLoader;
 import de.retest.recheck.review.ignore.IgnoreCommentLoader.ShouldIgnoreComment;
 import de.retest.recheck.review.ignore.JSShouldIgnoreLoader;
+import de.retest.recheck.review.ignore.ShouldIgnoreEmptyLineLoader;
+import de.retest.recheck.review.ignore.ShouldIgnoreEmptyLineLoader.ShouldIgnoreEmptyLine;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
@@ -41,6 +42,7 @@ public class Loaders {
 		pairs.add( Pair.of( ElementAttributeShouldIgnore.class, new ElementAttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( AttributeShouldIgnore.class, new AttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ElementShouldIgnore.class, new ElementShouldIgnoreLoader() ) );
+		pairs.add( Pair.of( ShouldIgnoreEmptyLine.class, new ShouldIgnoreEmptyLineLoader() ) );
 		pairs.add( Pair.of( ShouldIgnoreComment.class, new IgnoreCommentLoader() ) );
 		pairs.add( Pair.of( JSShouldIgnoreImpl.class, new JSShouldIgnoreLoader() ) );
 		return pairs;
@@ -72,9 +74,7 @@ public class Loaders {
 	}
 
 	public static Stream<?> load( final Stream<String> lines ) {
-		return lines.map( String::trim ) //
-				.filter( StringUtils::isNotEmpty ) //
-				.map( Loaders::load );
+		return lines.map( Loaders::load );
 	}
 
 	private static <T> T load( final String line ) {
