@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
@@ -23,10 +24,10 @@ public class LoadShouldIgnoreWorker {
 	}
 
 	public GlobalIgnoreApplier load() throws IOException {
-		final Optional<Path> path = RecheckIgnoreUtil.getIgnoreFile();
-		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders
-				.load( Files.lines(
-						path.orElseThrow( () -> new IllegalArgumentException( "No reliable argument found." ) ) ) ) //
+		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
+		final Stream<String> ignoreFileLines = Files
+				.lines( ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No reliable argument found." ) ) );
+		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
 				.filter( ShouldIgnore.class::isInstance ) //
 				.map( ShouldIgnore.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
