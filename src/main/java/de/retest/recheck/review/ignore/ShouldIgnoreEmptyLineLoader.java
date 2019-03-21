@@ -38,7 +38,7 @@ public class ShouldIgnoreEmptyLineLoader implements Loader<ShouldIgnoreEmptyLine
 
 	@Override
 	public boolean canLoad( final String line ) {
-		return StringUtils.isEmpty( line );
+		return StringUtils.isWhitespace( line );
 	}
 
 	@Override
