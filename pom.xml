@@ -182,14 +182,7 @@
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
+			<artifactId>junit-jupiter</artifactId>
 			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -198,13 +191,6 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
 			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit-pioneer</groupId>
-			<artifactId>junit-pioneer</artifactId>
-			<version>0.3.0</version>
 			<scope>test</scope>
 		</dependency>
 
