@@ -10,12 +10,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
@@ -44,6 +47,7 @@ class LoadShouldIgnoreWorkerTest {
 		final LoadShouldIgnoreWorker cut = new LoadShouldIgnoreWorker( NopCounter.getInstance() );
 		final GlobalIgnoreApplier globalIgnoreApplier = cut.load();
 		final List<String> loadedIgnoreFileLines = globalIgnoreApplier.persist().getIgnores().stream() //
+				.filter( ((Predicate<ShouldIgnore>) JSShouldIgnoreImpl.class::isInstance).negate() ) //
 				.map( Object::toString ) //
 				.collect( Collectors.toList() );
 
