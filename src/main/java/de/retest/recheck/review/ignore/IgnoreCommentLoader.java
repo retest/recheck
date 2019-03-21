@@ -10,6 +10,8 @@ public class IgnoreCommentLoader implements Loader<ShouldIgnoreComment> {
 
 	public static class ShouldIgnoreComment implements ShouldIgnore {
 
+		public static final String SINGLE_LINE_COMMENT = "#";
+
 		private final String comment;
 
 		public ShouldIgnoreComment( final String comment ) {
@@ -29,18 +31,18 @@ public class IgnoreCommentLoader implements Loader<ShouldIgnoreComment> {
 
 		@Override
 		public String toString() {
-			return "# " + comment;
+			return comment;
 		}
 	}
 
 	@Override
 	public boolean canLoad( final String line ) {
-		return line.trim().startsWith( "#" );
+		return line.startsWith( ShouldIgnoreComment.SINGLE_LINE_COMMENT );
 	}
 
 	@Override
 	public ShouldIgnoreComment load( final String line ) {
-		return new ShouldIgnoreComment( line.replaceFirst( "#", "" ).trim() );
+		return new ShouldIgnoreComment( line );
 	}
 
 	@Override
