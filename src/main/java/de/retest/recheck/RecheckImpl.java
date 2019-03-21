@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
+import de.retest.recheck.ignore.IgnorePixelDiff;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
@@ -56,6 +58,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
 		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
 		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
+
+		final double maxPixelDiff = options.getMaxPixelDiff();
+		if ( maxPixelDiff != 0.0 ) {
+			final ShouldIgnore ignorePixelDiff = new IgnorePixelDiff( maxPixelDiff );
+			ignoreApplier.add( ignorePixelDiff );
+		}
 	}
 
 	private static void ensureConfigurationInitialized() {

@@ -13,4 +13,7 @@ public class RecheckOptions {
 	@Builder.Default
 	private String suiteName = new MavenConformFileNamerStrategy().getTestClassName();
 
+	@Builder.Default
+	private double maxPixelDiff = 0.0;
+
 }
