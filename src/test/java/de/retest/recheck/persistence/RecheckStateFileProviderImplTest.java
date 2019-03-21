@@ -10,16 +10,11 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
-import org.junitpioneer.jupiter.TempDirectory.TempDir;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
-import de.retest.recheck.persistence.NoStateFileFoundException;
-import de.retest.recheck.persistence.RecheckStateFileProviderImpl;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
-@ExtendWith( TempDirectory.class )
 class RecheckStateFileProviderImplTest {
 
 	private static final String NON_EXISTING_FILE = "blubber_schmu";

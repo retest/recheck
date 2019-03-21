@@ -12,9 +12,7 @@ import java.nio.file.Path;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
-import org.junitpioneer.jupiter.TempDirectory.TempDir;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.image.Screenshot;
@@ -22,7 +20,6 @@ import de.retest.recheck.ui.image.Screenshot.ImageType;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.FileUtil.Writer;
 
-@ExtendWith( TempDirectory.class )
 class ScreenshotFolderPersistenceTest {
 
 	ScreenshotFolderPersistence screenshotPersistence;
