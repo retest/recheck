@@ -1,0 +1,12 @@
+matcher: id=banner
+matcher: id=title, attribute: font
+matcher: retestid=banner
+matcher: retestid=banner, attribute: outline
+matcher: xpath=/html[1]/div[1]/div[1]/div[1]
+matcher: xpath=/html[1]/div[1]/div[1]/div[2], attribute: background-url
+attribute=outline
+
+ 
+	
+ match: foo
+# This is a comment
