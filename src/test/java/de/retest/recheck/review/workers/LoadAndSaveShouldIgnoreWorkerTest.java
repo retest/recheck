@@ -9,23 +9,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import de.retest.recheck.ignore.JSShouldIgnoreImpl;
-import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class LoadAndSaveShouldIgnoreWorkerTest {
 
-	Path defaultIgnoreFile;
+	Path origIgnoreFile;
+	Path tempIgnoreFile;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws Exception {
@@ -35,24 +31,21 @@ class LoadAndSaveShouldIgnoreWorkerTest {
 		final Path jsIgnoreFile = configFolder.resolve( RECHECK_IGNORE_JSRULES );
 		Files.createFile( jsIgnoreFile );
 
-		defaultIgnoreFile = configFolder.resolve( RECHECK_IGNORE );
-		Files.copy( Paths.get( "src/main/resources/default-" + RECHECK_IGNORE ), defaultIgnoreFile );
+		origIgnoreFile = Paths.get( "src/test/resources/de/retest/recheck/review/workers/" + RECHECK_IGNORE );
+		tempIgnoreFile = configFolder.resolve( RECHECK_IGNORE );
+		Files.copy( origIgnoreFile, tempIgnoreFile );
 
 		System.setProperty( RETEST_PROJECT_ROOT, configFolder.toString() );
 	}
 
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
-	void loaded_ignore_file_should_match_default_ignore_file() throws Exception {
-		final LoadShouldIgnoreWorker cut = new LoadShouldIgnoreWorker( NopCounter.getInstance() );
-		final GlobalIgnoreApplier globalIgnoreApplier = cut.load();
-		final List<String> loadedIgnoreFileLines = globalIgnoreApplier.persist().getIgnores().stream() //
-				.filter( ((Predicate<ShouldIgnore>) JSShouldIgnoreImpl.class::isInstance).negate() ) //
-				.map( Object::toString ) //
-				.collect( Collectors.toList() );
-
-		final List<String> defaultIgnoreFileLines = Files.readAllLines( defaultIgnoreFile );
-		assertThat( loadedIgnoreFileLines ).isEqualTo( defaultIgnoreFileLines );
+	void loaded_ignore_file_should_be_saved_without_changes() throws Exception {
+		final LoadShouldIgnoreWorker load = new LoadShouldIgnoreWorker( NopCounter.getInstance() );
+		final GlobalIgnoreApplier gia = load.load();
+		final SaveShouldIgnoreWorker save = new SaveShouldIgnoreWorker( gia );
+		save.save();
+		assertThat( tempIgnoreFile ).hasSameContentAs( origIgnoreFile );
 	}
 
 }
