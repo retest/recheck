@@ -13,11 +13,9 @@ import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
 import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore.ElementAttributeShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.ElementShouldIgnore;
 import de.retest.recheck.review.ignore.ElementShouldIgnore.ElementShouldIgnoreLoader;
-import de.retest.recheck.review.ignore.IgnoreCommentLoader;
-import de.retest.recheck.review.ignore.IgnoreCommentLoader.ShouldIgnoreComment;
 import de.retest.recheck.review.ignore.JSShouldIgnoreLoader;
-import de.retest.recheck.review.ignore.ShouldIgnoreEmptyLineLoader;
-import de.retest.recheck.review.ignore.ShouldIgnoreEmptyLineLoader.ShouldIgnoreEmptyLine;
+import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader;
+import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader.ShouldIgnorePreserveLine;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
@@ -42,8 +40,7 @@ public class Loaders {
 		pairs.add( Pair.of( ElementAttributeShouldIgnore.class, new ElementAttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( AttributeShouldIgnore.class, new AttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ElementShouldIgnore.class, new ElementShouldIgnoreLoader() ) );
-		pairs.add( Pair.of( ShouldIgnoreEmptyLine.class, new ShouldIgnoreEmptyLineLoader() ) );
-		pairs.add( Pair.of( ShouldIgnoreComment.class, new IgnoreCommentLoader() ) );
+		pairs.add( Pair.of( ShouldIgnorePreserveLine.class, new ShouldIgnorePreserveLineLoader() ) );
 		pairs.add( Pair.of( JSShouldIgnoreImpl.class, new JSShouldIgnoreLoader() ) );
 		return pairs;
 	}
