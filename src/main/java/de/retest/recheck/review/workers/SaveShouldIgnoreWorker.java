@@ -21,13 +21,13 @@ public class SaveShouldIgnoreWorker {
 	}
 
 	public void save() throws IOException {
-		final Optional<Path> path = RecheckIgnoreUtil.getIgnoreFile();
+		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
 		final Stream<String> save = Loaders.save( persist.getIgnores().stream() );
 
 		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(
-				path.orElseThrow( () -> new IllegalArgumentException( "No reliable argument found." ) ) ) ) ) {
+				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) ) ) ) {
 			save.forEach( writer::println );
 		}
 	}

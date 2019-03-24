@@ -26,7 +26,7 @@ public class LoadShouldIgnoreWorker {
 	public GlobalIgnoreApplier load() throws IOException {
 		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
 		final Stream<String> ignoreFileLines = Files
-				.lines( ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No reliable argument found." ) ) );
+				.lines( ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) );
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
 				.filter( ShouldIgnore.class::isInstance ) //
 				.map( ShouldIgnore.class::cast ) //
