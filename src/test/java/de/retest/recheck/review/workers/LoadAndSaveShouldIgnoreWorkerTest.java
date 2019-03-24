@@ -23,7 +23,7 @@ import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
-class LoadShouldIgnoreWorkerTest {
+class LoadAndSaveShouldIgnoreWorkerTest {
 
 	Path defaultIgnoreFile;
 
