@@ -54,8 +54,7 @@ public class ShouldIgnorePreserveLineLoader implements Loader<ShouldIgnorePreser
 
 		final boolean leadingWhitespace = Character.isWhitespace( line.charAt( 0 ) );
 		if ( leadingWhitespace ) {
-			log.warn( "Please remove leading whitespace from the following line:" );
-			log.warn( "{}", line );
+			log.warn( "Please remove leading whitespace from the following line:\n{}", line );
 			return true;
 		}
 
