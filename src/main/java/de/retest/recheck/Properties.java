@@ -25,7 +25,8 @@ public class Properties {
 	public static enum FileOutputFormat {
 		PLAIN,
 		ZIP,
-		KRYO
+		KRYO,
+		CLOUD
 	}
 
 	public static FileOutputFormat getFileOutputFormat() {

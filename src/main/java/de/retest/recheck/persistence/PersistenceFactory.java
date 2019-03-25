@@ -40,6 +40,8 @@ public class PersistenceFactory {
 				return new XmlFolderPersistence<>( xml );
 			case KRYO:
 				return new KryoPersistence<>();
+			case CLOUD:
+				return new CloudPersistence<>();
 			default:
 				throw new RuntimeException( "Unexpected FileOutputFormat: " + Properties.getFileOutputFormat() );
 		}
@@ -50,6 +52,8 @@ public class PersistenceFactory {
 
 		if ( format == FileOutputFormat.KRYO ) {
 			return new KryoPersistence<>();
+		} else if ( format == FileOutputFormat.CLOUD ) {
+			return new CloudPersistence<>();
 		} else if ( new File( identifier ).isDirectory() ) {
 			return new XmlFolderPersistence<>( xml );
 		} else {
@@ -59,6 +63,10 @@ public class PersistenceFactory {
 
 	private FileOutputFormat getFormatForIdentifier( final URI identifier ) {
 		final String filename = FilenameUtils.getName( identifier.getPath() );
+
+		if ( System.getenv().containsKey( CloudPersistence.RECHECK_API_KEY ) ) {
+			return FileOutputFormat.CLOUD;
+		}
 
 		if ( filename.endsWith( Properties.TEST_REPORT_FILE_EXTENSION ) ) {
 			return FileOutputFormat.KRYO;
