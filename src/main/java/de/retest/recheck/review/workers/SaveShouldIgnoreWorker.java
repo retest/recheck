@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
@@ -29,7 +28,7 @@ public class SaveShouldIgnoreWorker {
 
 		// Filter JSShouldIgnore because that would create unnecessary file content.
 		final Stream<ShouldIgnore> ignores = persist.getIgnores().stream() //
-				.filter( ((Predicate<ShouldIgnore>) JSShouldIgnoreImpl.class::isInstance).negate() );
+				.filter( ignore -> !(ignore instanceof JSShouldIgnoreImpl) );
 		final Stream<String> save = Loaders.save( ignores );
 
 		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(
