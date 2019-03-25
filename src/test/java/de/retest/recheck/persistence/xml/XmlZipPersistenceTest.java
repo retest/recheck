@@ -15,9 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
-import org.junitpioneer.jupiter.TempDirectory.TempDir;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.ioerror.ReTestLoadException;
 import de.retest.recheck.ioerror.ReTestSaveException;
@@ -25,7 +23,6 @@ import de.retest.recheck.util.ApprovalsUtil;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.FileUtil.ZipReader;
 
-@ExtendWith( TempDirectory.class )
 class XmlZipPersistenceTest {
 
 	File baseFolder;

@@ -12,14 +12,11 @@ import java.nio.file.Path;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junitpioneer.jupiter.TempDirectory;
-import org.junitpioneer.jupiter.TempDirectory.TempDir;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.RecheckAdapter;
 import de.retest.recheck.ui.descriptors.RootElement;
 
-@ExtendWith( TempDirectory.class )
 class RecheckSutStateTest {
 
 	@Test
