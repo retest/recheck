@@ -13,8 +13,8 @@ import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
-import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.persistence.RecheckSutState;
+import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.printer.TestReplayResultPrinter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -131,6 +131,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
 		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( ignoreApplier );
+		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
+				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message = finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage()
 					: getDifferencesErrorMessage( finishedTestResult );
