@@ -41,11 +41,11 @@ public class RecheckDifferenceFinder {
 	private ActionReplayResult toActionReplayResult( final DifferenceResult check ) {
 		final List<RootElementDifference> differences = check.getDifferences();
 		if ( differences != null && differences.size() > 0 ) {
-			logger.info( "Found {} differences for step '{}'.", differences.size(), currentStep );
+			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
 			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, stateFilePath ),
 					WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
 		}
-		logger.info( "Found no differences in step '{}'.", currentStep );
+		logger.debug( "Found no differences in step '{}'.", currentStep );
 		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, stateFilePath ),
 				WindowRetriever.of( check.getCurrentSutState() ), 0L );
 	}
