@@ -4,20 +4,14 @@ import static de.retest.recheck.XmlTransformerUtil.getXmlTransformer;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Paths;
 
-import org.keycloak.adapters.KeycloakDeployment;
-import org.keycloak.adapters.KeycloakDeploymentBuilder;
-import org.keycloak.adapters.ServerRequest;
 import org.keycloak.adapters.ServerRequest.HttpFailure;
-import org.keycloak.adapters.rotation.AdapterTokenVerifier;
-import org.keycloak.common.VerificationException;
-import org.keycloak.representations.AccessTokenResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.auth.Authentication;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
 import okhttp3.OkHttpClient;
@@ -33,15 +27,18 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	private final OkHttpClient client = new OkHttpClient();
 
 	public static final String RECHECK_API_KEY = "RECHECK_API_KEY";
-	private static final String KEYCLOAK_JSON = "META-INF/keycloak.json";
 
 	@Override
 	public void save( final URI identifier, final T element ) throws IOException {
 		kryoPersistence.save( identifier, element );
-		saveToCloud( identifier );
+		try {
+			saveToCloud( identifier );
+		} catch ( final HttpFailure e ) {
+			logger.error( "Error", e );
+		}
 	}
 
-	private void saveToCloud( final URI identifier ) throws IOException {
+	private void saveToCloud( final URI identifier ) throws IOException, HttpFailure {
 		final Response uploadUrlResponse = getUploadUrl();
 
 		if ( uploadUrlResponse.isSuccessful() ) {
@@ -63,24 +60,10 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private Response getUploadUrl() throws IOException {
+	private Response getUploadUrl() throws IOException, HttpFailure {
 		final String offlineRefreshToken = System.getenv().get( RECHECK_API_KEY );
-
-		final InputStream config = Thread.currentThread().getContextClassLoader().getResourceAsStream( KEYCLOAK_JSON );
-		final KeycloakDeployment deployment = KeycloakDeploymentBuilder.build( config );
-		AccessTokenResponse response = null;
-
-		try {
-			response = ServerRequest.invokeRefresh( deployment, offlineRefreshToken );
-			AdapterTokenVerifier.verifyToken( response.getToken(), deployment );
-		} catch ( final HttpFailure e ) {
-			logger.error( "Error refreshing token", e );
-		} catch ( final VerificationException e ) {
-			logger.error( "Error verifying refresh token", e );
-		}
-		final String accessToken = response.getToken();
-
-		final String token = String.format( "Bearer %s", accessToken );
+		final Authentication auth = Authentication.getInstance( offlineRefreshToken );
+		final String token = String.format( "Bearer %s", auth.exchangeToken() );
 
 		final Request uploadUrlRequest = new Request.Builder() //
 				.url( SERVICE_ENDPOINT ) //
@@ -88,8 +71,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 				.addHeader( "Authorization", token ) //
 				.build();
 
-		final Response uploadUrlResponse = client.newCall( uploadUrlRequest ).execute();
-		return uploadUrlResponse;
+		return client.newCall( uploadUrlRequest ).execute();
 	}
 
 	@Override
