@@ -102,7 +102,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final SutState expected = loadExpected( file );
 		if ( expected == null ) {
 			createNew( file, actual );
-			return new NoRecheckFileActionReplayResult( currentStep, actual );
+			return new NoRecheckFileActionReplayResult( currentStep, actual, file.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );

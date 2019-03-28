@@ -26,9 +26,10 @@ public class NoRecheckFileActionReplayResult extends ActionReplayResult {
 
 	private static final long serialVersionUID = 1L;
 
-	public NoRecheckFileActionReplayResult( final String currentStep, final SutState actual ) {
-		super( ActionReplayData.withoutTarget( currentStep, null ), WindowRetriever.empty(), ErrorHolder.empty(),
-				DifferenceRetriever.of( toStateDifference( actual ) ), 0L, null );
+	public NoRecheckFileActionReplayResult( final String currentStep, final SutState actual,
+			final String stateFilePath ) {
+		super( ActionReplayData.withoutTarget( currentStep, stateFilePath ), WindowRetriever.empty(),
+				ErrorHolder.empty(), DifferenceRetriever.of( toStateDifference( actual ) ), 0L, null );
 	}
 
 	private static StateDifference toStateDifference( final SutState actual ) {
