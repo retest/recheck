@@ -126,7 +126,7 @@ class RecheckImplTest {
 		private File resolveRoot( final String[] baseNames, final String extension ) {
 			final int last = baseNames.length - 1;
 			final List<String> list = new ArrayList<>( Arrays.asList( baseNames ) );
-			list.set( last, baseNames[last] + "." + extension );
+			list.set( last, baseNames[last] + extension );
 
 			Path path = root;
 			for ( final String sub : list ) {
