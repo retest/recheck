@@ -22,7 +22,7 @@ public class NoRecheckFileActionReplayResult extends ActionReplayResult {
 
 	private static final String MSG_SHORT = "No recheck file found.";
 	public static final String MSG_LONG =
-			MSG_SHORT + " First time test was run? Created recheck file now, don't forget to commit...";
+			MSG_SHORT + " First time test was run? Created new recheck file(s), so don't forget to commit...";
 
 	private static final long serialVersionUID = 1L;
 
