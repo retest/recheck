@@ -97,11 +97,13 @@ class ActionReplayResultPrinterTest {
 		final SutState state = mock( SutState.class );
 		when( state.getRootElements() ).thenReturn( Collections.singletonList( element ) );
 
-		final NoRecheckFileActionReplayResult result = new NoRecheckFileActionReplayResult( "foo", state );
+		final String stateFilePath = "some/state/file/path";
+
+		final NoRecheckFileActionReplayResult result =
+				new NoRecheckFileActionReplayResult( "foo", state, stateFilePath );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).contains(
-				"No recheck file found. First time test was run? Created recheck file now, don't forget to commit..." );
+		assertThat( string ).contains( NoRecheckFileActionReplayResult.MSG_LONG );
 	}
 }
