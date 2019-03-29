@@ -95,14 +95,10 @@ class ActionReplayResultTest {
 		final ShouldIgnore shouldIgnoreAll = mock( ShouldIgnore.class );
 		when( shouldIgnoreAll.shouldIgnoreElement( expectedElement ) ).thenReturn( true );
 
-		final ShouldIgnore shouldIgnoreAllOther = mock( ShouldIgnore.class );
-		when( shouldIgnoreAllOther.shouldIgnoreElement( expectedElement ) ).thenReturn( true );
-
 		assertThat( differences.hasDifferences() ).isTrue();
 
 		assertThat( differences.getDifferences( IGNORE_NOTHING ) ).hasSize( 4 );
 		assertThat( differences.getDifferences( shouldIgnoreAll ) ).hasSize( 0 );
-		assertThat( differences.getDifferences( shouldIgnoreAllOther ) ).hasSize( 0 );
 
 		assertThat( differences.getDifferences( shouldIgnoreFont ) ).hasSize( 3 );
 		assertThat( differences.getDifferences( shouldIgnoreForeground ) ).hasSize( 3 );
