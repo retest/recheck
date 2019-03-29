@@ -68,13 +68,15 @@ class RecheckImplTest {
 		when( adapter.canCheck( any() ) ).thenReturn( true );
 		when( adapter.convert( any() ) ).thenReturn( Collections.singleton( rootElement ) );
 
-		cut.startTest( "Some test" );
-		cut.check( "Some object to verify", adapter, "Some step" );
+		cut.startTest( "some-test" );
+		cut.check( "to-verify", adapter, "some-step" );
 
+		final String goldenMasterName = "de.retest.recheck.RecheckImplTest/some-test.some-step.recheck";
 		assertThatThrownBy( cut::capTest ) //
 				.isExactlyInstanceOf( AssertionError.class ) //
-				.hasMessageStartingWith( "'de.retest.recheck.RecheckImplTest':\n"
-						+ "No recheck file found. First time test was run? Created recheck file now, don't forget to commit..." );
+				.hasMessageStartingWith(
+						"'" + getClass().getName() + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG ) //
+				.hasMessageEndingWith( goldenMasterName );
 
 	}
 
@@ -126,7 +128,7 @@ class RecheckImplTest {
 		private File resolveRoot( final String[] baseNames, final String extension ) {
 			final int last = baseNames.length - 1;
 			final List<String> list = new ArrayList<>( Arrays.asList( baseNames ) );
-			list.set( last, baseNames[last] + "." + extension );
+			list.set( last, baseNames[last] + extension );
 
 			Path path = root;
 			for ( final String sub : list ) {

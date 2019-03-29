@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +103,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final SutState expected = loadExpected( file );
 		if ( expected == null ) {
 			createNew( file, actual );
-			return new NoRecheckFileActionReplayResult( currentStep, actual );
+			return new NoRecheckFileActionReplayResult( currentStep, actual, file.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
@@ -134,8 +135,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
-			final String message = finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage()
-					: getDifferencesErrorMessage( finishedTestResult );
+			final String message =
+					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
+							: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
 	}
@@ -181,8 +183,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
-	private String getNoRecheckFilesErrorMessage() {
-		return "'" + suiteName + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG;
+	private String getNoRecheckFilesErrorMessage( final TestReplayResult finishedTestResult ) {
+		final String stateFilePaths = finishedTestResult.getActionReplayResults().stream() //
+				.map( ActionReplayResult::getStateFilePath ) //
+				.collect( Collectors.joining( "\n" ) );
+		return "'" + suiteName + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG + "\n" + stateFilePaths;
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
