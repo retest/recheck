@@ -18,6 +18,8 @@ import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore.ElementAttri
 import de.retest.recheck.review.ignore.ElementShouldIgnore;
 import de.retest.recheck.review.ignore.ElementShouldIgnore.ElementShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.JSShouldIgnoreLoader;
+import de.retest.recheck.review.ignore.MaxPixelDiffShouldIgnore;
+import de.retest.recheck.review.ignore.MaxPixelDiffShouldIgnore.MaxPixelDiffShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader;
 import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader.ShouldIgnorePreserveLine;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
@@ -46,6 +48,7 @@ public class Loaders {
 		pairs.add( Pair.of( AttributeShouldIgnore.class, new AttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( AttributeRegexShouldIgnore.class, new AttributeRegexShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ElementShouldIgnore.class, new ElementShouldIgnoreLoader() ) );
+		pairs.add( Pair.of( MaxPixelDiffShouldIgnore.class, new MaxPixelDiffShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ShouldIgnorePreserveLine.class, new ShouldIgnorePreserveLineLoader() ) );
 		pairs.add( Pair.of( JSShouldIgnoreImpl.class, new JSShouldIgnoreLoader() ) );
 		return pairs;
