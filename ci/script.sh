@@ -6,7 +6,7 @@ set -o pipefail
 
 ###### Maven ######
 # Compile with JDK 8
-${MVN} clean test-compile
+${MVN} clean package -DskipTests
 
 # Test with JDK 11
 wget --quiet https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 11
