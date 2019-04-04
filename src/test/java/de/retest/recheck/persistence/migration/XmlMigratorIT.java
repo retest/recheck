@@ -23,7 +23,7 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.util.ApprovalsUtil;
 import de.retest.recheck.util.NamedBufferedInputStream;
 
-class XmlMigratorTest {
+class XmlMigratorIT {
 
 	@Test
 	void migrating_xml_from_retest_v1_should_throw_IncompatibleTypesException() throws Exception {

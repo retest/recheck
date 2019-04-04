@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.persistence.migration.XmlTransformer;
 import de.retest.recheck.util.ApprovalsUtil;
 
-class Path2XPathTransformerTest {
+class Path2XPathTransformerIT {
 
 	@Test
 	void test_toXPath() {
