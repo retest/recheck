@@ -27,8 +27,8 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 	private static final long serialVersionUID = 1L;
 
 	public NoGoldenMasterActionReplayResult( final String currentStep, final SutState actual,
-			final String stateFilePath ) {
-		super( ActionReplayData.withoutTarget( currentStep, stateFilePath ), WindowRetriever.empty(),
+			final String goldenMasterPath ) {
+		super( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ), WindowRetriever.empty(),
 				ErrorHolder.empty(), DifferenceRetriever.of( toStateDifference( actual ) ), 0L, null );
 	}
 

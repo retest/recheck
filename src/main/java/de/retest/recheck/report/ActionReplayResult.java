@@ -61,7 +61,7 @@ public class ActionReplayResult implements Serializable {
 	@XmlAttribute
 	private final String description;
 
-	private final String stateFilePath;
+	private final String goldenMasterPath;
 
 	@XmlElement
 	private final Element targetcomponent;
@@ -86,7 +86,7 @@ public class ActionReplayResult implements Serializable {
 
 	protected ActionReplayResult() {
 		description = null;
-		stateFilePath = null;
+		goldenMasterPath = null;
 		targetcomponent = null;
 		error = null;
 		targetNotFound = null;
@@ -142,7 +142,7 @@ public class ActionReplayResult implements Serializable {
 					"ActionReplayResult must not be empty! Affected action: " + data.getDescription() + "." );
 		}
 		description = data.getDescription();
-		stateFilePath = data.getStateFilePath();
+		goldenMasterPath = data.getGoldenMasterPath();
 		targetcomponent = data.getElement();
 		this.windows = windows.get();
 		this.error = error.getThrowableWrapper();
@@ -180,8 +180,8 @@ public class ActionReplayResult implements Serializable {
 		return description;
 	}
 
-	public String getStateFilePath() {
-		return stateFilePath;
+	public String getGoldenMasterPath() {
+		return goldenMasterPath;
 	}
 
 	/**

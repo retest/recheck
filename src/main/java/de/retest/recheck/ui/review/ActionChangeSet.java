@@ -10,15 +10,15 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 public class ActionChangeSet {
 
 	private final String description;
-	private final String stateFilePath;
+	private final String goldenMasterPath;
 
 	public ActionChangeSet() {
 		this( null, null );
 	}
 
-	public ActionChangeSet( final String description, final String stateFilePath ) {
+	public ActionChangeSet( final String description, final String goldenMasterPath ) {
 		this.description = description;
-		this.stateFilePath = stateFilePath;
+		this.goldenMasterPath = goldenMasterPath;
 	}
 
 	private final AttributeChanges identAttributeChanges = new AttributeChanges();
@@ -75,7 +75,8 @@ public class ActionChangeSet {
 	}
 
 	private int size() {
-		return identAttributeChanges.size() + attributeChanges.size() + insertChanges.size() + deletedChanges.size();
+		return identAttributeChanges.size() + attributeChanges.size() + insertChanges
+				.size() + deletedChanges.size();
 	}
 
 	@Override
@@ -87,7 +88,7 @@ public class ActionChangeSet {
 		return description;
 	}
 
-	public String getStateFilePath() {
-		return stateFilePath;
+	public String getGoldenMasterPath() {
+		return goldenMasterPath;
 	}
 }

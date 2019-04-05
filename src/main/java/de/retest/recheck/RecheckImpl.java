@@ -184,10 +184,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private String getNoRecheckFilesErrorMessage( final TestReplayResult finishedTestResult ) {
-		final String stateFilePaths = finishedTestResult.getActionReplayResults().stream() //
-				.map( ActionReplayResult::getStateFilePath ) //
+		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
+				.map( ActionReplayResult::getGoldenMasterPath ) //
 				.collect( Collectors.joining( "\n" ) );
-		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + stateFilePaths;
+		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {

@@ -1,9 +1,9 @@
 package de.retest.recheck.suite.flow;
 
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
@@ -30,18 +30,17 @@ public class CreateChangesetForAllDifferencesFlow {
 
 	private void create() {
 		for ( final SuiteReplayResult suite : testReport.getSuiteReplayResults() ) {
-			final SuiteChangeSet suiteChangeSet =
-					reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
+			final SuiteChangeSet suiteChangeSet = reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
 			for ( final TestReplayResult test : suite.getTestReplayResults() ) {
 				final TestChangeSet testChangeSet = suiteChangeSet.createTestChangeSet();
 				boolean first = true;
 				for ( final ActionReplayResult actionReplayResult : test.getActionReplayResults() ) {
 					final String description = actionReplayResult.getDescription();
-					final String stateFilePath = actionReplayResult.getStateFilePath();
+					final String goldenMasterPath = actionReplayResult.getGoldenMasterPath();
 					if ( first ) {
 						if ( testChangeSet.getInitialStateChangeSet().isEmpty() ) {
 							addAllElementDifferences( actionReplayResult,
-									testChangeSet.createInitialActionChangeSet( description, stateFilePath ) );
+									testChangeSet.createInitialActionChangeSet( description, goldenMasterPath ) );
 						} else {
 							addAllElementDifferences( actionReplayResult, testChangeSet.getInitialStateChangeSet() );
 						}

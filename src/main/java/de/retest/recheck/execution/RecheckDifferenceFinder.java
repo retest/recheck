@@ -21,13 +21,13 @@ public class RecheckDifferenceFinder {
 
 	private final RootElementDifferenceFinder finder;
 	private final String currentStep;
-	private final String stateFilePath;
+	private final String goldenMasterPath;
 
 	public RecheckDifferenceFinder( final DefaultValueFinder finder, final String currentStep,
-			final String stateFilePath ) {
+			final String goldenMasterPath ) {
 		this.finder = new RootElementDifferenceFinder( finder );
 		this.currentStep = currentStep;
-		this.stateFilePath = stateFilePath;
+		this.goldenMasterPath = goldenMasterPath;
 	}
 
 	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
@@ -42,11 +42,11 @@ public class RecheckDifferenceFinder {
 		final List<RootElementDifference> differences = check.getDifferences();
 		if ( differences != null && differences.size() > 0 ) {
 			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
-			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, stateFilePath ),
+			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
 					WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
 		}
 		logger.debug( "Found no differences in step '{}'.", currentStep );
-		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, stateFilePath ),
+		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
 				WindowRetriever.of( check.getCurrentSutState() ), 0L );
 	}
 }

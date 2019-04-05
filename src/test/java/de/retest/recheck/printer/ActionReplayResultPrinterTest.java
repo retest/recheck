@@ -97,10 +97,10 @@ class ActionReplayResultPrinterTest {
 		final SutState state = mock( SutState.class );
 		when( state.getRootElements() ).thenReturn( Collections.singletonList( element ) );
 
-		final String stateFilePath = "some/state/file/path";
+		final String goldenMasterPath = "some/golden/master/path";
 
 		final NoGoldenMasterActionReplayResult result =
-				new NoGoldenMasterActionReplayResult( "foo", state, stateFilePath );
+				new NoGoldenMasterActionReplayResult( "foo", state, goldenMasterPath );
 
 		final String string = cut.toString( result );
 

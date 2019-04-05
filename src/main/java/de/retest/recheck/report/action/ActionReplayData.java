@@ -7,12 +7,12 @@ public class ActionReplayData {
 
 	private final String description;
 	private final Element element;
-	private final String stateFilePath;
+	private final String goldenMasterPath;
 
-	private ActionReplayData( final String description, final Element element, final String stateFilePath ) {
+	private ActionReplayData( final String description, final Element element, final String goldenMasterPath ) {
 		this.description = description;
 		this.element = element;
-		this.stateFilePath = stateFilePath;
+		this.goldenMasterPath = goldenMasterPath;
 	}
 
 	public static ActionReplayData of( final Action action ) {
@@ -36,16 +36,16 @@ public class ActionReplayData {
 	}
 
 	public static ActionReplayData withTarget( final String description, final Element element,
-			final String stateFilePath ) {
-		return new ActionReplayData( description, element, stateFilePath );
+			final String goldenMasterPath ) {
+		return new ActionReplayData( description, element, goldenMasterPath );
 	}
 
 	public static ActionReplayData withoutTarget( final String description ) {
 		return withoutTarget( description, null );
 	}
 
-	public static ActionReplayData withoutTarget( final String description, final String stateFilePath ) {
-		return new ActionReplayData( description, null, stateFilePath );
+	public static ActionReplayData withoutTarget( final String description, final String goldenMasterPath ) {
+		return new ActionReplayData( description, null, goldenMasterPath );
 	}
 
 	public String getDescription() {
@@ -56,7 +56,7 @@ public class ActionReplayData {
 		return element;
 	}
 
-	public String getStateFilePath() {
-		return stateFilePath;
+	public String getGoldenMasterPath() {
+		return goldenMasterPath;
 	}
 }
