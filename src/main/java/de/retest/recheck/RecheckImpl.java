@@ -136,7 +136,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message =
-					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
+					finishedTestResult.hasNoGoldenMaster() ? getNoGoldenMasterErrorMessage( finishedTestResult )
 							: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
@@ -183,7 +183,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
-	private String getNoRecheckFilesErrorMessage( final TestReplayResult finishedTestResult ) {
+	private String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
 		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
 				.map( ActionReplayResult::getGoldenMasterPath ) //
 				.collect( Collectors.joining( "\n" ) );

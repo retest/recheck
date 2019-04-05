@@ -98,7 +98,7 @@ public class TestReplayResult implements Serializable {
 		return differences;
 	}
 
-	public boolean hasNoRecheckFiles() {
+	public boolean hasNoGoldenMaster() {
 		for ( final ActionReplayResult result : actionReplayResults ) {
 			if ( !(result instanceof NoGoldenMasterActionReplayResult) ) {
 				return false;
