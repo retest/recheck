@@ -71,9 +71,9 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 		final String canonicalPathQuietly = canonicalPathQuietly( file );
 		try {
 			persistence.save( file.toURI(), state );
-			logger.info( "Updated SUT state file {}.", canonicalPathQuietly );
+			logger.info( "Updated Golden Master {}.", canonicalPathQuietly );
 		} catch ( final IOException e ) {
-			throw new UncheckedIOException( "Could not apply changes to SUT state file '" + canonicalPathQuietly + "'.",
+			throw new UncheckedIOException( "Could not apply changes to Golden Master '" + canonicalPathQuietly + "'.",
 					e );
 		}
 	}
