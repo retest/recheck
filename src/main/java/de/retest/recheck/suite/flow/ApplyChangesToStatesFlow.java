@@ -60,14 +60,14 @@ public class ApplyChangesToStatesFlow {
 		if ( actionChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
-		final File file = recheckStateFileProvider.getRecheckStateFile( actionChangeSet.getStateFilePath() );
-		final SutState oldState = recheckStateFileProvider.loadRecheckState( file );
+		final File file = recheckStateFileProvider.getGoldenMaster( actionChangeSet.getStateFilePath() );
+		final SutState oldState = recheckStateFileProvider.loadGoldenMaster( file );
 		final SutState newState = oldState.applyChanges( actionChangeSet );
 		if ( newState.equals( oldState ) ) {
 			logger.debug( "SutState {} did not change after applying changes, so not persisting it...", oldState );
 			return Collections.emptyList();
 		}
-		recheckStateFileProvider.saveRecheckState( file, newState );
+		recheckStateFileProvider.saveGoldenMaster( file, newState );
 		return Collections.singletonList( actionChangeSet.getDescription() );
 	}
 }

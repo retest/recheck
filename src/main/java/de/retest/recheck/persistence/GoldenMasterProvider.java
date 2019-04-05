@@ -6,10 +6,10 @@ import de.retest.recheck.ui.descriptors.SutState;
 
 public interface GoldenMasterProvider {
 
-	File getRecheckStateFile( String fileName ) throws NoGoldenMasterFoundException;
+	File getGoldenMaster( String fileName ) throws NoGoldenMasterFoundException;
 
-	SutState loadRecheckState( File file );
+	SutState loadGoldenMaster( File file );
 
-	void saveRecheckState( File file, SutState state );
+	void saveGoldenMaster( File file, SutState state );
 
 }

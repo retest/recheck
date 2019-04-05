@@ -27,7 +27,7 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 	}
 
 	@Override
-	public File getRecheckStateFile( final String filePath ) throws NoGoldenMasterFoundException {
+	public File getGoldenMaster( final String filePath ) throws NoGoldenMasterFoundException {
 		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot() //
 				.orElseThrow( () -> new NoGoldenMasterFoundException( filePath ) );
 		final Path projectRootStates = getStates( projectRoot, filePath );
@@ -51,7 +51,7 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 	}
 
 	@Override
-	public SutState loadRecheckState( final File file ) {
+	public SutState loadGoldenMaster( final File file ) {
 		final SutState result;
 		try {
 			result = persistence.load( file.toURI() );
@@ -67,7 +67,7 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 	}
 
 	@Override
-	public void saveRecheckState( final File file, final SutState state ) {
+	public void saveGoldenMaster( final File file, final SutState state ) {
 		final String canonicalPathQuietly = canonicalPathQuietly( file );
 		try {
 			persistence.save( file.toURI(), state );

@@ -29,14 +29,14 @@ class GoldenMasterProviderImplTest {
 
 	@Test
 	void null_should_result_in_error() {
-		assertThatThrownBy( () -> cut.getRecheckStateFile( null ) ).isInstanceOf( NoGoldenMasterFoundException.class );
+		assertThatThrownBy( () -> cut.getGoldenMaster( null ) ).isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
 	@Test
 	void non_existing_file_should_throw_error( @TempDir final Path temp ) {
 		final File nonExistingFile = temp.resolve( NON_EXISTING_FILE ).toFile();
 
-		assertThatThrownBy( () -> cut.getRecheckStateFile( nonExistingFile.getAbsolutePath() ) )
+		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getAbsolutePath() ) )
 				.isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
@@ -48,7 +48,7 @@ class GoldenMasterProviderImplTest {
 
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
-		assertThatThrownBy( () -> cut.getRecheckStateFile( existingFile.getPath() ) )
+		assertThatThrownBy( () -> cut.getGoldenMaster( existingFile.getPath() ) )
 				.isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
@@ -61,7 +61,7 @@ class GoldenMasterProviderImplTest {
 		Files.createDirectories( tempFolder.resolve( "src/test/java" ) );
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
-		final File f = cut.getRecheckStateFile( EXISTING_FILE );
+		final File f = cut.getGoldenMaster( EXISTING_FILE );
 
 		assertThat( f ).isEqualTo( existingFile );
 	}
