@@ -2,7 +2,7 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -30,8 +30,8 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		if ( targetNotFound != null ) {
 			return prefix + nextIndent + targetNotFound;
 		}
-		if ( difference instanceof NoRecheckFileActionReplayResult ) {
-			return prefix + nextIndent + NoRecheckFileActionReplayResult.MSG_LONG;
+		if ( difference instanceof NoGoldenMasterActionReplayResult ) {
+			return prefix + nextIndent + NoGoldenMasterActionReplayResult.MSG_LONG;
 		}
 		return prefix + createDifferences( difference, nextIndent );
 	}

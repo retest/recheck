@@ -4,9 +4,9 @@ import java.io.File;
 
 import de.retest.recheck.ui.descriptors.SutState;
 
-public interface RecheckStateFileProvider {
+public interface GoldenMasterProvider {
 
-	File getRecheckStateFile( String fileName ) throws NoStateFileFoundException;
+	File getRecheckStateFile( String fileName ) throws NoGoldenMasterFoundException;
 
 	SutState loadRecheckState( File file );
 

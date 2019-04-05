@@ -103,7 +103,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final SutState expected = loadExpected( file );
 		if ( expected == null ) {
 			createNew( file, actual );
-			return new NoRecheckFileActionReplayResult( currentStep, actual, file.getPath() );
+			return new NoGoldenMasterActionReplayResult( currentStep, actual, file.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
@@ -187,7 +187,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final String stateFilePaths = finishedTestResult.getActionReplayResults().stream() //
 				.map( ActionReplayResult::getStateFilePath ) //
 				.collect( Collectors.joining( "\n" ) );
-		return "'" + suiteName + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG + "\n" + stateFilePaths;
+		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + stateFilePaths;
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {

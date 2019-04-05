@@ -9,7 +9,7 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
@@ -99,11 +99,11 @@ class ActionReplayResultPrinterTest {
 
 		final String stateFilePath = "some/state/file/path";
 
-		final NoRecheckFileActionReplayResult result =
-				new NoRecheckFileActionReplayResult( "foo", state, stateFilePath );
+		final NoGoldenMasterActionReplayResult result =
+				new NoGoldenMasterActionReplayResult( "foo", state, stateFilePath );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).contains( NoRecheckFileActionReplayResult.MSG_LONG );
+		assertThat( string ).contains( NoGoldenMasterActionReplayResult.MSG_LONG );
 	}
 }

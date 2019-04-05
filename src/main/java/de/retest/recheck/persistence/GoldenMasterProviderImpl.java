@@ -14,29 +14,29 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.ui.descriptors.SutState;
 
-public class RecheckStateFileProviderImpl implements RecheckStateFileProvider {
+public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 
 	public static final String RECHECK_PROJECT_ROOT = "de.retest.recheck.root";
 
-	private static final Logger logger = LoggerFactory.getLogger( RecheckStateFileProviderImpl.class );
+	private static final Logger logger = LoggerFactory.getLogger( GoldenMasterProviderImpl.class );
 
 	private final Persistence<SutState> persistence;
 
-	public RecheckStateFileProviderImpl( final Persistence<SutState> persistence ) {
+	public GoldenMasterProviderImpl( final Persistence<SutState> persistence ) {
 		this.persistence = persistence;
 	}
 
 	@Override
-	public File getRecheckStateFile( final String filePath ) throws NoStateFileFoundException {
+	public File getRecheckStateFile( final String filePath ) throws NoGoldenMasterFoundException {
 		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot() //
-				.orElseThrow( () -> new NoStateFileFoundException( filePath ) );
+				.orElseThrow( () -> new NoGoldenMasterFoundException( filePath ) );
 		final Path projectRootStates = getStates( projectRoot, filePath );
 
 		if ( projectRootStates != null ) {
 			return projectRootStates.toFile();
 		}
 
-		throw new NoStateFileFoundException( filePath );
+		throw new NoGoldenMasterFoundException( filePath );
 	}
 
 	private Path getStates( final Path projectRoot, final String filePath ) {
