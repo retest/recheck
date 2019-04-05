@@ -13,7 +13,7 @@ import de.retest.recheck.persistence.migration.XmlTransformer;
 import de.retest.recheck.persistence.migration.transformers.AddRetestIdTestTransformer.RetestIdCreator;
 import de.retest.recheck.util.ApprovalsUtil;
 
-class AddRetestIdTestTransformerTest {
+class AddRetestIdTestTransformerIT {
 
 	@Test
 	void retestId_should_be_added() throws Exception {

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.util.ApprovalsUtil;
 
-class RemoveElementTransformerTest {
+class RemoveElementTransformerIT {
 
 	@Test
 	void simple_xml_element_should_be_removed() throws Exception {

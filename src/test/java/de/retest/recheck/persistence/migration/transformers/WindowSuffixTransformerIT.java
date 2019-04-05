@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.util.ApprovalsUtil;
 
-class WindowSuffixTransformerTest {
+class WindowSuffixTransformerIT {
 
 	@Test
 	void transform_should_replace_window_with_suffixed_window() throws Exception {
