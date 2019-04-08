@@ -27,8 +27,8 @@ import de.retest.recheck.ui.diff.LeafDifference;
 
 public class RecheckImpl implements Recheck, SutStateLoader {
 
-	private static final String WORKSPACE_DEFAULT = "src/test/resources/retest/";
-	private static final String CONFIG_PATH = WORKSPACE_DEFAULT + Properties.RETEST_PROPERTIES_FILE_NAME;
+	private static final String PROJECT_DEFAULT = "src/test/resources/retest/";
+	private static final String CONFIG_PATH = PROJECT_DEFAULT + Properties.RETEST_PROPERTIES_FILE_NAME;
 
 	private static final Logger logger = LoggerFactory.getLogger( RecheckImpl.class );
 
