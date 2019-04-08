@@ -28,7 +28,7 @@ class ElementShouldIgnoreTest {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		assertThat( cut.shouldIgnoreElement( element ) ).isTrue();
+		assertThat( cut.filterElement( element ) ).isTrue();
 	}
 
 	@Test
@@ -36,7 +36,7 @@ class ElementShouldIgnoreTest {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
-		assertThat( cut.shouldIgnoreElement( element ) ).isFalse();
+		assertThat( cut.filterElement( element ) ).isFalse();
 	}
 
 	@Test
@@ -45,6 +45,6 @@ class ElementShouldIgnoreTest {
 		when( element.getRetestId() ).thenReturn( "abc" );
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
-		assertThat( cut.shouldIgnoreAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.filterAttributeDifference( element, difference ) ).isFalse();
 	}
 }

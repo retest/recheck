@@ -1,6 +1,6 @@
 package de.retest.recheck.execution;
 
-import static de.retest.recheck.ignore.ShouldIgnore.IGNORE_NOTHING;
+import static de.retest.recheck.ignore.Filter.IGNORE_NOTHING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

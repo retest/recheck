@@ -1,6 +1,6 @@
 package de.retest.recheck.report;
 
-import static de.retest.recheck.ignore.ShouldIgnore.IGNORE_NOTHING;
+import static de.retest.recheck.ignore.Filter.IGNORE_NOTHING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import de.retest.recheck.execution.RecheckDifferenceFinder;
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeShouldIgnore;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
@@ -92,8 +92,8 @@ class ActionReplayResultTest {
 		final AttributeShouldIgnore shouldIgnorePath = new AttributeShouldIgnore( "path" );
 		final AttributeShouldIgnore shouldIgnoreBackground = new AttributeShouldIgnore( "background" );
 
-		final ShouldIgnore shouldIgnoreAll = mock( ShouldIgnore.class );
-		when( shouldIgnoreAll.shouldIgnoreElement( expectedElement ) ).thenReturn( true );
+		final Filter shouldIgnoreAll = mock( Filter.class );
+		when( shouldIgnoreAll.filterElement( expectedElement ) ).thenReturn( true );
 
 		assertThat( differences.hasDifferences() ).isTrue();
 

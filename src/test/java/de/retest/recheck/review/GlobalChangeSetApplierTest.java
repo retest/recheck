@@ -16,7 +16,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -34,7 +34,7 @@ import de.retest.recheck.ui.review.TestChangeSet;
 
 class GlobalChangeSetApplierTest {
 
-	private final static ShouldIgnore SHOULD_IGNORE_NOTHING = null;
+	private final static Filter SHOULD_IGNORE_NOTHING = null;
 
 	private GlobalChangeSetApplier globalApplier;
 

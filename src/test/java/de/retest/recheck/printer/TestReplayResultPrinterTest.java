@@ -1,6 +1,6 @@
 package de.retest.recheck.printer;
 
-import static de.retest.recheck.ignore.ShouldIgnore.IGNORE_NOTHING;
+import static de.retest.recheck.ignore.Filter.IGNORE_NOTHING;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
