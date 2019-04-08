@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.review.ignore.AttributeRegexShouldIgnore;
+import de.retest.recheck.review.ignore.AttributeRegexShouldIgnore.AttributeRegexShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.AttributeShouldIgnore;
 import de.retest.recheck.review.ignore.AttributeShouldIgnore.AttributeShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
@@ -39,6 +41,7 @@ public class Loaders {
 		pairs.add( Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ) );
 		pairs.add( Pair.of( ElementAttributeShouldIgnore.class, new ElementAttributeShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( AttributeShouldIgnore.class, new AttributeShouldIgnoreLoader() ) );
+		pairs.add( Pair.of( AttributeRegexShouldIgnore.class, new AttributeRegexShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ElementShouldIgnore.class, new ElementShouldIgnoreLoader() ) );
 		pairs.add( Pair.of( ShouldIgnorePreserveLine.class, new ShouldIgnorePreserveLineLoader() ) );
 		pairs.add( Pair.of( JSShouldIgnoreImpl.class, new JSShouldIgnoreLoader() ) );
