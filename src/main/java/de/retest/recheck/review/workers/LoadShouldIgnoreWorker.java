@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.counter.Counter;
@@ -28,8 +28,8 @@ public class LoadShouldIgnoreWorker {
 		final Stream<String> ignoreFileLines = Files
 				.lines( ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) );
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
-				.filter( ShouldIgnore.class::isInstance ) //
-				.map( ShouldIgnore.class::cast ) //
+				.filter( Filter.class::isInstance ) //
+				.map( Filter.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 

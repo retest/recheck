@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.diff.LeafDifference;
 
 @XmlRootElement( name = "test" )
@@ -82,7 +82,7 @@ public class TestReplayResult implements Serializable {
 		return uiElementsCount;
 	}
 
-	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
+	public Set<LeafDifference> getDifferences( final Filter ignore ) {
 		final Set<LeafDifference> diffs = new HashSet<>();
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
 			diffs.addAll( actionReplayResult.getDifferences( ignore ) );

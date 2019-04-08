@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class JSShouldIgnoreImpl implements ShouldIgnore {
+public class JSShouldIgnoreImpl implements Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger( JSShouldIgnoreImpl.class );
 
@@ -49,12 +49,12 @@ public class JSShouldIgnoreImpl implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final Element element ) {
+	public boolean filterElement( final Element element ) {
 		return callBooleanJSFunction( "shouldIgnoreElement", element );
 	}
 
 	@Override
-	public boolean shouldIgnoreAttributeDifference( final Element element,
+	public boolean filterAttributeDifference( final Element element,
 			final AttributeDifference attributeDifference ) {
 		return callBooleanJSFunction( "shouldIgnoreAttributeDifference", element, attributeDifference );
 	}

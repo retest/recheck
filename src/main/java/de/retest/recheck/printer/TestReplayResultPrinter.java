@@ -2,7 +2,7 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -10,9 +10,9 @@ import de.retest.recheck.ui.DefaultValueFinder;
 public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private final DefaultValueFinderProvider provider;
-	private final ShouldIgnore ignore;
+	private final Filter ignore;
 
-	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final ShouldIgnore ignore ) {
+	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final Filter ignore ) {
 		this.provider = provider;
 		this.ignore = ignore;
 	}

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
 import de.retest.recheck.review.ignore.ElementShouldIgnore;
@@ -13,12 +13,12 @@ import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class GlobalIgnoreApplier implements ShouldIgnore {
+public class GlobalIgnoreApplier implements Filter {
 
 	private final Counter counter;
-	private final List<ShouldIgnore> ignored = new ArrayList<>();
+	private final List<Filter> ignored = new ArrayList<>();
 
-	private GlobalIgnoreApplier( final Counter counter, final List<ShouldIgnore> ignored ) {
+	private GlobalIgnoreApplier( final Counter counter, final List<Filter> ignored ) {
 		this.counter = counter;
 		this.ignored.addAll( ignored );
 	}
@@ -32,8 +32,8 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreAttributeDifference( final Element element, final AttributeDifference difference ) {
-		return any( ignore -> ignore.shouldIgnoreAttributeDifference( element, difference ) );
+	public boolean filterAttributeDifference( final Element element, final AttributeDifference difference ) {
+		return any( ignore -> ignore.filterAttributeDifference( element, difference ) );
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -41,12 +41,12 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
-		remove( ignore -> ignore.shouldIgnoreAttributeDifference( element, difference ) );
+		remove( ignore -> ignore.filterAttributeDifference( element, difference ) );
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final Element element ) {
-		return any( ignore -> ignore.shouldIgnoreElement( element ) );
+	public boolean filterElement( final Element element ) {
+		return any( ignore -> ignore.filterElement( element ) );
 	}
 
 	public void ignoreElement( final Element element ) {
@@ -54,20 +54,20 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 	}
 
 	public void unignoreElement( final Element element ) {
-		remove( ignore -> ignore.shouldIgnoreElement( element ) );
+		remove( ignore -> ignore.filterElement( element ) );
 	}
 
-	public void add( final ShouldIgnore ignore ) {
+	public void add( final Filter ignore ) {
 		ignored.add( ignore );
 		counter.add();
 	}
 
-	private void remove( final Predicate<ShouldIgnore> filter ) {
+	private void remove( final Predicate<Filter> filter ) {
 		ignored.removeIf( filter );
 		counter.remove();
 	}
 
-	private boolean any( final Predicate<ShouldIgnore> ignore ) {
+	private boolean any( final Predicate<Filter> ignore ) {
 		return ignored.stream().anyMatch( ignore );
 	}
 
@@ -77,13 +77,13 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 
 	public static class PersistableGlobalIgnoreApplier {
 
-		private final List<ShouldIgnore> ignores;
+		private final List<Filter> ignores;
 
-		public PersistableGlobalIgnoreApplier( final List<ShouldIgnore> ignores ) {
+		public PersistableGlobalIgnoreApplier( final List<Filter> ignores ) {
 			this.ignores = new ArrayList<>( ignores );
 		}
 
-		public List<ShouldIgnore> getIgnores() {
+		public List<Filter> getIgnores() {
 			return ignores;
 		}
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.AttributesDifference;
@@ -16,7 +16,7 @@ import de.retest.recheck.ui.review.ActionChangeSet;
 
 public class AcceptableElementDifference {
 
-	private static final ShouldIgnore SHOULD_IGNORE_NOTHING = null;
+	private static final Filter SHOULD_IGNORE_NOTHING = null;
 
 	private final ElementDifference elementDifference;
 	private final List<AttributeDifference> identifyingAttributesAttributesDifferences;
@@ -63,7 +63,7 @@ public class AcceptableElementDifference {
 	}
 
 	public boolean isAccepted() {
-		if ( globalIgnoreApplier.shouldIgnoreElement( getElementDifference().getElement() ) ) {
+		if ( globalIgnoreApplier.filterElement( getElementDifference().getElement() ) ) {
 			return true;
 		}
 		boolean result = true;
@@ -129,7 +129,7 @@ public class AcceptableElementDifference {
 	}
 
 	public boolean isIgnored( final AttributeDifference difference ) {
-		return globalIgnoreApplier.shouldIgnoreAttributeDifference( getElementDifference().getElement(), difference );
+		return globalIgnoreApplier.filterAttributeDifference( getElementDifference().getElement(), difference );
 	}
 
 	public void ignore( final AttributeDifference attributeDifference ) {

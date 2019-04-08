@@ -3,12 +3,12 @@ package de.retest.recheck.review.ignore;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class AttributeShouldIgnore implements ShouldIgnore {
+public class AttributeShouldIgnore implements Filter {
 
 	private final String attribute;
 
@@ -17,12 +17,12 @@ public class AttributeShouldIgnore implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final Element element ) {
+	public boolean filterElement( final Element element ) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldIgnoreAttributeDifference( final Element element,
+	public boolean filterAttributeDifference( final Element element,
 			final AttributeDifference attributeDifference ) {
 		return attributeDifference.getKey().equals( attribute );
 	}

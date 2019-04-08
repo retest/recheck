@@ -3,7 +3,7 @@ package de.retest.recheck.printer;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
@@ -11,9 +11,9 @@ import de.retest.recheck.ui.actions.ExceptionWrapper;
 public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private final ElementDifferencePrinter printer;
-	private final ShouldIgnore ignore;
+	private final Filter ignore;
 
-	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final ShouldIgnore ignore ) {
+	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final Filter ignore ) {
 		printer = new ElementDifferencePrinter( defaultValueFinder, ignore );
 		this.ignore = ignore;
 	}
@@ -42,7 +42,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private String createDifferences( final ActionReplayResult difference, final String indent ) {
 		return difference.getAllElementDifferences().stream() //
-				.filter( diff -> !ignore.shouldIgnoreElement( diff.getElement() ) ) //
+				.filter( diff -> !ignore.filterElement( diff.getElement() ) ) //
 				.filter( diff -> !diff.getAttributeDifferences( ignore ).isEmpty() )
 				.map( diff -> printer.toString( diff, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );

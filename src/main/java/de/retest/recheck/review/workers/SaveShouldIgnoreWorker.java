@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.JSShouldIgnoreImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.ignore.io.Loaders;
@@ -27,7 +27,7 @@ public class SaveShouldIgnoreWorker {
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
 		// Filter JSShouldIgnore because that would create unnecessary file content.
-		final Stream<ShouldIgnore> ignores = persist.getIgnores().stream() //
+		final Stream<Filter> ignores = persist.getIgnores().stream() //
 				.filter( ignore -> !(ignore instanceof JSShouldIgnoreImpl) );
 		final Stream<String> save = Loaders.save( ignores );
 

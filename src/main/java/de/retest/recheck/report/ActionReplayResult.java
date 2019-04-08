@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.ErrorHolder;
@@ -200,10 +200,10 @@ public class ActionReplayResult implements Serializable {
 		return differences;
 	}
 
-	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
+	public Set<LeafDifference> getDifferences( final Filter ignore ) {
 		final Set<LeafDifference> result = new HashSet<>();
 		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
-			if ( !ignore.shouldIgnoreElement( elementDifference.getElement() ) ) {
+			if ( !ignore.filterElement( elementDifference.getElement() ) ) {
 				result.addAll( elementDifference.getAttributeDifferences( ignore ) );
 			}
 		}

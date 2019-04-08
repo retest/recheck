@@ -2,7 +2,7 @@ package de.retest.recheck.review.ignore;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader.ShouldIgnorePreserveLine;
 import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.ui.descriptors.Element;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ShouldIgnorePreserveLineLoader implements Loader<ShouldIgnorePreserveLine> {
 
-	public static class ShouldIgnorePreserveLine implements ShouldIgnore {
+	public static class ShouldIgnorePreserveLine implements Filter {
 
 		public static final String COMMENT = "#";
 
@@ -23,12 +23,12 @@ public class ShouldIgnorePreserveLineLoader implements Loader<ShouldIgnorePreser
 		}
 
 		@Override
-		public boolean shouldIgnoreElement( final Element element ) {
+		public boolean filterElement( final Element element ) {
 			return false;
 		}
 
 		@Override
-		public boolean shouldIgnoreAttributeDifference( final Element element,
+		public boolean filterAttributeDifference( final Element element,
 				final AttributeDifference attributeDifference ) {
 			return false;
 		}

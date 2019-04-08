@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -25,7 +25,7 @@ import de.retest.recheck.review.counter.NopCounter;
 
 public class GlobalChangeSetApplier {
 
-	private static final ShouldIgnore SHOULD_IGNORE_NOTHING = null;
+	private static final Filter SHOULD_IGNORE_NOTHING = null;
 
 	private final Counter counter;
 

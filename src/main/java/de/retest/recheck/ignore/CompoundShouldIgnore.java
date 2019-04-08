@@ -5,18 +5,18 @@ import java.util.List;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class CompoundShouldIgnore implements ShouldIgnore {
+public class CompoundShouldIgnore implements Filter {
 
-	private final List<ShouldIgnore> shouldIgnores;
+	private final List<Filter> filter;
 
-	public CompoundShouldIgnore( final List<ShouldIgnore> shouldIgnores ) {
-		this.shouldIgnores = shouldIgnores;
+	public CompoundShouldIgnore( final List<Filter> shouldIgnores ) {
+		filter = shouldIgnores;
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final Element element ) {
-		for ( final ShouldIgnore shouldIgnore : shouldIgnores ) {
-			if ( shouldIgnore.shouldIgnoreElement( element ) ) {
+	public boolean filterElement( final Element element ) {
+		for ( final Filter filter : filter ) {
+			if ( filter.filterElement( element ) ) {
 				return true;
 			}
 		}
@@ -24,10 +24,9 @@ public class CompoundShouldIgnore implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreAttributeDifference( final Element element,
-			final AttributeDifference attributeDifference ) {
-		for ( final ShouldIgnore shouldIgnore : shouldIgnores ) {
-			if ( shouldIgnore.shouldIgnoreAttributeDifference( element, attributeDifference ) ) {
+	public boolean filterAttributeDifference( final Element element, final AttributeDifference attributeDifference ) {
+		for ( final Filter filter : filter ) {
+			if ( filter.filterAttributeDifference( element, attributeDifference ) ) {
 				return true;
 			}
 		}
