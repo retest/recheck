@@ -6,6 +6,7 @@ matcher: retestid=banner, attribute-regex: .*color
 matcher: xpath=/html[1]/div[1]/div[1]/div[1]
 matcher: xpath=/html[1]/div[1]/div[1]/div[2], attribute: background-url
 matcher: type=div, attribute-regex: .*color
+attribute-regex= .*
 attribute=outline
 
  
