@@ -40,7 +40,7 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 		this.sourceSetName = sourceSetName;
 	}
 
-	public static final String DEFAULT_RETEST_WORKSPACE_PATH_FORMAT = "src/%s/resources/retest/";
+	public static final String DEFAULT_RETEST_PROJECT_PATH_FORMAT = "src/%s/resources/retest/";
 	public static final String DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT = "build/test-results/%s/retest/";
 
 	@Override
@@ -48,7 +48,7 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 		return new FileNamer() {
 			@Override
 			public File getFile( final String extension ) {
-				return toFile( DEFAULT_RETEST_WORKSPACE_PATH_FORMAT, extension, baseNames );
+				return toFile( DEFAULT_RETEST_PROJECT_PATH_FORMAT, extension, baseNames );
 			}
 
 			@Override

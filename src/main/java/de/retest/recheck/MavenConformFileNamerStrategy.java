@@ -15,7 +15,7 @@ import de.retest.recheck.persistence.FileNamer;
  */
 public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
-	public static final String DEFAULT_RETEST_WORKSPACE_PATH = "src/test/resources/retest/";
+	public static final String DEFAULT_RETEST_PROJECT_PATH = "src/test/resources/retest/";
 	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "target/test-classes/retest/";
 
 	@Override
@@ -23,7 +23,7 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 		return new FileNamer() {
 			@Override
 			public File getFile( final String extension ) {
-				return toFile( DEFAULT_RETEST_WORKSPACE_PATH, extension, baseNames );
+				return toFile( DEFAULT_RETEST_PROJECT_PATH, extension, baseNames );
 			}
 
 			@Override
