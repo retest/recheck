@@ -1,0 +1,60 @@
+package de.retest.recheck.review.ignore;
+
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+
+import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.review.ignore.io.Loader;
+import de.retest.recheck.review.ignore.io.Loaders;
+import de.retest.recheck.review.ignore.io.RegexLoader;
+import de.retest.recheck.review.ignore.matcher.Matcher;
+import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.diff.AttributeDifference;
+
+public class ElementAttributeRegexShouldIgnore implements ShouldIgnore {
+
+	private final Matcher<Element> matcher;
+	private final Pattern attributePattern;
+
+	public ElementAttributeRegexShouldIgnore( final Matcher<Element> matcher, final String attributeRegex ) {
+		this.matcher = matcher;
+		attributePattern = Pattern.compile( attributeRegex );
+	}
+
+	@Override
+	public boolean shouldIgnoreElement( final Element element ) {
+		return false;
+	}
+
+	@Override
+	public boolean shouldIgnoreAttributeDifference( final Element element,
+			final AttributeDifference attributeDifference ) {
+		return matcher.test( element ) && attributePattern.matcher( attributeDifference.getKey() ).matches();
+	}
+
+	@Override
+	public String toString() {
+		return String.format( ElementAttributeRegexShouldIgnoreLoader.FORMAT, matcher.toString(), attributePattern );
+	}
+
+	public static class ElementAttributeRegexShouldIgnoreLoader extends RegexLoader<ElementAttributeRegexShouldIgnore> {
+
+		private static final String MATCHER = "matcher: ";
+		private static final String KEY = "attribute-regex: ";
+
+		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
+		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
+
+		public ElementAttributeRegexShouldIgnoreLoader() {
+			super( REGEX );
+		}
+
+		@Override
+		protected ElementAttributeRegexShouldIgnore load( final MatchResult regex ) {
+			final String matcher = regex.group( 1 );
+			final Loader<Matcher> loader = Loaders.get( matcher );
+			final String key = regex.group( 2 );
+			return new ElementAttributeRegexShouldIgnore( loader.load( matcher ), key );
+		}
+	}
+}
