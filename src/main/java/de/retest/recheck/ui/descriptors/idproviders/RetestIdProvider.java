@@ -9,7 +9,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
  */
 public interface RetestIdProvider {
 
-	public static final String ID_PROVIDER_CONFIGURATION_PROPERTY = "de.retest.retestIdProvider";
+	public static final String RETEST_ID_PROVIDER_PROPERTY = "de.retest.retestIdProvider";
 
 	/**
 	 * Get a retest ID for the given identifying attributes. Ideally, this should be human readable or have some

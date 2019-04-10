@@ -40,7 +40,7 @@ class RetestIdProviderUtilTest {
 
 	@Test
 	void invalid_retestid_config_should_fallback_to_default() {
-		System.setProperty( RetestIdProvider.ID_PROVIDER_CONFIGURATION_PROPERTY, "not existent" );
+		System.setProperty( RetestIdProvider.RETEST_ID_PROVIDER_PROPERTY, "not existent" );
 		final RetestIdProvider fallback = RetestIdProviderUtil.createConfigured();
 		assertThat( fallback ).isNotNull();
 		assertThat( fallback.getClass().getName() ).isEqualTo( DefaultRetestIdProvider.class.getName() );

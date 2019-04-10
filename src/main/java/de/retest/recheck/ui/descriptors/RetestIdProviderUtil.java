@@ -25,7 +25,7 @@ public class RetestIdProviderUtil {
 	}
 
 	protected static RetestIdProvider createConfigured() {
-		final String configuredClassName = System.getProperty( RetestIdProvider.ID_PROVIDER_CONFIGURATION_PROPERTY );
+		final String configuredClassName = System.getProperty( RetestIdProvider.RETEST_ID_PROVIDER_PROPERTY );
 		if ( !StringUtils.isBlank( configuredClassName ) ) {
 			try {
 				final Class<?> configuredClass = Class.forName( configuredClassName );
@@ -33,7 +33,7 @@ public class RetestIdProviderUtil {
 			} catch ( final Exception e ) {
 				logger.error(
 						"Error instantiating configured retest ID provider '{}' (with property '{}'), falling back to default.",
-						configuredClassName, RetestIdProvider.ID_PROVIDER_CONFIGURATION_PROPERTY, e );
+						configuredClassName, RetestIdProvider.RETEST_ID_PROVIDER_PROPERTY, e );
 			}
 		}
 		return new DefaultRetestIdProvider();
