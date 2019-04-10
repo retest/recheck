@@ -9,6 +9,10 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
  */
 public interface RetestIdProvider {
 
+	/**
+	 * Can be used to configure a custom retest ID provider by setting this property to the fully-qualified name of the
+	 * implementing class.
+	 */
 	public static final String RETEST_ID_PROVIDER_PROPERTY = "de.retest.retestIdProvider";
 
 	/**
