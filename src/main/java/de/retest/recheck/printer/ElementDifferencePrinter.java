@@ -12,9 +12,9 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 	private final DefaultValueFinder finder;
 	private final Filter ignore;
 
-	public ElementDifferencePrinter( final DefaultValueFinder finder, final Filter ignore ) {
+	public ElementDifferencePrinter( final DefaultValueFinder finder, final Filter filter ) {
 		this.finder = finder;
-		this.ignore = ignore;
+		this.ignore = filter;
 	}
 
 	@Override

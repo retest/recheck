@@ -24,27 +24,27 @@ class ElementShouldIgnoreTest {
 	}
 
 	@Test
-	void shouldIgnoreElement_should_accept_element() {
+	void shouldBeFiltered_should_accept_element() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		assertThat( cut.filterElement( element ) ).isTrue();
+		assertThat( cut.shouldBeFiltered( element ) ).isTrue();
 	}
 
 	@Test
-	void shouldIgnoreElement_should_reject_element() {
+	void shouldBeFiltered_should_reject_element() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
-		assertThat( cut.filterElement( element ) ).isFalse();
+		assertThat( cut.shouldBeFiltered( element ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_always_be_false() {
+	void shouldBeFiltered_should_always_be_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
-		assertThat( cut.filterAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.shouldBeFiltered( element, difference ) ).isFalse();
 	}
 }

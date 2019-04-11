@@ -11,11 +11,11 @@ import de.retest.recheck.ui.actions.ExceptionWrapper;
 public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private final ElementDifferencePrinter printer;
-	private final Filter ignore;
+	private final Filter filter;
 
-	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final Filter ignore ) {
-		printer = new ElementDifferencePrinter( defaultValueFinder, ignore );
-		this.ignore = ignore;
+	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final Filter filter ) {
+		printer = new ElementDifferencePrinter( defaultValueFinder, filter );
+		this.filter = filter;
 	}
 
 	@Override
@@ -42,8 +42,8 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private String createDifferences( final ActionReplayResult difference, final String indent ) {
 		return difference.getAllElementDifferences().stream() //
-				.filter( diff -> !ignore.filterElement( diff.getElement() ) ) //
-				.filter( diff -> !diff.getAttributeDifferences( ignore ).isEmpty() )
+				.filter( diff -> !filter.shouldBeFiltered( diff.getElement() ) ) //
+				.filter( diff -> !diff.getAttributeDifferences( filter ).isEmpty() )
 				.map( diff -> printer.toString( diff, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}

@@ -27,9 +27,9 @@ public class SaveShouldIgnoreWorker {
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
 		// Filter JSShouldIgnore because that would create unnecessary file content.
-		final Stream<Filter> ignores = persist.getIgnores().stream() //
-				.filter( ignore -> !(ignore instanceof JSShouldIgnoreImpl) );
-		final Stream<String> save = Loaders.save( ignores );
+		final Stream<Filter> filters = persist.getIgnores().stream() //
+				.filter( filter -> !(filter instanceof JSShouldIgnoreImpl) );
+		final Stream<String> save = Loaders.save( filters );
 
 		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(
 				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) ) ) ) {

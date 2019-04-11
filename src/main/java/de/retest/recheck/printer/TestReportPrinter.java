@@ -9,8 +9,8 @@ public class TestReportPrinter implements Printer<TestReport> {
 
 	private final SuiteReplayResultPrinter delegate;
 
-	public TestReportPrinter( final DefaultValueFinderProvider provider, final Filter ignore ) {
-		delegate = new SuiteReplayResultPrinter( provider, ignore );
+	public TestReportPrinter( final DefaultValueFinderProvider provider, final Filter filter ) {
+		delegate = new SuiteReplayResultPrinter( provider, filter );
 	}
 
 	@Override

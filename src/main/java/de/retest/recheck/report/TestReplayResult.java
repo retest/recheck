@@ -82,10 +82,10 @@ public class TestReplayResult implements Serializable {
 		return uiElementsCount;
 	}
 
-	public Set<LeafDifference> getDifferences( final Filter ignore ) {
+	public Set<LeafDifference> getDifferences( final Filter filter ) {
 		final Set<LeafDifference> diffs = new HashSet<>();
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			diffs.addAll( actionReplayResult.getDifferences( ignore ) );
+			diffs.addAll( actionReplayResult.getDifferences( filter ) );
 		}
 		return diffs;
 	}

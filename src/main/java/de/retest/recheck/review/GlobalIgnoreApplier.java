@@ -18,9 +18,9 @@ public class GlobalIgnoreApplier implements Filter {
 	private final Counter counter;
 	private final List<Filter> ignored = new ArrayList<>();
 
-	private GlobalIgnoreApplier( final Counter counter, final List<Filter> ignored ) {
+	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filter ) {
 		this.counter = counter;
-		this.ignored.addAll( ignored );
+		this.ignored.addAll( filter );
 	}
 
 	public static GlobalIgnoreApplier create( final Counter counter ) {
@@ -67,8 +67,8 @@ public class GlobalIgnoreApplier implements Filter {
 		counter.remove();
 	}
 
-	private boolean any( final Predicate<Filter> ignore ) {
-		return ignored.stream().anyMatch( ignore );
+	private boolean any( final Predicate<Filter> filter ) {
+		return ignored.stream().anyMatch( filter );
 	}
 
 	public PersistableGlobalIgnoreApplier persist() {
@@ -79,8 +79,8 @@ public class GlobalIgnoreApplier implements Filter {
 
 		private final List<Filter> ignores;
 
-		public PersistableGlobalIgnoreApplier( final List<Filter> ignores ) {
-			this.ignores = new ArrayList<>( ignores );
+		public PersistableGlobalIgnoreApplier( final List<Filter> filter ) {
+			this.ignores = new ArrayList<>( filter );
 		}
 
 		public List<Filter> getIgnores() {

@@ -12,9 +12,9 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	private final DefaultValueFinderProvider provider;
 	private final Filter ignore;
 
-	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final Filter ignore ) {
+	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final Filter filter ) {
 		this.provider = provider;
-		this.ignore = ignore;
+		this.ignore = filter;
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 	}
 
 	@Override
-	public Set<LeafDifference> getDifferences( final Filter ignore ) {
+	public Set<LeafDifference> getDifferences( final Filter filter ) {
 		return Collections.singleton( new LeafDifference() {
 
 			@Override
