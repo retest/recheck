@@ -103,7 +103,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final SutState expected = loadExpected( file );
 		if ( expected == null ) {
 			createNew( file, actual );
-			return new NoRecheckFileActionReplayResult( currentStep, actual, file.getPath() );
+			return new NoGoldenMasterActionReplayResult( currentStep, actual, file.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
@@ -136,7 +136,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message =
-					finishedTestResult.hasNoRecheckFiles() ? getNoRecheckFilesErrorMessage( finishedTestResult )
+					finishedTestResult.hasNoGoldenMaster() ? getNoGoldenMasterErrorMessage( finishedTestResult )
 							: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
@@ -183,11 +183,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
-	private String getNoRecheckFilesErrorMessage( final TestReplayResult finishedTestResult ) {
-		final String stateFilePaths = finishedTestResult.getActionReplayResults().stream() //
-				.map( ActionReplayResult::getStateFilePath ) //
+	private String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
+		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
+				.map( ActionReplayResult::getGoldenMasterPath ) //
 				.collect( Collectors.joining( "\n" ) );
-		return "'" + suiteName + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG + "\n" + stateFilePaths;
+		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {

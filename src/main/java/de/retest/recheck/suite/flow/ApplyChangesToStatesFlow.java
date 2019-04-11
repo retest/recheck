@@ -8,10 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.persistence.NoStateFileFoundException;
+import de.retest.recheck.persistence.GoldenMasterProvider;
+import de.retest.recheck.persistence.GoldenMasterProviderImpl;
+import de.retest.recheck.persistence.NoGoldenMasterFoundException;
 import de.retest.recheck.persistence.Persistence;
-import de.retest.recheck.persistence.RecheckStateFileProvider;
-import de.retest.recheck.persistence.RecheckStateFileProviderImpl;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.ui.review.SuiteChangeSet;
@@ -21,18 +21,18 @@ public class ApplyChangesToStatesFlow {
 
 	private static final Logger logger = LoggerFactory.getLogger( ApplyChangesToStatesFlow.class );
 
-	private final RecheckStateFileProvider recheckStateFileProvider;
+	private final GoldenMasterProvider goldenMasterProvider;
 
 	public static List<String> apply( final Persistence<SutState> persistence, final SuiteChangeSet acceptedChanges )
-			throws NoStateFileFoundException {
+			throws NoGoldenMasterFoundException {
 		return new ApplyChangesToStatesFlow( persistence ).apply( acceptedChanges );
 	}
 
 	private ApplyChangesToStatesFlow( final Persistence<SutState> persistence ) {
-		recheckStateFileProvider = new RecheckStateFileProviderImpl( persistence );
+		goldenMasterProvider = new GoldenMasterProviderImpl( persistence );
 	}
 
-	private List<String> apply( final SuiteChangeSet acceptedChanges ) throws NoStateFileFoundException {
+	private List<String> apply( final SuiteChangeSet acceptedChanges ) throws NoGoldenMasterFoundException {
 		final List<String> updatedFiles = new ArrayList<>();
 		for ( final TestChangeSet testChangeSet : acceptedChanges.getTestChangeSets() ) {
 			updatedFiles.addAll( apply( testChangeSet ) );
@@ -40,7 +40,7 @@ public class ApplyChangesToStatesFlow {
 		return updatedFiles;
 	}
 
-	private List<String> apply( final TestChangeSet testChangeSet ) throws NoStateFileFoundException {
+	private List<String> apply( final TestChangeSet testChangeSet ) throws NoGoldenMasterFoundException {
 		if ( testChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
@@ -56,18 +56,18 @@ public class ApplyChangesToStatesFlow {
 		return updatedFiles;
 	}
 
-	private List<String> apply( final ActionChangeSet actionChangeSet ) throws NoStateFileFoundException {
+	private List<String> apply( final ActionChangeSet actionChangeSet ) throws NoGoldenMasterFoundException {
 		if ( actionChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
-		final File file = recheckStateFileProvider.getRecheckStateFile( actionChangeSet.getStateFilePath() );
-		final SutState oldState = recheckStateFileProvider.loadRecheckState( file );
+		final File file = goldenMasterProvider.getGoldenMaster( actionChangeSet.getGoldenMasterPath() );
+		final SutState oldState = goldenMasterProvider.loadGoldenMaster( file );
 		final SutState newState = oldState.applyChanges( actionChangeSet );
 		if ( newState.equals( oldState ) ) {
 			logger.debug( "SutState {} did not change after applying changes, so not persisting it...", oldState );
 			return Collections.emptyList();
 		}
-		recheckStateFileProvider.saveRecheckState( file, newState );
+		goldenMasterProvider.saveGoldenMaster( file, newState );
 		return Collections.singletonList( actionChangeSet.getDescription() );
 	}
 }

@@ -15,29 +15,29 @@ import org.junit.jupiter.api.io.TempDir;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
-class RecheckStateFileProviderImplTest {
+class GoldenMasterProviderImplTest {
 
 	private static final String NON_EXISTING_FILE = "blubber_schmu";
 	private static final String EXISTING_FILE = "existing";
 
-	RecheckStateFileProviderImpl cut;
+	GoldenMasterProviderImpl cut;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) {
-		cut = new RecheckStateFileProviderImpl( null );
+		cut = new GoldenMasterProviderImpl( null );
 	}
 
 	@Test
 	void null_should_result_in_error() {
-		assertThatThrownBy( () -> cut.getRecheckStateFile( null ) ).isInstanceOf( NoStateFileFoundException.class );
+		assertThatThrownBy( () -> cut.getGoldenMaster( null ) ).isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
 	@Test
 	void non_existing_file_should_throw_error( @TempDir final Path temp ) {
 		final File nonExistingFile = temp.resolve( NON_EXISTING_FILE ).toFile();
 
-		assertThatThrownBy( () -> cut.getRecheckStateFile( nonExistingFile.getAbsolutePath() ) )
-				.isInstanceOf( NoStateFileFoundException.class );
+		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getAbsolutePath() ) )
+				.isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
 	@Test
@@ -48,8 +48,8 @@ class RecheckStateFileProviderImplTest {
 
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
-		assertThatThrownBy( () -> cut.getRecheckStateFile( existingFile.getPath() ) )
-				.isInstanceOf( NoStateFileFoundException.class );
+		assertThatThrownBy( () -> cut.getGoldenMaster( existingFile.getPath() ) )
+				.isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
 	@Test
@@ -61,7 +61,7 @@ class RecheckStateFileProviderImplTest {
 		Files.createDirectories( tempFolder.resolve( "src/test/java" ) );
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
-		final File f = cut.getRecheckStateFile( EXISTING_FILE );
+		final File f = cut.getGoldenMaster( EXISTING_FILE );
 
 		assertThat( f ).isEqualTo( existingFile );
 	}

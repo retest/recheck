@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.retest.recheck.NoRecheckFileActionReplayResult;
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.ui.diff.LeafDifference;
 
@@ -98,9 +98,9 @@ public class TestReplayResult implements Serializable {
 		return differences;
 	}
 
-	public boolean hasNoRecheckFiles() {
+	public boolean hasNoGoldenMaster() {
 		for ( final ActionReplayResult result : actionReplayResults ) {
-			if ( !(result instanceof NoRecheckFileActionReplayResult) ) {
+			if ( !(result instanceof NoGoldenMasterActionReplayResult) ) {
 				return false;
 			}
 		}

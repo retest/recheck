@@ -16,8 +16,8 @@ public class TestChangeSet {
 		actionChangeSets = new ArrayList<>();
 	}
 
-	public ActionChangeSet createInitialActionChangeSet( final String description, final String stateFilePath ) {
-		initialStateChangeSet = new ActionChangeSet( description, stateFilePath );
+	public ActionChangeSet createInitialActionChangeSet( final String description, final String goldenMasterPath ) {
+		initialStateChangeSet = new ActionChangeSet( description, goldenMasterPath );
 		return initialStateChangeSet;
 	}
 
@@ -25,8 +25,8 @@ public class TestChangeSet {
 		return createActionChangeSet( null, null );
 	}
 
-	public ActionChangeSet createActionChangeSet( final String description, final String stateFilePath ) {
-		final ActionChangeSet actionChangeSet = new ActionChangeSet( description, stateFilePath );
+	public ActionChangeSet createActionChangeSet( final String description, final String goldenMasterPath ) {
+		final ActionChangeSet actionChangeSet = new ActionChangeSet( description, goldenMasterPath );
 		actionChangeSets.add( actionChangeSet );
 		return actionChangeSet;
 	}

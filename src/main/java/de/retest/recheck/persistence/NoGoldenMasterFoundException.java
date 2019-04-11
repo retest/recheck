@@ -1,13 +1,13 @@
 package de.retest.recheck.persistence;
 
-public class NoStateFileFoundException extends Exception {
+public class NoGoldenMasterFoundException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
 	private final String filename;
 
-	public NoStateFileFoundException( final String filename ) {
-		super( "No state file with name '" + filename + "' found!" );
+	public NoGoldenMasterFoundException( final String filename ) {
+		super( "No Golden Master with the name '" + filename + "' has been found!" );
 		this.filename = filename;
 	}
 

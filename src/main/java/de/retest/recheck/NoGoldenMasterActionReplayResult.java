@@ -18,17 +18,17 @@ import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 import de.retest.recheck.ui.diff.StateDifference;
 
-public class NoRecheckFileActionReplayResult extends ActionReplayResult {
+public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 
-	private static final String MSG_SHORT = "No recheck file found.";
+	private static final String MSG_SHORT = "No Golden Master found.";
 	public static final String MSG_LONG =
-			MSG_SHORT + " First time test was run? Created new recheck file(s), so don't forget to commit...";
+			MSG_SHORT + " First time test was run? Created new Golden Master, so don't forget to commit...";
 
 	private static final long serialVersionUID = 1L;
 
-	public NoRecheckFileActionReplayResult( final String currentStep, final SutState actual,
-			final String stateFilePath ) {
-		super( ActionReplayData.withoutTarget( currentStep, stateFilePath ), WindowRetriever.empty(),
+	public NoGoldenMasterActionReplayResult( final String currentStep, final SutState actual,
+			final String goldenMasterPath ) {
+		super( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ), WindowRetriever.empty(),
 				ErrorHolder.empty(), DifferenceRetriever.of( toStateDifference( actual ) ), 0L, null );
 	}
 

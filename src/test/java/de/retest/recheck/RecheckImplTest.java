@@ -75,7 +75,7 @@ class RecheckImplTest {
 		assertThatThrownBy( cut::capTest ) //
 				.isExactlyInstanceOf( AssertionError.class ) //
 				.hasMessageStartingWith(
-						"'" + getClass().getName() + "':\n" + NoRecheckFileActionReplayResult.MSG_LONG ) //
+						"'" + getClass().getName() + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG ) //
 				.hasMessageEndingWith( goldenMasterName );
 
 	}
