@@ -34,7 +34,7 @@ import de.retest.recheck.ui.review.TestChangeSet;
 
 class GlobalChangeSetApplierTest {
 
-	private final static Filter SHOULD_IGNORE_NOTHING = null;
+	private final static Filter SHOULD_FILTER_NOTHING = null;
 
 	private GlobalChangeSetApplier globalApplier;
 
@@ -92,14 +92,14 @@ class GlobalChangeSetApplierTest {
 		final List<ElementDifference> elementDifferences1 =
 				Arrays.asList( elementDifference1, insertedDifference, deletedDifference );
 		when( actionReplayResult1.getAllElementDifferences() ).thenReturn( elementDifferences1 );
-		when( elementDifference1.getAttributeDifferences( SHOULD_IGNORE_NOTHING ) )
+		when( elementDifference1.getAttributeDifferences( SHOULD_FILTER_NOTHING ) )
 				.thenReturn( Arrays.asList( attributeDifference ) );
 		when( elementDifference1.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 
 		final List<ElementDifference> elementDifferences2 =
 				Arrays.asList( elementDifference2, insertedDifference, deletedDifference );
 		when( actionReplayResult2.getAllElementDifferences() ).thenReturn( elementDifferences2 );
-		when( elementDifference2.getAttributeDifferences( SHOULD_IGNORE_NOTHING ) )
+		when( elementDifference2.getAttributeDifferences( SHOULD_FILTER_NOTHING ) )
 				.thenReturn( Arrays.asList( attributeDifference ) );
 		when( elementDifference2.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 
@@ -144,7 +144,7 @@ class GlobalChangeSetApplierTest {
 		verify( suiteReplayResult, only() ).getTestReplayResults();
 		verify( testReplayResult, only() ).getActionReplayResults();
 		verify( actionReplayResult1, only() ).getAllElementDifferences();
-		verify( elementDifference1, times( 1 ) ).getAttributeDifferences( SHOULD_IGNORE_NOTHING );
+		verify( elementDifference1, times( 1 ) ).getAttributeDifferences( SHOULD_FILTER_NOTHING );
 		verify( elementDifference1, times( 1 ) ).getIdentifyingAttributes();
 		verify( elementDifference1, times( 1 ) ).isInsertionOrDeletion();
 		verifyNoMoreInteractions( elementDifference1 );

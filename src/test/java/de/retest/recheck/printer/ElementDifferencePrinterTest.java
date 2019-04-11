@@ -21,7 +21,7 @@ class ElementDifferencePrinterTest {
 	@BeforeEach
 	void setUp() {
 		cut = new ElementDifferencePrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
-				Filter.IGNORE_NOTHING );
+				Filter.FILTER_NOTHING );
 	}
 
 	@Test

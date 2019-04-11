@@ -1,6 +1,6 @@
 package de.retest.recheck.report;
 
-import static de.retest.recheck.ignore.Filter.IGNORE_NOTHING;
+import static de.retest.recheck.ignore.Filter.FILTER_NOTHING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -49,7 +49,7 @@ class ActionReplayResultTest {
 		final AttributeShouldIgnore shouldIgnore = new AttributeShouldIgnore( "path" );
 
 		assertThat( differences.hasDifferences() ).isTrue();
-		assertThat( differences.getDifferences( IGNORE_NOTHING ) ).hasSize( 1 );
+		assertThat( differences.getDifferences( FILTER_NOTHING ) ).hasSize( 1 );
 		assertThat( differences.getDifferences( shouldIgnore ) ).hasSize( 0 );
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();
@@ -93,11 +93,11 @@ class ActionReplayResultTest {
 		final AttributeShouldIgnore shouldIgnoreBackground = new AttributeShouldIgnore( "background" );
 
 		final Filter shouldIgnoreAll = mock( Filter.class );
-		when( shouldIgnoreAll.filterElement( expectedElement ) ).thenReturn( true );
+		when( shouldIgnoreAll.shouldBeFiltered( expectedElement ) ).thenReturn( true );
 
 		assertThat( differences.hasDifferences() ).isTrue();
 
-		assertThat( differences.getDifferences( IGNORE_NOTHING ) ).hasSize( 4 );
+		assertThat( differences.getDifferences( FILTER_NOTHING ) ).hasSize( 4 );
 		assertThat( differences.getDifferences( shouldIgnoreAll ) ).hasSize( 0 );
 
 		assertThat( differences.getDifferences( shouldIgnoreFont ) ).hasSize( 3 );

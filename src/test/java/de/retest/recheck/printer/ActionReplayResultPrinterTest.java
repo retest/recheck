@@ -26,7 +26,7 @@ class ActionReplayResultPrinterTest {
 	@BeforeEach
 	void setUp() {
 		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
-				Filter.IGNORE_NOTHING );
+				Filter.FILTER_NOTHING );
 	}
 
 	@Test

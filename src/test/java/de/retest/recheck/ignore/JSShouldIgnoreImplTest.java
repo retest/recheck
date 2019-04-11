@@ -17,46 +17,47 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 class JSShouldIgnoreImplTest {
 
 	@Test
-	void no_shouldIgnoreElement_function_should_not_cause_exception() {
+	void no_shouldBeFiltered_function_should_not_cause_exception() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "" );
 			}
 		};
-		cut.filterElement( Mockito.mock( Element.class ) );
+		cut.shouldBeFiltered( Mockito.mock( Element.class ) );
 	}
 
 	@Test
-	void invalid_shouldIgnoreElement_function_should_not_cause_exception() {
+	void invalid_shouldBeFiltered_function_should_not_cause_exception() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "asdasd.asd.asd();" );
 			}
 		};
-		cut.filterElement( Mockito.mock( Element.class ) );
+		cut.shouldBeFiltered( Mockito.mock( Element.class ) );
 	}
 
 	@Test
 	void nonexistent_file_should_not_cause_exception() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {};
-		cut.filterElement( Mockito.mock( Element.class ) );
+		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		};
+		cut.shouldBeFiltered( Mockito.mock( Element.class ) );
 	}
 
 	@Test
-	void shouldIgnoreElement_should_be_called() {
+	void shouldBeFiltered_should_be_called() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "function shouldIgnoreElement(element) { return true; }" );
 			}
 		};
-		assertThat( cut.filterElement( Mockito.mock( Element.class ) ) ).isTrue();
+		assertThat( cut.shouldBeFiltered( Mockito.mock( Element.class ) ) ).isTrue();
 	}
 
 	@Test
-	void shouldIgnoreElement_should_be_called_with_element_param() {
+	void shouldBeFiltered_should_be_called_with_element_param() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -69,11 +70,11 @@ class JSShouldIgnoreImplTest {
 								+ "}" );
 			}
 		};
-		assertThat( cut.filterElement( Mockito.mock( Element.class ) ) ).isTrue();
+		assertThat( cut.shouldBeFiltered( Mockito.mock( Element.class ) ) ).isTrue();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_example_implementation() {
+	void shouldBeFiltered_example_implementation() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -90,14 +91,14 @@ class JSShouldIgnoreImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThat( cut.filterAttributeDifference( element, new AttributeDifference( "outline",
+		assertThat( cut.shouldBeFiltered( element, new AttributeDifference( "outline",
 				new Rectangle( 580, 610, 200, 20 ), new Rectangle( 578, 605, 200, 20 ) ) ) ).isTrue();
-		assertThat( cut.filterAttributeDifference( element, new AttributeDifference( "outline",
+		assertThat( cut.shouldBeFiltered( element, new AttributeDifference( "outline",
 				new Rectangle( 580, 610, 200, 20 ), new Rectangle( 500, 605, 200, 20 ) ) ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_return_null_should_be_false() {
+	void shouldBeFiltered_return_null_should_be_false() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -108,12 +109,11 @@ class JSShouldIgnoreImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThat( cut.filterAttributeDifference( element, new AttributeDifference( "outline", "580", "578" ) ) )
-				.isFalse();
+		assertThat( cut.shouldBeFiltered( element, new AttributeDifference( "outline", "580", "578" ) ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_return_non_boolean_should_throw_exc() {
+	void shouldBeFiltered_return_non_boolean_should_throw_exc() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -124,12 +124,12 @@ class JSShouldIgnoreImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThrows( ClassCastException.class, () -> cut.filterAttributeDifference( element,
-				new AttributeDifference( "outline", "580", "578" ) ) );
+		assertThrows( ClassCastException.class,
+				() -> cut.shouldBeFiltered( element, new AttributeDifference( "outline", "580", "578" ) ) );
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_ignore_URL_example_implementation() {
+	void shouldBeFiltered_ignore_URL_example_implementation() {
 		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -143,11 +143,11 @@ class JSShouldIgnoreImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThat( cut.filterAttributeDifference( element, new AttributeDifference( "background-image",
+		assertThat( cut.shouldBeFiltered( element, new AttributeDifference( "background-image",
 				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
 				"url(\"http://icullen-website-public-spring4-8:8080/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")" ) ) )
 						.isTrue();
-		assertThat( cut.filterAttributeDifference( element, new AttributeDifference( "background-image",
+		assertThat( cut.shouldBeFiltered( element, new AttributeDifference( "background-image",
 				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
 				"url(\"http://icullen-website-public-spring4-8:8080/some-other-URL.png\")" ) ) ).isFalse();
 	}

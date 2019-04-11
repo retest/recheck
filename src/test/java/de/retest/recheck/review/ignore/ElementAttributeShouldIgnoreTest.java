@@ -24,43 +24,43 @@ class ElementAttributeShouldIgnoreTest {
 	}
 
 	@Test
-	void shouldIgnoreElement_should_always_return_false() {
+	void shouldBeFiltered_should_always_return_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		assertThat( cut.filterElement( element ) ).isFalse();
+		assertThat( cut.shouldBeFiltered( element ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_return_true() {
+	void shouldBeFiltered_should_return_true() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
 		final AttributeDifference difference = mock( AttributeDifference.class );
 		when( difference.getKey() ).thenReturn( "123" );
 
-		assertThat( cut.filterAttributeDifference( element, difference ) ).isTrue();
+		assertThat( cut.shouldBeFiltered( element, difference ) ).isTrue();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_return_false_when_key_does_not_match() {
+	void shouldBeFiltered_should_return_false_when_key_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
 		final AttributeDifference difference = mock( AttributeDifference.class );
 		when( difference.getKey() ).thenReturn( "234" );
 
-		assertThat( cut.filterAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.shouldBeFiltered( element, difference ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_return_false_when_element_does_not_match() {
+	void shouldBeFiltered_should_return_false_when_element_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
 		final AttributeDifference difference = mock( AttributeDifference.class );
 		when( difference.getKey() ).thenReturn( "123" );
 
-		assertThat( cut.filterAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.shouldBeFiltered( element, difference ) ).isFalse();
 	}
 }
