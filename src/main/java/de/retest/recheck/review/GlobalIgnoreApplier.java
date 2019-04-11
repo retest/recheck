@@ -16,11 +16,11 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 public class GlobalIgnoreApplier implements Filter {
 
 	private final Counter counter;
-	private final List<Filter> ignored = new ArrayList<>();
+	private final List<Filter> filtered = new ArrayList<>();
 
 	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filter ) {
 		this.counter = counter;
-		this.ignored.addAll( filter );
+		filtered.addAll( filter );
 	}
 
 	public static GlobalIgnoreApplier create( final Counter counter ) {
@@ -33,7 +33,7 @@ public class GlobalIgnoreApplier implements Filter {
 
 	@Override
 	public boolean shouldBeFiltered( final Element element, final AttributeDifference difference ) {
-		return any( ignore -> ignore.shouldBeFiltered( element, difference ) );
+		return any( attribute -> attribute.shouldBeFiltered( element, difference ) );
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -41,12 +41,12 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
-		remove( ignore -> ignore.shouldBeFiltered( element, difference ) );
+		remove( attribute -> attribute.shouldBeFiltered( element, difference ) );
 	}
 
 	@Override
 	public boolean shouldBeFiltered( final Element element ) {
-		return any( ignore -> ignore.shouldBeFiltered( element ) );
+		return any( filter -> filter.shouldBeFiltered( element ) );
 	}
 
 	public void ignoreElement( final Element element ) {
@@ -54,37 +54,37 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void unignoreElement( final Element element ) {
-		remove( ignore -> ignore.shouldBeFiltered( element ) );
+		remove( filter -> filter.shouldBeFiltered( element ) );
 	}
 
 	public void add( final Filter filter ) {
-		ignored.add( filter );
+		filtered.add( filter );
 		counter.add();
 	}
 
 	private void remove( final Predicate<Filter> filter ) {
-		ignored.removeIf( filter );
+		filtered.removeIf( filter );
 		counter.remove();
 	}
 
 	private boolean any( final Predicate<Filter> filter ) {
-		return ignored.stream().anyMatch( filter );
+		return filtered.stream().anyMatch( filter );
 	}
 
 	public PersistableGlobalIgnoreApplier persist() {
-		return new PersistableGlobalIgnoreApplier( ignored );
+		return new PersistableGlobalIgnoreApplier( filtered );
 	}
 
 	public static class PersistableGlobalIgnoreApplier {
 
-		private final List<Filter> ignores;
+		private final List<Filter> filter;
 
 		public PersistableGlobalIgnoreApplier( final List<Filter> filter ) {
-			this.ignores = new ArrayList<>( filter );
+			this.filter = new ArrayList<>( filter );
 		}
 
 		public List<Filter> getIgnores() {
-			return ignores;
+			return filter;
 		}
 	}
 }
