@@ -33,7 +33,7 @@ public class RecheckSutState {
 		try {
 			persistenceFactory.getPersistence().save( file.toURI(), actual );
 		} catch ( final IOException e ) {
-			throw new UncheckedIOException( "Could not save sut state '" + actual + "' to '" + file + "'.", e );
+			throw new UncheckedIOException( "Could not save SUT state '" + actual + "' to '" + file + "'.", e );
 		}
 		return new SutState( new ArrayList<>() );
 	}
@@ -49,7 +49,7 @@ public class RecheckSutState {
 		try {
 			return (SutState) persistenceFactory.getPersistence().load( file.toURI() );
 		} catch ( final IOException e ) {
-			throw new UncheckedIOException( "Could not load sut state from '" + file + "'.", e );
+			throw new UncheckedIOException( "Could not load SUT state from '" + file + "'.", e );
 		}
 	}
 }

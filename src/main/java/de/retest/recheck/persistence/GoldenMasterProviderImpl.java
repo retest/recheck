@@ -41,7 +41,7 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 
 	private Path getStates( final Path projectRoot, final String filePath ) {
 		if ( projectRoot != null && filePath != null ) {
-			logger.debug( "Looking for SUT state files in '{}'.", projectRoot );
+			logger.debug( "Looking for Golden Master files in '{}'.", projectRoot );
 			final Path statePath = Paths.get( projectRoot.toAbsolutePath().toString(), filePath );
 			if ( statePath.toFile().exists() ) {
 				return statePath.toAbsolutePath();
@@ -57,11 +57,11 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 			result = persistence.load( file.toURI() );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException(
-					"Could not load SUT state from file '" + canonicalPathQuietly( file ) + "'.", e );
+					"Could not load Golden Master from file '" + canonicalPathQuietly( file ) + "'.", e );
 		}
 		if ( result == null ) {
 			throw new NullPointerException(
-					"Loaded SUT state from file " + canonicalPathQuietly( file ) + "' is null." );
+					"Loaded Golden Master from file '" + canonicalPathQuietly( file ) + "' is null." );
 		}
 		return result;
 	}
@@ -71,7 +71,7 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 		final String canonicalPathQuietly = canonicalPathQuietly( file );
 		try {
 			persistence.save( file.toURI(), state );
-			logger.info( "Updated Golden Master {}.", canonicalPathQuietly );
+			logger.info( "Updated Golden Master '{}'.", canonicalPathQuietly );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException( "Could not apply changes to Golden Master '" + canonicalPathQuietly + "'.",
 					e );
