@@ -18,9 +18,9 @@ public class GlobalIgnoreApplier implements Filter {
 	private final Counter counter;
 	private final List<Filter> filtered = new ArrayList<>();
 
-	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filter ) {
+	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filtered ) {
 		this.counter = counter;
-		filtered.addAll( filter );
+		this.filtered.addAll( filtered );
 	}
 
 	public static GlobalIgnoreApplier create( final Counter counter ) {
@@ -33,7 +33,7 @@ public class GlobalIgnoreApplier implements Filter {
 
 	@Override
 	public boolean shouldBeFiltered( final Element element, final AttributeDifference difference ) {
-		return any( attribute -> attribute.shouldBeFiltered( element, difference ) );
+		return any( filter -> filter.shouldBeFiltered( element, difference ) );
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -41,7 +41,7 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
-		remove( attribute -> attribute.shouldBeFiltered( element, difference ) );
+		remove( filter -> filter.shouldBeFiltered( element, difference ) );
 	}
 
 	@Override
@@ -77,14 +77,14 @@ public class GlobalIgnoreApplier implements Filter {
 
 	public static class PersistableGlobalIgnoreApplier {
 
-		private final List<Filter> filter;
+		private final List<Filter> filters;
 
-		public PersistableGlobalIgnoreApplier( final List<Filter> filter ) {
-			this.filter = new ArrayList<>( filter );
+		public PersistableGlobalIgnoreApplier( final List<Filter> filters ) {
+			this.filters = new ArrayList<>( filters );
 		}
 
 		public List<Filter> getIgnores() {
-			return filter;
+			return filters;
 		}
 	}
 }

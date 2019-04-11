@@ -7,15 +7,15 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class CompoundShouldIgnore implements Filter {
 
-	private final List<Filter> filter;
+	private final List<Filter> filters;
 
-	public CompoundShouldIgnore( final List<Filter> filter ) {
-		this.filter = filter;
+	public CompoundShouldIgnore( final List<Filter> filters ) {
+		this.filters = filters;
 	}
 
 	@Override
 	public boolean shouldBeFiltered( final Element element ) {
-		for ( final Filter filter : filter ) {
+		for ( final Filter filter : filters ) {
 			if ( filter.shouldBeFiltered( element ) ) {
 				return true;
 			}
@@ -25,7 +25,7 @@ public class CompoundShouldIgnore implements Filter {
 
 	@Override
 	public boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
-		for ( final Filter filter : filter ) {
+		for ( final Filter filter : filters ) {
 			if ( filter.shouldBeFiltered( element, attributeDifference ) ) {
 				return true;
 			}
