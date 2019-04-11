@@ -4,7 +4,7 @@
 # matcher: retestid=div-b4f23, attribute: font.*
 
 # To ignore whole subtrees, use e.g. XPath:
-# matcher: XPath=HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]
+# matcher: xpath=HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]
 
 # To ignore attributes globally, use:
 # attribute=class
