@@ -63,7 +63,7 @@ public class AcceptableElementDifference {
 	}
 
 	public boolean isAccepted() {
-		if ( globalIgnoreApplier.filterElement( getElementDifference().getElement() ) ) {
+		if ( globalIgnoreApplier.shouldBeFiltered( getElementDifference().getElement() ) ) {
 			return true;
 		}
 		boolean result = true;
@@ -129,7 +129,7 @@ public class AcceptableElementDifference {
 	}
 
 	public boolean isIgnored( final AttributeDifference difference ) {
-		return globalIgnoreApplier.filterAttributeDifference( getElementDifference().getElement(), difference );
+		return globalIgnoreApplier.shouldBeFiltered( getElementDifference().getElement(), difference );
 	}
 
 	public void ignore( final AttributeDifference attributeDifference ) {

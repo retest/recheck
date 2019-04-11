@@ -10,14 +10,14 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 public interface ShouldIgnore {
 
 	/**
-	 * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter#filterElement(Element)}
+	 * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter#shouldBeFiltered(Element)}
 	 */
 	@Deprecated
 	boolean shouldIgnoreElement( final Element element );
 
 	/**
 	 * @deprecated As of release 1.1.0, replaced by
-	 *             {@link de.retest.recheck.ignore.Filter#filterAttributeDifference(Element, AttributeDifference)}
+	 *             {@link de.retest.recheck.ignore.Filter#shouldBeFiltered(Element, AttributeDifference)}
 	 */
 	@Deprecated
 	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );

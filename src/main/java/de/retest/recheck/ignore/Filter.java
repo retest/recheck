@@ -27,7 +27,7 @@ public interface Filter {
 	 *            The element in question.
 	 * @return <code>true</code> if the given element should be completely ignored.
 	 */
-	boolean filterElement( final Element element );
+	boolean shouldBeFiltered( final Element element );
 
 	/**
 	 * Returns <code>true</code> if the given attribute difference as specified by the triple (attribute-key,
@@ -44,17 +44,17 @@ public interface Filter {
 	 *            The attribute difference for the given element.
 	 * @return <code>true</code> if the given attribute difference should be ignored.
 	 */
-	boolean filterAttributeDifference( final Element element, AttributeDifference attributeDifference );
+	boolean shouldBeFiltered( final Element element, AttributeDifference attributeDifference );
 
-	public static final Filter IGNORE_NOTHING = new Filter() {
+	public static final Filter FILTER_NOTHING = new Filter() {
 
 		@Override
-		public boolean filterElement( final Element element ) {
+		public boolean shouldBeFiltered( final Element element ) {
 			return false;
 		}
 
 		@Override
-		public boolean filterAttributeDifference( final Element element,
+		public boolean shouldBeFiltered( final Element element,
 				final AttributeDifference attributeDifference ) {
 			return false;
 		}

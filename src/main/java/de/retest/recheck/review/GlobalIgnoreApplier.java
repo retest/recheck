@@ -32,8 +32,8 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	@Override
-	public boolean filterAttributeDifference( final Element element, final AttributeDifference difference ) {
-		return any( ignore -> ignore.filterAttributeDifference( element, difference ) );
+	public boolean shouldBeFiltered( final Element element, final AttributeDifference difference ) {
+		return any( ignore -> ignore.shouldBeFiltered( element, difference ) );
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -41,12 +41,12 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
-		remove( ignore -> ignore.filterAttributeDifference( element, difference ) );
+		remove( ignore -> ignore.shouldBeFiltered( element, difference ) );
 	}
 
 	@Override
-	public boolean filterElement( final Element element ) {
-		return any( ignore -> ignore.filterElement( element ) );
+	public boolean shouldBeFiltered( final Element element ) {
+		return any( ignore -> ignore.shouldBeFiltered( element ) );
 	}
 
 	public void ignoreElement( final Element element ) {
@@ -54,11 +54,11 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void unignoreElement( final Element element ) {
-		remove( ignore -> ignore.filterElement( element ) );
+		remove( ignore -> ignore.shouldBeFiltered( element ) );
 	}
 
-	public void add( final Filter ignore ) {
-		ignored.add( ignore );
+	public void add( final Filter filter ) {
+		ignored.add( filter );
 		counter.add();
 	}
 

@@ -9,14 +9,14 @@ public class CompoundShouldIgnore implements Filter {
 
 	private final List<Filter> filter;
 
-	public CompoundShouldIgnore( final List<Filter> shouldIgnores ) {
-		filter = shouldIgnores;
+	public CompoundShouldIgnore( final List<Filter> filter ) {
+		this.filter = filter;
 	}
 
 	@Override
-	public boolean filterElement( final Element element ) {
+	public boolean shouldBeFiltered( final Element element ) {
 		for ( final Filter filter : filter ) {
-			if ( filter.filterElement( element ) ) {
+			if ( filter.shouldBeFiltered( element ) ) {
 				return true;
 			}
 		}
@@ -24,9 +24,9 @@ public class CompoundShouldIgnore implements Filter {
 	}
 
 	@Override
-	public boolean filterAttributeDifference( final Element element, final AttributeDifference attributeDifference ) {
+	public boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
 		for ( final Filter filter : filter ) {
-			if ( filter.filterAttributeDifference( element, attributeDifference ) ) {
+			if ( filter.shouldBeFiltered( element, attributeDifference ) ) {
 				return true;
 			}
 		}
