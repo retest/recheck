@@ -25,6 +25,7 @@ public class ExactImageDifferenceCalculatorTest {
 		final ImageDifference imgDiff = imgDiffCalc.compare( "src/test/resources/de/retest/image/PageRenderer_1.png",
 				"src/test/resources/de/retest/image/PageRenderer_2.png" );
 
+		assertThat( imgDiff.isEqual() ).isFalse();
 		assertThat( imgDiff.getMatch() ).isLessThan( 1.0 );
 		assertThat( imgDiff.getMatch() ).isGreaterThan( 0.5 );
 		assertThatImage( imgDiff.getDifferenceImage() )

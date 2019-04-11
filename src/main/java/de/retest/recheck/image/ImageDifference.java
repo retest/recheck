@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class ImageDifference {
 	// to make sure to account for rounding errors
-	private static final double EQUALITY_THRESHOLD = 0.99;
+	private static final double EQUALITY_THRESHOLD = 0.9999999999;
 
 	private final BufferedImage differenceImage;
 	private final double match;
