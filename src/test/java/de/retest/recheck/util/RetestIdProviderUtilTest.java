@@ -1,8 +1,8 @@
-package de.retest.recheck.ui.descriptors;
+package de.retest.recheck.util;
 
 import static de.retest.recheck.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.RetestIdProviderUtil;
 import de.retest.recheck.ui.descriptors.idproviders.DefaultRetestIdProvider;
 import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
+import de.retest.recheck.util.RetestIdProviderUtil;
 import de.retest.recheck.util.RetestIdUtil;
 
 class RetestIdProviderUtilTest {
@@ -42,7 +42,7 @@ class RetestIdProviderUtilTest {
 
 	@Test
 	void invalid_retestid_config_should_fallback_to_default() {
-		System.setProperty( RetestIdProviderUtil.RETEST_ID_PROVIDER_PROPERTY, "not existent" );
+		System.setProperty( RetestIdProvider.RETEST_ID_PROVIDER_PROPERTY, "not existent" );
 		final RetestIdProvider fallback = RetestIdProviderUtil.createConfigured();
 		assertThat( fallback ).isNotNull();
 		assertThat( fallback.getClass().getName() ).isEqualTo( DefaultRetestIdProvider.class.getName() );

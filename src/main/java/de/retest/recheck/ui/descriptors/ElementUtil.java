@@ -7,6 +7,7 @@ import de.retest.recheck.ui.components.Component;
 import de.retest.recheck.ui.components.ComponentContainer;
 import de.retest.recheck.ui.components.RootContainer;
 import de.retest.recheck.ui.image.Screenshot;
+import de.retest.recheck.util.RetestIdProviderUtil;
 
 public class ElementUtil {
 

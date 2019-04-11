@@ -1,4 +1,4 @@
-package de.retest.recheck.ui.descriptors;
+package de.retest.recheck.util;
 
 import java.util.UUID;
 
@@ -6,15 +6,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.idproviders.DefaultRetestIdProvider;
 import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
-import de.retest.recheck.util.RetestIdUtil;
 
 public class RetestIdProviderUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger( RetestIdProviderUtil.class );
-
-	public static final String RETEST_ID_PROVIDER_PROPERTY = "de.retest.retestIdProvider";
 
 	private static RetestIdProvider configured;
 
@@ -27,7 +25,7 @@ public class RetestIdProviderUtil {
 	}
 
 	protected static RetestIdProvider createConfigured() {
-		final String configuredClassName = System.getProperty( RETEST_ID_PROVIDER_PROPERTY );
+		final String configuredClassName = System.getProperty( RetestIdProvider.RETEST_ID_PROVIDER_PROPERTY );
 		if ( !StringUtils.isBlank( configuredClassName ) ) {
 			try {
 				final Class<?> configuredClass = Class.forName( configuredClassName );
@@ -35,7 +33,7 @@ public class RetestIdProviderUtil {
 			} catch ( final Exception e ) {
 				logger.error(
 						"Error instantiating configured retest ID provider '{}' (with property '{}'), falling back to default.",
-						configuredClassName, RETEST_ID_PROVIDER_PROPERTY, e );
+						configuredClassName, RetestIdProvider.RETEST_ID_PROVIDER_PROPERTY, e );
 			}
 		}
 		return new DefaultRetestIdProvider();
