@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mockito;
 
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -25,6 +26,33 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 
 class RecheckImplTest {
+
+	private static class FileNamerStrategyCheck implements FileNamerStrategy {
+
+		private boolean wasCalled = false;
+
+		@Override
+		public FileNamer createFileNamer( final String... baseNames ) {
+			assertThat( baseNames[0] ).endsWith( ".!@#_$^&)te}{_____xt!(@_$" );
+			wasCalled = true;
+			return Mockito.mock( FileNamer.class );
+		}
+	}
+
+	@Test
+	void using_strange_stepText_should_be_normalized() throws Exception {
+		final FileNamerStrategyCheck check = new FileNamerStrategyCheck();
+		final RecheckOptions opts = RecheckOptions.builder() //
+				.fileNamerStrategy( check ).build();
+		final RecheckImpl cut = new RecheckImpl( opts );
+		final RecheckAdapter adapterMock = mock( RecheckAdapter.class );
+		try {
+			cut.check( mock( Object.class ), adapterMock, "!@#%$^&)te}{:|\\\":xt!(@*$" );
+		} catch ( final Exception e ) {
+			// ignore exception, fear AssertionErrors...
+		}
+		assertThat( check.wasCalled ).isTrue();
+	}
 
 	@Test
 	void test_class_name_should_be_default_result_file_name() throws Exception {
