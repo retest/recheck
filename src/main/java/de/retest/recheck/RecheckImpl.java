@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import static de.retest.recheck.util.FileUtil.normalize;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +124,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private FileNamer createFileName( final String currentStep ) {
-		final String name = suiteName + File.separator + currentTestResult.getName() + "." + currentStep;
+		final String name = suiteName + File.separator + currentTestResult.getName() + "." + normalize( currentStep );
 		return fileNamerStrategy.createFileNamer( name );
 	}
 

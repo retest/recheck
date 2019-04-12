@@ -134,6 +134,10 @@ public class FileUtil {
 		return result;
 	}
 
+	public static String normalize( final String text ) {
+		return text.replaceAll( "[%\\.\"\\*/:<>\\?\\\\\\|\\+,\\.;=\\[\\]]", "_" ).trim();
+	}
+
 	public static void ensureFolder( final File result ) throws ReTestSaveException {
 		if ( result.getParent() != null ) {
 			new File( result.getParent() ).mkdirs();
