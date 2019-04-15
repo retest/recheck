@@ -15,12 +15,12 @@ import de.retest.recheck.ui.diff.AttributeDifference;
  * GitHub wiki</a>.
  *
  * Can be implemented by reading a file, or by an implementation delivered by the user.
- * 
+ *
  * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter}
  *
  */
 @Deprecated
-public interface ShouldIgnore {
+public interface ShouldIgnore extends Filter {
 
 	/**
 	 * Returns <code>true</code> if the element <em>and all of its child elements</em>, so essentially the whole subtree
@@ -54,6 +54,16 @@ public interface ShouldIgnore {
 	 */
 	@Deprecated
 	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );
+
+	@Override
+	default boolean shouldBeFiltered( final Element element ) {
+		return shouldIgnoreElement( element );
+	}
+
+	@Override
+	default boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
+		return shouldIgnoreAttributeDifference( element, attributeDifference );
+	}
 
 	public static final ShouldIgnore IGNORE_NOTHING = new ShouldIgnore() {
 

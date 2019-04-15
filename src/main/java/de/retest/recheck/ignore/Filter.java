@@ -51,8 +51,7 @@ public interface Filter {
 		}
 
 		@Override
-		public boolean shouldBeFiltered( final Element element,
-				final AttributeDifference attributeDifference ) {
+		public boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
 			return false;
 		}
 	};
