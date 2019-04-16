@@ -30,7 +30,7 @@ public interface ShouldIgnore extends Filter {
 	 * @param element
 	 *            The element in question.
 	 * @return <code>true</code> if the given element should be completely ignored.
-	 * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter#shouldBeFiltered(Element)}
+	 * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter#matches(Element)}
 	 */
 	@Deprecated
 	boolean shouldIgnoreElement( final Element element );
@@ -50,18 +50,18 @@ public interface ShouldIgnore extends Filter {
 	 *            The attribute difference for the given element.
 	 * @return <code>true</code> if the given attribute difference should be ignored.
 	 * @deprecated As of release 1.1.0, replaced by
-	 *             {@link de.retest.recheck.ignore.Filter#shouldBeFiltered(Element, AttributeDifference)}
+	 *             {@link de.retest.recheck.ignore.Filter#matches(Element, AttributeDifference)}
 	 */
 	@Deprecated
 	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );
 
 	@Override
-	default boolean shouldBeFiltered( final Element element ) {
+	default boolean matches( final Element element ) {
 		return shouldIgnoreElement( element );
 	}
 
 	@Override
-	default boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
+	default boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		return shouldIgnoreAttributeDifference( element, attributeDifference );
 	}
 

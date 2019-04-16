@@ -85,7 +85,7 @@ public class TestReplayResult implements Serializable {
 	public Set<LeafDifference> getDifferences( final Filter filter ) {
 		final Set<LeafDifference> diffs = new HashSet<>();
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			diffs.addAll( actionReplayResult.getDifferences( filter ) );
+			diffs.addAll( actionReplayResult.getDifferencesWithout( filter ) );
 		}
 		return diffs;
 	}

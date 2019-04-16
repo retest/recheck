@@ -22,12 +22,12 @@ public class ElementAttributeShouldIgnore implements Filter {
 	}
 
 	@Override
-	public boolean shouldBeFiltered( final Element element ) {
+	public boolean matches( final Element element ) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldBeFiltered( final Element element,
+	public boolean matches( final Element element,
 			final AttributeDifference attributeDifference ) {
 		return matcher.test( element ) && key.equals( attributeDifference.getKey() );
 	}

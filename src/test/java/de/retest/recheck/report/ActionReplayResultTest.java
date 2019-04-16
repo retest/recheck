@@ -49,8 +49,8 @@ class ActionReplayResultTest {
 		final AttributeShouldIgnore shouldIgnore = new AttributeShouldIgnore( "path" );
 
 		assertThat( differences.hasDifferences() ).isTrue();
-		assertThat( differences.getDifferences( FILTER_NOTHING ) ).hasSize( 1 );
-		assertThat( differences.getDifferences( shouldIgnore ) ).hasSize( 0 );
+		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 1 );
+		assertThat( differences.getDifferencesWithout( shouldIgnore ) ).hasSize( 0 );
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();
 	}
@@ -93,17 +93,17 @@ class ActionReplayResultTest {
 		final AttributeShouldIgnore shouldIgnoreBackground = new AttributeShouldIgnore( "background" );
 
 		final Filter shouldIgnoreAll = mock( Filter.class );
-		when( shouldIgnoreAll.shouldBeFiltered( expectedElement ) ).thenReturn( true );
+		when( shouldIgnoreAll.matches( expectedElement ) ).thenReturn( true );
 
 		assertThat( differences.hasDifferences() ).isTrue();
 
-		assertThat( differences.getDifferences( FILTER_NOTHING ) ).hasSize( 4 );
-		assertThat( differences.getDifferences( shouldIgnoreAll ) ).hasSize( 0 );
+		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 4 );
+		assertThat( differences.getDifferencesWithout( shouldIgnoreAll ) ).hasSize( 0 );
 
-		assertThat( differences.getDifferences( shouldIgnoreFont ) ).hasSize( 3 );
-		assertThat( differences.getDifferences( shouldIgnoreForeground ) ).hasSize( 3 );
-		assertThat( differences.getDifferences( shouldIgnorePath ) ).hasSize( 3 );
-		assertThat( differences.getDifferences( shouldIgnoreBackground ) ).hasSize( 3 );
+		assertThat( differences.getDifferencesWithout( shouldIgnoreFont ) ).hasSize( 3 );
+		assertThat( differences.getDifferencesWithout( shouldIgnoreForeground ) ).hasSize( 3 );
+		assertThat( differences.getDifferencesWithout( shouldIgnorePath ) ).hasSize( 3 );
+		assertThat( differences.getDifferencesWithout( shouldIgnoreBackground ) ).hasSize( 3 );
 
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();

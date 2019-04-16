@@ -25,7 +25,7 @@ class AttributeShouldIgnoreTest {
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "tag" );
 
-		assertThat( shouldIgnore.shouldBeFiltered( element, attributeDifference ) ).isTrue();
+		assertThat( shouldIgnore.matches( element, attributeDifference ) ).isTrue();
 	}
 
 	@Test
@@ -40,7 +40,7 @@ class AttributeShouldIgnoreTest {
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "mySpecialAttribute" );
 
-		assertThat( shouldIgnore.shouldBeFiltered( element, attributeDifference ) ).isTrue();
+		assertThat( shouldIgnore.matches( element, attributeDifference ) ).isTrue();
 	}
 
 	@Test
@@ -58,6 +58,6 @@ class AttributeShouldIgnoreTest {
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "mySpecialAttribute" );
 
-		assertThat( shouldIgnore.shouldBeFiltered( element, attributeDifference ) ).isFalse();
+		assertThat( shouldIgnore.matches( element, attributeDifference ) ).isFalse();
 	}
 }

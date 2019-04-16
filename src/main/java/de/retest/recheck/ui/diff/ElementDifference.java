@@ -56,7 +56,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( childDifferences != null ) {
 			for ( final Difference childDifference : childDifferences ) {
 				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					if ( !filter.shouldBeFiltered( element )
+					if ( !filter.matches( element )
 							&& !compDiff.getAttributeDifferences( filter ).isEmpty() ) {
 						marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
 					}
@@ -102,7 +102,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 			return differences;
 		}
 		return differences.stream() //
-				.filter( d -> !filter.shouldBeFiltered( element, d ) ) //
+				.filter( d -> !filter.matches( element, d ) ) //
 				.collect( Collectors.toList() );
 	}
 

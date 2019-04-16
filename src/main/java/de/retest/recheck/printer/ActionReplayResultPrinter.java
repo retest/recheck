@@ -42,7 +42,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private String createDifferences( final ActionReplayResult difference, final String indent ) {
 		return difference.getAllElementDifferences().stream() //
-				.filter( diff -> !filter.shouldBeFiltered( diff.getElement() ) ) //
+				.filter( diff -> !filter.matches( diff.getElement() ) ) //
 				.filter( diff -> !diff.getAttributeDifferences( filter ).isEmpty() )
 				.map( diff -> printer.toString( diff, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );

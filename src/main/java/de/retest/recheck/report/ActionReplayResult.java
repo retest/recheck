@@ -200,10 +200,10 @@ public class ActionReplayResult implements Serializable {
 		return differences;
 	}
 
-	public Set<LeafDifference> getDifferences( final Filter filter ) {
+	public Set<LeafDifference> getDifferencesWithout( final Filter filter ) {
 		final Set<LeafDifference> result = new HashSet<>();
 		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
-			if ( !filter.shouldBeFiltered( elementDifference.getElement() ) ) {
+			if ( !filter.matches( elementDifference.getElement() ) ) {
 				result.addAll( elementDifference.getAttributeDifferences( filter ) );
 			}
 		}

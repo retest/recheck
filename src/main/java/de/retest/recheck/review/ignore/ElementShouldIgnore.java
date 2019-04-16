@@ -20,12 +20,12 @@ public class ElementShouldIgnore implements Filter {
 	}
 
 	@Override
-	public boolean shouldBeFiltered( final Element element ) {
+	public boolean matches( final Element element ) {
 		return matcher.test( element );
 	}
 
 	@Override
-	public boolean shouldBeFiltered( final Element element,
+	public boolean matches( final Element element,
 			final AttributeDifference attributeDifference ) {
 		return false;
 	}

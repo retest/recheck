@@ -7,6 +7,9 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 /**
  * General interface to filter changes during Diffing
  *
+ * The Filter does not define positive or negative filtering, i.e. wether only matching elements are shown or only
+ * elements that do not match.
+ *
  * In principal, we create a diff for everything that differs, and put that into the result file. Then it is up to the
  * UI (GUI or CLI) to hide filtered differences – this is what this interface is for. This is pretty much inline with
  * how Git works – the diff is there, it just doesn't show up when filtered.
@@ -24,7 +27,7 @@ public interface Filter {
 	 *            The element in question.
 	 * @return <code>true</code> if the given element should be completely filtered.
 	 */
-	boolean shouldBeFiltered( final Element element );
+	boolean matches( final Element element );
 
 	/**
 	 * Returns <code>true</code> if the given attribute difference as specified by the triple (attribute-key,
@@ -41,17 +44,17 @@ public interface Filter {
 	 *            The attribute difference for the given element.
 	 * @return <code>true</code> if the given attribute difference should be filtered.
 	 */
-	boolean shouldBeFiltered( final Element element, AttributeDifference attributeDifference );
+	boolean matches( final Element element, AttributeDifference attributeDifference );
 
 	public static final Filter FILTER_NOTHING = new Filter() {
 
 		@Override
-		public boolean shouldBeFiltered( final Element element ) {
+		public boolean matches( final Element element ) {
 			return false;
 		}
 
 		@Override
-		public boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
+		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 			return false;
 		}
 	};

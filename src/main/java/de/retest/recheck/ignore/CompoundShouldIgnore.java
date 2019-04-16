@@ -14,9 +14,9 @@ public class CompoundShouldIgnore implements Filter {
 	}
 
 	@Override
-	public boolean shouldBeFiltered( final Element element ) {
+	public boolean matches( final Element element ) {
 		for ( final Filter filter : filters ) {
-			if ( filter.shouldBeFiltered( element ) ) {
+			if ( filter.matches( element ) ) {
 				return true;
 			}
 		}
@@ -24,9 +24,9 @@ public class CompoundShouldIgnore implements Filter {
 	}
 
 	@Override
-	public boolean shouldBeFiltered( final Element element, final AttributeDifference attributeDifference ) {
+	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		for ( final Filter filter : filters ) {
-			if ( filter.shouldBeFiltered( element, attributeDifference ) ) {
+			if ( filter.matches( element, attributeDifference ) ) {
 				return true;
 			}
 		}

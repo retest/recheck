@@ -25,7 +25,7 @@ import de.retest.recheck.review.counter.NopCounter;
 
 public class GlobalChangeSetApplier {
 
-	private static final Filter SHOULD_IGNORE_NOTHING = null;
+	private static final Filter SHOULD_FILTER_NOTHING = null;
 
 	private final Counter counter;
 
@@ -85,7 +85,7 @@ public class GlobalChangeSetApplier {
 			final ElementDifference elementDiff ) {
 		final IdentifyingAttributes identifyingAttributes = elementDiff.getIdentifyingAttributes();
 		for ( final AttributeDifference attributeDifference : elementDiff.getAttributeDifferences(
-				SHOULD_IGNORE_NOTHING ) ) {
+				SHOULD_FILTER_NOTHING ) ) {
 			attributeDiffsLookupMap.put( ImmutablePair.of( identifyingAttributes, attributeDifference ),
 					actionReplayResult );
 		}
