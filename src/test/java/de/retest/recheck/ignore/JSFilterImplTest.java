@@ -17,7 +17,7 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 class JSFilterImplTest {
 
 	@Test
-	void no_shouldBeFiltered_function_should_not_cause_exception() {
+	void no_matches_function_should_not_cause_exception() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -28,7 +28,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void invalid_shouldBeFiltered_function_should_not_cause_exception() {
+	void invalid_matches_function_should_not_cause_exception() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -46,7 +46,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_be_called() {
+	void matches_should_be_called() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -57,7 +57,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_be_called_with_element_param() {
+	void matches_should_be_called_with_element_param() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -74,7 +74,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void shouldBeFiltered_example_implementation() {
+	void matches_example_implementation() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -91,14 +91,14 @@ class JSFilterImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThat( cut.matches( element, new AttributeDifference( "outline",
-				new Rectangle( 580, 610, 200, 20 ), new Rectangle( 578, 605, 200, 20 ) ) ) ).isTrue();
-		assertThat( cut.matches( element, new AttributeDifference( "outline",
-				new Rectangle( 580, 610, 200, 20 ), new Rectangle( 500, 605, 200, 20 ) ) ) ).isFalse();
+		assertThat( cut.matches( element, new AttributeDifference( "outline", new Rectangle( 580, 610, 200, 20 ),
+				new Rectangle( 578, 605, 200, 20 ) ) ) ).isTrue();
+		assertThat( cut.matches( element, new AttributeDifference( "outline", new Rectangle( 580, 610, 200, 20 ),
+				new Rectangle( 500, 605, 200, 20 ) ) ) ).isFalse();
 	}
 
 	@Test
-	void shouldBeFiltered_return_null_should_be_false() {
+	void matches_return_null_should_be_false() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -113,7 +113,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void shouldBeFiltered_return_non_boolean_should_throw_exc() {
+	void matches_return_non_boolean_should_throw_exc() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -129,7 +129,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void shouldBeFiltered_ignore_URL_example_implementation() {
+	void matches_filter_URL_example_implementation() {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {

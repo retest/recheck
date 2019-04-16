@@ -24,7 +24,7 @@ class ElementAttributeFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_always_return_false() {
+	void matches_should_always_return_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -32,7 +32,7 @@ class ElementAttributeFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_return_true() {
+	void matches_should_return_true() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -43,7 +43,7 @@ class ElementAttributeFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_return_false_when_key_does_not_match() {
+	void matches_should_return_false_when_key_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -54,7 +54,7 @@ class ElementAttributeFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_return_false_when_element_does_not_match() {
+	void matches_should_return_false_when_element_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 

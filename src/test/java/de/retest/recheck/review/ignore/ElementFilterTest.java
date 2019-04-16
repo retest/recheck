@@ -24,7 +24,7 @@ class ElementFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_accept_element() {
+	void matches_should_accept_element() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -32,7 +32,7 @@ class ElementFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_reject_element() {
+	void matches_should_reject_element() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
@@ -40,7 +40,7 @@ class ElementFilterTest {
 	}
 
 	@Test
-	void shouldBeFiltered_should_always_be_false() {
+	void matches_should_always_be_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 		final AttributeDifference difference = mock( AttributeDifference.class );
