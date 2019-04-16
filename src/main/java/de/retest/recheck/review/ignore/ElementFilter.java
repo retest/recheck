@@ -32,17 +32,17 @@ public class ElementFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( ElementShouldIgnoreLoader.FORMAT, matcher.toString() );
+		return String.format( ElementFilterLoader.FORMAT, matcher.toString() );
 	}
 
-	public static class ElementShouldIgnoreLoader extends RegexLoader<ElementFilter> {
+	public static class ElementFilterLoader extends RegexLoader<ElementFilter> {
 
 		private static final String MATCHER = "matcher: ";
 
 		private static final String FORMAT = MATCHER + "%s";
 		private static final Pattern PREFIX = Pattern.compile( MATCHER + "(.+)" );
 
-		public ElementShouldIgnoreLoader() {
+		public ElementFilterLoader() {
 			super( PREFIX );
 		}
 

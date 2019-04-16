@@ -34,10 +34,10 @@ public class ElementAttributeFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( ElementAttributeShouldIgnoreLoader.FORMAT, matcher.toString(), key );
+		return String.format( ElementAttributeFilterLoader.FORMAT, matcher.toString(), key );
 	}
 
-	public static class ElementAttributeShouldIgnoreLoader extends RegexLoader<ElementAttributeFilter> {
+	public static class ElementAttributeFilterLoader extends RegexLoader<ElementAttributeFilter> {
 
 		private static final String MATCHER = "matcher: ";
 		private static final String KEY = "attribute: ";
@@ -45,7 +45,7 @@ public class ElementAttributeFilter implements Filter {
 		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
 
-		public ElementAttributeShouldIgnoreLoader() {
+		public ElementAttributeFilterLoader() {
 			super( REGEX );
 		}
 

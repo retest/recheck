@@ -29,16 +29,16 @@ public class AttributeFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( AttributeShouldIgnoreLoader.FORMAT, attribute );
+		return String.format( AttributeFilterLoader.FORMAT, attribute );
 	}
 
-	public static class AttributeShouldIgnoreLoader extends RegexLoader<AttributeFilter> {
+	public static class AttributeFilterLoader extends RegexLoader<AttributeFilter> {
 
 		private static final String KEY = "attribute=";
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(.+)" );
 
-		public AttributeShouldIgnoreLoader() {
+		public AttributeFilterLoader() {
 			super( REGEX );
 		}
 

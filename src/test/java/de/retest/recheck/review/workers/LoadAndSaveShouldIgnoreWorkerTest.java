@@ -41,9 +41,9 @@ class LoadAndSaveShouldIgnoreWorkerTest {
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
 	void loaded_ignore_file_should_be_saved_without_changes() throws Exception {
-		final LoadShouldIgnoreWorker load = new LoadShouldIgnoreWorker( NopCounter.getInstance() );
+		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() );
 		final GlobalIgnoreApplier gia = load.load();
-		final SaveShouldIgnoreWorker save = new SaveShouldIgnoreWorker( gia );
+		final SaveFilterWorker save = new SaveFilterWorker( gia );
 		save.save();
 		assertThat( tempIgnoreFile ).hasSameContentAs( origIgnoreFile );
 	}

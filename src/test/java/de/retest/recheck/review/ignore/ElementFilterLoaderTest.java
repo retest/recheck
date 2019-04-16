@@ -7,19 +7,19 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.review.ignore.ElementFilter.ElementShouldIgnoreLoader;
+import de.retest.recheck.review.ignore.ElementFilter.ElementFilterLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
-class ElementShouldIgnoreLoaderTest {
+class ElementFilterLoaderTest {
 
-	ElementShouldIgnoreLoader cut;
+	ElementFilterLoader cut;
 	ElementFilter ignore;
 
 	@BeforeEach
 	void setUp() {
-		cut = new ElementShouldIgnoreLoader();
+		cut = new ElementFilterLoader();
 
 		final IdentifyingAttributes attributes = mock( IdentifyingAttributes.class );
 		when( attributes.get( "id" ) ).thenReturn( "abc" );

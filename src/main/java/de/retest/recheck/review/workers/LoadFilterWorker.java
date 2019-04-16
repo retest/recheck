@@ -15,11 +15,11 @@ import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreAppli
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.io.Loaders;
 
-public class LoadShouldIgnoreWorker {
+public class LoadFilterWorker {
 
 	private final Counter counter;
 
-	public LoadShouldIgnoreWorker( final Counter counter ) {
+	public LoadFilterWorker( final Counter counter ) {
 		this.counter = counter;
 	}
 

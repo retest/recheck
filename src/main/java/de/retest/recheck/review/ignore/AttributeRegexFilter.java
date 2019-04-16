@@ -8,11 +8,11 @@ import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class AttributeRegexShouldIgnore implements Filter {
+public class AttributeRegexFilter implements Filter {
 
 	private final Pattern attributePattern;
 
-	public AttributeRegexShouldIgnore( final String attributeRegex ) {
+	public AttributeRegexFilter( final String attributeRegex ) {
 		attributePattern = Pattern.compile( attributeRegex );
 	}
 
@@ -28,23 +28,23 @@ public class AttributeRegexShouldIgnore implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( AttributeRegexShouldIgnoreLoader.FORMAT, attributePattern.toString() );
+		return String.format( AttributeRegexFilterLoader.FORMAT, attributePattern.toString() );
 	}
 
-	public static class AttributeRegexShouldIgnoreLoader extends RegexLoader<AttributeRegexShouldIgnore> {
+	public static class AttributeRegexFilterLoader extends RegexLoader<AttributeRegexFilter> {
 
 		private static final String KEY = "attribute-regex=";
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(.+)" );
 
-		public AttributeRegexShouldIgnoreLoader() {
+		public AttributeRegexFilterLoader() {
 			super( REGEX );
 		}
 
 		@Override
-		protected AttributeRegexShouldIgnore load( final MatchResult regex ) {
+		protected AttributeRegexFilter load( final MatchResult regex ) {
 			final String attributeRegex = regex.group( 1 );
-			return new AttributeRegexShouldIgnore( attributeRegex );
+			return new AttributeRegexFilter( attributeRegex );
 		}
 	}
 }

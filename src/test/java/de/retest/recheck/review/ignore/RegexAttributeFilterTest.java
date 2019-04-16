@@ -10,11 +10,11 @@ import de.retest.recheck.ui.descriptors.Attributes;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class RegexAttributeShouldIgnoreTest {
+class RegexAttributeFilterTest {
 
 	@Test
 	void should_match_wildcard_attribute() {
-		final AttributeRegexShouldIgnore shouldIgnore = new AttributeRegexShouldIgnore( ".*Special.*" );
+		final AttributeRegexFilter filter = new AttributeRegexFilter( ".*Special.*" );
 
 		final Element element = mock( Element.class );
 		final Attributes attribs = mock( Attributes.class );
@@ -24,7 +24,7 @@ class RegexAttributeShouldIgnoreTest {
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "mySpecialAttribute" );
 
-		assertThat( shouldIgnore.matches( element, attributeDifference ) ).isTrue();
+		assertThat( filter.matches( element, attributeDifference ) ).isTrue();
 	}
 
 }
