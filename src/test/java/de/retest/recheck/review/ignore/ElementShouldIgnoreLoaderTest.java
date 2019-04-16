@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.review.ignore.ElementShouldIgnore.ElementShouldIgnoreLoader;
+import de.retest.recheck.review.ignore.ElementFilter.ElementShouldIgnoreLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -15,7 +15,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 class ElementShouldIgnoreLoaderTest {
 
 	ElementShouldIgnoreLoader cut;
-	ElementShouldIgnore ignore;
+	ElementFilter ignore;
 
 	@BeforeEach
 	void setUp() {
@@ -28,7 +28,7 @@ class ElementShouldIgnoreLoaderTest {
 		when( element.getIdentifyingAttributes() ).thenReturn( attributes );
 
 		final ElementIdMatcher matcher = new ElementIdMatcher( element );
-		ignore = new ElementShouldIgnore( matcher );
+		ignore = new ElementFilter( matcher );
 	}
 
 	@Test

@@ -3,14 +3,14 @@ package de.retest.recheck.review.ignore;
 import org.apache.commons.lang3.StringUtils;
 
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader.ShouldIgnorePreserveLine;
+import de.retest.recheck.review.ignore.FilterPreserveLineLoader.ShouldIgnorePreserveLine;
 import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ShouldIgnorePreserveLineLoader implements Loader<ShouldIgnorePreserveLine> {
+public class FilterPreserveLineLoader implements Loader<ShouldIgnorePreserveLine> {
 
 	public static class ShouldIgnorePreserveLine implements Filter {
 

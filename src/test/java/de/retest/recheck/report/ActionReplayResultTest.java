@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.review.ignore.AttributeShouldIgnore;
+import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
@@ -46,7 +46,7 @@ class ActionReplayResultTest {
 
 		final ActionReplayResult differences = cut.findDifferences( actual, expected );
 
-		final AttributeShouldIgnore shouldIgnore = new AttributeShouldIgnore( "path" );
+		final AttributeFilter shouldIgnore = new AttributeFilter( "path" );
 
 		assertThat( differences.hasDifferences() ).isTrue();
 		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 1 );
@@ -87,10 +87,10 @@ class ActionReplayResultTest {
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( dvf, "foo", "" );
 
 		final ActionReplayResult differences = cut.findDifferences( actual, expected );
-		final AttributeShouldIgnore shouldIgnoreFont = new AttributeShouldIgnore( "font" );
-		final AttributeShouldIgnore shouldIgnoreForeground = new AttributeShouldIgnore( "foreground" );
-		final AttributeShouldIgnore shouldIgnorePath = new AttributeShouldIgnore( "path" );
-		final AttributeShouldIgnore shouldIgnoreBackground = new AttributeShouldIgnore( "background" );
+		final AttributeFilter shouldIgnoreFont = new AttributeFilter( "font" );
+		final AttributeFilter shouldIgnoreForeground = new AttributeFilter( "foreground" );
+		final AttributeFilter shouldIgnorePath = new AttributeFilter( "path" );
+		final AttributeFilter shouldIgnoreBackground = new AttributeFilter( "background" );
 
 		final Filter shouldIgnoreAll = mock( Filter.class );
 		when( shouldIgnoreAll.matches( expectedElement ) ).thenReturn( true );

@@ -5,11 +5,11 @@ import java.util.List;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class CompoundShouldIgnore implements Filter {
+public class CompoundFilter implements Filter {
 
 	private final List<Filter> filters;
 
-	public CompoundShouldIgnore( final List<Filter> filters ) {
+	public CompoundFilter( final List<Filter> filters ) {
 		this.filters = filters;
 	}
 

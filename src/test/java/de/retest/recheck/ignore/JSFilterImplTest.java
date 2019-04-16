@@ -14,11 +14,11 @@ import org.mockito.Mockito;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class JSShouldIgnoreImplTest {
+class JSFilterImplTest {
 
 	@Test
 	void no_shouldBeFiltered_function_should_not_cause_exception() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "" );
@@ -29,7 +29,7 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void invalid_shouldBeFiltered_function_should_not_cause_exception() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "asdasd.asd.asd();" );
@@ -40,14 +40,14 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void nonexistent_file_should_not_cause_exception() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 		};
 		cut.matches( Mockito.mock( Element.class ) );
 	}
 
 	@Test
 	void shouldBeFiltered_should_be_called() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "function shouldIgnoreElement(element) { return true; }" );
@@ -58,7 +58,7 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldBeFiltered_should_be_called_with_element_param() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -75,7 +75,7 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldBeFiltered_example_implementation() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -99,7 +99,7 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldBeFiltered_return_null_should_be_false() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -114,7 +114,7 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldBeFiltered_return_non_boolean_should_throw_exc() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -130,7 +130,7 @@ class JSShouldIgnoreImplTest {
 
 	@Test
 	void shouldBeFiltered_ignore_URL_example_implementation() {
-		final JSShouldIgnoreImpl cut = new JSShouldIgnoreImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //

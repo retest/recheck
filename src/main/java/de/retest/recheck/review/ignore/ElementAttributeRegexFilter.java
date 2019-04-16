@@ -11,12 +11,12 @@ import de.retest.recheck.review.ignore.matcher.Matcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class ElementAttributeRegexShouldIgnore implements Filter {
+public class ElementAttributeRegexFilter implements Filter {
 
 	private final Matcher<Element> matcher;
 	private final Pattern attributePattern;
 
-	public ElementAttributeRegexShouldIgnore( final Matcher<Element> matcher, final String attributeRegex ) {
+	public ElementAttributeRegexFilter( final Matcher<Element> matcher, final String attributeRegex ) {
 		this.matcher = matcher;
 		attributePattern = Pattern.compile( attributeRegex );
 	}
@@ -36,7 +36,7 @@ public class ElementAttributeRegexShouldIgnore implements Filter {
 		return String.format( ElementAttributeRegexShouldIgnoreLoader.FORMAT, matcher.toString(), attributePattern );
 	}
 
-	public static class ElementAttributeRegexShouldIgnoreLoader extends RegexLoader<ElementAttributeRegexShouldIgnore> {
+	public static class ElementAttributeRegexShouldIgnoreLoader extends RegexLoader<ElementAttributeRegexFilter> {
 
 		private static final String MATCHER = "matcher: ";
 		private static final String KEY = "attribute-regex: ";
@@ -49,11 +49,11 @@ public class ElementAttributeRegexShouldIgnore implements Filter {
 		}
 
 		@Override
-		protected ElementAttributeRegexShouldIgnore load( final MatchResult regex ) {
+		protected ElementAttributeRegexFilter load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
 			final Loader<Matcher> loader = Loaders.get( matcher );
 			final String key = regex.group( 2 );
-			return new ElementAttributeRegexShouldIgnore( loader.load( matcher ), key );
+			return new ElementAttributeRegexFilter( loader.load( matcher ), key );
 		}
 	}
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
@@ -33,7 +33,7 @@ public class LoadShouldIgnoreWorker {
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
-		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSShouldIgnoreImpl( file ) ) );
+		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSFilterImpl( file ) ) );
 
 		return result;
 	}

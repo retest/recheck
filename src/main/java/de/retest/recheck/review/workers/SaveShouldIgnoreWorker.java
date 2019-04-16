@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
@@ -28,7 +28,7 @@ public class SaveShouldIgnoreWorker {
 
 		// Filter JSShouldIgnore because that would create unnecessary file content.
 		final Stream<Filter> filters = persist.getIgnores().stream() //
-				.filter( filter -> !(filter instanceof JSShouldIgnoreImpl) );
+				.filter( filter -> !(filter instanceof JSFilterImpl) );
 		final Stream<String> save = Loaders.save( filters );
 
 		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(

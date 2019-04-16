@@ -4,7 +4,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.OutlineAttribute;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class IgnoreOutline implements Filter {
+public class FilterOutline implements Filter {
 
 	@Override
 	public boolean matches( final Element element ) {

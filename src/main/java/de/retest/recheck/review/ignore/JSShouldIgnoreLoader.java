@@ -1,17 +1,17 @@
 package de.retest.recheck.review.ignore;
 
-import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.review.ignore.io.Loader;
 
-public class JSShouldIgnoreLoader implements Loader<JSShouldIgnoreImpl> {
+public class JSShouldIgnoreLoader implements Loader<JSFilterImpl> {
 
 	@Override
-	public JSShouldIgnoreImpl load( final String line ) {
-		return new JSShouldIgnoreImpl( null );
+	public JSFilterImpl load( final String line ) {
+		return new JSFilterImpl( null );
 	}
 
 	@Override
-	public String save( final JSShouldIgnoreImpl ignore ) {
+	public String save( final JSFilterImpl ignore ) {
 		return "";
 	}
 }

@@ -19,16 +19,16 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class JSShouldIgnoreImpl implements Filter {
+public class JSFilterImpl implements Filter {
 
-	private static final Logger logger = LoggerFactory.getLogger( JSShouldIgnoreImpl.class );
+	private static final Logger logger = LoggerFactory.getLogger( JSFilterImpl.class );
 
 	private static final String JS_ENGINE_NAME = "JavaScript";
 
 	private final ScriptEngine engine;
 	private final Set<String> errorFunctions = new HashSet<>();
 
-	public JSShouldIgnoreImpl( final Path ignoreFilePath ) {
+	public JSFilterImpl( final Path ignoreFilePath ) {
 		final ScriptEngineManager manager = new ScriptEngineManager();
 		engine = manager.getEngineByName( JS_ENGINE_NAME );
 		try {

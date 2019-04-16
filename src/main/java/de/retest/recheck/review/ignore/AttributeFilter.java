@@ -8,11 +8,11 @@ import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class AttributeShouldIgnore implements Filter {
+public class AttributeFilter implements Filter {
 
 	private final String attribute;
 
-	public AttributeShouldIgnore( final String attribute ) {
+	public AttributeFilter( final String attribute ) {
 		this.attribute = attribute;
 	}
 
@@ -32,7 +32,7 @@ public class AttributeShouldIgnore implements Filter {
 		return String.format( AttributeShouldIgnoreLoader.FORMAT, attribute );
 	}
 
-	public static class AttributeShouldIgnoreLoader extends RegexLoader<AttributeShouldIgnore> {
+	public static class AttributeShouldIgnoreLoader extends RegexLoader<AttributeFilter> {
 
 		private static final String KEY = "attribute=";
 		private static final String FORMAT = KEY + "%s";
@@ -43,9 +43,9 @@ public class AttributeShouldIgnore implements Filter {
 		}
 
 		@Override
-		protected AttributeShouldIgnore load( final MatchResult regex ) {
+		protected AttributeFilter load( final MatchResult regex ) {
 			final String attribute = regex.group( 1 );
-			return new AttributeShouldIgnore( attribute );
+			return new AttributeFilter( attribute );
 		}
 	}
 }

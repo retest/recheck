@@ -11,16 +11,16 @@ import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class ElementAttributeShouldIgnoreTest {
+class ElementAttributeFilterTest {
 
-	ElementAttributeShouldIgnore cut;
+	ElementAttributeFilter cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		cut = new ElementAttributeShouldIgnore( new ElementRetestIdMatcher( element ), "123" );
+		cut = new ElementAttributeFilter( new ElementRetestIdMatcher( element ), "123" );
 	}
 
 	@Test

@@ -11,46 +11,50 @@ import de.retest.recheck.review.ignore.matcher.Matcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class ElementShouldIgnore implements Filter {
+public class ElementAttributeFilter implements Filter {
 
 	private final Matcher<Element> matcher;
+	private final String key;
 
-	public ElementShouldIgnore( final Matcher<Element> matcher ) {
+	public ElementAttributeFilter( final Matcher<Element> matcher, final String key ) {
 		this.matcher = matcher;
+		this.key = key;
 	}
 
 	@Override
 	public boolean matches( final Element element ) {
-		return matcher.test( element );
+		return false;
 	}
 
 	@Override
 	public boolean matches( final Element element,
 			final AttributeDifference attributeDifference ) {
-		return false;
+		return matcher.test( element ) && key.equals( attributeDifference.getKey() );
 	}
 
 	@Override
 	public String toString() {
-		return String.format( ElementShouldIgnoreLoader.FORMAT, matcher.toString() );
+		return String.format( ElementAttributeShouldIgnoreLoader.FORMAT, matcher.toString(), key );
 	}
 
-	public static class ElementShouldIgnoreLoader extends RegexLoader<ElementShouldIgnore> {
+	public static class ElementAttributeShouldIgnoreLoader extends RegexLoader<ElementAttributeFilter> {
 
 		private static final String MATCHER = "matcher: ";
+		private static final String KEY = "attribute: ";
 
-		private static final String FORMAT = MATCHER + "%s";
-		private static final Pattern PREFIX = Pattern.compile( MATCHER + "(.+)" );
+		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
+		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
 
-		public ElementShouldIgnoreLoader() {
-			super( PREFIX );
+		public ElementAttributeShouldIgnoreLoader() {
+			super( REGEX );
 		}
 
 		@Override
-		protected ElementShouldIgnore load( final MatchResult regex ) {
+		protected ElementAttributeFilter load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
 			final Loader<Matcher> loader = Loaders.get( matcher );
-			return new ElementShouldIgnore( loader.load( matcher ) );
+			final String key = regex.group( 2 );
+			return new ElementAttributeFilter( loader.load( matcher ), key );
 		}
 	}
 }
