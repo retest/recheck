@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
@@ -40,7 +40,7 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 	}
 
 	@Override
-	public Set<LeafDifference> getDifferences( final ShouldIgnore ignore ) {
+	public Set<LeafDifference> getDifferencesWithout( final Filter filter ) {
 		return Collections.singleton( new LeafDifference() {
 
 			@Override

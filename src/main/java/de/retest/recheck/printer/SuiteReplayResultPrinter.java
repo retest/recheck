@@ -2,15 +2,15 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.SuiteReplayResult;
 
 public class SuiteReplayResultPrinter implements Printer<SuiteReplayResult> {
 
 	private final TestReplayResultPrinter delegate;
 
-	public SuiteReplayResultPrinter( final DefaultValueFinderProvider provider, final ShouldIgnore ignore ) {
-		delegate = new TestReplayResultPrinter( provider, ignore );
+	public SuiteReplayResultPrinter( final DefaultValueFinderProvider provider, final Filter filter ) {
+		delegate = new TestReplayResultPrinter( provider, filter );
 	}
 
 	@Override

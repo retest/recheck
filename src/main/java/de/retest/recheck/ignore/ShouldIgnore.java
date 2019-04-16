@@ -15,8 +15,12 @@ import de.retest.recheck.ui.diff.AttributeDifference;
  * GitHub wiki</a>.
  *
  * Can be implemented by reading a file, or by an implementation delivered by the user.
+ *
+ * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter}
+ *
  */
-public interface ShouldIgnore {
+@Deprecated
+public interface ShouldIgnore extends Filter {
 
 	/**
 	 * Returns <code>true</code> if the element <em>and all of its child elements</em>, so essentially the whole subtree
@@ -26,7 +30,9 @@ public interface ShouldIgnore {
 	 * @param element
 	 *            The element in question.
 	 * @return <code>true</code> if the given element should be completely ignored.
+	 * @deprecated As of release 1.1.0, replaced by {@link de.retest.recheck.ignore.Filter#matches(Element)}
 	 */
+	@Deprecated
 	boolean shouldIgnoreElement( final Element element );
 
 	/**
@@ -43,8 +49,21 @@ public interface ShouldIgnore {
 	 * @param attributeDifference
 	 *            The attribute difference for the given element.
 	 * @return <code>true</code> if the given attribute difference should be ignored.
+	 * @deprecated As of release 1.1.0, replaced by
+	 *             {@link de.retest.recheck.ignore.Filter#matches(Element, AttributeDifference)}
 	 */
+	@Deprecated
 	boolean shouldIgnoreAttributeDifference( final Element element, AttributeDifference attributeDifference );
+
+	@Override
+	default boolean matches( final Element element ) {
+		return shouldIgnoreElement( element );
+	}
+
+	@Override
+	default boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+		return shouldIgnoreAttributeDifference( element, attributeDifference );
+	}
 
 	public static final ShouldIgnore IGNORE_NOTHING = new ShouldIgnore() {
 

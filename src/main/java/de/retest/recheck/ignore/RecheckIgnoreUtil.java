@@ -10,7 +10,7 @@ import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.configuration.ProjectConfigurationUtil;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
-import de.retest.recheck.review.workers.LoadShouldIgnoreWorker;
+import de.retest.recheck.review.workers.LoadFilterWorker;
 
 public class RecheckIgnoreUtil {
 
@@ -33,9 +33,9 @@ public class RecheckIgnoreUtil {
 
 	public static GlobalIgnoreApplier loadRecheckIgnore() {
 		try {
-			final LoadShouldIgnoreWorker loadShouldIgnoreWorker =
-					new LoadShouldIgnoreWorker( NopCounter.getInstance() );
-			return loadShouldIgnoreWorker.load();
+			final LoadFilterWorker loadFilterWorker =
+					new LoadFilterWorker( NopCounter.getInstance() );
+			return loadFilterWorker.load();
 		} catch ( final Exception e ) {
 			logger.error( "Could not load recheck ignore file.", e );
 			return GlobalIgnoreApplier.create( NopCounter.getInstance() );

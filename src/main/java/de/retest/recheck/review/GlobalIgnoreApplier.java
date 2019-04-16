@@ -5,22 +5,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.counter.Counter;
-import de.retest.recheck.review.ignore.ElementAttributeShouldIgnore;
-import de.retest.recheck.review.ignore.ElementShouldIgnore;
+import de.retest.recheck.review.ignore.ElementAttributeFilter;
+import de.retest.recheck.review.ignore.ElementFilter;
 import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-public class GlobalIgnoreApplier implements ShouldIgnore {
+public class GlobalIgnoreApplier implements Filter {
 
 	private final Counter counter;
-	private final List<ShouldIgnore> ignored = new ArrayList<>();
+	private final List<Filter> filtered = new ArrayList<>();
 
-	private GlobalIgnoreApplier( final Counter counter, final List<ShouldIgnore> ignored ) {
+	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filtered ) {
 		this.counter = counter;
-		this.ignored.addAll( ignored );
+		this.filtered.addAll( filtered );
 	}
 
 	public static GlobalIgnoreApplier create( final Counter counter ) {
@@ -32,59 +32,59 @@ public class GlobalIgnoreApplier implements ShouldIgnore {
 	}
 
 	@Override
-	public boolean shouldIgnoreAttributeDifference( final Element element, final AttributeDifference difference ) {
-		return any( ignore -> ignore.shouldIgnoreAttributeDifference( element, difference ) );
+	public boolean matches( final Element element, final AttributeDifference difference ) {
+		return any( filter -> filter.matches( element, difference ) );
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
-		add( new ElementAttributeShouldIgnore( new ElementXPathMatcher( element ), difference.getKey() ) );
+		add( new ElementAttributeFilter( new ElementXPathMatcher( element ), difference.getKey() ) );
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
-		remove( ignore -> ignore.shouldIgnoreAttributeDifference( element, difference ) );
+		remove( filter -> filter.matches( element, difference ) );
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final Element element ) {
-		return any( ignore -> ignore.shouldIgnoreElement( element ) );
+	public boolean matches( final Element element ) {
+		return any( filter -> filter.matches( element ) );
 	}
 
 	public void ignoreElement( final Element element ) {
-		add( new ElementShouldIgnore( new ElementXPathMatcher( element ) ) );
+		add( new ElementFilter( new ElementXPathMatcher( element ) ) );
 	}
 
 	public void unignoreElement( final Element element ) {
-		remove( ignore -> ignore.shouldIgnoreElement( element ) );
+		remove( filter -> filter.matches( element ) );
 	}
 
-	public void add( final ShouldIgnore ignore ) {
-		ignored.add( ignore );
+	public void add( final Filter filter ) {
+		filtered.add( filter );
 		counter.add();
 	}
 
-	private void remove( final Predicate<ShouldIgnore> filter ) {
-		ignored.removeIf( filter );
+	private void remove( final Predicate<Filter> filter ) {
+		filtered.removeIf( filter );
 		counter.remove();
 	}
 
-	private boolean any( final Predicate<ShouldIgnore> ignore ) {
-		return ignored.stream().anyMatch( ignore );
+	private boolean any( final Predicate<Filter> filter ) {
+		return filtered.stream().anyMatch( filter );
 	}
 
 	public PersistableGlobalIgnoreApplier persist() {
-		return new PersistableGlobalIgnoreApplier( ignored );
+		return new PersistableGlobalIgnoreApplier( filtered );
 	}
 
 	public static class PersistableGlobalIgnoreApplier {
 
-		private final List<ShouldIgnore> ignores;
+		private final List<Filter> filters;
 
-		public PersistableGlobalIgnoreApplier( final List<ShouldIgnore> ignores ) {
-			this.ignores = new ArrayList<>( ignores );
+		public PersistableGlobalIgnoreApplier( final List<Filter> filters ) {
+			this.filters = new ArrayList<>( filters );
 		}
 
-		public List<ShouldIgnore> getIgnores() {
-			return ignores;
+		public List<Filter> getIgnores() {
+			return filters;
 		}
 	}
 }

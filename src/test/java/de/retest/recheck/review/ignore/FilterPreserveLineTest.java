@@ -6,18 +6,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
-import de.retest.recheck.review.ignore.ShouldIgnorePreserveLineLoader.ShouldIgnorePreserveLine;
+import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
 import de.retest.recheck.review.ignore.io.Loader;
 
-public class ShouldIgnorePreserveLineTest {
+public class FilterPreserveLineTest {
 
 	@Rule
 	public final SystemOutRule systemOut = new SystemOutRule().enableLog();
 
 	@Test
 	public void should_load_comments() throws Exception {
-		final String comment = ShouldIgnorePreserveLine.COMMENT + " some comment";
-		final Loader<ShouldIgnorePreserveLine> cut = new ShouldIgnorePreserveLineLoader();
+		final String comment = FilterPreserveLine.COMMENT + " some comment";
+		final Loader<FilterPreserveLine> cut = new FilterPreserveLineLoader();
 		assertThat( cut.canLoad( comment ) ).isTrue();
 	}
 
@@ -27,7 +27,7 @@ public class ShouldIgnorePreserveLineTest {
 		final String whitespace1 = " ";
 		final String whitespace2 = "\n";
 		final String whitespace3 = "\t";
-		final Loader<ShouldIgnorePreserveLine> cut = new ShouldIgnorePreserveLineLoader();
+		final Loader<FilterPreserveLine> cut = new FilterPreserveLineLoader();
 		assertThat( cut.canLoad( whitespace0 ) ).isTrue();
 		assertThat( cut.canLoad( whitespace1 ) ).isTrue();
 		assertThat( cut.canLoad( whitespace2 ) ).isTrue();
@@ -37,7 +37,7 @@ public class ShouldIgnorePreserveLineTest {
 	@Test
 	public void should_load_leading_whitespace_and_warn() throws Exception {
 		final String line = " foo bar baz";
-		final Loader<ShouldIgnorePreserveLine> cut = new ShouldIgnorePreserveLineLoader();
+		final Loader<FilterPreserveLine> cut = new FilterPreserveLineLoader();
 		assertThat( cut.canLoad( line ) ).isTrue();
 		assertThat( systemOut.getLog() )
 				.contains( "Please remove leading whitespace from the following line:\n" + line );

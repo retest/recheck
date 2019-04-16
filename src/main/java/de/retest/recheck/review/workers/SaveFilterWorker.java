@@ -7,18 +7,18 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
-import de.retest.recheck.ignore.ShouldIgnore;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.ignore.io.Loaders;
 
-public class SaveShouldIgnoreWorker {
+public class SaveFilterWorker {
 
 	private final GlobalIgnoreApplier applier;
 
-	public SaveShouldIgnoreWorker( final GlobalIgnoreApplier applier ) {
+	public SaveFilterWorker( final GlobalIgnoreApplier applier ) {
 		this.applier = applier;
 	}
 
@@ -26,10 +26,10 @@ public class SaveShouldIgnoreWorker {
 		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
-		// Filter JSShouldIgnore because that would create unnecessary file content.
-		final Stream<ShouldIgnore> ignores = persist.getIgnores().stream() //
-				.filter( ignore -> !(ignore instanceof JSShouldIgnoreImpl) );
-		final Stream<String> save = Loaders.save( ignores );
+		// Filter JSFilter because that would create unnecessary file content.
+		final Stream<Filter> filters = persist.getIgnores().stream() //
+				.filter( filter -> !(filter instanceof JSFilterImpl) );
+		final Stream<String> save = Loaders.save( filters );
 
 		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(
 				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) ) ) ) {

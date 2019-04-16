@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Element;
@@ -48,7 +48,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		this.childDifferences.addAll( childDifferences );
 	}
 
-	public Screenshot mark( final Screenshot screenshot, final ShouldIgnore ignore ) {
+	public Screenshot mark( final Screenshot screenshot, final Filter filter ) {
 		if ( screenshot == null ) {
 			return null;
 		}
@@ -56,8 +56,8 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( childDifferences != null ) {
 			for ( final Difference childDifference : childDifferences ) {
 				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					if ( !ignore.shouldIgnoreElement( element )
-							&& !compDiff.getAttributeDifferences( ignore ).isEmpty() ) {
+					if ( !filter.matches( element )
+							&& !compDiff.getAttributeDifferences( filter ).isEmpty() ) {
 						marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
 					}
 				}
@@ -88,7 +88,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return differences;
 	}
 
-	public List<AttributeDifference> getAttributeDifferences( final ShouldIgnore ignore ) {
+	public List<AttributeDifference> getAttributeDifferences( final Filter filter ) {
 		final List<AttributeDifference> differences = new ArrayList<>();
 		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
 			final List<AttributeDifference> attributeDifferences =
@@ -98,11 +98,11 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( attributesDifference != null ) {
 			differences.addAll( attributesDifference.getDifferences() );
 		}
-		if ( ignore == null ) {
+		if ( filter == null ) {
 			return differences;
 		}
 		return differences.stream() //
-				.filter( d -> !ignore.shouldIgnoreAttributeDifference( element, d ) ) //
+				.filter( d -> !filter.matches( element, d ) ) //
 				.collect( Collectors.toList() );
 	}
 

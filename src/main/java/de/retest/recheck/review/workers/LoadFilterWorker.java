@@ -7,19 +7,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import de.retest.recheck.ignore.JSShouldIgnoreImpl;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.io.Loaders;
 
-public class LoadShouldIgnoreWorker {
+public class LoadFilterWorker {
 
 	private final Counter counter;
 
-	public LoadShouldIgnoreWorker( final Counter counter ) {
+	public LoadFilterWorker( final Counter counter ) {
 		this.counter = counter;
 	}
 
@@ -28,12 +28,12 @@ public class LoadShouldIgnoreWorker {
 		final Stream<String> ignoreFileLines = Files
 				.lines( ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) );
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
-				.filter( ShouldIgnore.class::isInstance ) //
-				.map( ShouldIgnore.class::cast ) //
+				.filter( Filter.class::isInstance ) //
+				.map( Filter.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
-		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSShouldIgnoreImpl( file ) ) );
+		RecheckIgnoreUtil.getIgnoreRuleFile().ifPresent( file -> result.add( new JSFilterImpl( file ) ) );
 
 		return result;
 	}

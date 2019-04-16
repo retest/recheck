@@ -2,7 +2,7 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.ElementDifference;
@@ -10,11 +10,11 @@ import de.retest.recheck.ui.diff.ElementDifference;
 public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private final DefaultValueFinder finder;
-	private final ShouldIgnore ignore;
+	private final Filter filter;
 
-	public ElementDifferencePrinter( final DefaultValueFinder finder, final ShouldIgnore ignore ) {
+	public ElementDifferencePrinter( final DefaultValueFinder finder, final Filter filter ) {
 		this.finder = finder;
-		this.ignore = ignore;
+		this.filter = filter;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 	private String createDifferences( final ElementDifference difference, final String indent ) {
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
 		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder );
-		return difference.getAttributeDifferences( ignore ).stream() //
+		return difference.getAttributeDifferences( filter ).stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}

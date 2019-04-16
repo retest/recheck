@@ -11,40 +11,40 @@ import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class ElementShouldIgnoreTest {
+class ElementFilterTest {
 
-	ElementShouldIgnore cut;
+	ElementFilter cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 		final ElementRetestIdMatcher matcher = new ElementRetestIdMatcher( element );
-		cut = new ElementShouldIgnore( matcher );
+		cut = new ElementFilter( matcher );
 	}
 
 	@Test
-	void shouldIgnoreElement_should_accept_element() {
+	void matches_should_accept_element() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		assertThat( cut.shouldIgnoreElement( element ) ).isTrue();
+		assertThat( cut.matches( element ) ).isTrue();
 	}
 
 	@Test
-	void shouldIgnoreElement_should_reject_element() {
+	void matches_should_reject_element() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
-		assertThat( cut.shouldIgnoreElement( element ) ).isFalse();
+		assertThat( cut.matches( element ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_always_be_false() {
+	void matches_should_always_be_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
-		assertThat( cut.shouldIgnoreAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.matches( element, difference ) ).isFalse();
 	}
 }

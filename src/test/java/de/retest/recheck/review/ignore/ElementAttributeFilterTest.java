@@ -11,56 +11,56 @@ import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class ElementAttributeShouldIgnoreTest {
+class ElementAttributeFilterTest {
 
-	ElementAttributeShouldIgnore cut;
+	ElementAttributeFilter cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		cut = new ElementAttributeShouldIgnore( new ElementRetestIdMatcher( element ), "123" );
+		cut = new ElementAttributeFilter( new ElementRetestIdMatcher( element ), "123" );
 	}
 
 	@Test
-	void shouldIgnoreElement_should_always_return_false() {
+	void matches_should_always_return_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		assertThat( cut.shouldIgnoreElement( element ) ).isFalse();
+		assertThat( cut.matches( element ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_return_true() {
+	void matches_should_return_true() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
 		final AttributeDifference difference = mock( AttributeDifference.class );
 		when( difference.getKey() ).thenReturn( "123" );
 
-		assertThat( cut.shouldIgnoreAttributeDifference( element, difference ) ).isTrue();
+		assertThat( cut.matches( element, difference ) ).isTrue();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_return_false_when_key_does_not_match() {
+	void matches_should_return_false_when_key_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
 		final AttributeDifference difference = mock( AttributeDifference.class );
 		when( difference.getKey() ).thenReturn( "234" );
 
-		assertThat( cut.shouldIgnoreAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.matches( element, difference ) ).isFalse();
 	}
 
 	@Test
-	void shouldIgnoreAttributeDifference_should_return_false_when_element_does_not_match() {
+	void matches_should_return_false_when_element_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
 		final AttributeDifference difference = mock( AttributeDifference.class );
 		when( difference.getKey() ).thenReturn( "123" );
 
-		assertThat( cut.shouldIgnoreAttributeDifference( element, difference ) ).isFalse();
+		assertThat( cut.matches( element, difference ) ).isFalse();
 	}
 }
