@@ -29,13 +29,15 @@ import de.retest.recheck.ui.diff.LeafDifference;
 
 /**
  * Base implementation to use with e.g. recheck-web (https://github.com/retest/recheck-web) or any other recheck
- * implementation. Defines the principle test API and implements functionality on the basis of interfaces. <br />
- * Principle usage pattern (in the context of JUnit):
+ * implementation. Defines the principle test API and implements functionality on the basis of interfaces.
+ *
+ *
+ * Principle usage pattern (e.g. in the context of JUnit or TestNG):
  *
  * <pre>
  * Recheck re = new RecheckImpl();
  * re.startTest();
- * re.check( yourObjectToCheck ); // check, but do not fail yet
+ * re.check( yourObjectToCheck, "unique identifier" ); // check, but do not fail yet
  * re.capTest(); // throw AssertionError on difference
  * re.cap(); // produce the report file
  * </pre>
@@ -59,9 +61,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final GlobalIgnoreApplier ignoreApplier;
 
 	/**
-	 * Constructor that works purely with defaults. Assumes being called from within a JUnit test. If you want to use
-	 * recheck outside of a testing context, please use {@link RecheckImpl#RecheckImpl(RecheckOptions)} with explicit
-	 * {@link RecheckOptions}, e.g. for naming the Golden Master files.
+	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
+	 * JUnit or TestNG test. If you want to use recheck outside of a testing context, please use
+	 * {@link RecheckImpl#RecheckImpl(RecheckOptions)} with a different {@link FileNamerStrategy} for naming the Golden
+	 * Master files.
 	 */
 	public RecheckImpl() {
 		this( RecheckOptions.builder().build() );

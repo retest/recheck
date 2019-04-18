@@ -3,7 +3,8 @@ package de.retest.recheck;
 import de.retest.recheck.persistence.FileNamer;
 
 /**
- * Determines the paths under which Golden Master and result files should be persisted.
+ * Determines the paths under which Golden Master and result files should be persisted. Default implementation derives
+ * suit and test name from test class name and test method, working for both JUnit and TestNG.
  */
 public interface FileNamerStrategy {
 
@@ -45,7 +46,8 @@ public interface FileNamerStrategy {
 		}
 		throw new RuntimeException( "Couldn't identify test method in call stack. \n"
 				+ "This name is needed to dynamically name the Golden Master files. \n"
-				+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." );
+				+ "Please call `startTest(\"name\")`, giving an explicit name, "
+				+ "or instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." );
 	}
 
 }

@@ -18,7 +18,7 @@ public class RecheckAdapters {
 				.orElseThrow( () -> createHelpfulExceptionForMissingAdapter( toVerify.getClass().getName() ) );
 	}
 
-	protected static UnsupportedOperationException createHelpfulExceptionForMissingAdapter( final String className ) {
+	static UnsupportedOperationException createHelpfulExceptionForMissingAdapter( final String className ) {
 		final String msg =
 				String.format( "No recheck adapter registered that can handle an object of class %s.", className );
 		if ( className.startsWith( "org.openqa.selenium" ) ) {
