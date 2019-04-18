@@ -28,7 +28,9 @@ public interface FileNamerStrategy {
 		if ( testMethodStack != null ) {
 			return testMethodStack.getClassName();
 		}
-		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
+		throw new RuntimeException( "Couldn't identify test class in call stack. \n"
+				+ "This name is needed to dynamically name the Golden Master files. \n "
+				+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." );
 	}
 
 	/**
@@ -41,7 +43,9 @@ public interface FileNamerStrategy {
 		if ( testMethodStack != null ) {
 			return testMethodStack.getMethodName();
 		}
-		throw new RuntimeException( "Couldn't identify test method in call stack. Use explicit namer!" );
+		throw new RuntimeException( "Couldn't identify test method in call stack. \n"
+				+ "This name is needed to dynamically name the Golden Master files. \n"
+				+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." );
 	}
 
 }
