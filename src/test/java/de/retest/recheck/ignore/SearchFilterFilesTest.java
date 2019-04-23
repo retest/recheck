@@ -14,11 +14,7 @@ class SearchFilterFilesTest {
 	void getDefaultFilterFiles_should_get_all_filter_files_from_classpath() {
 		final SearchFilterFiles cut = new SearchFilterFiles();
 		final List<File> defaultFilterFiles = cut.getDefaultFilterFiles();
-		assertThat( defaultFilterFiles ).isNotNull();
-		assertThat( defaultFilterFiles ).isNotEmpty();
-		assertThat( defaultFilterFiles ).hasSize( 2 );
-		assertThat( defaultFilterFiles ).allMatch( file -> file.toString().endsWith( ".filter" ) );
-		assertThat( defaultFilterFiles.get( 0 ).getName() ).isEqualTo( "positioning.filter" );
-		assertThat( defaultFilterFiles.get( 1 ).getName() ).isEqualTo( "visibility.filter" );
+		assertThat( defaultFilterFiles.stream().map( File::getName ) ).contains( "positioning.filter",
+				"visibility.filter" );
 	}
 }
