@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.ui.descriptors.SutState" dataTypeVersion="3">
+<?xml version="1.0" encoding="UTF-8"?><reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="unspecified development version" dataType="de.retest.recheck.ui.descriptors.SutState" dataTypeVersion="4">
 	<data xsi:type="sutState">
 		<descriptors screenId="1" retestId="html" screen="retest - Java Swing GUI Testing" title="retest - Java Swing GUI Testing">
 			<identifyingAttributes>
@@ -16,7 +16,7 @@
 						<height>3117</height>
 						<width>1185</width>
 					</attribute>
-					<attribute xsi:type="pathAttribute" key="path">HTML[1]</attribute>
+					<attribute xsi:type="pathAttribute" key="path">html[1]</attribute>
 					<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 					<attribute xsi:type="stringAttribute" key="type">HTML</attribute>
 				</attributes>
@@ -48,7 +48,7 @@
 							<height>0</height>
 							<width>0</width>
 						</attribute>
-						<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]</attribute>
+						<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]</attribute>
 						<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 						<attribute xsi:type="stringAttribute" key="type">BODY</attribute>
 					</attributes>
@@ -124,7 +124,7 @@
 								<height>-3009</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 							<attribute xsi:type="stringAttribute" key="type">FOOTER</attribute>
 						</attributes>
@@ -157,7 +157,7 @@
 									<height>-66</height>
 									<width>-165</width>
 								</attribute>
-								<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]/DIV[1]</attribute>
+								<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]/div[1]</attribute>
 								<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 								<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 							</attributes>
@@ -194,7 +194,7 @@
 										<height>0</height>
 										<width>0</width>
 									</attribute>
-									<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]/DIV[1]/DIV[1]</attribute>
+									<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]/div[1]/div[1]</attribute>
 									<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 									<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 								</attributes>
@@ -239,7 +239,7 @@
 											<height>0</height>
 											<width>-40</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]/DIV[1]/DIV[1]/UL[1]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]/div[1]/div[1]/ul[1]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 										<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 									</attributes>
@@ -275,7 +275,7 @@
 												<height>-18</height>
 												<width>-779</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]/DIV[1]/DIV[1]/UL[1]/LI[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]/div[1]/div[1]/ul[1]/li[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">Copyright © 2018 ReTest GmbH</attribute>
 											<attribute xsi:type="stringAttribute" key="type">LI</attribute>
@@ -310,7 +310,7 @@
 												<height>-18</height>
 												<width>-898</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]/DIV[1]/DIV[1]/UL[1]/LI[2]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]/div[1]/div[1]/ul[1]/li[2]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 											<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 										</attributes>
@@ -342,7 +342,7 @@
 													<height>-8</height>
 													<width>-34</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/FOOTER[1]/DIV[1]/DIV[1]/UL[1]/LI[2]/A[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/footer[1]/div[1]/div[1]/ul[1]/li[2]/a[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="textAttribute" key="text">Contact</attribute>
 												<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -421,7 +421,7 @@
 								<height>-3021</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 							<attribute xsi:type="stringAttribute" key="type">HEADER</attribute>
 						</attributes>
@@ -443,7 +443,7 @@
 									<height>-12</height>
 									<width>-165</width>
 								</attribute>
-								<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]</attribute>
+								<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]</attribute>
 								<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 								<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 							</attributes>
@@ -480,7 +480,7 @@
 										<height>0</height>
 										<width>0</width>
 									</attribute>
-									<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]</attribute>
+									<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]</attribute>
 									<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 									<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 								</attributes>
@@ -526,7 +526,7 @@
 											<height>-60</height>
 											<width>-840</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/DIV[1]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/div[1]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 										<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 									</attributes>
@@ -570,7 +570,7 @@
 												<height>0</height>
 												<width>0</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/DIV[1]/A[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/div[1]/a[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="stringAttribute" key="type">A</attribute>
 										</attributes>
@@ -642,7 +642,7 @@
 													<height>32</height>
 													<width>0</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/DIV[1]/A[1]/IMG[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/div[1]/a[1]/img[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 											</attributes>
@@ -694,7 +694,7 @@
 											<height>-36</height>
 											<width>-560</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 										<attribute xsi:type="stringAttribute" key="type">NAV</attribute>
 									</attributes>
@@ -744,7 +744,7 @@
 												<height>-32</height>
 												<width>0</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 										</attributes>
@@ -784,7 +784,7 @@
 													<height>32</height>
 													<width>-360</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 											</attributes>
@@ -820,7 +820,7 @@
 														<height>-32</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/SPAN[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/span[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
 												</attributes>
@@ -841,7 +841,7 @@
 															<height>32</height>
 															<width>-8</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/SPAN[1]/A[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/span[1]/a[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">For Testers</attribute>
 														<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -940,7 +940,7 @@
 														<height>-48</height>
 														<width>122</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 												</attributes>
@@ -1020,7 +1020,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -1064,7 +1064,7 @@
 																<height>44</height>
 																<width>0</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[1]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[1]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Automation without Programming</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -1171,7 +1171,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -1215,7 +1215,7 @@
 																<height>44</height>
 																<width>-117</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[2]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[2]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Robust Tests</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -1322,7 +1322,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[3]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[3]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -1366,7 +1366,7 @@
 																<height>44</height>
 																<width>-102</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[3]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[3]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Become a Hero</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -1473,7 +1473,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[4]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[4]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">4</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -1517,7 +1517,7 @@
 																<height>44</height>
 																<width>-55</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[1]/UL[1]/LI[4]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[1]/ul[1]/li[4]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Perfect for Agile Testing</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -1626,7 +1626,7 @@
 													<height>32</height>
 													<width>-334</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 												<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 											</attributes>
@@ -1662,7 +1662,7 @@
 														<height>-32</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/SPAN[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/span[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
 												</attributes>
@@ -1683,7 +1683,7 @@
 															<height>32</height>
 															<width>-8</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/SPAN[1]/A[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/span[1]/a[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">For Developers</attribute>
 														<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -1782,7 +1782,7 @@
 														<height>-48</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 												</attributes>
@@ -1858,7 +1858,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]/LI[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -1902,7 +1902,7 @@
 																<height>44</height>
 																<width>-9</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]/LI[1]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[1]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">No more Brittle</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -2009,7 +2009,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]/LI[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -2053,7 +2053,7 @@
 																<height>44</height>
 																<width>-11</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]/LI[2]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[2]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">No more Flaky</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -2160,7 +2160,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]/LI[3]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[3]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -2204,7 +2204,7 @@
 																<height>44</height>
 																<width>-36</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[2]/UL[1]/LI[3]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[2]/ul[1]/li[3]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Extensible</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -2313,7 +2313,7 @@
 													<height>32</height>
 													<width>-343</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 												<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 											</attributes>
@@ -2349,7 +2349,7 @@
 														<height>-32</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/SPAN[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/span[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
 												</attributes>
@@ -2370,7 +2370,7 @@
 															<height>32</height>
 															<width>-8</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/SPAN[1]/A[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/span[1]/a[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">For Managers</attribute>
 														<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -2469,7 +2469,7 @@
 														<height>-48</height>
 														<width>79</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 												</attributes>
@@ -2549,7 +2549,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]/LI[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]/li[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -2593,7 +2593,7 @@
 																<height>44</height>
 																<width>-107</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]/LI[1]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]/li[1]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Audit-safe</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -2700,7 +2700,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]/LI[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]/li[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -2744,7 +2744,7 @@
 																<height>44</height>
 																<width>0</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]/LI[2]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]/li[2]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Reduced Risk, Efforts, Costs</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -2851,7 +2851,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]/LI[3]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]/li[3]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -2895,7 +2895,7 @@
 																<height>44</height>
 																<width>-24</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[3]/UL[1]/LI[3]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[3]/ul[1]/li[3]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Full Support and Service</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -3004,7 +3004,7 @@
 													<height>32</height>
 													<width>-393</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">4</attribute>
 												<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 											</attributes>
@@ -3040,7 +3040,7 @@
 														<height>-32</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/SPAN[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/span[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
 												</attributes>
@@ -3061,7 +3061,7 @@
 															<height>32</height>
 															<width>-8</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/SPAN[1]/A[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/span[1]/a[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">About</attribute>
 														<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -3160,7 +3160,7 @@
 														<height>-48</height>
 														<width>51</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 												</attributes>
@@ -3240,7 +3240,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]/LI[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]/li[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -3284,7 +3284,7 @@
 																<height>44</height>
 																<width>-61</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]/LI[1]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]/li[1]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Blog</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -3391,7 +3391,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]/LI[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]/li[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -3435,7 +3435,7 @@
 																<height>44</height>
 																<width>0</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]/LI[2]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]/li[2]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Documentation</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -3542,7 +3542,7 @@
 															<height>0</height>
 															<width>0</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]/LI[3]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]/li[3]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -3586,7 +3586,7 @@
 																<height>44</height>
 																<width>-42</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[4]/UL[1]/LI[3]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[4]/ul[1]/li[3]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">Support</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
@@ -3696,7 +3696,7 @@
 													<height>32</height>
 													<width>-425</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">5</attribute>
 												<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 											</attributes>
@@ -3733,7 +3733,7 @@
 														<height>0</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/A[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/a[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">A</attribute>
 												</attributes>
@@ -3826,7 +3826,7 @@
 															<height>-32</height>
 															<width>-35</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/A[1]/I[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/a[1]/i[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">I</attribute>
 													</attributes>
@@ -3860,7 +3860,7 @@
 															<height>-32</height>
 															<width>-27</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/A[1]/SPAN[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/a[1]/span[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
 													</attributes>
@@ -3885,7 +3885,7 @@
 														<height>-10</height>
 														<width>125</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/UL[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 												</attributes>
@@ -4029,7 +4029,7 @@
 															<height>-38</height>
 															<width>-2</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/UL[1]/LI[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]/li[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -4085,7 +4085,7 @@
 																<height>42</height>
 																<width>-42</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/UL[1]/LI[1]/A[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]/li[1]/a[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="stringAttribute" key="type">A</attribute>
 														</attributes>
@@ -4190,7 +4190,7 @@
 																	<height>-30</height>
 																	<width>-98</width>
 																</attribute>
-																<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/UL[1]/LI[1]/A[1]/IMG[1]</attribute>
+																<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]/li[1]/a[1]/img[1]</attribute>
 																<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 																<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 															</attributes>
@@ -4246,7 +4246,7 @@
 															<height>-7</height>
 															<width>-2</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/UL[1]/LI[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]/li[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 													</attributes>
@@ -4359,7 +4359,7 @@
 																<height>-19</height>
 																<width>-140</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/HEADER[1]/DIV[1]/DIV[1]/NAV[1]/UL[1]/LI[5]/UL[1]/LI[2]/IMG[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/header[1]/div[1]/div[1]/nav[1]/ul[1]/li[5]/ul[1]/li[2]/img[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 														</attributes>
@@ -4425,7 +4425,7 @@
 								<height>-612</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 							<attribute xsi:type="stringAttribute" key="type">SECTION</attribute>
 						</attributes>
@@ -4455,7 +4455,7 @@
 									<height>-2505</height>
 									<width>-885</width>
 								</attribute>
-								<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[1]</attribute>
+								<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[1]</attribute>
 								<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 								<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 							</attributes>
@@ -4505,7 +4505,7 @@
 									<height>0</height>
 									<width>0</width>
 								</attribute>
-								<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]</attribute>
+								<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]</attribute>
 								<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 								<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 							</attributes>
@@ -4527,7 +4527,7 @@
 										<height>0</height>
 										<width>0</width>
 									</attribute>
-									<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]</attribute>
+									<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]</attribute>
 									<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 									<attribute xsi:type="stringAttribute" key="type">UL</attribute>
 								</attributes>
@@ -4567,7 +4567,7 @@
 											<height>-1829</height>
 											<width>0</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 										<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 									</attributes>
@@ -4596,7 +4596,7 @@
 												<height>0</height>
 												<width>-165</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 										</attributes>
@@ -4649,7 +4649,7 @@
 													<height>-541</height>
 													<width>-102</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -4729,7 +4729,7 @@
 														<height>0</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]/H1[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]/h1[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="textAttribute" key="text">Has traditional GUI test automation failed you</attribute>
 													<attribute xsi:type="stringAttribute" key="type">H1</attribute>
@@ -4806,7 +4806,7 @@
 															<height>-91</height>
 															<width>-896</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]/H1[1]/SPAN[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]/h1[1]/span[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">?</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -4868,7 +4868,7 @@
 															<height>-91</height>
 															<width>-807</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]/H1[1]/SPAN[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]/h1[1]/span[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="textAttribute" key="text">robust</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -4930,7 +4930,7 @@
 															<height>-91</height>
 															<width>-847</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]/H1[1]/SPAN[3]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]/h1[1]/span[3]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 														<attribute xsi:type="textAttribute" key="text">less</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -4992,7 +4992,7 @@
 															<height>-91</height>
 															<width>-816</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]/H1[1]/SPAN[4]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]/h1[1]/span[4]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">4</attribute>
 														<attribute xsi:type="textAttribute" key="text">easily</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -5054,7 +5054,7 @@
 															<height>-91</height>
 															<width>-907</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[1]/H1[1]/SPAN[5]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[1]/h1[1]/span[5]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">5</attribute>
 														<attribute xsi:type="textAttribute" key="text">.</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -5119,7 +5119,7 @@
 													<height>-288</height>
 													<width>-425</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[2]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[2]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -5167,7 +5167,7 @@
 														<height>-371</height>
 														<width>-595</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[2]/BR[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[2]/br[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -5189,7 +5189,7 @@
 														<height>-371</height>
 														<width>-595</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[2]/BR[2]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[2]/br[2]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -5211,7 +5211,7 @@
 														<height>-371</height>
 														<width>-595</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[2]/BR[3]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[2]/br[3]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -5234,7 +5234,7 @@
 														<height>-100</height>
 														<width>-81</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[2]/IFRAME[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[2]/iframe[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">IFRAME</attribute>
 												</attributes>
@@ -5265,7 +5265,7 @@
 													<height>-268</height>
 													<width>-595</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -5353,7 +5353,7 @@
 														<height>-12</height>
 														<width>-102</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">P</attribute>
 												</attributes>
@@ -5401,7 +5401,7 @@
 															<height>-377</height>
 															<width>-323</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/BR[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/br[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 													</attributes>
@@ -5423,7 +5423,7 @@
 															<height>-341</height>
 															<width>-65</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/EM[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/em[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">Have you had enough</attribute>
 														<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -5484,7 +5484,7 @@
 																<height>-36</height>
 																<width>-258</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/EM[1]/BR[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/em[1]/br[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 														</attributes>
@@ -5507,7 +5507,7 @@
 															<height>-377</height>
 															<width>-118</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/EM[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/em[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="textAttribute" key="text">Use an artificially intelligent</attribute>
 														<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -5569,7 +5569,7 @@
 															<height>-341</height>
 															<width>-64</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/EM[3]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/em[3]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 														<attribute xsi:type="textAttribute" key="text">to fully automatically test your application.</attribute>
 														<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -5631,7 +5631,7 @@
 															<height>-377</height>
 															<width>-314</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/SPAN[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/span[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">?</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -5693,7 +5693,7 @@
 															<height>-377</height>
 															<width>-264</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[1]/DIV[1]/DIV[3]/P[1]/SPAN[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[1]/div[1]/div[3]/p[1]/span[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="textAttribute" key="text">monkey</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -5759,7 +5759,7 @@
 											<height>-1888</height>
 											<width>0</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 										<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 									</attributes>
@@ -5788,7 +5788,7 @@
 												<height>0</height>
 												<width>-165</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 										</attributes>
@@ -5841,7 +5841,7 @@
 													<height>-527</height>
 													<width>-102</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -5921,7 +5921,7 @@
 														<height>0</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[1]/H2[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[1]/h2[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">H2</attribute>
 												</attributes>
@@ -6006,7 +6006,7 @@
 															<height>0</height>
 															<width>-828</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[1]/H2[1]/IMG[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[1]/h2[1]/img[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 													</attributes>
@@ -6063,7 +6063,7 @@
 															<height>-57</height>
 															<width>-850</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[1]/H2[1]/SPAN[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[1]/h2[1]/span[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">Less</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -6125,7 +6125,7 @@
 															<height>-57</height>
 															<width>-910</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[1]/H2[1]/SPAN[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[1]/h2[1]/span[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="textAttribute" key="text">.</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -6190,7 +6190,7 @@
 													<height>-187</height>
 													<width>-595</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[2]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[2]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -6238,7 +6238,7 @@
 														<height>0</height>
 														<width>-116</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[2]/IMG[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[2]/img[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 												</attributes>
@@ -6297,7 +6297,7 @@
 													<height>-209</height>
 													<width>-425</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -6346,7 +6346,7 @@
 														<height>-12</height>
 														<width>-95</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]/DIV[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]/div[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 												</attributes>
@@ -6406,7 +6406,7 @@
 															<height>0</height>
 															<width>-80</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]/DIV[1]/P[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]/div[1]/p[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">P</attribute>
 													</attributes>
@@ -6450,7 +6450,7 @@
 																<height>-377</height>
 																<width>-202</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]/DIV[1]/P[1]/EM[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]/div[1]/p[1]/em[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">No need to create assertions</attribute>
 															<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -6512,7 +6512,7 @@
 																<height>-377</height>
 																<width>-415</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]/DIV[1]/P[1]/SPAN[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]/div[1]/p[1]/span[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">:</attribute>
 															<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -6574,7 +6574,7 @@
 																<height>-377</height>
 																<width>-401</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]/DIV[1]/P[1]/SPAN[2]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]/div[1]/p[1]/span[2]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 															<attribute xsi:type="textAttribute" key="text">25</attribute>
 															<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -6636,7 +6636,7 @@
 																<height>-377</height>
 																<width>-375</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[2]/DIV[1]/DIV[3]/DIV[1]/P[1]/SPAN[3]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[2]/div[1]/div[3]/div[1]/p[1]/span[3]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 															<attribute xsi:type="textAttribute" key="text">single</attribute>
 															<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -6703,7 +6703,7 @@
 											<height>-1888</height>
 											<width>0</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 										<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 									</attributes>
@@ -6732,7 +6732,7 @@
 												<height>0</height>
 												<width>-165</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 										</attributes>
@@ -6785,7 +6785,7 @@
 													<height>-527</height>
 													<width>-102</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -6865,7 +6865,7 @@
 														<height>0</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[1]/H2[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[1]/h2[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">H2</attribute>
 												</attributes>
@@ -6950,7 +6950,7 @@
 															<height>0</height>
 															<width>-828</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[1]/H2[1]/IMG[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[1]/h2[1]/img[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 													</attributes>
@@ -7007,7 +7007,7 @@
 															<height>-57</height>
 															<width>-815</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[1]/H2[1]/SPAN[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[1]/h2[1]/span[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">Robust</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -7069,7 +7069,7 @@
 															<height>-57</height>
 															<width>-910</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[1]/H2[1]/SPAN[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[1]/h2[1]/span[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="textAttribute" key="text">.</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -7134,7 +7134,7 @@
 													<height>-209</height>
 													<width>-510</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[2]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[2]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -7183,7 +7183,7 @@
 														<height>-12</height>
 														<width>-40</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[2]/DIV[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[2]/div[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 												</attributes>
@@ -7247,7 +7247,7 @@
 															<height>0</height>
 															<width>-75</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[2]/DIV[1]/P[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[2]/div[1]/p[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">With traditional GUI test automation, you have to decide with which attribute you want to identify a component.
 								If your chosen attribute changes, your test fails although the application still works.
@@ -7297,7 +7297,7 @@
 																<height>-377</height>
 																<width>-395</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[2]/DIV[1]/P[1]/BR[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[2]/div[1]/p[1]/br[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 														</attributes>
@@ -7319,7 +7319,7 @@
 																<height>-341</height>
 																<width>-47</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[2]/DIV[1]/P[1]/EM[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[2]/div[1]/p[1]/em[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">retest compares the whole picture instead of a single piece of the puzzle.</attribute>
 															<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -7385,7 +7385,7 @@
 													<height>-187</height>
 													<width>-510</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[3]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[3]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -7433,7 +7433,7 @@
 														<height>-413</height>
 														<width>-510</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[3]/BR[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[3]/br[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -7455,7 +7455,7 @@
 														<height>-230</height>
 														<width>-145</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[3]/IMG[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[3]/img[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 												</attributes>
@@ -7512,7 +7512,7 @@
 														<height>-230</height>
 														<width>-110</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[3]/DIV[1]/DIV[3]/IMG[2]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[3]/div[1]/div[3]/img[2]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 													<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 												</attributes>
@@ -7572,7 +7572,7 @@
 											<height>-1910</height>
 											<width>0</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">4</attribute>
 										<attribute xsi:type="stringAttribute" key="type">LI</attribute>
 									</attributes>
@@ -7601,7 +7601,7 @@
 												<height>0</height>
 												<width>-165</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 										</attributes>
@@ -7654,7 +7654,7 @@
 													<height>-505</height>
 													<width>-102</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -7734,7 +7734,7 @@
 														<height>0</height>
 														<width>0</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[1]/H2[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[1]/h2[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">H2</attribute>
 												</attributes>
@@ -7819,7 +7819,7 @@
 															<height>0</height>
 															<width>-828</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[1]/H2[1]/IMG[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[1]/h2[1]/img[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 													</attributes>
@@ -7876,7 +7876,7 @@
 															<height>-57</height>
 															<width>-805</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[1]/H2[1]/SPAN[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[1]/h2[1]/span[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="textAttribute" key="text">monkey</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -7938,7 +7938,7 @@
 															<height>-57</height>
 															<width>-910</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[1]/H2[1]/SPAN[2]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[1]/h2[1]/span[2]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 														<attribute xsi:type="textAttribute" key="text">.</attribute>
 														<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -8003,7 +8003,7 @@
 													<height>-258</height>
 													<width>-595</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[2]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[2]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -8051,7 +8051,7 @@
 														<height>-320</height>
 														<width>-425</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[2]/BR[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[2]/br[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -8073,7 +8073,7 @@
 														<height>-320</height>
 														<width>-425</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[2]/BR[2]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[2]/br[2]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -8095,7 +8095,7 @@
 														<height>-320</height>
 														<width>-425</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[2]/BR[3]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[2]/br[3]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 													<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 												</attributes>
@@ -8117,7 +8117,7 @@
 														<height>-90</height>
 														<width>-25</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[2]/IMG[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[2]/img[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">IMG</attribute>
 												</attributes>
@@ -8176,7 +8176,7 @@
 													<height>-187</height>
 													<width>-425</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 												<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 											</attributes>
@@ -8225,7 +8225,7 @@
 														<height>-12</height>
 														<width>-95</width>
 													</attribute>
-													<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]</attribute>
+													<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]</attribute>
 													<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 													<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 												</attributes>
@@ -8285,7 +8285,7 @@
 															<height>0</height>
 															<width>-80</width>
 														</attribute>
-														<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]/P[1]</attribute>
+														<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]/p[1]</attribute>
 														<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 														<attribute xsi:type="stringAttribute" key="type">P</attribute>
 													</attributes>
@@ -8329,7 +8329,7 @@
 																<height>-377</height>
 																<width>-420</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]/P[1]/BR[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]/p[1]/br[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 														</attributes>
@@ -8351,7 +8351,7 @@
 																<height>-377</height>
 																<width>-420</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]/P[1]/BR[2]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]/p[1]/br[2]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 															<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 														</attributes>
@@ -8373,7 +8373,7 @@
 																<height>-377</height>
 																<width>-208</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]/P[1]/EM[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]/p[1]/em[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">The future of testing is in AI.</attribute>
 															<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -8435,7 +8435,7 @@
 																<height>-377</height>
 																<width>-215</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]/P[1]/EM[2]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]/p[1]/em[2]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 															<attribute xsi:type="textAttribute" key="text">The future of testing is now</attribute>
 															<attribute xsi:type="stringAttribute" key="type">EM</attribute>
@@ -8497,7 +8497,7 @@
 																<height>-377</height>
 																<width>-415</width>
 															</attribute>
-															<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[1]/DIV[2]/UL[1]/LI[4]/DIV[1]/DIV[3]/DIV[1]/P[1]/SPAN[1]</attribute>
+															<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[1]/div[2]/ul[1]/li[4]/div[1]/div[3]/div[1]/p[1]/span[1]</attribute>
 															<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 															<attribute xsi:type="textAttribute" key="text">.</attribute>
 															<attribute xsi:type="stringAttribute" key="type">SPAN</attribute>
@@ -8568,7 +8568,7 @@
 								<height>-2709</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 							<attribute xsi:type="stringAttribute" key="type">SECTION</attribute>
 						</attributes>
@@ -8605,7 +8605,7 @@
 									<height>-102</height>
 									<width>-165</width>
 								</attribute>
-								<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]</attribute>
+								<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]</attribute>
 								<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 								<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 							</attributes>
@@ -8642,7 +8642,7 @@
 										<height>-306</height>
 										<width>0</width>
 									</attribute>
-									<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]</attribute>
+									<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]</attribute>
 									<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 									<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 								</attributes>
@@ -8664,7 +8664,7 @@
 											<height>306</height>
 											<width>-680</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[1]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[1]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 										<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 									</attributes>
@@ -8708,7 +8708,7 @@
 												<height>-276</height>
 												<width>-40</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[1]/H2[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[1]/h2[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">Recording tests by users.</attribute>
 											<attribute xsi:type="stringAttribute" key="type">H2</attribute>
@@ -8782,7 +8782,7 @@
 												<height>-66</height>
 												<width>-40</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[1]/P[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[1]/p[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">Modern test capturing tools are so complex, professional testers need weeks of training.
 					Recording realistic test cases with business users? Impossible.</attribute>
@@ -8812,7 +8812,7 @@
 													<height>-223</height>
 													<width>-300</width>
 												</attribute>
-												<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[1]/P[1]/BR[1]</attribute>
+												<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[1]/p[1]/br[1]</attribute>
 												<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 												<attribute xsi:type="stringAttribute" key="type">BR</attribute>
 											</attributes>
@@ -8837,7 +8837,7 @@
 											<height>246</height>
 											<width>-680</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[2]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[2]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 										<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 									</attributes>
@@ -8881,7 +8881,7 @@
 												<height>-216</height>
 												<width>-40</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[2]/H2[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[2]/h2[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">No more brittle tests.</attribute>
 											<attribute xsi:type="stringAttribute" key="type">H2</attribute>
@@ -8955,7 +8955,7 @@
 												<height>-66</height>
 												<width>-40</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[2]/P[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[2]/p[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">Our innovative new approach to GUI testing (patent pending)
 					creates tests that are way more robust than anything you have ever seen before. 
@@ -8989,7 +8989,7 @@
 											<height>276</height>
 											<width>-680</width>
 										</attribute>
-										<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[3]</attribute>
+										<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[3]</attribute>
 										<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 										<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 									</attributes>
@@ -9033,7 +9033,7 @@
 												<height>-246</height>
 												<width>-40</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[3]/H2[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[3]/h2[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">Maintenance with a single click.</attribute>
 											<attribute xsi:type="stringAttribute" key="type">H2</attribute>
@@ -9107,7 +9107,7 @@
 												<height>-66</height>
 												<width>-40</width>
 											</attribute>
-											<attribute xsi:type="pathAttribute" key="path">HTML[1]/BODY[1]/SECTION[2]/DIV[1]/DIV[1]/DIV[3]/P[1]</attribute>
+											<attribute xsi:type="pathAttribute" key="path">html[1]/body[1]/section[2]/div[1]/div[1]/div[3]/p[1]</attribute>
 											<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 											<attribute xsi:type="textAttribute" key="text">The more tests you have, the more test maintenance becomes a burden.
 					Not with retest.
@@ -9146,7 +9146,7 @@
 							<height>-3117</height>
 							<width>-1185</width>
 						</attribute>
-						<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]</attribute>
+						<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]</attribute>
 						<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 						<attribute xsi:type="stringAttribute" key="type">HEAD</attribute>
 					</attributes>
@@ -9168,7 +9168,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[10]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[10]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">10</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9198,7 +9198,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[11]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[11]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">11</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9228,7 +9228,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[12]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[12]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">12</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9257,7 +9257,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[13]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[13]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">13</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9286,7 +9286,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[14]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[14]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">14</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9315,7 +9315,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[15]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[15]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">15</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9344,7 +9344,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[16]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[16]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">16</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9374,7 +9374,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[17]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[17]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">17</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9403,7 +9403,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[1]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[1]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9433,7 +9433,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[2]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[2]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9463,7 +9463,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[3]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[3]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">3</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9493,7 +9493,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[4]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[4]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">4</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9522,7 +9522,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[5]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[5]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">5</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9551,7 +9551,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[6]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[6]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">6</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9580,7 +9580,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[7]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[7]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">7</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9609,7 +9609,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[8]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[8]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">8</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9639,7 +9639,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/META[9]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/meta[9]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">9</attribute>
 							<attribute xsi:type="stringAttribute" key="type">META</attribute>
 						</attributes>
@@ -9668,7 +9668,7 @@
 								<height>0</height>
 								<width>0</width>
 							</attribute>
-							<attribute xsi:type="pathAttribute" key="path">HTML[1]/HEAD[1]/TITLE[1]</attribute>
+							<attribute xsi:type="pathAttribute" key="path">html[1]/head[1]/title[1]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
 							<attribute xsi:type="textAttribute" key="text">retest - Java Swing GUI Testing</attribute>
 							<attribute xsi:type="stringAttribute" key="type">TITLE</attribute>
