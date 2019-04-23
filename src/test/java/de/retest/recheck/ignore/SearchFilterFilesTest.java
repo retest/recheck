@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class SearchFilterFilesTest {
-	SearchFilterFiles cut;
 
 	@Test
 	void getDefaultFilterFiles_should_get_all_filter_files_from_classpath() {
