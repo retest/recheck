@@ -12,15 +12,15 @@ import de.retest.recheck.configuration.PathBasedProjectRootFinder;
 
 public class SearchFilterFiles {
 	private static final Logger logger = LoggerFactory.getLogger( PathBasedProjectRootFinder.class );
+	private static final String[] DEFAULT_FILTER_FILES = { "positioning.filter", "visibility.filter" };
 
 	public List<File> getDefaultFilterFiles() {
 		final List<File> solution = new ArrayList<>();
-		final String[] a = { "positioning.filter", "visibility.filter" };
-		for ( int i = 0; i <= a.length - 1; i++ ) {
-			final URL resource = getClass().getClassLoader().getResource( "filter/web/" + a[i] );
+		for ( final String filterName : DEFAULT_FILTER_FILES ) {
+			final URL resource = getClass().getClassLoader().getResource( "filter/web/" + filterName );
 			if ( resource == null ) {
-				logger.debug( "The search for {} was unsuccessful, make sure that the file was not deleted.", a[i] );
-
+				logger.debug( "The search for {} was unsuccessful, make sure that the file was not deleted.",
+						filterName );
 			} else {
 				final File filterFile = new File( resource.getFile() );
 				solution.add( filterFile );
@@ -28,4 +28,5 @@ public class SearchFilterFiles {
 		}
 		return solution;
 	}
+
 }
