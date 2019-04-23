@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import de.retest.recheck.persistence.migration.transformers.AddRetestIdTestTransformer;
 import de.retest.recheck.persistence.migration.transformers.ContainedComponents2ContainedElementsTransformer;
 import de.retest.recheck.persistence.migration.transformers.IncompatibleChangesTransformer;
+import de.retest.recheck.persistence.migration.transformers.Path2LowerCaseTransformer;
 import de.retest.recheck.persistence.migration.transformers.Path2XPathTransformer;
 import de.retest.recheck.persistence.migration.transformers.WindowSuffixTransformer;
 
@@ -76,6 +77,7 @@ public enum XmlMigratorInstances {
 			return new MigrationPairs() //
 					.add( 1, new AddRetestIdTestTransformer() ) //
 					.add( 2, new ContainedComponents2ContainedElementsTransformer() ) //
+					.add( 3, new Path2LowerCaseTransformer() ) //
 					.toList();
 		}
 	};

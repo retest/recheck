@@ -17,7 +17,7 @@ import de.retest.recheck.ui.review.ActionChangeSet;
 public class SutState extends Persistable {
 
 	private static final long serialVersionUID = 1L;
-	private static final int PERSISTENCE_VERSION = 3;
+	private static final int PERSISTENCE_VERSION = 4;
 
 	@XmlElement
 	private final List<RootElement> descriptors;
