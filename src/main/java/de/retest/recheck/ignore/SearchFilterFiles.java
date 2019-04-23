@@ -10,12 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SearchFilterFiles {
+
 	private static final String PATH_FILTER_FILES = "filter/web/";
 	private static final List<String> DEFAULT_FILTER_FILES = Arrays.asList( "positioning.filter", "visibility.filter" );
 
-	private SearchFilterFiles() {
-
-	}
+	private SearchFilterFiles() {}
 
 	public static List<File> getDefaultFilterFiles() {
 		final List<File> solution = new ArrayList<>();
