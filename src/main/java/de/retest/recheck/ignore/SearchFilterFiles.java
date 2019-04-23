@@ -13,10 +13,14 @@ public class SearchFilterFiles {
 	private static final String PATH_FILTER_FILES = "filter/web/";
 	private static final List<String> DEFAULT_FILTER_FILES = Arrays.asList( "positioning.filter", "visibility.filter" );
 
-	public List<File> getDefaultFilterFiles() {
+	private SearchFilterFiles() {
+
+	}
+
+	public static List<File> getDefaultFilterFiles() {
 		final List<File> solution = new ArrayList<>();
 		for ( final String filterName : DEFAULT_FILTER_FILES ) {
-			final URL resource = getClass().getClassLoader().getResource( PATH_FILTER_FILES + filterName );
+			final URL resource = SearchFilterFiles.class.getClassLoader().getResource( PATH_FILTER_FILES + filterName );
 			if ( resource == null ) {
 				log.debug( "The search for {} was unsuccessful, make sure that the file was not deleted.", filterName );
 			} else {

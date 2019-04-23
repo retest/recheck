@@ -12,8 +12,7 @@ class SearchFilterFilesTest {
 
 	@Test
 	void getDefaultFilterFiles_should_get_all_filter_files_from_classpath() {
-		final SearchFilterFiles cut = new SearchFilterFiles();
-		final List<File> defaultFilterFiles = cut.getDefaultFilterFiles();
+		final List<File> defaultFilterFiles = SearchFilterFiles.getDefaultFilterFiles();
 		assertThat( defaultFilterFiles.stream().map( File::getName ) ).contains( "positioning.filter",
 				"visibility.filter" );
 	}
