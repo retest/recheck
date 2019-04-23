@@ -3,6 +3,7 @@ package de.retest.recheck.ignore;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchFilterFiles {
 	private static final String PATH_FILTER_FILES = "filter/web/";
-	private static final String[] DEFAULT_FILTER_FILES = { "positioning.filter", "visibility.filter" };
+	private static final List<String> DEFAULT_FILTER_FILES = Arrays.asList( "positioning.filter", "visibility.filter" );
 
 	public List<File> getDefaultFilterFiles() {
 		final List<File> solution = new ArrayList<>();
