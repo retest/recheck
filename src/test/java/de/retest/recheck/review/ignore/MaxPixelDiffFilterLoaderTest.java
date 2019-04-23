@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.review.ignore.MaxPixelDiffShouldIgnore.MaxPixelDiffShouldIgnoreLoader;
+import de.retest.recheck.review.ignore.MaxPixelDiffFilter.MaxPixelDiffFilterLoader;
 
-class MaxPixelDiffShouldIgnoreLoaderTest {
+class MaxPixelDiffFilterLoaderTest {
 
 	@Test
 	void should_not_load_non_integer_and_non_double() throws Exception {
-		final MaxPixelDiffShouldIgnoreLoader cut = new MaxPixelDiffShouldIgnoreLoader();
+		final MaxPixelDiffFilterLoader cut = new MaxPixelDiffFilterLoader();
 
 		assertThat( cut.canLoad( "foo=bar" ) ).isFalse();
 		assertThat( cut.canLoad( "maxPixelDiff=baz" ) ).isFalse();
@@ -22,7 +22,7 @@ class MaxPixelDiffShouldIgnoreLoaderTest {
 
 	@Test
 	void should_load_integer_and_double() throws Exception {
-		final MaxPixelDiffShouldIgnoreLoader cut = new MaxPixelDiffShouldIgnoreLoader();
+		final MaxPixelDiffFilterLoader cut = new MaxPixelDiffFilterLoader();
 
 		final String intDiff = "maxPixelDiff=5";
 		assertThat( cut.canLoad( intDiff ) ).isTrue();

@@ -5,31 +5,30 @@ import java.io.Serializable;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
-import de.retest.recheck.ignore.ShouldIgnore;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MaxPixelDiffShouldIgnore implements ShouldIgnore {
+public class MaxPixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
 
 	private final double maxPixelDiff;
 
-	public MaxPixelDiffShouldIgnore( final double maxPixelDiff ) {
+	public MaxPixelDiffFilter( final double maxPixelDiff ) {
 		this.maxPixelDiff = maxPixelDiff;
 	}
 
 	@Override
-	public boolean shouldIgnoreElement( final Element element ) {
+	public boolean matches( final Element element ) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldIgnoreAttributeDifference( final Element element,
-			final AttributeDifference attributeDifference ) {
+	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		final Serializable expected = attributeDifference.getExpected();
 		final Serializable actual = attributeDifference.getActual();
 
@@ -45,11 +44,11 @@ public class MaxPixelDiffShouldIgnore implements ShouldIgnore {
 	}
 
 	private boolean checkRectangle( final Rectangle expected, final Rectangle actual ) {
-		final boolean ignoreX = Math.abs( expected.x - actual.x ) <= maxPixelDiff;
-		final boolean ignoreY = Math.abs( expected.y - actual.y ) <= maxPixelDiff;
-		final boolean ignoreHeight = Math.abs( expected.height - actual.height ) <= maxPixelDiff;
-		final boolean ignoreWidth = Math.abs( expected.width - actual.width ) <= maxPixelDiff;
-		return ignoreX && ignoreY && ignoreHeight && ignoreWidth;
+		final boolean filterX = Math.abs( expected.x - actual.x ) <= maxPixelDiff;
+		final boolean filterY = Math.abs( expected.y - actual.y ) <= maxPixelDiff;
+		final boolean filterHeight = Math.abs( expected.height - actual.height ) <= maxPixelDiff;
+		final boolean filterWidth = Math.abs( expected.width - actual.width ) <= maxPixelDiff;
+		return filterX && filterY && filterHeight && filterWidth;
 	}
 
 	private boolean checkString( final String expected, final String actual ) {
@@ -77,23 +76,23 @@ public class MaxPixelDiffShouldIgnore implements ShouldIgnore {
 
 	@Override
 	public String toString() {
-		return String.format( MaxPixelDiffShouldIgnoreLoader.FORMAT, maxPixelDiff );
+		return String.format( MaxPixelDiffFilterLoader.FORMAT, maxPixelDiff );
 	}
 
-	public static class MaxPixelDiffShouldIgnoreLoader extends RegexLoader<MaxPixelDiffShouldIgnore> {
+	public static class MaxPixelDiffFilterLoader extends RegexLoader<MaxPixelDiffFilter> {
 
 		private static final String KEY = "maxPixelDiff=";
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(\\d+(\\.\\d+)?)" );
 
-		public MaxPixelDiffShouldIgnoreLoader() {
+		public MaxPixelDiffFilterLoader() {
 			super( REGEX );
 		}
 
 		@Override
-		protected MaxPixelDiffShouldIgnore load( final MatchResult regex ) {
+		protected MaxPixelDiffFilter load( final MatchResult regex ) {
 			final double maxPixelDiff = Double.parseDouble( regex.group( 1 ) );
-			return new MaxPixelDiffShouldIgnore( maxPixelDiff );
+			return new MaxPixelDiffFilter( maxPixelDiff );
 		}
 	}
 }
