@@ -23,7 +23,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	void getCustomerFilterFiles_should_only_get_filter_files( @TempDir final Path temp ) throws Exception {
+	void getProjectFilterFiles_should_only_get_filter_files( @TempDir final Path temp ) throws Exception {
 		final Path configFolder = temp.resolve( RETEST_PROJECT_ROOT );
 		Files.createDirectory( configFolder );
 		final Path retestFolder = configFolder.resolve( RETEST_PROJECT_CONFIG_FOLDER );
@@ -36,9 +36,9 @@ class SearchFilterFilesTest {
 		final File colorFilter = Files.createTempFile( filterFolder, "color", ".filter" ).toFile();
 		final File webFontFilter = Files.createTempFile( filterFolder, "web-font", ".filter" ).toFile();
 
-		final List<File> costumerFilterFiles = SearchFilterFiles.getCustomerFilterFiles();
-		assertThat( costumerFilterFiles ).allMatch( file -> file.toString().endsWith( ".filter" ) );
-		assertThat( costumerFilterFiles.stream().map( File::getName ) ).contains( colorFilter.getName().toString(),
+		final List<File> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
+		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( ".filter" ) );
+		assertThat( projectFilterFiles.stream().map( File::getName ) ).contains( colorFilter.getName().toString(),
 				webFontFilter.getName().toString() );
 	}
 }

@@ -27,11 +27,11 @@ public class SearchFilterFiles {
 	private SearchFilterFiles() {}
 
 	private static Path resolveFilterPath() {
-		final Path PROJECT_ROOT = ProjectRootFinderUtil.getProjectRoot()
+		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot()
 				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
-		final Path PROJECT_CONFIG_FOLDER = PROJECT_ROOT.resolve( RETEST_PROJECT_CONFIG_FOLDER );
-		final Path CUSTOMER_FILTER_FOLDER = PROJECT_CONFIG_FOLDER.resolve( FILTER_FOLDER );
-		return CUSTOMER_FILTER_FOLDER;
+		final Path projectConfigFolder = projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
+		final Path projectFilterFolder = projectConfigFolder.resolve( FILTER_FOLDER );
+		return projectFilterFolder;
 	}
 
 	public static List<File> getDefaultFilterFiles() {
@@ -42,7 +42,7 @@ public class SearchFilterFiles {
 				.collect( Collectors.toList() ); //
 	}
 
-	public static List<File> getCustomerFilterFiles() {
+	public static List<File> getProjectFilterFiles() {
 		try ( Stream<Path> paths = Files.walk( resolveFilterPath() ) ) {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( ".filter" ) ) //

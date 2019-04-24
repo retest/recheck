@@ -45,7 +45,7 @@ public class ProjectConfiguration {
 		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot()
 				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
 		final Path projectConfigFolder = projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
-		final Path customerFilterFolder = projectConfigFolder.resolve( FILTER_FOLDER );
+		final Path projectFilterFolder = projectConfigFolder.resolve( FILTER_FOLDER );
 		final Path projectConfigFile = projectConfigFolder.resolve( RETEST_PROJECT_PROPERTIES );
 		final Path projectIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE );
 		final Path projectRuleIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE_JSRULES );
@@ -54,7 +54,7 @@ public class ProjectConfiguration {
 		createEmptyProjectConfigurationIfNeeded( projectConfigFile, RETEST_PROJECT_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectIgnoreFile, RECHECK_IGNORE_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectRuleIgnoreFile, RECHECK_IGNORE_JSRULES_DEFAULTS );
-		createEmptyFolderIfNeeded( customerFilterFolder );
+		createEmptyFolderIfNeeded( projectFilterFolder );
 	}
 
 	private void createProjectConfigurationFolderIfNeeded( final Path configFolder ) {
