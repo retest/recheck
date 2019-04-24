@@ -50,13 +50,13 @@ public class JSFilterImpl implements Filter {
 
 	@Override
 	public boolean matches( final Element element ) {
-		return callBooleanJSFunction( "shouldIgnoreElement", element );
+		return callBooleanJSFunction( "matches", element ) || callBooleanJSFunction( "shouldIgnoreElement", element );
 	}
 
 	@Override
-	public boolean matches( final Element element,
-			final AttributeDifference attributeDifference ) {
-		return callBooleanJSFunction( "shouldIgnoreAttributeDifference", element, attributeDifference );
+	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+		return callBooleanJSFunction( "matches", element, attributeDifference )
+				|| callBooleanJSFunction( "shouldIgnoreAttributeDifference", element, attributeDifference );
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
