@@ -50,7 +50,7 @@ class JSFilterImplTest {
 		final JSFilterImpl cut = new JSFilterImpl( null ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
-				return new StringReader( "function shouldIgnoreElement(element) { return true; }" );
+				return new StringReader( "function matches(element) { return true; }" );
 			}
 		};
 		assertThat( cut.matches( Mockito.mock( Element.class ) ) ).isTrue();
@@ -62,7 +62,7 @@ class JSFilterImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function shouldIgnoreElement(element) { " //
+						"function matches(element) { " //
 								+ "if (element != null) {" //
 								+ "  return true;" //
 								+ "} " //
@@ -79,7 +79,7 @@ class JSFilterImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function shouldIgnoreAttributeDifference(element, diff) { \n" //
+						"function matches(element, diff) { \n" //
 								+ "  if (diff.key == 'outline') {\n" //
 								+ "    return (Math.abs(diff.expected.x - diff.actual.x) <= 5) && \n" //
 								+ "			  (Math.abs(diff.expected.y - diff.actual.y) <= 5) && \n" //
@@ -103,7 +103,7 @@ class JSFilterImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function shouldIgnoreAttributeDifference(element, diff) { " //
+						"function matches(element, diff) { " //
 								+ "  return;" //
 								+ "}" );
 			}
@@ -118,7 +118,7 @@ class JSFilterImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function shouldIgnoreAttributeDifference(element, diff) { " //
+						"function matches(element, diff) { " //
 								+ "  return \"this is not a bool\";" //
 								+ "}" );
 			}
@@ -134,7 +134,7 @@ class JSFilterImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function shouldIgnoreAttributeDifference(element, diff) { " //
+						"function matches(element, diff) { " //
 								+ "  re = /http[s]?:\\/\\/[\\w.:\\d\\-]*/;" //
 								+ "  cleanExpected = diff.expected.replace(re, '');" //
 								+ "  cleanActual = diff.actual.replace(re, '');" //
