@@ -1,5 +1,6 @@
 package de.retest.recheck.ignore;
 
+import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +28,7 @@ class SearchFilterFilesTest {
 		Files.createDirectory( configFolder );
 		final Path retestFolder = configFolder.resolve( RETEST_PROJECT_CONFIG_FOLDER );
 		Files.createDirectory( retestFolder );
-		final Path filterFolder = retestFolder.resolve( "filter" );
+		final Path filterFolder = retestFolder.resolve( FILTER_FOLDER );
 		Files.createDirectory( filterFolder );
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 
@@ -39,6 +40,5 @@ class SearchFilterFilesTest {
 		assertThat( costumerFilterFiles ).allMatch( file -> file.toString().endsWith( ".filter" ) );
 		assertThat( costumerFilterFiles.stream().map( File::getName ) ).contains( colorFilter.getName().toString(),
 				webFontFilter.getName().toString() );
-
 	}
 }
