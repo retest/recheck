@@ -2,9 +2,11 @@ package de.retest.recheck.ui.image;
 
 import static de.retest.recheck.ui.image.ImageUtils.MARKING_WIDTH;
 import static de.retest.recheck.ui.image.ImageUtils.removeFileExtension;
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,7 +16,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ImageUtilsTest {
@@ -35,44 +37,56 @@ public class ImageUtilsTest {
 		assertThat( scaled.getHeight( null ) ).isEqualTo( 9 );
 	}
 
+	private static BufferedImage createWhiteImage() {
+		final BufferedImage image = new BufferedImage( 10, 10, TYPE_INT_ARGB );
+		image.getGraphics().setColor( Color.WHITE );
+		image.getGraphics().fillRect( 0, 0, 10, 10 );
+		image.getGraphics().dispose();
+		return image;
+	}
+
 	@Test
 	public void marking_at_0_should_increase_imagesize() throws IOException {
-		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
-		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 0, 5, 96, 16 ) );
-		// ImageUtils.exportImage(marked, new File(FileUtils.createTempFolder(),
-		// "login_marked_Benutzer.png"));
-		assertThat( marked.getWidth() ).isEqualTo( LOGIN_WIDTH + MARKING_WIDTH );
+		final BufferedImage image = createWhiteImage();
+		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 0, 0, 5, 5 ) );
+		//		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "test", marked ),
+		//				new File( "marking_at_0_should_increase_imagesize.png" ) );
+		assertThat( marked.getWidth() ).isEqualTo( image.getWidth() + 2 * MARKING_WIDTH );
+		assertThat( marked.getHeight() ).isEqualTo( image.getHeight() + 2 * MARKING_WIDTH );
 	}
 
 	@Test
 	public void marking_until_imageborder_should_increase_imagesize() throws IOException {
-		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
-		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 0, 0, LOGIN_WIDTH, 57 ) );
-		// ImageUtils.exportImage(marked, new File(FileUtils.createTempFolder(),
-		// "login_marked_Panel.png"));
-		assertThat( marked.getWidth() ).isEqualTo( LOGIN_WIDTH + 2 * MARKING_WIDTH );
-		assertThat( marked.getHeight() ).isEqualTo( LOGIN_HEIGHT + MARKING_WIDTH );
+		final BufferedImage image = createWhiteImage();
+		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 5, 5, 5, 5 ) );
+		//		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "test", marked ),
+		//				new File( "marking_until_imageborder_should_increase_imagesize.png" ) );
+		assertThat( marked.getWidth() ).isEqualTo( image.getWidth() + 2 * MARKING_WIDTH );
+		assertThat( marked.getHeight() ).isEqualTo( image.getHeight() + 2 * MARKING_WIDTH );
 	}
 
 	@Test
-	public void marking_bigger_than_image_should_increase_imagesize() throws IOException {
-		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
-		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 1, 0, 10, 10 ) );
-		// ImageUtils.exportImage(marked, new File(FileUtils.createTempFolder(),
-		// "login_marked_Panel.png"));
-		assertThat( marked.getWidth() ).isEqualTo( 256 + MARKING_WIDTH - 1 );
+	public void marking_bigger_than_image_should_not_increase_imagesize() throws IOException {
+		final BufferedImage image = createWhiteImage();
+		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 5, 5, 10, 10 ) );
+		//		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "test", marked ),
+		//				new File( "marking_bigger_than_image_should_not_increase_imagesize.png" ) );
+		assertThat( marked.getWidth() ).isEqualTo( image.getWidth() + 2 * MARKING_WIDTH );
+		assertThat( marked.getHeight() ).isEqualTo( image.getHeight() + 2 * MARKING_WIDTH );
 	}
 
 	@Test
 	public void multiple_markings_should_not_increase_imagesize_further() throws IOException {
-		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
+		final BufferedImage image = createWhiteImage();
 		final List<Rectangle> markings = new ArrayList<>();
-		markings.add( new Rectangle( 0, 0, LOGIN_WIDTH, 10 ) );
-		markings.add( new Rectangle( 0, 10, LOGIN_WIDTH, 20 ) );
-		markings.add( new Rectangle( 0, 20, LOGIN_WIDTH, 30 ) );
+		markings.add( new Rectangle( 0, 0, 5, 5 ) );
+		markings.add( new Rectangle( 0, 0, 10, 10 ) );
+		markings.add( new Rectangle( 5, 5, 5, 5 ) );
 		final BufferedImage marked = ImageUtils.mark( image, markings );
-		assertThat( marked.getWidth() ).isEqualTo( LOGIN_WIDTH + 2 * MARKING_WIDTH );
-		assertThat( marked.getHeight() ).isEqualTo( LOGIN_HEIGHT + MARKING_WIDTH );
+		//		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "test", marked ),
+		//				new File( "multiple_markings_should_not_increase_imagesize_further.png" ) );
+		assertThat( marked.getWidth() ).isEqualTo( image.getWidth() + 2 * MARKING_WIDTH );
+		assertThat( marked.getHeight() ).isEqualTo( image.getHeight() + 2 * MARKING_WIDTH );
 	}
 
 	@Test

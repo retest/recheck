@@ -89,71 +89,44 @@ public class ImageUtils {
 		if ( image == null ) {
 			return null;
 		}
-		BufferedImage result = image;
-		int imageOffsetX = 0;
-		int imageOffsetY = 0;
+		// Draw image, but have a markings-wide border around it
+		final BufferedImage result = new BufferedImage( image.getWidth() + 2 * MARKING_WIDTH,
+				image.getHeight() + 2 * MARKING_WIDTH, TYPE_INT_ARGB );
+		final Graphics g = result.getGraphics();
+		g.drawImage( result, MARKING_WIDTH, MARKING_WIDTH, null );
 		for ( final Rectangle mark : marks ) {
 			if ( mark == null || mark.height == -1 || mark.width == -1 ) {
 				continue;
 			}
-			// from http://stackoverflow.com/a/2319251/58997
+			mark.x = mark.x < 0 ? 0 : mark.x;
 			if ( mark.x > result.getWidth() ) {
 				logger.error( "Cannot create mark at x value {} with in image of width {}.", mark.x,
 						result.getWidth() );
 				continue;
 			}
+			mark.y = mark.y < 0 ? 0 : mark.y;
 			if ( mark.y > result.getHeight() ) {
 				logger.error( "Cannot create mark at y value {} in image of width {}.", mark.y, result.getHeight() );
 				continue;
 			}
+			mark.width = mark.width + MARKING_WIDTH;
 			if ( mark.x + mark.width > result.getWidth() ) {
 				logger.debug( "Width of mark is bigger than image of width {}, shortening mark.", result.getWidth() );
-				mark.width = result.getWidth() - mark.x;
+				mark.width = result.getWidth() - mark.x - MARKING_WIDTH;
 			}
+			mark.height = mark.height + MARKING_WIDTH;
 			if ( mark.y + mark.height > result.getHeight() ) {
 				logger.debug( "Height of mark is bigger than image of height {}, shortening mark.",
 						result.getHeight() );
-				mark.height = result.getHeight() - mark.y;
+				mark.height = result.getHeight() - mark.y - MARKING_WIDTH;
 			}
-			mark.x = mark.x + imageOffsetX;
-			mark.y = mark.y + imageOffsetY;
-			int additionalOffsetX = 0;
-			int additionalOffsetY = 0;
-			int extendedWidth = 0;
-			int extendedHeight = 0;
-			if ( mark.x - MARKING_WIDTH < 0 ) {
-				final int newImageOffsetX = MARKING_WIDTH - mark.x;
-				additionalOffsetX = newImageOffsetX - imageOffsetX;
-				imageOffsetX = newImageOffsetX;
-				extendedWidth = imageOffsetX;
-				mark.x = mark.x + imageOffsetX;
-			}
-			if ( mark.x + mark.width + MARKING_WIDTH > result.getWidth() + extendedWidth ) {
-				extendedWidth += MARKING_WIDTH;
-			}
-			if ( mark.y - MARKING_WIDTH < 0 ) {
-				final int newImageOffsetY = MARKING_WIDTH - mark.y;
-				additionalOffsetY = newImageOffsetY - imageOffsetY;
-				imageOffsetY = newImageOffsetY;
-				extendedHeight = imageOffsetY;
-				mark.y = mark.y + imageOffsetY;
-			}
-			if ( mark.y + mark.height + MARKING_WIDTH > result.getHeight() + extendedHeight ) {
-				extendedHeight += MARKING_WIDTH;
-			}
-			final BufferedImage newResult = new BufferedImage( result.getWidth() + extendedWidth,
-					result.getHeight() + extendedHeight, TYPE_INT_ARGB );
-			final Graphics g = newResult.getGraphics();
-			g.drawImage( result, additionalOffsetX, additionalOffsetY, null );
 			g.setColor( Color.RED );
-			final int marking = 2 * MARKING_WIDTH;
-			g.fillRect( mark.x - MARKING_WIDTH, mark.y - MARKING_WIDTH, MARKING_WIDTH, mark.height + marking );
-			g.fillRect( mark.x - MARKING_WIDTH, mark.y - MARKING_WIDTH, mark.width + marking, MARKING_WIDTH );
-			g.fillRect( mark.x + mark.width, mark.y - MARKING_WIDTH, MARKING_WIDTH, mark.height + marking );
-			g.fillRect( mark.x - MARKING_WIDTH, mark.y + mark.height, mark.width + marking, MARKING_WIDTH );
-			g.dispose();
-			result = newResult;
+			g.fillRect( mark.x, mark.y, mark.width, MARKING_WIDTH );
+			g.fillRect( mark.x, mark.y, MARKING_WIDTH, mark.height );
+			g.fillRect( mark.x + mark.width, mark.y, MARKING_WIDTH, mark.height + MARKING_WIDTH );
+			g.fillRect( mark.x, mark.y + mark.height, mark.width + MARKING_WIDTH, MARKING_WIDTH );
 		}
+		g.dispose();
 		return result;
 	}
 
