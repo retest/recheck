@@ -16,7 +16,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class ImageUtilsTest {
