@@ -56,9 +56,9 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( childDifferences != null ) {
 			for ( final Difference childDifference : childDifferences ) {
 				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					if ( !filter.matches( element )
-							&& !compDiff.getAttributeDifferences( filter ).isEmpty() ) {
-						marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
+					if ( !ignore.shouldIgnoreElement( element )
+							&& !compDiff.getAttributeDifferences( ignore ).isEmpty() ) {
+						marks.add( AttributeUtil.getActualAbsoluteOutline( compDiff ) );
 					}
 				}
 			}
