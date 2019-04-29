@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.ui.descriptors.Element;
 
 public final class Alignment {
@@ -22,6 +23,7 @@ public final class Alignment {
 	private final Map<Element, Element> alignment;
 	private final Map<Element, Element> expectedMapOfElementTree = new HashMap<>();
 	private final Map<Element, Element> actualMapOfElementTree = new HashMap<>();
+	private final Double minimumMatch = getRequiredMinimumMatch();
 
 	private Alignment( final Element expectedComponent, final Element actualComponent ) {
 		final List<Element> expectedComponents = flattenLeafElements( expectedComponent, expectedMapOfElementTree );
@@ -125,11 +127,9 @@ public final class Alignment {
 
 						// Case: bestMatch is already taken for other element.
 						bestMatch = bestMatches.pollFirst();
-
 						continue;
 
 					} else {
-
 						// Case: bestMatch takes this element.
 						alignment.remove( previousMatch.element );
 						componentsToAlign.add( previousMatch.element );
@@ -147,10 +147,28 @@ public final class Alignment {
 				continue;
 			}
 
+			if ( bestMatch.similarity < minimumMatch ) {
+				logger.debug( "Best match {} is below threshold with {} similarity.", bestMatch.element,
+						bestMatch.similarity );
+				alignment.put( expected, null );
+				continue;
+			}
+
 			alignment.put( expected, bestMatch.element );
 			matches.put( bestMatch.element, new Match( bestMatch.similarity, expected ) );
 		}
 		return alignment;
+	}
+
+	private static Double getRequiredMinimumMatch() {
+		final String value = System.getProperty( Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY );
+		try {
+			return Double.parseDouble( value );
+		} catch ( final Exception e ) {
+			logger.error( "Exception parsing value {} of property {} to double, using default {} instead.", value,
+					Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY, Properties.ELEMENT_MATCH_THRESHOLD );
+			return Properties.ELEMENT_MATCH_THRESHOLD;
+		}
 	}
 
 	private static Stack<Element> toStack( final List<Element> expectedElements ) {

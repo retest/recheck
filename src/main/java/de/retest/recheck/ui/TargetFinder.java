@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.ui.actions.Action;
 import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.components.Component;
@@ -30,11 +31,8 @@ public class TargetFinder<T> {
 
 	private final List<RootContainer<T>> targetableWindows;
 	private final Screenshot[] windowsScreenshots;
-	/**
-	 * This is intentionally not a system-property as it should not be adaptable from customers. But we want it to be a
-	 * system-wide constant instead of a magic number.
-	 */
-	public static final double MATCH_THRESHOLD = 0.7;
+
+	public static final double MATCH_THRESHOLD = Properties.ELEMENT_MATCH_THRESHOLD;
 
 	private TargetFinder( final List<RootContainer<T>> targetableWindows, final Screenshot[] windowsScreenshots ) {
 		this.targetableWindows = targetableWindows;
