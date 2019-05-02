@@ -40,9 +40,9 @@ class SearchFilterFilesTest {
 		final File webFontFilter = Files.createTempFile( filterFolder, "web-font", FILES_ENDING ).toFile();
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 
-		final List<File> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
+		final List<Path> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
 		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( FILES_ENDING ) );
-		assertThat( projectFilterFiles.stream().map( File::getName ) ).contains( colorFilter.getName().toString(),
-				webFontFilter.getName().toString() );
+		assertThat( projectFilterFiles.stream().map( Path::getFileName ) ).contains( colorFilter.toPath().getFileName(),
+				webFontFilter.toPath().getFileName() );
 	}
 }

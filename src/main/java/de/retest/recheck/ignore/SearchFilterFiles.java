@@ -37,14 +37,13 @@ public class SearchFilterFiles {
 				.collect( Collectors.toList() ); //
 	}
 
-	public static List<File> getProjectFilterFiles() throws IOException {
+	public static List<Path> getProjectFilterFiles() throws IOException {
 		if ( !resolveFilterPath().toFile().exists() ) {
 			return Collections.emptyList();
 		}
 		try ( Stream<Path> paths = Files.walk( resolveFilterPath() ) ) {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( FILES_ENDING ) ) //
-					.map( Path::toFile ) //
 					.collect( Collectors.toList() ); //
 		}
 	}
