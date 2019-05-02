@@ -1,13 +1,19 @@
 package de.retest.recheck.ignore;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SearchFilterFiles {
 
+	public static final String FILES_ENDING = ".filter";
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
@@ -23,4 +29,15 @@ public class SearchFilterFiles {
 				.collect( Collectors.toList() ); //
 	}
 
+	public static List<File> getProjectFilterFiles() throws IOException {
+		if ( !resolveFilterPath().toFile().exists() ) {
+			return Collections.emptyList();
+		}
+		try ( Stream<Path> paths = Files.walk( resolveFilterPath() ) ) {
+			return paths.filter( Files::isRegularFile ) //
+					.filter( file -> file.toString().endsWith( FILES_ENDING ) ) //
+					.map( Path::toFile ) //
+					.collect( Collectors.toList() ); //
+		}
+	}
 }
