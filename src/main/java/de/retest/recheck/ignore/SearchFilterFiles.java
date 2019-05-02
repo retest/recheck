@@ -1,5 +1,7 @@
 package de.retest.recheck.ignore;
 
+import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +13,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import de.retest.recheck.configuration.ProjectConfiguration;
+
 public class SearchFilterFiles {
 
 	public static final String FILES_ENDING = ".filter";
@@ -20,6 +24,10 @@ public class SearchFilterFiles {
 			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "visibility.filter" );
 
 	private SearchFilterFiles() {}
+
+	private static Path resolveFilterPath() {
+		return ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
+	}
 
 	public static List<File> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
