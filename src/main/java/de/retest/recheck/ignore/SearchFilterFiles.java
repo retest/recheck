@@ -25,10 +25,6 @@ public class SearchFilterFiles {
 
 	private SearchFilterFiles() {}
 
-	private static Path resolveFilterPath() {
-		return ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
-	}
-
 	public static List<File> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
 				.map( filter -> SearchFilterFiles.class.getResource( filter ) ) //
@@ -38,10 +34,12 @@ public class SearchFilterFiles {
 	}
 
 	public static List<Path> getProjectFilterFiles() throws IOException {
-		if ( !resolveFilterPath().toFile().exists() ) {
+		final Path resolveFilterPath =
+				ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
+		if ( !resolveFilterPath.toFile().exists() ) {
 			return Collections.emptyList();
 		}
-		try ( Stream<Path> paths = Files.walk( resolveFilterPath() ) ) {
+		try ( Stream<Path> paths = Files.walk( resolveFilterPath ) ) {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( FILES_ENDING ) ) //
 					.collect( Collectors.toList() ); //
