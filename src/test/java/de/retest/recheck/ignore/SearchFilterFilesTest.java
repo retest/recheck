@@ -3,7 +3,7 @@ package de.retest.recheck.ignore;
 import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
-import static de.retest.recheck.ignore.SearchFilterFiles.FILES_ENDING;
+import static de.retest.recheck.ignore.SearchFilterFiles.FILTER_EXTENSION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -36,12 +36,12 @@ class SearchFilterFilesTest {
 		Files.createDirectory( filterFolder );
 
 		Files.createTempFile( filterFolder, "random", ".ignore" ).toFile();
-		final File colorFilter = Files.createTempFile( filterFolder, "color", FILES_ENDING ).toFile();
-		final File webFontFilter = Files.createTempFile( filterFolder, "web-font", FILES_ENDING ).toFile();
+		final File colorFilter = Files.createTempFile( filterFolder, "color", FILTER_EXTENSION ).toFile();
+		final File webFontFilter = Files.createTempFile( filterFolder, "web-font", FILTER_EXTENSION ).toFile();
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 
 		final List<Path> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
-		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( FILES_ENDING ) );
+		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( FILTER_EXTENSION ) );
 		assertThat( projectFilterFiles.stream().map( Path::getFileName ) ).contains( colorFilter.toPath().getFileName(),
 				webFontFilter.toPath().getFileName() );
 	}

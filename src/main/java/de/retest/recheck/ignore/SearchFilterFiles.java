@@ -17,7 +17,7 @@ import de.retest.recheck.configuration.ProjectConfiguration;
 
 public class SearchFilterFiles {
 
-	public static final String FILES_ENDING = ".filter";
+	public static final String FILTER_EXTENSION = ".filter";
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
@@ -41,7 +41,7 @@ public class SearchFilterFiles {
 		}
 		try ( Stream<Path> paths = Files.walk( resolveFilterPath ) ) {
 			return paths.filter( Files::isRegularFile ) //
-					.filter( file -> file.toString().endsWith( FILES_ENDING ) ) //
+					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
 					.collect( Collectors.toList() ); //
 		}
 	}
