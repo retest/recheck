@@ -11,9 +11,13 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
+
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
+import de.retest.recheck.ignore.CompoundFilter;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckSutState;
@@ -58,7 +62,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
 	private final TestReplayResultPrinter printer;
-	private final GlobalIgnoreApplier ignoreApplier;
+	private final Filter ignoreApplier;
 
 	/**
 	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
@@ -77,7 +81,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();
 		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
-		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
+
+		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
+		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( getSuitePath() );
+
+		ignoreApplier = new CompoundFilter( Lists.newArrayList( globalIgnoreApplier, suiteIgnoreApplier ) );
+
 		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
 	}
 
@@ -132,6 +141,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
 
 		return finder.findDifferences( actual, expected );
+	}
+
+	private File getSuitePath() {
+		return fileNamerStrategy.createFileNamer( suiteName ).getFile( "" );
 	}
 
 	@Override

@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import de.retest.recheck.persistence.FileNamer;
@@ -27,21 +28,10 @@ import de.retest.recheck.ui.descriptors.RootElement;
 
 class RecheckImplTest {
 
-	private static class FileNamerStrategyCheck implements FileNamerStrategy {
-
-		private boolean wasCalled = false;
-
-		@Override
-		public FileNamer createFileNamer( final String... baseNames ) {
-			assertThat( baseNames[0] ).endsWith( ".!@#_$^&)te}{_____xt!(@_$" );
-			wasCalled = true;
-			return Mockito.mock( FileNamer.class );
-		}
-	}
-
 	@Test
 	void using_strange_stepText_should_be_normalized() throws Exception {
-		final FileNamerStrategyCheck check = new FileNamerStrategyCheck();
+		final FileNamerStrategy check = mock( FileNamerStrategy.class, Mockito.RETURNS_DEEP_STUBS );
+
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( check ).build();
 		final RecheckImpl cut = new RecheckImpl( opts );
@@ -51,7 +41,8 @@ class RecheckImplTest {
 		} catch ( final Exception e ) {
 			// ignore exception, fear AssertionErrors...
 		}
-		assertThat( check.wasCalled ).isTrue();
+		Mockito.verify( check ).createFileNamer( "de.retest.recheck.RecheckImplTest" );
+		Mockito.verify( check ).createFileNamer( ArgumentMatchers.endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
 	}
 
 	@Test

@@ -1,5 +1,6 @@
 package de.retest.recheck.ignore;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -33,11 +34,21 @@ public class RecheckIgnoreUtil {
 
 	public static GlobalIgnoreApplier loadRecheckIgnore() {
 		try {
-			final LoadFilterWorker loadFilterWorker =
-					new LoadFilterWorker( NopCounter.getInstance() );
+			final LoadFilterWorker loadFilterWorker = new LoadFilterWorker( NopCounter.getInstance() );
 			return loadFilterWorker.load();
 		} catch ( final Exception e ) {
 			logger.error( "Could not load recheck ignore file.", e );
+			return GlobalIgnoreApplier.create( NopCounter.getInstance() );
+		}
+	}
+
+	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
+		try {
+			final LoadFilterWorker loadFilterWorker =
+					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath );
+			return loadFilterWorker.load();
+		} catch ( final Exception e ) {
+			logger.debug( "Ignoring missing ignore file.", e );
 			return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 		}
 	}
