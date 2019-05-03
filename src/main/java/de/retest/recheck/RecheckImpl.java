@@ -83,7 +83,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
 
 		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
-		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( getSuitePath() );
+		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() );
 
 		ignoreApplier = new CompoundFilter( Lists.newArrayList( globalIgnoreApplier, suiteIgnoreApplier ) );
 

@@ -42,13 +42,13 @@ public class RecheckIgnoreUtil {
 		}
 	}
 
-	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
+	public static GlobalIgnoreApplier loadRecheckSuiteIgnore( final File ignoreFilesBasePath ) {
 		try {
 			final LoadFilterWorker loadFilterWorker =
 					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath );
 			return loadFilterWorker.load();
 		} catch ( final Exception e ) {
-			logger.debug( "Ignoring missing ignore file.", e );
+			logger.debug( "Ignoring missing suite ignore file.", e );
 			return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 		}
 	}
