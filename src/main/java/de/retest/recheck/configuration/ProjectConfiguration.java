@@ -16,6 +16,7 @@ public class ProjectConfiguration {
 	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
 	public static final String RECHECK_IGNORE_JSRULES = "recheck.ignore.js";
+	public static final String FILTER_FOLDER = "filter";
 
 	private static final String DEFAULT_PREFIX = "default-";
 	private static final String RETEST_PROJECT_DEFAULTS = DEFAULT_PREFIX + RETEST_PROJECT_PROPERTIES;
@@ -30,7 +31,6 @@ public class ProjectConfiguration {
 	public static final String RETEST_PROJECT_ROOT = "de.retest.recheck.project.root";
 
 	private ProjectConfiguration() {
-
 	}
 
 	public static ProjectConfiguration getInstance() {
@@ -40,18 +40,23 @@ public class ProjectConfiguration {
 		return instance;
 	}
 
-	public void ensureProjectConfigurationInitialized() {
+	public Path findProjectConfigFolder() {
 		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot()
 				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
-		final Path projectConfigFolder = projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
-		final Path projectConfigFile = projectConfigFolder.resolve( RETEST_PROJECT_PROPERTIES );
-		final Path projectIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE );
-		final Path projectRuleIgnoreFile = projectConfigFolder.resolve( RECHECK_IGNORE_JSRULES );
+		return projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
+	}
 
-		createProjectConfigurationFolderIfNeeded( projectConfigFolder );
+	public void ensureProjectConfigurationInitialized() {
+		final Path projectFilterFolder = findProjectConfigFolder().resolve( FILTER_FOLDER );
+		final Path projectConfigFile = findProjectConfigFolder().resolve( RETEST_PROJECT_PROPERTIES );
+		final Path projectIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE );
+		final Path projectRuleIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE_JSRULES );
+
+		createProjectConfigurationFolderIfNeeded( findProjectConfigFolder() );
 		createEmptyProjectConfigurationIfNeeded( projectConfigFile, RETEST_PROJECT_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectIgnoreFile, RECHECK_IGNORE_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectRuleIgnoreFile, RECHECK_IGNORE_JSRULES_DEFAULTS );
+		createEmptyFolderIfNeeded( projectFilterFolder );
 	}
 
 	private void createProjectConfigurationFolderIfNeeded( final Path configFolder ) {
@@ -74,6 +79,16 @@ public class ProjectConfiguration {
 				logger.info( "Creating empty recheck configuration in {}.", configFile );
 			} catch ( final IOException e ) {
 				logger.error( "Error creating empty recheck configuration in {}.", configFile );
+			}
+		}
+	}
+
+	private void createEmptyFolderIfNeeded( final Path configFolder ) {
+		if ( !configFolder.toFile().exists() ) {
+			try {
+				Files.createDirectories( configFolder );
+			} catch ( final IOException e ) {
+				logger.error( "Error creating empty filter folder in {}.", configFolder );
 			}
 		}
 	}
