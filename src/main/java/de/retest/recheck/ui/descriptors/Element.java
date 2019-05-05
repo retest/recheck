@@ -104,6 +104,14 @@ public class Element implements Serializable, Comparable<Element> {
 		return element;
 	}
 
+	/**
+	 * Note that the retestId is immutable, so this method returns a new Element that is a copy of the old one with the
+	 * new retestId.
+	 */
+	public Element setRetestId( final String retestId ) {
+		return Element.create( retestId, this, identifyingAttributes, attributes );
+	}
+
 	protected List<Element> createNewElementList( final ActionChangeSet actionChangeSet,
 			final IdentifyingAttributes newIdentAttributes ) {
 		List<Element> newContainedElements = containedElements;
