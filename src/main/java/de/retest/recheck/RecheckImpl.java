@@ -26,6 +26,7 @@ import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.LeafDifference;
+import de.retest.recheck.util.RetestIdProviderUtil;
 
 /**
  * Base implementation to use with e.g. recheck-web (https://github.com/retest/recheck-web) or any other recheck
@@ -79,6 +80,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
 		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
 		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
+		RetestIdProviderUtil.setRetestIdProvider( options.getRetestIdProvider() );
 	}
 
 	private static void ensureConfigurationInitialized() {

@@ -43,6 +43,10 @@ public class RetestIdProviderUtil {
 		return getRetestId( getConfiguredRetestIdProvider(), identifyingAttributes );
 	}
 
+	public static void setRetestIdProvider( final RetestIdProvider retestIdProvider ) {
+		configured = retestIdProvider;
+	}
+
 	/**
 	 * Testing only.
 	 *
