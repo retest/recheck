@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
@@ -26,6 +28,11 @@ public class SearchFilterFiles {
 
 	private SearchFilterFiles() {}
 
+	public static List<Path> getAllFilterFiles() {
+		return Stream.concat( getDefaultFilterFiles().stream(), getProjectFilterFiles().stream() ) //
+				.collect( Collectors.toList() );
+	}
+
 	public static List<Path> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
 				.map( filter -> SearchFilterFiles.class.getResource( filter ) ) //
@@ -34,7 +41,7 @@ public class SearchFilterFiles {
 				.collect( Collectors.toList() ); //
 	}
 
-	public static List<Path> getProjectFilterFiles() throws IOException {
+	public static List<Path> getProjectFilterFiles() {
 		final Path resolveFilterPath =
 				ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
 		if ( !resolveFilterPath.toFile().exists() ) {
@@ -44,6 +51,9 @@ public class SearchFilterFiles {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
 					.collect( Collectors.toList() ); //
+		} catch ( final IOException e ) {
+			log.error( "Exception accessing user filter folder '{}'.", resolveFilterPath, e );
+			return Collections.emptyList();
 		}
 	}
 }
