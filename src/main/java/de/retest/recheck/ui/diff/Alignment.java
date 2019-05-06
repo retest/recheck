@@ -162,9 +162,12 @@ public final class Alignment {
 
 	private static Double getRequiredMinimumMatch() {
 		final String value = System.getProperty( Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY );
+		if ( value == null ) {
+			return Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
+		}
 		try {
 			return Double.parseDouble( value );
-		} catch ( final Exception e ) {
+		} catch ( final NumberFormatException e ) {
 			logger.error( "Exception parsing value {} of property {} to double, using default {} instead.", value,
 					Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY, Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT );
 			return Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
