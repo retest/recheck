@@ -2,10 +2,11 @@ package de.retest.recheck.ignore;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,11 +26,11 @@ public class SearchFilterFiles {
 
 	private SearchFilterFiles() {}
 
-	public static List<File> getDefaultFilterFiles() {
+	public static List<Path> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
 				.map( filter -> SearchFilterFiles.class.getResource( filter ) ) //
 				.filter( Objects::nonNull ) //
-				.map( resource -> new File( resource.getFile() ) ) //
+				.map( resource -> Paths.get( URI.create( resource.toString() ) ) ) //
 				.collect( Collectors.toList() ); //
 	}
 
