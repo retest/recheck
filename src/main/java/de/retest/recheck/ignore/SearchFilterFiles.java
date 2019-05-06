@@ -41,7 +41,7 @@ public class SearchFilterFiles {
 				.collect( Collectors.toList() ); //
 	}
 
-	public static List<Path> getProjectFilterFiles() throws IOException {
+	public static List<Path> getProjectFilterFiles() {
 		final Path resolveFilterPath =
 				ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
 		if ( !resolveFilterPath.toFile().exists() ) {
@@ -51,6 +51,9 @@ public class SearchFilterFiles {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
 					.collect( Collectors.toList() ); //
+		} catch ( final IOException e ) {
+			log.error( "Exception accessing user filter folder '{}'.", resolveFilterPath, e );
+			return Collections.emptyList();
 		}
 	}
 }
