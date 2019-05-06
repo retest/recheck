@@ -8,27 +8,27 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.descriptors.Element;
 
-public class ElementDifferenceFinderTest {
+class ElementDifferenceFinderTest {
 
 	@Test
-	public void getNonEmptyDifferences_should_be_robust() {
+	void getNonEmptyDifferences_should_be_robust() {
 		getNonEmptyDifferences( null );
 		getNonEmptyDifferences( new ArrayList<>() );
 	}
 
 	@Test
-	public void getNonEmptyDifferences_should_handle_empty_element_diffs() {
+	void getNonEmptyDifferences_should_handle_empty_element_diffs() {
 		final List<Difference> empty = new ArrayList<>();
 		empty.add( new ElementDifference() );
 		assertThat( getNonEmptyDifferences( empty ) ).hasSize( 0 );
 	}
 
 	@Test
-	public void getNonEmptyDifferences_should_ignore_attribute_diffs() {
+	void getNonEmptyDifferences_should_ignore_attribute_diffs() {
 		final List<AttributeDifference> attributeDiff = new ArrayList<>();
 		attributeDiff.add( new AttributeDifference( "text", "Mark", "Karl" ) );
 		final AttributesDifference attributeDifference = new AttributesDifference( attributeDiff );
@@ -36,7 +36,7 @@ public class ElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void getNonEmptyDifferences_should_return_nonempty_differences() throws Exception {
+	void getNonEmptyDifferences_should_return_nonempty_differences() throws Exception {
 		final List<AttributeDifference> attributeDiff = new ArrayList<>();
 		attributeDiff.add( new AttributeDifference( "text", "Mark", "Karl" ) );
 		final AttributesDifference attributeDifference = new AttributesDifference( attributeDiff );

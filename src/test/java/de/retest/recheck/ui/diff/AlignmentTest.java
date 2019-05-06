@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Path;
@@ -33,7 +32,7 @@ class AlignmentTest {
 	private static final class OtherComp {}
 
 	@Test
-	public void toMapping_should_still_work_if_optimized() {
+	void toMapping_should_still_work_if_optimized() {
 		final Element expected = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]/Layer[1]/Layer[3]/Comp1[1]" ), Comp.class ),
 				new Attributes() );
@@ -48,7 +47,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void simple_one_on_one_alignment() throws Exception {
+	void simple_one_on_one_alignment() throws Exception {
 		// root/comp0 - root/comp0
 		final Element expComp0 = buildEqual( "root[0]/comp[0]", Comp.class );
 		final Element expected = buildEqual( "root[0]", Root.class, expComp0 );
@@ -62,7 +61,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void alignment_with_one_hierarchy_difference() throws Exception {
+	void alignment_with_one_hierarchy_difference() throws Exception {
 		// root/comp0 - root/comp0/comp0
 		final Element expComp0 = buildEqual( "root[0]/comp[0]", Comp.class );
 		final Element expected = buildEqual( "root[0]", Root.class, expComp0 );
@@ -77,7 +76,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void alignment_with_added() throws Exception {
+	void alignment_with_added() throws Exception {
 		// root/a/b - root/a/c, root/a/b/
 		final Element expB = buildEqual( "root/a[0]/b[0]", Comp.class );
 		final Element expA = buildEqual( "root/a[0]", Comp.class, expB );
@@ -95,7 +94,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void alignment_with_intermediate_changed() throws Exception {
+	void alignment_with_intermediate_changed() throws Exception {
 		// root/a/a/b - root/a/b
 		final Element expB = buildEqual( "root[0]/a[0]/a[0]/b[0]", Comp.class );
 		final Element expA2 = buildEqual( "root[0]/a[0]/a[0]", Comp.class, expB );
@@ -114,7 +113,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void alignment_with_more_parents() throws Exception {
+	void alignment_with_more_parents() throws Exception {
 		// root/a0/b, root/a0/c - root/a0/b, root/a1/c
 		final Element expB = buildEqual( "root[0]/a[0]/b[0]", Comp.class );
 		final Element expC = buildEqual( "root[0]/a[0]/c[0]", OtherComp.class );
@@ -134,7 +133,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void alignment_with_less_parents() throws Exception {
+	void alignment_with_less_parents() throws Exception {
 		// root/a0/b, root/a1/c - root/a0/b, root/a0/c
 		final Element expB = buildEqual( "root[0]/a[0]/b[0]", Comp.class );
 		final Element expC = buildEqual( "root[0]/a[1]/c[0]", OtherComp.class );
@@ -155,7 +154,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	public void very_different_elements_should_not_be_aligned() {
+	void very_different_elements_should_not_be_aligned() {
 		final Element root = buildEqual( "html[1]", Root.class );
 
 		final List<Attribute> identifying = new ArrayList<>();
@@ -195,8 +194,8 @@ class AlignmentTest {
 		final Alignment alignment = Alignment.createAlignment( root, actualRoot );
 		final Element mappedActual = alignment.get( expected );
 
-		Assertions.assertThat( mappedActual ).isNotEqualTo( actual );
-		Assertions.assertThat( mappedActual ).isNull();
+		assertThat( mappedActual ).isNotEqualTo( actual );
+		assertThat( mappedActual ).isNull();
 	}
 
 	private static Element buildEqual( final String path, final Class<?> type, final Element... containedComponents ) {
