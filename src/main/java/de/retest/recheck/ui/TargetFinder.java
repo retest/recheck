@@ -32,7 +32,8 @@ public class TargetFinder<T> {
 	private final List<RootContainer<T>> targetableWindows;
 	private final Screenshot[] windowsScreenshots;
 
-	public static final double MATCH_THRESHOLD = Properties.ELEMENT_MATCH_THRESHOLD;
+	@Deprecated // use Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT instead
+	public static final double MATCH_THRESHOLD = Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
 
 	private TargetFinder( final List<RootContainer<T>> targetableWindows, final Screenshot[] windowsScreenshots ) {
 		this.targetableWindows = targetableWindows;

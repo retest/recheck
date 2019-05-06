@@ -166,8 +166,8 @@ public final class Alignment {
 			return Double.parseDouble( value );
 		} catch ( final Exception e ) {
 			logger.error( "Exception parsing value {} of property {} to double, using default {} instead.", value,
-					Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY, Properties.ELEMENT_MATCH_THRESHOLD );
-			return Properties.ELEMENT_MATCH_THRESHOLD;
+					Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY, Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT );
+			return Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
 		}
 	}
 

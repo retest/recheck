@@ -11,7 +11,7 @@ public class Properties {
 	public static final double WINDOW_MATCH_THRESHOLD = 0.8;
 	public static final double WINDOW_CHILDS_MATCH_THRESHOLD = 0.5;
 
-	public static final double ELEMENT_MATCH_THRESHOLD = 0.5;
+	public static final double ELEMENT_MATCH_THRESHOLD_DEFAULT = 0.5;
 	public static final String ELEMENT_MATCH_THRESHOLD_PROPERTY = "de.retest.recheck.elementMatchThreshold";
 
 	public static final String SCREENSHOT_FOLDER_NAME = "screenshot";
