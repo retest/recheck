@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
@@ -25,6 +27,11 @@ public class SearchFilterFiles {
 			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "visibility.filter" );
 
 	private SearchFilterFiles() {}
+
+	public static List<Path> getAllFilterFiles() {
+		return Stream.concat( getDefaultFilterFiles().stream(), getProjectFilterFiles().stream() ) //
+				.collect( Collectors.toList() );
+	}
 
 	public static List<Path> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
