@@ -186,7 +186,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		int result = 0;
 		final Collection<Attribute> values = attributes.values();
 		for ( final Attribute attribute : values ) {
-			if ( attribute.getWeight() > 0 ) {
+			if ( attribute.getWeight() > Attribute.IGNORE_WEIGHT ) {
 				result = nextHashCode( result, attribute.hashCode() );
 			}
 		}
