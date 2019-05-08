@@ -10,7 +10,7 @@ public abstract class Attribute implements Serializable, Comparable<Attribute> {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final double IGNORE_WEIGHT = 0.0d;
+	public static final double IGNORE_WEIGHT = Double.MIN_NORMAL;
 	public static final double NORMAL_WEIGHT = 1.0d;
 
 	public static final double FULL_MATCH = 1.0d;
