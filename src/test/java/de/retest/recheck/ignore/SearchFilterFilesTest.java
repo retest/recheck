@@ -71,16 +71,20 @@ class SearchFilterFilesTest {
 	@Test
 	void searchFilterByName_should_return_filter_file() throws IOException {
 		final String name = "positioning.filter";
-		final String invalidName = "color.filter";
 		final File positioningFile = Paths.get( "src/main/resources/filter/web/positioning.filter" ).toFile();
 		final Optional<Filter> filter = SearchFilterFiles.searchFilterByName( name );
-		final Optional<Filter> invalidFilter = SearchFilterFiles.searchFilterByName( invalidName );
 		final Stream<String> ignoreFileLines = Files.lines( Paths.get( positioningFile.getPath() ) );
 		final Filter ignoreApplier = Loaders.load( ignoreFileLines ) //
 				.filter( Filter.class::isInstance ) //
 				.map( Filter.class::cast ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
 		assertThat( filter.get() ).isEqualToComparingFieldByFieldRecursively( ignoreApplier );
+	}
+
+	@Test
+	void searchFilterByName_should_not_return_nonexistent_file() throws IOException {
+		final String invalidName = "color.filter";
+		final Optional<Filter> invalidFilter = SearchFilterFiles.searchFilterByName( invalidName );
 		assertThat( invalidFilter ).isEqualTo( Optional.empty() );
 	}
 }

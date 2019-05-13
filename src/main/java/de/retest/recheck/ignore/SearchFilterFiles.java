@@ -55,7 +55,6 @@ public class SearchFilterFiles {
 			log.error( "Exception accessing user filter folder '{}'.", resolveFilterPath, e );
 			return Collections.emptyList();
 		}
-
 	}
 
 	public static Optional<Filter> searchFilterByName( final String name ) throws IOException {
