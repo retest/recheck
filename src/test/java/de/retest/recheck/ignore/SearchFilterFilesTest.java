@@ -10,12 +10,17 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import de.retest.recheck.review.ignore.io.Loaders;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class SearchFilterFilesTest {
@@ -61,5 +66,22 @@ class SearchFilterFilesTest {
 		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( FILTER_EXTENSION ) );
 		assertThat( projectFilterFiles.stream().map( Path::getFileName ) ).contains( colorFilter.toPath().getFileName(),
 				webFontFilter.toPath().getFileName() );
+	}
+
+	@Test
+	void searchFilterByName_should_return_filter_file() throws IOException {
+		final String name = "positioning.filter";
+		final String invalidName = "color.filter";
+		final File positioningFile =
+				new File( "C://Users/Ivan Karadzhov/recheck/src/main/resources/filter/web/positioning.filter" );
+		final Optional<Filter> filter = SearchFilterFiles.searchFilterByName( name );
+		final Optional<Filter> invalidFilter = SearchFilterFiles.searchFilterByName( invalidName );
+		final Stream<String> ignoreFileLines = Files.lines( Paths.get( positioningFile.getPath() ) );
+		final Filter ignoreApplier = Loaders.load( ignoreFileLines ) //
+				.filter( Filter.class::isInstance ) //
+				.map( Filter.class::cast ) //
+				.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
+		assertThat( filter.get() ).isEqualToComparingFieldByFieldRecursively( ignoreApplier );
+		assertThat( invalidFilter ).isEqualTo( Optional.empty() );
 	}
 }
