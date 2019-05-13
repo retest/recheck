@@ -1,5 +1,7 @@
 package de.retest.recheck.ignore;
 
+import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
+
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -20,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchFilterFiles {
 
-	public static final String FILTER_EXTENSION = "filter";
+	public static final String FILTER_EXTENSION = ".filter";
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
@@ -43,7 +45,7 @@ public class SearchFilterFiles {
 
 	public static List<Path> getProjectFilterFiles() {
 		final Path resolveFilterPath =
-				ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_EXTENSION );
+				ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
 		if ( !resolveFilterPath.toFile().exists() ) {
 			return Collections.emptyList();
 		}
