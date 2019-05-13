@@ -13,6 +13,10 @@ public class CompoundFilter implements Filter {
 		this.filters = filters;
 	}
 
+	public List<Filter> getFilters() {
+		return filters;
+	}
+
 	@Override
 	public boolean matches( final Element element ) {
 		for ( final Filter filter : filters ) {
