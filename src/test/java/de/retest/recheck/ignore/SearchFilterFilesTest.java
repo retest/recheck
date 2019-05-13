@@ -72,8 +72,7 @@ class SearchFilterFilesTest {
 	void searchFilterByName_should_return_filter_file() throws IOException {
 		final String name = "positioning.filter";
 		final String invalidName = "color.filter";
-		final File positioningFile =
-				new File( "C://Users/Ivan Karadzhov/recheck/src/main/resources/filter/web/positioning.filter" );
+		final File positioningFile = Paths.get( "src/main/resources/filter/web/positioning.filter" ).toFile();
 		final Optional<Filter> filter = SearchFilterFiles.searchFilterByName( name );
 		final Optional<Filter> invalidFilter = SearchFilterFiles.searchFilterByName( invalidName );
 		final Stream<String> ignoreFileLines = Files.lines( Paths.get( positioningFile.getPath() ) );
