@@ -34,7 +34,7 @@ class AttributesDifferenceFinderTest {
 	static Path tempDir;
 
 	IdentifyingAttributes identifyingAttributes =
-			IdentifyingAttributes.create( de.retest.recheck.ui.Path.fromString( "/Window[1]" ), getClass() );
+			IdentifyingAttributes.create( de.retest.recheck.ui.Path.fromString( "/Window[1]" ), "Window" );
 	AttributesDifferenceFinder cut = new AttributesDifferenceFinder( mock( DefaultValueFinder.class ) );
 
 	@Test
