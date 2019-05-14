@@ -183,6 +183,7 @@ public class AttributesDifferenceFinderTest {
 		assertThat( cut.differenceFor( expected, actual ) ).isNull();
 	}
 
+	@Test
 	public void same_screenshot_should_not_cause_difference() throws Exception {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		final BufferedImage img = createImg( Color.BLACK );
