@@ -1,5 +1,6 @@
 package de.retest.recheck.ignore;
 
+import java.util.Collections;
 import java.util.List;
 
 import de.retest.recheck.ui.descriptors.Element;
@@ -14,7 +15,7 @@ public class CompoundFilter implements Filter {
 	}
 
 	public List<Filter> getFilters() {
-		return filters;
+		return Collections.unmodifiableList( filters );
 	}
 
 	@Override

@@ -60,11 +60,10 @@ public class SearchFilterFiles {
 	}
 
 	public static Optional<Filter> searchFilterByName( final String name ) throws IOException {
-		for ( int j = 0; j < getAllFilterFiles().size(); j++ ) {
-			final Path filterPath = getAllFilterFiles().get( j );
-			if ( filterPath.getFileName().toString().equals( name ) ) {
-				log.info( "Loading filter file from path: " + filterPath );
-				try ( final Stream<String> ignoreFileLines = Files.lines( filterPath ) ) {
+		for ( final Path path : getAllFilterFiles() ) {
+			if ( path.getFileName().toString().equals( name ) ) {
+				log.info( "Loading filter file from path: " + path );
+				try ( final Stream<String> ignoreFileLines = Files.lines( path ) ) {
 					final Filter ignoreApplier = Loaders.load( ignoreFileLines ) //
 							.filter( Filter.class::isInstance ) //
 							.map( Filter.class::cast ) //
