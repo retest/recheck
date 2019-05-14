@@ -1,6 +1,9 @@
 package de.retest.recheck.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -204,6 +207,29 @@ public class AttributesDifferenceFinderTest {
 		final AttributesDifference difference =
 				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
 		assertThat( difference.size() ).isEqualTo( 1 );
+	}
+
+	@Test
+	public void deleted_attributes_should_cause_difference_even_if_default() throws Exception {
+		final String key = "key";
+		final String expected = "value";
+		final String actual = null;
+
+		final MutableAttributes as0 = new MutableAttributes();
+		as0.put( key, expected );
+		final Element e0 = element( as0.immutable() );
+
+		final MutableAttributes as1 = new MutableAttributes();
+		// "key" deleted.
+		final Element e1 = element( as1.immutable() );
+
+		final DefaultValueFinder dvf = mock( DefaultValueFinder.class );
+		when( dvf.isDefaultValue( any(), eq( key ), isNull() ) ).thenReturn( true );
+
+		final AttributesDifferenceFinder cut = new AttributesDifferenceFinder( dvf );
+
+		final AttributesDifference diff = cut.differenceFor( e0, e1 );
+		assertThat( diff.getDifferences() ).containsExactly( new AttributeDifference( key, expected, actual ) );
 	}
 
 	private Element element( final Attributes attributes ) {
