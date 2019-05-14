@@ -157,18 +157,13 @@ public class AttributesDifferenceFinderTest {
 		defaults.put( "background", "#FFFFFF" );
 		defaults.put( "foreground", "#000000" );
 
-		final IdentifyingAttributes identifyingAttributes =
-				IdentifyingAttributes.create( Path.fromString( "/Window[1]" ), getClass() );
-
 		final DefaultValueFinder dvf = Mockito.mock( DefaultValueFinder.class );
-
 		final AttributesDifferenceFinder cut = new AttributesDifferenceFinder( dvf );
-		final Attributes attributes = new Attributes();
 
 		final AttributesDifference difference =
 				cut.differenceFor( element( defaults.immutable() ), element( nondefault.immutable() ) );
-		assertThat( difference.expected().toString() )
-				.isEqualTo( "{background=#FFFFFF, font=Arial, foreground=#000000}" );
+
+		assertThat( difference.expected() ).hasToString( "{background=#FFFFFF, font=Arial, foreground=#000000}" );
 	}
 
 	@Test
