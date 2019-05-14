@@ -227,16 +227,16 @@ class AttributesDifferenceFinderTest {
 		return Element.create( "id", mock( Element.class ), identifyingAttributes, ma.immutable() );
 	}
 
-	private BufferedImage createImg( final Color color ) {
+	private BufferedImage createImg( final Color color ) throws IOException {
 		final BufferedImage result = new BufferedImage( 20, 20, BufferedImage.TYPE_INT_RGB );
 		final Graphics2D g2 = result.createGraphics();
 		g2.setColor( color );
 		g2.fillRect( 0, 0, 20, 20 );
-		final Path img = tempDir.resolve( "target/" + color + ".png" );
-		try {
-			Files.createFile( img );
-			ImageIO.write( result, "PNG", img.toFile() );
-		} catch ( final IOException e ) {}
+
+		final Path img = tempDir.resolve( System.currentTimeMillis() + ".png" );
+		Files.createFile( img );
+		ImageIO.write( result, "PNG", img.toFile() );
+
 		return result;
 	}
 }
