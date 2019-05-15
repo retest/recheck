@@ -1,0 +1,13 @@
+<identifyingAttributesDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" differenceId="4a4744180ebcb6a912e30679732aff30b2f906ea14b22edeef8e2428cba9f0d3">
+	<attribute key="path" xsi:type="pathAttribute">parentPath[1]/type[1]</attribute>
+	<attribute key="suffix" xsi:type="suffixAttribute">1</attribute>
+	<attribute key="type" xsi:type="stringAttribute">de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$Type</attribute>
+	<attributeDifference key="path" attributeDifferenceId="99e2e6b492e99075f2ad0c022a1dfaed7bd99a98695eb612f4703a82ab1e23cf">
+		<expected xsi:type="xsd:string">parentPath[1]/type[1]</expected>
+		<actual xsi:type="xsd:string">anotherParentPath[1]/anotherType[1]</actual>
+	</attributeDifference>
+	<attributeDifference key="type" attributeDifferenceId="886ce09093615d835af906ee8516f5623bf1a15f2cf7e9f4f7bd5a7688eccf58">
+		<expected xsi:type="xsd:string">de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$Type</expected>
+		<actual xsi:type="xsd:string">de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$AnotherType</actual>
+	</attributeDifference>
+</identifyingAttributesDifference>

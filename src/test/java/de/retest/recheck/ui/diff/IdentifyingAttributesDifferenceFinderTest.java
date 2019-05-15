@@ -9,10 +9,12 @@ import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.DefaultAttribute;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.util.ApprovalsUtil;
 
 public class IdentifyingAttributesDifferenceFinderTest {
 
@@ -106,29 +108,29 @@ public class IdentifyingAttributesDifferenceFinderTest {
 		assertThat( diff.getAttributeDifferences().size() ).isEqualTo( 1 );
 	}
 
-	//	@Test
-	//	public void differences_should_be_recognized_accordingly() {
-	//		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, different );
-	//
-	//		assertThat( diff.getElementDifferences().size() ).isEqualTo( 0 );
-	//		assertThat( diff.getAttributeDifferences().size() ).isEqualTo( 2 );
-	//		assertThat( diff.getNonEmptyDifferences().size() ).isEqualTo( 0 );
-	//		assertThat( diff.size() ).isEqualTo( 1 );
-	//		verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( diff ) );
-	//	}
-	//
-	//	@Test
-	//	public void different_paths_and_components_should_be_recognized_accordingly() throws Exception {
-	//		final IdentifyingAttributes expected = IdentifyingAttributes
-	//				.create( Path.fromString( AnotherType.class.getSimpleName() + "[1]" ), AnotherType.class );
-	//		final IdentifyingAttributes actual =
-	//				IdentifyingAttributes.create( Path.fromString( Type.class.getSimpleName() + "[1]" ), Type.class );
-	//
-	//		final IdentifyingAttributesDifference diff = cut.differenceFor( expected, actual );
-	//
-	//		verifyObject( diff );
-	//		verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( diff ) );
-	//	}
+	@Test
+	public void differences_should_be_recognized_accordingly() {
+		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, different );
+
+		assertThat( diff.getElementDifferences().size() ).isEqualTo( 0 );
+		assertThat( diff.getAttributeDifferences().size() ).isEqualTo( 2 );
+		assertThat( diff.getNonEmptyDifferences().size() ).isEqualTo( 0 );
+		assertThat( diff.size() ).isEqualTo( 1 );
+
+		ApprovalsUtil.verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( diff ) );
+	}
+
+	@Test
+	public void different_paths_and_components_should_be_recognized_accordingly() throws Exception {
+		final IdentifyingAttributes expected = IdentifyingAttributes
+				.create( Path.fromString( AnotherType.class.getSimpleName() + "[1]" ), AnotherType.class );
+		final IdentifyingAttributes actual =
+				IdentifyingAttributes.create( Path.fromString( Type.class.getSimpleName() + "[1]" ), Type.class );
+
+		final IdentifyingAttributesDifference diff = cut.differenceFor( expected, actual );
+
+		ApprovalsUtil.verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( diff ) );
+	}
 
 	@Test
 	public void toString_should_work_correctly_for_path_differences() {
