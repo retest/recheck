@@ -1,13 +1,14 @@
 package de.retest.recheck.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ui.Path;
@@ -16,7 +17,7 @@ import de.retest.recheck.ui.descriptors.DefaultAttribute;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.util.ApprovalsUtil;
 
-public class IdentifyingAttributesDifferenceFinderTest {
+class IdentifyingAttributesDifferenceFinderTest {
 
 	private static class Type {}
 
@@ -29,8 +30,8 @@ public class IdentifyingAttributesDifferenceFinderTest {
 
 	private IdentifyingAttributesDifferenceFinder cut;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		origin = IdentifyingAttributes.create( Path.fromString( "parentPath/type[1]" ), Type.class );
 		different = IdentifyingAttributes.create( Path.fromString( "anotherParentPath/anotherType[1]" ),
 				AnotherType.class );
@@ -41,14 +42,14 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void visible_attributes_should_produce_no_difference() {
+	void visible_attributes_should_produce_no_difference() {
 		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, differentOnlyVisible );
 
 		assertThat( diff ).isNull();
 	}
 
 	@Test
-	public void attributes_with_weight_zero_should_produce_no_difference() throws Exception {
+	void attributes_with_weight_zero_should_produce_no_difference() throws Exception {
 		final String key = "key";
 
 		final Attribute attribute1 = new DefaultAttribute( key, "value1" ) {
@@ -81,7 +82,7 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void path_differences_should_only_be_accounted_for_topmost_elements_iff_there_is_no_type_difference() {
+	void path_differences_should_only_be_accounted_for_topmost_elements_iff_there_is_no_type_difference() {
 		IdentifyingAttributes expected = IdentifyingAttributes.create( Path.fromString( "a/b/c/d/e[1]" ), Type.class );
 		IdentifyingAttributes actual = IdentifyingAttributes.create( Path.fromString( "A/b/c/d/e[1]" ), Type.class );
 		IdentifyingAttributesDifference diff = cut.differenceFor( expected, actual );
@@ -109,7 +110,7 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void differences_should_be_recognized_accordingly() {
+	void differences_should_be_recognized_accordingly() {
 		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, different );
 
 		assertThat( diff.getElementDifferences().size() ).isEqualTo( 0 );
@@ -121,7 +122,7 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void different_paths_and_components_should_be_recognized_accordingly() throws Exception {
+	void different_paths_and_components_should_be_recognized_accordingly() throws Exception {
 		final IdentifyingAttributes expected = IdentifyingAttributes
 				.create( Path.fromString( AnotherType.class.getSimpleName() + "[1]" ), AnotherType.class );
 		final IdentifyingAttributes actual =
@@ -133,7 +134,7 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void toString_should_work_correctly_for_path_differences() {
+	void toString_should_work_correctly_for_path_differences() {
 		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, differentOnlyPath );
 
 		assertThat( diff.toString() )
@@ -141,7 +142,7 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void toString_should_work_correctly_for_multiple_differences() {
+	void toString_should_work_correctly_for_multiple_differences() {
 		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, different );
 
 		assertThat( diff.toString() ).isEqualTo(
@@ -149,7 +150,7 @@ public class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void expected_and_actual_strings_should_be_correct() {
+	void expected_and_actual_strings_should_be_correct() {
 		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, different );
 
 		assertThat( diff.getExpected() ).isEqualTo(
@@ -158,14 +159,14 @@ public class IdentifyingAttributesDifferenceFinderTest {
 				"path=anotherParentPath[1]/anotherType[1] type=de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$AnotherType" );
 	}
 
-	@Test( expected = NullPointerException.class )
-	public void exception_should_be_thrown_if_expected_is_null() {
-		cut.differenceFor( null, origin );
+	@Test
+	void exception_should_be_thrown_if_expected_is_null() {
+		assertThatThrownBy( () -> cut.differenceFor( null, origin ) ).isExactlyInstanceOf( NullPointerException.class );
 	}
 
-	@Test( expected = NullPointerException.class )
-	public void exception_should_be_thrown_if_actual_is_null() {
-		cut.differenceFor( origin, null );
+	@Test
+	void exception_should_be_thrown_if_actual_is_null() {
+		assertThatThrownBy( () -> cut.differenceFor( origin, null ) ).isExactlyInstanceOf( NullPointerException.class );
 	}
 
 }
