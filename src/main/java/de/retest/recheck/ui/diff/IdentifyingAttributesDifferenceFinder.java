@@ -21,7 +21,8 @@ public class IdentifyingAttributesDifferenceFinder {
 		final List<AttributeDifference> attributeDifferences = new ArrayList<>();
 
 		for ( final Attribute expectedAttr : expected.getAttributes() ) {
-			if ( Double.compare( expectedAttr.getWeight(), 0.0d ) == 0 || expectedAttr.isNotVisible() ) {
+			if ( Double.compare( expectedAttr.getWeight(), Attribute.IGNORE_WEIGHT ) == 0
+					|| expectedAttr.isNotVisible() ) {
 				continue;
 			}
 			final String key = expectedAttr.getKey();
