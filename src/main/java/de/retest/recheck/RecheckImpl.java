@@ -3,6 +3,7 @@ package de.retest.recheck;
 import static de.retest.recheck.util.FileUtil.normalize;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
+import de.retest.recheck.ignore.CompoundFilter;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckSutState;
@@ -58,7 +61,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
 	private final TestReplayResultPrinter printer;
-	private final GlobalIgnoreApplier ignoreApplier;
+	private final Filter filter;
 
 	/**
 	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
@@ -77,8 +80,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();
 		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
-		ignoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
-		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
+
+		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
+		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() );
+		filter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
+
+		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 	}
 
 	private static void ensureConfigurationInitialized() {
@@ -134,6 +141,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return finder.findDifferences( actual, expected );
 	}
 
+	private File getSuitePath() {
+		return fileNamerStrategy.createFileNamer( suiteName ).getFile( "" );
+	}
+
 	@Override
 	public SutState loadExpected( final File file ) {
 		return RecheckSutState.loadExpected( file );
@@ -154,7 +165,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite.addTest( currentTestResult );
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
-		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( ignoreApplier );
+		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( filter );
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {

@@ -4,7 +4,9 @@ import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -27,21 +29,10 @@ import de.retest.recheck.ui.descriptors.RootElement;
 
 class RecheckImplTest {
 
-	private static class FileNamerStrategyCheck implements FileNamerStrategy {
-
-		private boolean wasCalled = false;
-
-		@Override
-		public FileNamer createFileNamer( final String... baseNames ) {
-			assertThat( baseNames[0] ).endsWith( ".!@#_$^&)te}{_____xt!(@_$" );
-			wasCalled = true;
-			return Mockito.mock( FileNamer.class );
-		}
-	}
-
 	@Test
 	void using_strange_stepText_should_be_normalized() throws Exception {
-		final FileNamerStrategyCheck check = new FileNamerStrategyCheck();
+		final FileNamerStrategy check = mock( FileNamerStrategy.class, Mockito.RETURNS_DEEP_STUBS );
+
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( check ).build();
 		final RecheckImpl cut = new RecheckImpl( opts );
@@ -51,7 +42,8 @@ class RecheckImplTest {
 		} catch ( final Exception e ) {
 			// ignore exception, fear AssertionErrors...
 		}
-		assertThat( check.wasCalled ).isTrue();
+		verify( check ).createFileNamer( "de.retest.recheck.RecheckImplTest" );
+		verify( check ).createFileNamer( endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
 	}
 
 	@Test
