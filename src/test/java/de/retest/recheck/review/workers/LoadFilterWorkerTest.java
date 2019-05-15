@@ -1,5 +1,6 @@
 package de.retest.recheck.review.workers;
 
+import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.io.TempDir;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
-import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.review.counter.NopCounter;
 
 public class LoadFilterWorkerTest {
@@ -23,12 +23,12 @@ public class LoadFilterWorkerTest {
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
 		assertThatThrownBy( worker::load ) //
 				.isExactlyInstanceOf( IllegalArgumentException.class ) //
-				.hasMessage( "No recheck.ignore found." );
+				.hasMessage( "No '" + RECHECK_IGNORE + "' found." );
 	}
 
 	@Test
 	void loading_with_ignore_file_should_succeed( @TempDir final Path root ) throws Exception {
-		givenFileWithLines( root.resolve( ProjectConfiguration.RECHECK_IGNORE ).toFile(), "#" );
+		givenFileWithLines( root.resolve( RECHECK_IGNORE ).toFile(), "#" );
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
 		assertThat( worker.load() ).isNotNull();
 	}
