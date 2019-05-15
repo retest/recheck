@@ -4,7 +4,9 @@ import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -18,7 +20,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import de.retest.recheck.persistence.FileNamer;
@@ -41,8 +42,8 @@ class RecheckImplTest {
 		} catch ( final Exception e ) {
 			// ignore exception, fear AssertionErrors...
 		}
-		Mockito.verify( check ).createFileNamer( "de.retest.recheck.RecheckImplTest" );
-		Mockito.verify( check ).createFileNamer( ArgumentMatchers.endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
+		verify( check ).createFileNamer( "de.retest.recheck.RecheckImplTest" );
+		verify( check ).createFileNamer( endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
 	}
 
 	@Test
