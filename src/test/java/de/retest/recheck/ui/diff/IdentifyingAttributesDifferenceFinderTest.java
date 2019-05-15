@@ -5,12 +5,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.XmlTransformerUtil;
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.DefaultAttribute;
@@ -46,6 +49,16 @@ class IdentifyingAttributesDifferenceFinderTest {
 		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, differentOnlyVisible );
 
 		assertThat( diff ).isNull();
+	}
+
+	@Test
+	void ignored_attribute_should_produce_no_difference() throws Exception {
+		final Collection<String> ignoredAttributes = Arrays.asList( IdentifyingAttributes.PATH_ATTRIBUTE_KEY );
+		final GloballyIgnoredAttributes ignored = GloballyIgnoredAttributes.getTestInstance( ignoredAttributes );
+		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, differentOnlyPath, ignored );
+
+		assertThat( diff ).isNull();
+		GloballyIgnoredAttributes.getTestInstance();
 	}
 
 	@Test
