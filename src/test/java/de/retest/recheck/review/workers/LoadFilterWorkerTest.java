@@ -1,7 +1,7 @@
 package de.retest.recheck.review.workers;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,16 +21,16 @@ public class LoadFilterWorkerTest {
 	@Test
 	void loading_without_ignore_file_should_fail( @TempDir final Path root ) throws Exception {
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
-		assertThrows( IllegalArgumentException.class, () -> worker.load() );
+		assertThatThrownBy( worker::load ) //
+				.isExactlyInstanceOf( IllegalArgumentException.class ) //
+				.hasMessage( "No recheck.ignore found." );
 	}
 
 	@Test
 	void loading_with_ignore_file_should_succeed( @TempDir final Path root ) throws Exception {
-
 		givenFileWithLines( root.resolve( ProjectConfiguration.RECHECK_IGNORE ).toFile(), "#" );
-
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
-		assertNotNull( worker.load() );
+		assertThat( worker.load() ).isNotNull();
 	}
 
 	private static void givenFileWithLines( final File file, final String lines ) throws IOException {
