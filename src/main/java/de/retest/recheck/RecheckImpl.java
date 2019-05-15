@@ -62,7 +62,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
 	private final TestReplayResultPrinter printer;
-	private final Filter ignoreApplier;
+	private final Filter filter;
 
 	/**
 	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
@@ -85,9 +85,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
 		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() );
 
-		ignoreApplier = new CompoundFilter( Lists.newArrayList( globalIgnoreApplier, suiteIgnoreApplier ) );
+		filter = new CompoundFilter( Lists.newArrayList( globalIgnoreApplier, suiteIgnoreApplier ) );
 
-		printer = new TestReplayResultPrinter( usedFinders::get, ignoreApplier );
+		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 	}
 
 	private static void ensureConfigurationInitialized() {
@@ -167,7 +167,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite.addTest( currentTestResult );
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
-		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( ignoreApplier );
+		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( filter );
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
