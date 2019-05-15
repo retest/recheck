@@ -3,6 +3,7 @@ package de.retest.recheck;
 import static de.retest.recheck.util.FileUtil.normalize;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -10,8 +11,6 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
@@ -84,8 +83,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
 		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() );
-
-		filter = new CompoundFilter( Lists.newArrayList( globalIgnoreApplier, suiteIgnoreApplier ) );
+		filter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
 
 		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 	}
