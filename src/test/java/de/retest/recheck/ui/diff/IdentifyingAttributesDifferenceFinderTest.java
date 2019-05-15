@@ -1,7 +1,6 @@
 package de.retest.recheck.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,15 +47,9 @@ public class IdentifyingAttributesDifferenceFinderTest {
 
 	@Test
 	public void attributes_with_weight_zero_should_produce_no_difference() throws Exception {
-		final Attribute attribute1 = new DefaultAttribute( "key", "value1" ) {
-			private static final long serialVersionUID = 1L;
+		final String key = "key";
 
-			@Override
-			public double getWeight() {
-				return Attribute.IGNORE_WEIGHT;
-			}
-		};
-		final Attribute attribute2 = new DefaultAttribute( "key", "value2" ) {
+		final Attribute attribute1 = new DefaultAttribute( key, "value1" ) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -66,9 +59,19 @@ public class IdentifyingAttributesDifferenceFinderTest {
 		};
 		final IdentifyingAttributes expected = mock( IdentifyingAttributes.class );
 		when( expected.getAttributes() ).thenReturn( Collections.singletonList( attribute1 ) );
+
+		final Attribute attribute2 = new DefaultAttribute( key, "value2" ) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public double getWeight() {
+				return Attribute.IGNORE_WEIGHT;
+			}
+		};
 		final IdentifyingAttributes actual = mock( IdentifyingAttributes.class );
 		when( actual.getAttributes() ).thenReturn( Collections.singletonList( attribute2 ) );
-		when( actual.get( anyString() ) ).thenReturn( attribute2.getValue() );
+
+		when( actual.get( key ) ).thenReturn( attribute2.getValue() );
 
 		final IdentifyingAttributesDifference diff = cut.differenceFor( expected, actual );
 
