@@ -7,6 +7,7 @@ public class JSFilterLoader implements Loader<JSFilterImpl> {
 
 	@Override
 	public JSFilterImpl load( final String line ) {
+		// XXX This causes exceptions when something is loaded which other loaders can't load.
 		return new JSFilterImpl( null );
 	}
 
