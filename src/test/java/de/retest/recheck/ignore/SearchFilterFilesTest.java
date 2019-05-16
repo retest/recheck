@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,5 +62,12 @@ class SearchFilterFilesTest {
 		assertThat( projectFilterFiles ).allMatch( file -> file.toString().endsWith( FILTER_EXTENSION ) );
 		assertThat( projectFilterFiles.stream().map( Path::getFileName ) ).contains( colorFilter.toPath().getFileName(),
 				webFontFilter.toPath().getFileName() );
+	}
+
+	@Test
+	void loadFilterMap_should_contain_all_existing_filter_files() {
+		final List<Path> allFilter = SearchFilterFiles.getAllFilterFiles();
+		final Map<Path, Filter> filterMap = SearchFilterFiles.toPathFilterMapping( allFilter );
+		assertThat( allFilter ).containsAll( filterMap.keySet() );
 	}
 }
