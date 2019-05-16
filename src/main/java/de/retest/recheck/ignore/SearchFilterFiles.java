@@ -3,6 +3,7 @@ package de.retest.recheck.ignore;
 import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,11 +11,14 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
+import de.retest.recheck.review.ignore.io.Loaders;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -54,6 +58,24 @@ public class SearchFilterFiles {
 		} catch ( final IOException e ) {
 			log.error( "Exception accessing user filter folder '{}'.", resolveFilterPath, e );
 			return Collections.emptyList();
+		}
+	}
+
+	public static Map<Path, Filter> toPathFilterMapping( final List<Path> paths ) {
+		return paths.stream() //
+				.collect( Collectors.toMap( //
+						Function.identity(), //
+						SearchFilterFiles::toFilter ) );
+	}
+
+	private static Filter toFilter( final Path filter ) {
+		try ( final Stream<String> filterFileLines = Files.lines( filter ) ) {
+			return Loaders.load( filterFileLines ) //
+					.filter( Filter.class::isInstance ) //
+					.map( Filter.class::cast )//
+					.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
+		} catch ( final IOException e ) {
+			throw new UncheckedIOException( "Could not load '" + filter + "' file.", e );
 		}
 	}
 }
