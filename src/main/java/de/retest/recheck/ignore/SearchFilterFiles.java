@@ -11,7 +11,9 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,6 +59,13 @@ public class SearchFilterFiles {
 			log.error( "Exception accessing user filter folder '{}'.", resolveFilterPath, e );
 			return Collections.emptyList();
 		}
+	}
+
+	public static Map<Path, Filter> toPathFilterMapping( final List<Path> paths ) {
+		return paths.stream() //
+				.collect( Collectors.toMap( //
+						Function.identity(), //
+						SearchFilterFiles::toFilter ) );
 	}
 
 	private static Filter toFilter( final Path filter ) {
