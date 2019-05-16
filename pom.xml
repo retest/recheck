@@ -103,7 +103,7 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.8</version>
 		</dependency>
-		
+
 		<!-- retest-model -->
 		<dependency>
 			<groupId>net.java.quickcheck</groupId>
@@ -325,9 +325,9 @@
 					</execution>
 				</executions>
 				<!-- See https://bugs.openjdk.java.net/browse/JDK-8212233 -->
-	            <configuration>
-	      			<source>8</source>
-	    		</configuration>
+				<configuration>
+					<source>8</source>
+				</configuration>
 			</plugin>
 
 			<plugin>
