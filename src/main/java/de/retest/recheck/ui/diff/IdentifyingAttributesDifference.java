@@ -12,9 +12,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import lombok.EqualsAndHashCode;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
+@EqualsAndHashCode
 public class IdentifyingAttributesDifference implements LeafDifference {
 
 	private static final long serialVersionUID = 1L;

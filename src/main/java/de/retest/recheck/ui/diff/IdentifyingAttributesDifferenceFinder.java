@@ -15,19 +15,24 @@ public class IdentifyingAttributesDifferenceFinder {
 
 	public IdentifyingAttributesDifference differenceFor( final IdentifyingAttributes expected,
 			final IdentifyingAttributes actual ) {
+		return differenceFor( expected, actual, GloballyIgnoredAttributes.getInstance() );
+	}
+
+	IdentifyingAttributesDifference differenceFor( final IdentifyingAttributes expected,
+			final IdentifyingAttributes actual, final GloballyIgnoredAttributes ignored ) {
 		Objects.requireNonNull( expected, "Expected cannot be null!" );
 		Objects.requireNonNull( actual, "Actual cannot be null!" );
 
 		final List<AttributeDifference> attributeDifferences = new ArrayList<>();
 
 		for ( final Attribute expectedAttr : expected.getAttributes() ) {
-			if ( Double.compare( expectedAttr.getWeight(), 0.0d ) == 0 || expectedAttr.isNotVisible() ) {
+			if ( expectedAttr.isNotVisible() ) {
 				continue;
 			}
 			final String key = expectedAttr.getKey();
 			final Serializable expectedValue = expectedAttr.getValue();
 			final Serializable actualValue = actual.get( key );
-			if ( GloballyIgnoredAttributes.getInstance().shouldIgnoreAttribute( key ) ) {
+			if ( ignored.shouldIgnoreAttribute( key ) ) {
 				continue;
 			}
 			if ( key.equals( "path" ) ) {
