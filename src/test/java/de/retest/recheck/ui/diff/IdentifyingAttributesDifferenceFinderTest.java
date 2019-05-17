@@ -2,8 +2,6 @@ package de.retest.recheck.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.descriptors.AdditionalAttributeDifference;
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.DefaultAttribute;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -62,6 +61,24 @@ class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
+	void new_identifying_attributes_should_produce_difference() throws Exception {
+		final IdentifyingAttributes expectedIdentAttributes = new IdentifyingAttributes( Collections.emptyList() );
+
+		final String newKey = "key";
+		final Attribute newIdentifyingAttribute = new DefaultAttribute( newKey, "value" );
+		final IdentifyingAttributes actualIdentAttributes =
+				new IdentifyingAttributes( Arrays.asList( newIdentifyingAttribute ) );
+
+		final IdentifyingAttributesDifference actualDiff =
+				cut.differenceFor( expectedIdentAttributes, actualIdentAttributes );
+
+		final IdentifyingAttributesDifference expectedDiff =
+				new IdentifyingAttributesDifference( expectedIdentAttributes,
+						Arrays.asList( new AdditionalAttributeDifference( newKey, newIdentifyingAttribute ) ) );
+		assertThat( actualDiff ).isEqualTo( expectedDiff );
+	}
+
+	@Test
 	void attributes_with_ignore_weight_should_produce_difference() throws Exception {
 		final String key = "key";
 		final String expectedValue = "value1";
@@ -75,8 +92,7 @@ class IdentifyingAttributesDifferenceFinderTest {
 				return Attribute.IGNORE_WEIGHT;
 			}
 		};
-		final IdentifyingAttributes expectedIdentAttributes = mock( IdentifyingAttributes.class );
-		when( expectedIdentAttributes.getAttributes() ).thenReturn( Collections.singletonList( attribute1 ) );
+		final IdentifyingAttributes expectedIdentAttributes = new IdentifyingAttributes( Arrays.asList( attribute1 ) );
 
 		final Attribute attribute2 = new DefaultAttribute( key, actualValue ) {
 			private static final long serialVersionUID = 1L;
@@ -86,9 +102,7 @@ class IdentifyingAttributesDifferenceFinderTest {
 				return Attribute.IGNORE_WEIGHT;
 			}
 		};
-		final IdentifyingAttributes actualIdentAttributes = mock( IdentifyingAttributes.class );
-		when( actualIdentAttributes.getAttributes() ).thenReturn( Collections.singletonList( attribute2 ) );
-		when( actualIdentAttributes.get( key ) ).thenReturn( attribute2.getValue() );
+		final IdentifyingAttributes actualIdentAttributes = new IdentifyingAttributes( Arrays.asList( attribute2 ) );
 
 		final IdentifyingAttributesDifference actualDiff =
 				cut.differenceFor( expectedIdentAttributes, actualIdentAttributes );
