@@ -1,5 +1,7 @@
 package de.retest.recheck.ui.diff;
 
+import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.PATH_ATTRIBUTE_KEY;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +29,22 @@ public class IdentifyingAttributesDifferenceFinder {
 
 		final List<Attribute> expectedAttributes = expected.getAttributes();
 		for ( final Attribute expectedAttr : expectedAttributes ) {
-			if ( expectedAttr.isNotVisible() ) {
-				continue;
-			}
 			final String key = expectedAttr.getKey();
 			final Serializable expectedValue = expectedAttr.getValue();
 			final Serializable actualValue = actual.get( key );
-			if ( ignored.shouldIgnoreAttribute( key ) ) {
+
+			if ( expectedAttr.isNotVisible() || ignored.shouldIgnoreAttribute( key ) ) {
 				continue;
 			}
-			if ( key.equals( "path" ) ) {
+
+			if ( key.equals( PATH_ATTRIBUTE_KEY ) ) {
 				if ( pathDiffers( expected, actual ) ) {
 					attributeDifferences.add( new AttributeDifference( key, expected.getPath(), actual.getPath() ) );
 				}
-				continue;
-			}
-			if ( differs( expectedValue, actualValue ) ) {
-				attributeDifferences.add( new AttributeDifference( key, expectedValue, actualValue ) );
+			} else {
+				if ( differs( expectedValue, actualValue ) ) {
+					attributeDifferences.add( new AttributeDifference( key, expectedValue, actualValue ) );
+				}
 			}
 		}
 
