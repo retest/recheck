@@ -21,6 +21,21 @@ public class ElementTest {
 	private final static RootElement rootElement = mock( RootElement.class );
 
 	@Test
+	public void applyChanges_should_return_element_with_proper_parent() {
+		final RootElement parent = new RootElement( "ID",
+				IdentifyingAttributes.create( fromString( "parent[0]/" ), java.awt.Component.class ), new Attributes(),
+				null, "", 0, "" );
+
+		final Element child = Element.create( "ID", parent,
+				IdentifyingAttributes.create( fromString( "parent[0]/child[0]" ), java.awt.Component.class ),
+				new Attributes() );
+
+		final Element newChild = child.applyChanges( new ActionChangeSet() );
+
+		assertThat( newChild.getParent() ).isEqualTo( child.getParent() );
+	}
+
+	@Test
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
 		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
 				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
