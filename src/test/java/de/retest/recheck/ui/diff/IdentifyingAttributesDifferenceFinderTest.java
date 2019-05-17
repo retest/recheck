@@ -2,8 +2,6 @@ package de.retest.recheck.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -94,8 +92,7 @@ class IdentifyingAttributesDifferenceFinderTest {
 				return Attribute.IGNORE_WEIGHT;
 			}
 		};
-		final IdentifyingAttributes expectedIdentAttributes = mock( IdentifyingAttributes.class );
-		when( expectedIdentAttributes.getAttributes() ).thenReturn( Collections.singletonList( attribute1 ) );
+		final IdentifyingAttributes expectedIdentAttributes = new IdentifyingAttributes( Arrays.asList( attribute1 ) );
 
 		final Attribute attribute2 = new DefaultAttribute( key, actualValue ) {
 			private static final long serialVersionUID = 1L;
@@ -105,9 +102,7 @@ class IdentifyingAttributesDifferenceFinderTest {
 				return Attribute.IGNORE_WEIGHT;
 			}
 		};
-		final IdentifyingAttributes actualIdentAttributes = mock( IdentifyingAttributes.class );
-		when( actualIdentAttributes.getAttributes() ).thenReturn( Collections.singletonList( attribute2 ) );
-		when( actualIdentAttributes.get( key ) ).thenReturn( attribute2.getValue() );
+		final IdentifyingAttributes actualIdentAttributes = new IdentifyingAttributes( Arrays.asList( attribute2 ) );
 
 		final IdentifyingAttributesDifference actualDiff =
 				cut.differenceFor( expectedIdentAttributes, actualIdentAttributes );
