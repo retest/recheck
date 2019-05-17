@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.descriptors.AdditionalAttributeDifference;
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.DefaultAttribute;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -59,6 +60,24 @@ class IdentifyingAttributesDifferenceFinderTest {
 
 		assertThat( diff ).isNull();
 		GloballyIgnoredAttributes.getTestInstance();
+	}
+
+	@Test
+	void new_identifying_attributes_should_produce_difference() throws Exception {
+		final IdentifyingAttributes expectedIdentAttributes = new IdentifyingAttributes( Collections.emptyList() );
+
+		final String newKey = "key";
+		final Attribute newIdentifyingAttribute = new DefaultAttribute( newKey, "value" );
+		final IdentifyingAttributes actualIdentAttributes =
+				new IdentifyingAttributes( Arrays.asList( newIdentifyingAttribute ) );
+
+		final IdentifyingAttributesDifference actualDiff =
+				cut.differenceFor( expectedIdentAttributes, actualIdentAttributes );
+
+		final IdentifyingAttributesDifference expectedDiff =
+				new IdentifyingAttributesDifference( expectedIdentAttributes,
+						Arrays.asList( new AdditionalAttributeDifference( newKey, newIdentifyingAttribute ) ) );
+		assertThat( actualDiff ).isEqualTo( expectedDiff );
 	}
 
 	@Test
