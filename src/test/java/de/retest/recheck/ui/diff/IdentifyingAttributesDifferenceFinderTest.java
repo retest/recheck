@@ -62,10 +62,12 @@ class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
-	void attributes_with_weight_zero_should_produce_no_difference() throws Exception {
+	void attributes_with_ignore_weight_should_produce_difference() throws Exception {
 		final String key = "key";
+		final String expectedValue = "value1";
+		final String actualValue = "value2";
 
-		final Attribute attribute1 = new DefaultAttribute( key, "value1" ) {
+		final Attribute attribute1 = new DefaultAttribute( key, expectedValue ) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -73,10 +75,10 @@ class IdentifyingAttributesDifferenceFinderTest {
 				return Attribute.IGNORE_WEIGHT;
 			}
 		};
-		final IdentifyingAttributes expected = mock( IdentifyingAttributes.class );
-		when( expected.getAttributes() ).thenReturn( Collections.singletonList( attribute1 ) );
+		final IdentifyingAttributes expectedIdentAttributes = mock( IdentifyingAttributes.class );
+		when( expectedIdentAttributes.getAttributes() ).thenReturn( Collections.singletonList( attribute1 ) );
 
-		final Attribute attribute2 = new DefaultAttribute( key, "value2" ) {
+		final Attribute attribute2 = new DefaultAttribute( key, actualValue ) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -84,14 +86,15 @@ class IdentifyingAttributesDifferenceFinderTest {
 				return Attribute.IGNORE_WEIGHT;
 			}
 		};
-		final IdentifyingAttributes actual = mock( IdentifyingAttributes.class );
-		when( actual.getAttributes() ).thenReturn( Collections.singletonList( attribute2 ) );
+		final IdentifyingAttributes actualIdentAttributes = mock( IdentifyingAttributes.class );
+		when( actualIdentAttributes.getAttributes() ).thenReturn( Collections.singletonList( attribute2 ) );
+		when( actualIdentAttributes.get( key ) ).thenReturn( attribute2.getValue() );
 
-		when( actual.get( key ) ).thenReturn( attribute2.getValue() );
-
-		final IdentifyingAttributesDifference diff = cut.differenceFor( expected, actual );
-
-		assertThat( diff ).isNull();
+		final IdentifyingAttributesDifference actualDiff =
+				cut.differenceFor( expectedIdentAttributes, actualIdentAttributes );
+		final IdentifyingAttributesDifference expectedDiff = new IdentifyingAttributesDifference(
+				expectedIdentAttributes, Arrays.asList( new AttributeDifference( key, expectedValue, actualValue ) ) );
+		assertThat( actualDiff ).isEqualTo( expectedDiff );
 	}
 
 	@Test
