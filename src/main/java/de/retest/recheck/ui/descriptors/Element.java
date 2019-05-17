@@ -99,7 +99,7 @@ public class Element implements Serializable, Comparable<Element> {
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		final Element element = Element.create( retestId, this, newIdentAttributes, newAttributes );
+		final Element element = Element.create( retestId, parent, newIdentAttributes, newAttributes );
 		element.addChildren( newContainedElements );
 		return element;
 	}
