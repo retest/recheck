@@ -25,7 +25,8 @@ public class IdentifyingAttributesDifferenceFinder {
 
 		final List<AttributeDifference> attributeDifferences = new ArrayList<>();
 
-		for ( final Attribute expectedAttr : expected.getAttributes() ) {
+		final List<Attribute> expectedAttributes = expected.getAttributes();
+		for ( final Attribute expectedAttr : expectedAttributes ) {
 			if ( expectedAttr.isNotVisible() ) {
 				continue;
 			}
@@ -41,12 +42,15 @@ public class IdentifyingAttributesDifferenceFinder {
 				}
 				continue;
 			}
-			if ( expectedValue == null && actualValue != null ) {
-				attributeDifferences.add( new AdditionalAttributeDifference( key, actual.getAttribute( key ) ) );
-			} else if ( differs( expectedValue, actualValue ) ) {
+			if ( differs( expectedValue, actualValue ) ) {
 				attributeDifferences.add( new AttributeDifference( key, expectedValue, actualValue ) );
 			}
 		}
+
+		actual.getAttributes().stream() //
+				.filter( actualAttr -> expected.get( actualAttr.getKey() ) == null ) //
+				.map( additionalAttr -> new AdditionalAttributeDifference( additionalAttr.getKey(), additionalAttr ) ) //
+				.forEach( attributeDifferences::add );
 
 		return attributeDifferences.isEmpty() ? null
 				: new IdentifyingAttributesDifference( expected, attributeDifferences );
