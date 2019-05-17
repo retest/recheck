@@ -10,11 +10,6 @@ import java.util.UUID;
 import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attributes;
-import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.MutableAttributes;
-import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.util.RetestIdUtil.InvalidRetestIdException;
@@ -24,6 +19,21 @@ public class ElementTest {
 	private static class Parent {}
 
 	private final static RootElement rootElement = mock( RootElement.class );
+
+	@Test
+	public void applyChanges_should_return_element_with_proper_parent() {
+		final RootElement parent = new RootElement( "ID",
+				IdentifyingAttributes.create( fromString( "parent[0]/" ), java.awt.Component.class ), new Attributes(),
+				null, "", 0, "" );
+
+		final Element child = Element.create( "ID", parent,
+				IdentifyingAttributes.create( fromString( "parent[0]/child[0]" ), java.awt.Component.class ),
+				new Attributes() );
+
+		final Element newChild = child.applyChanges( new ActionChangeSet() );
+
+		assertThat( newChild.getParent() ).isEqualTo( child.getParent() );
+	}
 
 	@Test
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
