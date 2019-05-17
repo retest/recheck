@@ -62,7 +62,7 @@ public class AttributesDifferenceFinder {
 		if ( Objects.equals( expected, actual ) ) {
 			return null;
 		}
-		if ( defaultValueFinder.isDefaultValue( identAttributes, key, actual ) ) {
+		if ( !deleted( expected, actual ) && defaultValueFinder.isDefaultValue( identAttributes, key, actual ) ) {
 			return null;
 		}
 		if ( key.equals( Attributes.SCREENSHOT ) ) {
@@ -77,6 +77,10 @@ public class AttributesDifferenceFinder {
 			}
 		}
 		return new AttributeDifference( key, expected, actual );
+	}
+
+	private static boolean deleted( final Serializable expected, final Serializable actual ) {
+		return expected != null && actual == null;
 	}
 
 }

@@ -8,63 +8,60 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.Mockito;
 
 import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ui.DefaultValueFinder;
-import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attributes;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.image.ImageUtils;
 import de.retest.recheck.util.ApprovalsUtil;
 
-public class AttributesDifferenceFinderTest {
+class AttributesDifferenceFinderTest {
 
-	@Rule
-	public final TemporaryFolder temp = new TemporaryFolder();
+	@TempDir
+	static Path tempDir;
 
-	private final IdentifyingAttributes identifyingAttributes =
-			IdentifyingAttributes.create( Path.fromString( "/Window[1]" ), getClass() );
-	private final AttributesDifferenceFinder cut = new AttributesDifferenceFinder( mock( DefaultValueFinder.class ) );
+	IdentifyingAttributes identifyingAttributes =
+			IdentifyingAttributes.create( de.retest.recheck.ui.Path.fromString( "/Window[1]" ), "Window" );
+	AttributesDifferenceFinder cut = new AttributesDifferenceFinder( mock( DefaultValueFinder.class ) );
 
 	@Test
-	public void attributesDifference_with_identical_empty_attributes() throws Exception {
+	void attributesDifference_with_identical_empty_attributes() throws Exception {
 		final AttributesDifference difference =
-				cut.differenceFor( element( new Attributes() ), element( new Attributes() ) );
+				cut.differenceFor( element( new MutableAttributes() ), element( new MutableAttributes() ) );
 
 		assertThat( difference ).isNull();
 	}
 
 	@Test
-	public void attributesDifference_with_identical_populated_attributes() throws Exception {
+	void attributesDifference_with_identical_populated_attributes() throws Exception {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key", "value" );
 		attributes1.put( "another-key", "another-value" );
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( "key", "value" );
 		attributes2.put( "another-key", "another-value" );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 
 		assertThat( difference ).isNull();
 	}
 
 	@Test
-	public void attributesDifference_with_the_same_key_but_different_values() {
+	void attributesDifference_with_the_same_key_but_different_values() {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key", "value1" );
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( "key", "value2" );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 
 		assertThat( difference.size() ).isEqualTo( 1 );
 		assertThat( difference.getElementDifferences().size() ).isEqualTo( 0 );
@@ -75,24 +72,23 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void added_attribute() {
+	void added_attribute() {
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( "key", "value2" );
 		final AttributesDifference difference =
-				cut.differenceFor( element( new MutableAttributes().immutable() ), element( attributes2.immutable() ) );
+				cut.differenceFor( element( new MutableAttributes() ), element( attributes2 ) );
 
 		assertThat( difference.size() ).isEqualTo( 1 );
 		assertThat( difference.toString() ).isEqualTo( "{key: expected=\"null\", actual=\"value2\"}" );
 	}
 
 	@Test
-	public void attributesDifference_with_different_key_and_different_values() {
+	void attributesDifference_with_different_key_and_different_values() {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key1", "value1" );
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( "key2", "value2" );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 
 		assertThat( difference.size() ).isEqualTo( 2 );
 		assertThat( difference.getElementDifferences().size() ).isEqualTo( 0 );
@@ -104,7 +100,7 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void attributesDifference_with_more_expected_than_actual() {
+	void attributesDifference_with_more_expected_than_actual() {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key1", "value1" );
 		attributes1.put( "key2", "value2" );
@@ -112,8 +108,7 @@ public class AttributesDifferenceFinderTest {
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( "key2", "different-value" );
 		attributes2.put( "key1", "value1" );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 
 		assertThat( difference.size() ).isEqualTo( 2 );
 		assertThat( difference.toString() ).contains( "key2: expected=\"value2\", actual=\"different-value\"" );
@@ -125,7 +120,7 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void attributesDifference_with_less_expected_than_actual() {
+	void attributesDifference_with_less_expected_than_actual() {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( "key1", "value1" );
 		attributes1.put( "key2", "value2" );
@@ -133,8 +128,7 @@ public class AttributesDifferenceFinderTest {
 		attributes2.put( "key2", "different-value" );
 		attributes2.put( "key1", "value1" );
 		attributes2.put( "key3", "value3" );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 
 		assertThat( difference.size() ).isEqualTo( 2 );
 		assertThat( difference.getElementDifferences().size() ).isEqualTo( 0 );
@@ -146,7 +140,7 @@ public class AttributesDifferenceFinderTest {
 	}
 
 	@Test
-	public void for_nondefault_values_expected_should_be_default() throws Exception {
+	void for_nondefault_values_expected_should_be_default() throws Exception {
 		final MutableAttributes nondefault = new MutableAttributes();
 		nondefault.put( "font", "Lucida Grance-italic-123" );
 		nondefault.put( "background", "#FF0000" );
@@ -157,22 +151,16 @@ public class AttributesDifferenceFinderTest {
 		defaults.put( "background", "#FFFFFF" );
 		defaults.put( "foreground", "#000000" );
 
-		final IdentifyingAttributes identifyingAttributes =
-				IdentifyingAttributes.create( Path.fromString( "/Window[1]" ), getClass() );
-
 		final DefaultValueFinder dvf = Mockito.mock( DefaultValueFinder.class );
-
 		final AttributesDifferenceFinder cut = new AttributesDifferenceFinder( dvf );
-		final Attributes attributes = new Attributes();
 
-		final AttributesDifference difference =
-				cut.differenceFor( element( defaults.immutable() ), element( nondefault.immutable() ) );
-		assertThat( difference.expected().toString() )
-				.isEqualTo( "{background=#FFFFFF, font=Arial, foreground=#000000}" );
+		final AttributesDifference difference = cut.differenceFor( element( defaults ), element( nondefault ) );
+
+		assertThat( difference.expected() ).hasToString( "{background=#FFFFFF, font=Arial, foreground=#000000}" );
 	}
 
 	@Test
-	public void default_values_should_not_cause_difference() throws Exception {
+	void default_values_should_not_cause_difference() throws Exception {
 		final String attributesKey = "foo";
 		final String attributesValue = "bar";
 		final MutableAttributes mutable = new MutableAttributes();
@@ -183,45 +171,69 @@ public class AttributesDifferenceFinderTest {
 
 		final AttributesDifferenceFinder cut = new AttributesDifferenceFinder( dvf );
 
-		final Element expected = element( new Attributes() );
-		final Element actual = element( mutable.immutable() );
+		final Element expected = element( new MutableAttributes() );
+		final Element actual = element( mutable );
 		assertThat( cut.differenceFor( expected, actual ) ).isNull();
 	}
 
-	public void same_screenshot_should_not_cause_difference() throws Exception {
+	@Test
+	void same_screenshot_should_not_cause_difference() throws Exception {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		final BufferedImage img = createImg( Color.BLACK );
 		attributes1.put( ImageUtils.image2Screenshot( "", img ) );
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( ImageUtils.image2Screenshot( "", img ) );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 		assertThat( difference ).isNull();
 	}
 
 	@Test
-	public void different_screenshots_should_cause_difference() throws Exception {
+	void different_screenshots_should_cause_difference() throws Exception {
 		final MutableAttributes attributes1 = new MutableAttributes();
 		attributes1.put( ImageUtils.image2Screenshot( "", createImg( Color.BLACK ) ) );
 		final MutableAttributes attributes2 = new MutableAttributes();
 		attributes2.put( ImageUtils.image2Screenshot( "", createImg( Color.WHITE ) ) );
-		final AttributesDifference difference =
-				cut.differenceFor( element( attributes1.immutable() ), element( attributes2.immutable() ) );
+		final AttributesDifference difference = cut.differenceFor( element( attributes1 ), element( attributes2 ) );
 		assertThat( difference.size() ).isEqualTo( 1 );
 	}
 
-	private Element element( final Attributes attributes ) {
-		return Element.create( "id", mock( Element.class ), identifyingAttributes, attributes );
+	@Test
+	void deleted_attributes_should_cause_difference_even_if_default() throws Exception {
+		final String key = "key";
+		final String expected = "value";
+		final String actual = null;
+
+		final MutableAttributes as0 = new MutableAttributes();
+		as0.put( key, expected );
+		final Element e0 = element( as0 );
+
+		final MutableAttributes as1 = new MutableAttributes();
+		// "key" deleted.
+		final Element e1 = element( as1 );
+
+		final DefaultValueFinder dvf = mock( DefaultValueFinder.class );
+		when( dvf.isDefaultValue( identifyingAttributes, key, null ) ).thenReturn( true );
+
+		final AttributesDifferenceFinder cut = new AttributesDifferenceFinder( dvf );
+
+		final AttributesDifference diff = cut.differenceFor( e0, e1 );
+		assertThat( diff.getDifferences() ).containsExactly( new AttributeDifference( key, expected, actual ) );
 	}
 
-	private BufferedImage createImg( final Color color ) {
+	private Element element( final MutableAttributes ma ) {
+		return Element.create( "id", mock( Element.class ), identifyingAttributes, ma.immutable() );
+	}
+
+	private BufferedImage createImg( final Color color ) throws IOException {
 		final BufferedImage result = new BufferedImage( 20, 20, BufferedImage.TYPE_INT_RGB );
 		final Graphics2D g2 = result.createGraphics();
 		g2.setColor( color );
 		g2.fillRect( 0, 0, 20, 20 );
-		try {
-			ImageIO.write( result, "PNG", temp.newFile( "target/" + color + ".png" ) );
-		} catch ( final IOException e ) {}
+
+		final Path img = tempDir.resolve( System.currentTimeMillis() + ".png" );
+		Files.createFile( img );
+		ImageIO.write( result, "PNG", img.toFile() );
+
 		return result;
 	}
 }
