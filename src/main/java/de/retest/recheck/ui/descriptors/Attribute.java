@@ -83,6 +83,9 @@ public abstract class Attribute implements Serializable, Comparable<Attribute> {
 
 	public abstract Attribute applyChanges( Serializable actual );
 
+	/**
+	 * @return The weight of the attribute used for matching (not for diffing).
+	 */
 	public double getWeight() {
 		return NORMAL_WEIGHT;
 	}
