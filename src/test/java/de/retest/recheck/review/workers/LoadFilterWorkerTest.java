@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -22,7 +23,7 @@ public class LoadFilterWorkerTest {
 	void loading_without_ignore_file_should_fail( @TempDir final Path root ) throws Exception {
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
 		assertThatThrownBy( worker::load ) //
-				.isExactlyInstanceOf( IllegalArgumentException.class ) //
+				.isExactlyInstanceOf( FileNotFoundException.class ) //
 				.hasMessage( "No '" + RECHECK_IGNORE + "' found." );
 	}
 
