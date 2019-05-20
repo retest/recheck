@@ -64,7 +64,7 @@
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
-		<maven.surefire.version>2.22.1</maven.surefire.version>
+		<maven.surefire.version>2.22.2</maven.surefire.version>
 	</properties>
 
 	<scm>
