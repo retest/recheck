@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +31,7 @@ public class ProjectConfiguration {
 	 */
 	public static final String RETEST_PROJECT_ROOT = "de.retest.recheck.project.root";
 
-	private ProjectConfiguration() {
-	}
+	private ProjectConfiguration() {}
 
 	public static ProjectConfiguration getInstance() {
 		if ( instance == null ) {
@@ -40,10 +40,12 @@ public class ProjectConfiguration {
 		return instance;
 	}
 
+	public Optional<Path> getProjectConfigFolder() {
+		return ProjectRootFinderUtil.getProjectRoot().map( path -> path.resolve( RETEST_PROJECT_CONFIG_FOLDER ) );
+	}
+
 	public Path findProjectConfigFolder() {
-		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot()
-				.orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
-		return projectRoot.resolve( RETEST_PROJECT_CONFIG_FOLDER );
+		return getProjectConfigFolder().orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
 	}
 
 	public void ensureProjectConfigurationInitialized() {

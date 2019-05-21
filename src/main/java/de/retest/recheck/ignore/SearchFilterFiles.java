@@ -71,18 +71,20 @@ public class SearchFilterFiles {
 	}
 
 	public static List<Pair<Path, FilterLoader>> getProjectFilterFiles() {
-		final Path resolveFilterPath =
-				ProjectConfiguration.getInstance().findProjectConfigFolder().resolve( FILTER_FOLDER );
-		if ( !resolveFilterPath.toFile().exists() ) {
-			return Collections.emptyList();
-		}
-		try ( final Stream<Path> paths = Files.walk( resolveFilterPath ) ) {
+		return ProjectConfiguration.getInstance().getProjectConfigFolder() //
+				.map( path -> path.resolve( FILTER_FOLDER ) ) //
+				.map( SearchFilterFiles::loadFiltersFromDirectory ) //
+				.orElse( Collections.emptyList() );
+	}
+
+	private static List<Pair<Path, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
+		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
 					.map( path -> Pair.of( path, FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final IOException e ) {
-			log.error( "Exception accessing user filter folder '{}'.", resolveFilterPath, e );
+			log.error( "Exception accessing user filter folder '{}'.", directory, e );
 			return Collections.emptyList();
 		}
 	}
