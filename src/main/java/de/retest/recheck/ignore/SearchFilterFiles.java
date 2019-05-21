@@ -90,6 +90,9 @@ public class SearchFilterFiles {
 		}
 	}
 
+	/**
+	 * @return Mapping from file names to filter. In the case of duplicates, user-defined filters are preferred.
+	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
 		final List<Pair<String, FilterLoader>> projectFilterFiles = getProjectFilterFiles();
 		final List<Pair<String, FilterLoader>> defaultFilterFiles = getDefaultFilterFiles();
