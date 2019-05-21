@@ -2,23 +2,21 @@ package de.retest.recheck.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-public class DeleteOnCloseFileInputStreamTest {
-
-	@Rule
-	public TemporaryFolder tempFolder = new TemporaryFolder();
+class DeleteOnCloseFileInputStreamTest {
 
 	@Test
-	public void file_should_be_deleted_on_close() throws IOException {
-		final File file = tempFolder.newFile();
-		final InputStream in = new DeleteOnCloseFileInputStream( file );
+	void file_should_be_deleted_on_close( @TempDir final Path temp ) throws IOException {
+		final Path file = temp.resolve( "foo" );
+		Files.createFile( file );
+		final InputStream in = new DeleteOnCloseFileInputStream( file.toFile() );
 
 		in.close();
 
