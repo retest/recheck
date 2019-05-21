@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,16 +36,6 @@ class SearchFilterFilesTest {
 		Files.createDirectory( retestFolder );
 		filterFolder = retestFolder.resolve( FILTER_FOLDER );
 		Files.createDirectory( filterFolder );
-	}
-
-	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
-	void getAllFilterFiles_should_find_all_filters() throws IOException {
-		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
-		final File colorFilter = Files.createTempFile( filterFolder, "color", FILTER_EXTENSION ).toFile();
-		final List<Pair<String, FilterLoader>> allFilterFiles = SearchFilterFiles.getAllFilterFiles();
-		assertThat( allFilterFiles.stream().map( Pair::getLeft ) ).contains( "positioning.filter", "visibility.filter",
-				colorFilter.toPath().getFileName().toString() );
 	}
 
 	@Test
@@ -69,7 +61,10 @@ class SearchFilterFilesTest {
 
 	@Test
 	void loadFilterMap_should_contain_all_existing_filter_files() {
-		final List<Pair<String, FilterLoader>> allFilter = SearchFilterFiles.getAllFilterFiles();
+		final List<Pair<String, FilterLoader>> allFilter = Stream.concat( //
+				SearchFilterFiles.getDefaultFilterFiles().stream(), //
+				SearchFilterFiles.getProjectFilterFiles().stream() ) //
+				.collect( Collectors.toList() );
 		final Map<String, Filter> filterMap = SearchFilterFiles.toPathFilterMapping( allFilter );
 		assertThat( allFilter.stream().map( Pair::getLeft ) ).containsAll( filterMap.keySet() );
 	}

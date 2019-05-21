@@ -35,11 +35,6 @@ public class SearchFilterFiles {
 
 	private SearchFilterFiles() {}
 
-	public static List<Pair<String, FilterLoader>> getAllFilterFiles() {
-		return Stream.concat( getDefaultFilterFiles().stream(), getProjectFilterFiles().stream() ) //
-				.collect( Collectors.toList() );
-	}
-
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
 				.map( SearchFilterFiles.class::getResource ) //
