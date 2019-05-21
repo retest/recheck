@@ -5,11 +5,13 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJEC
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static de.retest.recheck.ignore.SearchFilterFiles.FILTER_EXTENSION;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -70,5 +72,13 @@ class SearchFilterFilesTest {
 		final List<Pair<String, FilterLoader>> allFilter = SearchFilterFiles.getAllFilterFiles();
 		final Map<String, Filter> filterMap = SearchFilterFiles.toPathFilterMapping( allFilter );
 		assertThat( allFilter.stream().map( Pair::getLeft ) ).containsAll( filterMap.keySet() );
+	}
+
+	@Test
+	void filter_mapping_should_prioritize_user_defined_filters() throws Exception {
+		// TODO Just a showcase that our current implementation doesn't work at all.
+		final Pair<String, FilterLoader> pair = Pair.of( "some.filter", () -> mock( Filter.class ) );
+		final List<Pair<String, FilterLoader>> paths = Arrays.asList( pair, pair );
+		SearchFilterFiles.toPathFilterMapping( paths );
 	}
 }
