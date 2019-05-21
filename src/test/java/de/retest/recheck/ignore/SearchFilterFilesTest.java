@@ -4,13 +4,13 @@ import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -62,8 +62,23 @@ class SearchFilterFilesTest {
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
 	void filter_mapping_should_prioritize_user_defined_filters() throws Exception {
-		final Pair<String, FilterLoader> pair = Pair.of( "some.filter", () -> mock( Filter.class ) );
-		final List<Pair<String, FilterLoader>> paths = Arrays.asList( pair, pair );
-		SearchFilterFiles.toFileNameFilterMapping( paths );
+		final String posFilterFileName = "positioning.filter";
+
+		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
+		final Path projectPosFilterPath = filterFolder.resolve( posFilterFileName );
+		Files.createFile( projectPosFilterPath );
+
+		final List<Pair<String, FilterLoader>> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
+		final CompoundFilter projectPosFilter = (CompoundFilter) projectFilterFiles.get( 0 ).getRight().load();
+		assertThat( projectPosFilter.getFilters() ).isEmpty();
+
+		final List<Pair<String, FilterLoader>> defaultFilterFiles = SearchFilterFiles.getDefaultFilterFiles();
+		final CompoundFilter defaultPosFilter = (CompoundFilter) defaultFilterFiles.get( 0 ).getRight().load();
+		assertThat( defaultPosFilter.getFilters() ).isNotEmpty();
+
+		// Filter has no equals, so we have to it this way.
+		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
+		final CompoundFilter actualPositioningFilter = (CompoundFilter) mapping.get( posFilterFileName );
+		assertThat( actualPositioningFilter.getFilters() ).isEmpty();
 	}
 }

@@ -90,17 +90,25 @@ public class SearchFilterFiles {
 		}
 	}
 
-	public static Map<String, Filter> toFileNameFilterMapping( final List<Pair<String, FilterLoader>> paths ) {
-		return paths.stream() //
-				.collect( Collectors.toMap( Pair::getLeft, pair -> {
-					final FilterLoader loader = pair.getRight();
-					try {
-						return loader.load();
-					} catch ( final IOException e ) {
-						log.error( "Could not load Filter for '{}'.", pair.getLeft(), e );
-						return Filter.FILTER_NOTHING;
-					}
-				} ) );
+	public static Map<String, Filter> toFileNameFilterMapping() {
+		final List<Pair<String, FilterLoader>> projectFilterFiles = getProjectFilterFiles();
+		final List<Pair<String, FilterLoader>> defaultFilterFiles = getDefaultFilterFiles();
+		return Stream.concat( projectFilterFiles.stream(), defaultFilterFiles.stream() ) //
+				.collect( Collectors.toMap(
+						// Use the file name as key.
+						Pair::getLeft,
+						// Use the loaded filter as value.
+						pair -> {
+							final FilterLoader loader = pair.getRight();
+							try {
+								return loader.load();
+							} catch ( final IOException e ) {
+								log.error( "Could not load Filter for '{}'.", pair.getLeft(), e );
+								return Filter.FILTER_NOTHING;
+							}
+						},
+						// Prefer project over default files (due to concat order).
+						( projectFilter, defaultFilter ) -> projectFilter ) );
 	}
 
 	private static String getFileName( final Path path ) {
