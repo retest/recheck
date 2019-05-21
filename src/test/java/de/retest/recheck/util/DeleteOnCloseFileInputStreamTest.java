@@ -23,4 +23,16 @@ class DeleteOnCloseFileInputStreamTest {
 		assertThat( file ).doesNotExist();
 	}
 
+	@Test
+	void already_deleted_file_should_cause_no_exception( @TempDir final Path temp ) throws IOException {
+		final Path file = temp.resolve( "bar" );
+		Files.createFile( file );
+		final InputStream in = new DeleteOnCloseFileInputStream( file.toFile() );
+
+		Files.delete( file );
+		in.close();
+
+		assertThat( file ).doesNotExist();
+	}
+
 }
