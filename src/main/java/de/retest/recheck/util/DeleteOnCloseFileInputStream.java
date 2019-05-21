@@ -7,9 +7,12 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * Taken from https://stackoverflow.com/a/4694155
  */
+@Slf4j
 public class DeleteOnCloseFileInputStream extends FileInputStream {
 
 	private final File file;
@@ -24,7 +27,11 @@ public class DeleteOnCloseFileInputStream extends FileInputStream {
 		try {
 			super.close();
 		} finally {
-			FileUtils.forceDelete( file );
+			if ( file.exists() ) {
+				FileUtils.forceDelete( file );
+			} else {
+				log.debug( "File '{}' has already been deleted.", file );
+			}
 		}
 	}
 }
