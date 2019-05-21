@@ -36,7 +36,7 @@ public class SearchFilterFiles {
 	private SearchFilterFiles() {}
 
 	/**
-	 * @return The predefined filter files from the JAR.
+	 * @return The default filter files from the JAR.
 	 */
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
@@ -69,7 +69,7 @@ public class SearchFilterFiles {
 	}
 
 	/**
-	 * @return The user-defined filter files from the filter folder.
+	 * @return The project filter files from the filter folder.
 	 */
 	public static List<Pair<String, FilterLoader>> getProjectFilterFiles() {
 		return ProjectConfiguration.getInstance().getProjectConfigFolder() //
@@ -85,13 +85,13 @@ public class SearchFilterFiles {
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final IOException e ) {
-			log.error( "Exception accessing user filter folder '{}'.", directory, e );
+			log.error( "Exception accessing project filter folder '{}'.", directory, e );
 			return Collections.emptyList();
 		}
 	}
 
 	/**
-	 * @return Mapping from file names to filter. In the case of duplicates, user-defined filters are preferred.
+	 * @return Mapping from file names to filter. In the case of duplicates, project filters are preferred.
 	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
 		final List<Pair<String, FilterLoader>> projectFilterFiles = getProjectFilterFiles();
@@ -110,7 +110,7 @@ public class SearchFilterFiles {
 								return Filter.FILTER_NOTHING;
 							}
 						},
-						// Prefer project over default files (due to concat order).
+						// Prefer project over default filters (due to concat order).
 						( projectFilter, defaultFilter ) -> projectFilter ) );
 	}
 

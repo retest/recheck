@@ -33,7 +33,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	void getDefaultFilterFiles_should_get_all_predefines_filters() {
+	void getDefaultFilterFiles_should_get_all_default_filters() {
 		final List<Pair<String, FilterLoader>> defaultFilterFiles = SearchFilterFiles.getDefaultFilterFiles();
 		final List<String> actualFilterFileNames = defaultFilterFiles.stream() //
 				.map( Pair::getLeft ) //
@@ -44,7 +44,7 @@ class SearchFilterFilesTest {
 
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
-	void getProjectFilterFiles_should_get_all_user_defined_filters() throws IOException {
+	void getProjectFilterFiles_should_get_all_project_filters() throws IOException {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 		final Path someFilter = filterFolder.resolve( "some.filter" );
 		Files.createFile( someFilter );
@@ -61,7 +61,7 @@ class SearchFilterFilesTest {
 
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
-	void filter_mapping_should_prioritize_user_defined_filters() throws Exception {
+	void filter_mapping_should_prefer_project_over_default_filters() throws Exception {
 		final String posFilterFileName = "positioning.filter";
 
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
