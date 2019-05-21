@@ -35,6 +35,9 @@ public class SearchFilterFiles {
 
 	private SearchFilterFiles() {}
 
+	/**
+	 * @return The predefined filter files from the JAR.
+	 */
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
 				.map( SearchFilterFiles.class::getResource ) //
@@ -65,6 +68,9 @@ public class SearchFilterFiles {
 		}
 	}
 
+	/**
+	 * @return The user-defined filter files from the filter folder.
+	 */
 	public static List<Pair<String, FilterLoader>> getProjectFilterFiles() {
 		return ProjectConfiguration.getInstance().getProjectConfigFolder() //
 				.map( path -> path.resolve( FILTER_FOLDER ) ) //
