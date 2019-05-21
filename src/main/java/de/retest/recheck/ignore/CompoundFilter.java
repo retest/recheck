@@ -33,4 +33,8 @@ public class CompoundFilter implements Filter {
 		return false;
 	}
 
+	public List<Filter> getFilters() {
+		return filters;
+	}
+
 }
