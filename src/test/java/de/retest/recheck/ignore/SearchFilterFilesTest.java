@@ -13,9 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,18 +57,8 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	void loadFilterMap_should_contain_all_existing_filter_files() {
-		final List<Pair<String, FilterLoader>> allFilter = Stream.concat( //
-				SearchFilterFiles.getDefaultFilterFiles().stream(), //
-				SearchFilterFiles.getProjectFilterFiles().stream() ) //
-				.collect( Collectors.toList() );
-		final Map<String, Filter> filterMap = SearchFilterFiles.toFileNameFilterMapping( allFilter );
-		assertThat( allFilter.stream().map( Pair::getLeft ) ).containsAll( filterMap.keySet() );
-	}
-
-	@Test
+	@SystemProperty( key = RETEST_PROJECT_ROOT )
 	void filter_mapping_should_prioritize_user_defined_filters() throws Exception {
-		// TODO Just a showcase that our current implementation doesn't work at all.
 		final Pair<String, FilterLoader> pair = Pair.of( "some.filter", () -> mock( Filter.class ) );
 		final List<Pair<String, FilterLoader>> paths = Arrays.asList( pair, pair );
 		SearchFilterFiles.toFileNameFilterMapping( paths );
