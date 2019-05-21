@@ -8,7 +8,7 @@
 						<attributes>
 							<attribute xsi:type="pathAttribute" key="path">HTML[1]</attribute>
 							<attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
-							<attribute xsi:type="stringAttribute" key="type">html</attribute>
+							<attribute xsi:type="stringAttribute" key="type">HTML</attribute>
 							<attribute xsi:type="weightedTextAttribute" key="text">MissingElementsDemo</attribute>
 							<attribute xsi:type="codeLocAttribute" key="codeLoc">[sut.MissingElementsDemo.&lt;init&gt;(MissingElementsDemo.java:25), sut.MissingElementsDemo.createAndShowGUI(MissingElementsDemo.java:64), sut.MissingElementsDemo$2.run(MissingElementsDemo.java:75)]</attribute>
 							<attribute xsi:type="outlineAttribute" key="outline">
@@ -26,7 +26,7 @@
 							<attributes>
 								<attribute xsi:type="pathAttribute" key="path">HTML[1]/DIV[1]/DIV[2]</attribute>
 								<attribute xsi:type="suffixAttribute" key="suffix">2</attribute>
-								<attribute xsi:type="stringAttribute" key="type">div</attribute>
+								<attribute xsi:type="stringAttribute" key="type">DIV</attribute>
 								<attribute xsi:type="outlineAttribute" key="outline">
 									<x>0</x>
 									<y>0</y>
