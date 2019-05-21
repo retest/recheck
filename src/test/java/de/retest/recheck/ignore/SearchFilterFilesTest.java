@@ -65,7 +65,7 @@ class SearchFilterFilesTest {
 				SearchFilterFiles.getDefaultFilterFiles().stream(), //
 				SearchFilterFiles.getProjectFilterFiles().stream() ) //
 				.collect( Collectors.toList() );
-		final Map<String, Filter> filterMap = SearchFilterFiles.toPathFilterMapping( allFilter );
+		final Map<String, Filter> filterMap = SearchFilterFiles.toFileNameFilterMapping( allFilter );
 		assertThat( allFilter.stream().map( Pair::getLeft ) ).containsAll( filterMap.keySet() );
 	}
 
@@ -74,6 +74,6 @@ class SearchFilterFilesTest {
 		// TODO Just a showcase that our current implementation doesn't work at all.
 		final Pair<String, FilterLoader> pair = Pair.of( "some.filter", () -> mock( Filter.class ) );
 		final List<Pair<String, FilterLoader>> paths = Arrays.asList( pair, pair );
-		SearchFilterFiles.toPathFilterMapping( paths );
+		SearchFilterFiles.toFileNameFilterMapping( paths );
 	}
 }

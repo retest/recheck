@@ -52,7 +52,7 @@ public class SearchFilterFiles {
 	private static Pair<String, FilterLoader> loadFilterFromUri( final URI uri ) {
 		try {
 			final Path path = Paths.get( uri );
-			return Pair.of( getFilterName( path ), FilterLoader.load( path ) );
+			return Pair.of( getFileName( path ), FilterLoader.load( path ) );
 		} catch ( final FileSystemNotFoundException e ) {
 			return createFileSystemAndLoadFilter( uri );
 		}
@@ -61,7 +61,7 @@ public class SearchFilterFiles {
 	private static Pair<String, FilterLoader> createFileSystemAndLoadFilter( final URI uri ) {
 		try ( final FileSystem fs = FileSystems.newFileSystem( uri, Collections.emptyMap() ) ) {
 			final Path path = fs.provider().getPath( uri );
-			return Pair.of( getFilterName( path ), FilterLoader.provide( path ) );
+			return Pair.of( getFileName( path ), FilterLoader.provide( path ) );
 		} catch ( final IOException e ) {
 			log.error( "Could not load Filter at '{}'", uri, e );
 			return null;
@@ -82,7 +82,7 @@ public class SearchFilterFiles {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
 					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
-					.map( path -> Pair.of( getFilterName( path ), FilterLoader.load( path ) ) ) //
+					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final IOException e ) {
 			log.error( "Exception accessing user filter folder '{}'.", directory, e );
@@ -90,7 +90,7 @@ public class SearchFilterFiles {
 		}
 	}
 
-	public static Map<String, Filter> toPathFilterMapping( final List<Pair<String, FilterLoader>> paths ) {
+	public static Map<String, Filter> toFileNameFilterMapping( final List<Pair<String, FilterLoader>> paths ) {
 		return paths.stream() //
 				.collect( Collectors.toMap( Pair::getLeft, pair -> {
 					final FilterLoader loader = pair.getRight();
@@ -103,7 +103,7 @@ public class SearchFilterFiles {
 				} ) );
 	}
 
-	private static String getFilterName( final Path path ) {
+	private static String getFileName( final Path path ) {
 		return path.getFileName().toString();
 	}
 }
