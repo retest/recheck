@@ -14,7 +14,7 @@ public class Filters {
 		try ( final Stream<String> filterFileLines = Files.lines( path ) ) {
 			return Loaders.load( filterFileLines ) //
 					.filter( Filter.class::isInstance ) //
-					.map( Filter.class::cast )//
+					.map( Filter.class::cast ) //
 					.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
 		}
 	}

@@ -12,10 +12,7 @@ public interface FilterLoader {
 	}
 
 	static FilterLoader provide( final Path path ) throws IOException {
-		return provide( Filters.load( path ) );
-	}
-
-	static FilterLoader provide( final Filter filter ) {
+		final Filter filter = Filters.load( path );
 		return () -> filter;
 	}
 }

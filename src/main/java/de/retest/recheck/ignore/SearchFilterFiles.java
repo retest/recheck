@@ -56,13 +56,17 @@ public class SearchFilterFiles {
 			final Path path = Paths.get( uri );
 			return Pair.of( path, FilterLoader.load( path ) );
 		} catch ( final FileSystemNotFoundException e ) {
-			try ( final FileSystem fs = FileSystems.newFileSystem( uri, Collections.emptyMap() ) ) {
-				final Path path = fs.provider().getPath( uri );
-				return Pair.of( path, FilterLoader.provide( path ) );
-			} catch ( final IOException ex ) {
-				log.error( "Could not load Filter at '{}'", uri, ex );
-				return null;
-			}
+			return createFileSystemAndLoadFilter( uri );
+		}
+	}
+
+	private static Pair<Path, FilterLoader> createFileSystemAndLoadFilter( final URI uri ) {
+		try ( final FileSystem fs = FileSystems.newFileSystem( uri, Collections.emptyMap() ) ) {
+			final Path path = fs.provider().getPath( uri );
+			return Pair.of( path, FilterLoader.provide( path ) );
+		} catch ( final IOException e ) {
+			log.error( "Could not load Filter at '{}'", uri, e );
+			return null;
 		}
 	}
 
@@ -90,7 +94,7 @@ public class SearchFilterFiles {
 					try {
 						return loader.load();
 					} catch ( final IOException e ) {
-						log.error( "Could not load Filter for '{}'.", pair.getLeft() );
+						log.error( "Could not load Filter for '{}'.", pair.getLeft(), e );
 						return Filter.FILTER_NOTHING;
 					}
 				} ) );
