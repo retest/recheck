@@ -39,16 +39,16 @@ class SearchFilterFilesTest {
 	void getAllFilterFiles_should_find_all_filters() throws IOException {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 		final File colorFilter = Files.createTempFile( filterFolder, "color", FILTER_EXTENSION ).toFile();
-		final List<Pair<Path, FilterLoader>> allFilterFiles = SearchFilterFiles.getAllFilterFiles();
-		assertThat( allFilterFiles.stream().map( path -> path.getLeft().getFileName().toString() ) )
-				.contains( "positioning.filter", "visibility.filter", colorFilter.toPath().getFileName().toString() );
+		final List<Pair<String, FilterLoader>> allFilterFiles = SearchFilterFiles.getAllFilterFiles();
+		assertThat( allFilterFiles.stream().map( Pair::getLeft ) ).contains( "positioning.filter", "visibility.filter",
+				colorFilter.toPath().getFileName().toString() );
 	}
 
 	@Test
 	void getDefaultFilterFiles_should_get_all_filter_files_from_classpath() {
-		final List<Pair<Path, FilterLoader>> defaultFilterFiles = SearchFilterFiles.getDefaultFilterFiles();
-		assertThat( defaultFilterFiles.stream().map( path -> path.getLeft().getFileName().toString() ) )
-				.contains( "positioning.filter", "visibility.filter" );
+		final List<Pair<String, FilterLoader>> defaultFilterFiles = SearchFilterFiles.getDefaultFilterFiles();
+		assertThat( defaultFilterFiles.stream().map( Pair::getLeft ) ).contains( "positioning.filter",
+				"visibility.filter" );
 	}
 
 	@Test
@@ -59,16 +59,16 @@ class SearchFilterFilesTest {
 		final File webFontFilter = Files.createTempFile( filterFolder, "web-font", FILTER_EXTENSION ).toFile();
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 
-		final List<Pair<Path, FilterLoader>> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
-		assertThat( projectFilterFiles ).allMatch( pair -> pair.getLeft().toString().endsWith( FILTER_EXTENSION ) );
-		assertThat( projectFilterFiles.stream().map( Pair::getLeft ).map( Path::getFileName ) )
-				.contains( colorFilter.toPath().getFileName(), webFontFilter.toPath().getFileName() );
+		final List<Pair<String, FilterLoader>> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
+		assertThat( projectFilterFiles ).allMatch( pair -> pair.getLeft().endsWith( FILTER_EXTENSION ) );
+		assertThat( projectFilterFiles.stream().map( Pair::getLeft ) ).contains(
+				colorFilter.toPath().getFileName().toString(), webFontFilter.toPath().getFileName().toString() );
 	}
 
 	@Test
 	void loadFilterMap_should_contain_all_existing_filter_files() {
-		final List<Pair<Path, FilterLoader>> allFilter = SearchFilterFiles.getAllFilterFiles();
-		final Map<Path, Filter> filterMap = SearchFilterFiles.toPathFilterMapping( allFilter );
+		final List<Pair<String, FilterLoader>> allFilter = SearchFilterFiles.getAllFilterFiles();
+		final Map<String, Filter> filterMap = SearchFilterFiles.toPathFilterMapping( allFilter );
 		assertThat( allFilter.stream().map( Pair::getLeft ) ).containsAll( filterMap.keySet() );
 	}
 }
