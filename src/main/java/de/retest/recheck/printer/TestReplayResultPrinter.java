@@ -26,7 +26,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 		final String name = result.getName();
 		final int differences = result.getDifferences( filter ).size();
 		final int states = result.getActionReplayResults().size();
-		return String.format( "Test '%s' has %d differences in %d states:", name, differences, states );
+		return String.format( "Test '%s' has %d difference(s) in %d state(s):", name, differences, states );
 	}
 
 	private String createDifferences( final TestReplayResult difference, final String indent ) {
