@@ -225,8 +225,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
-		return "\n" //
-				+ "A detailed report will be created at \'" + getResultFile() + "\'. " //
+		return "A detailed report will be created at \'" + getResultFile() + "\'. " //
 				+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
 				+ "\n" //
 				+ "The following differences have been found in \'" + suiteName //
