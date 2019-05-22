@@ -29,7 +29,7 @@ class AttributeDifferencePrinterTest {
 
 		final String string = cut.toString( d1 );
 
-		assertThat( string ).contains( "actual=\"(default)\"" );
+		assertThat( string ).contains( "actual=\"(default or absent)\"" );
 	}
 
 	@Test
@@ -38,7 +38,7 @@ class AttributeDifferencePrinterTest {
 
 		final String string = cut.toString( d1 );
 
-		assertThat( string ).doesNotContain( "actual=\"(default)\"" );
+		assertThat( string ).doesNotContain( "actual=\"(default or absent)\"" );
 	}
 
 	@Test
@@ -47,7 +47,7 @@ class AttributeDifferencePrinterTest {
 
 		final String string = cut.toString( difference );
 
-		assertThat( string ).contains( "expected=\"(default)\"" );
+		assertThat( string ).contains( "expected=\"(default or absent)\"" );
 	}
 
 	@Test
@@ -56,7 +56,7 @@ class AttributeDifferencePrinterTest {
 
 		final String string = cut.toString( difference );
 
-		assertThat( string ).contains( "expected=\"(default)\"" );
+		assertThat( string ).contains( "expected=\"(default or absent)\"" );
 	}
 
 	class PrinterFinder implements DefaultValueFinder {
