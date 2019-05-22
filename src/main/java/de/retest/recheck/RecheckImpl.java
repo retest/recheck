@@ -229,7 +229,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return "A detailed report will be created at '" + getResultFile() + "'. " //
 				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
 				+ "\n" //
-				+ numChecks + " checks in '" + suiteName + "' have found the following difference(s):\n"
+				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n"
 				+ printer.toString( finishedTestResult );
 	}
 }
