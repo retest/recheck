@@ -8,7 +8,7 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class AttributeDifferencePrinter implements Printer<AttributeDifference> {
 
-	private static final String IS_DEFAULT = "(default)";
+	private static final String IS_DEFAULT = "(default or absent)";
 
 	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
 
