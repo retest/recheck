@@ -105,8 +105,12 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	/**
-	 * Note that the retestId is immutable, so this method returns a new Element that is a copy of the old one with the
-	 * new retestId.
+	 * Note that the retest ID is immutable, so this method returns a new element that is a copy of the old one with the
+	 * new retest ID.
+	 *
+	 * @param retestId
+	 *            The new retest ID to be used.
+	 * @return A copy of the element using the new retest ID.
 	 */
 	public Element applyRetestId( final String retestId ) {
 		return Element.create( retestId, parent, identifyingAttributes, attributes );
