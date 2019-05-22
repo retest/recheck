@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -36,10 +37,12 @@ public class RecheckIgnoreUtil {
 		try {
 			final LoadFilterWorker loadFilterWorker = new LoadFilterWorker( NopCounter.getInstance() );
 			return loadFilterWorker.load();
+		} catch ( final FileNotFoundException e ) {
+			logger.error( "Could not find recheck ignore file." );
 		} catch ( final Exception e ) {
-			logger.error( "Could not load recheck ignore file.", e );
-			return GlobalIgnoreApplier.create( NopCounter.getInstance() );
+			logger.error( "Exception loading recheck ignore file.", e );
 		}
+		return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 	}
 
 	public static GlobalIgnoreApplier loadRecheckSuiteIgnore( final File ignoreFilesBasePath ) {
@@ -47,9 +50,11 @@ public class RecheckIgnoreUtil {
 			final LoadFilterWorker loadFilterWorker =
 					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath );
 			return loadFilterWorker.load();
+		} catch ( final FileNotFoundException e ) {
+			logger.debug( "Ignoring missing suite ignore file." );
 		} catch ( final Exception e ) {
-			logger.debug( "Ignoring missing suite ignore file.", e );
-			return GlobalIgnoreApplier.create( NopCounter.getInstance() );
+			logger.error( "Exception loading suite ignore file.", e );
 		}
+		return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 	}
 }

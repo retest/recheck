@@ -4,6 +4,7 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNOR
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -36,7 +37,7 @@ public class LoadFilterWorker {
 	public GlobalIgnoreApplier load() throws IOException {
 		final Optional<Path> ignoreFile = getIgnoreFile();
 		final Stream<String> ignoreFileLines = Files.lines(
-				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No '" + RECHECK_IGNORE + "' found." ) ) );
+				ignoreFile.orElseThrow( () -> new FileNotFoundException( "No '" + RECHECK_IGNORE + "' found." ) ) );
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
 				.filter( Filter.class::isInstance ) //
 				.map( Filter.class::cast ) //
