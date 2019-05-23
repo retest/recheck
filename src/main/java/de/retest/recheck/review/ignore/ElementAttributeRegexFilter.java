@@ -38,8 +38,8 @@ public class ElementAttributeRegexFilter implements Filter {
 
 	public static class ElementAttributeRegexFilterLoader extends RegexLoader<ElementAttributeRegexFilter> {
 
-		private static final String MATCHER = "matcher: ";
-		private static final String KEY = "attribute-regex: ";
+		static final String MATCHER = "matcher: ";
+		static final String KEY = "attribute-regex: ";
 
 		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );

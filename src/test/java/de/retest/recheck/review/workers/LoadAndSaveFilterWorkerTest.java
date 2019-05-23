@@ -18,7 +18,7 @@ import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
-class LoadAndSaveShouldIgnoreWorkerTest {
+class LoadAndSaveFilterWorkerTest {
 
 	Path origIgnoreFile;
 	Path tempIgnoreFile;

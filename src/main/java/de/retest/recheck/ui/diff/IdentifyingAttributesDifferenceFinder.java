@@ -49,7 +49,7 @@ public class IdentifyingAttributesDifferenceFinder {
 		}
 
 		actual.getAttributes().stream() //
-				.filter( actualAttr -> expected.get( actualAttr.getKey() ) == null ) //
+				.filter( actualAttr -> expected.getAttribute( actualAttr.getKey() ) == null ) //
 				.map( additionalAttr -> new AdditionalAttributeDifference( additionalAttr.getKey(), additionalAttr ) ) //
 				.forEach( attributeDifferences::add );
 

@@ -79,6 +79,18 @@ class IdentifyingAttributesDifferenceFinderTest {
 	}
 
 	@Test
+	void identifying_attributes_that_are_null_should_produce_no_difference() throws Exception {
+		final Attribute attribute = new DefaultAttribute( "key", null );
+		final IdentifyingAttributes expectedIdentAttributes = new IdentifyingAttributes( Arrays.asList( attribute ) );
+		final IdentifyingAttributes actualIdentAttributes = new IdentifyingAttributes( Arrays.asList( attribute ) );
+
+		final IdentifyingAttributesDifference diff =
+				cut.differenceFor( expectedIdentAttributes, actualIdentAttributes );
+
+		assertThat( diff ).isNull();
+	}
+
+	@Test
 	void attributes_with_ignore_weight_should_produce_difference() throws Exception {
 		final String key = "key";
 		final String expectedValue = "value1";
