@@ -36,7 +36,7 @@ public class ElementFilter implements Filter {
 
 	public static class ElementFilterLoader extends RegexLoader<ElementFilter> {
 
-		private static final String MATCHER = "matcher: ";
+		static final String MATCHER = "matcher: ";
 
 		private static final String FORMAT = MATCHER + "%s";
 		private static final Pattern PREFIX = Pattern.compile( MATCHER + "(.+)" );

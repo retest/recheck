@@ -33,7 +33,8 @@ public class AttributeFilter implements Filter {
 
 	public static class AttributeFilterLoader extends RegexLoader<AttributeFilter> {
 
-		private static final String KEY = "attribute=";
+		static final String KEY = "attribute=";
+
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(.+)" );
 
