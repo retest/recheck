@@ -36,7 +36,7 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 0 differences in 0 states:\n" );
+		assertThat( string ).isEqualTo( "Test 'null' has 0 difference(s) in 0 state(s):\n" );
 	}
 
 	@Test
@@ -63,7 +63,7 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 1 differences in 1 states:\nfoo resulted in:\n" );
+		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 1 state(s):\nfoo resulted in:\n" );
 	}
 
 	@Test
@@ -95,6 +95,6 @@ class TestReplayResultPrinterTest {
 		final String string = cut.toString( result );
 
 		assertThat( string )
-				.isEqualTo( "Test 'null' has 1 differences in 2 states:\nfoo resulted in:\n\nbar resulted in:\n" );
+				.isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\nfoo resulted in:\n\nbar resulted in:\n" );
 	}
 }

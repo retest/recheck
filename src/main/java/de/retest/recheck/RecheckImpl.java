@@ -225,10 +225,13 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
-		return "\nA detailed report will be created at \'" + getResultFile() + "\'. " //
-				+ "You can review the details by using our GUI from https://retest.de/review/.\n" //
-				+ "\nThe following differences have been found in \'" + suiteName //
-				+ "\'(with " + finishedTestResult.getActionReplayResults().size() + " check(s)):" //
-				+ "\n" + printer.toString( finishedTestResult );
+		final int numChecks = finishedTestResult.getActionReplayResults().size();
+		final String allDiffs = printer.toString( finishedTestResult );
+		final String reportPath = getResultFile().getAbsolutePath();
+		return "A detailed report will be created at '" + reportPath + "'. " //
+				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
+				+ "\n" //
+				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
+				+ allDiffs;
 	}
 }
