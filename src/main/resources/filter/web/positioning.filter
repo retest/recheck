@@ -11,6 +11,7 @@ attribute=margin-bottom
 attribute=margin-left
 attribute=object-position
 attribute=outline
+attribute=absolute-outline
 attribute=padding-top
 attribute=padding-right
 attribute=padding-bottom
