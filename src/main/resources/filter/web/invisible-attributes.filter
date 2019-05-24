@@ -1,0 +1,12 @@
+# Filter file for recheck with invisible and mostly irrelevant attributes 
+
+# Class can be ignored, because we track individual CSS attributes
+attribute=id
+attribute=class
+attribute=style
+attribute=ping
+attribute-regex=data-.*
+attribute=jsdata
+attribute=jsaction
+attribute=cd_frame_id_
+attribute=transform
