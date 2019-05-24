@@ -65,9 +65,6 @@ attribute=column-rule-style
 attribute=column-rule-width
 attribute=column-span
 attribute=column-width
-attribute=content
-attribute=counter-increment
-attribute=counter-reset
 attribute=direction
 attribute=display
 attribute=empty-cells
@@ -173,11 +170,8 @@ attribute=z-index
 
 # Ignore visibility HTML attributes:
 attribute=align
-attribute=alt
-attribute=charset
 attribute=cols
 attribute=colspan
-attribute=content
 attribute=high
 attribute=href
 attribute=hreflang
@@ -185,4 +179,3 @@ attribute=kind
 attribute=label
 attribute=src
 attribute=type
-attribute=value
