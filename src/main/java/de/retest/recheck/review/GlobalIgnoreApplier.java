@@ -57,9 +57,13 @@ public class GlobalIgnoreApplier implements Filter {
 		remove( filter -> filter.matches( element ) );
 	}
 
-	public void add( final Filter filter ) {
+	private void add( final Filter filter ) {
 		filtered.add( filter );
 		counter.add();
+	}
+
+	public void addJSRuleFile( final Filter filter ) {
+		filtered.add( filter );
 	}
 
 	private void remove( final Predicate<Filter> filter ) {
