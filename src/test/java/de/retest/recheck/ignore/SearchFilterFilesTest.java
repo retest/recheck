@@ -38,7 +38,7 @@ class SearchFilterFilesTest {
 		final List<String> actualFilterFileNames = defaultFilterFiles.stream() //
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
-		final List<String> expectedFilterFileNames = Arrays.asList( "positioning.filter", "visibility.filter" );
+		final List<String> expectedFilterFileNames = Arrays.asList( "positioning.filter", "style-attributes.filter" );
 		assertThat( actualFilterFileNames ).isEqualTo( expectedFilterFileNames );
 	}
 

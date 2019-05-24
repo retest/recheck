@@ -31,7 +31,7 @@ public class SearchFilterFiles {
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
-			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "visibility.filter" );
+			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "style-attributes.filter" );
 
 	private SearchFilterFiles() {}
 
