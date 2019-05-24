@@ -1,6 +1,6 @@
 # Positioning filter file for recheck.
 
-# Ignore positioning CSS attributes:
+# Ignore attributes that are concerned with positioning:
 
 attribute=top
 attribute=bottom

@@ -1,6 +1,6 @@
-# Visibility filter file for recheck.
+# Style attributes filter file for recheck.
 
-# Ignore visibility CSS attributes:
+# Ignore CSS that are concerned with style and appearance:
 
 attribute=align-content
 attribute=align-items
