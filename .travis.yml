@@ -3,6 +3,9 @@ dist: trusty
 
 jdk: oraclejdk8
 
+git:
+  depth: false
+
 addons:
   sonarcloud:
     organization: retest
