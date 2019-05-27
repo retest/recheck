@@ -45,6 +45,9 @@ public class SuiteReplayResult implements Serializable {
 	@XmlElement
 	private final GroundState replaySutVersion;
 
+	@XmlElement
+	private final ExecutableSuite suite;
+
 	@SuppressWarnings( "unused" )
 	private SuiteReplayResult() {
 		// for JAXB
@@ -53,6 +56,7 @@ public class SuiteReplayResult implements Serializable {
 		execSuiteSutVersion = null;
 		replaySutVersion = null;
 		suiteUuid = null;
+		suite = null;
 	}
 
 	public SuiteReplayResult( final ExecutableSuite suite, final int suiteNr, final GroundState replaySutVersion ) {
@@ -67,11 +71,16 @@ public class SuiteReplayResult implements Serializable {
 		execSuiteSutVersion = suite.getGroundState();
 		suiteUuid = suite.getUuid();
 		this.replaySutVersion = replaySutVersion;
+		this.suite = suite;
 	}
 
 	public void addTest( final TestReplayResult newReplayResult ) {
 		suiteDuration += newReplayResult.getDuration();
 		testReplayResults.add( newReplayResult );
+	}
+
+	public int getSuiteNr() {
+		return suiteNr;
 	}
 
 	public String getSuiteName() {
@@ -89,11 +98,19 @@ public class SuiteReplayResult implements Serializable {
 		return execSuiteSutVersion.getSutVersion();
 	}
 
+	public GroundState getGroundState() {
+		return replaySutVersion;
+	}
+
 	public String getReplaySutVersion() {
 		if ( replaySutVersion == null ) {
 			return "unspecified SUT version";
 		}
 		return replaySutVersion.getSutVersion();
+	}
+
+	public ExecutableSuite getSuite() {
+		return suite;
 	}
 
 	public List<TestReplayResult> getTestReplayResults() {
