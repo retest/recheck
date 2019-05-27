@@ -1,7 +1,8 @@
-# Visibility filter file for recheck.
+# Style attributes filter file for recheck.
 
-# Ignore visibility CSS attributes:
+# Ignore CSS that are concerned with style and appearance:
 
+attribute=absolute-outline
 attribute=align-content
 attribute=align-items
 attribute=align-self
@@ -65,9 +66,6 @@ attribute=column-rule-style
 attribute=column-rule-width
 attribute=column-span
 attribute=column-width
-attribute=content
-attribute=counter-increment
-attribute=counter-reset
 attribute=direction
 attribute=display
 attribute=empty-cells
@@ -80,8 +78,6 @@ attribute=flex-wrap
 attribute=float
 attribute=font-family
 attribute=font-size
-attribute=line-height
-attribute=text-align
 attribute=font-kerning
 attribute=font-stretch
 attribute=font-style
@@ -105,6 +101,7 @@ attribute=isolation
 attribute=justify-content
 attribute=list-style-position
 attribute=list-style-type
+attribute=line-height
 attribute=margin-top
 attribute=margin-right
 attribute=margin-bottom
@@ -115,9 +112,9 @@ attribute=min-height
 attribute=min-width
 attribute=mix-blend-mode
 attribute=object-fit
-attribute=position
 attribute=opacity
 attribute=order
+attribute=outline
 attribute=outline-color
 attribute=outline-offset
 attribute=outline-style
@@ -173,11 +170,8 @@ attribute=z-index
 
 # Ignore visibility HTML attributes:
 attribute=align
-attribute=alt
-attribute=charset
 attribute=cols
 attribute=colspan
-attribute=content
 attribute=high
 attribute=href
 attribute=hreflang
@@ -185,4 +179,3 @@ attribute=kind
 attribute=label
 attribute=src
 attribute=type
-attribute=value

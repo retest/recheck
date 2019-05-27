@@ -1,21 +1,27 @@
 # Positioning filter file for recheck.
 
-# Ignore positioning CSS attributes:
+# Ignore attributes that are concerned with positioning:
 
+attribute=top
 attribute=bottom
-attribute=clip
+attribute=right
 attribute=left
+
+attribute=clip
+
 attribute=margin-top
 attribute=margin-right
 attribute=margin-bottom
 attribute=margin-left
+
 attribute=object-position
 attribute=outline
+attribute=absolute-outline
+attribute=position
+
 attribute=padding-top
 attribute=padding-right
 attribute=padding-bottom
 attribute=padding-left
-attribute=position
-attribute=right
-attribute=top
+
 attribute=z-index
