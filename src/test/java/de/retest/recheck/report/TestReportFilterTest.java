@@ -38,7 +38,7 @@ class TestReportFilterTest {
 	AttributeDifference filterMe;
 	AttributeDifference notFilterMe;
 	List<AttributeDifference> attributeDifferences;
-	AttributesDifference originalAttributeDifference;
+	AttributesDifference originalAttributesDifference;
 	IdentifyingAttributesDifference originalIdentAttributesDifference;
 	Element element;
 	IdentifyingAttributes identAttributes;
@@ -67,19 +67,19 @@ class TestReportFilterTest {
 		element = mock( Element.class );
 		identAttributes = mock( IdentifyingAttributes.class );
 		attributeDifferences = Arrays.asList( filterMe, notFilterMe );
-		originalAttributeDifference = new AttributesDifference( attributeDifferences );
+		originalAttributesDifference = new AttributesDifference( attributeDifferences );
 		originalIdentAttributesDifference =
 				new IdentifyingAttributesDifference( mock( IdentifyingAttributes.class ), attributeDifferences );
 		firstChildDifference =
-				new ElementDifference( element, originalAttributeDifference, originalIdentAttributesDifference,
+				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), Collections.emptyList() );
 		secondChildDifference =
-				new ElementDifference( element, originalAttributeDifference, originalIdentAttributesDifference,
+				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), Collections.emptyList() );
 		childDifferences = Arrays.asList( firstChildDifference, secondChildDifference );
 
 		originalElementDifference =
-				new ElementDifference( element, originalAttributeDifference, originalIdentAttributesDifference,
+				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), childDifferences );
 		when( originalElementDifference.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		when( originalElementDifference.getIdentifyingAttributes().identifier() ).thenReturn( "identifier" );
@@ -105,7 +105,7 @@ class TestReportFilterTest {
 	@Test
 	void Attributes_differences_should_be_filtered_properly() throws Exception {
 		final AttributesDifference filtered =
-				TestReportFilter.filter( mock( Element.class ), originalAttributeDifference, filter );
+				TestReportFilter.filter( mock( Element.class ), originalAttributesDifference, filter );
 		assertThat( filtered.getDifferences() ).containsExactly( notFilterMe );
 	}
 
