@@ -12,14 +12,14 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MaxPixelDiffFilter implements Filter {
+public class PixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
 
-	private final double maxPixelDiff;
+	private final double pixelDiff;
 
-	public MaxPixelDiffFilter( final double maxPixelDiff ) {
-		this.maxPixelDiff = maxPixelDiff;
+	public PixelDiffFilter( final double pixelDiff ) {
+		this.pixelDiff = pixelDiff;
 	}
 
 	@Override
@@ -44,10 +44,10 @@ public class MaxPixelDiffFilter implements Filter {
 	}
 
 	private boolean checkRectangle( final Rectangle expected, final Rectangle actual ) {
-		final boolean filterX = Math.abs( expected.x - actual.x ) <= maxPixelDiff;
-		final boolean filterY = Math.abs( expected.y - actual.y ) <= maxPixelDiff;
-		final boolean filterHeight = Math.abs( expected.height - actual.height ) <= maxPixelDiff;
-		final boolean filterWidth = Math.abs( expected.width - actual.width ) <= maxPixelDiff;
+		final boolean filterX = Math.abs( expected.x - actual.x ) <= pixelDiff;
+		final boolean filterY = Math.abs( expected.y - actual.y ) <= pixelDiff;
+		final boolean filterHeight = Math.abs( expected.height - actual.height ) <= pixelDiff;
+		final boolean filterWidth = Math.abs( expected.width - actual.width ) <= pixelDiff;
 		return filterX && filterY && filterHeight && filterWidth;
 	}
 
@@ -63,9 +63,9 @@ public class MaxPixelDiffFilter implements Filter {
 		try {
 			final double expectedDouble = Double.parseDouble( clean( expected ) );
 			final double actualDouble = Double.parseDouble( clean( actual ) );
-			return Math.abs( expectedDouble - actualDouble ) <= maxPixelDiff;
+			return Math.abs( expectedDouble - actualDouble ) <= pixelDiff;
 		} catch ( final NumberFormatException e ) {
-			log.error( "Could not parse {} and {} for max pixel diff.", expected, actual, e );
+			log.error( "Could not parse {} and {} for pixel diff.", expected, actual, e );
 			return false;
 		}
 	}
@@ -76,23 +76,23 @@ public class MaxPixelDiffFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( MaxPixelDiffFilterLoader.FORMAT, maxPixelDiff );
+		return String.format( PixelDiffFilterLoader.FORMAT, pixelDiff );
 	}
 
-	public static class MaxPixelDiffFilterLoader extends RegexLoader<MaxPixelDiffFilter> {
+	public static class PixelDiffFilterLoader extends RegexLoader<PixelDiffFilter> {
 
-		private static final String KEY = "maxPixelDiff=";
+		private static final String KEY = "pixel-diff=";
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(\\d+(\\.\\d+)?)" );
 
-		public MaxPixelDiffFilterLoader() {
+		public PixelDiffFilterLoader() {
 			super( REGEX );
 		}
 
 		@Override
-		protected MaxPixelDiffFilter load( final MatchResult regex ) {
-			final double maxPixelDiff = Double.parseDouble( regex.group( 1 ) );
-			return new MaxPixelDiffFilter( maxPixelDiff );
+		protected PixelDiffFilter load( final MatchResult regex ) {
+			final double pixelDiff = Double.parseDouble( regex.group( 1 ) );
+			return new PixelDiffFilter( pixelDiff );
 		}
 	}
 }

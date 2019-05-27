@@ -21,8 +21,8 @@ import de.retest.recheck.review.ignore.ElementFilter.ElementFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
 import de.retest.recheck.review.ignore.JSFilterLoader;
-import de.retest.recheck.review.ignore.MaxPixelDiffFilter;
-import de.retest.recheck.review.ignore.MaxPixelDiffFilter.MaxPixelDiffFilterLoader;
+import de.retest.recheck.review.ignore.PixelDiffFilter;
+import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
@@ -49,7 +49,7 @@ public class Loaders {
 		pairs.add( Pair.of( AttributeFilter.class, new AttributeFilterLoader() ) );
 		pairs.add( Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ) );
 		pairs.add( Pair.of( ElementFilter.class, new ElementFilterLoader() ) );
-		pairs.add( Pair.of( MaxPixelDiffFilter.class, new MaxPixelDiffFilterLoader() ) );
+		pairs.add( Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ) );
 		pairs.add( Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ) );
 		pairs.add( Pair.of( JSFilterImpl.class, new JSFilterLoader() ) );
 

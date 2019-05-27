@@ -11,13 +11,13 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class MaxPixelDiffFilterTest {
+class PixelDiffFilterTest {
 
-	double maxPixelDiff = 5.0;
-	Filter cut = new MaxPixelDiffFilter( maxPixelDiff );
+	double pixelDiff = 5.0;
+	Filter cut = new PixelDiffFilter( pixelDiff );
 
 	@Test
-	void should_filter_diff_when_max_pixel_diff_is_not_exceeded() throws Exception {
+	void should_filter_diff_when_pixel_diff_is_not_exceeded() throws Exception {
 		final Rectangle expected = new Rectangle( 0, 0, 10, 10 );
 		final Rectangle actual = new Rectangle( 1, -1, 15, 5 );
 		final AttributeDifference diff = new AttributeDifference( "outline", expected, actual );
@@ -26,12 +26,12 @@ class MaxPixelDiffFilterTest {
 	}
 
 	@Test
-	void should_not_filter_diff_when_max_pixel_diff_is_exceeded() throws Exception {
+	void should_not_filter_diff_when_pixel_diff_is_exceeded() throws Exception {
 		final Rectangle expected = new Rectangle( 0, 0, 10, 10 );
 		final Rectangle actual = new Rectangle( 1, -1, 15, 5 );
 		final AttributeDifference diff = new AttributeDifference( "outline", expected, actual );
 
-		final Filter cut = new MaxPixelDiffFilter( 0.0 );
+		final Filter cut = new PixelDiffFilter( 0.0 );
 
 		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
 	}
