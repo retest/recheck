@@ -62,7 +62,7 @@ public class GlobalIgnoreApplier implements Filter {
 		counter.add();
 	}
 
-	public void addJSRuleFile( final Filter filter ) {
+	public void addWithoutCounting( final Filter filter ) {
 		filtered.add( filter );
 	}
 

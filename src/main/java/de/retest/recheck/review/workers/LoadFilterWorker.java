@@ -45,7 +45,7 @@ public class LoadFilterWorker {
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
 		final Optional<Path> ignoreRuleFile = getIgnoreRuleFile();
-		ignoreRuleFile.ifPresent( file -> result.addJSRuleFile( new JSFilterImpl( file ) ) );
+		ignoreRuleFile.ifPresent( file -> result.addWithoutCounting( new JSFilterImpl( file ) ) );
 
 		return result;
 	}
