@@ -48,7 +48,7 @@ public class RootElementDifference implements Difference {
 		checkedUiComponentCount = 0;
 	}
 
-	RootElementDifference( final ElementDifference elementDifference, final RootElement expectedDescriptor,
+	public RootElementDifference( final ElementDifference elementDifference, final RootElement expectedDescriptor,
 			final RootElement actualDescriptor ) {
 		final RootElement instance = expectedDescriptor != null ? expectedDescriptor : actualDescriptor;
 		title = instance.getTitle();
