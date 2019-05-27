@@ -124,7 +124,7 @@ public class TestReportFilter {
 						diffs -> new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), diffs ) ) );
 	}
 
-	static AttributesDifference filter( final Element element, final AttributesDifference attributesDiff,
+	public static AttributesDifference filter( final Element element, final AttributesDifference attributesDiff,
 			final Filter filter ) {
 		return attributesDiff.getDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
