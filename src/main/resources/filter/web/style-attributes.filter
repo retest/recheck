@@ -99,6 +99,7 @@ attribute=hanging-punctuation
 attribute=hyphens
 attribute=isolation
 attribute=justify-content
+attribute=left
 attribute=list-style-position
 attribute=list-style-type
 attribute=line-height
