@@ -56,12 +56,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final SuiteReplayResult suite;
 	private final FileNamerStrategy fileNamerStrategy;
 	private final String suiteName;
-
-	private TestReplayResult currentTestResult;
+	private final Filter suiteFilter;
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
-	private final TestReplayResultPrinter printer;
-	private final Filter filter;
+
+	private TestReplayResult currentTestResult;
+	private File currentStepDir;
 
 	/**
 	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
@@ -81,11 +81,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suiteName = options.getSuiteName();
 		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
 
-		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
-		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() );
-		filter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
-
-		printer = new TestReplayResultPrinter( usedFinders::get, filter );
+		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadGlobalRecheckIgnore();
+		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( getSuitePath() );
+		suiteFilter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
 	}
 
 	private static void ensureConfigurationInitialized() {
@@ -127,16 +125,16 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		usedFinders.put( currentStep, defaultFinder );
 
 		final FileNamer fileNamer = createFileName( currentStep );
-		final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		currentStepDir = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
-		final SutState expected = loadExpected( file );
+		final SutState expected = loadExpected( currentStepDir );
 		if ( expected == null ) {
-			createNew( file, actual );
-			return new NoGoldenMasterActionReplayResult( currentStep, actual, file.getPath() );
+			createNew( currentStepDir, actual );
+			return new NoGoldenMasterActionReplayResult( currentStep, actual, currentStepDir.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
-				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
+				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, currentStepDir.getPath() );
 
 		return finder.findDifferences( actual, expected );
 	}
@@ -165,13 +163,18 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite.addTest( currentTestResult );
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
-		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( filter );
+
+		final GlobalIgnoreApplier stepIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( currentStepDir );
+		final Filter stepFilter = new CompoundFilter( Arrays.asList( suiteFilter, stepIgnoreApplier ) );
+
+		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( stepFilter );
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
+
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message =
 					finishedTestResult.hasNoGoldenMaster() ? getNoGoldenMasterErrorMessage( finishedTestResult )
-							: getDifferencesErrorMessage( finishedTestResult );
+							: getDifferencesErrorMessage( stepFilter, finishedTestResult );
 			throw new AssertionError( message );
 		}
 	}
@@ -224,9 +227,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
 	}
 
-	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
+	private String getDifferencesErrorMessage( final Filter stepFilter, final TestReplayResult finishedTestResult ) {
 		final int numChecks = finishedTestResult.getActionReplayResults().size();
-		final String allDiffs = printer.toString( finishedTestResult );
+
+		final String allDiffs =
+				new TestReplayResultPrinter( usedFinders::get, stepFilter ).toString( finishedTestResult );
+
 		final String reportPath = getResultFile().getAbsolutePath();
 		return "A detailed report will be created at '" + reportPath + "'. " //
 				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //

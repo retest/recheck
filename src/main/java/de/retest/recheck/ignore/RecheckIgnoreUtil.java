@@ -33,7 +33,7 @@ public class RecheckIgnoreUtil {
 		return projectConfigurationFolder.map( p -> p.resolve( filename ) );
 	}
 
-	public static GlobalIgnoreApplier loadRecheckIgnore() {
+	public static GlobalIgnoreApplier loadGlobalRecheckIgnore() {
 		try {
 			final LoadFilterWorker loadFilterWorker = new LoadFilterWorker( NopCounter.getInstance() );
 			return loadFilterWorker.load();
@@ -45,15 +45,18 @@ public class RecheckIgnoreUtil {
 		return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 	}
 
-	public static GlobalIgnoreApplier loadRecheckSuiteIgnore( final File ignoreFilesBasePath ) {
+	/**
+	 * Loads a filter from the argument base path, e.g., test suite and step filters.
+	 */
+	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
 		try {
 			final LoadFilterWorker loadFilterWorker =
 					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath );
 			return loadFilterWorker.load();
 		} catch ( final FileNotFoundException e ) {
-			logger.debug( "Ignoring missing suite ignore file." );
+			logger.debug( String.format( "Ignoring missing suite or step ignore file in '%s'", ignoreFilesBasePath ) );
 		} catch ( final Exception e ) {
-			logger.error( "Exception loading suite ignore file.", e );
+			logger.error( "Exception loading suite or step ignore file.", e );
 		}
 		return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 	}
