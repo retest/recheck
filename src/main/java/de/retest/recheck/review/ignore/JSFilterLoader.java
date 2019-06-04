@@ -15,4 +15,9 @@ public class JSFilterLoader implements Loader<JSFilterImpl> {
 	public String save( final JSFilterImpl ignore ) {
 		return "";
 	}
+
+	@Override
+	public boolean canLoad( final String line ) {
+		return false;
+	}
 }
