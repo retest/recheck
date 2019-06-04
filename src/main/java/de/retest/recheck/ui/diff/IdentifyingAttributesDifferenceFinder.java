@@ -58,8 +58,7 @@ public class IdentifyingAttributesDifferenceFinder {
 	}
 
 	private static boolean pathDiffers( final IdentifyingAttributes expected, final IdentifyingAttributes actual ) {
-		return !expected.getPathElement().toString().replace( expected.getParentPath(), actual.getParentPath() )
-				.equals( actual.getPathElement().toString() );
+		return !expected.getPathElement().equals( actual.getPathElement() );
 	}
 
 	// We treat null == "". This is OK for visible attributeDifferences but less suitable for invisible ones.
