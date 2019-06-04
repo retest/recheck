@@ -40,8 +40,14 @@ public class ProjectConfiguration {
 		return instance;
 	}
 
+	private Optional<Path> projectConfigFolder;
+
 	public Optional<Path> getProjectConfigFolder() {
-		return ProjectRootFinderUtil.getProjectRoot().map( path -> path.resolve( RETEST_PROJECT_CONFIG_FOLDER ) );
+		if ( projectConfigFolder == null ) {
+			projectConfigFolder =
+					ProjectRootFinderUtil.getProjectRoot().map( path -> path.resolve( RETEST_PROJECT_CONFIG_FOLDER ) );
+		}
+		return projectConfigFolder;
 	}
 
 	public Path findProjectConfigFolder() {
