@@ -35,7 +35,7 @@ public class TestReportFilter {
 		final SuiteReplayResult newSuiteReplayResult = new SuiteReplayResult( suiteReplayResult.getSuite(),
 				suiteReplayResult.getSuiteNr(), suiteReplayResult.getGroundState() );
 		for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
-			newSuiteReplayResult.addTest( TestReportFilter.filter( testReplayResult, filter ) );
+			newSuiteReplayResult.addTest( filter( testReplayResult, filter ) );
 		}
 		return newSuiteReplayResult;
 	}
