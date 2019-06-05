@@ -30,24 +30,16 @@ import de.retest.recheck.ui.diff.StateDifference;
 import de.retest.recheck.ui.image.Screenshot;
 
 class TestReportFilterTest {
+
 	Filter filter;
-	String keyToFilter;
-	String keyNotToFilter;
-	String childKey;
-	String secondChildKey;
-	AttributeDifference filterMe;
 	AttributeDifference notFilterMe;
-	List<AttributeDifference> attributeDifferences;
 	AttributesDifference originalAttributesDifference;
 	IdentifyingAttributesDifference originalIdentAttributesDifference;
 	Element element;
 	IdentifyingAttributes identAttributes;
-	ElementDifference firstChildDifference;
-	ElementDifference secondChildDifference;
 	Collection<ElementDifference> childDifferences;
 	ElementDifference originalElementDifference;
 	RootElementDifference originalRootElementDifference;
-	RootElementDifference secondRootElementDifference;
 	List<RootElementDifference> originalRootElementDifferences;
 	StateDifference originalStateDifference;
 	ActionReplayResult originalActionReplayResult;
@@ -57,23 +49,21 @@ class TestReportFilterTest {
 
 	@BeforeEach
 	void setUp() {
-		keyToFilter = "filterMe";
-		keyNotToFilter = "notFilterMe";
-		childKey = "child";
-		secondChildKey = "secondChild";
+		final String keyToFilter = "filterMe";
+		final String keyNotToFilter = "notFilterMe";
 		filter = new AttributeFilter( keyToFilter );
-		filterMe = new AttributeDifference( keyToFilter, null, null );
+		final AttributeDifference filterMe = new AttributeDifference( keyToFilter, null, null );
 		notFilterMe = new AttributeDifference( keyNotToFilter, null, null );
 		element = mock( Element.class );
 		identAttributes = mock( IdentifyingAttributes.class );
-		attributeDifferences = Arrays.asList( filterMe, notFilterMe );
+		final List<AttributeDifference> attributeDifferences = Arrays.asList( filterMe, notFilterMe );
 		originalAttributesDifference = new AttributesDifference( attributeDifferences );
 		originalIdentAttributesDifference =
 				new IdentifyingAttributesDifference( mock( IdentifyingAttributes.class ), attributeDifferences );
-		firstChildDifference =
+		final ElementDifference firstChildDifference =
 				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), Collections.emptyList() );
-		secondChildDifference =
+		final ElementDifference secondChildDifference =
 				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), Collections.emptyList() );
 		childDifferences = Arrays.asList( firstChildDifference, secondChildDifference );
