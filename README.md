@@ -1,4 +1,4 @@
- #### <a href="http://retest.dev"><img src="https://assets.retest.org/retest/ci/logos/recheck-screen.svg" width="300"/></a> fully functional open source testing tool
+# <a href="https://retest.dev"><img src="https://assets.retest.org/retest/ci/logos/recheck-screen.svg" width="300"/></a>
 
 [![Build Status](https://travis-ci.com/retest/recheck.svg?branch=master)](https://travis-ci.com/retest/recheck)
 [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
