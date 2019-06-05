@@ -77,7 +77,6 @@ class TestReportFilterTest {
 				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), Collections.emptyList() );
 		childDifferences = Arrays.asList( firstChildDifference, secondChildDifference );
-
 		originalElementDifference =
 				new ElementDifference( element, originalAttributesDifference, originalIdentAttributesDifference,
 						mock( Screenshot.class ), mock( Screenshot.class ), childDifferences );
@@ -99,7 +98,6 @@ class TestReportFilterTest {
 		originalSuiteReplayResult.addTest( originalTestReplayResult );
 		originalTestReport = new TestReport();
 		originalTestReport.addSuite( originalSuiteReplayResult );
-
 	}
 
 	@Test
@@ -132,7 +130,6 @@ class TestReportFilterTest {
 
 	@Test
 	void element_difference_and_child_differences_should_be_filtered_properly() throws Exception {
-
 		when( element.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		final ElementDifference filteredElementDifference =
 				TestReportFilter.filter( originalElementDifference, filter );
@@ -143,7 +140,6 @@ class TestReportFilterTest {
 				.containsExactly( notFilterMe );
 		assertThat( childElementDiffferences.get( 0 ).getAttributesDifference().getDifferences() )
 				.containsExactly( notFilterMe );
-
 	}
 
 	@Test
