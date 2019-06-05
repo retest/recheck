@@ -105,4 +105,7 @@ public class ProjectConfiguration {
 		return getClass().getClassLoader().getResourceAsStream( fileName );
 	}
 
+	public void resetConfiguration() {
+		projectConfigFolder = null;
+	}
 }

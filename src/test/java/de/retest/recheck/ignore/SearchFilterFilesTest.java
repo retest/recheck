@@ -14,10 +14,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class SearchFilterFilesTest {
@@ -30,6 +32,11 @@ class SearchFilterFilesTest {
 		retestFolder = temp.resolve( RETEST_PROJECT_CONFIG_FOLDER );
 		filterFolder = retestFolder.resolve( FILTER_FOLDER );
 		Files.createDirectories( filterFolder );
+	}
+
+	@AfterAll
+	static void tearDown() {
+		ProjectConfiguration.getInstance().resetConfiguration();
 	}
 
 	@Test
@@ -47,6 +54,7 @@ class SearchFilterFilesTest {
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
 	void getProjectFilterFiles_should_get_all_project_filters() throws IOException {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
+		ProjectConfiguration.getInstance().resetConfiguration();
 		final Path someFilter = filterFolder.resolve( "some.filter" );
 		Files.createFile( someFilter );
 		final Path anotherFilter = filterFolder.resolve( "another.filter" );
