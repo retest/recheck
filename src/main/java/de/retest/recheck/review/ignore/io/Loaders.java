@@ -51,7 +51,7 @@ public class Loaders {
 		pairs.add( Pair.of( JSFilterImpl.class, new JSFilterLoader() ) );
 
 		// This is error handling and should always be last
-		pairs.add( Pair.of( Void.class, new ErrorHandlingLoader() ) );
+		pairs.add( Pair.of( FilterPreserveLine.class, new ErrorHandlingLoader() ) );
 		return pairs;
 	}
 
