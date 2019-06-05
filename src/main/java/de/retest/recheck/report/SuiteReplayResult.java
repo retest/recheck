@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.GroundState;
 
 @XmlRootElement( name = "suite" )
@@ -45,9 +44,6 @@ public class SuiteReplayResult implements Serializable {
 	@XmlElement
 	private final GroundState replaySutVersion;
 
-	@XmlElement
-	private final ExecutableSuite suite;
-
 	@SuppressWarnings( "unused" )
 	private SuiteReplayResult() {
 		// for JAXB
@@ -56,22 +52,21 @@ public class SuiteReplayResult implements Serializable {
 		execSuiteSutVersion = null;
 		replaySutVersion = null;
 		suiteUuid = null;
-		suite = null;
 	}
 
-	public SuiteReplayResult( final ExecutableSuite suite, final int suiteNr, final GroundState replaySutVersion ) {
-		name = suite.getName() == null ? "Suite no. " + suiteNr : clean( suite.getName() );
-		if ( suite.getName() == null ) {
-			logger.info( "No suite name given, using {}.", name );
+	public SuiteReplayResult( final String name, final int suiteNr, final GroundState execSuiteSutVersion,
+			final String suiteUuid, final GroundState replaySutVersion ) {
+		this.name = name == null ? "Suite no. " + suiteNr : clean( name );
+		if ( name == null ) {
+			logger.info( "No suite name given, using {}.", this.name );
 		}
 		this.suiteNr = suiteNr;
 		// Don't use here a list without a fix ordering, because we need the exact order
 		// for applyChanges in review module!!
 		testReplayResults = new ArrayList<>();
-		execSuiteSutVersion = suite.getGroundState();
-		suiteUuid = suite.getUuid();
+		this.execSuiteSutVersion = execSuiteSutVersion;
+		this.suiteUuid = suiteUuid;
 		this.replaySutVersion = replaySutVersion;
-		this.suite = suite;
 	}
 
 	public void addTest( final TestReplayResult newReplayResult ) {
@@ -91,26 +86,26 @@ public class SuiteReplayResult implements Serializable {
 		return suiteDuration;
 	}
 
-	public String getExecSuiteSutVersion() {
+	public GroundState getExecSuiteSutVersion() {
+		return execSuiteSutVersion;
+	}
+
+	public String getExecSuiteSutVersionString() {
 		if ( execSuiteSutVersion == null ) {
 			return GroundState.UNSPECIFIED;
 		}
 		return execSuiteSutVersion.getSutVersion();
 	}
 
-	public GroundState getGroundState() {
+	public GroundState getReplaySutVersion() {
 		return replaySutVersion;
 	}
 
-	public String getReplaySutVersion() {
+	public String getReplaySutVersionString() {
 		if ( replaySutVersion == null ) {
 			return "unspecified SUT version";
 		}
 		return replaySutVersion.getSutVersion();
-	}
-
-	public ExecutableSuite getSuite() {
-		return suite;
 	}
 
 	public List<TestReplayResult> getTestReplayResults() {
@@ -164,6 +159,10 @@ public class SuiteReplayResult implements Serializable {
 				+ ", Differences: " + getDifferencesCount() //
 				+ ", Errors: " + getErrorsCount() //
 				+ ")";
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public String getSuiteUuid() {
