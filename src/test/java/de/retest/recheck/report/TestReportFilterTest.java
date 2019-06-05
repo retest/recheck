@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
-import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.GroundState;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -84,7 +83,7 @@ class TestReportFilterTest {
 		originalTestReplayResult = new TestReplayResult( "test", 1 );
 		originalTestReplayResult.addAction( originalActionReplayResult );
 		originalSuiteReplayResult =
-				new SuiteReplayResult( "", 0, mock( ExecutableSuite.class ), "", mock( GroundState.class ) );
+				new SuiteReplayResult( "", 0, mock( GroundState.class ), "", mock( GroundState.class ) );
 		originalSuiteReplayResult.addTest( originalTestReplayResult );
 		originalTestReport = new TestReport();
 		originalTestReport.addSuite( originalSuiteReplayResult );
@@ -147,16 +146,16 @@ class TestReportFilterTest {
 	void list_of_root_element_differences_should_be_filtered_properly() throws Exception {
 		final List<RootElementDifference> filteredRootElementDifferences =
 				TestReportFilter.filter( originalRootElementDifferences, filter );
-		List<AttributeDifference> differences = filteredRootElementDifferences.get( 0 ).getElementDifference().getAttributesDifference()
-				.getDifferences();
+		final List<AttributeDifference> differences = filteredRootElementDifferences.get( 0 ).getElementDifference()
+				.getAttributesDifference().getDifferences();
 		assertThat( differences ).contains( notFilterMe );
 	}
 
 	@Test
 	void state_difference_should_be_filtered_properly() throws Exception {
 		final StateDifference filteredStateDifference = TestReportFilter.filter( originalStateDifference, filter );
-		List<AttributeDifference> differences = filteredStateDifference.getRootElementDifferences().get( 0 ).getElementDifference()
-				.getAttributesDifference().getDifferences();
+		final List<AttributeDifference> differences = filteredStateDifference.getRootElementDifferences().get( 0 )
+				.getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
 	}
 
@@ -164,17 +163,17 @@ class TestReportFilterTest {
 	void action_replay_result_should_be_filtered_properly() throws Exception {
 		final ActionReplayResult filteredActionReplayResult =
 				TestReportFilter.filter( originalActionReplayResult, filter );
-		List<AttributeDifference> differences = filteredActionReplayResult.getStateDifference().getRootElementDifferences().get( 0 )
-				.getElementDifference().getAttributesDifference().getDifferences();
+		final List<AttributeDifference> differences = filteredActionReplayResult.getStateDifference()
+				.getRootElementDifferences().get( 0 ).getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
 	}
 
 	@Test
 	void test_replay_result_should_be_filtered_properly() throws Exception {
 		final TestReplayResult filteredTestReplayResult = TestReportFilter.filter( originalTestReplayResult, filter );
-		List<AttributeDifference> differences = filteredTestReplayResult.getActionReplayResults().get( 0 ).getStateDifference()
-				.getRootElementDifferences().get( 0 ).getElementDifference().getAttributesDifference()
-				.getDifferences();
+		final List<AttributeDifference> differences = filteredTestReplayResult.getActionReplayResults().get( 0 )
+				.getStateDifference().getRootElementDifferences().get( 0 ).getElementDifference()
+				.getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
 	}
 
@@ -182,10 +181,10 @@ class TestReportFilterTest {
 	void suite_replay_result_should_be_filtered_properly() throws Exception {
 		final SuiteReplayResult filteredSuiteReplayResult =
 				TestReportFilter.filter( originalSuiteReplayResult, filter );
-		StateDifference stateDifference = filteredSuiteReplayResult.getTestReplayResults().get( 0 ).getActionReplayResults().get( 0 )
-				.getStateDifference();
-		List<AttributeDifference> differences = stateDifference.getRootElementDifferences().get( 0 ).getElementDifference()
-				.getAttributesDifference().getDifferences();
+		final StateDifference stateDifference = filteredSuiteReplayResult.getTestReplayResults().get( 0 )
+				.getActionReplayResults().get( 0 ).getStateDifference();
+		final List<AttributeDifference> differences = stateDifference.getRootElementDifferences().get( 0 )
+				.getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
 	}
 
@@ -195,8 +194,8 @@ class TestReportFilterTest {
 		final SuiteReplayResult suiteReplayResult = filteredTestReport.getSuiteReplayResults().get( 0 );
 		final ActionReplayResult actionReplayResult =
 				suiteReplayResult.getTestReplayResults().get( 0 ).getActionReplayResults().get( 0 );
-		List<AttributeDifference> differences = actionReplayResult.getStateDifference().getRootElementDifferences().get( 0 ).getElementDifference()
-				.getAttributesDifference().getDifferences();
+		final List<AttributeDifference> differences = actionReplayResult.getStateDifference()
+				.getRootElementDifferences().get( 0 ).getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
 	}
 }
