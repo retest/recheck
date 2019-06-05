@@ -2,9 +2,7 @@ package de.retest.recheck.review.ignore.io;
 
 public interface Loader<T> {
 
-	default boolean canLoad( final String line ) {
-		return true;
-	}
+	boolean canLoad( final String line );
 
 	T load( String line );
 
