@@ -26,7 +26,7 @@ public class TestReportFilter {
 	public static TestReport filter( final TestReport report, final Filter filter ) {
 		final TestReport newTestReport = new TestReport();
 		for ( final SuiteReplayResult suiteReplayResult : report.getSuiteReplayResults() ) {
-			newTestReport.addSuite( TestReportFilter.filter( suiteReplayResult, filter ) );
+			newTestReport.addSuite( filter( suiteReplayResult, filter ) );
 		}
 		return newTestReport;
 	}
@@ -44,7 +44,7 @@ public class TestReportFilter {
 		final TestReplayResult newTestReplayResult =
 				new TestReplayResult( testReplayResult.getName(), testReplayResult.getTestNr() );
 		for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-			newTestReplayResult.addAction( TestReportFilter.filter( actionReplayResult, filter ) );
+			newTestReplayResult.addAction( filter( actionReplayResult, filter ) );
 		}
 		return newTestReplayResult;
 	}
