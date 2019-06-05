@@ -6,7 +6,7 @@
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg)](https://github.com/retest/recheck/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
 [![code with hearth by retest](https://img.shields.io/badge/%3C%2F%3E%20with%20%E2%99%A5%20by-retest-C1D82F.svg)](https://retest.de/en/)
 
-recheck is a general framework that allows replacing manual asserts and checking everything at once.
+***recheck*** is an fully functional open source testing tool that allows replacing manual asserts and checking everything at once.
 
 ## Features
 
@@ -23,9 +23,9 @@ Currently available as a Java API with support for JUnit Vintage (v4), JUnit Jup
 
 ## Setup
 
-You only have to use recheck directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [recheck-web](https://github.com/retest/recheck-web/)), you would rather reference this implementation.
+You only have to use ***recheck*** directly if you plan to implement it for an additional interface. If you want to use an existing implementation (e.g. [***recheck-web***](https://github.com/retest/recheck-web/)), you would rather reference this implementation.
 
-However, if you want to use recheck, you can add it as a dependency through [Maven Central](https://search.maven.org/search?q=g:de.retest%20a:recheck): [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
+However, if you want to use ***recheck***, you can add it as a dependency through [Maven Central](https://search.maven.org/search?q=g:de.retest%20a:recheck): [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
 
 ```xml
 <dependency>
