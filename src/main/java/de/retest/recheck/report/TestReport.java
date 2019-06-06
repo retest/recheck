@@ -1,7 +1,5 @@
 package de.retest.recheck.report;
 
-import static de.retest.recheck.ui.review.GoldenMasterSource.RECORDED;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,9 +41,13 @@ public class TestReport extends Persistable {
 		return new TestReport( GoldenMasterSource.API, newSuite );
 	}
 
+	public TestReport fromApi() {
+		return new TestReport( GoldenMasterSource.API );
+	}
+
 	public TestReport() {
 		super( PERSISTENCE_VERSION );
-		source = RECORDED;
+		source = GoldenMasterSource.RECORDED;
 		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
@@ -58,6 +60,12 @@ public class TestReport extends Persistable {
 		this.source = source;
 		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 		suiteReplayResults.add( newSuite );
+	}
+
+	private TestReport( final GoldenMasterSource source ) {
+		super( PERSISTENCE_VERSION );
+		this.source = source;
+		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
 	public void addSuite( final SuiteReplayResult newReplayResult ) {

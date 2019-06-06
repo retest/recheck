@@ -7,28 +7,29 @@ import de.retest.recheck.report.TestReport;
 import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.GroundState;
 
-public class SuiteReplayResultProvider {
+public class SuiteAggregator {
 
-	private static final TestReport testReport = new TestReport();
+	private final TestReport testReport = new TestReport();
 
-	private static SuiteReplayResultProvider instance;
+	private static SuiteAggregator instance;
 
-	public static TestReport getTestReport() {
+	public TestReport getTestReport() {
 		return testReport;
 	}
 
-	public static SuiteReplayResultProvider getInstance() {
+	public static SuiteAggregator getInstance() {
 		if ( instance == null ) {
-			instance = new SuiteReplayResultProvider();
+			instance = new SuiteAggregator();
 		}
 		return instance;
 	}
 
-	static SuiteReplayResultProvider getTestInstance() {
-		return new SuiteReplayResultProvider();
+	static SuiteAggregator getTestInstance() {
+		return new SuiteAggregator();
 	}
 
-	private SuiteReplayResultProvider() {}
+	private SuiteAggregator() {
+	}
 
 	private SuiteReplayResult currentSuite;
 
