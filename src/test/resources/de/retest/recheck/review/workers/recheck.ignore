@@ -14,3 +14,6 @@ attribute-regex= .*
 	
  match: foo
 # This is a comment
+
+# Intentional error to trigger logging 
+attribute:outline

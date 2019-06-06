@@ -7,4 +7,5 @@ public interface Loader<T> {
 	T load( String line );
 
 	String save( T ignore );
+
 }
