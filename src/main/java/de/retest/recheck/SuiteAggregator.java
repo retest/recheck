@@ -9,7 +9,7 @@ import de.retest.recheck.ui.descriptors.GroundState;
 
 public class SuiteAggregator {
 
-	private final TestReport testReport = new TestReport();
+	private final TestReport testReport = TestReport.fromApi();
 
 	private static SuiteAggregator instance;
 

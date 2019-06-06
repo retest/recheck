@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.report.SuiteReplayResult;
 
-class SuiteReplayResultProviderTest {
+class SuiteAggregatorTest {
 
 	@Test
 	void get_suite_should_return_a_new_suite_if_current_suite_is_null() throws Exception {

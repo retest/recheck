@@ -41,7 +41,7 @@ public class TestReport extends Persistable {
 		return new TestReport( GoldenMasterSource.API, newSuite );
 	}
 
-	public TestReport fromApi() {
+	public static TestReport fromApi() {
 		return new TestReport( GoldenMasterSource.API );
 	}
 
