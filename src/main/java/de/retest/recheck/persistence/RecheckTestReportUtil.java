@@ -7,6 +7,7 @@ import java.io.UncheckedIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.SuiteReplayResultProvider;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -30,7 +31,8 @@ public class RecheckTestReportUtil {
 			persistence.save( file.toURI(), TestReport.fromApi( suite ) );
 
 			// Save/update aggregated test report for all suites.
-			final File testReportFile = new File( file.getParent(), "test.report" );
+			final File testReportFile =
+					new File( file.getParent(), file.getName() + Properties.TEST_REPORT_FILE_EXTENSION );
 			final TestReport testReport = SuiteReplayResultProvider.getTestReport();
 			persistence.save( testReportFile.toURI(), testReport );
 		} catch ( final IOException e ) {
