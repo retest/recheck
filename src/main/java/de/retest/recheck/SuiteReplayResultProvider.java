@@ -3,12 +3,19 @@ package de.retest.recheck;
 import java.util.ArrayList;
 
 import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.GroundState;
 
 public class SuiteReplayResultProvider {
 
+	private static final TestReport testReport = new TestReport();
+
 	private static SuiteReplayResultProvider instance;
+
+	public static TestReport getTestReport() {
+		return testReport;
+	}
 
 	public static SuiteReplayResultProvider getInstance() {
 		if ( instance == null ) {
@@ -26,7 +33,7 @@ public class SuiteReplayResultProvider {
 	private SuiteReplayResult currentSuite;
 
 	public SuiteReplayResult getSuite( final String suiteName ) {
-		if ( currentSuite == null) {
+		if ( currentSuite == null ) {
 			currentSuite = createSuiteReplayResult( suiteName );
 		}
 		if ( !suiteName.equals( currentSuite.getSuiteName() ) ) {
@@ -39,6 +46,9 @@ public class SuiteReplayResultProvider {
 		final GroundState groundState = new GroundState();
 		final ExecutableSuite execSuite = new ExecutableSuite( groundState, 0, new ArrayList<>() );
 		execSuite.setName( suiteName );
-		return new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
+		final SuiteReplayResult suiteReplayResult =
+				new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
+		testReport.addSuite( suiteReplayResult );
+		return suiteReplayResult;
 	}
 }
