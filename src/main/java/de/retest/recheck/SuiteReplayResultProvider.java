@@ -39,6 +39,6 @@ public class SuiteReplayResultProvider {
 		final GroundState groundState = new GroundState();
 		final ExecutableSuite execSuite = new ExecutableSuite( groundState, 0, new ArrayList<>() );
 		execSuite.setName( suiteName );
-		return new SuiteReplayResult( execSuite, 0, groundState );
+		return new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
 	}
 }

@@ -6,6 +6,7 @@ import static de.retest.recheck.ui.image.ImageUtils.screenshot2Image;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,6 +76,10 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 			result = result.childDifferences.iterator().next();
 		}
 		return result;
+	}
+
+	public Collection<ElementDifference> getChildDifferences() {
+		return Collections.unmodifiableCollection( childDifferences );
 	}
 
 	public List<Difference> getImmediateDifferences() {

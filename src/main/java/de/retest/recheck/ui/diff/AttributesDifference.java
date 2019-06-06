@@ -34,7 +34,7 @@ public class AttributesDifference implements Difference {
 		differences = null;
 	}
 
-	AttributesDifference( final List<AttributeDifference> differences ) {
+	public AttributesDifference( final List<AttributeDifference> differences ) {
 		this.differences = Collections.unmodifiableList( differences );
 		differenceId = AttributeDifference.getSumIdentifier( differences );
 	}

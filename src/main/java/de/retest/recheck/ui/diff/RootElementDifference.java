@@ -34,6 +34,10 @@ public class RootElementDifference implements Difference {
 
 	private final Screenshot actualScreenshot;
 
+	private RootElement expectedDescriptor;
+
+	private RootElement actualDescriptor;
+
 	@SuppressWarnings( "unused" )
 	private RootElementDifference() {
 		// for JAXB
@@ -48,9 +52,11 @@ public class RootElementDifference implements Difference {
 		checkedUiComponentCount = 0;
 	}
 
-	RootElementDifference( final ElementDifference elementDifference, final RootElement expectedDescriptor,
+	public RootElementDifference( final ElementDifference elementDifference, final RootElement expectedDescriptor,
 			final RootElement actualDescriptor ) {
 		final RootElement instance = expectedDescriptor != null ? expectedDescriptor : actualDescriptor;
+		this.expectedDescriptor = expectedDescriptor;
+		this.actualDescriptor = actualDescriptor;
 		title = instance.getTitle();
 		screen = instance.getScreen();
 		screenId = instance.getScreenId();
@@ -75,6 +81,14 @@ public class RootElementDifference implements Difference {
 			result += elementDifference.childDifferences.toString();
 		}
 		return result;
+	}
+
+	public RootElement getExpectedDescriptor() {
+		return expectedDescriptor;
+	}
+
+	public RootElement getActualDescriptor() {
+		return actualDescriptor;
 	}
 
 	@Override

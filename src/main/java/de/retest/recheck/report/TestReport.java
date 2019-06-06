@@ -138,7 +138,7 @@ public class TestReport extends Persistable {
 	public String getExecSuiteSutVersion() {
 		final Set<String> versions = new HashSet<>();
 		for ( final SuiteReplayResult suiteReplayResult : suiteReplayResults ) {
-			versions.add( suiteReplayResult.getExecSuiteSutVersion() );
+			versions.add( suiteReplayResult.getExecSuiteSutVersionString() );
 		}
 		if ( versions.size() == 1 ) {
 			return versions.toArray()[0].toString();
@@ -149,7 +149,7 @@ public class TestReport extends Persistable {
 	public String getReplaySutVersion() {
 		final Set<String> versions = new HashSet<>();
 		for ( final SuiteReplayResult suiteReplayResult : suiteReplayResults ) {
-			versions.add( suiteReplayResult.getReplaySutVersion() );
+			versions.add( suiteReplayResult.getReplaySutVersionString() );
 		}
 		if ( versions.size() == 1 ) {
 			return versions.toArray()[0].toString();
