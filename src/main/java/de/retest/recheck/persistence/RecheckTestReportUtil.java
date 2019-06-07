@@ -7,6 +7,8 @@ import java.io.UncheckedIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.Properties;
+import de.retest.recheck.SuiteAggregator;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
@@ -24,7 +26,14 @@ public class RecheckTestReportUtil {
 		logger.info( "Persisting test report to file '{}'.", FileUtil.canonicalPathQuietly( file ) );
 		try {
 			FileUtil.ensureFolder( file );
+
+			// Save separate test report for suite.
 			persistence.save( file.toURI(), TestReport.fromApi( suite ) );
+
+			// Save/update aggregated test report for all suites.
+			final File testReportFile = new File( file.getParent(), Properties.AGGREGATED_TEST_REPORT_FILE_NAME );
+			final TestReport aggregatedTestReport = SuiteAggregator.getInstance().getAggregatedTestReport();
+			persistence.save( testReportFile.toURI(), aggregatedTestReport );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException( "Could not save test report.", e );
 		}

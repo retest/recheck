@@ -3,30 +3,37 @@ package de.retest.recheck;
 import java.util.ArrayList;
 
 import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.suite.ExecutableSuite;
 import de.retest.recheck.ui.descriptors.GroundState;
 
-public class SuiteReplayResultProvider {
+public class SuiteAggregator {
 
-	private static SuiteReplayResultProvider instance;
+	private static SuiteAggregator instance;
 
-	public static SuiteReplayResultProvider getInstance() {
+	public static SuiteAggregator getInstance() {
 		if ( instance == null ) {
-			instance = new SuiteReplayResultProvider();
+			instance = new SuiteAggregator();
 		}
 		return instance;
 	}
 
-	static SuiteReplayResultProvider getTestInstance() {
-		return new SuiteReplayResultProvider();
+	static SuiteAggregator getTestInstance() {
+		return new SuiteAggregator();
 	}
 
-	private SuiteReplayResultProvider() {}
+	private SuiteAggregator() {}
+
+	private final TestReport aggregatedTestReport = TestReport.fromApi();
 
 	private SuiteReplayResult currentSuite;
 
+	public TestReport getAggregatedTestReport() {
+		return aggregatedTestReport;
+	}
+
 	public SuiteReplayResult getSuite( final String suiteName ) {
-		if ( currentSuite == null) {
+		if ( currentSuite == null ) {
 			currentSuite = createSuiteReplayResult( suiteName );
 		}
 		if ( !suiteName.equals( currentSuite.getSuiteName() ) ) {
@@ -39,6 +46,9 @@ public class SuiteReplayResultProvider {
 		final GroundState groundState = new GroundState();
 		final ExecutableSuite execSuite = new ExecutableSuite( groundState, 0, new ArrayList<>() );
 		execSuite.setName( suiteName );
-		return new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
+		final SuiteReplayResult suiteReplayResult =
+				new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
+		aggregatedTestReport.addSuite( suiteReplayResult );
+		return suiteReplayResult;
 	}
 }
