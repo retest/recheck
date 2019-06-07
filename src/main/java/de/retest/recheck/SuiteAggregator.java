@@ -9,13 +9,7 @@ import de.retest.recheck.ui.descriptors.GroundState;
 
 public class SuiteAggregator {
 
-	private final TestReport testReport = TestReport.fromApi();
-
 	private static SuiteAggregator instance;
-
-	public TestReport getTestReport() {
-		return testReport;
-	}
 
 	public static SuiteAggregator getInstance() {
 		if ( instance == null ) {
@@ -28,10 +22,15 @@ public class SuiteAggregator {
 		return new SuiteAggregator();
 	}
 
-	private SuiteAggregator() {
-	}
+	private SuiteAggregator() {}
+
+	private final TestReport aggregatedTestReport = TestReport.fromApi();
 
 	private SuiteReplayResult currentSuite;
+
+	public TestReport getAggregatedTestReport() {
+		return aggregatedTestReport;
+	}
 
 	public SuiteReplayResult getSuite( final String suiteName ) {
 		if ( currentSuite == null ) {
@@ -49,7 +48,7 @@ public class SuiteAggregator {
 		execSuite.setName( suiteName );
 		final SuiteReplayResult suiteReplayResult =
 				new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
-		testReport.addSuite( suiteReplayResult );
+		aggregatedTestReport.addSuite( suiteReplayResult );
 		return suiteReplayResult;
 	}
 }

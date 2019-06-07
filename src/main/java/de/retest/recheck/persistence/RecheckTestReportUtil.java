@@ -32,8 +32,8 @@ public class RecheckTestReportUtil {
 
 			// Save/update aggregated test report for all suites.
 			final File testReportFile = new File( file.getParent(), Properties.AGGREGATED_TEST_REPORT_FILE_NAME );
-			final TestReport testReport = SuiteAggregator.getInstance().getTestReport();
-			persistence.save( testReportFile.toURI(), testReport );
+			final TestReport aggregatedTestReport = SuiteAggregator.getInstance().getAggregatedTestReport();
+			persistence.save( testReportFile.toURI(), aggregatedTestReport );
 		} catch ( final IOException e ) {
 			throw new UncheckedIOException( "Could not save test report.", e );
 		}
