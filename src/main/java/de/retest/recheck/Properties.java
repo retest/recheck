@@ -21,7 +21,7 @@ public class Properties {
 
 	public static final String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";
 	public static final String TEST_REPORT_FILE_EXTENSION = ".report";
-	public static final String DEFAULT_REPORT_FILE = "test";
+	public static final String AGGREGATED_TEST_REPORT_FILE_NAME = "test" + TEST_REPORT_FILE_EXTENSION;
 
 	public static enum FileOutputFormat {
 		PLAIN,

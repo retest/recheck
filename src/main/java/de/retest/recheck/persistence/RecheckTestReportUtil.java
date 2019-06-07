@@ -31,8 +31,7 @@ public class RecheckTestReportUtil {
 			persistence.save( file.toURI(), TestReport.fromApi( suite ) );
 
 			// Save/update aggregated test report for all suites.
-			final File testReportFile = new File( file.getParent(),
-					Properties.DEFAULT_REPORT_FILE + Properties.TEST_REPORT_FILE_EXTENSION );
+			final File testReportFile = new File( file.getParent(), Properties.AGGREGATED_TEST_REPORT_FILE_NAME );
 			final TestReport testReport = SuiteAggregator.getInstance().getTestReport();
 			persistence.save( testReportFile.toURI(), testReport );
 		} catch ( final IOException e ) {
