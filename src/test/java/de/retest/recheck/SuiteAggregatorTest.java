@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.report.SuiteReplayResult;
+import de.retest.recheck.report.TestReport;
 
 class SuiteAggregatorTest {
 
@@ -33,5 +34,18 @@ class SuiteAggregatorTest {
 		final SuiteReplayResult nextSuite = cut.getSuite( nextSuiteName );
 		assertThat( currentSuite.getSuiteName() ).isEqualTo( suiteName );
 		assertThat( nextSuite.getSuiteName() ).isEqualTo( nextSuiteName );
+	}
+
+	@Test
+	void aggregated_test_report_should_enclose_all_suites() throws Exception {
+		final String suiteName = "de.retest.foo";
+		final String nextSuiteName = "de.retest.bar";
+		final SuiteAggregator cut = SuiteAggregator.getTestInstance();
+
+		final SuiteReplayResult currentSuite = cut.getSuite( suiteName );
+		final SuiteReplayResult nextSuite = cut.getSuite( nextSuiteName );
+		final TestReport aggregatedTestReport = cut.getAggregatedTestReport();
+
+		assertThat( aggregatedTestReport.getSuiteReplayResults() ).containsExactly( currentSuite, nextSuite );
 	}
 }
