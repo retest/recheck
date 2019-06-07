@@ -46,8 +46,12 @@ public class TestReport extends Persistable {
 	}
 
 	public TestReport() {
+		this( GoldenMasterSource.RECORDED );
+	}
+
+	public TestReport( final GoldenMasterSource source ) {
 		super( PERSISTENCE_VERSION );
-		source = GoldenMasterSource.RECORDED;
+		this.source = source;
 		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
@@ -56,16 +60,8 @@ public class TestReport extends Persistable {
 	}
 
 	public TestReport( final GoldenMasterSource source, final SuiteReplayResult newSuite ) {
-		super( PERSISTENCE_VERSION );
-		this.source = source;
-		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
+		this( source );
 		suiteReplayResults.add( newSuite );
-	}
-
-	private TestReport( final GoldenMasterSource source ) {
-		super( PERSISTENCE_VERSION );
-		this.source = source;
-		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
 	public void addSuite( final SuiteReplayResult newReplayResult ) {
