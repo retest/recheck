@@ -139,7 +139,7 @@
 		<dependency>
 			<groupId>de.javakaffee</groupId>
 			<artifactId>kryo-serializers</artifactId>
-			<!-- last version compatible with kryo v4 -->
+			<!-- last version compatible with Kryo v4 -->
 			<version>0.43</version>
 		</dependency>
 
@@ -171,6 +171,7 @@
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
+			<!-- later versions cause JAXBExceptions -->
 			<version>2.5.2</version>
 		</dependency>
 
@@ -324,7 +325,7 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- See https://bugs.openjdk.java.net/browse/JDK-8212233 -->
+				<!-- see https://bugs.openjdk.java.net/browse/JDK-8212233 -->
 				<configuration>
 					<source>8</source>
 				</configuration>
