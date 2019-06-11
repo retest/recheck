@@ -54,7 +54,7 @@ public class RecheckIgnoreUtil {
 					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath );
 			return loadFilterWorker.load();
 		} catch ( final FileNotFoundException e ) {
-			logger.debug( String.format( "Ignoring missing suite or step ignore file in '%s'", ignoreFilesBasePath ) );
+			logger.debug( "Ignoring missing suite or step ignore file in '{}'.", ignoreFilesBasePath );
 		} catch ( final Exception e ) {
 			logger.error( "Exception loading suite or step ignore file.", e );
 		}
