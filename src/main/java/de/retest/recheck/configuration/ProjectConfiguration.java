@@ -40,7 +40,9 @@ public class ProjectConfiguration {
 		return instance;
 	}
 
-	private Optional<Path> projectConfigFolder;
+	// If this field is null, we haven't set it yet
+	// If it is an empty optional, we know we already set it to "unknown"
+	private Optional<Path> projectConfigFolder = null;
 
 	public Optional<Path> getProjectConfigFolder() {
 		if ( projectConfigFolder == null ) {
