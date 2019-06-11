@@ -46,7 +46,10 @@ public class RecheckIgnoreUtil {
 	}
 
 	/**
-	 * Loads a filter from the argument base path, e.g., test suite and step filters.
+	 * Loads a {@link GlobalIgnoreApplier} from the argument base path, e.g., for suite and step filters.
+	 *
+	 * @param ignoreFilesBasePath
+	 *            the directory in which to look for the filter definition files
 	 */
 	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
 		try {
