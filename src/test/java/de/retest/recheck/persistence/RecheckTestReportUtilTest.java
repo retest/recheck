@@ -31,7 +31,7 @@ class RecheckTestReportUtilTest {
 
 		RecheckTestReportUtil.persist( replayResult, testReport );
 
-		assertThat( testReport.exists() ).isTrue();
+		assertThat( testReport ).exists();
 	}
 
 	@Test
@@ -41,7 +41,7 @@ class RecheckTestReportUtilTest {
 
 		RecheckTestReportUtil.persist( replayResult, testReport );
 
-		assertThat( testReport.exists() ).isTrue();
+		assertThat( testReport ).exists();
 	}
 
 	@Test
