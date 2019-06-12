@@ -55,12 +55,15 @@ class TestCaseFinderJunitJupiterTest {
 	}
 
 	@ParameterizedTest
-	@ValueSource( strings = { "foo", "bar" } )
-	void junit_jupiter_parameterized_test_annotation_should_be_found( final String s ) throws Exception {
+	@ValueSource( ints = { 1, 2 } )
+	void junit_jupiter_parameterized_test_annotation_should_be_found_and_have_distinct_name( final int count )
+			throws Exception {
 		final Optional<String> className = TestCaseFinder.findTestCaseClassNameInStack();
-		assertThat( className ).hasValue( TestCaseFinderJunitJupiterTest.class.getName() );
+		assertThat( className ).hasValue( getClass().getName() );
 		final Optional<String> methodName = TestCaseFinder.findTestCaseMethodNameInStack();
-		assertThat( methodName ).hasValue( "junit_jupiter_parameterized_test_annotation_should_be_found" );
+		assertThat( methodName )
+				.hasValue( "junit_jupiter_parameterized_test_annotation_should_be_found_and_have_distinct_name" //
+						+ TestCaseFinder.DELIMITER + count );
 	}
 
 }
