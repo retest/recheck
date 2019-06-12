@@ -25,13 +25,10 @@ public interface FileNamerStrategy {
 	 * @return name of the current test class
 	 */
 	default String getTestClassName() {
-		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
-		if ( testMethodStack != null ) {
-			return testMethodStack.getClassName();
-		}
-		throw new IllegalStateException( "Couldn't identify test class in call stack. \n"
-				+ "This is needed to dynamically name the Golden Master files. \n "
-				+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." );
+		return TestCaseFinder.findTestCaseClassNameInStack()
+				.orElseThrow( () -> new IllegalStateException( "Couldn't identify test class in call stack. \n"
+						+ "This is needed to dynamically name the Golden Master files. \n "
+						+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
 	}
 
 	/**
@@ -40,14 +37,11 @@ public interface FileNamerStrategy {
 	 * @return name of the current test method
 	 */
 	default String getTestMethodName() {
-		final StackTraceElement testMethodStack = TestCaseFinder.findTestCaseMethodInStack();
-		if ( testMethodStack != null ) {
-			return testMethodStack.getMethodName();
-		}
-		throw new IllegalStateException( "Couldn't identify test method in call stack. \n"
-				+ "This is needed to dynamically name the Golden Master files. \n"
-				+ "Please call `startTest(\"name\")`, giving an explicit name, "
-				+ "or instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." );
+		return TestCaseFinder.findTestCaseMethodNameInStack()
+				.orElseThrow( () -> new IllegalStateException( "Couldn't identify test method in call stack. \n"
+						+ "This is needed to dynamically name the Golden Master files. \n"
+						+ "Please call `startTest(\"name\")`, giving an explicit name, "
+						+ "or instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
 	}
 
 }
