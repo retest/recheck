@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,39 +43,28 @@ public class TestCaseFinder {
 			"org.testng.annotations.AfterClass" ) );
 
 	public static Optional<String> findTestCaseMethodNameInStack() {
-		final StackTraceElement ste = findTestCaseMethodInStack();
-		if ( ste == null ) {
-			return Optional.empty();
-		}
-		final String methodName = ste.getMethodName();
-		return Optional.of( methodName );
-	}
-
-	public static Optional<String> findTestCaseMethodNameInStack( final StackTraceElement[] trace ) {
-		final StackTraceElement ste = findTestCaseMethodInStack( trace );
-		if ( ste == null ) {
-			return Optional.empty();
-		}
-		final String methodName = ste.getMethodName();
-		return Optional.of( methodName );
+		return findTestCaseMethodInStack( StackTraceElement::getMethodName );
 	}
 
 	public static Optional<String> findTestCaseClassNameInStack() {
-		final StackTraceElement ste = findTestCaseMethodInStack();
-		if ( ste == null ) {
-			return Optional.empty();
-		}
-		final String className = ste.getClassName();
-		return Optional.of( className );
+		return findTestCaseMethodInStack( StackTraceElement::getClassName );
+	}
+
+	public static Optional<String> findTestCaseMethodNameInStack( final StackTraceElement[] trace ) {
+		return findTestCaseMethodInStack( StackTraceElement::getMethodName, trace );
 	}
 
 	public static Optional<String> findTestCaseClassNameInStack( final StackTraceElement[] trace ) {
-		final StackTraceElement ste = findTestCaseMethodInStack( trace );
-		if ( ste == null ) {
-			return Optional.empty();
-		}
-		final String className = ste.getClassName();
-		return Optional.of( className );
+		return findTestCaseMethodInStack( StackTraceElement::getClassName, trace );
+	}
+
+	private static Optional<String> findTestCaseMethodInStack( final Function<StackTraceElement, String> mapper ) {
+		return Optional.ofNullable( findTestCaseMethodInStack() ).map( mapper );
+	}
+
+	private static Optional<String> findTestCaseMethodInStack( final Function<StackTraceElement, String> mapper,
+			final StackTraceElement[] trace ) {
+		return Optional.ofNullable( findTestCaseMethodInStack( trace ) ).map( mapper );
 	}
 
 	public static StackTraceElement findTestCaseMethodInStack() {
