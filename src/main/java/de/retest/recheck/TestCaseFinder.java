@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -39,6 +40,42 @@ public class TestCaseFinder {
 			"org.testng.annotations.AfterMethod", //
 			"org.testng.annotations.BeforeClass", //
 			"org.testng.annotations.AfterClass" ) );
+
+	public static Optional<String> findTestCaseMethodNameInStack() {
+		final StackTraceElement ste = findTestCaseMethodInStack();
+		if ( ste == null ) {
+			return Optional.empty();
+		}
+		final String methodName = ste.getMethodName();
+		return Optional.of( methodName );
+	}
+
+	public static Optional<String> findTestCaseMethodNameInStack( final StackTraceElement[] trace ) {
+		final StackTraceElement ste = findTestCaseMethodInStack( trace );
+		if ( ste == null ) {
+			return Optional.empty();
+		}
+		final String methodName = ste.getMethodName();
+		return Optional.of( methodName );
+	}
+
+	public static Optional<String> findTestCaseClassNameInStack() {
+		final StackTraceElement ste = findTestCaseMethodInStack();
+		if ( ste == null ) {
+			return Optional.empty();
+		}
+		final String className = ste.getClassName();
+		return Optional.of( className );
+	}
+
+	public static Optional<String> findTestCaseClassNameInStack( final StackTraceElement[] trace ) {
+		final StackTraceElement ste = findTestCaseMethodInStack( trace );
+		if ( ste == null ) {
+			return Optional.empty();
+		}
+		final String className = ste.getClassName();
+		return Optional.of( className );
+	}
 
 	public static StackTraceElement findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
