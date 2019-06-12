@@ -20,8 +20,6 @@ public class TestCaseFinder {
 	 */
 	public static final String DELIMITER = "_";
 
-	private TestCaseFinder() {}
-
 	/*
 	 * TODO We need a special implementation for data-driven testing with annotations such as JUnit's @Theory, because
 	 * then a single method is invoked multiple times.
@@ -46,6 +44,8 @@ public class TestCaseFinder {
 			"org.testng.annotations.AfterMethod", //
 			"org.testng.annotations.BeforeClass", //
 			"org.testng.annotations.AfterClass" ) );
+
+	private TestCaseFinder() {}
 
 	public static Optional<String> findTestCaseMethodNameInStack() {
 		return findTestCaseMethodInStack( StackTraceElement::getMethodName );
