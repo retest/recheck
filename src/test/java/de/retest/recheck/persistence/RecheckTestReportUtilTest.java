@@ -30,6 +30,7 @@ class RecheckTestReportUtilTest {
 		when( replayResult.getDifferencesCount() ).thenReturn( 0 );
 
 		RecheckTestReportUtil.persist( replayResult, testReport );
+
 		assertThat( testReport.exists() ).isTrue();
 	}
 
@@ -39,6 +40,7 @@ class RecheckTestReportUtilTest {
 		when( replayResult.getDifferencesCount() ).thenReturn( 1 );
 
 		RecheckTestReportUtil.persist( replayResult, testReport );
+
 		assertThat( testReport.exists() ).isTrue();
 	}
 
