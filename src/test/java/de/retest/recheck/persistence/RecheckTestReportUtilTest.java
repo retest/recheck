@@ -1,5 +1,6 @@
 package de.retest.recheck.persistence;
 
+import static de.retest.recheck.Properties.AGGREGATED_TEST_REPORT_FILE_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -52,5 +53,15 @@ class RecheckTestReportUtilTest {
 		RecheckTestReportUtil.persist( replayResult, testReportMissingFolders );
 
 		assertThat( testReportMissingFolders ).exists();
+	}
+
+	@Test
+	void persist_should_create_aggregated_test_report() throws Exception {
+		final SuiteReplayResult replayResult = mock( SuiteReplayResult.class );
+
+		RecheckTestReportUtil.persist( replayResult, testReport );
+
+		final File aggregatedTestReport = new File( testReport.getParent(), AGGREGATED_TEST_REPORT_FILE_NAME );
+		assertThat( aggregatedTestReport ).exists();
 	}
 }
