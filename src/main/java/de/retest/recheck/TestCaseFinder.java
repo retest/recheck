@@ -15,6 +15,11 @@ public class TestCaseFinder {
 
 	private static final Logger logger = LoggerFactory.getLogger( TestCaseFinder.class );
 
+	/**
+	 * Delimiter to separate methods names from their invocation count.
+	 */
+	public static final String DELIMITER = "_";
+
 	private TestCaseFinder() {}
 
 	/*
