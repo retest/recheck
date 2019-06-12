@@ -50,5 +50,7 @@ class RecheckTestReportUtilTest {
 		when( replayResult.getDifferencesCount() ).thenReturn( 0 );
 
 		RecheckTestReportUtil.persist( replayResult, testReportMissingFolders );
+
+		assertThat( testReportMissingFolders ).exists();
 	}
 }
