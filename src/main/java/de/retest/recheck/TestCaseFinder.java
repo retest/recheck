@@ -81,12 +81,9 @@ public class TestCaseFinder {
 	}
 
 	public static StackTraceElement findTestCaseMethodInStack( final StackTraceElement[] trace ) {
-		boolean inTestCase = false;
-		for ( int i = 0; i < trace.length; i++ ) {
-			if ( isTestCase( trace[i] ) ) {
-				inTestCase = true;
-			} else if ( inTestCase ) {
-				return trace[i - 1];
+		for ( final StackTraceElement element : trace ) {
+			if ( isTestCase( element ) ) {
+				return element;
 			}
 		}
 		return null;
