@@ -200,7 +200,7 @@ public class TestCaseFinder {
 		}
 	}
 
-	public static enum TestCaseAnnotationType {
+	public enum TestCaseAnnotationType {
 		NORMAL,
 		REPEATABLE,
 		NONE
