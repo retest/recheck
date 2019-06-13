@@ -63,9 +63,8 @@ class TestCaseFinderJunitJupiterTest {
 		final Optional<String> className = TestCaseFinder.findTestCaseClassNameInStack();
 		assertThat( className ).hasValue( getClass().getName() );
 		final Optional<String> methodName = TestCaseFinder.findTestCaseMethodNameInStack();
-		assertThat( methodName )
-				.hasValue( "junit_jupiter_parameterized_test_annotation_should_be_found_and_have_distinct_name" //
-						+ TestCaseFinder.DELIMITER + count );
+		assertThat( methodName ).hasValue( "junit_jupiter_parameterized_test_annotation_should_be_found_and_have_distinct_name"
+				+ TestCaseFinder.DELIMITER + count );
 	}
 
 	@RepeatedTest( value = 2 )
@@ -73,7 +72,7 @@ class TestCaseFinderJunitJupiterTest {
 		final Optional<String> className = TestCaseFinder.findTestCaseClassNameInStack();
 		assertThat( className ).hasValue( getClass().getName() );
 		final Optional<String> methodName = TestCaseFinder.findTestCaseMethodNameInStack();
-		assertThat( methodName ).hasValue( "junit_jupiter_repeated_test_should_be_found_and_have_distinct_name" //
+		assertThat( methodName ).hasValue( "junit_jupiter_repeated_test_should_be_found_and_have_distinct_name"
 				+ TestCaseFinder.DELIMITER + info.getCurrentRepetition() );
 	}
 
