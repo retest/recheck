@@ -21,7 +21,7 @@ public class TestCaseFinder {
 	 */
 	public static final String DELIMITER = "_";
 
-	private static final TestCaseInformation NO_TEST_CASE_INFORMATION =
+	static final TestCaseInformation NO_TEST_CASE_INFORMATION =
 			new TestCaseInformation( null, TestCaseAnnotationType.NONE, 0 );
 
 	private static final Set<String> testCaseAnnotations = new HashSet<>( Arrays.asList( //
