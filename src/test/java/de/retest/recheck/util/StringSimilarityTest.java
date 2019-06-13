@@ -50,7 +50,7 @@ class StringSimilarityTest {
 
 		final double expectedSimilarity = (commonPrefix.length() + commonSuffix.length())
 				/ (double) (commonPrefix.length() + commonSuffix.length() + difference.length());
-		assertThat( similarity ).isCloseTo( expectedSimilarity * expectedSimilarity, within( 0.01 ) );
+		assertThat( similarity ).isCloseTo( expectedSimilarity * expectedSimilarity, within( 0.0155 ) );
 	}
 
 	@Property
