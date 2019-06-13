@@ -36,7 +36,7 @@ class GoldenMasterProviderImplTest {
 	void non_existing_file_should_throw_error( @TempDir final Path temp ) {
 		final File nonExistingFile = temp.resolve( NON_EXISTING_FILE ).toFile();
 
-		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getAbsolutePath() ) )
+		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getPath() ) )
 				.isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
