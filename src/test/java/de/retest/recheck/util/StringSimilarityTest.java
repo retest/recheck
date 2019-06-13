@@ -3,19 +3,21 @@ package de.retest.recheck.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.util.StringSimilarity;
-import net.java.quickcheck.ExtendibleGenerator;
-import net.java.quickcheck.Generator;
-import net.java.quickcheck.QuickCheck;
-import net.java.quickcheck.characteristic.AbstractCharacteristic;
-import net.java.quickcheck.collection.Pair;
-import net.java.quickcheck.generator.CombinedGeneratorsIterables;
-import net.java.quickcheck.generator.PrimitiveGenerators;
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
+import net.jqwik.api.constraints.AlphaChars;
+import net.jqwik.api.constraints.Chars;
+import net.jqwik.api.constraints.NumericChars;
 
 public class StringSimilarityTest {
 
@@ -51,39 +53,21 @@ public class StringSimilarityTest {
 		assertThat( similarity ).isCloseTo( expectedSimilarity * expectedSimilarity, within( 0.01 ) );
 	}
 
-	@Test
-	public void pathSimilarity_should_be_between_0_and_1() {
-		final ExtendibleGenerator<Character, String> pathGenerator = createPathGenerator();
+	@Property
+	void pathSimilarity_should_always_be_between_0_and_1( @ForAll @RandomPath final String randomPath0,
+			@ForAll @RandomPath final String randomPath1 ) throws Exception {
+		final double similarity01 = StringSimilarity.pathSimilarity( randomPath0, randomPath1 );
+		final double similarity10 = StringSimilarity.pathSimilarity( randomPath1, randomPath0 );
 
-		for ( final Pair<String, String> randomPathPair : CombinedGeneratorsIterables.somePairs( pathGenerator,
-				pathGenerator ) ) {
-			final String path0 = randomPathPair.getFirst();
-			final String path1 = randomPathPair.getSecond();
-
-			final double similarity01 = StringSimilarity.pathSimilarity( path0, path1 );
-			final double similarity10 = StringSimilarity.pathSimilarity( path1, path0 );
-
-			assertThat( similarity01 ).as( path0 + " compared to " + path1 ).isBetween( 0.0, 1.0 );
-			assertThat( similarity10 ).as( path1 + " compared to " + path0 ).isBetween( 0.0, 1.0 );
-		}
+		assertThat( similarity01 ).as( "'%s' compared to '%s'", randomPath0, randomPath1 ).isBetween( 0.0, 1.0 );
+		assertThat( similarity10 ).as( "'%s' compared to '%s'", randomPath1, randomPath0 ).isBetween( 0.0, 1.0 );
 	}
 
-	@Test
-	public void pathSimilarity_for_equal_paths_should_always_return_1() throws Exception {
-		QuickCheck.forAll( createPathGenerator(), new AbstractCharacteristic<String>() {
-			@Override
-			protected void doSpecify( final String randomPath ) throws Throwable {
-				assertThat( StringSimilarity.pathSimilarity( randomPath, randomPath ) )
-						.as( randomPath + " compared to itself" ).isEqualTo( 1.0 );
-			}
-		} );
-	}
-
-	private ExtendibleGenerator<Character, String> createPathGenerator() {
-		final String pathAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_/";
-		final Generator<Character> charGenerator = PrimitiveGenerators.characters( pathAlphabet );
-		final ExtendibleGenerator<Character, String> pathGenerator = PrimitiveGenerators.strings( charGenerator );
-		return pathGenerator;
+	@Property
+	void pathSimilarity_for_equal_paths_should_always_return_1( @ForAll @RandomPath final String randomPath )
+			throws Exception {
+		assertThat( StringSimilarity.pathSimilarity( randomPath, randomPath ) )
+				.as( "'%s' compared to itself", randomPath ).isEqualTo( 1.0 );
 	}
 
 	@Test
@@ -176,5 +160,12 @@ public class StringSimilarityTest {
 		}
 		logger.info( "Took {} ms.", System.currentTimeMillis() - start );
 	}
+
+	@Target( { ElementType.ANNOTATION_TYPE, ElementType.PARAMETER } )
+	@Retention( RetentionPolicy.RUNTIME )
+	@AlphaChars
+	@NumericChars
+	@Chars( { '[', ']' } )
+	private @interface RandomPath {}
 
 }
