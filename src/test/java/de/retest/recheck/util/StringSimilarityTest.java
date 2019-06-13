@@ -40,9 +40,9 @@ class StringSimilarityTest {
 	@Test
 	void pathSimilarity_should_be_percentage_of_difference() {
 		final String commonPrefix =
-				"Window/JRootPane_0/JLayeredPane_0/JPanel_0/TabbedPane_0/Tab_1/ExtendedPanel_0/JXPanel_0/JXLayer_0/Splitpane_0/JXLayer_0/JXPanel_0/JXLayer_0/TabbedModuleForm_0/TabbedPaneExt_0/Tab_0/FormAdapter_0/JPanel_0/GUI_BE";
-		final String commonSuffix = "/Betriebename_0/JXPanel_0";
-		final String difference = "_07_01_Betriebe_Stammdaten_0";
+				"Window/JRootPane[1]/JLayeredPane[1]/JPanel[1]/TabbedPane[1]/Tab[2]/ExtendedPanel[1]/JXPanel[1]/JXLayer[1]/Splitpane[1]/JXLayer[1]/JXPanel[1]/JXLayer[1]/TabbedModuleForm[1]/TabbedPaneExt[1]/Tab[1]/FormAdapter[1]/JPanel[1]/GUI_BE";
+		final String commonSuffix = "/Betriebename[1]/JXPanel[1]";
+		final String difference = "_07_01_Betriebe_Stammdaten[1]";
 		final String path0 = commonPrefix + difference + commonSuffix;
 		final String path1 = commonPrefix + commonSuffix;
 
@@ -87,11 +87,11 @@ class StringSimilarityTest {
 	@Test
 	void one_change_should_be_more_similar_than_two_changes() throws Exception {
 		final String orig =
-				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_0/JPanel_0/JTable_0/row_2/column_4";
+				"Window/JRootPane[1]/JLayeredPane[1]/StatefulTableDemo[1]/JTabbedPane[1]/Tab[1]/JPanel[1]/JTable[1]/row[2/column[4]";
 		final String oneChange =
-				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_1/JPanel_0/JTable_0/row_2/column_4";
+				"Window/JRootPane[1]/JLayeredPane[1]/StatefulTableDemo[1]/JTabbedPane[1]/Tab[2]/JPanel[1]/JTable[1]/row[2/column[4]";
 		final String twoChanges =
-				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_1/JPanel_0/JTable_0/row_2/column_0";
+				"Window/JRootPane[1]/JLayeredPane[1]/StatefulTableDemo[1]/JTabbedPane[1]/Tab[2]/JPanel[1]/JTable[1]/row[2/column[1]";
 
 		final double similarityWithOneChange = StringSimilarity.pathSimilarity( orig, oneChange );
 		final double similarityWithTwoChanges = StringSimilarity.pathSimilarity( orig, twoChanges );
@@ -149,9 +149,9 @@ class StringSimilarityTest {
 		// for StringUtils.getFuzzyDistance( path0, path1, Locale.GERMAN ): 3344ms
 		// for pathSimilarity(path0, path1): 922ms
 		final String path0 =
-				"Window/JRootPane_0/JLayeredPane_0/JPanel_0/TabbedPane_0/Tab_1/ExtendedPanel_0/JXPanel_0/JXLayer_0/Splitpane_0/JXLayer_0/JXPanel_0/JXLayer_0/TabbedModuleForm_0/TabbedPaneExt_0/Tab_0/FormAdapter_0/JPanel_0/GUI_BE_07_01_Betriebe_Stammdaten_0/Betriebename_0/JXPanel_0";
+				"Window/JRootPane[1]/JLayeredPane[1]/JPanel[1]/TabbedPane[1]/Tab[2]/ExtendedPanel[1]/JXPanel[1]/JXLayer[1]/Splitpane[1]/JXLayer[1]/JXPanel[1]/JXLayer[1]/TabbedModuleForm[1]/TabbedPaneExt[1]/Tab[1]/FormAdapter[1]/JPanel[1]/GUI_BE_07_01_Betriebe_Stammdaten[1]/Betriebename[1]/JXPanel[1]";
 		final String path1 =
-				"Window/JRootPane_0/JLayeredPane_0/JPanel_0/TabbedPane_0/Tab_1/ExtendedPanel_0/JXPanel_0/JXLayer_0/Splitpane_0/JXLayer_0/JXPanel_0/JXLayer_0/TabbedModuleForm_0/TabbedPaneExt_0/Tab_0/FormAdapter_0/JPanel_0/GUI_BE/Betriebename_0/JXPanel_0 ";
+				"Window/JRootPane[1]/JLayeredPane[1]/JPanel[1]/TabbedPane[1]/Tab[2]/ExtendedPanel[1]/JXPanel[1]/JXLayer[1]/Splitpane[1]/JXLayer[1]/JXPanel[1]/JXLayer[1]/TabbedModuleForm[1]/TabbedPaneExt[1]/Tab[1]/FormAdapter[1]/JPanel[1]/GUI_BE/Betriebename[1]/JXPanel[1] ";
 
 		logger.info( "Starting performance test..." );
 		final long start = System.currentTimeMillis();
