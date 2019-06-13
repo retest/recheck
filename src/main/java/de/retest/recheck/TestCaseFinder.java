@@ -35,6 +35,7 @@ public class TestCaseFinder {
 			"org.junit.jupiter.api.AfterEach", //
 			"org.junit.jupiter.api.BeforeAll", //
 			"org.junit.jupiter.api.AfterAll", //
+			"org.junit.jupiter.api.RepeatedTest", //
 			"org.junit.jupiter.params.ParameterizedTest", //
 			// TestNG
 			"org.testng.annotations.Test", //
