@@ -61,9 +61,9 @@ class GoldenMasterProviderImplTest {
 		Files.createDirectories( tempFolder.resolve( "src/test/java" ) );
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
-		final File f = cut.getGoldenMaster( EXISTING_FILE );
+		final File gm = cut.getGoldenMaster( EXISTING_FILE );
 
-		assertThat( f ).isEqualTo( existingFile );
+		assertThat( gm ).isEqualTo( existingFile );
 	}
 
 }
