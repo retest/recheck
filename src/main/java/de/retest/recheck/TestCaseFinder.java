@@ -45,6 +45,8 @@ public class TestCaseFinder {
 			"org.testng.annotations.AfterClass" ) );
 
 	private static final Set<String> repeatableTestCaseAnnotations = new HashSet<>( Arrays.asList( //
+			// JUnit Vintage (v4)
+			"org.junit.experimental.theories.Theory", //
 			// JUnit Jupiter (v5)
 			"org.junit.jupiter.api.RepeatedTest", //
 			"org.junit.jupiter.params.ParameterizedTest" ) );
