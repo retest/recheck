@@ -21,6 +21,9 @@ public class TestCaseFinder {
 	 */
 	public static final String DELIMITER = "_";
 
+	private static final TestCaseInformation NO_TEST_CASE_INFORMATION =
+			new TestCaseInformation( null, TestCaseAnnotationType.NONE, 0 );
+
 	private static final Set<String> testCaseAnnotations = new HashSet<>( Arrays.asList( //
 			// JUnit Vintage (v4)
 			"org.junit.Test", //
@@ -78,27 +81,29 @@ public class TestCaseFinder {
 	}
 
 	private static Optional<String> findTestCaseMethodInStack( final Function<TestCaseInformation, String> mapper ) {
-		return Optional.ofNullable( findTestCaseMethodInStack() ).map( mapper );
+		final TestCaseInformation info = findTestCaseMethodInStack();
+		return info.isFound() ? Optional.of( mapper.apply( info ) ) : Optional.empty();
 	}
 
 	private static Optional<String> findTestCaseMethodInStack( final Function<TestCaseInformation, String> mapper,
 			final StackTraceElement[] trace ) {
-		return Optional.ofNullable( findTestCaseMethodInStack( trace ) ).map( mapper );
+		final TestCaseInformation info = findTestCaseMethodInStack( trace );
+		return info.isFound() ? Optional.of( mapper.apply( info ) ) : Optional.empty();
 	}
 
 	public static TestCaseInformation findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
 			final TestCaseInformation info = findTestCaseMethodInStack( stack );
-			if ( info != null ) {
+			if ( info.isFound() ) {
 				return info;
 			}
 		}
-		return null;
+		return NO_TEST_CASE_INFORMATION;
 	}
 
 	public static TestCaseInformation findTestCaseMethodInStack( final StackTraceElement[] trace ) {
 		for ( final StackTraceElement element : trace ) {
-			final TestCaseAnnotationType type = determineTestCaseAnnotation( element );
+			final TestCaseAnnotationType type = determineTestCaseAnnotationType( element );
 			if ( type == TestCaseAnnotationType.NORMAL ) {
 				return new TestCaseInformation( element, type, 1 );
 			}
@@ -107,10 +112,10 @@ public class TestCaseFinder {
 				return new TestCaseInformation( element, type, count );
 			}
 		}
-		return null;
+		return NO_TEST_CASE_INFORMATION;
 	}
 
-	private static TestCaseAnnotationType determineTestCaseAnnotation( final StackTraceElement element ) {
+	private static TestCaseAnnotationType determineTestCaseAnnotationType( final StackTraceElement element ) {
 		final Method method = tryToFindMethodForStackTraceElement( element );
 		if ( method == null ) {
 			return TestCaseAnnotationType.NONE;
@@ -161,6 +166,10 @@ public class TestCaseFinder {
 		StackTraceElement stackTraceElement;
 		TestCaseAnnotationType testCaseAnnotationType;
 		int invocationCount;
+
+		public boolean isFound() {
+			return stackTraceElement != null;
+		}
 
 		public boolean isRepeatable() {
 			return testCaseAnnotationType == TestCaseAnnotationType.REPEATABLE;
