@@ -64,18 +64,34 @@ public class TestCaseFinder {
 		};
 	}
 
+	/**
+	 * @return A <em>distinct</em> method name for the test case method in all stack traces.
+	 */
 	public static Optional<String> findTestCaseMethodNameInStack() {
 		return findTestCaseMethodInStack( toMethodName() );
 	}
 
+	/**
+	 * @return The class name for the test case method in all stack traces.
+	 */
 	public static Optional<String> findTestCaseClassNameInStack() {
 		return findTestCaseMethodInStack( toClassName() );
 	}
 
+	/**
+	 * @param trace
+	 *            The trace to be used for search.
+	 * @return A <em>distinct</em> method name for the test case method in the given stack trace.
+	 */
 	public static Optional<String> findTestCaseMethodNameInStack( final StackTraceElement[] trace ) {
 		return findTestCaseMethodInStack( toMethodName(), trace );
 	}
 
+	/**
+	 * @param trace
+	 *            The trace to be used for search.
+	 * @return The class name for the test case method in the given stack trace.
+	 */
 	public static Optional<String> findTestCaseClassNameInStack( final StackTraceElement[] trace ) {
 		return findTestCaseMethodInStack( toClassName(), trace );
 	}
@@ -91,6 +107,9 @@ public class TestCaseFinder {
 		return info.isFound() ? Optional.of( mapper.apply( info ) ) : Optional.empty();
 	}
 
+	/**
+	 * @return Test case information for the test case method in all stack traces.
+	 */
 	public static TestCaseInformation findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
 			final TestCaseInformation info = findTestCaseMethodInStack( stack );
@@ -101,6 +120,11 @@ public class TestCaseFinder {
 		return NO_TEST_CASE_INFORMATION;
 	}
 
+	/**
+	 * @param trace
+	 *            The trace to be used for search.
+	 * @return Test case information for the test case method in the given stack trace.
+	 */
 	public static TestCaseInformation findTestCaseMethodInStack( final StackTraceElement[] trace ) {
 		for ( final StackTraceElement element : trace ) {
 			final TestCaseAnnotationType type = determineTestCaseAnnotationType( element );
