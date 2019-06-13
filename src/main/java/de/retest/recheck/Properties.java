@@ -2,7 +2,8 @@ package de.retest.recheck;
 
 public class Properties {
 
-	public static final String FILE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
+	public static final String STATE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
+	public static final String REPORT_OUTPUT_FORMAT_PROPERTY = "de.retest.recheck.output.reportFormat";
 	public static final String CONFIG_FILE_PROPERTY = "de.retest.configFile";
 
 	public static final String PROPERTY_VALUE_SEPARATOR = ";";
@@ -26,11 +27,17 @@ public class Properties {
 	public static enum FileOutputFormat {
 		PLAIN,
 		ZIP,
-		KRYO
+		KRYO,
+		CLOUD
 	}
 
-	public static FileOutputFormat getFileOutputFormat() {
-		final String format = System.getProperty( FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.PLAIN.toString() );
+	public static FileOutputFormat getReportOutputFormat() {
+		final String format = System.getProperty( REPORT_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.KRYO.toString() );
+		return FileOutputFormat.valueOf( format );
+	}
+
+	public static FileOutputFormat getStateOutputFormat() {
+		final String format = System.getProperty( STATE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.PLAIN.toString() );
 		if ( format.equalsIgnoreCase( FileOutputFormat.ZIP.toString() ) ) {
 			return FileOutputFormat.ZIP;
 		}
