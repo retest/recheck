@@ -8,8 +8,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +19,12 @@ import net.jqwik.api.constraints.AlphaChars;
 import net.jqwik.api.constraints.Chars;
 import net.jqwik.api.constraints.NumericChars;
 
-public class StringSimilarityTest {
+class StringSimilarityTest {
 
 	private static final Logger logger = LoggerFactory.getLogger( StringSimilarityTest.class );
 
 	@Test
-	public void small_change_in_short_string_should_result_in_bigger_difference() {
+	void small_change_in_short_string_should_result_in_bigger_difference() {
 		final String s0 = "abc";
 		final String s1 = "adc";
 		final String s2 = "abcd";
@@ -38,7 +38,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void pathSimilarity_should_be_percentage_of_difference() {
+	void pathSimilarity_should_be_percentage_of_difference() {
 		final String commonPrefix =
 				"Window/JRootPane_0/JLayeredPane_0/JPanel_0/TabbedPane_0/Tab_1/ExtendedPanel_0/JXPanel_0/JXLayer_0/Splitpane_0/JXLayer_0/JXPanel_0/JXLayer_0/TabbedModuleForm_0/TabbedPaneExt_0/Tab_0/FormAdapter_0/JPanel_0/GUI_BE";
 		final String commonSuffix = "/Betriebename_0/JXPanel_0";
@@ -71,7 +71,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void pathSimilarity_should_handle_null_values() throws Exception {
+	void pathSimilarity_should_handle_null_values() throws Exception {
 		final String s0 = null;
 		final String s1 = "a";
 
@@ -85,7 +85,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void one_change_should_be_more_similar_than_two_changes() throws Exception {
+	void one_change_should_be_more_similar_than_two_changes() throws Exception {
 		final String orig =
 				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_0/JPanel_0/JTable_0/row_2/column_4";
 		final String oneChange =
@@ -100,7 +100,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void pathSimilarity_should_handle_common_prefix_and_suffix() throws Exception {
+	void pathSimilarity_should_handle_common_prefix_and_suffix() throws Exception {
 		final String s0 = "a";
 		final String s1 = "aa";
 
@@ -110,7 +110,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void pathSimilarity_should_handle_common_prefix() throws Exception {
+	void pathSimilarity_should_handle_common_prefix() throws Exception {
 		final String s0 = "a";
 		final String s1 = "ab";
 
@@ -120,7 +120,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void pathSimilarity_should_handle_common_suffix() throws Exception {
+	void pathSimilarity_should_handle_common_suffix() throws Exception {
 		final String s0 = "b";
 		final String s1 = "ab";
 
@@ -130,7 +130,7 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	public void pathSimilarity_for_completely_different_paths_should_return_0() throws Exception {
+	void pathSimilarity_for_completely_different_paths_should_return_0() throws Exception {
 		final String s0 = "a";
 		final String s1 = "b";
 
@@ -140,8 +140,8 @@ public class StringSimilarityTest {
 	}
 
 	@Test
-	@Ignore( "This test can be performed manually to test other similarity implementations." )
-	public void pathSimilarity_should_be_efficient() {
+	@Disabled( "This test can be performed manually to test other similarity implementations." )
+	void pathSimilarity_should_be_efficient() {
 		// Measurements taken on Jeremy's machine (2,5 GHz Intel Core i7, 16 GB 1600 MHz DDR3).
 		// for StringUtils.getLevenshteinDistance( path0, path1, (int) maxLength / 2 ): 112595ms
 		// for StringUtils.getLevenshteinDistance( path0, path1, (int) minLength / 2 ): 104451ms
