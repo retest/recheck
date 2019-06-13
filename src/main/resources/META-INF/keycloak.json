@@ -1,0 +1,8 @@
+{
+	"realm": "customer",
+	"auth-server-url": "https://sso.dev.cloud.retest.org/auth",
+	"ssl-required": "external",
+	"resource": "marvin",
+	"public-client": true,
+	"confidential-port": 0
+}
