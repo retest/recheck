@@ -104,14 +104,12 @@
 			<version>1.18.8</version>
 		</dependency>
 
-		<!-- retest-model -->
 		<dependency>
 			<groupId>net.java.quickcheck</groupId>
 			<artifactId>quickcheck</artifactId>
 			<version>0.6</version>
 		</dependency>
 
-		<!-- retest-sut-api -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
@@ -167,7 +165,6 @@
 			<version>2.3.1</version>
 		</dependency>
 
-		<!-- JAXB implementation -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
@@ -182,6 +179,7 @@
 		</dependency>
 
 		<!-- test dependencies -->
+
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
