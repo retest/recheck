@@ -86,6 +86,14 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		filter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
 
 		printer = new TestReplayResultPrinter( usedFinders::get, filter );
+
+		if ( isReHubEnabled( options ) ) {
+			ReHub.init();
+		}
+	}
+
+	private boolean isReHubEnabled( final RecheckOptions options ) {
+		return options.isReHubEnabled() || Boolean.getBoolean( Properties.REHUB_ENABLED );
 	}
 
 	private static void ensureConfigurationInitialized() {
