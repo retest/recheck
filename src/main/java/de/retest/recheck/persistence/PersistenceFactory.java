@@ -40,8 +40,10 @@ public class PersistenceFactory {
 				return new XmlFolderPersistence<>( xml );
 			case KRYO:
 				return new KryoPersistence<>();
+			case CLOUD:
+				return new CloudPersistence<>();
 			default:
-				throw new RuntimeException( "Unexpected FileOutputFormat: " + Properties.getFileOutputFormat() );
+				throw new RuntimeException( "Unexpected FileOutputFormat: " + Properties.getStateOutputFormat() );
 		}
 	}
 
@@ -50,6 +52,8 @@ public class PersistenceFactory {
 
 		if ( format == FileOutputFormat.KRYO ) {
 			return new KryoPersistence<>();
+		} else if ( format == FileOutputFormat.CLOUD ) {
+			return new CloudPersistence<>();
 		} else if ( new File( identifier ).isDirectory() ) {
 			return new XmlFolderPersistence<>( xml );
 		} else {
@@ -61,10 +65,10 @@ public class PersistenceFactory {
 		final String filename = FilenameUtils.getName( identifier.getPath() );
 
 		if ( filename.endsWith( Properties.TEST_REPORT_FILE_EXTENSION ) ) {
-			return FileOutputFormat.KRYO;
+			return Properties.getReportOutputFormat();
 		}
 
-		return Properties.getFileOutputFormat();
+		return Properties.getStateOutputFormat();
 	}
 
 	class DynamicLoadPersistenceProxy<T extends Persistable> implements Persistence<T> {
