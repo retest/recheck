@@ -64,6 +64,7 @@
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
+		<logback.version>1.2.3</logback.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
 	</properties>
 
@@ -104,24 +105,16 @@
 			<version>1.18.8</version>
 		</dependency>
 
-		<!-- retest-model -->
-		<dependency>
-			<groupId>net.java.quickcheck</groupId>
-			<artifactId>quickcheck</artifactId>
-			<version>0.6</version>
-		</dependency>
-
-		<!-- retest-sut-api -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>1.2.3</version>
+			<version>${logback.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
+			<version>${logback.version}</version>
 		</dependency>
 
 		<dependency>
@@ -167,7 +160,6 @@
 			<version>2.3.1</version>
 		</dependency>
 
-		<!-- JAXB implementation -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
@@ -182,6 +174,7 @@
 		</dependency>
 
 		<!-- test dependencies -->
+
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
@@ -249,6 +242,13 @@
 			<groupId>com.github.stefanbirkner</groupId>
 			<artifactId>system-rules</artifactId>
 			<version>1.19.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.jqwik</groupId>
+			<artifactId>jqwik</artifactId>
+			<version>1.1.5</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

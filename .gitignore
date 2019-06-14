@@ -14,3 +14,6 @@ retest-gmbh-gpg.asc
 
 # .retest folder
 .retest/
+
+# jqwik database to store data of previous runs
+.jqwik-database
