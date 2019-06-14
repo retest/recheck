@@ -15,6 +15,6 @@ public class RecheckOptions {
 	private final String suiteName = new MavenConformFileNamerStrategy().getTestClassName();
 
 	@Builder.Default
-	private final boolean reHubEnabled = false;
+	private final boolean rehubEnabled = false;
 
 }

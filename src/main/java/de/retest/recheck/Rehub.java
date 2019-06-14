@@ -6,9 +6,9 @@ import de.retest.recheck.auth.ReHubAuthenticationHandler;
 import de.retest.recheck.auth.RetestAuthentication;
 import de.retest.recheck.persistence.CloudPersistence;
 
-public class ReHub {
+public class Rehub {
 
-	private ReHub() {
+	private Rehub() {
 
 	}
 
@@ -25,7 +25,7 @@ public class ReHub {
 	private static String getToken() {
 		final String tokenFromEnvironment = System.getenv( CloudPersistence.RECHECK_API_KEY );
 		final String tokenFromPreferences =
-				Preferences.userNodeForPackage( ReHub.class ).get( CloudPersistence.RECHECK_API_KEY, null );
+				Preferences.userNodeForPackage( Rehub.class ).get( CloudPersistence.RECHECK_API_KEY, null );
 
 		return tokenFromEnvironment != null ? tokenFromEnvironment : tokenFromPreferences;
 	}
