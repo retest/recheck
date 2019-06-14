@@ -23,7 +23,7 @@ class GoldenMasterProviderImplTest {
 	GoldenMasterProviderImpl cut;
 
 	@BeforeEach
-	void setUp( @TempDir final Path temp ) {
+	void setUp() {
 		cut = new GoldenMasterProviderImpl( null );
 	}
 
