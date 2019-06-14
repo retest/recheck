@@ -6,6 +6,8 @@ public class Properties {
 	public static final String REPORT_OUTPUT_FORMAT_PROPERTY = "de.retest.recheck.output.reportFormat";
 	public static final String CONFIG_FILE_PROPERTY = "de.retest.configFile";
 
+	public static final String REHUB_ENABLED = "de.retest.recheck.rehub.enabled";
+
 	public static final String PROPERTY_VALUE_SEPARATOR = ";";
 	public static final String ZIP_FOLDER_SEPARATOR = "/";
 
