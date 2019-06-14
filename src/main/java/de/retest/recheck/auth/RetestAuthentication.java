@@ -26,6 +26,7 @@ import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 
+import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
 
@@ -202,12 +203,15 @@ public class RetestAuthentication {
 		@Override
 		public void run() {
 			try ( Socket socket = server.accept() ) {
+				@Cleanup
 				final BufferedReader br = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 				final String request = br.readLine();
 
 				result = getRequestParameters( request );
 
+				@Cleanup
 				final OutputStreamWriter out = new OutputStreamWriter( socket.getOutputStream() );
+				@Cleanup
 				final PrintWriter writer = new PrintWriter( out );
 
 				if ( result.getError() == null ) {
