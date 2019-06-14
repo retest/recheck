@@ -13,8 +13,6 @@ public class Rehub {
 	}
 
 	public static void init() {
-		System.setProperty( Properties.REPORT_OUTPUT_FORMAT_PROPERTY, Properties.FileOutputFormat.CLOUD.toString() );
-
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 
 		if ( !auth.isAuthenticated( getToken() ) ) {
