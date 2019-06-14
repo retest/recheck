@@ -23,7 +23,7 @@ class GoldenMasterProviderImplTest {
 	GoldenMasterProviderImpl cut;
 
 	@BeforeEach
-	void setUp( @TempDir final Path temp ) {
+	void setUp() {
 		cut = new GoldenMasterProviderImpl( null );
 	}
 
@@ -33,10 +33,13 @@ class GoldenMasterProviderImplTest {
 	}
 
 	@Test
-	void non_existing_file_should_throw_error( @TempDir final Path temp ) {
-		final File nonExistingFile = temp.resolve( NON_EXISTING_FILE ).toFile();
+	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	void non_existing_file_should_throw_error( @TempDir final Path tempFolder ) {
+		final File nonExistingFile = tempFolder.resolve( NON_EXISTING_FILE ).toFile();
 
-		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getAbsolutePath() ) )
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
+
+		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getPath() ) )
 				.isInstanceOf( NoGoldenMasterFoundException.class );
 	}
 
@@ -61,9 +64,9 @@ class GoldenMasterProviderImplTest {
 		Files.createDirectories( tempFolder.resolve( "src/test/java" ) );
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
-		final File f = cut.getGoldenMaster( EXISTING_FILE );
+		final File gm = cut.getGoldenMaster( EXISTING_FILE );
 
-		assertThat( f ).isEqualTo( existingFile );
+		assertThat( gm ).isEqualTo( existingFile );
 	}
 
 }
