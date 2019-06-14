@@ -33,8 +33,11 @@ class GoldenMasterProviderImplTest {
 	}
 
 	@Test
-	void non_existing_file_should_throw_error( @TempDir final Path temp ) {
-		final File nonExistingFile = temp.resolve( NON_EXISTING_FILE ).toFile();
+	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	void non_existing_file_should_throw_error( @TempDir final Path tempFolder ) {
+		final File nonExistingFile = tempFolder.resolve( NON_EXISTING_FILE ).toFile();
+
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, tempFolder.toString() );
 
 		assertThatThrownBy( () -> cut.getGoldenMaster( nonExistingFile.getPath() ) )
 				.isInstanceOf( NoGoldenMasterFoundException.class );
