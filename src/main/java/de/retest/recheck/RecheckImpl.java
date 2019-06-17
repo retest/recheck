@@ -56,7 +56,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final SuiteReplayResult suite;
 	private final FileNamerStrategy fileNamerStrategy;
 	private final String suiteName;
-	private final Filter suiteFilter;
+	private final Filter globalAndSuiteFilter;
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
 
@@ -83,7 +83,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadGlobalRecheckIgnore();
 		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( getSuitePath() );
-		suiteFilter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
+		globalAndSuiteFilter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
 	}
 
 	private static void ensureConfigurationInitialized() {
@@ -165,7 +165,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		currentTestResult = null;
 
 		final GlobalIgnoreApplier stepIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( currentStepDir );
-		final Filter stepFilter = new CompoundFilter( Arrays.asList( suiteFilter, stepIgnoreApplier ) );
+		final Filter stepFilter = new CompoundFilter( Arrays.asList( globalAndSuiteFilter, stepIgnoreApplier ) );
 
 		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( stepFilter );
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
