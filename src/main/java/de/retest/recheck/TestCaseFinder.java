@@ -134,7 +134,7 @@ public class TestCaseFinder {
 				return new TestCaseInformation( element, type, 1 );
 			}
 			if ( type == TestCaseAnnotationType.REPEATABLE ) {
-				final int count = repeatableTestCaseAnnotationsCount.merge( element, 1, Math::addExact );
+				final int count = repeatableTestCaseAnnotationsCount.merge( element, 1, Integer::sum );
 				return new TestCaseInformation( element, type, count );
 			}
 		}
