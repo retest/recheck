@@ -1,7 +1,5 @@
 package de.retest.recheck.util;
 
-import static de.retest.recheck.TestCaseFinder.findTestCaseMethodInStack;
-
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +13,8 @@ import org.approvaltests.writers.ApprovalTextWriter;
 import com.spun.util.io.StackElementSelector;
 import com.spun.util.tests.StackTraceReflectionResult;
 import com.spun.util.tests.TestUtils;
+
+import de.retest.recheck.TestCaseFinder;
 
 public class ApprovalsUtil {
 
@@ -73,7 +73,7 @@ public class ApprovalsUtil {
 	public static class JUnitStackSelector implements StackElementSelector {
 		@Override
 		public StackTraceElement selectElement( final StackTraceElement[] trace ) throws Exception {
-			return findTestCaseMethodInStack( trace ).getStackTraceElement();
+			return TestCaseFinder.getInstance().findTestCaseMethodInStack( trace ).getStackTraceElement();
 		}
 
 		@Override

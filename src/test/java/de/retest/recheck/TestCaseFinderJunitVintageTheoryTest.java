@@ -25,13 +25,13 @@ public class TestCaseFinderJunitVintageTheoryTest {
 		final TestCaseAnnotationType expectedType = TestCaseAnnotationType.REPEATABLE;
 		final int expectedInvocationCount = count;
 
-		final Optional<String> actualClassName = TestCaseFinder.findTestCaseClassNameInStack();
+		final Optional<String> actualClassName = TestCaseFinder.getInstance().findTestCaseClassNameInStack();
 		assertThat( actualClassName ).hasValue( expectedClassName );
 
-		final Optional<String> actualMethodName = TestCaseFinder.findTestCaseMethodNameInStack();
+		final Optional<String> actualMethodName = TestCaseFinder.getInstance().findTestCaseMethodNameInStack();
 		assertThat( actualMethodName ).hasValueSatisfying( methodName -> methodName.startsWith( expectedMethodName ) );
 
-		final TestCaseInformation info = TestCaseFinder.findTestCaseMethodInStack();
+		final TestCaseInformation info = TestCaseFinder.getInstance().findTestCaseMethodInStack();
 		assertThat( info.getStackTraceElement().getClassName() ).isEqualTo( expectedClassName );
 		assertThat( info.getStackTraceElement().getMethodName() ).isEqualTo( expectedMethodName );
 		assertThat( info.getTestCaseAnnotationType() ).isEqualTo( expectedType );

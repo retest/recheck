@@ -51,10 +51,6 @@ public class TestCaseFinder {
 			"org.junit.jupiter.api.RepeatedTest", //
 			"org.junit.jupiter.params.ParameterizedTest" ) );
 
-	private static final Map<StackTraceElement, Integer> repeatableTestCaseAnnotationsCount = new HashMap<>();
-
-	private TestCaseFinder() {}
-
 	private static Function<TestCaseInformation, String> toClassName() {
 		return info -> info.getStackTraceElement().getClassName();
 	}
@@ -66,17 +62,30 @@ public class TestCaseFinder {
 		};
 	}
 
+	private static TestCaseFinder instance;
+
+	private final Map<StackTraceElement, Integer> repeatableTestCaseAnnotationsCount = new HashMap<>();
+
+	private TestCaseFinder() {}
+
+	public static TestCaseFinder getInstance() {
+		if ( instance == null ) {
+			instance = new TestCaseFinder();
+		}
+		return instance;
+	}
+
 	/**
 	 * @return A <em>distinct</em> method name for the test case method in all stack traces.
 	 */
-	public static Optional<String> findTestCaseMethodNameInStack() {
+	public Optional<String> findTestCaseMethodNameInStack() {
 		return findTestCaseMethodInStack( toMethodName() );
 	}
 
 	/**
 	 * @return The class name for the test case method in all stack traces.
 	 */
-	public static Optional<String> findTestCaseClassNameInStack() {
+	public Optional<String> findTestCaseClassNameInStack() {
 		return findTestCaseMethodInStack( toClassName() );
 	}
 
@@ -85,7 +94,7 @@ public class TestCaseFinder {
 	 *            The trace to be used for search.
 	 * @return A <em>distinct</em> method name for the test case method in the given stack trace.
 	 */
-	public static Optional<String> findTestCaseMethodNameInStack( final StackTraceElement[] trace ) {
+	public Optional<String> findTestCaseMethodNameInStack( final StackTraceElement[] trace ) {
 		return findTestCaseMethodInStack( toMethodName(), trace );
 	}
 
@@ -94,16 +103,16 @@ public class TestCaseFinder {
 	 *            The trace to be used for search.
 	 * @return The class name for the test case method in the given stack trace.
 	 */
-	public static Optional<String> findTestCaseClassNameInStack( final StackTraceElement[] trace ) {
+	public Optional<String> findTestCaseClassNameInStack( final StackTraceElement[] trace ) {
 		return findTestCaseMethodInStack( toClassName(), trace );
 	}
 
-	private static Optional<String> findTestCaseMethodInStack( final Function<TestCaseInformation, String> mapper ) {
+	private Optional<String> findTestCaseMethodInStack( final Function<TestCaseInformation, String> mapper ) {
 		final TestCaseInformation info = findTestCaseMethodInStack();
 		return info.isFound() ? Optional.of( mapper.apply( info ) ) : Optional.empty();
 	}
 
-	private static Optional<String> findTestCaseMethodInStack( final Function<TestCaseInformation, String> mapper,
+	private Optional<String> findTestCaseMethodInStack( final Function<TestCaseInformation, String> mapper,
 			final StackTraceElement[] trace ) {
 		final TestCaseInformation info = findTestCaseMethodInStack( trace );
 		return info.isFound() ? Optional.of( mapper.apply( info ) ) : Optional.empty();
@@ -112,7 +121,7 @@ public class TestCaseFinder {
 	/**
 	 * @return Test case information for the test case method in all stack traces.
 	 */
-	public static TestCaseInformation findTestCaseMethodInStack() {
+	public TestCaseInformation findTestCaseMethodInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
 			final TestCaseInformation info = findTestCaseMethodInStack( stack );
 			if ( info.isFound() ) {
@@ -127,7 +136,7 @@ public class TestCaseFinder {
 	 *            The trace to be used for search.
 	 * @return Test case information for the test case method in the given stack trace.
 	 */
-	public static TestCaseInformation findTestCaseMethodInStack( final StackTraceElement[] trace ) {
+	public TestCaseInformation findTestCaseMethodInStack( final StackTraceElement[] trace ) {
 		for ( final StackTraceElement element : trace ) {
 			final TestCaseAnnotationType type = determineTestCaseAnnotationType( element );
 			if ( type == TestCaseAnnotationType.NORMAL ) {
@@ -141,7 +150,7 @@ public class TestCaseFinder {
 		return NO_TEST_CASE_INFORMATION;
 	}
 
-	private static TestCaseAnnotationType determineTestCaseAnnotationType( final StackTraceElement element ) {
+	private TestCaseAnnotationType determineTestCaseAnnotationType( final StackTraceElement element ) {
 		final Method method = tryToFindMethodForStackTraceElement( element );
 		if ( method == null ) {
 			return TestCaseAnnotationType.NONE;
@@ -161,7 +170,7 @@ public class TestCaseFinder {
 		return TestCaseAnnotationType.NONE;
 	}
 
-	private static Method tryToFindMethodForStackTraceElement( final StackTraceElement element ) {
+	private Method tryToFindMethodForStackTraceElement( final StackTraceElement element ) {
 		final Class<?> clazz;
 		Method method = null;
 

@@ -62,13 +62,13 @@ public class TestCaseFinderJunitVintageTest {
 
 	private static void assertAll( final String expectedClassName, final String expectedMethodName,
 			final TestCaseAnnotationType expectedType, final int expectedInvocationCount ) {
-		final Optional<String> actualClassName = TestCaseFinder.findTestCaseClassNameInStack();
+		final Optional<String> actualClassName = TestCaseFinder.getInstance().findTestCaseClassNameInStack();
 		assertThat( actualClassName ).hasValue( expectedClassName );
 
-		final Optional<String> actualMethodName = TestCaseFinder.findTestCaseMethodNameInStack();
+		final Optional<String> actualMethodName = TestCaseFinder.getInstance().findTestCaseMethodNameInStack();
 		assertThat( actualMethodName ).hasValue( expectedMethodName );
 
-		final TestCaseInformation info = TestCaseFinder.findTestCaseMethodInStack();
+		final TestCaseInformation info = TestCaseFinder.getInstance().findTestCaseMethodInStack();
 		assertThat( info.getStackTraceElement().getClassName() ).isEqualTo( expectedClassName );
 		assertThat( info.getStackTraceElement().getMethodName() ).isEqualTo( expectedMethodName );
 		assertThat( info.getTestCaseAnnotationType() ).isEqualTo( expectedType );

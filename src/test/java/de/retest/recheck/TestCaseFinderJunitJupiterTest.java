@@ -23,13 +23,13 @@ class TestCaseFinderJunitJupiterTest {
 	void empty_trace_should_yield_nothing() throws Exception {
 		final StackTraceElement[] emptyTrace = new StackTraceElement[0];
 
-		final Optional<String> className = TestCaseFinder.findTestCaseClassNameInStack( emptyTrace );
+		final Optional<String> className = TestCaseFinder.getInstance().findTestCaseClassNameInStack( emptyTrace );
 		assertThat( className ).isEmpty();
 
-		final Optional<String> methodName = TestCaseFinder.findTestCaseMethodNameInStack( emptyTrace );
+		final Optional<String> methodName = TestCaseFinder.getInstance().findTestCaseMethodNameInStack( emptyTrace );
 		assertThat( methodName ).isEmpty();
 
-		final TestCaseInformation info = TestCaseFinder.findTestCaseMethodInStack( emptyTrace );
+		final TestCaseInformation info = TestCaseFinder.getInstance().findTestCaseMethodInStack( emptyTrace );
 		assertThat( info ).isSameAs( TestCaseFinder.NO_TEST_CASE_INFORMATION );
 	}
 
@@ -86,13 +86,13 @@ class TestCaseFinderJunitJupiterTest {
 		final TestCaseAnnotationType expectedType = TestCaseAnnotationType.REPEATABLE;
 		final int expectedInvocationCount = count;
 
-		final Optional<String> actualClassName = TestCaseFinder.findTestCaseClassNameInStack();
+		final Optional<String> actualClassName = TestCaseFinder.getInstance().findTestCaseClassNameInStack();
 		assertThat( actualClassName ).hasValue( expectedClassName );
 
-		final Optional<String> actualMethodName = TestCaseFinder.findTestCaseMethodNameInStack();
+		final Optional<String> actualMethodName = TestCaseFinder.getInstance().findTestCaseMethodNameInStack();
 		assertThat( actualMethodName ).hasValueSatisfying( methodName -> methodName.startsWith( expectedMethodName ) );
 
-		final TestCaseInformation info = TestCaseFinder.findTestCaseMethodInStack();
+		final TestCaseInformation info = TestCaseFinder.getInstance().findTestCaseMethodInStack();
 		assertThat( info.getStackTraceElement().getClassName() ).isEqualTo( expectedClassName );
 		assertThat( info.getStackTraceElement().getMethodName() ).isEqualTo( expectedMethodName );
 		assertThat( info.getTestCaseAnnotationType() ).isEqualTo( expectedType );
@@ -107,13 +107,13 @@ class TestCaseFinderJunitJupiterTest {
 		final TestCaseAnnotationType expectedType = TestCaseAnnotationType.REPEATABLE;
 		final int expectedInvocationCount = repetitionInfo.getCurrentRepetition();
 
-		final Optional<String> actualClassName = TestCaseFinder.findTestCaseClassNameInStack();
+		final Optional<String> actualClassName = TestCaseFinder.getInstance().findTestCaseClassNameInStack();
 		assertThat( actualClassName ).hasValue( expectedClassName );
 
-		final Optional<String> actualMethodName = TestCaseFinder.findTestCaseMethodNameInStack();
+		final Optional<String> actualMethodName = TestCaseFinder.getInstance().findTestCaseMethodNameInStack();
 		assertThat( actualMethodName ).hasValueSatisfying( methodName -> methodName.startsWith( expectedMethodName ) );
 
-		final TestCaseInformation info = TestCaseFinder.findTestCaseMethodInStack();
+		final TestCaseInformation info = TestCaseFinder.getInstance().findTestCaseMethodInStack();
 		assertThat( info.getStackTraceElement().getClassName() ).isEqualTo( expectedClassName );
 		assertThat( info.getStackTraceElement().getMethodName() ).isEqualTo( expectedMethodName );
 		assertThat( info.getTestCaseAnnotationType() ).isEqualTo( expectedType );
@@ -122,13 +122,13 @@ class TestCaseFinderJunitJupiterTest {
 
 	private static void assertAll( final String expectedClassName, final String expectedMethodName,
 			final TestCaseAnnotationType expectedType, final int expectedInvocationCount ) {
-		final Optional<String> actualClassName = TestCaseFinder.findTestCaseClassNameInStack();
+		final Optional<String> actualClassName = TestCaseFinder.getInstance().findTestCaseClassNameInStack();
 		assertThat( actualClassName ).hasValue( expectedClassName );
 
-		final Optional<String> actualMethodName = TestCaseFinder.findTestCaseMethodNameInStack();
+		final Optional<String> actualMethodName = TestCaseFinder.getInstance().findTestCaseMethodNameInStack();
 		assertThat( actualMethodName ).hasValue( expectedMethodName );
 
-		final TestCaseInformation info = TestCaseFinder.findTestCaseMethodInStack();
+		final TestCaseInformation info = TestCaseFinder.getInstance().findTestCaseMethodInStack();
 		assertThat( info.getStackTraceElement().getClassName() ).isEqualTo( expectedClassName );
 		assertThat( info.getStackTraceElement().getMethodName() ).isEqualTo( expectedMethodName );
 		assertThat( info.getTestCaseAnnotationType() ).isEqualTo( expectedType );
