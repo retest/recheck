@@ -14,7 +14,7 @@ import com.spun.util.io.StackElementSelector;
 import com.spun.util.tests.StackTraceReflectionResult;
 import com.spun.util.tests.TestUtils;
 
-import static de.retest.recheck.TestCaseFinder.findTestCaseMethodInStack;
+import de.retest.recheck.TestCaseFinder;
 
 public class ApprovalsUtil {
 
@@ -73,14 +73,14 @@ public class ApprovalsUtil {
 	public static class JUnitStackSelector implements StackElementSelector {
 		@Override
 		public StackTraceElement selectElement( final StackTraceElement[] trace ) throws Exception {
-			return findTestCaseMethodInStack( trace );
+			return TestCaseFinder.getInstance().findTestCaseMethodInStack( trace ).getStackTraceElement();
 		}
 
 		@Override
 		public void increment() {}
 
 	}
-	
+
 	public static class ApprovalAutoApprover implements ApprovalFailureReporter {
 		public static final ApprovalFailureReporter INSTANCE = new ApprovalAutoApprover();
 
