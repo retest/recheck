@@ -1,5 +1,6 @@
 package de.retest.recheck.printer;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.ignore.Filter;
@@ -10,11 +11,12 @@ import de.retest.recheck.ui.DefaultValueFinder;
 public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private final DefaultValueFinderProvider provider;
-	private final Filter filter;
+	private final Map<ActionReplayResult, Filter> filterByResult;
 
-	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final Filter filter ) {
+	public TestReplayResultPrinter( final DefaultValueFinderProvider provider,
+			final Map<ActionReplayResult, Filter> filterByResult ) {
 		this.provider = provider;
-		this.filter = filter;
+		this.filterByResult = filterByResult;
 	}
 
 	@Override
@@ -24,7 +26,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private String createDescription( final TestReplayResult result ) {
 		final String name = result.getName();
-		final int differences = result.getDifferences( filter ).size();
+		final int differences = result.getDifferences( filterByResult ).size();
 		final int states = result.getActionReplayResults().size();
 		return String.format( "Test '%s' has %d difference(s) in %d state(s):", name, differences, states );
 	}
@@ -37,7 +39,8 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {
 		final DefaultValueFinder finder = provider.findForAction( result.getDescription() );
-		final ActionReplayResultPrinter printer = new ActionReplayResultPrinter( finder, filter );
+		final ActionReplayResultPrinter printer =
+				new ActionReplayResultPrinter( finder, filterByResult.getOrDefault( result, Filter.FILTER_NOTHING ) );
 		return printer.toString( result, indent );
 	}
 }

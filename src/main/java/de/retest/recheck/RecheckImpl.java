@@ -59,9 +59,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private final Filter globalAndSuiteFilter;
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
+	private final Map<ActionReplayResult, Filter> effectiveFilterByReplayResult = new HashMap<>();;
 
 	private TestReplayResult currentTestResult;
-	private File currentStepDir;
 
 	/**
 	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
@@ -125,7 +125,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		usedFinders.put( currentStep, defaultFinder );
 
 		final FileNamer fileNamer = createFileName( currentStep );
-		currentStepDir = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final File currentStepDir = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
 		final SutState expected = loadExpected( currentStepDir );
@@ -136,7 +136,13 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, currentStepDir.getPath() );
 
-		return finder.findDifferences( actual, expected );
+		final ActionReplayResult actionResult = finder.findDifferences( actual, expected );
+
+		final GlobalIgnoreApplier stepIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( currentStepDir );
+		effectiveFilterByReplayResult.put( actionResult,
+				new CompoundFilter( Arrays.asList( globalAndSuiteFilter, stepIgnoreApplier ) ) );
+
+		return actionResult;
 	}
 
 	private File getSuitePath() {
@@ -164,19 +170,18 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final TestReplayResult finishedTestResult = currentTestResult;
 		currentTestResult = null;
 
-		final GlobalIgnoreApplier stepIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( currentStepDir );
-		final Filter stepFilter = new CompoundFilter( Arrays.asList( globalAndSuiteFilter, stepIgnoreApplier ) );
-
-		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( stepFilter );
+		final Set<LeafDifference> uniqueDifferences =
+				finishedTestResult.getDifferences( effectiveFilterByReplayResult );
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 
 		if ( !uniqueDifferences.isEmpty() ) {
 			final String message =
 					finishedTestResult.hasNoGoldenMaster() ? getNoGoldenMasterErrorMessage( finishedTestResult )
-							: getDifferencesErrorMessage( stepFilter, finishedTestResult );
+							: getDifferencesErrorMessage( finishedTestResult );
 			throw new AssertionError( message );
 		}
+		effectiveFilterByReplayResult.clear();
 	}
 
 	@Override
@@ -227,11 +232,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
 	}
 
-	private String getDifferencesErrorMessage( final Filter stepFilter, final TestReplayResult finishedTestResult ) {
+	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult ) {
 		final int numChecks = finishedTestResult.getActionReplayResults().size();
 
-		final String allDiffs =
-				new TestReplayResultPrinter( usedFinders::get, stepFilter ).toString( finishedTestResult );
+		final String allDiffs = new TestReplayResultPrinter( usedFinders::get, effectiveFilterByReplayResult )
+				.toString( finishedTestResult );
 
 		final String reportPath = getResultFile().getAbsolutePath();
 		return "A detailed report will be created at '" + reportPath + "'. " //

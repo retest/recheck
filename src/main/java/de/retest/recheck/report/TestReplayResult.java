@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -82,10 +83,11 @@ public class TestReplayResult implements Serializable {
 		return uiElementsCount;
 	}
 
-	public Set<LeafDifference> getDifferences( final Filter filter ) {
+	public Set<LeafDifference> getDifferences( final Map<ActionReplayResult, Filter> filterByResult ) {
 		final Set<LeafDifference> diffs = new HashSet<>();
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			diffs.addAll( actionReplayResult.getDifferencesWithout( filter ) );
+			diffs.addAll( actionReplayResult.getDifferencesWithout(
+					filterByResult.getOrDefault( actionReplayResult, Filter.FILTER_NOTHING ) ) );
 		}
 		return diffs;
 	}
