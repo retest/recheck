@@ -2,24 +2,27 @@ package de.retest.recheck.review.ignore.io;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ignore.JSFilterImpl;
-import de.retest.recheck.review.ignore.AttributeRegexFilter;
-import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
-import de.retest.recheck.review.ignore.ElementAttributeRegexFilter;
-import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.ElementAttributeRegexFilterLoader;
+import de.retest.recheck.review.ignore.AttributeRegexFilter;
+import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.ElementAttributeFilter;
 import de.retest.recheck.review.ignore.ElementAttributeFilter.ElementAttributeFilterLoader;
+import de.retest.recheck.review.ignore.ElementAttributeRegexFilter;
+import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.ElementAttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.ElementFilter;
 import de.retest.recheck.review.ignore.ElementFilter.ElementFilterLoader;
-import de.retest.recheck.review.ignore.JSFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
+import de.retest.recheck.review.ignore.JSFilterLoader;
+import de.retest.recheck.review.ignore.PixelDiffFilter;
+import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
@@ -46,8 +49,12 @@ public class Loaders {
 		pairs.add( Pair.of( AttributeFilter.class, new AttributeFilterLoader() ) );
 		pairs.add( Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ) );
 		pairs.add( Pair.of( ElementFilter.class, new ElementFilterLoader() ) );
+		pairs.add( Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ) );
 		pairs.add( Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ) );
 		pairs.add( Pair.of( JSFilterImpl.class, new JSFilterLoader() ) );
+
+		// This is error handling and should always be last
+		pairs.add( Pair.of( FilterPreserveLine.class, new ErrorHandlingLoader() ) );
 		return pairs;
 	}
 
@@ -77,7 +84,7 @@ public class Loaders {
 	}
 
 	public static Stream<?> load( final Stream<String> lines ) {
-		return lines.map( Loaders::load );
+		return lines.map( Loaders::load ).filter( Objects::nonNull );
 	}
 
 	private static <T> T load( final String line ) {
@@ -86,6 +93,6 @@ public class Loaders {
 				.filter( loader -> loader.canLoad( line ) ) //
 				.findFirst() //
 				.map( loader -> loader.load( line ) ) //
-				.orElseThrow( () -> new IllegalArgumentException( "Line '" + line + "' has no loader." ) );
+				.orElse( null );
 	}
 }

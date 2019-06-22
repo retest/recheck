@@ -38,7 +38,7 @@ public class IdentifyingAttributesDifference implements LeafDifference {
 		attributeDifferences = null;
 	}
 
-	IdentifyingAttributesDifference( final IdentifyingAttributes expectedIdentAttributes,
+	public IdentifyingAttributesDifference( final IdentifyingAttributes expectedIdentAttributes,
 			final List<AttributeDifference> attributeDifferences ) {
 		attributes = expectedIdentAttributes.getAttributes();
 		this.attributeDifferences = attributeDifferences;

@@ -58,6 +58,10 @@ public class TestReplayResult implements Serializable {
 		actionReplayResults = new ArrayList<>();
 	}
 
+	public int getTestNr() {
+		return testNr;
+	}
+
 	public long getDuration() {
 		return testDuration;
 	}

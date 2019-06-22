@@ -81,8 +81,10 @@ public class JSFilterImpl implements Filter {
 			logger.error( "JS '{}' method caused an exception: {}", functionName, e.getMessage() );
 			errorFunctions.add( functionName );
 		} catch ( final NoSuchMethodException e ) {
-			logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
-			errorFunctions.add( functionName );
+			if ( !functionName.startsWith( "shouldIgnore" ) ) {
+				logger.warn( "Specified JS ignore file has no '{}' function.", functionName );
+				errorFunctions.add( functionName );
+			}
 		}
 		return false;
 	}

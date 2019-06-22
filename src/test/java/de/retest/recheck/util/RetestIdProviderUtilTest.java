@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.idproviders.DefaultRetestIdProvider;
 import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
-import de.retest.recheck.util.RetestIdProviderUtil;
-import de.retest.recheck.util.RetestIdUtil;
 
 class RetestIdProviderUtilTest {
 
@@ -53,8 +51,9 @@ class RetestIdProviderUtilTest {
 		System.setProperty( "de.retest.Development", "false" );
 		final IdentifyingAttributes identifyingAttributes =
 				IdentifyingAttributes.create( fromString( "/HTML[1]/DIV[1]/A[1]" ), "A" );
-		final String first = RetestIdProviderUtil.getRetestId( identifyingAttributes );
-		final String second = RetestIdProviderUtil.getRetestId( identifyingAttributes );
+		final RetestIdProvider idProvider = RetestIdProviderUtil.getConfiguredRetestIdProvider();
+		final String first = idProvider.getRetestId( identifyingAttributes );
+		final String second = idProvider.getRetestId( identifyingAttributes );
 		assertThat( first ).isNotEqualTo( second );
 	}
 

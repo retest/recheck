@@ -1,7 +1,5 @@
 package de.retest.recheck.report;
 
-import static de.retest.recheck.ui.review.GoldenMasterSource.RECORDED;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,9 +41,17 @@ public class TestReport extends Persistable {
 		return new TestReport( GoldenMasterSource.API, newSuite );
 	}
 
+	public static TestReport fromApi() {
+		return new TestReport( GoldenMasterSource.API );
+	}
+
 	public TestReport() {
+		this( GoldenMasterSource.RECORDED );
+	}
+
+	public TestReport( final GoldenMasterSource source ) {
 		super( PERSISTENCE_VERSION );
-		source = RECORDED;
+		this.source = source;
 		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
 	}
 
@@ -54,9 +60,7 @@ public class TestReport extends Persistable {
 	}
 
 	public TestReport( final GoldenMasterSource source, final SuiteReplayResult newSuite ) {
-		super( PERSISTENCE_VERSION );
-		this.source = source;
-		ignoredAttributes = GloballyIgnoredAttributes.getInstance().getIgnoredAttributesList();
+		this( source );
 		suiteReplayResults.add( newSuite );
 	}
 
@@ -138,7 +142,7 @@ public class TestReport extends Persistable {
 	public String getExecSuiteSutVersion() {
 		final Set<String> versions = new HashSet<>();
 		for ( final SuiteReplayResult suiteReplayResult : suiteReplayResults ) {
-			versions.add( suiteReplayResult.getExecSuiteSutVersion() );
+			versions.add( suiteReplayResult.getExecSuiteSutVersionString() );
 		}
 		if ( versions.size() == 1 ) {
 			return versions.toArray()[0].toString();
@@ -149,7 +153,7 @@ public class TestReport extends Persistable {
 	public String getReplaySutVersion() {
 		final Set<String> versions = new HashSet<>();
 		for ( final SuiteReplayResult suiteReplayResult : suiteReplayResults ) {
-			versions.add( suiteReplayResult.getReplaySutVersion() );
+			versions.add( suiteReplayResult.getReplaySutVersionString() );
 		}
 		if ( versions.size() == 1 ) {
 			return versions.toArray()[0].toString();

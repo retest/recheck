@@ -39,10 +39,6 @@ public class RetestIdProviderUtil {
 		return new DefaultRetestIdProvider();
 	}
 
-	public static String getRetestId( final IdentifyingAttributes identifyingAttributes ) {
-		return getRetestId( getConfiguredRetestIdProvider(), identifyingAttributes );
-	}
-
 	/**
 	 * Testing only.
 	 *

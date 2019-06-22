@@ -28,15 +28,10 @@ public class GoldenMasterProviderImpl implements GoldenMasterProvider {
 
 	@Override
 	public File getGoldenMaster( final String filePath ) throws NoGoldenMasterFoundException {
-		final Path projectRoot = ProjectRootFinderUtil.getProjectRoot() //
+		return ProjectRootFinderUtil.getProjectRoot() //
+				.map( projectRoot -> getStates( projectRoot, filePath ) ) //
+				.map( Path::toFile ) //
 				.orElseThrow( () -> new NoGoldenMasterFoundException( filePath ) );
-		final Path projectRootStates = getStates( projectRoot, filePath );
-
-		if ( projectRootStates != null ) {
-			return projectRootStates.toFile();
-		}
-
-		throw new NoGoldenMasterFoundException( filePath );
 	}
 
 	private Path getStates( final Path projectRoot, final String filePath ) {

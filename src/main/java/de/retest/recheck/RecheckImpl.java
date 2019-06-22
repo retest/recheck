@@ -79,11 +79,19 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		fileNamerStrategy = options.getFileNamerStrategy();
 		suiteName = options.getSuiteName();
-		suite = SuiteReplayResultProvider.getInstance().getSuite( suiteName );
+		suite = SuiteAggregator.getInstance().getSuite( suiteName );
 
 		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadGlobalRecheckIgnore();
 		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore( getSuitePath() );
 		globalAndSuiteFilter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
+
+    if ( isRehubEnabled( options ) ) {
+			Rehub.init();
+		}
+	}
+
+	private boolean isRehubEnabled( final RecheckOptions options ) {
+		return options.isRehubEnabled() || Boolean.getBoolean( Properties.REHUB_ENABLED );
 	}
 
 	private static void ensureConfigurationInitialized() {
