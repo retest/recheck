@@ -11,7 +11,7 @@ if [ ! -f ${TRAVIS_BUILD_DIR}/already_signed ]; then
     # import decrypted ReTest secret key
     gpg --fast-import "${TRAVIS_BUILD_DIR}/retest-gmbh-gpg.asc"
     # package sign artifacts
-    ${MVN} verify -DskipTests -Psign
+    mvn ${MVN_ARGS} verify -DskipTests -Psign
     
     touch ${TRAVIS_BUILD_DIR}/already_signed
 fi

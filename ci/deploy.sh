@@ -5,4 +5,4 @@ set -o errexit
 set -o pipefail
 
 ###### Maven ######
-${MVN} deploy -DskipTests -Psign
+mvn ${MVN_ARGS} deploy -DskipTests -Psign
