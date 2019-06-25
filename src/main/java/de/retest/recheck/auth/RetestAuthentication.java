@@ -171,8 +171,8 @@ public class RetestAuthentication {
 
 	private boolean isTokenValid() {
 		try {
-			return accessTokenString != null || accessToken != null
-					|| verifyToken( accessTokenString, deployment ).isActive();
+			return accessTokenString != null && accessToken != null
+					&& verifyToken( accessTokenString, deployment ).isActive();
 		} catch ( final VerificationException e ) {
 			log.error( "Error verifying token(s)", e );
 		}
