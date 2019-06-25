@@ -53,6 +53,12 @@ class StringSimilarityTest {
 		assertThat( similarity ).isCloseTo( expectedSimilarity * expectedSimilarity, within( 0.0155 ) );
 	}
 
+	@Test
+	void pathSimilarity_for_empty_path_after_removing_brackets_should_be_zero() throws Exception {
+		final double similarity = StringSimilarity.pathSimilarity( "[", "]" );
+		assertThat( similarity ).isZero();
+	}
+
 	@Property
 	void pathSimilarity_should_always_be_between_0_and_1( @ForAll @RandomPath final String randomPath0,
 			@ForAll @RandomPath final String randomPath1 ) throws Exception {

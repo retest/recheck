@@ -44,12 +44,12 @@ public class StringSimilarity {
 			return 1.0;
 		}
 
-		if ( path0.isEmpty() || path1.isEmpty() ) {
-			return 0.0;
-		}
-
 		final String cleanPath0 = removeBrackets( path0 );
 		final String cleanPath1 = removeBrackets( path1 );
+
+		if ( cleanPath0.isEmpty() || cleanPath1.isEmpty() ) {
+			return 0.0;
+		}
 
 		final int commonPrefixLength = StringUtils.getCommonPrefix( cleanPath0, cleanPath1 ).length();
 		final int commonSuffixLength = getCommonSuffixStartingAt( cleanPath0, cleanPath1, commonPrefixLength );
