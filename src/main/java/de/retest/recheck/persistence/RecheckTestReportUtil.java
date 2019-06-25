@@ -27,8 +27,6 @@ public class RecheckTestReportUtil {
 	public static void persist( final SuiteReplayResult suite, final File file ) {
 		logger.info( "Persisting test report to file '{}'.", FileUtil.canonicalPathQuietly( file ) );
 		try {
-			FileUtil.ensureFolder( file );
-
 			// Save separate test report for suite.
 			persistenceFactory.getPersistence().save( file.toURI(), TestReport.fromApi( suite ) );
 
