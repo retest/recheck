@@ -3,6 +3,7 @@ package de.retest.recheck.persistence.bin;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
@@ -16,6 +17,7 @@ import com.google.common.collect.TreeMultiset;
 import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
+import de.retest.recheck.util.FileUtil;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
@@ -36,7 +38,9 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 	@Override
 	public void save( final URI identifier, final T element ) throws IOException {
-		try ( final Output output = new Output( Files.newOutputStream( Paths.get( identifier ) ) ) ) {
+		final Path path = Paths.get( identifier );
+		FileUtil.ensureFolder( path.toFile() );
+		try ( final Output output = new Output( Files.newOutputStream( path ) ) ) {
 			kryo.writeClassAndObject( output, element );
 		}
 	}
