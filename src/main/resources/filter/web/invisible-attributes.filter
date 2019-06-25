@@ -3,6 +3,7 @@
 # Class can be ignored, because we track individual CSS attributes
 attribute=id
 attribute=class
+attribute=name
 attribute=style
 attribute=ping
 attribute-regex=data-.*
@@ -10,3 +11,4 @@ attribute=jsdata
 attribute=jsaction
 attribute=cd_frame_id_
 attribute=transform
+attribute=onload
