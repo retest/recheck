@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
 
-import de.retest.recheck.Properties;
 import de.retest.recheck.auth.RetestAuthentication;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
@@ -29,9 +28,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	@Override
 	public void save( final URI identifier, final T element ) throws IOException {
 		kryoPersistence.save( identifier, element );
-		if ( identifier.getPath().endsWith( Properties.AGGREGATED_TEST_REPORT_FILE_NAME ) ) {
-			saveToCloud( identifier );
-		}
+		saveToCloud( identifier );
 	}
 
 	private void saveToCloud( final URI identifier ) throws IOException {
