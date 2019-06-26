@@ -1,6 +1,7 @@
 # Filter file for recheck with invisible and mostly irrelevant attributes 
 
 # Class can be ignored, because we track individual CSS attributes
+attribute=path
 attribute=id
 attribute=class
 attribute=name
