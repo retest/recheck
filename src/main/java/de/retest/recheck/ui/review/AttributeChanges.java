@@ -17,6 +17,10 @@ public class AttributeChanges {
 
 	private final Map<Path, Set<AttributeDifference>> changes = new HashMap<>();
 
+	public Map<Path, Set<AttributeDifference>> getChanges() {
+		return changes;
+	}
+
 	public boolean contains( final IdentifyingAttributes identifyingAttributes,
 			final AttributeDifference attributeDifference ) {
 		final Path path = identifyingAttributes.getPathTyped();

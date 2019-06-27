@@ -46,12 +46,16 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 	@XmlElement
 	private final Object actual;
 
+	@XmlElement
+	private ElementIdentificationWarning elementIdentificationWarning;
+
 	protected AttributeDifference() {
 		// for JAXB
 		key = null;
 		expected = null;
 		actual = null;
 		attributeDifferenceId = null;
+		elementIdentificationWarning = null;
 	}
 
 	public AttributeDifference( final String key, final Serializable expected, final Serializable actual ) {
@@ -65,6 +69,14 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		return key;
 	}
 
+	public ElementIdentificationWarning getElementIdentificationWarning() {
+		return elementIdentificationWarning;
+	}
+
+	public void setElementIdentificationWarning( final ElementIdentificationWarning elementIdentificationWarning ) {
+		this.elementIdentificationWarning = elementIdentificationWarning;
+	}
+
 	@Override
 	public Serializable getExpected() {
 		return (Serializable) expected;
@@ -73,6 +85,14 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 	@Override
 	public Serializable getActual() {
 		return (Serializable) actual;
+	}
+
+	public String getExpectedToString() {
+		return Objects.toString( expected, "" );
+	}
+
+	public String getActualToString() {
+		return Objects.toString( actual, "" );
 	}
 
 	public String identifier() {
