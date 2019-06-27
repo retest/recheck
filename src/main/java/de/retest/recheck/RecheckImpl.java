@@ -146,7 +146,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final RecheckDifferenceFinder finder =
 				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
 
-		return finder.findDifferences( actual, expected );
+		final ActionReplayResult actionReplayResult = finder.findDifferences( actual, expected );
+		if ( actionReplayResult.hasDifferences() ) {
+			adapter.notifyAboutDifferences( actionReplayResult );
+		}
+		return actionReplayResult;
 	}
 
 	private File getSuitePath() {
