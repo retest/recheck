@@ -2,6 +2,7 @@ package de.retest.recheck;
 
 import java.util.Set;
 
+import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.RootElement;
 
@@ -37,5 +38,13 @@ public interface RecheckAdapter {
 	 * @return The DefaultValueFinder for the converted element attributes
 	 */
 	DefaultValueFinder getDefaultValueFinder();
+
+	/**
+	 * Notifies about differences in the given {@code ActionReplayResult}.
+	 *
+	 * @param actionReplayResult
+	 *            The {@code ActionReplayResult} containing differences to be notified about.
+	 */
+	default void notifyAboutDifferences( final ActionReplayResult actionReplayResult ) {}
 
 }
