@@ -87,6 +87,14 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		return (Serializable) actual;
 	}
 
+	public String getExpectedToString() {
+		return Objects.toString( expected, "" );
+	}
+
+	public String getActualToString() {
+		return Objects.toString( actual, "" );
+	}
+
 	public String identifier() {
 		final String contents = Arrays.asList( actual, expected ).stream() //
 				.filter( Objects::nonNull ) //
