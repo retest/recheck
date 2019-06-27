@@ -21,6 +21,7 @@ import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.xml.util.LazyScreenshotZipPersistence;
 import de.retest.recheck.util.NamedBufferedInputStream;
+import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.FileUtil.Writer;
 import de.retest.recheck.util.FileUtil.ZipReader;
 
@@ -47,6 +48,7 @@ public class XmlZipPersistence<T extends Persistable> implements Persistence<T> 
 			// this happens if output format was changed from plain to zip
 			FileUtils.deleteDirectory( file );
 		}
+		FileUtil.ensureFolder( file );
 
 		writeToFile( file, new Writer() {
 			@Override
