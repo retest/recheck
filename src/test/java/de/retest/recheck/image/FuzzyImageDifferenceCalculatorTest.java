@@ -11,8 +11,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import de.retest.recheck.image.FuzzyImageDifferenceCalculator;
-import de.retest.recheck.image.ImageDifference;
+import de.retest.recheck.ui.image.ImageUtils;
 import de.retest.recheck.ui.image.Screenshot;
 
 public class FuzzyImageDifferenceCalculatorTest {
@@ -28,6 +27,31 @@ public class FuzzyImageDifferenceCalculatorTest {
 		assertThat( imgDiff.getMatch() ).isGreaterThan( 0.5 );
 		assertThatImage( imgDiff.getDifferenceImage() )
 				.isEqualTo( new File( "src/test/resources/de/retest/image/natural_diff.png" ) );
+	}
+
+	@Test
+	public void reallife_example_should_have_no_differences() throws IOException {
+		final ImageDifference imgDiff = imgDiffCalc.compare( "src/test/resources/de/retest/image/img1.png",
+				"src/test/resources/de/retest/image/img2.png" );
+
+		assertThat( imgDiff.getMatch() ).isEqualTo( 1.0 );
+		assertThatImage( imgDiff.getDifferenceImage() )
+				.isEqualTo( new File( "src/test/resources/de/retest/image/img_diff_fuzzy.png" ) );
+	}
+
+	@Test
+	public void reallife_example2_should_have_differences() throws IOException {
+		final ImageDifference imgDiff = imgDiffCalc.compare( "src/test/resources/de/retest/image/fuzzy-diff-img1.png",
+				"src/test/resources/de/retest/image/fuzzy-diff-img2.png" );
+
+		assertThat( imgDiff.getMatch() ).isLessThan( 1.0 );
+		assertThat( imgDiff.getMatch() ).isGreaterThan( 0.5 );
+
+		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "diff", imgDiff.getDifferenceImage() ),
+				new File( "src/test/resources/de/retest/image/fuzzy-diff-img_diff.png" ) );
+
+		assertThatImage( imgDiff.getDifferenceImage() )
+				.isEqualTo( new File( "src/test/resources/de/retest/image/fuzzy-diff-img_diff.png" ) );
 	}
 
 	@Test
