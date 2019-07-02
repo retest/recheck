@@ -56,7 +56,8 @@ public class FuzzyImageDifferenceCalculatorTest {
 
 	@Test
 	public void compare_natural_image_of_different_sizes_should_find_differences() throws Exception {
-		final ImageDifference imgDiff = imgDiffCalc.compare( "src/test/resources/de/retest/image/natural1_small.png",
+		final ImageDifference imgDiff = new FuzzyImageDifferenceCalculator( 10, 3 ).compare(
+				"src/test/resources/de/retest/image/natural1_small.png",
 				"src/test/resources/de/retest/image/natural2.png" );
 
 		assertThat( imgDiff.getMatch() ).isLessThan( 1.0 );
