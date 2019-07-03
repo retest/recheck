@@ -68,7 +68,7 @@ public class Element implements Serializable, Comparable<Element> {
 			final Attributes attributes, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		this.retestId = retestId;
-		this.parent = Objects.requireNonNull( parent, "Parent must not be null" );
+		this.parent = parent;
 		this.identifyingAttributes =
 				Objects.requireNonNull( identifyingAttributes, "IdentifyingAttributes must not be null" );
 		this.attributes = Objects.requireNonNull( attributes, "Attributes must not be null" );
