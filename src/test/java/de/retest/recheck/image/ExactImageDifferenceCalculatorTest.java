@@ -33,6 +33,17 @@ public class ExactImageDifferenceCalculatorTest {
 	}
 
 	@Test
+	public void reallife_example2_should_have_differences() throws IOException {
+		final ImageDifference imgDiff = imgDiffCalc.compare( "src/test/resources/de/retest/image/img1.png",
+				"src/test/resources/de/retest/image/img2.png" );
+
+		assertThat( imgDiff.getMatch() ).isLessThan( 1.0 );
+		assertThat( imgDiff.getMatch() ).isGreaterThan( 0.5 );
+		assertThatImage( imgDiff.getDifferenceImage() )
+				.isEqualTo( new File( "src/test/resources/de/retest/image/img_diff_exact.png" ) );
+	}
+
+	@Test
 	public void two_nulls_should_be_equal() throws Exception {
 		assertThat( imgDiffCalc.compare( (Screenshot) null, (Screenshot) null ).isEqual() ).isTrue();
 		assertThat( imgDiffCalc.compare( (BufferedImage) null, (BufferedImage) null ).isEqual() ).isTrue();
