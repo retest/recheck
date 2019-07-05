@@ -12,11 +12,13 @@ public class ImageDiffCalcFactory {
 		final String configured = System.getProperty( IMAGE_DIFFERENCE_CALCULATOR );
 		if ( configured != null ) {
 			try {
+				logger.info( "Using '{}' as ImageDifferenceCalculator.", configured );
 				return (ImageDifferenceCalculator) Class.forName( configured ).newInstance();
 			} catch ( final Exception exc ) {
 				logger.error( "Error creating configured ImageDifferenceCalculator {}:", configured, exc );
 			}
 		}
+		logger.info( "No ImageDifferenceCalculator specified, will use default." );
 		return new ExactImageDifferenceCalculator();
 	}
 }
