@@ -27,7 +27,7 @@ public class ProjectConfiguration {
 	private static ProjectConfiguration instance;
 
 	/**
-	 * This property can be used to overwrite the local project folder. This should only be used for tests.
+	 * This property can be used to overwrite the local project folder.
 	 */
 	public static final String RETEST_PROJECT_ROOT = "de.retest.recheck.project.root";
 
