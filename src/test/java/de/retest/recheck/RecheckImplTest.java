@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.endsWith;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,7 +22,6 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.mockito.Mockito;
 
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -31,19 +32,21 @@ class RecheckImplTest {
 
 	@Test
 	void using_strange_stepText_should_be_normalized() throws Exception {
-		final FileNamerStrategy check = mock( FileNamerStrategy.class, Mockito.RETURNS_DEEP_STUBS );
-
+		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
 		final RecheckOptions opts = RecheckOptions.builder() //
-				.fileNamerStrategy( check ).build();
-		final RecheckImpl cut = new RecheckImpl( opts );
-		final RecheckAdapter adapterMock = mock( RecheckAdapter.class );
+				.fileNamerStrategy( fileNamerStrategy ) //
+				.build();
+		final Recheck cut = new RecheckImpl( opts );
+		final RecheckAdapter adapter = mock( RecheckAdapter.class );
+
 		try {
-			cut.check( mock( Object.class ), adapterMock, "!@#%$^&)te}{:|\\\":xt!(@*$" );
+			cut.check( mock( Object.class ), adapter, "!@#%$^&)te}{:|\\\":xt!(@*$" );
 		} catch ( final Exception e ) {
-			// ignore exception, fear AssertionErrors...
+			// Ignore Exceptions, fear AssertionErrors...
 		}
-		verify( check ).createFileNamer( "de.retest.recheck.RecheckImplTest" );
-		verify( check ).createFileNamer( endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
+
+		verify( fileNamerStrategy ).createFileNamer( eq( fileNamerStrategy.getTestClassName() ) );
+		verify( fileNamerStrategy ).createFileNamer( endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
 	}
 
 	@Test
@@ -91,11 +94,10 @@ class RecheckImplTest {
 		cut.startTest( "some-test" );
 		cut.check( "to-verify", adapter, "some-step" );
 
-		final String goldenMasterName = "de.retest.recheck.RecheckImplTest/some-test.some-step.recheck";
+		final String goldenMasterName = "SomeTestClass/some-test.some-step.recheck";
 		assertThatThrownBy( cut::capTest ) //
 				.isExactlyInstanceOf( AssertionError.class ) //
-				.hasMessageStartingWith(
-						"'" + getClass().getName() + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG ) //
+				.hasMessageStartingWith( "'SomeTestClass':\n" + NoGoldenMasterActionReplayResult.MSG_LONG ) //
 				.hasMessageEndingWith( goldenMasterName );
 
 	}
