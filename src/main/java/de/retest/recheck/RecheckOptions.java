@@ -12,9 +12,13 @@ public class RecheckOptions {
 	private final FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
 
 	@Builder.Default
-	private final String suiteName = new MavenConformFileNamerStrategy().getTestClassName();
+	private final String suiteName = null;
 
 	@Builder.Default
 	private final boolean rehubEnabled = false;
+
+	public String getSuiteName() {
+		return suiteName == null ? fileNamerStrategy.getTestClassName() : suiteName;
+	}
 
 }
