@@ -45,7 +45,10 @@ public class ProjectConfiguration {
 	}
 
 	public Path findProjectConfigFolder() {
-		return getProjectConfigFolder().orElseThrow( () -> new RuntimeException( "Project root could not be found." ) );
+		final String msg = String.format(
+				"Project root could not be found. Please set the property '%s' to point to the project root (containing e.g. the %s folder).",
+				RETEST_PROJECT_ROOT, RETEST_PROJECT_CONFIG_FOLDER );
+		return getProjectConfigFolder().orElseThrow( () -> new RuntimeException( msg ) );
 	}
 
 	public void ensureProjectConfigurationInitialized() {
