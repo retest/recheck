@@ -65,11 +65,7 @@ public class RetestAuthentication {
 	}
 
 	public URI getAccountUrl() {
-		try {
-			return new URI( deployment.getAccountUrl() );
-		} catch ( final URISyntaxException e ) {
-			throw new IllegalStateException( "Error creating URI from " + deployment.getAccountUrl(), e );
-		}
+		return URI.create( deployment.getAccountUrl() );
 	}
 
 	public boolean isAuthenticated( final String offlineToken ) {
