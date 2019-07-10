@@ -2,6 +2,7 @@ package de.retest.recheck.ui.review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReviewResult {
 
@@ -29,6 +30,15 @@ public class ReviewResult {
 			}
 		}
 		return nonEmpyChangeSets;
+	}
+
+	public List<ActionChangeSet> getAllActionChangeSets() {
+		final List<SuiteChangeSet> suiteChangeSets = getSuiteChangeSets();
+		final List<ActionChangeSet> actionChangeSets = suiteChangeSets.stream()
+				.flatMap( suiteChangeSet -> suiteChangeSet.getTestChangeSets().stream()
+						.flatMap( testChangeSet -> testChangeSet.getActionChangeSets().stream() ) )
+				.collect( Collectors.toList() );
+		return actionChangeSets;
 	}
 
 	@Override
