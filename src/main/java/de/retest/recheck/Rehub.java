@@ -20,6 +20,8 @@ public class Rehub {
 	}
 
 	public static void init() {
+		System.setProperty( RetestAuthentication.RESOURCE_PROPERTY, "marvin" );
+
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 
 		try {
