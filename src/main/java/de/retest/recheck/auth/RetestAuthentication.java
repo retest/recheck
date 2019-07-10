@@ -33,6 +33,9 @@ import okhttp3.HttpUrl;
 @Slf4j
 public class RetestAuthentication {
 
+	private static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
+	private static final String AUTH_SERVER_PROPERTY_DEFAULT = "https://sso.prod.cloud.retest.org/auth";
+
 	private final KeycloakDeployment deployment;
 
 	private String refreshToken;
@@ -44,7 +47,7 @@ public class RetestAuthentication {
 	private RetestAuthentication() {
 		final AdapterConfig config = new AdapterConfig();
 		config.setRealm( "customer" );
-		config.setAuthServerUrl( "https://sso.prod.cloud.retest.org/auth" );
+		config.setAuthServerUrl( System.getProperty( AUTH_SERVER_PROPERTY, AUTH_SERVER_PROPERTY_DEFAULT ) );
 		config.setSslRequired( "external" );
 		config.setResource( "marvin" );
 		config.setPublicClient( true );
