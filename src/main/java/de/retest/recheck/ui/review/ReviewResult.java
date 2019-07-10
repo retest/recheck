@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.retest.recheck.ui.diff.AttributeDifference;
+
 public class ReviewResult {
 
 	private final ArrayList<SuiteChangeSet> suiteChangeSets = new ArrayList<>();
@@ -33,12 +35,18 @@ public class ReviewResult {
 	}
 
 	public List<ActionChangeSet> getAllActionChangeSets() {
-		final List<SuiteChangeSet> suiteChangeSets = getSuiteChangeSets();
-		final List<ActionChangeSet> actionChangeSets = suiteChangeSets.stream()
-				.flatMap( suiteChangeSet -> suiteChangeSet.getTestChangeSets().stream()
-						.flatMap( testChangeSet -> testChangeSet.getActionChangeSets().stream() ) )
+		return getSuiteChangeSets().stream() //
+				.flatMap( suiteChangeSet -> suiteChangeSet.getTestChangeSets().stream() ) //
+				.flatMap( testChangeSet -> testChangeSet.getAllActionChangeSets().stream() ) //
 				.collect( Collectors.toList() );
-		return actionChangeSets;
+	}
+
+	public List<AttributeDifference> getAttributeDifferences() {
+		return getAllActionChangeSets().stream()
+				.flatMap( actionChangeSet -> actionChangeSet.getAllAttributeChanges().stream()
+						.flatMap( attributeChanges -> attributeChanges.getChanges().values().parallelStream()
+								.flatMap( attributeDifferences -> attributeDifferences.stream() ) ) )
+				.collect( Collectors.toList() );
 	}
 
 	@Override
