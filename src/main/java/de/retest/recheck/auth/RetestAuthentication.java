@@ -4,7 +4,6 @@ import static org.keycloak.adapters.rotation.AdapterTokenVerifier.verifyToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -25,6 +24,7 @@ import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.adapters.config.AdapterConfig;
 
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,6 @@ import okhttp3.HttpUrl;
 
 @Slf4j
 public class RetestAuthentication {
-	private static final String KEYCLOAK_JSON = "META-INF/keycloak.json";
 
 	private final KeycloakDeployment deployment;
 
@@ -43,7 +42,13 @@ public class RetestAuthentication {
 	private static RetestAuthentication instance;
 
 	private RetestAuthentication() {
-		final InputStream config = Thread.currentThread().getContextClassLoader().getResourceAsStream( KEYCLOAK_JSON );
+		final AdapterConfig config = new AdapterConfig();
+		config.setRealm( "customer" );
+		config.setAuthServerUrl( "https://sso.prod.cloud.retest.org/auth" );
+		config.setSslRequired( "external" );
+		config.setResource( "marvin" );
+		config.setPublicClient( true );
+
 		deployment = KeycloakDeploymentBuilder.build( config );
 	}
 
