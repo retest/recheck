@@ -4,14 +4,12 @@ import static org.keycloak.adapters.rotation.AdapterTokenVerifier.verifyToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 import org.keycloak.OAuth2Constants;
@@ -25,6 +23,7 @@ import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.adapters.config.AdapterConfig;
 
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +31,11 @@ import okhttp3.HttpUrl;
 
 @Slf4j
 public class RetestAuthentication {
-	private static final String KEYCLOAK_JSON = "META-INF/keycloak.json";
+
+	public static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
+	private static final String AUTH_SERVER_PROPERTY_DEFAULT = "https://sso.prod.cloud.retest.org/auth";
+	public static final String RESOURCE_PROPERTY = "de.retest.auth.resource";
+	private static final String RESOURCE_PROPERTY_DEFAULT = "review";
 
 	private final KeycloakDeployment deployment;
 
@@ -43,7 +46,13 @@ public class RetestAuthentication {
 	private static RetestAuthentication instance;
 
 	private RetestAuthentication() {
-		final InputStream config = Thread.currentThread().getContextClassLoader().getResourceAsStream( KEYCLOAK_JSON );
+		final AdapterConfig config = new AdapterConfig();
+		config.setRealm( "customer" );
+		config.setAuthServerUrl( System.getProperty( AUTH_SERVER_PROPERTY, AUTH_SERVER_PROPERTY_DEFAULT ) );
+		config.setSslRequired( "external" );
+		config.setResource( System.getProperty( RESOURCE_PROPERTY, RESOURCE_PROPERTY_DEFAULT ) );
+		config.setPublicClient( true );
+
 		deployment = KeycloakDeploymentBuilder.build( config );
 	}
 
@@ -55,11 +64,7 @@ public class RetestAuthentication {
 	}
 
 	public URI getAccountUrl() {
-		try {
-			return new URI( deployment.getAccountUrl() );
-		} catch ( final URISyntaxException e ) {
-			throw new IllegalStateException( "Error creating URI from " + deployment.getAccountUrl(), e );
-		}
+		return URI.create( deployment.getAccountUrl() );
 	}
 
 	public boolean isAuthenticated( final String offlineToken ) {
@@ -78,7 +83,7 @@ public class RetestAuthentication {
 		return false;
 	}
 
-	public void login( final AuthenticationHandler handler ) {
+	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure, VerificationException {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -93,7 +98,7 @@ public class RetestAuthentication {
 					.queryParam( OAuth2Constants.STATE, state ) //
 					.queryParam( OAuth2Constants.SCOPE, OAuth2Constants.OFFLINE_ACCESS );
 
-			final URI loginUri = new URI( builder.build().toString() );
+			final URI loginUri = URI.create( builder.build().toString() );
 			log.debug( "Open login URI '{}' in browser to login", loginUri );
 			handler.showWebLoginUri( loginUri );
 
@@ -117,9 +122,6 @@ public class RetestAuthentication {
 			processCode( callback.result.getCode(), redirectUri );
 
 			handler.authenticated();
-		} catch ( final IOException | IllegalArgumentException | URISyntaxException | HttpFailure
-				| VerificationException e ) {
-			log.error( "Error during authentication", e );
 		} catch ( final InterruptedException e ) {
 			log.error( "Error during authentication, thread interrupted", e );
 			Thread.currentThread().interrupt();
