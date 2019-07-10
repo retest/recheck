@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 import org.keycloak.OAuth2Constants;
@@ -84,7 +83,7 @@ public class RetestAuthentication {
 		return false;
 	}
 
-	public void login( final AuthenticationHandler handler ) {
+	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure, VerificationException {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -99,7 +98,7 @@ public class RetestAuthentication {
 					.queryParam( OAuth2Constants.STATE, state ) //
 					.queryParam( OAuth2Constants.SCOPE, OAuth2Constants.OFFLINE_ACCESS );
 
-			final URI loginUri = new URI( builder.build().toString() );
+			final URI loginUri = URI.create( builder.build().toString() );
 			log.debug( "Open login URI '{}' in browser to login", loginUri );
 			handler.showWebLoginUri( loginUri );
 
@@ -123,9 +122,6 @@ public class RetestAuthentication {
 			processCode( callback.result.getCode(), redirectUri );
 
 			handler.authenticated();
-		} catch ( final IOException | IllegalArgumentException | URISyntaxException | HttpFailure
-				| VerificationException e ) {
-			log.error( "Error during authentication", e );
 		} catch ( final InterruptedException e ) {
 			log.error( "Error during authentication, thread interrupted", e );
 			Thread.currentThread().interrupt();
