@@ -33,8 +33,10 @@ import okhttp3.HttpUrl;
 @Slf4j
 public class RetestAuthentication {
 
-	private static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
+	public static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
 	private static final String AUTH_SERVER_PROPERTY_DEFAULT = "https://sso.prod.cloud.retest.org/auth";
+	public static final String RESOURCE_PROPERTY = "de.retest.auth.resource";
+	private static final String RESOURCE_PROPERTY_DEFAULT = "review";
 
 	private final KeycloakDeployment deployment;
 
@@ -49,7 +51,7 @@ public class RetestAuthentication {
 		config.setRealm( "customer" );
 		config.setAuthServerUrl( System.getProperty( AUTH_SERVER_PROPERTY, AUTH_SERVER_PROPERTY_DEFAULT ) );
 		config.setSslRequired( "external" );
-		config.setResource( "marvin" );
+		config.setResource( System.getProperty( RESOURCE_PROPERTY, RESOURCE_PROPERTY_DEFAULT ) );
 		config.setPublicClient( true );
 
 		deployment = KeycloakDeploymentBuilder.build( config );
