@@ -62,6 +62,13 @@ public class TestChangeSet {
 		}
 	}
 
+	public List<ActionChangeSet> getAllActionChangeSets() {
+		final List<ActionChangeSet> all = new ArrayList<>();
+		all.add( initialStateChangeSet );
+		all.addAll( actionChangeSets );
+		return all;
+	}
+
 	public boolean isEmpty() {
 		return initialStateChangeSet.isEmpty() && isEmpty( actionChangeSets );
 	}
