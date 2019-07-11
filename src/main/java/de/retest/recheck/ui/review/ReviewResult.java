@@ -2,6 +2,9 @@ package de.retest.recheck.ui.review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class ReviewResult {
 
@@ -29,6 +32,21 @@ public class ReviewResult {
 			}
 		}
 		return nonEmpyChangeSets;
+	}
+
+	public List<ActionChangeSet> getAllActionChangeSets() {
+		return getSuiteChangeSets().stream() //
+				.flatMap( suiteChangeSet -> suiteChangeSet.getTestChangeSets().stream() ) //
+				.flatMap( testChangeSet -> testChangeSet.getAllActionChangeSets().stream() ) //
+				.collect( Collectors.toList() );
+	}
+
+	public List<AttributeDifference> getAllAttributeDifferences() {
+		return getAllActionChangeSets().stream() //
+				.flatMap( actionChangeSet -> actionChangeSet.getAllAttributeChanges().stream() ) //
+				.flatMap( attributeChanges -> attributeChanges.getChanges().values().stream() ) //
+				.flatMap( attributeDifferences -> attributeDifferences.stream() ) //
+				.collect( Collectors.toList() );
 	}
 
 	@Override
