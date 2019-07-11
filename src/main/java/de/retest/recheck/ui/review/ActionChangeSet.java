@@ -1,7 +1,9 @@
 package de.retest.recheck.ui.review;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import de.retest.recheck.ui.descriptors.Element;
@@ -31,6 +33,10 @@ public class ActionChangeSet {
 
 	public AttributeChanges getAttributesChanges() {
 		return attributeChanges;
+	}
+
+	public List<AttributeChanges> getAllAttributeChanges() {
+		return Arrays.asList( identAttributeChanges, attributeChanges );
 	}
 
 	private final Set<Element> insertChanges = new HashSet<>();
