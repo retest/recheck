@@ -5,7 +5,7 @@ public class Properties {
 	public static final String FILE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
 	public static final String CONFIG_FILE_PROPERTY = "de.retest.configFile";
 
-	public static final String REHUB_ENABLED = "de.retest.recheck.rehub.enabled";
+	public static final String REHUB_REPORT_UPLOAD_ENABLED = "de.retest.recheck.rehub.reportUploadEnabled";
 
 	public static final String PROPERTY_VALUE_SEPARATOR = ";";
 	public static final String ZIP_FOLDER_SEPARATOR = "/";
@@ -34,7 +34,7 @@ public class Properties {
 
 	public static FileOutputFormat getReportOutputFormat() {
 		final String format = System.getProperty( FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.KRYO.toString() );
-		if ( Boolean.getBoolean( REHUB_ENABLED ) ) {
+		if ( Boolean.getBoolean( REHUB_REPORT_UPLOAD_ENABLED ) ) {
 			return FileOutputFormat.CLOUD;
 		}
 		return FileOutputFormat.valueOf( format );

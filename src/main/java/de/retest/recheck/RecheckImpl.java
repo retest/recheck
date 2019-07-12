@@ -93,7 +93,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private boolean isRehubEnabled( final RecheckOptions options ) {
-		return options.isRehubEnabled() || Boolean.getBoolean( Properties.REHUB_ENABLED );
+		return options.isReportUploadEnabled() || Boolean.getBoolean( Properties.REHUB_REPORT_UPLOAD_ENABLED );
 	}
 
 	private static void ensureConfigurationInitialized() {
