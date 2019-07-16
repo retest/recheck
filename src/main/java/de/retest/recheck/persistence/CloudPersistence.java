@@ -47,6 +47,8 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 				.url( url ) //
 				.put( RequestBody.create( null, new File( identifier ) ) ) //
 				.addHeader( "x-amz-meta-report-name", Paths.get( identifier ).getFileName().toString() ) //
+				.addHeader( "x-amz-meta-branch-name", GitUtil.getCurrentGitBranch() ) //
+				.addHeader( "x-amz-meta-git-commit", GitUtil.getCurrentGitCommit() ) //
 				.build();
 
 		final Response uploadResponse = client.newCall( uploadRequest ).execute();
