@@ -3,10 +3,9 @@ package de.retest.recheck.review.workers;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,13 +22,13 @@ import de.retest.recheck.review.ignore.io.Loaders;
 public class LoadFilterWorker {
 
 	private final Counter counter;
-	private final File ignoreFilesBasePath;
+	private final Path ignoreFilesBasePath;
 
 	public LoadFilterWorker( final Counter counter ) {
 		this( counter, null );
 	}
 
-	public LoadFilterWorker( final Counter counter, final File ignoreFilesBasePath ) {
+	public LoadFilterWorker( final Counter counter, final Path ignoreFilesBasePath ) {
 		this.counter = counter;
 		this.ignoreFilesBasePath = ignoreFilesBasePath;
 	}
@@ -37,7 +36,7 @@ public class LoadFilterWorker {
 	public GlobalIgnoreApplier load() throws IOException {
 		final Optional<Path> ignoreFile = getIgnoreFile();
 		final Stream<String> ignoreFileLines = Files.lines(
-				ignoreFile.orElseThrow( () -> new FileNotFoundException( "No '" + RECHECK_IGNORE + "' found." ) ) );
+				ignoreFile.orElseThrow( () -> new NoSuchFileException( "No '" + RECHECK_IGNORE + "' found." ) ) );
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
 				.filter( Filter.class::isInstance ) //
 				.map( Filter.class::cast ) //
@@ -51,18 +50,16 @@ public class LoadFilterWorker {
 	}
 
 	private Optional<Path> getIgnoreFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( ignoreFilesBasePath, RECHECK_IGNORE )
-				: RecheckIgnoreUtil.getIgnoreFile();
+		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE ) : RecheckIgnoreUtil.getIgnoreFile();
 	}
 
 	private Optional<Path> getIgnoreRuleFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( ignoreFilesBasePath, RECHECK_IGNORE_JSRULES )
-				: RecheckIgnoreUtil.getIgnoreRuleFile();
+		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE_JSRULES ) : RecheckIgnoreUtil.getIgnoreRuleFile();
 	}
 
-	private static Optional<Path> resolveAndCheckFile( final File basePath, final String filename ) {
-		final File resolved = new File( basePath, filename );
-		return resolved.exists() ? Optional.of( resolved.toPath() ) : Optional.empty();
+	private Optional<Path> resolveAndCheckFile( final String ignoreFilename ) {
+		final Path resolved = ignoreFilesBasePath.resolve( ignoreFilename );
+		return Files.exists( resolved ) ? Optional.of( resolved ) : Optional.empty();
 	}
 
 	public Counter getCounter() {
