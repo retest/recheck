@@ -21,7 +21,7 @@ public class LoadFilterWorkerTest {
 
 	@Test
 	void loading_without_ignore_file_should_fail( @TempDir final Path root ) throws Exception {
-		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
+		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root );
 		assertThatThrownBy( worker::load ) //
 				.isExactlyInstanceOf( NoSuchFileException.class ) //
 				.hasMessage( "No '" + RECHECK_IGNORE + "' found." );
@@ -30,7 +30,7 @@ public class LoadFilterWorkerTest {
 	@Test
 	void loading_with_ignore_file_should_succeed( @TempDir final Path root ) throws Exception {
 		givenFileWithLines( root.resolve( RECHECK_IGNORE ).toFile(), "#" );
-		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root.toFile() );
+		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root );
 		assertThat( worker.load() ).isNotNull();
 	}
 
