@@ -3,11 +3,11 @@ package de.retest.recheck.review.workers;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,13 +23,13 @@ import de.retest.recheck.review.ignore.io.Loaders;
 public class LoadFilterWorker {
 
 	private final Counter counter;
-	private final File ignoreFilesBasePath;
+	private final Path ignoreFilesBasePath;
 
 	public LoadFilterWorker( final Counter counter ) {
 		this( counter, null );
 	}
 
-	public LoadFilterWorker( final Counter counter, final File ignoreFilesBasePath ) {
+	public LoadFilterWorker( final Counter counter, final Path ignoreFilesBasePath ) {
 		this.counter = counter;
 		this.ignoreFilesBasePath = ignoreFilesBasePath;
 	}
@@ -60,9 +60,9 @@ public class LoadFilterWorker {
 				: RecheckIgnoreUtil.getIgnoreRuleFile();
 	}
 
-	private static Optional<Path> resolveAndCheckFile( final File basePath, final String filename ) {
-		final File resolved = new File( basePath, filename );
-		return resolved.exists() ? Optional.of( resolved.toPath() ) : Optional.empty();
+	private static Optional<Path> resolveAndCheckFile( final Path basePath, final String filename ) {
+		final Path resolved = Paths.get( basePath.toString(), filename );
+		return Files.exists( resolved ) ? Optional.of( resolved ) : Optional.empty();
 	}
 
 	public Counter getCounter() {

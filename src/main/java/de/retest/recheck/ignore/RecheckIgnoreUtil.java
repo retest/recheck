@@ -48,7 +48,7 @@ public class RecheckIgnoreUtil {
 	public static GlobalIgnoreApplier loadRecheckSuiteIgnore( final File ignoreFilesBasePath ) {
 		try {
 			final LoadFilterWorker loadFilterWorker =
-					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath );
+					new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath.toPath() );
 			return loadFilterWorker.load();
 		} catch ( final NoSuchFileException e ) {
 			logger.debug( "Ignoring missing suite ignore file." );
