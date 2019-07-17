@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -51,17 +50,15 @@ public class LoadFilterWorker {
 	}
 
 	private Optional<Path> getIgnoreFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( ignoreFilesBasePath, RECHECK_IGNORE )
-				: RecheckIgnoreUtil.getIgnoreFile();
+		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE ) : RecheckIgnoreUtil.getIgnoreFile();
 	}
 
 	private Optional<Path> getIgnoreRuleFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( ignoreFilesBasePath, RECHECK_IGNORE_JSRULES )
-				: RecheckIgnoreUtil.getIgnoreRuleFile();
+		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE_JSRULES ) : RecheckIgnoreUtil.getIgnoreRuleFile();
 	}
 
-	private static Optional<Path> resolveAndCheckFile( final Path basePath, final String filename ) {
-		final Path resolved = Paths.get( basePath.toString(), filename );
+	private Optional<Path> resolveAndCheckFile( final String ignoreFilename ) {
+		final Path resolved = ignoreFilesBasePath.resolve( ignoreFilename );
 		return Files.exists( resolved ) ? Optional.of( resolved ) : Optional.empty();
 	}
 
