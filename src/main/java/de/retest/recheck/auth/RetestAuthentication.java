@@ -176,7 +176,7 @@ public class RetestAuthentication {
 			return accessTokenString != null && accessToken != null
 					&& verifyToken( accessTokenString, deployment ).isActive();
 		} catch ( final VerificationException e ) {
-			log.error( "Error verifying token(s)", e );
+			log.info( "Current token is invalid, requesting new one" );
 		}
 		return false;
 	}
