@@ -29,7 +29,7 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 	@Override
 	public void authenticated() {
 		logger.info( "Successful authenticated." );
-		final String refreshTokenString = RetestAuthentication.getInstance().getRefreshTokenString();
+		final String refreshTokenString = RetestAuthentication.getInstance().getOfflineTokenString();
 		log.info( "Please use this token for your CI: {}", refreshTokenString );
 		Preferences.userNodeForPackage( Rehub.class ).put( CloudPersistence.RECHECK_API_KEY, refreshTokenString );
 	}
