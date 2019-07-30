@@ -39,7 +39,7 @@ public class RetestAuthentication {
 
 	private final KeycloakDeployment deployment;
 
-	private String refreshToken;
+	private String offlineToken;
 	private AccessToken accessToken;
 	private String accessTokenString;
 
@@ -69,6 +69,7 @@ public class RetestAuthentication {
 
 	public boolean isAuthenticated( final String offlineToken ) {
 		if ( offlineToken != null ) {
+			this.offlineToken = offlineToken;
 			try {
 				final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
 				accessToken = verifyToken( response.getToken(), deployment );
@@ -156,9 +157,8 @@ public class RetestAuthentication {
 		return accessTokenString;
 	}
 
-	public String getRefreshTokenString() {
-		refreshTokens();
-		return refreshToken;
+	public String getOfflineTokenString() {
+		return offlineToken;
 	}
 
 	private void refreshTokens() {
