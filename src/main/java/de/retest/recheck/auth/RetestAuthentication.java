@@ -164,7 +164,7 @@ public class RetestAuthentication {
 	private void refreshTokens() {
 		if ( !isTokenValid() ) {
 			try {
-				parseAccessToken( ServerRequest.invokeRefresh( deployment, refreshToken ) );
+				parseAccessToken( ServerRequest.invokeRefresh( deployment, offlineToken ) );
 			} catch ( final IOException | HttpFailure | VerificationException e ) {
 				log.error( "Error refreshing token(s)", e );
 			}
