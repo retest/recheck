@@ -120,7 +120,10 @@ public class RetestAuthentication {
 				handler.authenticationFailed( callback.result.getErrorException() );
 			}
 
-			processCode( callback.result.getCode(), redirectUri );
+			final AccessTokenResponse tokenResponse =
+					ServerRequest.invokeAccessCodeToToken( deployment, callback.result.getCode(), redirectUri, null );
+			offlineToken = tokenResponse.getRefreshToken();
+			parseAccessToken( tokenResponse );
 
 			handler.authenticated();
 		} catch ( final InterruptedException e ) {
@@ -130,16 +133,8 @@ public class RetestAuthentication {
 
 	}
 
-	private void processCode( final String code, final String redirectUri )
-			throws IOException, ServerRequest.HttpFailure, VerificationException {
-		final AccessTokenResponse tokenResponse =
-				ServerRequest.invokeAccessCodeToToken( deployment, code, redirectUri, null );
-		parseAccessToken( tokenResponse );
-	}
-
 	private void parseAccessToken( final AccessTokenResponse tokenResponse ) throws VerificationException {
 		accessTokenString = tokenResponse.getToken();
-		refreshToken = tokenResponse.getRefreshToken();
 		final String idTokenString = tokenResponse.getIdToken();
 
 		final AdapterTokenVerifier.VerifiedTokens tokens =
