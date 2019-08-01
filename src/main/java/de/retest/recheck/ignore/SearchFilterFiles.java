@@ -9,6 +9,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -84,10 +85,12 @@ public class SearchFilterFiles {
 					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
+		} catch ( final NoSuchFileException e ) {
+			log.warn( "No filter folder found at '{}': {}", directory, e.getMessage() );
 		} catch ( final IOException e ) {
 			log.error( "Exception accessing project filter folder '{}'.", directory, e );
-			return Collections.emptyList();
 		}
+		return Collections.emptyList();
 	}
 
 	/**
