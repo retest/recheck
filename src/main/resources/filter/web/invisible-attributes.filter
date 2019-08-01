@@ -13,3 +13,7 @@ attribute=jsaction
 attribute=cd_frame_id_
 attribute=transform
 attribute=onload
+matcher: type=a, attribute: href
+matcher: type=img, attribute: alt
+matcher: type=img, attribute: title
+matcher: type=meta
