@@ -189,6 +189,35 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
+	private String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
+		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
+				.map( ActionReplayResult::getGoldenMasterPath ) //
+				.collect( Collectors.joining( "\n" ) );
+		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
+	}
+
+	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult,
+			final Set<LeafDifference> uniqueDifferences ) {
+		final int numChecks = finishedTestResult.getActionReplayResults().size();
+		final String allDiffs = printer.toString( finishedTestResult );
+		final String reportPath = getResultFile().getAbsolutePath();
+		//TODO temporary workaround for InsertedDeletedElementDifferences
+		final StringBuilder insertedDeletedDiffs = new StringBuilder();
+		uniqueDifferences.stream().filter( diff -> diff instanceof InsertedDeletedElementDifference )
+				.forEach( diff -> insertedDeletedDiffs.append( "\t" ) //
+						.append( diff.getExpected() != null
+								? ((Element) diff.getExpected()).getIdentifyingAttributes().getPath() + " was deleted!"
+								: ((Element) diff.getActual()).getIdentifyingAttributes().getPath() + " was inserted!" )
+						.append( "\n" ) );
+
+		return "A detailed report will be created at '" + reportPath + "'. " //
+				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
+				+ "\n" //
+				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
+				+ allDiffs //
+				+ insertedDeletedDiffs.toString();
+	}
+
 	@Override
 	public void cap() {
 		capWarner.disarm();
@@ -230,32 +259,4 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
-	private String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
-		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
-				.map( ActionReplayResult::getGoldenMasterPath ) //
-				.collect( Collectors.joining( "\n" ) );
-		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
-	}
-
-	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult,
-			final Set<LeafDifference> uniqueDifferences ) {
-		final int numChecks = finishedTestResult.getActionReplayResults().size();
-		final String allDiffs = printer.toString( finishedTestResult );
-		final String reportPath = getResultFile().getAbsolutePath();
-		//TODO temporary workaround for InsertedDeletedElementDifferences
-		final StringBuilder insertedDeletedDiffs = new StringBuilder();
-		uniqueDifferences.stream().filter( diff -> diff instanceof InsertedDeletedElementDifference )
-				.forEach( diff -> insertedDeletedDiffs.append( "\t" ) //
-						.append( diff.getExpected() != null
-								? ((Element) diff.getExpected()).getIdentifyingAttributes().getPath() + " was deleted!"
-								: ((Element) diff.getActual()).getIdentifyingAttributes().getPath() + " was inserted!" )
-						.append( "\n" ) );
-
-		return "A detailed report will be created at '" + reportPath + "'. " //
-				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
-				+ "\n" //
-				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
-				+ allDiffs //
-				+ insertedDeletedDiffs.toString();
-	}
 }
