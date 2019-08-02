@@ -28,6 +28,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -205,6 +206,11 @@ public class ActionReplayResult implements Serializable {
 		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
 			if ( !filter.matches( elementDifference.getElement() ) ) {
 				result.addAll( elementDifference.getAttributeDifferences( filter ) );
+			}
+			final LeafDifference identifyingAttributesDifference =
+					elementDifference.getIdentifyingAttributesDifference();
+			if ( identifyingAttributesDifference instanceof InsertedDeletedElementDifference ) {
+				result.add( identifyingAttributesDifference );
 			}
 		}
 		return result;
