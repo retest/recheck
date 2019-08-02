@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -203,21 +204,23 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final String reportPath = getResultFile().getAbsolutePath();
 
 		// TODO temporary workaround for InsertedDeletedElementDifferences
-		final StringBuilder insertedDeletedDiffs = new StringBuilder();
-		uniqueDifferences.stream() //
+		final String insertedDeletedDiffs = uniqueDifferences.stream() //
 				.filter( InsertedDeletedElementDifference.class::isInstance ) //
 				.map( InsertedDeletedElementDifference.class::cast ) //
-				.forEach( diff -> insertedDeletedDiffs.append( "\t" ) //
-						.append( diff.isInserted()
-								? diff.getActual().getIdentifyingAttributes().getPath() + " was inserted!"
-								: diff.getExpected().getIdentifyingAttributes().getPath() + " was deleted!" )
-						.append( "\n" ) );
+				.map( toDifferencesErrorMessage() ) //
+				.collect( Collectors.joining( "\n" ) );
 
 		return "A detailed report will be created at '" + reportPath + "'. " //
 				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
 				+ "\n" //
 				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
 				+ allDiffs + insertedDeletedDiffs;
+	}
+
+	private static Function<InsertedDeletedElementDifference, String> toDifferencesErrorMessage() {
+		return diff -> diff.isInserted() //
+				? "\t" + diff.getActual().getIdentifyingAttributes().getPath() + " was inserted!" //
+				: "\t" + diff.getExpected().getIdentifyingAttributes().getPath() + " was deleted!";
 	}
 
 	@Override

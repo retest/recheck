@@ -157,7 +157,7 @@ class RecheckImplTest {
 				.endsWith( "0 check(s) in 'de.retest.recheck.RecheckImplTest' found the following difference(s):\n" //
 						+ "Test 'test-name' has 0 difference(s) in 0 state(s):\n" //
 						+ "\tfoo/bar/baz was inserted!\n" //
-						+ "\tfoo/bar/baz was deleted!\n" );
+						+ "\tfoo/bar/baz was deleted!" );
 	}
 
 	private static class DummyStringRecheckAdapter implements RecheckAdapter {
