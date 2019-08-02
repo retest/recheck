@@ -205,7 +205,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		// TODO temporary workaround for InsertedDeletedElementDifferences
 		final StringBuilder insertedDeletedDiffs = new StringBuilder();
 		uniqueDifferences.stream() //
-				.filter( diff -> diff instanceof InsertedDeletedElementDifference ) //
+				.filter( InsertedDeletedElementDifference.class::isInstance ) //
 				.map( InsertedDeletedElementDifference.class::cast ) //
 				.forEach( diff -> insertedDeletedDiffs.append( "\t" ) //
 						.append( diff.isInserted()
