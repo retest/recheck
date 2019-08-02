@@ -96,6 +96,12 @@ public class ImageUtils {
 			if ( mark == null || mark.height == -1 || mark.width == -1 ) {
 				continue;
 			}
+			if ( mark.x < 0 ) {
+				mark.x = 0;
+			}
+			if ( mark.y < 0 ) {
+				mark.y = 0;
+			}
 			// from http://stackoverflow.com/a/2319251/58997
 			if ( mark.x > result.getWidth() ) {
 				logger.error( "Cannot create mark at x value {} with in image of width {}.", mark.x,
