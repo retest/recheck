@@ -183,9 +183,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
-			throw new AssertionError(
-					finishedTestResult.hasNoGoldenMaster() ? getNoGoldenMasterErrorMessage( finishedTestResult )
-							: getDifferencesErrorMessage( finishedTestResult, uniqueDifferences ) );
+			final String message = finishedTestResult.hasNoGoldenMaster() //
+					? getNoGoldenMasterErrorMessage( finishedTestResult ) //
+					: getDifferencesErrorMessage( finishedTestResult, uniqueDifferences );
+			throw new AssertionError( message );
 		}
 	}
 
