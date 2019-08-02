@@ -217,7 +217,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
 				+ "\n" //
 				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
-				+ allDiffs + insertedDeletedDiffs.toString();
+				+ allDiffs + insertedDeletedDiffs;
 	}
 
 	@Override
