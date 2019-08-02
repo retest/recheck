@@ -79,7 +79,7 @@ class RecheckImplTest {
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
 				.build();
-		final RecheckImpl cut = new RecheckImpl( opts );
+		final Recheck cut = new RecheckImpl( opts );
 		cut.check( "String", new DummyStringRecheckAdapter(), "step" );
 	}
 
@@ -88,7 +88,7 @@ class RecheckImplTest {
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
 				.build();
-		final RecheckImpl cut = new RecheckImpl( opts );
+		final Recheck cut = new RecheckImpl( opts );
 
 		final RootElement rootElement = mock( RootElement.class );
 		when( rootElement.getIdentifyingAttributes() ).thenReturn( mock( IdentifyingAttributes.class ) );
