@@ -189,14 +189,14 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		}
 	}
 
-	private String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
+	String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
 		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
 				.map( ActionReplayResult::getGoldenMasterPath ) //
 				.collect( Collectors.joining( "\n" ) );
 		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
 	}
 
-	private String getDifferencesErrorMessage( final TestReplayResult finishedTestResult,
+	String getDifferencesErrorMessage( final TestReplayResult finishedTestResult,
 			final Set<LeafDifference> uniqueDifferences ) {
 		final int numChecks = finishedTestResult.getActionReplayResults().size();
 		final String allDiffs = printer.toString( finishedTestResult );
