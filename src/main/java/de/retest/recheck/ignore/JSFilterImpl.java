@@ -4,6 +4,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,10 +43,12 @@ public class JSFilterImpl implements Filter {
 		try {
 			logger.info( "Reading JS ignore rules file from {}.", ignoreFilePath );
 			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
+		} catch ( final NoSuchFileException e ) {
+			logger.warn( "No JS filter file found at '{}': ", ignoreFilePath, e.getMessage() );
 		} catch ( final Exception e ) {
 			logger.error( "Error opening JS file from '{}': ", ignoreFilePath, e );
-			return new StringReader( "" );
 		}
+		return new StringReader( "" );
 	}
 
 	@Override
