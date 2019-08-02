@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,9 +25,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.persistence.FileNamer;
+import de.retest.recheck.report.ActionReplayResult;
+import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
+import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
+import de.retest.recheck.ui.diff.LeafDifference;
 
 class RecheckImplTest {
 
@@ -100,6 +106,58 @@ class RecheckImplTest {
 				.hasMessageStartingWith( "'SomeTestClass':\n" + NoGoldenMasterActionReplayResult.MSG_LONG ) //
 				.hasMessageEndingWith( goldenMasterName );
 
+	}
+
+	@Test
+	void no_golden_master_error_message_should_be_formatted_properly() throws Exception {
+		final ActionReplayResult actionReplayResult0 = mock( ActionReplayResult.class );
+		when( actionReplayResult0.getGoldenMasterPath() ).thenReturn( "/gm/path/0" );
+
+		final ActionReplayResult actionReplayResult1 = mock( ActionReplayResult.class );
+		when( actionReplayResult1.getGoldenMasterPath() ).thenReturn( "/gm/path/1" );
+
+		final TestReplayResult testReplayResult = new TestReplayResult( "test-name", 1 );
+		testReplayResult.addAction( actionReplayResult0 );
+		testReplayResult.addAction( actionReplayResult1 );
+
+		final RecheckImpl cut = new RecheckImpl();
+
+		final String errorMessage = cut.getNoGoldenMasterErrorMessage( testReplayResult );
+		assertThat( errorMessage ).isEqualTo( "'de.retest.recheck.RecheckImplTest':\n" //
+				+ NoGoldenMasterActionReplayResult.MSG_LONG + "\n" //
+				+ "/gm/path/0\n" //
+				+ "/gm/path/1" );
+	}
+
+	@Test
+	void inserted_and_deleted_differences_error_message_hould_be_formatted_properly() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.getPath() ).thenReturn( "foo/bar/baz" );
+
+		final Element absent = null;
+		final Element present = mock( Element.class );
+		when( present.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+
+		final InsertedDeletedElementDifference insertion =
+				InsertedDeletedElementDifference.differenceFor( absent, present );
+		final InsertedDeletedElementDifference deletion =
+				InsertedDeletedElementDifference.differenceFor( present, absent );
+		final LeafDifference ignore = mock( LeafDifference.class );
+
+		// Use LinkedHashSet to guarantee order.
+		final Set<LeafDifference> uniqueDifferences =
+				new LinkedHashSet<>( Arrays.asList( insertion, deletion, ignore ) );
+
+		final TestReplayResult testReplayResult = new TestReplayResult( "test-name", 1 );
+
+		final RecheckImpl cut = new RecheckImpl();
+
+		final String errorMessage = cut.getDifferencesErrorMessage( testReplayResult, uniqueDifferences );
+		assertThat( errorMessage )
+				.endsWith( "0 check(s) in 'de.retest.recheck.RecheckImplTest' found the following difference(s):\n" //
+						+ "Test 'test-name' has 0 difference(s) in 0 state(s):\n" //
+						+ "\tfoo/bar/baz was inserted!\n" //
+						+ "\tfoo/bar/baz was deleted!\n" );
 	}
 
 	private static class DummyStringRecheckAdapter implements RecheckAdapter {
