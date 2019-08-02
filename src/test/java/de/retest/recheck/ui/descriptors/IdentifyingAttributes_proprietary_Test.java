@@ -29,8 +29,6 @@ public class IdentifyingAttributes_proprietary_Test {
 		final IdentifyingAttributes actual = new IdentifyingAttributes( attributes );
 
 		assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.001 ) );
-		assertThat( expected.hashCode() ).isEqualTo( actual.hashCode() );
-		assertThat( expected ).isEqualTo( actual );
 	}
 
 	@Test
@@ -42,8 +40,6 @@ public class IdentifyingAttributes_proprietary_Test {
 		final IdentifyingAttributes expected = new IdentifyingAttributes( attributes );
 
 		assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.001 ) );
-		assertThat( expected.hashCode() ).isEqualTo( actual.hashCode() );
-		assertThat( expected ).isEqualTo( actual );
 	}
 
 	@Test

@@ -28,7 +28,9 @@ import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.util.ChecksumCalculator;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
@@ -179,30 +181,6 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		result = result / unifyingFactor;
 		assert result >= 0.0 && result <= 1.0 : "Match result " + result + " should be in [0,1].";
 		return result;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = 0;
-		final Collection<Attribute> values = attributes.values();
-		for ( final Attribute attribute : values ) {
-			if ( attribute.getWeight() > Attribute.IGNORE_WEIGHT ) {
-				result = nextHashCode( result, attribute.hashCode() );
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public boolean equals( final Object object ) {
-		if ( this == object ) {
-			return true;
-		}
-		if ( !(object instanceof IdentifyingAttributes) ) {
-			return false;
-		}
-		final IdentifyingAttributes other = (IdentifyingAttributes) object;
-		return match( other ) > 0.999999999999999;
 	}
 
 	@Override

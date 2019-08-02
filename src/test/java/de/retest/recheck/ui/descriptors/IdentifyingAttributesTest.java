@@ -181,6 +181,24 @@ public class IdentifyingAttributesTest {
 	}
 
 	@Test
+	public void different_absolute_outline_should_result_in_change() {
+		final Collection<Attribute> expected = IdentifyingAttributes
+				.createList( Path.fromString( "html[1]/body[1]/ytd-app[1]" ), component.class.getName() );
+		expected.add( OutlineAttribute.createAbsolute(  new Rectangle( 0, 0, 1179, 2046 ) ) );
+		final IdentifyingAttributes expectedIdent = new IdentifyingAttributes( expected );
+
+		final Collection<Attribute> actual = IdentifyingAttributes
+				.createList( Path.fromString( "html[1]/body[1]/ytd-app[1]" ), component.class.getName() );
+		actual.add( OutlineAttribute.createAbsolute( new Rectangle( 0, 0, 1179, 2030 )) );
+		final IdentifyingAttributes actualIdent = new IdentifyingAttributes( actual );
+
+//		assertThat( expectedIdent.match( actualIdent ) ).isLessThan(1.0 ); should be less than 1.0
+		assertThat( expectedIdent.equals( actualIdent ) ).isFalse();
+		assertThat( expectedIdent.hashCode() ).isNotEqualTo(  actualIdent.hashCode() );
+		assertThat( expectedIdent ).isNotEqualTo( actualIdent );
+	}
+
+	@Test
 	public void ignored_attribute_should_not_influence_result() {
 		final IdentifyingAttributes expected =
 				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class );
