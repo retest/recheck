@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -213,5 +214,16 @@ public class ImageUtilsTest {
 		final BufferedImage resizedImage = ImageUtils.resizeImage( image, newWith, newHeight );
 		assertThat( resizedImage.getWidth() ).isEqualTo( newWith );
 		assertThat( resizedImage.getHeight() ).isEqualTo( newHeight );
+	}
+
+	@Test
+	public void negative_x_should_not_increase_img() throws Exception {
+		final BufferedImage image = ImageUtils.readImage( RESIZE_PNG );
+		final int width = 1200;
+		final int height = 3117;
+		final BufferedImage newImage = ImageUtils.mark( image, new Rectangle( 0, -4166, 77, 19 ) );
+		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "", newImage ), new File( "result.png" ) );
+		assertThat( newImage.getWidth() ).isEqualTo( width );
+		assertThat( newImage.getHeight() ).isEqualTo( height );
 	}
 }

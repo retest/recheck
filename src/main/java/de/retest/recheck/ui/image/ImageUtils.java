@@ -93,14 +93,23 @@ public class ImageUtils {
 		int imageOffsetX = 0;
 		int imageOffsetY = 0;
 		for ( final Rectangle mark : marks ) {
-			if ( mark == null || mark.height == -1 || mark.width == -1 ) {
+			if ( mark == null ) {
 				continue;
 			}
 			if ( mark.x < 0 ) {
+				logger.error( "Cannot create mark at negative x value {}.", mark.x );
+				mark.width += mark.x;
 				mark.x = 0;
 			}
 			if ( mark.y < 0 ) {
+				logger.error( "Cannot create mark at negative y value {}.", mark.y );
+				mark.height += mark.y;
 				mark.y = 0;
+			}
+			if ( mark.height < 0 || mark.width < 0 ) {
+				logger.error( "Cannot create mark with negative height or width values {}/{}, ignoring.", mark.height,
+						mark.width );
+				continue;
 			}
 			// from http://stackoverflow.com/a/2319251/58997
 			if ( mark.x > result.getWidth() ) {
