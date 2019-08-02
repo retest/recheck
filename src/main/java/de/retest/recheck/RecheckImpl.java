@@ -202,9 +202,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final int numChecks = finishedTestResult.getActionReplayResults().size();
 		final String allDiffs = printer.toString( finishedTestResult );
 		final String reportPath = getResultFile().getAbsolutePath();
-		//TODO temporary workaround for InsertedDeletedElementDifferences
+
+		// TODO temporary workaround for InsertedDeletedElementDifferences
 		final StringBuilder insertedDeletedDiffs = new StringBuilder();
-		uniqueDifferences.stream().filter( diff -> diff instanceof InsertedDeletedElementDifference )
+		uniqueDifferences.stream() //
+				.filter( diff -> diff instanceof InsertedDeletedElementDifference ) //
 				.forEach( diff -> insertedDeletedDiffs.append( "\t" ) //
 						.append( diff.getExpected() != null
 								? ((Element) diff.getExpected()).getIdentifyingAttributes().getPath() + " was deleted!"
@@ -215,8 +217,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
 				+ "\n" //
 				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
-				+ allDiffs //
-				+ insertedDeletedDiffs.toString();
+				+ allDiffs + insertedDeletedDiffs.toString();
 	}
 
 	@Override
