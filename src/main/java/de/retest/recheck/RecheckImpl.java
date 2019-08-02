@@ -27,7 +27,6 @@ import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.ui.DefaultValueFinder;
-import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
@@ -207,10 +206,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final StringBuilder insertedDeletedDiffs = new StringBuilder();
 		uniqueDifferences.stream() //
 				.filter( diff -> diff instanceof InsertedDeletedElementDifference ) //
+				.map( InsertedDeletedElementDifference.class::cast ) //
 				.forEach( diff -> insertedDeletedDiffs.append( "\t" ) //
-						.append( diff.getExpected() != null
-								? ((Element) diff.getExpected()).getIdentifyingAttributes().getPath() + " was deleted!"
-								: ((Element) diff.getActual()).getIdentifyingAttributes().getPath() + " was inserted!" )
+						.append( diff.isInserted()
+								? diff.getActual().getIdentifyingAttributes().getPath() + " was inserted!"
+								: diff.getExpected().getIdentifyingAttributes().getPath() + " was deleted!" )
 						.append( "\n" ) );
 
 		return "A detailed report will be created at '" + reportPath + "'. " //
