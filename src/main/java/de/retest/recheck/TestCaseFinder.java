@@ -191,7 +191,7 @@ public class TestCaseFinder {
 				}
 			}
 		} catch ( final NoClassDefFoundError e ) {
-			log.error( "Could not analyze method due to NoClassDefFoundError.", e );
+			log.error( "Could not analyze method due to NoClassDefFoundError: {}", e.getMessage() );
 		}
 		return method;
 	}
