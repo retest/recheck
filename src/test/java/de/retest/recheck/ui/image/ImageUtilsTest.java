@@ -37,6 +37,11 @@ public class ImageUtilsTest {
 	}
 
 	@Test
+	public void scaling_should_be_robust() throws IOException {
+		assertThat( ImageUtils.scaleProportionallyToMaxWidthHeight( null, 25, 25 ) ).isNull();
+	}
+
+	@Test
 	public void marking_at_0_should_increase_imagesize() throws IOException {
 		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
 		final BufferedImage marked = ImageUtils.mark( image, new Rectangle( 0, 5, 96, 16 ) );

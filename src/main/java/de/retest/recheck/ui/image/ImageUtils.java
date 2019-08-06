@@ -194,6 +194,9 @@ public class ImageUtils {
 
 	public static Image scaleProportionallyToMaxWidthHeight( final BufferedImage image, final int maxWidth,
 			final int maxHeight ) {
+		if ( image == null ) {
+			return null;
+		}
 		if ( maxWidth >= image.getWidth() && maxHeight >= image.getHeight() ) {
 			return image;
 		}
