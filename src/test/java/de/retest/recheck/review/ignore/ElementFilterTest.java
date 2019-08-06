@@ -40,9 +40,18 @@ class ElementFilterTest {
 	}
 
 	@Test
-	void matches_should_always_be_false() {
+	void matches_diff_should_match_when_element_does() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		assertThat( cut.matches( element, difference ) ).isTrue();
+	}
+
+	@Test
+	void matches_diff_should_NOT_match_when_element_does() {
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "cba" );
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
 		assertThat( cut.matches( element, difference ) ).isFalse();
