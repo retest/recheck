@@ -26,7 +26,7 @@ public class ElementFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-		return false;
+		return matcher.test( element );
 	}
 
 	@Override
