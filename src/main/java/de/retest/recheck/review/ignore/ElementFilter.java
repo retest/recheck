@@ -9,7 +9,6 @@ import de.retest.recheck.review.ignore.io.Loaders;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.review.ignore.matcher.Matcher;
 import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class ElementFilter implements Filter {
 
@@ -22,11 +21,6 @@ public class ElementFilter implements Filter {
 	@Override
 	public boolean matches( final Element element ) {
 		return matcher.test( element );
-	}
-
-	@Override
-	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-		return false;
 	}
 
 	@Override
