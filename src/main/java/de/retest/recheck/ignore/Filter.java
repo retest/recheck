@@ -38,8 +38,8 @@ public interface Filter {
 	 * elements. But sometimes one wants to specify that a certain difference is meaningless, such as
 	 * <code>Times Roman</code> vs. <code>Times New Roman</code> for font-family or a 5px difference for outline.
 	 *
-	 * @implSpec If {@link #matches(Element)} returns <code>true</code>, this method must always return
-	 *           <code>true</code>. Can return any value only if {@link #matches(Element)} returns <code>false</code>.
+	 * If {@link #matches(Element)} returns <code>true</code>, this method must always return <code>true</code>. Can
+	 * return any value only if {@link #matches(Element)} returns <code>false</code>.
 	 *
 	 * @param element
 	 *            The element in question.
