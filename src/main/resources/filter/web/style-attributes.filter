@@ -180,3 +180,5 @@ attribute=kind
 attribute=label
 attribute=src
 attribute=type
+
+attribute=style
