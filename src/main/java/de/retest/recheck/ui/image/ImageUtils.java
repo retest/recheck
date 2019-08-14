@@ -230,7 +230,7 @@ public class ImageUtils {
 	}
 
 	public static BufferedImage cutImage( final BufferedImage image, final Rectangle bounds ) {
-		if ( image == null || bounds == null ) {
+		if ( image == null || bounds == null || bounds.width <= 0 || bounds.height <= 0 ) {
 			return null;
 		}
 		if ( bounds.x >= image.getWidth() ) {
