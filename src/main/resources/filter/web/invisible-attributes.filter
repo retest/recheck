@@ -12,6 +12,7 @@ attribute=jsdata
 attribute=jsaction
 attribute=cd_frame_id_
 attribute=transform
+attribute=tabindex
 matcher: type=a, attribute: href
 matcher: type=img, attribute: alt
 matcher: type=img, attribute: title
