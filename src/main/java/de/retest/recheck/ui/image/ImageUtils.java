@@ -4,6 +4,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -200,16 +201,23 @@ public class ImageUtils {
 		if ( maxWidth >= image.getWidth() && maxHeight >= image.getHeight() ) {
 			return image;
 		}
-		final double heightRatio = (double) Math.min( maxHeight, image.getHeight() ) / (double) image.getHeight();
-		final double widthRatio = (double) Math.min( maxWidth, image.getWidth() ) / (double) image.getWidth();
+		final Dimension newDims =
+				scaleProportionallyToMaxWidthHeight( image.getWidth(), image.getHeight(), maxWidth, maxHeight );
+		return image.getScaledInstance( newDims.width, newDims.height, Image.SCALE_SMOOTH );
+	}
+
+	public static Dimension scaleProportionallyToMaxWidthHeight( final double imgWidth, final double imgHeight,
+			final double maxWidth, final double maxHeight ) {
+		final double heightRatio = maxHeight / imgHeight;
+		final double widthRatio = maxWidth / imgWidth;
 		if ( heightRatio < widthRatio ) {
-			final int newHeight = (int) (image.getHeight() * heightRatio);
-			final int newWidth = (int) (image.getWidth() * heightRatio);
-			return image.getScaledInstance( newWidth, newHeight, Image.SCALE_SMOOTH );
+			final int newHeight = (int) (imgHeight * heightRatio);
+			final int newWidth = (int) (imgWidth * heightRatio);
+			return new Dimension( newWidth, newHeight );
 		}
-		final int newHeight = (int) (image.getHeight() * widthRatio);
-		final int newWidth = (int) (image.getWidth() * widthRatio);
-		return image.getScaledInstance( newWidth, newHeight, Image.SCALE_SMOOTH );
+		final int newHeight = (int) (imgHeight * widthRatio);
+		final int newWidth = (int) (imgWidth * widthRatio);
+		return new Dimension( newWidth, newHeight );
 	}
 
 	public static Image scaleToSameSize( final BufferedImage img1, final BufferedImage img2 ) {
