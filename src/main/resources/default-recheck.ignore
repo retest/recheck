@@ -1,13 +1,19 @@
 # Ignore file for recheck. Please do not delete, even if it is empty.
-
-# You can ignore specific attributes like so: 
-# matcher: retestid=div-b4f23, attribute: font.*
+	
+# You can ignore specific elements like so:
+# matcher: type=meta
 
 # To ignore whole subtrees, use e.g. XPath:
-# matcher: xpath=HTML[1]/BODY[1]/DIV[1]/DIV[1]/DIV[1]
+# matcher: xpath=HTML[1]/BODY[1]/DIV[1]
 
 # To ignore attributes globally, use:
 # attribute=class
+
+# To ignore attributes e.g. of specific elements: 
+# matcher: type=img, attribute: alt
+
+# You can use regex for elements or attributes:
+# attribute-regex=data-.*
 
 # More details and examples can be found here:
 # https://retest.github.io/docs/recheck/how-ignore-works/
