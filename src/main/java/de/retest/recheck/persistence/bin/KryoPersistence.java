@@ -31,7 +31,14 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		this( createKryo(), VersionProvider.RETEST_VERSION );
 	}
 
-	// ONLY FOR TESTING
+	/**
+	 * Testing only!
+	 *
+	 * @param kryo
+	 *            {@code Kryo} instance to use.
+	 * @param version
+	 *            recheck version to use.
+	 */
 	KryoPersistence( final Kryo kryo, final String version ) {
 		this.kryo = kryo;
 		this.version = version;
