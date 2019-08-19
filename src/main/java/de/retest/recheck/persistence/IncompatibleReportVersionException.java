@@ -13,7 +13,7 @@ public class IncompatibleReportVersionException extends ReTestLoadException {
 
 	public IncompatibleReportVersionException( final String writerVersion, final String readerVersion,
 			final URI location, final Throwable throwable ) {
-		super( location, "Incompatible retest versions: report was written with " + writerVersion + ", but read with "
+		super( location, "Incompatible recheck versions: report was written with " + writerVersion + ", but read with "
 				+ readerVersion + ".", throwable );
 		this.writerVersion = writerVersion;
 		this.readerVersion = readerVersion;
