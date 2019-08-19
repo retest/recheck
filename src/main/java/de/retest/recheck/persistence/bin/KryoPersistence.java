@@ -24,8 +24,19 @@ import de.retest.recheck.util.VersionProvider;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
-	private final Kryo kryo = createKryo();
-	private final String version = VersionProvider.RETEST_VERSION;
+	private final Kryo kryo;
+	private final String version;
+
+	public KryoPersistence() {
+		kryo = createKryo();
+		version = VersionProvider.RETEST_VERSION;
+	}
+
+	// ONLY FOR TESTING
+	public KryoPersistence( final Kryo kryo, final String version ) {
+		this.kryo = kryo;
+		this.version = version;
+	}
 
 	private Kryo createKryo() {
 		final Kryo kryo = new Kryo();
