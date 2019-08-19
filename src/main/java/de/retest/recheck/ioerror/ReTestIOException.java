@@ -2,24 +2,27 @@ package de.retest.recheck.ioerror;
 
 import java.io.File;
 import java.io.IOException;
-
-import de.retest.recheck.util.FileUtil;
+import java.net.URI;
 
 public class ReTestIOException extends IOException {
 
 	private static final long serialVersionUID = 1L;
-	private final File file;
+	private final URI location;
 
 	public ReTestIOException( final File file, final Throwable throwable ) {
-		this( file, throwable.getMessage(), throwable );
+		this( file.getAbsoluteFile().toURI(), throwable.getMessage(), throwable );
 	}
 
-	public ReTestIOException( final File file, final String details, final Throwable throwable ) {
-		super( "Error reading from file '" + FileUtil.canonicalPathQuietly( file ) + "': " + details, throwable );
-		this.file = file;
+	public ReTestIOException( final URI location, final Throwable throwable ) {
+		this( location, throwable.getMessage(), throwable );
 	}
 
-	public File getFile() {
-		return file;
+	public ReTestIOException( final URI location, final String details, final Throwable throwable ) {
+		super( "Error reading from '" + location + "': " + details, throwable );
+		this.location = location;
+	}
+
+	public URI getLocation() {
+		return location;
 	}
 }

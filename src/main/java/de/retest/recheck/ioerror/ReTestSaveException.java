@@ -11,6 +11,6 @@ public class ReTestSaveException extends ReTestIOException {
 	}
 
 	public ReTestSaveException( final File file, final String details, final Throwable throwable ) {
-		super( file, details, throwable );
+		super( file.getAbsoluteFile().toURI(), details, throwable );
 	}
 }
