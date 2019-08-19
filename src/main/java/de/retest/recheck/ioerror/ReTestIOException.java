@@ -1,6 +1,5 @@
 package de.retest.recheck.ioerror;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
@@ -8,10 +7,6 @@ public class ReTestIOException extends IOException {
 
 	private static final long serialVersionUID = 1L;
 	private final URI location;
-
-	public ReTestIOException( final File file, final Throwable throwable ) {
-		this( file.getAbsoluteFile().toURI(), throwable.getMessage(), throwable );
-	}
 
 	public ReTestIOException( final URI location, final Throwable throwable ) {
 		this( location, throwable.getMessage(), throwable );
