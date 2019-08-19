@@ -33,7 +33,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	}
 
 	// ONLY FOR TESTING
-	public KryoPersistence( final Kryo kryo, final String version ) {
+	KryoPersistence( final Kryo kryo, final String version ) {
 		this.kryo = kryo;
 		this.version = version;
 	}
