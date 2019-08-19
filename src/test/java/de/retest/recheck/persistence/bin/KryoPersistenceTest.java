@@ -53,7 +53,7 @@ class KryoPersistenceTest {
 
 		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) )
 				.isInstanceOf( IncompatibleReportVersionException.class )
-				.hasMessageContaining( "Incompatible retest versions: report was written with "
+				.hasMessageContaining( "Incompatible recheck versions: report was written with "
 						+ VersionProvider.RETEST_VERSION + ", but read with old Version." );
 	}
 
