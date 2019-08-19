@@ -28,8 +28,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	private final String version;
 
 	public KryoPersistence() {
-		kryo = createKryo();
-		version = VersionProvider.RETEST_VERSION;
+		this( createKryo(), VersionProvider.RETEST_VERSION );
 	}
 
 	// ONLY FOR TESTING
@@ -38,7 +37,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		this.version = version;
 	}
 
-	private Kryo createKryo() {
+	private static Kryo createKryo() {
 		final Kryo kryo = new Kryo();
 
 		kryo.setInstantiatorStrategy( new Kryo.DefaultInstantiatorStrategy( new StdInstantiatorStrategy() ) );
