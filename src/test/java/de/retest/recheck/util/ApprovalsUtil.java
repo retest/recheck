@@ -25,7 +25,7 @@ public class ApprovalsUtil {
 	private static final String UNSPECIFIED_DEVELOPMENT_VERSION = "unspecified development version";
 
 	/**
-	 * For automatic approval use {@link ApprovalAutoApprover#INSTANCE}
+	 * For automatic approval use {@link ApprovalAutoApprover#INSTANCE}.
 	 */
 	private static final ApprovalFailureReporter DIFF_HANDLER = DiffReporter.INSTANCE;
 	//	private static final ApprovalFailureReporter DIFF_HANDLER = ApprovalAutoApprover.INSTANCE;
@@ -75,6 +75,7 @@ public class ApprovalsUtil {
 	}
 
 	public static class JUnitStackSelector implements StackElementSelector {
+
 		@Override
 		public StackTraceElement selectElement( final StackTraceElement[] trace ) throws Exception {
 			return TestCaseFinder.getInstance().findTestCaseMethodInStack( trace ).getStackTraceElement();
@@ -82,10 +83,10 @@ public class ApprovalsUtil {
 
 		@Override
 		public void increment() {}
-
 	}
 
 	public static class ApprovalAutoApprover implements ApprovalFailureReporter {
+
 		public static final ApprovalFailureReporter INSTANCE = new ApprovalAutoApprover();
 
 		@Override
