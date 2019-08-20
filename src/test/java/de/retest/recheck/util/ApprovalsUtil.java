@@ -1,6 +1,10 @@
 package de.retest.recheck.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +25,7 @@ public class ApprovalsUtil {
 	private static final String UNSPECIFIED_DEVELOPMENT_VERSION = "unspecified development version";
 
 	/**
-	 * For automatic approval use {@link ApprovalAutoApprover#INSTANCE}
+	 * For automatic approval use {@link ApprovalAutoApprover#INSTANCE}.
 	 */
 	private static final ApprovalFailureReporter DIFF_HANDLER = DiffReporter.INSTANCE;
 	//	private static final ApprovalFailureReporter DIFF_HANDLER = ApprovalAutoApprover.INSTANCE;
@@ -71,6 +75,7 @@ public class ApprovalsUtil {
 	}
 
 	public static class JUnitStackSelector implements StackElementSelector {
+
 		@Override
 		public StackTraceElement selectElement( final StackTraceElement[] trace ) throws Exception {
 			return TestCaseFinder.getInstance().findTestCaseMethodInStack( trace ).getStackTraceElement();
@@ -78,15 +83,19 @@ public class ApprovalsUtil {
 
 		@Override
 		public void increment() {}
-
 	}
 
 	public static class ApprovalAutoApprover implements ApprovalFailureReporter {
+
 		public static final ApprovalFailureReporter INSTANCE = new ApprovalAutoApprover();
 
 		@Override
-		public void report( final String received, final String approved ) throws Exception {
-			org.apache.commons.io.FileUtils.copyFile( new File( received ), new File( approved ) );
+		public void report( final String received, final String approved ) {
+			try {
+				Files.copy( Paths.get( received ), Paths.get( approved ) );
+			} catch ( final IOException e ) {
+				throw new UncheckedIOException( e );
+			}
 		}
 	}
 }
