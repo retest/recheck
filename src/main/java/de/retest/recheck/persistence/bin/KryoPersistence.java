@@ -9,21 +9,42 @@ import java.nio.file.Paths;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.google.common.collect.TreeMultiset;
 
 import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
+import de.retest.recheck.persistence.IncompatibleReportVersionException;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.util.FileUtil;
+import de.retest.recheck.util.VersionProvider;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
-	private final Kryo kryo = createKryo();
+	private final Kryo kryo;
+	private final String version;
 
-	private Kryo createKryo() {
+	public KryoPersistence() {
+		this( createKryo(), VersionProvider.RETEST_VERSION );
+	}
+
+	/**
+	 * Testing only!
+	 *
+	 * @param kryo
+	 *            {@code Kryo} instance to use.
+	 * @param version
+	 *            recheck version to use.
+	 */
+	KryoPersistence( final Kryo kryo, final String version ) {
+		this.kryo = kryo;
+		this.version = version;
+	}
+
+	private static Kryo createKryo() {
 		final Kryo kryo = new Kryo();
 
 		kryo.setInstantiatorStrategy( new Kryo.DefaultInstantiatorStrategy( new StdInstantiatorStrategy() ) );
@@ -41,6 +62,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		final Path path = Paths.get( identifier );
 		FileUtil.ensureFolder( path.toFile() );
 		try ( final Output output = new Output( Files.newOutputStream( path ) ) ) {
+			output.writeString( version );
 			kryo.writeClassAndObject( output, element );
 		}
 	}
@@ -48,8 +70,12 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	@SuppressWarnings( "unchecked" )
 	@Override
 	public T load( final URI identifier ) throws IOException {
+		String writerVersion = "unknown";
 		try ( final Input input = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
+			writerVersion = input.readString();
 			return (T) kryo.readClassAndObject( input );
+		} catch ( final KryoException e ) {
+			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
 	}
 

@@ -1,12 +1,16 @@
 package de.retest.recheck.ioerror;
 
-import java.io.File;
+import java.net.URI;
 
 public class ReTestLoadException extends ReTestIOException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ReTestLoadException( final File file, final Throwable throwable ) {
-		super( file, throwable );
+	public ReTestLoadException( final URI location, final Throwable throwable ) {
+		super( location, throwable );
+	}
+
+	public ReTestLoadException( final URI location, final String details, final Throwable throwable ) {
+		super( location, details, throwable );
 	}
 }

@@ -147,7 +147,7 @@ public class FileUtil {
 			result.getCanonicalFile().getParentFile().mkdirs();
 		} catch ( final IOException exc ) {
 			logger.error( "Exception creating parent folder of file {}.", result, exc );
-			throw new ReTestSaveException( result, "Exception creating parent folder.", exc );
+			throw new ReTestSaveException( result.getAbsoluteFile().toURI(), "Exception creating parent folder.", exc );
 		}
 	}
 
@@ -210,7 +210,7 @@ public class FileUtil {
 			out = new FileOutputStream( file );
 			writer.write( out );
 		} catch ( final Exception e ) {
-			throw new ReTestSaveException( file, e );
+			throw new ReTestSaveException( file.getAbsoluteFile().toURI(), e );
 		} finally {
 			try {
 				if ( out != null ) {
@@ -252,7 +252,7 @@ public class FileUtil {
 				new NamedBufferedInputStream( new FileInputStream( file ), file.getName() ) ) {
 			return reader.read( in );
 		} catch ( final Exception e ) {
-			throw new ReTestLoadException( file, e );
+			throw new ReTestLoadException( file.toURI(), e );
 		}
 	}
 
@@ -276,7 +276,7 @@ public class FileUtil {
 			in = new ZipFile( file );
 			return reader.read( in );
 		} catch ( final Exception e ) {
-			throw new ReTestLoadException( file, e );
+			throw new ReTestLoadException( file.toURI(), e );
 		} finally {
 			if ( in != null ) {
 				try {

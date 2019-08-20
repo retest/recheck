@@ -40,7 +40,7 @@ public class RetestIdProviderUtil {
 	}
 
 	/**
-	 * Testing only.
+	 * Testing only!
 	 *
 	 * @param idProvider
 	 *            retest ID provider to be used
