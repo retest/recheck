@@ -1,5 +1,6 @@
 package de.retest.recheck.persistence.bin;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,8 +32,11 @@ class KryoPersistenceTest {
 		final KryoPersistence<de.retest.recheck.test.Test> kryoPersistence = new KryoPersistence<>();
 		final ArrayList<String> tests = new ArrayList<>();
 		tests.add( "../test.test" );
-		kryoPersistence.save( identifier, new de.retest.recheck.test.Test( tests ) );
-		kryoPersistence.load( identifier );
+		final de.retest.recheck.test.Test persisted = new de.retest.recheck.test.Test( tests );
+		kryoPersistence.save( identifier, persisted );
+		final de.retest.recheck.test.Test loaded = kryoPersistence.load( identifier );
+
+		assertThat( persisted.getRelativeActionSequencePaths() ).isEqualTo( loaded.getRelativeActionSequencePaths() );
 	}
 
 	@Test
