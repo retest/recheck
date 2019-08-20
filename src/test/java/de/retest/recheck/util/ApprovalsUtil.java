@@ -3,10 +3,11 @@ package de.retest.recheck.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
 import org.approvaltests.Approvals;
 import org.approvaltests.core.ApprovalFailureReporter;
 import org.approvaltests.namer.ApprovalNamer;
@@ -90,7 +91,7 @@ public class ApprovalsUtil {
 		@Override
 		public void report( final String received, final String approved ) {
 			try {
-				FileUtils.copyFile( new File( received ), new File( approved ) );
+				Files.copy( Paths.get( received ), Paths.get( approved ) );
 			} catch ( final IOException e ) {
 				throw new UncheckedIOException( e );
 			}
