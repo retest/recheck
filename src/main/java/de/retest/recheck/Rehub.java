@@ -28,7 +28,7 @@ public class Rehub {
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 
 		try {
-			if ( !auth.isAuthenticated( getToken() ) ) {
+			if ( !auth.isAuthenticated( getRecheckApiKey() ) ) {
 				auth.login( new RehubAuthenticationHandler() );
 			}
 			System.setProperty( Properties.FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.CLOUD.toString() );
@@ -37,7 +37,15 @@ public class Rehub {
 		}
 	}
 
-	private static String getToken() {
+	/**
+	 * Returns the given recheck API key for rehub.
+	 *
+	 * <p>
+	 * <em>Treat this as a secret! Anyone with access to your token can add test reports to rehub.</em>
+	 *
+	 * @return The given recheck API key for rehub.
+	 */
+	public static String getRecheckApiKey() {
 		final String tokenFromEnvironment = System.getenv( CloudPersistence.RECHECK_API_KEY );
 		final String tokenFromPreferences =
 				Preferences.userNodeForPackage( Rehub.class ).get( CloudPersistence.RECHECK_API_KEY, null );
