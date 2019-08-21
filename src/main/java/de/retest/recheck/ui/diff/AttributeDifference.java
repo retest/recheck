@@ -77,6 +77,10 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		this.elementIdentificationWarning = elementIdentificationWarning;
 	}
 
+	public boolean hasElementIdentificationWarning() {
+		return elementIdentificationWarning != null;
+	}
+
 	@Override
 	public Serializable getExpected() {
 		return (Serializable) expected;
