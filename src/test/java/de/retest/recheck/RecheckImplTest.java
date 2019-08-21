@@ -142,6 +142,7 @@ class RecheckImplTest {
 				InsertedDeletedElementDifference.differenceFor( absent, present );
 		final InsertedDeletedElementDifference deletion =
 				InsertedDeletedElementDifference.differenceFor( present, absent );
+		// Only inserted/deleted differences from unique differences should be accounted.
 		final LeafDifference ignore = mock( LeafDifference.class );
 
 		// Use LinkedHashSet to guarantee order.
