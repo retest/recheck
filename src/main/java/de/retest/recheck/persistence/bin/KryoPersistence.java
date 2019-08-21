@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
@@ -23,6 +25,8 @@ import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.VersionProvider;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
+
+	private static final Logger logger = LoggerFactory.getLogger( KryoPersistence.class );
 
 	private final Kryo kryo;
 	private final String version;
@@ -63,7 +67,10 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		FileUtil.ensureFolder( path.toFile() );
 		try ( final Output output = new Output( Files.newOutputStream( path ) ) ) {
 			output.writeString( version );
+			logger.debug( "Writing {} to {}. Do not write to same identifier or interrupt until done.", element,
+					identifier );
 			kryo.writeClassAndObject( output, element );
+			logger.debug( "Done writing {} to {}", element, identifier );
 		}
 	}
 
