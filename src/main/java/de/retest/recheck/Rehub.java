@@ -19,6 +19,9 @@ public class Rehub {
 
 	}
 
+	/**
+	 * Initializes rehub to be used as persistence and, if not already authenticated, asks for login.
+	 */
 	public static void init() {
 		System.setProperty( RetestAuthentication.RESOURCE_PROPERTY, "marvin" );
 
