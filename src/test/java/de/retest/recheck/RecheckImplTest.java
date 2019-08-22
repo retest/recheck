@@ -97,7 +97,7 @@ class RecheckImplTest {
 		final String goldenMasterName = "SomeTestClass/some-test.some-step.recheck";
 		assertThatThrownBy( cut::capTest ) //
 				.isExactlyInstanceOf( AssertionError.class ) //
-				.hasMessageStartingWith( "'SomeTestClass':\n" + NoGoldenMasterActionReplayResult.MSG_LONG ) //
+				.hasMessageStartingWith( "'SomeTestClass': " + NoGoldenMasterActionReplayResult.MSG_LONG ) //
 				.hasMessageEndingWith( goldenMasterName );
 	}
 

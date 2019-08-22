@@ -6,7 +6,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.printer.TestReplayResultPrinter;
-import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
@@ -28,9 +27,9 @@ class AssertionMessage {
 
 	private String getNoGoldenMasterErrorMessage() {
 		final String goldenMasterPath = testReplayResult.getActionReplayResults().stream() //
-				.map( ActionReplayResult::getGoldenMasterPath ) //
+				.map( actionReplayResult -> "\t" + actionReplayResult.getGoldenMasterPath() ) //
 				.collect( Collectors.joining( "\n" ) );
-		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
+		return "'" + suiteName + "': " + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
 	}
 
 	private String getDifferencesErrorMessage() {
