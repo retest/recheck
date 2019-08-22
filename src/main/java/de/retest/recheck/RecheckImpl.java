@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +27,6 @@ import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
-import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 
 /**
@@ -183,44 +180,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
-			final String message = finishedTestResult.hasNoGoldenMaster() //
-					? getNoGoldenMasterErrorMessage( finishedTestResult ) //
-					: getDifferencesErrorMessage( finishedTestResult, uniqueDifferences );
-			throw new AssertionError( message );
+			final AssertionMessage msg =
+					new AssertionMessage( suiteName, uniqueDifferences, finishedTestResult, printer, getResultFile() );
+			throw new AssertionError( msg );
 		}
-	}
-
-	String getNoGoldenMasterErrorMessage( final TestReplayResult finishedTestResult ) {
-		final String goldenMasterPath = finishedTestResult.getActionReplayResults().stream() //
-				.map( ActionReplayResult::getGoldenMasterPath ) //
-				.collect( Collectors.joining( "\n" ) );
-		return "'" + suiteName + "':\n" + NoGoldenMasterActionReplayResult.MSG_LONG + "\n" + goldenMasterPath;
-	}
-
-	String getDifferencesErrorMessage( final TestReplayResult finishedTestResult,
-			final Set<LeafDifference> uniqueDifferences ) {
-		final int numChecks = finishedTestResult.getActionReplayResults().size();
-		final String allDiffs = printer.toString( finishedTestResult );
-		final String reportPath = getResultFile().getAbsolutePath();
-
-		// TODO temporary workaround for InsertedDeletedElementDifferences
-		final String insertedDeletedDiffs = uniqueDifferences.stream() //
-				.filter( InsertedDeletedElementDifference.class::isInstance ) //
-				.map( InsertedDeletedElementDifference.class::cast ) //
-				.map( toDifferencesErrorMessage() ) //
-				.collect( Collectors.joining( "\n" ) );
-
-		return "A detailed report will be created at '" + reportPath + "'. " //
-				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
-				+ "\n" //
-				+ numChecks + " check(s) in '" + suiteName + "' found the following difference(s):\n" //
-				+ allDiffs + insertedDeletedDiffs;
-	}
-
-	private static Function<InsertedDeletedElementDifference, String> toDifferencesErrorMessage() {
-		return diff -> diff.isInserted() //
-				? "\t" + diff.getActual().getIdentifyingAttributes().getPath() + " was inserted!" //
-				: "\t" + diff.getExpected().getIdentifyingAttributes().getPath() + " was deleted!";
 	}
 
 	@Override
