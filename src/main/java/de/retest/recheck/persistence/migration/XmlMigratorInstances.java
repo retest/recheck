@@ -80,6 +80,14 @@ public enum XmlMigratorInstances {
 					.add( 3, new PathAndType2LowerCaseTransformer() ) //
 					.toList();
 		}
+	},
+	de_retest_recheck_report_TestReport() {
+		@Override
+		List<Pair<Integer, XmlTransformer>> migrations() {
+			return new MigrationPairs() //
+					.add( 20, IncompatibleChangesTransformer.recheckVersion1() ) //
+					.toList();
+		}
 	};
 
 	public static XmlMigratorInstances get( final String dataTypeClass ) {
