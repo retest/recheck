@@ -132,7 +132,7 @@
 		<dependency>
 			<groupId>de.javakaffee</groupId>
 			<artifactId>kryo-serializers</artifactId>
-			<!-- last version compatible with Kryo v4 -->
+			<!-- last version compatible with Kryo v4.0.2 -->
 			<version>0.43</version>
 		</dependency>
 
@@ -160,10 +160,11 @@
 			<version>2.3.1</version>
 		</dependency>
 
-		<!-- see https://github.com/SeleniumHQ/selenium/issues/7373 -->
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
+			<!-- last version compatible with Selenium v3.141.59 in recheck-web -->
+			<!-- see https://github.com/SeleniumHQ/selenium/issues/7373 -->
 			<version>3.14.2</version>
 		</dependency>
 
@@ -173,7 +174,6 @@
 			<version>6.0.1</version>
 		</dependency>
 
-		<!-- JAXB implementation -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
@@ -289,6 +289,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven.surefire.version}</version>
 				<configuration>
+					<!-- combine Surefire and Failsafe reports for SonarCloud -->
 					<!-- see https://stackoverflow.com/a/15567782 -->
 					<reportsDirectory>${project.build.directory}/surefire-reports/</reportsDirectory>
 				</configuration>
@@ -353,8 +354,9 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- see https://bugs.openjdk.java.net/browse/JDK-8212233 -->
 				<configuration>
+					<!-- downgrade to fix Maven build with Java 11 -->
+					<!-- see https://bugs.openjdk.java.net/browse/JDK-8212233 -->
 					<source>8</source>
 				</configuration>
 			</plugin>
