@@ -34,6 +34,10 @@ public class ApprovalsUtil {
 		verify( maskVersion( actual ), "xml" );
 	}
 
+	public static void verify( final Object o ) {
+		verify( o.toString(), "txt" );
+	}
+
 	private static void verify( final String actual, final String fileExtensionWithoutDot ) {
 		Approvals.verify( new ApprovalTextWriter( actual, fileExtensionWithoutDot ),
 				new MavenConformJUnitStackTraceNamer(), DIFF_HANDLER );

@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.printer.TestReplayResultPrinter;
@@ -18,6 +17,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
+import de.retest.recheck.util.ApprovalsUtil;
 
 class AssertionMessageTest {
 
@@ -35,7 +35,7 @@ class AssertionMessageTest {
 
 		final AssertionMessage cut = new AssertionMessage( "SomeSuite", null, testReplayResult, null, null );
 
-		Approvals.verify( cut );
+		ApprovalsUtil.verify( cut );
 	}
 
 	@Test
@@ -71,7 +71,7 @@ class AssertionMessageTest {
 		final AssertionMessage cut = new AssertionMessage( "SomeSuite", uniqueDifferences, testReplayResult,
 				testReplayResultPrinter, resultFile );
 
-		Approvals.verify( cut );
+		ApprovalsUtil.verify( cut );
 	}
 
 }
