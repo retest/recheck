@@ -1,0 +1,6 @@
+A detailed report will be created at '/report/path'. You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).
+
+2 check(s) in 'SomeSuite' found the following difference(s):
+	Some diff
+	Another diff	foo/bar/baz was inserted!
+	foo/bar/baz was deleted!

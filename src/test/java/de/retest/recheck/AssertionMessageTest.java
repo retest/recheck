@@ -1,6 +1,5 @@
 package de.retest.recheck;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -9,6 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.printer.TestReplayResultPrinter;
@@ -23,35 +23,25 @@ class AssertionMessageTest {
 
 	@Test
 	void no_golden_master_message_should_be_formatted_properly() throws Exception {
-		final String suiteName = "SomeSuite";
-
-		final String gmPath0 = "/gm/path/0";
 		final ActionReplayResult actionReplayResult0 = mock( NoGoldenMasterActionReplayResult.class );
-		when( actionReplayResult0.getGoldenMasterPath() ).thenReturn( gmPath0 );
+		when( actionReplayResult0.getGoldenMasterPath() ).thenReturn( "/gm/path/0" );
 
-		final String gmPath1 = "/gm/path/0";
 		final ActionReplayResult actionReplayResult1 = mock( NoGoldenMasterActionReplayResult.class );
-		when( actionReplayResult1.getGoldenMasterPath() ).thenReturn( gmPath1 );
+		when( actionReplayResult1.getGoldenMasterPath() ).thenReturn( "/gm/path/0" );
 
 		final TestReplayResult testReplayResult = new TestReplayResult( "test-name", 1 );
 		testReplayResult.addAction( actionReplayResult0 );
 		testReplayResult.addAction( actionReplayResult1 );
 
-		final AssertionMessage cut = new AssertionMessage( suiteName, null, testReplayResult, null, null );
+		final AssertionMessage cut = new AssertionMessage( "SomeSuite", null, testReplayResult, null, null );
 
-		assertThat( cut ).hasToString( "'" + suiteName + "':\n" //
-				+ NoGoldenMasterActionReplayResult.MSG_LONG + "\n" //
-				+ gmPath0 + "\n" //
-				+ gmPath1 );
+		Approvals.verify( cut );
 	}
 
 	@Test
 	void differences_message_should_be_formatted_properly() throws Exception {
-		final String suiteName = "SomeSuite";
-
-		final String elementPath = "foo/bar/baz";
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.getPath() ).thenReturn( elementPath );
+		when( identifyingAttributes.getPath() ).thenReturn( "foo/bar/baz" );
 
 		final Element absent = null;
 		final Element present = mock( Element.class );
@@ -72,24 +62,16 @@ class AssertionMessageTest {
 		testReplayResult.addAction( mock( ActionReplayResult.class ) );
 		testReplayResult.addAction( mock( ActionReplayResult.class ) );
 
-		final String allDiffs = "\tSome diff\n\tAnother diff";
 		final TestReplayResultPrinter testReplayResultPrinter = mock( TestReplayResultPrinter.class );
-		when( testReplayResultPrinter.toString( testReplayResult ) ).thenReturn( allDiffs );
+		when( testReplayResultPrinter.toString( testReplayResult ) ).thenReturn( "\tSome diff\n\tAnother diff" );
 
-		final String reportPath = "/report/path";
 		final File resultFile = mock( File.class );
-		when( resultFile.getAbsolutePath() ).thenReturn( reportPath );
+		when( resultFile.getAbsolutePath() ).thenReturn( "/report/path" );
 
-		final AssertionMessage cut = new AssertionMessage( suiteName, uniqueDifferences, testReplayResult,
+		final AssertionMessage cut = new AssertionMessage( "SomeSuite", uniqueDifferences, testReplayResult,
 				testReplayResultPrinter, resultFile );
 
-		assertThat( cut ).hasToString( "A detailed report will be created at '" + reportPath + "'. " //
-				+ "You can review the details by using our CLI (https://github.com/retest/recheck.cli/) or GUI (https://retest.de/review/).\n" //
-				+ "\n" //
-				+ "2 check(s) in '" + suiteName + "' found the following difference(s):\n" //
-				+ allDiffs //
-				+ "\t" + elementPath + " was inserted!\n" //
-				+ "\t" + elementPath + " was deleted!" );
+		Approvals.verify( cut );
 	}
 
 }
