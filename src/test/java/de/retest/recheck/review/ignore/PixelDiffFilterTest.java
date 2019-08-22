@@ -14,7 +14,7 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 class PixelDiffFilterTest {
 
 	double pixelDiff = 5.0;
-	Filter cut = new PixelDiffFilter( pixelDiff );
+	Filter cut = new PixelDiffFilter( false, pixelDiff );
 
 	@Test
 	void should_filter_diff_when_pixel_diff_is_not_exceeded() throws Exception {
@@ -31,7 +31,7 @@ class PixelDiffFilterTest {
 		final Rectangle actual = new Rectangle( 1, -1, 15, 5 );
 		final AttributeDifference diff = new AttributeDifference( "outline", expected, actual );
 
-		final Filter cut = new PixelDiffFilter( 0.0 );
+		final Filter cut = new PixelDiffFilter( false, 0.0 );
 
 		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
 	}

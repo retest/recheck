@@ -16,9 +16,15 @@ public class PixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
 
+	/**
+	 * Indicates whether {@link #pixelDiff} is specified as float ({@code true}) or integer ({@code false}). Although
+	 * internally it is always treated as a double, this is important for serialization.
+	 */
+	private final boolean specifiedAsFloat;
 	private final double pixelDiff;
 
-	public PixelDiffFilter( final double pixelDiff ) {
+	public PixelDiffFilter( final boolean specifiedAsFloat, final double pixelDiff ) {
+		this.specifiedAsFloat = specifiedAsFloat;
 		this.pixelDiff = pixelDiff;
 	}
 
@@ -76,7 +82,8 @@ public class PixelDiffFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( PixelDiffFilterLoader.FORMAT, pixelDiff );
+		final String value = specifiedAsFloat ? Double.toString( pixelDiff ) : Integer.toString( (int) pixelDiff );
+		return String.format( PixelDiffFilterLoader.FORMAT, value );
 	}
 
 	public static class PixelDiffFilterLoader extends RegexLoader<PixelDiffFilter> {
@@ -91,8 +98,10 @@ public class PixelDiffFilter implements Filter {
 
 		@Override
 		protected PixelDiffFilter load( final MatchResult regex ) {
-			final double pixelDiff = Double.parseDouble( regex.group( 1 ) );
-			return new PixelDiffFilter( pixelDiff );
+			final String value = regex.group( 1 );
+			final boolean specifiedAsFloat = value.contains( "." );
+			final double pixelDiff = Double.parseDouble( value );
+			return new PixelDiffFilter( specifiedAsFloat, pixelDiff );
 		}
 	}
 }
