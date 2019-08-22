@@ -17,3 +17,6 @@ attribute-regex= .*
 
 # Intentional error to trigger logging 
 attribute:outline
+
+pixel-diff=5
+pixel-diff=5.0
