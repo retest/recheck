@@ -1,0 +1,3 @@
+'SomeSuite': No Golden Master found. First time test was run? Created new Golden Master, so don't forget to commit...
+	/gm/path/0
+	/gm/path/0
