@@ -37,7 +37,6 @@ public class XmlMigratorInstancesTest {
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.ui.actions.ActionSequence" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.suite.CapturedSuite" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.suite.ExecutableSuite" ) ).isNotNull();
-		assertThat( XmlMigratorInstances.get( "de.retest.recheck.report.ReplayResult" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.test.Test" ) ).isNotNull();
 		assertThat( XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" ) ).isNotNull();
 	}
