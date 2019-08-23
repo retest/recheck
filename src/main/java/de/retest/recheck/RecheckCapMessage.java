@@ -12,7 +12,7 @@ import de.retest.recheck.ui.diff.LeafDifference;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-class AssertionMessage {
+class RecheckCapMessage {
 
 	private final String suiteName;
 	private final Set<LeafDifference> uniqueDifferences;

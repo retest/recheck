@@ -19,7 +19,7 @@ import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.util.ApprovalsUtil;
 
-class AssertionMessageTest {
+class RecheckCapMessageTest {
 
 	@Test
 	void no_golden_master_message_should_be_formatted_properly() throws Exception {
@@ -33,7 +33,7 @@ class AssertionMessageTest {
 		testReplayResult.addAction( actionReplayResult0 );
 		testReplayResult.addAction( actionReplayResult1 );
 
-		final AssertionMessage cut = new AssertionMessage( "SomeSuite", null, testReplayResult, null, null );
+		final RecheckCapMessage cut = new RecheckCapMessage( "SomeSuite", null, testReplayResult, null, null );
 
 		ApprovalsUtil.verify( cut );
 	}
@@ -68,7 +68,7 @@ class AssertionMessageTest {
 		final File resultFile = mock( File.class );
 		when( resultFile.getAbsolutePath() ).thenReturn( "/report/path" );
 
-		final AssertionMessage cut = new AssertionMessage( "SomeSuite", uniqueDifferences, testReplayResult,
+		final RecheckCapMessage cut = new RecheckCapMessage( "SomeSuite", uniqueDifferences, testReplayResult,
 				testReplayResultPrinter, resultFile );
 
 		ApprovalsUtil.verify( cut );
