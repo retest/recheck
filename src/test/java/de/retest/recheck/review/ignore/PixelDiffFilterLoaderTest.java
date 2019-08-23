@@ -27,13 +27,13 @@ class PixelDiffFilterLoaderTest {
 		final String intDiff = "pixel-diff=5";
 		assertThat( cut.canLoad( intDiff ) ).isTrue();
 		final PixelDiffFilter loadedIntDiff = cut.load( intDiff );
-		assertThat( loadedIntDiff.isSpecifiedAsFloat() ).isFalse();
+		assertThat( loadedIntDiff.isSpecifiedAsDouble() ).isFalse();
 		assertThat( loadedIntDiff.getPixelDiff() ).isEqualTo( 5.0 );
 
 		final String doubleDiff = "pixel-diff=5.0";
 		assertThat( cut.canLoad( doubleDiff ) ).isTrue();
 		final PixelDiffFilter loadedDoubleDiff = cut.load( doubleDiff );
-		assertThat( loadedDoubleDiff.isSpecifiedAsFloat() ).isTrue();
+		assertThat( loadedDoubleDiff.isSpecifiedAsDouble() ).isTrue();
 		assertThat( loadedDoubleDiff.getPixelDiff() ).isEqualTo( 5.0 );
 	}
 
