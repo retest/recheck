@@ -26,11 +26,15 @@ class PixelDiffFilterLoaderTest {
 
 		final String intDiff = "pixel-diff=5";
 		assertThat( cut.canLoad( intDiff ) ).isTrue();
-		assertThat( cut.load( intDiff ) ).hasFieldOrPropertyWithValue( "pixelDiff", 5.0 );
+		final PixelDiffFilter loadedIntDiff = cut.load( intDiff );
+		assertThat( loadedIntDiff.isSpecifiedAsFloat() ).isFalse();
+		assertThat( loadedIntDiff.getPixelDiff() ).isEqualTo( 5.0 );
 
 		final String doubleDiff = "pixel-diff=5.0";
 		assertThat( cut.canLoad( doubleDiff ) ).isTrue();
-		assertThat( cut.load( doubleDiff ) ).hasFieldOrPropertyWithValue( "pixelDiff", 5.0 );
+		final PixelDiffFilter loadedDoubleDiff = cut.load( doubleDiff );
+		assertThat( loadedDoubleDiff.isSpecifiedAsFloat() ).isTrue();
+		assertThat( loadedDoubleDiff.getPixelDiff() ).isEqualTo( 5.0 );
 	}
 
 }
