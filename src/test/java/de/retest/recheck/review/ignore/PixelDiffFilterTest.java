@@ -81,4 +81,10 @@ class PixelDiffFilterTest {
 		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
 	}
 
+	@Test
+	void specifiedAsDouble_flag_should_control_toString() throws Exception {
+		assertThat( new PixelDiffFilter( false, 0.0 ) ).hasToString( "pixel-diff=0" );
+		assertThat( new PixelDiffFilter( true, 0.0 ) ).hasToString( "pixel-diff=0.0" );
+	}
+
 }
