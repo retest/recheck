@@ -9,16 +9,24 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+@Getter
 @Slf4j
 public class PixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
 
+	/**
+	 * Indicates whether {@link #pixelDiff} is specified as double ({@code true}) or integer ({@code false}). Although
+	 * internally it is always treated as a double, this is important for serialization.
+	 */
+	private final boolean specifiedAsDouble;
 	private final double pixelDiff;
 
-	public PixelDiffFilter( final double pixelDiff ) {
+	public PixelDiffFilter( final boolean specifiedAsDouble, final double pixelDiff ) {
+		this.specifiedAsDouble = specifiedAsDouble;
 		this.pixelDiff = pixelDiff;
 	}
 
@@ -76,7 +84,8 @@ public class PixelDiffFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( PixelDiffFilterLoader.FORMAT, pixelDiff );
+		final String value = specifiedAsDouble ? Double.toString( pixelDiff ) : Integer.toString( (int) pixelDiff );
+		return String.format( PixelDiffFilterLoader.FORMAT, value );
 	}
 
 	public static class PixelDiffFilterLoader extends RegexLoader<PixelDiffFilter> {
@@ -91,8 +100,10 @@ public class PixelDiffFilter implements Filter {
 
 		@Override
 		protected PixelDiffFilter load( final MatchResult regex ) {
-			final double pixelDiff = Double.parseDouble( regex.group( 1 ) );
-			return new PixelDiffFilter( pixelDiff );
+			final String value = regex.group( 1 );
+			final boolean specifiedAsDouble = value.contains( "." );
+			final double pixelDiff = Double.parseDouble( value );
+			return new PixelDiffFilter( specifiedAsDouble, pixelDiff );
 		}
 	}
 }
