@@ -10,7 +10,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doThrow;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -20,14 +23,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 
+@RunWith( PowerMockRunner.class )
+@PrepareForTest( Rehub.class )
 class RecheckImplTest {
 
 	@Test
@@ -99,6 +108,20 @@ class RecheckImplTest {
 				.isExactlyInstanceOf( AssertionError.class ) //
 				.hasMessageStartingWith( "'SomeTestClass': " + NoGoldenMasterActionReplayResult.MSG_LONG ) //
 				.hasMessageEndingWith( goldenMasterName );
+	}
+
+	@Test
+	void headless_no_key_should_result_in_AssertionError() {
+		final RecheckOptions opts = RecheckOptions.builder() //
+				.reportUploadEnabled( true ) //
+				.build();
+		mockStatic( Rehub.class );
+		doThrow( new HeadlessException() ).when( Rehub.class );
+
+		final Throwable thrown = Assertions.catchThrowable( () -> {
+			new RecheckImpl( opts );
+		} );
+		assertThat( thrown ).isInstanceOf( AssertionError.class );
 	}
 
 	private static class DummyStringRecheckAdapter implements RecheckAdapter {

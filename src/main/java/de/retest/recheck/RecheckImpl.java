@@ -2,6 +2,7 @@ package de.retest.recheck;
 
 import static de.retest.recheck.util.FileUtil.normalize;
 
+import java.awt.HeadlessException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -87,7 +88,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 
 		if ( isRehubEnabled( options ) ) {
-			Rehub.init();
+			try {
+				Rehub.init();
+			} catch ( final HeadlessException e ) {
+				throw new AssertionError(
+						"Please set a valid recheck API key within the environment, using 'RECHECK_API_KEY'." );
+			}
 		}
 	}
 
