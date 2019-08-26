@@ -3,10 +3,10 @@ package de.retest.recheck.printer;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
+import de.retest.recheck.ui.diff.ElementDifference;
 
 public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
@@ -40,7 +40,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private String createDifferences( final ActionReplayResult difference, final String indent ) {
 		return difference.getAllElementDifferences().stream() //
-				.filter( diff -> !diff.getAttributeDifferences( Filter.FILTER_NOTHING ).isEmpty() )
+				.filter( ElementDifference::hasAnyDifference ) //
 				.map( diff -> printer.toString( diff, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}
