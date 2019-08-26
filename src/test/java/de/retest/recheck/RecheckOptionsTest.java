@@ -39,7 +39,10 @@ class RecheckOptionsTest {
 				.addFilter( filter ) //
 				.build();
 		assertThat( cut.getFilter() ).isInstanceOf( CompoundFilter.class );
-		assertThat( ((CompoundFilter) cut.getFilter()).getFilters() ).contains( filter );
+		final CompoundFilter compoundFilter = (CompoundFilter) cut.getFilter();
+		// added filter + global ignore + suite ignore
+		assertThat( compoundFilter.getFilters() ).hasSize( 3 );
+		assertThat( compoundFilter.getFilters() ).contains( filter );
 	}
 
 	@Test
