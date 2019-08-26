@@ -15,7 +15,7 @@ public class RecheckOptions {
 	private final String suiteName = null;
 
 	@Builder.Default
-	private boolean reportUploadEnabled = false;
+	private final boolean reportUploadEnabled = false;
 
 	public String getSuiteName() {
 		return suiteName == null ? fileNamerStrategy.getTestClassName() : suiteName;
