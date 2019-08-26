@@ -65,11 +65,11 @@ public class RecheckOptions {
 		}
 
 		public RecheckOptionsBuilder addFilter( final Filter added ) {
-			if ( filter instanceof CompoundFilter ) {
+			if ( filter == null ) {
 				filterToAdd.add( added );
 			} else {
 				throw new IllegalStateException(
-						"Can only combine `filter()` and `add(filter)` if the set filter is of type `CompoundFilter`." );
+						"Cannot combine `filter()` and `add(filter)`. Use a `CompoundFilter` to do that." );
 			}
 			return this;
 		}
@@ -83,7 +83,7 @@ public class RecheckOptions {
 				filterToAdd.add( RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) );
 			}
 			if ( filter == null ) {
-				filter = new CompoundFilter( filter );
+				filter = new CompoundFilter( filterToAdd );
 			}
 			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled, filter );
 		}

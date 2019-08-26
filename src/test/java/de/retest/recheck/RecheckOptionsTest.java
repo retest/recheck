@@ -15,6 +15,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import de.retest.recheck.ignore.CompoundFilter;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
 
@@ -41,6 +43,7 @@ public class RecheckOptionsTest {
 				.build();
 
 		assertThat( cut.getSuiteName() ).isEqualTo( fileNamerStrategy.getTestClassName() );
+		assertThat( cut.getFileNamerStrategy() ).isEqualTo( fileNamerStrategy );
 	}
 
 	@Test
@@ -51,4 +54,30 @@ public class RecheckOptionsTest {
 		assertThat( cut.getSuiteName() ).isEqualTo( "bar" );
 	}
 
+	@Test
+	public void should_use_reportUploadEnabled() {
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.reportUploadEnabled( true ) //
+				.build();
+		assertThat( cut.isReportUploadEnabled() ).isEqualTo( true );
+	}
+
+	@Test
+	public void addFilter_should_add_filter_to_existing() {
+		final Filter filter = mock( Filter.class );
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.addFilter( filter ) //
+				.build();
+		assertThat( cut.getFilter() ).isInstanceOf( CompoundFilter.class );
+		assertThat( ((CompoundFilter) cut.getFilter()).getFilters() ).contains( filter );
+	}
+
+	@Test
+	public void filter_should_replace_existing() {
+		final Filter filter = mock( Filter.class );
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.filter( filter ) //
+				.build();
+		assertThat( cut.getFilter() ).isEqualTo( filter );
+	}
 }
