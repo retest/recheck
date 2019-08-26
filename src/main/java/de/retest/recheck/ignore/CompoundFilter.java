@@ -1,5 +1,7 @@
 package de.retest.recheck.ignore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.retest.recheck.ui.descriptors.Element;
@@ -10,7 +12,15 @@ public class CompoundFilter implements Filter {
 	private final List<Filter> filters;
 
 	public CompoundFilter( final List<Filter> filters ) {
-		this.filters = filters;
+		this.filters = new ArrayList<>( filters );
+	}
+
+	public CompoundFilter( final Filter... filters ) {
+		this.filters = new ArrayList<>( Arrays.asList( filters ) );
+	}
+
+	public CompoundFilter() {
+		filters = new ArrayList<>();
 	}
 
 	@Override
