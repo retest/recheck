@@ -119,7 +119,7 @@ public class RecheckImplTest {
 	@Test
 	public void headless_no_key_should_result_in_AssertionError() throws Exception {
 		final RecheckOptions opts = RecheckOptions.builder() //
-				.reportUploadEnabled( true ) //
+				.enableReportUpload() //
 				.build();
 		mockStatic( Rehub.class );
 		doThrow( new HeadlessException() ).when( Rehub.class, method( Rehub.class, "init" ) ).withNoArguments();

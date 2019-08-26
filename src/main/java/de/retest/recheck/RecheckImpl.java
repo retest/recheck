@@ -4,7 +4,6 @@ import static de.retest.recheck.util.FileUtil.normalize;
 
 import java.awt.HeadlessException;
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
-import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.CloudPersistence;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckSutState;
@@ -26,7 +23,6 @@ import de.retest.recheck.printer.TestReplayResultPrinter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
-import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.LeafDifference;
@@ -82,9 +78,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suiteName = options.getSuiteName();
 		suite = SuiteAggregator.getInstance().getSuite( suiteName );
 
-		final GlobalIgnoreApplier globalIgnoreApplier = RecheckIgnoreUtil.loadRecheckIgnore();
-		final GlobalIgnoreApplier suiteIgnoreApplier = RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() );
-		filter = new CompoundFilter( Arrays.asList( globalIgnoreApplier, suiteIgnoreApplier ) );
+		filter = options.getFilter();
 
 		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 
@@ -157,10 +151,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			adapter.notifyAboutDifferences( actionReplayResult );
 		}
 		return actionReplayResult;
-	}
-
-	private File getSuitePath() {
-		return fileNamerStrategy.createFileNamer( suiteName ).getFile( "" );
 	}
 
 	@Override
