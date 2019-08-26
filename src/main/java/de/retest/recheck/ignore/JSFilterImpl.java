@@ -32,6 +32,12 @@ public class JSFilterImpl implements Filter {
 	public JSFilterImpl( final Path ignoreFilePath ) {
 		final ScriptEngineManager manager = new ScriptEngineManager();
 		engine = manager.getEngineByName( JS_ENGINE_NAME );
+		if ( engine == null ) {
+			logger.error(
+					"Cannot execute JavaScript rules, `ScriptEngineManager` returned null for engine `JavaScript`. Try switching JDK or add a JavaScript engine: ",
+					new IllegalStateException( "No JavaScript available." ) );
+			return;
+		}
 		try {
 			engine.eval( readScriptFile( ignoreFilePath ) );
 		} catch ( final Exception e ) {
@@ -63,7 +69,7 @@ public class JSFilterImpl implements Filter {
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
-		if ( errorFunctions.contains( functionName ) ) {
+		if ( engine == null || errorFunctions.contains( functionName ) ) {
 			return false;
 		}
 		final Invocable inv = (Invocable) engine;
