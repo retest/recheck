@@ -2,6 +2,7 @@ package de.retest.recheck;
 
 import static de.retest.recheck.util.FileUtil.normalize;
 
+import java.awt.HeadlessException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.persistence.CloudPersistence;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
@@ -87,7 +89,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 
 		if ( isRehubEnabled( options ) ) {
-			Rehub.init();
+			try {
+				Rehub.init();
+			} catch ( final HeadlessException e ) {
+				throw new AssertionError( "Please set a valid recheck API key within the environment, using '"
+						+ CloudPersistence.RECHECK_API_KEY + "'." );
+			}
 		}
 	}
 

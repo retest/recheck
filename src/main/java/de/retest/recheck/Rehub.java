@@ -33,7 +33,7 @@ public class Rehub {
 			}
 			System.setProperty( Properties.FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.CLOUD.toString() );
 		} catch ( IOException | HttpFailure | VerificationException e ) {
-			log.error( "Error verifying offline token", e );
+			log.error( "Error verifying offline token: ", e );
 		}
 	}
 
