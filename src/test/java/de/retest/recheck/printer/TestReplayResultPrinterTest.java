@@ -25,7 +25,7 @@ class TestReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new TestReplayResultPrinter( s -> ( identAttributes, key, value ) -> false, FILTER_NOTHING );
+		cut = new TestReplayResultPrinter( s -> ( identAttributes, key, value ) -> false );
 	}
 
 	@Test

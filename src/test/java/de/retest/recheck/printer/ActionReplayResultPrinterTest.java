@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
 import de.retest.recheck.ui.actions.TargetNotFoundException;
@@ -25,8 +24,7 @@ class ActionReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
-				Filter.FILTER_NOTHING );
+		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
 	}
 
 	@Test

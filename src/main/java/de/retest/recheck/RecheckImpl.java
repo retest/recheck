@@ -57,7 +57,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	private TestReplayResult currentTestResult;
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
-	private final TestReplayResultPrinter printer;
+	private final TestReplayResultPrinter printer = new TestReplayResultPrinter( usedFinders::get );
 	private final Filter filter;
 
 	/**
@@ -79,8 +79,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite = SuiteAggregator.getInstance().getSuite( suiteName );
 
 		filter = options.getFilter();
-
-		printer = new TestReplayResultPrinter( usedFinders::get, filter );
 
 		if ( isRehubEnabled( options ) ) {
 			try {

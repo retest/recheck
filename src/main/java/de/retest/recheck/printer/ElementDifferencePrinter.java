@@ -6,16 +6,12 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.ElementDifference;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private final DefaultValueFinder finder;
-	private final Filter filter;
-
-	public ElementDifferencePrinter( final DefaultValueFinder finder, final Filter filter ) {
-		this.finder = finder;
-		this.filter = filter;
-	}
 
 	@Override
 	public String toString( final ElementDifference difference, final String indent ) {
@@ -30,7 +26,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 	private String createDifferences( final ElementDifference difference, final String indent ) {
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
 		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder );
-		return difference.getAttributeDifferences( filter ).stream() //
+		return difference.getAttributeDifferences( Filter.FILTER_NOTHING ).stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}
