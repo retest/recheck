@@ -2,6 +2,8 @@ package de.retest.recheck;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +14,12 @@ class RecheckOptionsTest {
 
 	@Test
 	void should_reuse_file_namer_strategy_for_suite_name() throws Exception {
-		final RecheckOptions cut = RecheckOptions.builder().build();
-		assertThat( cut.getSuiteName() ).isEqualTo( getClass().getName() );
+		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
+		when( fileNamerStrategy.getTestClassName() ).thenReturn( "foo" );
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.fileNamerStrategy( fileNamerStrategy ) //
+				.build();
+		assertThat( cut.getSuiteName() ).isEqualTo( "foo" );
 	}
 
 	@Test
