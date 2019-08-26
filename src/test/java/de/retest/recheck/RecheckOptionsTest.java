@@ -57,7 +57,7 @@ public class RecheckOptionsTest {
 	@Test
 	public void should_use_reportUploadEnabled() {
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.reportUploadEnabled( true ) //
+				.enableReportUpload() //
 				.build();
 		assertThat( cut.isReportUploadEnabled() ).isEqualTo( true );
 	}

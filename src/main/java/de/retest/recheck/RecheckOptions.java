@@ -53,8 +53,8 @@ public class RecheckOptions {
 			return this;
 		}
 
-		public RecheckOptionsBuilder reportUploadEnabled( final boolean reportUploadEnabled ) {
-			this.reportUploadEnabled = reportUploadEnabled;
+		public RecheckOptionsBuilder enableReportUpload() {
+			reportUploadEnabled = true;
 			return this;
 		}
 
