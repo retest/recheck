@@ -18,6 +18,7 @@ import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.persistence.CloudPersistence;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
@@ -91,8 +92,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			try {
 				Rehub.init();
 			} catch ( final HeadlessException e ) {
-				throw new AssertionError(
-						"Please set a valid recheck API key within the environment, using 'RECHECK_API_KEY'." );
+				throw new AssertionError( "Please set a valid recheck API key within the environment, using '"
+						+ CloudPersistence.RECHECK_API_KEY + "'." );
 			}
 		}
 	}
