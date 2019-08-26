@@ -103,12 +103,7 @@ public class TestReplayResult implements Serializable {
 	}
 
 	public boolean hasNoGoldenMaster() {
-		for ( final ActionReplayResult result : actionReplayResults ) {
-			if ( !(result instanceof NoGoldenMasterActionReplayResult) ) {
-				return false;
-			}
-		}
-		return true;
+		return actionReplayResults.stream().allMatch( NoGoldenMasterActionReplayResult.class::isInstance );
 	}
 
 	@Override
