@@ -2,6 +2,7 @@ package de.retest.recheck.report;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.ui.descriptors.Element;
@@ -190,6 +192,21 @@ class TestReportFilterTest {
 		when( result.getStateDifference() ).thenReturn( null ); // Just to make sure that this is the cause
 
 		assertThatCode( () -> TestReportFilter.filter( result, mock( Filter.class ) ) ).doesNotThrowAnyException();
+	}
+
+	@Test
+	void action_replay_result_should_keep_golden_master_exceptions_even_if_filtered() {
+		final ActionReplayResult noGoldenMasterActionResult = mock( NoGoldenMasterActionReplayResult.class );
+
+		final Filter noFilter = mock( Filter.class );
+		final Filter doFilter = mock( Filter.class );
+		when( doFilter.matches( any(), any() ) ).thenReturn( true );
+		when( doFilter.matches( any() ) ).thenReturn( true );
+
+		assertThat( TestReportFilter.filter( noGoldenMasterActionResult, noFilter ) )
+				.isEqualTo( noGoldenMasterActionResult );
+		assertThat( TestReportFilter.filter( noGoldenMasterActionResult, doFilter ) )
+				.isEqualTo( noGoldenMasterActionResult );
 	}
 
 	@Test
