@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doThrow;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
 import java.awt.HeadlessException;
 import java.io.File;
@@ -23,9 +24,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -37,10 +38,13 @@ import de.retest.recheck.ui.descriptors.RootElement;
 
 @RunWith( PowerMockRunner.class )
 @PrepareForTest( Rehub.class )
-class RecheckImplTest {
+public class RecheckImplTest {
+
+	@Rule
+	TemporaryFolder temp = new TemporaryFolder();
 
 	@Test
-	void using_strange_stepText_should_be_normalized() throws Exception {
+	public void using_strange_stepText_should_be_normalized() throws Exception {
 		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( fileNamerStrategy ) //
@@ -59,7 +63,7 @@ class RecheckImplTest {
 	}
 
 	@Test
-	void test_class_name_should_be_default_result_file_name() throws Exception {
+	public void test_class_name_should_be_default_result_file_name() throws Exception {
 		final String suiteName = getClass().getName();
 		final RecheckImpl cut = new RecheckImpl();
 		final String resultFileName = cut.getResultFile().getName();
@@ -67,7 +71,7 @@ class RecheckImplTest {
 	}
 
 	@Test
-	void exec_suite_name_should_be_used_for_result_file_name() throws Exception {
+	public void exec_suite_name_should_be_used_for_result_file_name() throws Exception {
 		final String suiteName = "FooBar";
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.suiteName( suiteName ) //
@@ -78,7 +82,8 @@ class RecheckImplTest {
 	}
 
 	@Test
-	void calling_check_without_startTest_should_work( @TempDir final Path root ) throws Exception {
+	public void calling_check_without_startTest_should_work() throws Exception {
+		final Path root = temp.newFolder().toPath();
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
 				.build();
@@ -87,7 +92,8 @@ class RecheckImplTest {
 	}
 
 	@Test
-	void calling_with_no_GM_should_produce_better_error_msg( @TempDir final Path root ) throws Exception {
+	public void calling_with_no_GM_should_produce_better_error_msg() throws Exception {
+		final Path root = temp.newFolder().toPath();
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
 				.build();
@@ -111,17 +117,13 @@ class RecheckImplTest {
 	}
 
 	@Test
-	void headless_no_key_should_result_in_AssertionError() {
+	public void headless_no_key_should_result_in_AssertionError() throws Exception {
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.reportUploadEnabled( true ) //
 				.build();
 		mockStatic( Rehub.class );
-		doThrow( new HeadlessException() ).when( Rehub.class );
-
-		final Throwable thrown = Assertions.catchThrowable( () -> {
-			new RecheckImpl( opts );
-		} );
-		assertThat( thrown ).isInstanceOf( AssertionError.class );
+		doThrow( new HeadlessException() ).when( Rehub.class, method( Rehub.class, "init" ) ).withNoArguments();
+		assertThatThrownBy( () -> new RecheckImpl( opts ) ).isExactlyInstanceOf( AssertionError.class );
 	}
 
 	private static class DummyStringRecheckAdapter implements RecheckAdapter {
