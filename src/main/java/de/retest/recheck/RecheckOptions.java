@@ -35,6 +35,7 @@ public class RecheckOptions {
 
 		public RecheckOptionsBuilder fileNamerStrategy( final FileNamerStrategy fileNamerStrategy ) {
 			this.fileNamerStrategy = fileNamerStrategy;
+			suiteName = fileNamerStrategy.getTestClassName();
 			return this;
 		}
 
