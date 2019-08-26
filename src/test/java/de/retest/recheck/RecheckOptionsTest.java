@@ -76,7 +76,7 @@ public class RecheckOptionsTest {
 	public void filter_should_replace_existing() {
 		final Filter filter = mock( Filter.class );
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.filter( filter ) //
+				.setFilter( filter ) //
 				.build();
 		assertThat( cut.getFilter() ).isEqualTo( filter );
 	}
