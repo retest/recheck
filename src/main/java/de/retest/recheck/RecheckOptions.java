@@ -20,17 +20,13 @@ public class RecheckOptions {
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
 
-	public String getSuiteName() {
-		return suiteName == null ? fileNamerStrategy.getTestClassName() : suiteName;
-	}
-
 	public static RecheckOptionsBuilder builder() {
 		return new RecheckOptionsBuilder();
 	}
 
 	public static class RecheckOptionsBuilder {
 		private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
-		private String suiteName = null;
+		private String suiteName = fileNamerStrategy.getTestClassName();
 		private boolean reportUploadEnabled = false;
 		private Filter filter = null;
 		private final List<Filter> filterToAdd = new ArrayList<>();
