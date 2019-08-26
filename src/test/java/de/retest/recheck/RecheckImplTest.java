@@ -31,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -48,6 +49,7 @@ public class RecheckImplTest {
 		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( fileNamerStrategy ) //
+				.setFilter( Filter.FILTER_NOTHING ) // Suppress IllegalStateException: No JavaScript available.
 				.build();
 		final Recheck cut = new RecheckImpl( opts );
 		final RecheckAdapter adapter = mock( RecheckAdapter.class );
@@ -75,6 +77,7 @@ public class RecheckImplTest {
 		final String suiteName = "FooBar";
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.suiteName( suiteName ) //
+				.setFilter( Filter.FILTER_NOTHING ) // Suppress IllegalStateException: No JavaScript available.
 				.build();
 		final RecheckImpl cut = new RecheckImpl( opts );
 		final String resultFileName = cut.getResultFile().getName();
@@ -86,6 +89,7 @@ public class RecheckImplTest {
 		final Path root = temp.newFolder().toPath();
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
+				.setFilter( Filter.FILTER_NOTHING ) // Suppress IllegalStateException: No JavaScript available.
 				.build();
 		final Recheck cut = new RecheckImpl( opts );
 		cut.check( "String", new DummyStringRecheckAdapter(), "step" );
@@ -96,6 +100,7 @@ public class RecheckImplTest {
 		final Path root = temp.newFolder().toPath();
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.fileNamerStrategy( new WithinTempDirectoryFileNamerStrategy( root ) ) //
+				.setFilter( Filter.FILTER_NOTHING ) // Suppress IllegalStateException: No JavaScript available.
 				.build();
 		final Recheck cut = new RecheckImpl( opts );
 
@@ -120,6 +125,7 @@ public class RecheckImplTest {
 	public void headless_no_key_should_result_in_AssertionError() throws Exception {
 		final RecheckOptions opts = RecheckOptions.builder() //
 				.enableReportUpload() //
+				.setFilter( Filter.FILTER_NOTHING ) // Suppress IllegalStateException: No JavaScript available.
 				.build();
 		mockStatic( Rehub.class );
 		doThrow( new HeadlessException() ).when( Rehub.class, method( Rehub.class, "init" ) ).withNoArguments();
