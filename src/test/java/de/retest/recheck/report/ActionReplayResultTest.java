@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
@@ -20,6 +21,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.StateDifference;
 
 class ActionReplayResultTest {
 
@@ -109,4 +111,25 @@ class ActionReplayResultTest {
 		assertThat( differences.getWindows() ).isEmpty();
 	}
 
+	@Test
+	void factory_method_should_return_no_difference_if_state_is_null() {
+		final ActionReplayData data = mock( ActionReplayData.class );
+		final SutState sutState = mock( SutState.class );
+		final StateDifference difference = null; // This difference should be null vs empty
+		final ActionReplayResult result =
+				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
+
+		assertThat( result.hasDifferences() ).isFalse();
+	}
+
+	@Test
+	void factory_method_should_return_no_difference_if_state_is_empty() {
+		final ActionReplayData data = mock( ActionReplayData.class );
+		final SutState sutState = mock( SutState.class );
+		final StateDifference difference = mock( StateDifference.class ); // This difference should be empty vs null
+		final ActionReplayResult result =
+				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
+
+		assertThat( result.hasDifferences() ).isFalse();
+	}
 }

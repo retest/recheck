@@ -102,7 +102,7 @@ public class ActionReplayResult implements Serializable {
 		if ( error != null || targetNotFound != null ) {
 			return withError( data, ErrorHolder.of( error, targetNotFound ) );
 		}
-		if ( !difference.getRootElementDifferences().isEmpty() ) {
+		if ( difference != null && !difference.getRootElementDifferences().isEmpty() ) {
 			return withDifference( data, WindowRetriever.empty(), DifferenceRetriever.of( difference ),
 					actualDuration );
 		}
