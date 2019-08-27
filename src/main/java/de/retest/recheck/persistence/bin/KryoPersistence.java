@@ -26,6 +26,8 @@ import de.retest.recheck.util.VersionProvider;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
+	private static final String OLD_RECHECK_VERSION = "an old recheck version (pre 1.5.0)";
+
 	private static final Logger logger = LoggerFactory.getLogger( KryoPersistence.class );
 
 	private final Kryo kryo;
@@ -74,14 +76,22 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
+	private final String VERSION_CHARS = "[\\w\\.\\{\\}\\$]+";
+
 	@SuppressWarnings( "unchecked" )
 	@Override
 	public T load( final URI identifier ) throws IOException {
-		String writerVersion = "unknown";
+		String writerVersion = OLD_RECHECK_VERSION;
 		try ( final Input input = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
 			writerVersion = input.readString();
 			return (T) kryo.readClassAndObject( input );
 		} catch ( final KryoException e ) {
+			if ( version.equals( writerVersion ) ) {
+				throw e;
+			}
+			if ( writerVersion == null || !writerVersion.matches( VERSION_CHARS ) ) {
+				writerVersion = OLD_RECHECK_VERSION;
+			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
 	}

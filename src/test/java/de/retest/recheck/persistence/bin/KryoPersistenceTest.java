@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -61,4 +62,16 @@ class KryoPersistenceTest {
 						+ VersionProvider.RETEST_VERSION + ", but read with old Version." );
 	}
 
+	@Test
+	void unknown_version_should_give_correct_error() throws IOException {
+		final Path file = Paths.get( "src/test/resources/de/retest/recheck/persistence/bin/old.report" );
+		final URI identifier = file.toUri();
+
+		final KryoPersistence<de.retest.recheck.test.Test> differentKryoPersistence = new KryoPersistence<>();
+
+		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) )
+				.isInstanceOf( IncompatibleReportVersionException.class ).hasMessageContaining(
+						"Incompatible recheck versions: report was written with an old recheck version (pre 1.5.0), but read with "
+								+ VersionProvider.RETEST_VERSION + "." );
+	}
 }
