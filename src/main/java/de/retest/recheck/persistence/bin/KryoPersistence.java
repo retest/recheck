@@ -5,6 +5,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
@@ -76,12 +78,10 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private final String VERSION_CHARS = "[\\w\\.\\{\\}\\$]+";
-
 	@SuppressWarnings( "unchecked" )
 	@Override
 	public T load( final URI identifier ) throws IOException {
-		String writerVersion = OLD_RECHECK_VERSION;
+		String writerVersion = null;
 		try ( final Input input = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
 			writerVersion = input.readString();
 			return (T) kryo.readClassAndObject( input );
@@ -89,11 +89,21 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			if ( version.equals( writerVersion ) ) {
 				throw e;
 			}
-			if ( writerVersion == null || !writerVersion.matches( VERSION_CHARS ) ) {
+			if ( isUnknownFormat( writerVersion ) ) {
 				writerVersion = OLD_RECHECK_VERSION;
 			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
+	}
+
+	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$]+" );
+
+	private static boolean isUnknownFormat( final String writerVersion ) {
+		if ( writerVersion == null ) {
+			return true;
+		}
+		final Matcher m = VERSION_CHARS.matcher( writerVersion );
+		return !m.matches();
 	}
 
 }
