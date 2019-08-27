@@ -174,11 +174,8 @@ attribute=align
 attribute=cols
 attribute=colspan
 attribute=high
-matcher: type=img, attribute=href
 attribute=hreflang
 attribute=kind
 attribute=label
-attribute=src
 attribute=type
-
 attribute=style
