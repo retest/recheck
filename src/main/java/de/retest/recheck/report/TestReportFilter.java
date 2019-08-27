@@ -64,6 +64,9 @@ public class TestReportFilter {
 	}
 
 	static StateDifference filter( final StateDifference stateDifference, final Filter filter ) {
+		if ( stateDifference == null || stateDifference.getRootElementDifferences().isEmpty() ) {
+			return stateDifference;
+		}
 		final List<RootElementDifference> newRootElementDifferences =
 				filter( stateDifference.getRootElementDifferences(), filter );
 		return new StateDifference( newRootElementDifferences, stateDifference.getDurationDifference() );
