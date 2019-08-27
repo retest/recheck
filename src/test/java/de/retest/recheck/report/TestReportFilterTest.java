@@ -1,6 +1,7 @@
 package de.retest.recheck.report;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -160,12 +161,35 @@ class TestReportFilterTest {
 	}
 
 	@Test
+	void state_difference_should_not_throw_if_null() {
+		final StateDifference empty = null; // This is the cause
+		assertThatCode( () -> TestReportFilter.filter( empty, mock( Filter.class ) ) ).doesNotThrowAnyException();
+	}
+
+	@Test
+	void state_difference_should_not_destroy_if_no_difference() {
+		final StateDifference empty = null; // This is the cause
+		final StateDifference difference = mock( StateDifference.class );
+
+		assertThat( TestReportFilter.filter( empty, mock( Filter.class ) ) ).isEqualTo( empty );
+		assertThat( TestReportFilter.filter( difference, mock( Filter.class ) ) ).isEqualTo( difference );
+	}
+
+	@Test
 	void action_replay_result_should_be_filtered_properly() throws Exception {
 		final ActionReplayResult filteredActionReplayResult =
 				TestReportFilter.filter( originalActionReplayResult, filter );
 		final List<AttributeDifference> differences = filteredActionReplayResult.getStateDifference()
 				.getRootElementDifferences().get( 0 ).getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
+	}
+
+	@Test
+	void action_replay_result_should_not_throw_if_null() {
+		final ActionReplayResult result = mock( ActionReplayResult.class );
+		when( result.getStateDifference() ).thenReturn( null ); // Just to make sure that this is the cause
+
+		assertThatCode( () -> TestReportFilter.filter( result, mock( Filter.class ) ) ).doesNotThrowAnyException();
 	}
 
 	@Test
