@@ -12,12 +12,24 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * This class configures the behaviour of {@link Recheck} and their implementations.
+ */
 @AllArgsConstructor( access = AccessLevel.PRIVATE )
 public class RecheckOptions {
 
+	/**
+	 * Gets the configured {@link FileNamerStrategy} which should be used to identify the tests, locate the golden
+	 * masters and result files.
+	 */
 	@Getter
 	private final FileNamerStrategy fileNamerStrategy;
 	private final String suiteName;
+	/**
+	 * If the report should be uploaded to <a href="https://retest.de/rehub/">rehub</a>.
+	 *
+	 * @see Rehub
+	 */
 	@Getter
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
@@ -27,6 +39,11 @@ public class RecheckOptions {
 		return new RecheckOptionsBuilder();
 	}
 
+	/**
+	 * Gets the suite name which overwrites {@link FileNamerStrategy#getTestClassName()}.
+	 *
+	 * @implNote If no suite name is provided, the {@link FileNamerStrategy#getTestClassName()} is used.
+	 */
 	public String getSuiteName() {
 		if ( suiteName != null ) {
 			return suiteName;
@@ -34,6 +51,11 @@ public class RecheckOptions {
 		return fileNamerStrategy.getTestClassName();
 	}
 
+	/**
+	 * Gets the configured filter which is used for printing the report after a test.
+	 *
+	 * @implNote If no filter is provided, the default filters are used.
+	 */
 	public Filter getFilter() {
 		if ( filter != null ) {
 			return filter;
@@ -59,26 +81,64 @@ public class RecheckOptions {
 
 		private RecheckOptionsBuilder() {}
 
+		/**
+		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and result files.
+		 *
+		 * @param fileNamerStrategy
+		 *            The strategy to use, defaults to {@link MavenConformFileNamerStrategy}
+		 * @return self
+		 */
 		public RecheckOptionsBuilder fileNamerStrategy( final FileNamerStrategy fileNamerStrategy ) {
 			this.fileNamerStrategy = fileNamerStrategy;
 			return this;
 		}
 
+		/**
+		 * Overwrites the suite name from {@link FileNamerStrategy}.
+		 *
+		 * @param suiteName
+		 *            The suite name to identify the golden master. Default:
+		 *            {@link FileNamerStrategy#getTestClassName()}.
+		 * @return self
+		 */
 		public RecheckOptionsBuilder suiteName( final String suiteName ) {
 			this.suiteName = suiteName;
 			return this;
 		}
 
+		/**
+		 * Enables upload to <a href="https://retest.de/rehub/">rehub</a> so that all reports are stored there. Default:
+		 * false.
+		 *
+		 * @return self
+		 */
 		public RecheckOptionsBuilder enableReportUpload() {
 			reportUploadEnabled = true;
 			return this;
 		}
 
+		/**
+		 * Overwrites the filter used for printing the report after a test. The filter cannot be used in conjunction
+		 * with {@link #addFilter(Filter)}.
+		 *
+		 * @param filter
+		 *            The filter to use for printing the differences. Default: Loads the ignore files.
+		 * @return self
+		 */
 		public RecheckOptionsBuilder setFilter( final Filter filter ) {
 			this.filter = filter;
 			return this;
 		}
 
+		/**
+		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
+		 * {@link #setFilter(Filter)}.
+		 *
+		 * @param added
+		 *            The filter to add.
+		 * @return self
+		 * @see #setFilter(Filter)
+		 */
 		public RecheckOptionsBuilder addFilter( final Filter added ) {
 			if ( filter == null ) {
 				filterToAdd.add( added );
