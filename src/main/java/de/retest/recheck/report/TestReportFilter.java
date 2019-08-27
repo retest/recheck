@@ -59,17 +59,14 @@ public class TestReportFilter {
 		final StateDifference newStateDifference = filter( actionReplayResult.getStateDifference(), filter );
 		final long actualDuration = actionReplayResult.getDuration();
 		final SutState actualState = new SutState( actionReplayResult.getWindows() );
-		final ActionReplayResult newActionReplayResult = ActionReplayResult.createActionReplayResult( data, error,
-				targetNotFound, newStateDifference, actualDuration, actualState );
-		return newActionReplayResult;
+		return ActionReplayResult.createActionReplayResult( data, error, targetNotFound, newStateDifference,
+				actualDuration, actualState );
 	}
 
 	static StateDifference filter( final StateDifference stateDifference, final Filter filter ) {
 		final List<RootElementDifference> newRootElementDifferences =
 				filter( stateDifference.getRootElementDifferences(), filter );
-		final StateDifference newStateDifference =
-				new StateDifference( newRootElementDifferences, stateDifference.getDurationDifference() );
-		return newStateDifference;
+		return new StateDifference( newRootElementDifferences, stateDifference.getDurationDifference() );
 	}
 
 	static List<RootElementDifference> filter( final List<RootElementDifference> rootElementDifferences,
@@ -83,9 +80,8 @@ public class TestReportFilter {
 
 	static RootElementDifference filter( final RootElementDifference rootElementDifference, final Filter filter ) {
 		final ElementDifference newElementDifference = filter( rootElementDifference.getElementDifference(), filter );
-		final RootElementDifference newRootElementDifference = new RootElementDifference( newElementDifference,
-				rootElementDifference.getExpectedDescriptor(), rootElementDifference.getActualDescriptor() );
-		return newRootElementDifference;
+		return new RootElementDifference( newElementDifference, rootElementDifference.getExpectedDescriptor(),
+				rootElementDifference.getActualDescriptor() );
 	}
 
 	static ElementDifference filter( final ElementDifference elementDiff, final Filter filter ) {
@@ -102,10 +98,8 @@ public class TestReportFilter {
 		if ( !elementDiff.getChildDifferences().isEmpty() ) {
 			childDifferences = filter( elementDiff.getChildDifferences(), filter );
 		}
-		final ElementDifference newElementDiff =
-				new ElementDifference( elementDiff.getElement(), attributesDifference, identifyingAttributesDifference,
-						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDifferences );
-		return newElementDiff;
+		return new ElementDifference( elementDiff.getElement(), attributesDifference, identifyingAttributesDifference,
+				elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDifferences );
 	}
 
 	static Collection<ElementDifference> filter( final Collection<ElementDifference> elementDifferences,
