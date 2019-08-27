@@ -14,11 +14,52 @@ import de.retest.recheck.ui.descriptors.Element;
 class ElementDifferenceTest {
 
 	@Test
-	void hasAttributesDifferences_should_respect_all_possible_difference_representations() {
+	void hasAttributesDifferences_should_return_false_if_difference_empty() {
+		final AttributesDifference emptyAttributes = mock( AttributesDifference.class );
+		when( emptyAttributes.getDifferences() ).thenReturn( Collections.emptyList() );
+		when( emptyAttributes.size() ).thenReturn( 0 );
+
+		final Element element = mock( Element.class );
+		final List<ElementDifference> childDifferences = Collections.emptyList();
+		final ElementDifference cut =
+				new ElementDifference( element, emptyAttributes, null, null, null, childDifferences );
+
+		assertThat( cut.hasAttributesDifferences() ).isFalse();
+	}
+
+	@Test
+	void hasAttributesDifferences_should_return_false_if_difference_null() {
+		final Element element = mock( Element.class );
+		final List<ElementDifference> childDifferences = Collections.emptyList();
+		final ElementDifference cut = new ElementDifference( element, null, null, null, null, childDifferences );
+
+		assertThat( cut.hasAttributesDifferences() ).isFalse();
+	}
+
+	@Test
+	void hasAttributesDifferences_should_return_true_if_difference_contained() {
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+
+		final AttributesDifference attributes = mock( AttributesDifference.class );
+		when( attributes.getDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+		when( attributes.size() ).thenReturn( 1 );
+
+		final Element element = mock( Element.class );
+		final List<ElementDifference> childDifferences = Collections.emptyList();
+		final ElementDifference cut = new ElementDifference( element, null, null, null, null, childDifferences );
+
+		assertThat( cut.hasAttributesDifferences() ).isFalse();
+	}
+
+	@Test
+	void hasAnyDifference_should_respect_all_possible_difference_representations() {
 		final Element element = mock( Element.class );
 		final List<ElementDifference> childDifferences = Collections.emptyList();
 
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		final AttributesDifference attributes = mock( AttributesDifference.class );
+		when( attributes.getDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+		when( attributes.size() ).thenReturn( 1 );
 		final IdentifyingAttributesDifference identifying = mock( IdentifyingAttributesDifference.class );
 		final InsertedDeletedElementDifference insertion = mock( InsertedDeletedElementDifference.class );
 		when( insertion.isInserted() ).thenReturn( true );

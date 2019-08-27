@@ -135,6 +135,27 @@ class TestReportFilterTest {
 	}
 
 	@Test
+	void filter_element_difference_should_have_no_differences_if_filtered() {
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+		final AttributesDifference attributes = mock( AttributesDifference.class );
+		when( attributes.getDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+
+		final ElementDifference difference = mock( ElementDifference.class );
+		when( difference.getAttributesDifference() ).thenReturn( attributes );
+
+		final Filter filterAll = mock( Filter.class );
+		when( filterAll.matches( any() ) ).thenReturn( true );
+		when( filterAll.matches( any(), any() ) ).thenReturn( true );
+
+		final ElementDifference filteredDifference = TestReportFilter.filter( difference, filterAll );
+
+		assertThat( filteredDifference.hasAttributesDifferences() ).isFalse();
+		assertThat( filteredDifference.hasIdentAttributesDifferences() ).isFalse();
+		assertThat( filteredDifference.isInsertionOrDeletion() ).isFalse();
+		assertThat( filteredDifference.hasAnyDifference() ).isFalse();
+	}
+
+	@Test
 	void root_element_difference_should_be_filtered_properly() throws Exception {
 		when( originalElementDifference.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		when( originalElementDifference.getIdentifyingAttributes().identifier() ).thenReturn( "identifier" );
