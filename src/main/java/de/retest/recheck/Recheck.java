@@ -2,6 +2,8 @@ package de.retest.recheck;
 
 /**
  * Interface defining the core functionality to write tests with recheck.
+ * 
+ * @apiNote Provided {@link RecheckOptions} should be honored and fully supported.
  */
 public interface Recheck {
 
