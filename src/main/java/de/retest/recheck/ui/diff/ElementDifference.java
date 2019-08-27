@@ -152,6 +152,10 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 				&& !((InsertedDeletedElementDifference) identifyingAttributesDifference).isInserted();
 	}
 
+	public boolean hasAnyDifference() {
+		return hasAttributesDifferences() || hasIdentAttributesDifferences() || isInsertionOrDeletion();
+	}
+
 	// For Difference
 
 	@Override
