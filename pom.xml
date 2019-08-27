@@ -358,6 +358,24 @@
 					<!-- downgrade to fix Maven build with Java 11 -->
 					<!-- see https://bugs.openjdk.java.net/browse/JDK-8212233 -->
 					<source>8</source>
+					<!-- see https://stackoverflow.com/q/38707030 -->
+					<tags>
+						<tag>
+							<name>apiNote</name>
+							<placement>a</placement>
+							<head>API Note:</head>
+						</tag>
+						<tag>
+							<name>implSpec</name>
+							<placement>a</placement>
+							<head>Implementation Requirements:</head>
+						</tag>
+						<tag>
+							<name>implNote</name>
+							<placement>a</placement>
+							<head>Implementation Note:</head>
+						</tag>
+					</tags>
 				</configuration>
 			</plugin>
 
