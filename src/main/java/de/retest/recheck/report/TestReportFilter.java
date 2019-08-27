@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.ui.actions.ExceptionWrapper;
@@ -51,6 +52,10 @@ public class TestReportFilter {
 	}
 
 	static ActionReplayResult filter( final ActionReplayResult actionReplayResult, final Filter filter ) {
+		if ( actionReplayResult instanceof NoGoldenMasterActionReplayResult ) {
+			return actionReplayResult;
+		}
+
 		final ActionReplayData data = ActionReplayData.withTarget( actionReplayResult.getDescription(),
 				actionReplayResult.getTargetComponent(), actionReplayResult.getGoldenMasterPath() );
 		final ExceptionWrapper error = actionReplayResult.getThrowableWrapper();
