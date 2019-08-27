@@ -7,26 +7,52 @@ import java.util.List;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.persistence.FileNamer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor( access = AccessLevel.PRIVATE )
-@Getter
 public class RecheckOptions {
 
+	@Getter
 	private final FileNamerStrategy fileNamerStrategy;
 	private final String suiteName;
+	@Getter
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
+	private final List<Filter> filterToAdd;
 
 	public static RecheckOptionsBuilder builder() {
 		return new RecheckOptionsBuilder();
 	}
 
+	public String getSuiteName() {
+		if ( suiteName != null ) {
+			return suiteName;
+		}
+		return fileNamerStrategy.getTestClassName();
+	}
+
+	public Filter getFilter() {
+		if ( filter != null ) {
+			return filter;
+		}
+		final ArrayList<Filter> filters = new ArrayList<>( filterToAdd );
+		filters.add( RecheckIgnoreUtil.loadRecheckIgnore() );
+		filters.add( RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) );
+		return new CompoundFilter( filters );
+	}
+
+	private File getSuitePath() {
+		final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
+		return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+	}
+
 	public static class RecheckOptionsBuilder {
+
 		private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
-		private String suiteName = fileNamerStrategy.getTestClassName();
+		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
 		private Filter filter = null;
 		private final List<Filter> filterToAdd = new ArrayList<>();
@@ -35,7 +61,6 @@ public class RecheckOptions {
 
 		public RecheckOptionsBuilder fileNamerStrategy( final FileNamerStrategy fileNamerStrategy ) {
 			this.fileNamerStrategy = fileNamerStrategy;
-			suiteName = fileNamerStrategy.getTestClassName();
 			return this;
 		}
 
@@ -58,23 +83,13 @@ public class RecheckOptions {
 			if ( filter == null ) {
 				filterToAdd.add( added );
 			} else {
-				throw new IllegalStateException(
-						"Cannot combine `setFilter()` and `add(Filter)`. Use a `CompoundFilter` to do that." );
+				throw new IllegalStateException( "Cannot combine `setFilter(Filter)` and `addFilter(Filter)`." );
 			}
 			return this;
 		}
 
 		public RecheckOptions build() {
-			if ( filter == null ) {
-				filterToAdd.add( RecheckIgnoreUtil.loadRecheckIgnore() );
-				filterToAdd.add( RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) );
-				filter = new CompoundFilter( filterToAdd );
-			}
-			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled, filter );
-		}
-
-		private File getSuitePath() {
-			return fileNamerStrategy.createFileNamer( suiteName ).getFile( "" );
+			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled, filter, filterToAdd );
 		}
 	}
 }
