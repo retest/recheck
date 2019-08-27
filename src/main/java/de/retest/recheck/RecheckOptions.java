@@ -10,7 +10,6 @@ import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
  * This class configures the behaviour of {@link Recheck} and their implementations.
@@ -18,19 +17,8 @@ import lombok.Getter;
 @AllArgsConstructor( access = AccessLevel.PRIVATE )
 public class RecheckOptions {
 
-	/**
-	 * Gets the configured {@link FileNamerStrategy} which should be used to identify the tests, locate the golden
-	 * masters and result files.
-	 */
-	@Getter
 	private final FileNamerStrategy fileNamerStrategy;
 	private final String suiteName;
-	/**
-	 * If the report should be uploaded to <a href="https://retest.de/rehub/">rehub</a>.
-	 *
-	 * @see Rehub
-	 */
-	@Getter
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
 	private final List<Filter> filterToAdd;
@@ -40,8 +28,19 @@ public class RecheckOptions {
 	}
 
 	/**
+	 * Gets the configured {@link FileNamerStrategy} which should be used to identify the tests, locate the golden
+	 * masters and report files.
+	 * 
+	 * @return The {@link FileNamerStrategy} to use for locating golden masters and reports.
+	 */
+	public FileNamerStrategy getFileNamerStrategy() {
+		return fileNamerStrategy;
+	}
+
+	/**
 	 * Gets the suite name which overwrites {@link FileNamerStrategy#getTestClassName()}.
 	 *
+	 * @return The suite name to use for identifying the golden master.
 	 * @implNote If no suite name is provided, the {@link FileNamerStrategy#getTestClassName()} is used.
 	 */
 	public String getSuiteName() {
@@ -52,8 +51,19 @@ public class RecheckOptions {
 	}
 
 	/**
+	 * If the report should be uploaded to <a href="https://retest.de/rehub/">rehub</a>.
+	 *
+	 * @return If the report should be uploaded.
+	 * @see Rehub
+	 */
+	public boolean isReportUploadEnabled() {
+		return reportUploadEnabled;
+	}
+
+	/**
 	 * Gets the configured filter which is used for printing the report after a test.
 	 *
+	 * @return The filter to use for printing the report.
 	 * @implNote If no filter is provided, the default filters are used.
 	 */
 	public Filter getFilter() {
@@ -82,7 +92,7 @@ public class RecheckOptions {
 		private RecheckOptionsBuilder() {}
 
 		/**
-		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and result files.
+		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report files.
 		 *
 		 * @param fileNamerStrategy
 		 *            The strategy to use, defaults to {@link MavenConformFileNamerStrategy}
