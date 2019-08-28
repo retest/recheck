@@ -6,5 +6,7 @@ check resulted in:
 	test [test] at 'foo[1]/bar[1]':
 		foo-1: expected="bar-1", actual="bar-3"
 		foo-3: expected="bar-3", actual="bar-1"
-	foo[1]/bar[1]/remove[1]/delete[1] was deleted!
-	foo[1]/bar[1]/add[1]/insert[1] was inserted!
+	delete [delete] at 'foo[1]/bar[1]/remove[1]/delete[1]':
+		was deleted
+	insert [insert] at 'foo[1]/bar[1]/add[1]/insert[1]':
+		was inserted

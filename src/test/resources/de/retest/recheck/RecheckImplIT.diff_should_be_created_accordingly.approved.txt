@@ -12,5 +12,7 @@ check resulted in:
 		bar-3: expected="bar-3", actual="(default or absent)"
 		bar-2-change: expected="(default or absent)", actual="bar-2"
 		bar-3-change: expected="(default or absent)", actual="bar-3"
-	foo[1]/bar[1]/add[1]/insert[1] was inserted!
-	foo[1]/bar[1]/remove[1]/delete[1] was deleted!
+	delete [delete] at 'foo[1]/bar[1]/remove[1]/delete[1]':
+		was deleted
+	insert [insert] at 'foo[1]/bar[1]/add[1]/insert[1]':
+		was inserted
