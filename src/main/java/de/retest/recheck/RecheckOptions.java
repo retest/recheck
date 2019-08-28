@@ -2,6 +2,7 @@ package de.retest.recheck;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.retest.recheck.ignore.CompoundFilter;
@@ -21,7 +22,7 @@ public class RecheckOptions {
 	private final String suiteName;
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
-	private final List<Filter> filterToAdd;
+	private final boolean addDefaultFilters;
 
 	public static RecheckOptionsBuilder builder() {
 		return new RecheckOptionsBuilder();
@@ -67,13 +68,14 @@ public class RecheckOptions {
 	 * @implNote If no filter is provided, the default filters are used.
 	 */
 	public Filter getFilter() {
-		if ( filter != null ) {
+		if ( !addDefaultFilters ) {
 			return filter;
 		}
-		final ArrayList<Filter> filters = new ArrayList<>( filterToAdd );
-		filters.add( RecheckIgnoreUtil.loadRecheckIgnore() );
-		filters.add( RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) );
-		return new CompoundFilter( filters );
+		return new CompoundFilter( Arrays.asList( //
+				filter, //
+				RecheckIgnoreUtil.loadRecheckIgnore(), //
+				RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() )  //
+		) );
 	}
 
 	private File getSuitePath() {
@@ -159,7 +161,8 @@ public class RecheckOptions {
 		}
 
 		public RecheckOptions build() {
-			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled, filter, filterToAdd );
+			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled,
+					filter != null ? filter : new CompoundFilter( filterToAdd ), filter == null );
 		}
 	}
 }
