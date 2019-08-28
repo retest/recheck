@@ -48,7 +48,7 @@ class RecheckOptionsTest {
 		final CompoundFilter compoundFilter = (CompoundFilter) cut.getFilter();
 		// added filter + global ignore + suite ignore
 		assertThat( compoundFilter.getFilters() ).hasSize( 3 );
-		assertThat( compoundFilter.getFilters() ).contains( filter );
+		assertThat( ( (CompoundFilter) compoundFilter.getFilters().get( 0 ) ).getFilters() ).contains( filter );
 	}
 
 	@Test
