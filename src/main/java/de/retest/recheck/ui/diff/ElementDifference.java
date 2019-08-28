@@ -131,7 +131,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	}
 
 	public boolean hasAttributesDifferences() {
-		return attributesDifference != null;
+		return attributesDifference != null && attributesDifference.size() > 0;
 	}
 
 	public boolean hasIdentAttributesDifferences() {
