@@ -178,7 +178,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
 			final RecheckCapMessage msg =
-					new RecheckCapMessage( suiteName, uniqueDifferences, finishedTestResult, printer, getResultFile() );
+					new RecheckCapMessage( suiteName, finishedTestResult, printer, getResultFile() );
 			throw new AssertionError( msg );
 		}
 	}
