@@ -86,10 +86,19 @@ public class TestReplayResult implements Serializable {
 		return uiElementsCount;
 	}
 
+	@Deprecated
 	public Set<LeafDifference> getDifferences( final Filter filter ) {
 		final Set<LeafDifference> diffs = new HashSet<>();
 		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
 			diffs.addAll( actionReplayResult.getDifferencesWithout( filter ) );
+		}
+		return diffs;
+	}
+
+	public Set<LeafDifference> getDifferences() {
+		final Set<LeafDifference> diffs = new HashSet<>();
+		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
+			diffs.addAll( actionReplayResult.getDifferences() );
 		}
 		return diffs;
 	}

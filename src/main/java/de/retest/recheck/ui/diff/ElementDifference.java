@@ -49,6 +49,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		this.childDifferences.addAll( childDifferences );
 	}
 
+	@Deprecated
 	public Screenshot mark( final Screenshot screenshot, final Filter filter ) {
 		if ( screenshot == null ) {
 			return null;
@@ -57,10 +58,25 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( childDifferences != null ) {
 			for ( final Difference childDifference : childDifferences ) {
 				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					if ( !filter.matches( element )
-							&& !compDiff.getAttributeDifferences( filter ).isEmpty() ) {
+					if ( !filter.matches( element ) && !compDiff.getAttributeDifferences( filter ).isEmpty() ) {
 						marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
 					}
+				}
+			}
+		}
+		return image2Screenshot( screenshot.getPersistenceIdPrefix(),
+				ImageUtils.mark( screenshot2Image( screenshot ), marks ) );
+	}
+
+	public Screenshot mark( final Screenshot screenshot ) {
+		if ( screenshot == null ) {
+			return null;
+		}
+		final List<Rectangle> marks = new ArrayList<>();
+		if ( childDifferences != null ) {
+			for ( final Difference childDifference : childDifferences ) {
+				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
+					marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
 				}
 			}
 		}
@@ -93,22 +109,28 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return differences;
 	}
 
+	@Deprecated
 	public List<AttributeDifference> getAttributeDifferences( final Filter filter ) {
-		final List<AttributeDifference> differences = new ArrayList<>();
-		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
-			final List<AttributeDifference> attributeDifferences =
-					((IdentifyingAttributesDifference) identifyingAttributesDifference).getAttributeDifferences();
-			differences.addAll( attributeDifferences );
-		}
-		if ( attributesDifference != null ) {
-			differences.addAll( attributesDifference.getDifferences() );
-		}
+		final List<AttributeDifference> differences = getAttributeDifferences();
 		if ( filter == null ) {
 			return differences;
 		}
 		return differences.stream() //
 				.filter( d -> !filter.matches( element, d ) ) //
 				.collect( Collectors.toList() );
+	}
+
+	public List<AttributeDifference> getAttributeDifferences() {
+		final List<AttributeDifference> differences = new ArrayList<>();
+		if ( identifyingAttributesDifference instanceof IdentifyingAttributesDifference ) {
+			final IdentifyingAttributesDifference identifyingAttributesDifference =
+					(IdentifyingAttributesDifference) this.identifyingAttributesDifference;
+			differences.addAll( identifyingAttributesDifference.getAttributeDifferences() );
+		}
+		if ( attributesDifference != null ) {
+			differences.addAll( attributesDifference.getDifferences() );
+		}
+		return differences;
 	}
 
 	public String getIdentifier() {
