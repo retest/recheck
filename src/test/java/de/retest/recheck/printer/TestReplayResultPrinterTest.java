@@ -1,6 +1,5 @@
 package de.retest.recheck.printer;
 
-import static de.retest.recheck.ignore.Filter.FILTER_NOTHING;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +12,6 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.report.ActionReplayResult;
@@ -35,7 +33,7 @@ class TestReplayResultPrinterTest {
 	@Test
 	void toString_should_print_differences_if_empty() {
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( Collections.emptySet() );
+		when( result.getDifferences() ).thenReturn( Collections.emptySet() );
 		when( result.getActionReplayResults() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( result );
@@ -46,7 +44,7 @@ class TestReplayResultPrinterTest {
 	@Test
 	void toString_should_respect_indent_if_empty() {
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( Collections.emptySet() );
+		when( result.getDifferences() ).thenReturn( Collections.emptySet() );
 		when( result.getActionReplayResults() ).thenReturn( Collections.emptyList() );
 
 		final String string = cut.toString( result, "____" );
@@ -63,7 +61,7 @@ class TestReplayResultPrinterTest {
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferencesCount() ).thenReturn( 1 );
 		when( result.getActionReplayResults() ).thenReturn( singletonList( a1 ) );
-		when( result.getDifferences( Mockito.any() ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
+		when( result.getDifferences() ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 
 		final String string = cut.toString( result );
 
@@ -77,7 +75,7 @@ class TestReplayResultPrinterTest {
 		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
+		when( result.getDifferences() ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 		when( result.getActionReplayResults() ).thenReturn( Collections.singletonList( a1 ) );
 
 		final String string = cut.toString( result, "____" );
@@ -95,7 +93,7 @@ class TestReplayResultPrinterTest {
 		when( a2.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
-		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
+		when( result.getDifferences() ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 		when( result.getActionReplayResults() ).thenReturn( Arrays.asList( a1, a2 ) );
 
 		final String string = cut.toString( result );

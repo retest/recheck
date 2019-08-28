@@ -1,6 +1,5 @@
 package de.retest.recheck.report;
 
-import static de.retest.recheck.ignore.Filter.FILTER_NOTHING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -51,7 +50,7 @@ class ActionReplayResultTest {
 		final AttributeFilter filter = new AttributeFilter( "path" );
 
 		assertThat( differences.hasDifferences() ).isTrue();
-		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 1 );
+		assertThat( differences.getDifferences() ).hasSize( 1 );
 		assertThat( differences.getDifferencesWithout( filter ) ).hasSize( 0 );
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();
@@ -99,7 +98,7 @@ class ActionReplayResultTest {
 
 		assertThat( differences.hasDifferences() ).isTrue();
 
-		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 4 );
+		assertThat( differences.getDifferences() ).hasSize( 4 );
 		assertThat( differences.getDifferencesWithout( filterAll ) ).hasSize( 0 );
 
 		assertThat( differences.getDifferencesWithout( filterFont ) ).hasSize( 3 );

@@ -2,7 +2,6 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -20,7 +19,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private String createDescription( final TestReplayResult result ) {
 		final String name = result.getName();
-		final int differences = result.getDifferences( Filter.FILTER_NOTHING ).size();
+		final int differences = result.getDifferences().size();
 		final int states = result.getActionReplayResults().size();
 		return String.format( "Test '%s' has %d difference(s) in %d state(s):", name, differences, states );
 	}

@@ -2,7 +2,6 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.ElementDifference;
@@ -33,7 +32,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 		}
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
 		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder );
-		return difference.getAttributeDifferences( Filter.FILTER_NOTHING ).stream() //
+		return difference.getAttributeDifferences().stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}
