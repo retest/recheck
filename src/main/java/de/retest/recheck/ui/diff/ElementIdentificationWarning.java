@@ -22,11 +22,9 @@ public class ElementIdentificationWarning implements Serializable {
 	private final String testClassName;
 
 	@XmlAttribute
-	private final String retestId;
 
 	@SuppressWarnings( "unused" )
 	private ElementIdentificationWarning() {
 		testClassName = null;
-		retestId = null;
 	}
 }
