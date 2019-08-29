@@ -19,6 +19,7 @@ attribute=background-attachment
 attribute=background-blend-mode
 attribute=background-clip
 attribute=background-color
+attribute=background-image
 attribute=background-origin
 attribute=background-position
 attribute=background-repeat
