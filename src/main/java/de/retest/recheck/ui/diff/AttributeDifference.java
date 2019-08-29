@@ -5,6 +5,7 @@ import static de.retest.recheck.util.ObjectUtil.isNullOrEmptyString;
 import static de.retest.recheck.util.ObjectUtil.nextHashCode;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -47,7 +48,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 	private final Object actual;
 
 	@XmlElement
-	private ElementIdentificationWarning elementIdentificationWarning;
+	private List<ElementIdentificationWarning> elementIdentificationWarnings;
 
 	protected AttributeDifference() {
 		// for JAXB
@@ -55,7 +56,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		expected = null;
 		actual = null;
 		attributeDifferenceId = null;
-		elementIdentificationWarning = null;
+		elementIdentificationWarnings = new ArrayList<>();
 	}
 
 	public AttributeDifference( final String key, final Serializable expected, final Serializable actual ) {
@@ -69,16 +70,16 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		return key;
 	}
 
-	public ElementIdentificationWarning getElementIdentificationWarning() {
-		return elementIdentificationWarning;
+	public List<ElementIdentificationWarning> getElementIdentificationWarnings() {
+		return elementIdentificationWarnings;
 	}
 
-	public void setElementIdentificationWarning( final ElementIdentificationWarning elementIdentificationWarning ) {
-		this.elementIdentificationWarning = elementIdentificationWarning;
+	public void addElementIdentificationWarning( final ElementIdentificationWarning elementIdentificationWarning ) {
+		elementIdentificationWarnings.add( elementIdentificationWarning );
 	}
 
 	public boolean hasElementIdentificationWarning() {
-		return elementIdentificationWarning != null;
+		return !elementIdentificationWarnings.isEmpty();
 	}
 
 	@Override
