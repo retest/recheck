@@ -19,9 +19,6 @@ public class ElementIdentificationWarning implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute
-	private final String elementIdentifier;
-
-	@XmlAttribute
 	private final String testClassName;
 
 	@XmlAttribute
@@ -29,7 +26,6 @@ public class ElementIdentificationWarning implements Serializable {
 
 	@SuppressWarnings( "unused" )
 	private ElementIdentificationWarning() {
-		elementIdentifier = null;
 		testClassName = null;
 		retestId = null;
 	}
