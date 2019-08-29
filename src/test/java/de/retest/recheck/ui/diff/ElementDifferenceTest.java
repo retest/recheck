@@ -81,4 +81,65 @@ class ElementDifferenceTest {
 		assertThat( e5.hasAnyDifference() ).isTrue();
 		assertThat( e6.hasAnyDifference() ).isTrue();
 	}
+
+	@Test
+	void getAttributeDifferences_should_gather_all_differences() {
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		final AttributesDifference attributesDifference = mock( AttributesDifference.class );
+		when( attributesDifference.getDifferences() ).thenReturn( Collections.nCopies( 5, difference ) );
+
+		final IdentifyingAttributesDifference idDifference = mock( IdentifyingAttributesDifference.class );
+		when( idDifference.getAttributeDifferences() ).thenReturn( Collections.nCopies( 3, difference ) );
+
+		final ElementDifference cut = new ElementDifference( mock( Element.class ), attributesDifference, idDifference,
+				null, null, Collections.emptyList() );
+
+		assertThat( cut.getAttributeDifferences() ).hasSize( 8 );
+	}
+
+	@Test
+	void getAttributeDifferences_should_gather_all_differences_from_identifying() {
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		final IdentifyingAttributesDifference idDifference = mock( IdentifyingAttributesDifference.class );
+		when( idDifference.getAttributeDifferences() ).thenReturn( Collections.nCopies( 3, difference ) );
+
+		final ElementDifference cut =
+				new ElementDifference( mock( Element.class ), null, idDifference, null, null, Collections.emptyList() );
+
+		assertThat( cut.getAttributeDifferences() ).hasSize( 3 );
+	}
+
+	@Test
+	void getAttributeDifferences_should_gather_all_differences_from_attributes() {
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		final AttributesDifference attributesDifference = mock( AttributesDifference.class );
+		when( attributesDifference.getDifferences() ).thenReturn( Collections.nCopies( 5, difference ) );
+
+		final ElementDifference cut = new ElementDifference( mock( Element.class ), attributesDifference, null, null,
+				null, Collections.emptyList() );
+
+		assertThat( cut.getAttributeDifferences() ).hasSize( 5 );
+	}
+
+	@Test
+	void getAttributeDifferences_should_gather_all_differences_should_not_use_child_differences() {
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		final AttributesDifference attributesDifference = mock( AttributesDifference.class );
+		when( attributesDifference.getDifferences() ).thenReturn( Collections.nCopies( 5, difference ) );
+
+		final IdentifyingAttributesDifference idDifference = mock( IdentifyingAttributesDifference.class );
+		when( idDifference.getAttributeDifferences() ).thenReturn( Collections.nCopies( 3, difference ) );
+
+		final ElementDifference childDifference = new ElementDifference( mock( Element.class ), attributesDifference,
+				idDifference, null, null, Collections.emptyList() );
+
+		final ElementDifference cut = new ElementDifference( mock( Element.class ), null, null, null, null,
+				Collections.nCopies( 5, childDifference ) );
+
+		assertThat( cut.getAttributeDifferences() ).isEmpty();
+	}
 }

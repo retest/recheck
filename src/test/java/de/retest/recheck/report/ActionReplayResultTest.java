@@ -4,7 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,14 +16,21 @@ import org.mockito.Mockito;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.action.ActionReplayData;
+import de.retest.recheck.report.action.DifferenceRetriever;
+import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
+import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
+import de.retest.recheck.ui.diff.AttributeDifference;
+import de.retest.recheck.ui.diff.AttributesDifference;
+import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 
 class ActionReplayResultTest {
@@ -130,5 +141,43 @@ class ActionReplayResultTest {
 				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
 
 		assertThat( result.hasDifferences() ).isFalse();
+	}
+
+	@Test
+	void getDifferences_should_retrieve_all_child_differences() {
+		final List<ElementDifference> empty = Collections.emptyList();
+
+		final List<RootElementDifference> differences = Arrays.asList( // 
+				root( difference( 5, Arrays.asList( //
+						difference( 3, Arrays.asList( // 
+								difference( 2, empty ), //
+								difference( 1, empty ) //
+						) ), //
+						difference( 4, empty ) //
+				) ) ), //
+				root( difference( 2, Arrays.asList( // 
+						difference( 1, empty ), //
+						difference( 3, empty ) //
+				) ) ) );
+
+		final ActionReplayResult cut = ActionReplayResult.withDifference( ActionReplayData.ofSutStart(),
+				WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
+
+		assertThat( cut.getDifferences() ).hasSize( 21 );
+	}
+
+	RootElementDifference root( final ElementDifference difference ) {
+		return new RootElementDifference( difference, mock( RootElement.class ), mock( RootElement.class ) );
+	}
+
+	ElementDifference difference( final int cnt, final List<ElementDifference> children ) {
+		final AttributesDifference attributes = mock( AttributesDifference.class );
+		when( attributes.getDifferences() ).thenReturn( Stream.generate( () -> mock( AttributeDifference.class ) )
+				.limit( cnt ).collect( Collectors.toList() ) );
+
+		final Element element = mock( Element.class );
+		when( element.getIdentifyingAttributes() ).thenReturn( mock( IdentifyingAttributes.class ) );
+
+		return new ElementDifference( element, attributes, null, null, null, children );
 	}
 }
