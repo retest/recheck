@@ -63,7 +63,7 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).startsWith( "Test 'null' has 1 difference(s) in 1 state(s):\nfoo resulted in:\n" );
+		assertThat( string ).startsWith( "Test 'null' has 1 difference(s) in 1 state(s):" );
 	}
 
 	@Test
@@ -79,7 +79,6 @@ class TestReplayResultPrinterTest {
 		final String string = cut.toString( result, "____" );
 
 		assertThat( string ).startsWith( "____" );
-		assertThat( string ).contains( "\n____" );
 	}
 
 	@Test
@@ -97,7 +96,6 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\n" + "foo resulted in:\n"
-				+ "\t\n" + "bar resulted in:\n" + "\tno differences" );
+		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\n" );
 	}
 }
