@@ -16,8 +16,8 @@ import org.mockito.Mockito;
 
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
-import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
+import de.retest.recheck.ui.diff.StateDifference;
 
 class TestReplayResultPrinterTest {
 
@@ -54,7 +54,7 @@ class TestReplayResultPrinterTest {
 	void toString_should_print_difference() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
-		when( a1.getAllElementDifferences() ).thenReturn( singletonList( mock( ElementDifference.class ) ) );
+		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferencesCount() ).thenReturn( 1 );
@@ -63,13 +63,14 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 1 state(s):\nfoo resulted in:\n" );
+		assertThat( string ).startsWith( "Test 'null' has 1 difference(s) in 1 state(s):\nfoo resulted in:\n" );
 	}
 
 	@Test
 	void toString_should_print_difference_with_indent() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
+		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
@@ -85,8 +86,10 @@ class TestReplayResultPrinterTest {
 	void toString_should_print_multiple_differences() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
+		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 		final ActionReplayResult a2 = mock( ActionReplayResult.class );
 		when( a2.getDescription() ).thenReturn( "bar" );
+		when( a2.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
@@ -94,7 +97,7 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string )
-				.isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\nfoo resulted in:\n\nbar resulted in:\n" );
+		assertThat( string ).isEqualTo(
+				"Test 'null' has 1 difference(s) in 2 state(s):\nfoo resulted in:\n\tno differences\nbar resulted in:\n\tno differences" );
 	}
 }

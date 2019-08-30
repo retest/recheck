@@ -29,6 +29,7 @@ import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
+import de.retest.recheck.ui.diff.StateDifference;
 import de.retest.recheck.util.ApprovalsUtil;
 
 class ActionReplayResultPrinterTest {
@@ -81,9 +82,15 @@ class ActionReplayResultPrinterTest {
 		when( rootDifference.getElementDifferences() ).thenReturn( Collections.singletonList( childDifference ) );
 		when( rootDifference.getIdentifyingAttributes() ).thenReturn( mock );
 
+		final RootElementDifference root = mock( RootElementDifference.class );
+		when( root.getElementDifference() ).thenReturn( rootDifference );
+
+		final StateDifference stateDifference = mock( StateDifference.class );
+		when( stateDifference.getRootElementDifferences() ).thenReturn( Collections.singletonList( root ) );
+
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
-		when( result.getAllElementDifferences() ).thenReturn( Collections.singletonList( rootDifference ) );
+		when( result.getStateDifference() ).thenReturn( stateDifference );
 
 		final String string = cut.toString( result );
 
@@ -93,7 +100,7 @@ class ActionReplayResultPrinterTest {
 	@Test
 	void toString_should_respect_indent() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
-		when( result.getAllElementDifferences() ).thenReturn( Collections.emptyList() );
+		when( result.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final String string = cut.toString( result, "____" );
 
