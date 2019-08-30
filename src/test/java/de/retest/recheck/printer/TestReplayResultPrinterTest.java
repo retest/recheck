@@ -97,7 +97,7 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo(
-				"Test 'null' has 1 difference(s) in 2 state(s):\nfoo resulted in:\n\tno differences\nbar resulted in:\n\tno differences" );
+		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\n" + "foo resulted in:\n"
+				+ "\t\n" + "bar resulted in:\n" + "\tno differences" );
 	}
 }

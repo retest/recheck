@@ -15,7 +15,9 @@ public class SuiteReplayResultPrinter implements Printer<SuiteReplayResult> {
 	@Override
 	public String toString( final SuiteReplayResult difference, final String indent ) {
 		return difference.getTestReplayResults().stream() //
+				.filter( testReplayResult -> !testReplayResult.isEmpty() ) //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}
+
 }

@@ -15,6 +15,7 @@ public class TestReportPrinter implements Printer<TestReport> {
 	@Override
 	public String toString( final TestReport testReport, final String indent ) {
 		return testReport.getSuiteReplayResults().stream() //
+				.filter( suiteReplayResult -> !suiteReplayResult.isEmpty() ) //
 				.map( suiteReplayResult -> delegate.toString( suiteReplayResult, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
 	}

@@ -34,9 +34,6 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		if ( difference instanceof NoGoldenMasterActionReplayResult ) {
 			return prefix + nextIndent + NoGoldenMasterActionReplayResult.MSG_LONG;
 		}
-		if ( !difference.hasDifferences() ) {
-			return prefix + nextIndent + "no differences";
-		}
 		return prefix + createDifferences( difference.getStateDifference(), nextIndent );
 	}
 
