@@ -121,4 +121,18 @@ public class SearchFilterFiles {
 	private static String getFileName( final Path path ) {
 		return path.getFileName().toString();
 	}
+
+	public static Filter getFilterByName( final String name ) {
+		final Filter result = toFileNameFilterMapping().get( name );
+		if ( result == null ) {
+			final String projectFilter = ProjectConfiguration.getInstance().getProjectConfigFolder() //
+					.map( path -> path.resolve( FILTER_FOLDER ) ) //
+					.map( Path::toAbsolutePath ) //
+					.map( Path::toString ) //
+					.orElse( "project not set" );
+
+			throw new FilterNotFoundException( name, projectFilter );
+		}
+		return result;
+	}
 }

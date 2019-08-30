@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import static de.retest.recheck.ignore.SearchFilterFiles.getFilterByName;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +33,7 @@ public class RecheckOptions {
 	/**
 	 * Gets the configured {@link FileNamerStrategy} which should be used to identify the tests, locate the golden
 	 * masters and report files.
-	 * 
+	 *
 	 * @return The {@link FileNamerStrategy} to use for locating golden masters and reports.
 	 */
 	public FileNamerStrategy getFileNamerStrategy() {
@@ -74,7 +76,7 @@ public class RecheckOptions {
 		return new CompoundFilter( Arrays.asList( //
 				filter, //
 				RecheckIgnoreUtil.loadRecheckIgnore(), //
-				RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() )  //
+				RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) //
 		) );
 	}
 
@@ -91,7 +93,8 @@ public class RecheckOptions {
 		private Filter filter = null;
 		private final List<Filter> filterToAdd = new ArrayList<>();
 
-		private RecheckOptionsBuilder() {}
+		private RecheckOptionsBuilder() {
+		}
 
 		/**
 		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report files.
@@ -131,29 +134,29 @@ public class RecheckOptions {
 
 		/**
 		 * Overwrites the filter used for printing the report after a test. The filter cannot be used in conjunction
-		 * with {@link #addFilter(Filter)}.
+		 * with {@link #addFilter(String)}.
 		 *
 		 * @param filter
 		 *            The filter to use for printing the differences. Default: Loads the ignore files.
 		 * @return self
 		 */
-		public RecheckOptionsBuilder setFilter( final Filter filter ) {
-			this.filter = filter;
+		public RecheckOptionsBuilder setFilter( final String filter ) {
+			this.filter = getFilterByName( filter );
 			return this;
 		}
 
 		/**
 		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
-		 * {@link #setFilter(Filter)}.
+		 * {@link #setFilter(String filter)}.
 		 *
 		 * @param added
 		 *            The filter to add.
 		 * @return self
-		 * @see #setFilter(Filter)
+		 * @see #setFilter(String)
 		 */
-		public RecheckOptionsBuilder addFilter( final Filter added ) {
+		public RecheckOptionsBuilder addFilter( final String added ) {
 			if ( filter == null ) {
-				filterToAdd.add( added );
+				filterToAdd.add( getFilterByName( added ) );
 			} else {
 				throw new IllegalStateException( "Cannot combine `setFilter(Filter)` and `addFilter(Filter)`." );
 			}
