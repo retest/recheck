@@ -19,18 +19,14 @@ public class ElementIdentificationWarning implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlAttribute
-	private final String elementIdentifier;
-
-	@XmlAttribute
 	private final String testClassName;
 
 	@XmlAttribute
-	private final String retestId;
+	private final Integer testLineNumber;
 
 	@SuppressWarnings( "unused" )
 	private ElementIdentificationWarning() {
-		elementIdentifier = null;
 		testClassName = null;
-		retestId = null;
+		testLineNumber = null;
 	}
 }
