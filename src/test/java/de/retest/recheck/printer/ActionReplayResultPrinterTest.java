@@ -119,6 +119,26 @@ class ActionReplayResultPrinterTest {
 	}
 
 	@Test
+	void toString_should_not_print_differences_if_no_state() {
+		final ActionReplayResult replayResult = mock( ActionReplayResult.class );
+		when( replayResult.getDescription() ).thenReturn( "foo" );
+		when( replayResult.hasDifferences() ).thenCallRealMethod();
+		when( replayResult.getStateDifference() ).thenReturn( null );
+
+		assertThat( cut.toString( replayResult ) ).isEqualTo( "foo resulted in:\n\tno differences" );
+	}
+
+	@Test
+	void toString_should_respect_indent_if_no_state() {
+		final ActionReplayResult replayResult = mock( ActionReplayResult.class );
+		when( replayResult.getDescription() ).thenReturn( "foo" );
+		when( replayResult.hasDifferences() ).thenCallRealMethod();
+		when( replayResult.getStateDifference() ).thenReturn( null );
+
+		assertThat( cut.toString( replayResult, "____" ) ).isEqualTo( "____foo resulted in:\n____\tno differences" );
+	}
+
+	@Test
 	void toString_should_not_print_child_differences_if_insertion_or_deletion() {
 		final List<ElementDifference> empty = Collections.emptyList();
 

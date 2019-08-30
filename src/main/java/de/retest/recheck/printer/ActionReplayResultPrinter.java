@@ -34,16 +34,18 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		if ( difference instanceof NoGoldenMasterActionReplayResult ) {
 			return prefix + nextIndent + NoGoldenMasterActionReplayResult.MSG_LONG;
 		}
-		return prefix + createDifferences( difference, nextIndent );
+		if ( !difference.hasDifferences() ) {
+			return prefix + nextIndent + "no differences";
+		}
+		return prefix + createDifferences( difference.getStateDifference(), nextIndent );
 	}
 
 	private String createDescription( final ActionReplayResult difference ) {
 		return difference.getDescription() + " resulted in:";
 	}
 
-	private String createDifferences( final ActionReplayResult difference, final String indent ) {
-		final StateDifference stateDifference = difference.getStateDifference();
-		return stateDifference.getRootElementDifferences().stream() //
+	private String createDifferences( final StateDifference difference, final String indent ) {
+		return difference.getRootElementDifferences().stream() //
 				.map( RootElementDifference::getElementDifference ) //
 				.flatMap( this::getDifference ) //
 				.filter( ElementDifference::hasAnyDifference ) //
