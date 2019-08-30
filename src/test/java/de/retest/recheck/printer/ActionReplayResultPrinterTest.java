@@ -130,7 +130,6 @@ class ActionReplayResultPrinterTest {
 		final ActionReplayResult replayResult = mock( ActionReplayResult.class );
 		when( replayResult.getDescription() ).thenReturn( "foo" );
 		when( replayResult.hasDifferences() ).thenCallRealMethod();
-		when( replayResult.getStateDifference() ).thenReturn( null );
 
 		assertThat( cut.toString( replayResult ) ).isEqualTo( "foo resulted in:\n\tno differences" );
 	}
@@ -140,7 +139,6 @@ class ActionReplayResultPrinterTest {
 		final ActionReplayResult replayResult = mock( ActionReplayResult.class );
 		when( replayResult.getDescription() ).thenReturn( "foo" );
 		when( replayResult.hasDifferences() ).thenCallRealMethod();
-		when( replayResult.getStateDifference() ).thenReturn( null );
 
 		assertThat( cut.toString( replayResult, "____" ) ).isEqualTo( "____foo resulted in:\n____\tno differences" );
 	}
@@ -149,21 +147,21 @@ class ActionReplayResultPrinterTest {
 	void toString_should_not_print_child_differences_if_insertion_or_deletion() {
 		final List<ElementDifference> empty = Collections.emptyList();
 
-		final ElementDifference differences = change( Path.fromString( "html[1]/body[1]" ), Arrays.asList( //
-				delete( Path.fromString( "html[1]/body[1]/div[1]" ), Arrays.asList( // 
-						delete( Path.fromString( "html[1]/body[1]/div[1]/div[1]" ), Arrays.asList( // 
-								delete( Path.fromString( "html[1]/body[1]/div[1]/div[1]/div[1]" ), empty ), // 
-								delete( Path.fromString( "html[1]/body[1]/div[1]/div[1]/div[2]" ), empty ) //
+		final ElementDifference differences = change( "html[1]/body[1]", //
+				delete( "html[1]/body[1]/div[1]", // 
+						delete( "html[1]/body[1]/div[1]/div[1]", // 
+								delete( "html[1]/body[1]/div[1]/div[1]/div[1]" ), // 
+								delete( "html[1]/body[1]/div[1]/div[1]/div[2]" ) //
+						), //
+						delete( "html[1]/body[1]/div[1]/div[2]" ) //
+				), //
+				change( "html[1]/body[1]/div[2]", // 
+						delete( "html[1]/body[1]/div[2]/div[1]", // 
+								delete( "html[1]/body[1]/div[2]/div[1]/div[1]" ), //
+								delete( "html[1]/body[1]/div[2]/div[1]/div[2]" ) //
 						) ), //
-						delete( Path.fromString( "html[1]/body[1]/div[1]/div[2]" ), empty ) //
-				) ), //
-				change( Path.fromString( "html[1]/body[1]/div[2]" ), Arrays.asList( // 
-						delete( Path.fromString( "html[1]/body[1]/div[2]/div[1]" ), Arrays.asList( // 
-								delete( Path.fromString( "html[1]/body[1]/div[2]/div[1]/div[1]" ), empty ), //
-								delete( Path.fromString( "html[1]/body[1]/div[2]/div[1]/div[2]" ), empty ) //
-						) ), //
-						change( Path.fromString( "html[1]/body[1]/div[2]/div[2]" ), empty ) ) //
-				) ) );
+				change( "html[1]/body[1]/div[2]/div[2]" ) //
+		);
 
 		final RootElementDifference rootDifference =
 				new RootElementDifference( differences, mock( RootElement.class ), mock( RootElement.class ) );
@@ -174,16 +172,16 @@ class ActionReplayResultPrinterTest {
 		ApprovalsUtil.verify( cut.toString( replayResult ) );
 	}
 
-	private ElementDifference delete( final Path path, final List<ElementDifference> childDifferences ) {
+	private ElementDifference delete( final String path, final ElementDifference... childDifferences ) {
 		final Element element = element( path );
 
 		final InsertedDeletedElementDifference insertion =
 				InsertedDeletedElementDifference.differenceFor( element, null );
 
-		return new ElementDifference( element, null, insertion, null, null, childDifferences );
+		return new ElementDifference( element, null, insertion, null, null, Arrays.asList( childDifferences ) );
 	}
 
-	private ElementDifference change( final Path path, final List<ElementDifference> childDifferences ) {
+	private ElementDifference change( final String path, final ElementDifference... childDifferences ) {
 		final Element element = element( path );
 
 		final AttributesDifference attributes = new AttributesDifference( Arrays.asList( // 
@@ -192,10 +190,11 @@ class ActionReplayResultPrinterTest {
 				new AttributeDifference( "foo-3", "bar-3", "bar3" ) //
 		) );
 
-		return new ElementDifference( element, attributes, null, null, null, childDifferences );
+		return new ElementDifference( element, attributes, null, null, null, Arrays.asList( childDifferences ) );
 	}
 
-	private Element element( final Path path ) {
+	private Element element( final String pathAsString ) {
+		final Path path = Path.fromString( pathAsString );
 		final PathAttribute pathAttribute = new PathAttribute( path );
 
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
