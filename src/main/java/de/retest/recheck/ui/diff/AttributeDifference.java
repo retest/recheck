@@ -48,7 +48,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 	private final Object actual;
 
 	@XmlElement
-	private List<ElementIdentificationWarning> elementIdentificationWarnings;
+	private final List<ElementIdentificationWarning> elementIdentificationWarnings;
 
 	protected AttributeDifference() {
 		// for JAXB
@@ -64,6 +64,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		this.expected = expected;
 		this.actual = actual;
 		attributeDifferenceId = identifier();
+		elementIdentificationWarnings = new ArrayList<>();
 	}
 
 	public String getKey() {
