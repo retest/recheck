@@ -90,8 +90,8 @@ public class RecheckOptions {
 		private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
-		private Filter filter = null;
-		private final List<Filter> filterToAdd = new ArrayList<>();
+		private Filter ignoreFilter = null;
+		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
 		private RecheckOptionsBuilder() {
 		}
@@ -134,38 +134,40 @@ public class RecheckOptions {
 
 		/**
 		 * Overwrites the filter used for printing the report after a test. The filter cannot be used in conjunction
-		 * with {@link #addFilter(String)}.
+		 * with {@link #addIgnore(String)}.
 		 *
-		 * @param filter
+		 * @param filtername
 		 *            The filter to use for printing the differences. Default: Loads the ignore files.
 		 * @return self
 		 */
-		public RecheckOptionsBuilder setFilter( final String filter ) {
-			this.filter = getFilterByName( filter );
+		public RecheckOptionsBuilder setIgnore( final String filtername ) {
+			ignoreFilter = getFilterByName( filtername );
 			return this;
 		}
 
 		/**
 		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
-		 * {@link #setFilter(String filter)}.
+		 * {@link #setIgnore(String filter)}.
 		 *
-		 * @param added
-		 *            The filter to add.
+		 * @param filtername
+		 *            The filter to add to the ignore.
 		 * @return self
-		 * @see #setFilter(String)
+		 * @see #setIgnore(String)
 		 */
-		public RecheckOptionsBuilder addFilter( final String added ) {
-			if ( filter == null ) {
-				filterToAdd.add( getFilterByName( added ) );
+		public RecheckOptionsBuilder addIgnore( final String filtername ) {
+			if ( ignoreFilter == null ) {
+				ignoreFilterToAdd.add( getFilterByName( filtername ) );
 			} else {
-				throw new IllegalStateException( "Cannot combine `setFilter(Filter)` and `addFilter(Filter)`." );
+				throw new IllegalStateException(
+						"Cannot combine `setIgnore(filtername)` and `addIgnore(filtername)`." );
 			}
 			return this;
 		}
 
 		public RecheckOptions build() {
 			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled,
-					filter != null ? filter : new CompoundFilter( filterToAdd ), filter == null );
+					ignoreFilter != null ? ignoreFilter : new CompoundFilter( ignoreFilterToAdd ),
+					ignoreFilter == null );
 		}
 	}
 }
