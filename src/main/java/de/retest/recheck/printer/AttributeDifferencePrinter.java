@@ -5,7 +5,9 @@ import java.io.Serializable;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class AttributeDifferencePrinter implements Printer<AttributeDifference> {
 
 	private static final String IS_DEFAULT = "(default or absent)";
@@ -14,11 +16,6 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 
 	private final IdentifyingAttributes attributes;
 	private final DefaultValueFinder defaultProvider;
-
-	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder finder ) {
-		this.attributes = attributes;
-		defaultProvider = finder;
-	}
 
 	@Override
 	public String toString( final AttributeDifference difference, final String indent ) {

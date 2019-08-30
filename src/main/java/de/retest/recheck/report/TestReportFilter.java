@@ -21,8 +21,7 @@ import de.retest.recheck.ui.diff.StateDifference;
 
 public class TestReportFilter {
 
-	private TestReportFilter() {
-	}
+	private TestReportFilter() {}
 
 	public static TestReport filter( final TestReport report, final Filter filter ) {
 		final TestReport newTestReport = new TestReport();
@@ -42,7 +41,7 @@ public class TestReportFilter {
 		return newSuiteReplayResult;
 	}
 
-	static TestReplayResult filter( final TestReplayResult testReplayResult, final Filter filter ) {
+	public static TestReplayResult filter( final TestReplayResult testReplayResult, final Filter filter ) {
 		final TestReplayResult newTestReplayResult =
 				new TestReplayResult( testReplayResult.getName(), testReplayResult.getTestNr() );
 		for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {

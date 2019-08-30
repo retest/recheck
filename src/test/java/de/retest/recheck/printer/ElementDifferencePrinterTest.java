@@ -10,7 +10,6 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.ElementDifference;
 
@@ -20,8 +19,7 @@ class ElementDifferencePrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ElementDifferencePrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
-				Filter.FILTER_NOTHING );
+		cut = new ElementDifferencePrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
 	}
 
 	@Test
