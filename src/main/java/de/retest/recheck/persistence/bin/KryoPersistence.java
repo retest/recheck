@@ -5,6 +5,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
@@ -25,6 +27,8 @@ import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.VersionProvider;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
+
+	private static final String OLD_RECHECK_VERSION = "an old recheck version (pre 1.5.0)";
 
 	private static final Logger logger = LoggerFactory.getLogger( KryoPersistence.class );
 
@@ -77,13 +81,29 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	@SuppressWarnings( "unchecked" )
 	@Override
 	public T load( final URI identifier ) throws IOException {
-		String writerVersion = "unknown";
+		String writerVersion = null;
 		try ( final Input input = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
 			writerVersion = input.readString();
 			return (T) kryo.readClassAndObject( input );
 		} catch ( final KryoException e ) {
+			if ( version.equals( writerVersion ) ) {
+				throw e;
+			}
+			if ( isUnknownFormat( writerVersion ) ) {
+				writerVersion = OLD_RECHECK_VERSION;
+			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
+	}
+
+	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$]+" );
+
+	private static boolean isUnknownFormat( final String writerVersion ) {
+		if ( writerVersion == null ) {
+			return true;
+		}
+		final Matcher m = VERSION_CHARS.matcher( writerVersion );
+		return !m.matches();
 	}
 
 }
