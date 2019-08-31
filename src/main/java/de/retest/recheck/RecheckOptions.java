@@ -150,6 +150,16 @@ public class RecheckOptions {
 		}
 
 		/**
+		 * This creates volatile filters, that make the test pass, but where that state of no differences cannot be
+		 * reproduced with neither the review GUI nor the CLI. Therefore it is strongly discouraged that this be used by
+		 * customers—it should only be used for internal tests.
+		 */
+		RecheckOptionsBuilder setIgnore( final Filter filter ) {
+			ignoreFilter = filter;
+			return this;
+		}
+
+		/**
 		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
 		 * {@link #setIgnore(String filter)}.
 		 *

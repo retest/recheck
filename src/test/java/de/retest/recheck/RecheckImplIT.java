@@ -51,7 +51,7 @@ class RecheckImplIT {
 
 	void execute( final String name, final RootElement toVerify, final Filter filter ) {
 		final RecheckImpl re = new RecheckImpl( RecheckOptions.builder() //
-				.setFilter( filter ) //
+				.setIgnore( filter ) //
 				.build() );
 
 		re.startTest( name );
