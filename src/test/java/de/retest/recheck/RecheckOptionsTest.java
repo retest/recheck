@@ -1,9 +1,10 @@
 package de.retest.recheck;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,23 +41,23 @@ class RecheckOptionsTest {
 
 	@Test
 	void addFilter_should_add_filter_to_existing() {
-		final Filter filter = mock( Filter.class );
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.addFilter( filter ) //
+				.addIgnore( "style-attributes.filter" ) //
 				.build();
 		assertThat( cut.getFilter() ).isInstanceOf( CompoundFilter.class );
-		final CompoundFilter compoundFilter = (CompoundFilter) cut.getFilter();
-		// added filter + global ignore + suite ignore
-		assertThat( compoundFilter.getFilters() ).hasSize( 3 );
-		assertThat( ( (CompoundFilter) compoundFilter.getFilters().get( 0 ) ).getFilters() ).contains( filter );
+		final List<Filter> filters =
+				((CompoundFilter) ((CompoundFilter) ((CompoundFilter) cut.getFilter()).getFilters().get( 0 ))
+						.getFilters().get( 0 )).getFilters();
+		assertThat( filters.get( 0 ).toString() ).isEqualTo( "# Style attributes filter file for recheck." );
 	}
 
 	@Test
 	void setFilter_should_replace_existing() {
-		final Filter filter = mock( Filter.class );
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.setFilter( filter ) //
+				.setIgnore( "style-attributes.filter" ) //
 				.build();
-		assertThat( cut.getFilter() ).isEqualTo( filter );
+		assertThat( cut.getFilter() ).isInstanceOf( CompoundFilter.class );
+		assertThat( ((CompoundFilter) cut.getFilter()).getFilters().get( 0 ).toString() )
+				.isEqualTo( "# Style attributes filter file for recheck." );
 	}
 }
