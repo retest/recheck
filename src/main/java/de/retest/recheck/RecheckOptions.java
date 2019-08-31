@@ -141,7 +141,11 @@ public class RecheckOptions {
 		 * @return self
 		 */
 		public RecheckOptionsBuilder setIgnore( final String filtername ) {
-			ignoreFilter = getFilterByName( filtername );
+			if ( filtername == null ) {
+				ignoreFilter = Filter.FILTER_NOTHING;
+			} else {
+				ignoreFilter = getFilterByName( filtername );
+			}
 			return this;
 		}
 
