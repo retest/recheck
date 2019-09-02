@@ -100,6 +100,11 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			}
 			if ( isUnknownFormat( writerVersion ) ) {
 				writerVersion = OLD_RECHECK_VERSION;
+				// TODO Remove after release of 1.6.0
+				try ( final Input secondInput = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
+					return (T) kryo.readClassAndObject( secondInput );
+				}
+				// remove until here
 			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
