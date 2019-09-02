@@ -389,4 +389,12 @@ public class FileUtil {
 	private static boolean canAll( final File file ) {
 		return file.canRead() && file.canWrite() && file.canExecute();
 	}
+
+	public static void deleteSecurely( final File file ) {
+		try {
+			file.delete();
+		} catch ( final Exception e ) {
+			logger.error( "Exception trying to delete file {}.", e );
+		}
+	}
 }

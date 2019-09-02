@@ -1,5 +1,6 @@
 package de.retest.recheck.persistence.bin;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -68,6 +69,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	@Override
 	public void save( final URI identifier, final T element ) throws IOException {
 		final Path path = Paths.get( identifier );
+		final File file = path.toFile();
 		FileUtil.ensureFolder( path.toFile() );
 		try ( final Output output = new Output( Files.newOutputStream( path ) ) ) {
 			output.writeString( version );
@@ -75,6 +77,11 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 					identifier );
 			kryo.writeClassAndObject( output, element );
 			logger.debug( "Done writing {} to {}", element, identifier );
+		} catch ( Error | Exception anything ) {
+			logger.warn( "Error writing to file {}. Delete what has been writen to not leave corrupt file behind...",
+					identifier, anything );
+			FileUtil.deleteSecurely( file );
+			throw anything;
 		}
 	}
 
