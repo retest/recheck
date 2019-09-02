@@ -4,6 +4,7 @@ import static de.retest.recheck.ignore.Filter.FILTER_NOTHING;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Answers.RETURNS_MOCKS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,8 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 
@@ -97,5 +101,32 @@ class TestReplayResultPrinterTest {
 		final String string = cut.toString( result );
 
 		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\n" );
+	}
+
+	@Test
+	void toString_should_not_print_if_no_differences() {
+		final ActionReplayResult emptyActionResult = mock( ActionReplayResult.class );
+		when( emptyActionResult.hasDifferences() ).thenReturn( false );
+
+		final TestReplayResult testResult = mock( TestReplayResult.class );
+		when( testResult.getActionReplayResults() ).thenReturn( Collections.singletonList( emptyActionResult ) );
+
+		assertThat( cut.toString( testResult ) ).isEqualTo( "Test 'null' has 0 difference(s) in 1 state(s):\n" );
+	}
+
+	@Test
+	void toString_should_print_if_no_golden_master() {
+		final RootElement rootElement = mock( RootElement.class, RETURNS_MOCKS );
+
+		final SutState sutState = mock( SutState.class );
+		when( sutState.getRootElements() ).thenReturn( Collections.singletonList( rootElement ) );
+
+		final NoGoldenMasterActionReplayResult noGoldenMaster =
+				new NoGoldenMasterActionReplayResult( "step", sutState, "path" );
+
+		final TestReplayResult testResult = mock( TestReplayResult.class );
+		when( testResult.getActionReplayResults() ).thenReturn( Collections.singletonList( noGoldenMaster ) );
+
+		assertThat( cut.toString( testResult ) ).isNotNull();
 	}
 }
