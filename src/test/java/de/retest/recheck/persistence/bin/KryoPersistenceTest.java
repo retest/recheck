@@ -22,6 +22,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.util.VersionProvider;
 
 class KryoPersistenceTest {
@@ -71,12 +72,16 @@ class KryoPersistenceTest {
 		final Path file = Paths.get( "src/test/resources/de/retest/recheck/persistence/bin/old.report" );
 		final URI identifier = file.toUri();
 
-		final KryoPersistence<de.retest.recheck.test.Test> differentKryoPersistence = new KryoPersistence<>();
+		final KryoPersistence<TestReport> differentKryoPersistence = new KryoPersistence<>();
 
-		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) )
-				.isInstanceOf( IncompatibleReportVersionException.class ).hasMessageContaining(
-						"Incompatible recheck versions: report was written with an old recheck version (pre 1.5.0), but read with "
-								+ VersionProvider.RETEST_VERSION + "." );
+		//		TODO Reactivate that code after the TODO in KryoPersistence has been adressed (post 1.6.0)
+		//		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) )
+		//		.isInstanceOf( IncompatibleReportVersionException.class ).hasMessageContaining(
+		//				"Incompatible recheck versions: report was written with an old recheck version (pre 1.5.0), but read with "
+		//						+ VersionProvider.RETEST_VERSION + "." );
+
+		final TestReport report = differentKryoPersistence.load( identifier );
+		assertThat( report ).isNotNull();
 	}
 
 	@Test
