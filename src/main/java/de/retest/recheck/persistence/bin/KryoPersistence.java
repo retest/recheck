@@ -1,5 +1,6 @@
 package de.retest.recheck.persistence.bin;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +70,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	@Override
 	public void save( final URI identifier, final T element ) throws IOException {
 		final Path path = Paths.get( identifier );
+		final File file = path.toFile();
 		FileUtil.ensureFolder( path.toFile() );
 		try ( final Output output = new Output( Files.newOutputStream( path ) ) ) {
 			output.writeString( version );
@@ -75,6 +78,12 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 					identifier );
 			kryo.writeClassAndObject( output, element );
 			logger.debug( "Done writing {} to {}", element, identifier );
+		} catch ( Error | Exception anything ) {
+			logger.error(
+					"Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
+					identifier, anything );
+			FileUtils.deleteQuietly( file );
+			throw anything;
 		}
 	}
 
