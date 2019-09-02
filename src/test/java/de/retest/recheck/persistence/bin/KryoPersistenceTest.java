@@ -3,9 +3,11 @@ package de.retest.recheck.persistence.bin;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -75,5 +77,17 @@ class KryoPersistenceTest {
 				.isInstanceOf( IncompatibleReportVersionException.class ).hasMessageContaining(
 						"Incompatible recheck versions: report was written with an old recheck version (pre 1.5.0), but read with "
 								+ VersionProvider.RETEST_VERSION + "." );
+	}
+
+	@Test
+	void on_error_file_should_be_deleted() throws IOException {
+		final File nonexistent = new File( "nonexistent.report" );
+		final Kryo kryoMock = mock( Kryo.class );
+		doThrow( KryoException.class ).when( kryoMock ).writeClassAndObject( any(), any() );
+		final KryoPersistence<de.retest.recheck.test.Test> persistence =
+				new KryoPersistence<>( kryoMock, "some version" );
+		assertThatThrownBy( () -> persistence.save( nonexistent.toURI(), createDummyTest() ) )
+				.isInstanceOf( KryoException.class );
+		assertThat( nonexistent ).doesNotExist();
 	}
 }
