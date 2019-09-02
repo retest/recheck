@@ -1,0 +1,17 @@
+Start Sut resulted in:
+	body[1] at 'html[1]/body[1]':
+		foo-1: expected="bar-1", actual="bar1"
+		foo-2: expected="bar-2", actual="bar2"
+		foo-3: expected="bar-3", actual="bar3"
+	div[1] at 'html[1]/body[1]/div[1]':
+		was deleted
+	div[2] at 'html[1]/body[1]/div[2]':
+		foo-1: expected="bar-1", actual="bar1"
+		foo-2: expected="bar-2", actual="bar2"
+		foo-3: expected="bar-3", actual="bar3"
+	div[1] at 'html[1]/body[1]/div[2]/div[1]':
+		was deleted
+	div[2] at 'html[1]/body[1]/div[2]/div[2]':
+		foo-1: expected="bar-1", actual="bar1"
+		foo-2: expected="bar-2", actual="bar2"
+		foo-3: expected="bar-3", actual="bar3"

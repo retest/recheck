@@ -27,8 +27,13 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private String createDifferences( final TestReplayResult difference, final String indent ) {
 		return difference.getActionReplayResults().stream() //
+				.filter( this::shouldPrint ) //
 				.map( a -> formatAction( a, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );
+	}
+
+	private boolean shouldPrint( final ActionReplayResult actionReplayResult ) {
+		return actionReplayResult.hasDifferences() || actionReplayResult.hasError();
 	}
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {

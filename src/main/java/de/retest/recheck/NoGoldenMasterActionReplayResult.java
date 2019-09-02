@@ -80,4 +80,8 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 		return MSG_SHORT;
 	}
 
+	@Override
+	public boolean hasDifferences() {
+		return true;
+	}
 }

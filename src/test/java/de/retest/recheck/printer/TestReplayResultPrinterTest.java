@@ -4,6 +4,7 @@ import static de.retest.recheck.ignore.Filter.FILTER_NOTHING;
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Answers.RETURNS_MOCKS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,10 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
-import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.LeafDifference;
+import de.retest.recheck.ui.diff.StateDifference;
 
 class TestReplayResultPrinterTest {
 
@@ -54,7 +58,7 @@ class TestReplayResultPrinterTest {
 	void toString_should_print_difference() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
-		when( a1.getAllElementDifferences() ).thenReturn( singletonList( mock( ElementDifference.class ) ) );
+		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferencesCount() ).thenReturn( 1 );
@@ -63,13 +67,14 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 1 state(s):\nfoo resulted in:\n" );
+		assertThat( string ).startsWith( "Test 'null' has 1 difference(s) in 1 state(s):" );
 	}
 
 	@Test
 	void toString_should_print_difference_with_indent() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
+		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
@@ -78,15 +83,16 @@ class TestReplayResultPrinterTest {
 		final String string = cut.toString( result, "____" );
 
 		assertThat( string ).startsWith( "____" );
-		assertThat( string ).contains( "\n____" );
 	}
 
 	@Test
 	void toString_should_print_multiple_differences() {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
+		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 		final ActionReplayResult a2 = mock( ActionReplayResult.class );
 		when( a2.getDescription() ).thenReturn( "bar" );
+		when( a2.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferences( FILTER_NOTHING ) ).thenReturn( singleton( mock( LeafDifference.class ) ) );
@@ -94,7 +100,33 @@ class TestReplayResultPrinterTest {
 
 		final String string = cut.toString( result );
 
-		assertThat( string )
-				.isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\nfoo resulted in:\n\nbar resulted in:\n" );
+		assertThat( string ).isEqualTo( "Test 'null' has 1 difference(s) in 2 state(s):\n" );
+	}
+
+	@Test
+	void toString_should_not_print_if_no_differences() {
+		final ActionReplayResult emptyActionResult = mock( ActionReplayResult.class );
+		when( emptyActionResult.hasDifferences() ).thenReturn( false );
+
+		final TestReplayResult testResult = mock( TestReplayResult.class );
+		when( testResult.getActionReplayResults() ).thenReturn( Collections.singletonList( emptyActionResult ) );
+
+		assertThat( cut.toString( testResult ) ).isEqualTo( "Test 'null' has 0 difference(s) in 1 state(s):\n" );
+	}
+
+	@Test
+	void toString_should_print_if_no_golden_master() {
+		final RootElement rootElement = mock( RootElement.class, RETURNS_MOCKS );
+
+		final SutState sutState = mock( SutState.class );
+		when( sutState.getRootElements() ).thenReturn( Collections.singletonList( rootElement ) );
+
+		final NoGoldenMasterActionReplayResult noGoldenMaster =
+				new NoGoldenMasterActionReplayResult( "step", sutState, "path" );
+
+		final TestReplayResult testResult = mock( TestReplayResult.class );
+		when( testResult.getActionReplayResults() ).thenReturn( Collections.singletonList( noGoldenMaster ) );
+
+		assertThat( cut.toString( testResult ) ).isNotNull();
 	}
 }
