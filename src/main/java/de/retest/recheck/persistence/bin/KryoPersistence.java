@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +79,10 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			kryo.writeClassAndObject( output, element );
 			logger.debug( "Done writing {} to {}", element, identifier );
 		} catch ( Error | Exception anything ) {
-			logger.warn( "Error writing to file {}. Delete what has been writen to not leave corrupt file behind...",
+			logger.error(
+					"Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
 					identifier, anything );
-			FileUtil.deleteSecurely( file );
+			FileUtils.deleteQuietly( file );
 			throw anything;
 		}
 	}
