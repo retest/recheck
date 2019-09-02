@@ -1,9 +1,11 @@
 package de.retest.recheck.persistence.bin;
 
+import static java.nio.file.Files.newInputStream;
+import static java.nio.file.Files.newOutputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
@@ -27,6 +29,8 @@ import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.VersionProvider;
+import net.jpountz.lz4.LZ4FrameInputStream;
+import net.jpountz.lz4.LZ4FrameOutputStream;
 
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
@@ -72,7 +76,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		final Path path = Paths.get( identifier );
 		final File file = path.toFile();
 		FileUtil.ensureFolder( path.toFile() );
-		try ( final Output output = new Output( Files.newOutputStream( path ) ) ) {
+		try ( final Output output = new Output( new LZ4FrameOutputStream( newOutputStream( path ) ) ) ) {
 			output.writeString( version );
 			logger.debug( "Writing {} to {}. Do not write to same identifier or interrupt until done.", element,
 					identifier );
@@ -90,18 +94,19 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	@SuppressWarnings( "unchecked" )
 	@Override
 	public T load( final URI identifier ) throws IOException {
+		final Path path = Paths.get( identifier );
 		String writerVersion = null;
-		try ( final Input input = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
+		try ( final Input input = new Input( new LZ4FrameInputStream( newInputStream( path ) ) ) ) {
 			writerVersion = input.readString();
 			return (T) kryo.readClassAndObject( input );
-		} catch ( final KryoException e ) {
+		} catch ( final KryoException | IOException e ) {
 			if ( version.equals( writerVersion ) ) {
 				throw e;
 			}
 			if ( isUnknownFormat( writerVersion ) ) {
 				writerVersion = OLD_RECHECK_VERSION;
 				// TODO Remove after release of 1.6.0
-				try ( final Input secondInput = new Input( Files.newInputStream( Paths.get( identifier ) ) ) ) {
+				try ( final Input secondInput = new Input( newInputStream( path ) ) ) {
 					return (T) kryo.readClassAndObject( secondInput );
 				}
 				// remove until here
