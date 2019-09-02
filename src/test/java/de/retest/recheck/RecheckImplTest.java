@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -58,8 +59,8 @@ public class RecheckImplTest {
 			// Ignore Exceptions, fear AssertionErrors...
 		}
 
-		verify( fileNamerStrategy ).createFileNamer( eq( fileNamerStrategy.getTestClassName() ) );
-		verify( fileNamerStrategy ).createFileNamer( endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
+		verify( fileNamerStrategy, atLeastOnce() ).createFileNamer( eq( fileNamerStrategy.getTestClassName() ) );
+		verify( fileNamerStrategy, atLeastOnce() ).createFileNamer( endsWith( ".!@#_$^&)te}{_____xt!(@_$" ) );
 	}
 
 	@Test
