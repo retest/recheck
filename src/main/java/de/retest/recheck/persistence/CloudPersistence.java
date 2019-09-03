@@ -52,7 +52,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		final Response uploadResponse = client.newCall( uploadRequest ).execute();
 
 		if ( uploadResponse.isSuccessful() ) {
-			log.info( "Sucessfully uploaded report to rehub" );
+			log.info( "Successfully uploaded report to rehub" );
 		}
 	}
 
