@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
+	public static final String FILTER_JS_EXTENSION = ".filter.js";
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
@@ -83,7 +84,8 @@ public class SearchFilterFiles {
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
-					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
+					.filter( file -> file.toString().endsWith( FILTER_EXTENSION )
+							|| file.toString().endsWith( FILTER_JS_EXTENSION ) ) //
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final NoSuchFileException e ) {

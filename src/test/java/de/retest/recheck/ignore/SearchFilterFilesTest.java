@@ -49,14 +49,14 @@ class SearchFilterFilesTest {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 		final Path someFilter = filterFolder.resolve( "some.filter" );
 		Files.createFile( someFilter );
-		final Path anotherFilter = filterFolder.resolve( "another.filter" );
+		final Path anotherFilter = filterFolder.resolve( "another.filter.js" );
 		Files.createFile( anotherFilter );
 
 		final List<Pair<String, FilterLoader>> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
 		final List<String> actualFilterFileNames = projectFilterFiles.stream() //
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
-		final List<String> expectedFilterFileNames = Arrays.asList( "another.filter", "some.filter" );
+		final List<String> expectedFilterFileNames = Arrays.asList( "another.filter.js", "some.filter" );
 		assertThat( actualFilterFileNames ).isEqualTo( expectedFilterFileNames );
 	}
 
