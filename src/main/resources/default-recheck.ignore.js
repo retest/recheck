@@ -19,4 +19,4 @@
 //}
 
 // You can find more details and example rules at: 
-// https://retest.github.io/docs/recheck/how-ignore-works-in-recheck/
+// https://docs.retest.de/recheck/how-ignore-works/
