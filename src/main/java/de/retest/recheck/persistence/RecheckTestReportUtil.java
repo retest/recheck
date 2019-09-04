@@ -13,7 +13,6 @@ import de.retest.recheck.Properties;
 import de.retest.recheck.SuiteAggregator;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
-import de.retest.recheck.util.FileUtil;
 
 public class RecheckTestReportUtil {
 
@@ -25,7 +24,7 @@ public class RecheckTestReportUtil {
 	}
 
 	public static void persist( final SuiteReplayResult suite, final File file ) {
-		logger.info( "Persisting test report to file '{}'.", FileUtil.canonicalPathQuietly( file ) );
+		logger.info( "Persisting test report to file '{}'.", file.getAbsoluteFile().toURI() );
 		try {
 			// Save separate test report for suite.
 			persistenceFactory.getPersistence().save( file.toURI(), TestReport.fromApi( suite ) );
