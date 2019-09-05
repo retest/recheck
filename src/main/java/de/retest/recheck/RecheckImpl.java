@@ -24,7 +24,6 @@ import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.report.TestReportFilter;
-import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.LeafDifference;
@@ -173,7 +172,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite.addTest( currentTestResult );
 		final TestReplayResult finishedTestResult = TestReportFilter.filter( currentTestResult, filter );
 		currentTestResult = null;
-		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences( Filter.FILTER_NOTHING );
+		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences();
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
 				finishedTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {

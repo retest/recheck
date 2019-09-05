@@ -6,6 +6,12 @@ import static org.mockito.Mockito.mock;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
+import static org.mockito.Mockito.when;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import de.retest.recheck.ui.diff.LeafDifference;
 
 class TestReplayResultTest {
 
@@ -33,5 +39,22 @@ class TestReplayResultTest {
 		cut.addAction( mock( NoGoldenMasterActionReplayResult.class ) );
 
 		assertThat( cut.hasNoGoldenMaster() ).isTrue();
+	}
+
+	@Test
+	void getDifferences_should_retrieve_all_child_differences() {
+		final TestReplayResult cut = new TestReplayResult( "foo", 5 );
+		cut.addAction( action() );
+		cut.addAction( action() );
+		cut.addAction( action() );
+
+		assertThat( cut.getDifferences() ).hasSize( 15 );
+	}
+
+	private ActionReplayResult action() {
+		final ActionReplayResult replayResult = mock( ActionReplayResult.class );
+		when( replayResult.getDifferences() ).thenReturn(
+				Stream.generate( () -> mock( LeafDifference.class ) ).limit( 5 ).collect( Collectors.toSet() ) );
+		return replayResult;
 	}
 }

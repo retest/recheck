@@ -9,23 +9,20 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.TestReport;
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
+import de.retest.recheck.report.TestReport;
+import de.retest.recheck.review.counter.Counter;
+import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
-import de.retest.recheck.review.counter.Counter;
-import de.retest.recheck.review.counter.NopCounter;
 
 public class GlobalChangeSetApplier {
-
-	private static final Filter SHOULD_FILTER_NOTHING = null;
 
 	private final Counter counter;
 
@@ -49,8 +46,7 @@ public class GlobalChangeSetApplier {
 
 	// Replay result lookup maps.
 
-	private final Multimap<ImmutablePair<IdentifyingAttributes, AttributeDifference>, ActionReplayResult>
-			attributeDiffsLookupMap;
+	private final Multimap<ImmutablePair<IdentifyingAttributes, AttributeDifference>, ActionReplayResult> attributeDiffsLookupMap;
 	private final Multimap<Element, ActionReplayResult> insertedDiffsLookupMap;
 	private final Multimap<IdentifyingAttributes, ActionReplayResult> deletedDiffsLookupMap;
 
@@ -84,8 +80,7 @@ public class GlobalChangeSetApplier {
 	private void fillAttributeDifferencesLookupMap( final ActionReplayResult actionReplayResult,
 			final ElementDifference elementDiff ) {
 		final IdentifyingAttributes identifyingAttributes = elementDiff.getIdentifyingAttributes();
-		for ( final AttributeDifference attributeDifference : elementDiff.getAttributeDifferences(
-				SHOULD_FILTER_NOTHING ) ) {
+		for ( final AttributeDifference attributeDifference : elementDiff.getAttributeDifferences() ) {
 			attributeDiffsLookupMap.put( ImmutablePair.of( identifyingAttributes, attributeDifference ),
 					actionReplayResult );
 		}
@@ -114,8 +109,8 @@ public class GlobalChangeSetApplier {
 
 	public void addChangeSetForAllEqualIdentAttributeChanges( final IdentifyingAttributes identifyingAttributes,
 			final AttributeDifference attributeDifference ) {
-		final Collection<ActionReplayResult> actionResultsWithDiffs = findAllActionResultsWithEqualDifferences(
-				identifyingAttributes, attributeDifference );
+		final Collection<ActionReplayResult> actionResultsWithDiffs =
+				findAllActionResultsWithEqualDifferences( identifyingAttributes, attributeDifference );
 		assert !actionResultsWithDiffs.isEmpty() : "Should have been added during load and thus not be empty!";
 		for ( final ActionReplayResult actionReplayResult : actionResultsWithDiffs ) {
 			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
@@ -139,8 +134,8 @@ public class GlobalChangeSetApplier {
 			final AttributeDifference attributeDifference ) {
 		for ( final ActionReplayResult actionReplayResult : findAllActionResultsWithEqualDifferences(
 				identifyingAttributes, attributeDifference ) ) {
-			findCorrespondingActionChangeSet( actionReplayResult ).getIdentAttributeChanges().remove(
-					identifyingAttributes, attributeDifference );
+			findCorrespondingActionChangeSet( actionReplayResult ).getIdentAttributeChanges()
+					.remove( identifyingAttributes, attributeDifference );
 		}
 		counter.remove();
 	}

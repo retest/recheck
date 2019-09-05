@@ -1,6 +1,5 @@
 package de.retest.recheck.execution;
 
-import static de.retest.recheck.ignore.Filter.FILTER_NOTHING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,7 +40,7 @@ class RecheckDifferenceFinderTest {
 		final ActionReplayResult differences = cut.findDifferences( actual, expected );
 
 		assertThat( differences.hasDifferences() ).isTrue();
-		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 1 );
+		assertThat( differences.getDifferences() ).hasSize( 1 );
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();
 	}
@@ -69,7 +68,7 @@ class RecheckDifferenceFinderTest {
 		final ActionReplayResult differences = cut.findDifferences( actual, expected );
 
 		assertThat( differences.hasDifferences() ).isFalse();
-		assertThat( differences.getDifferencesWithout( FILTER_NOTHING ) ).hasSize( 0 );
+		assertThat( differences.getDifferences() ).hasSize( 0 );
 		assertThat( differences.getStateDifference() ).isNull();
 		assertThat( differences.getWindows() ).isNotEmpty();
 	}

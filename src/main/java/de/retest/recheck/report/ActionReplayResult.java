@@ -201,12 +201,26 @@ public class ActionReplayResult implements Serializable {
 		return differences;
 	}
 
+	@Deprecated
 	public Set<LeafDifference> getDifferencesWithout( final Filter filter ) {
 		final Set<LeafDifference> result = new HashSet<>();
 		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
 			if ( !filter.matches( elementDifference.getElement() ) ) {
 				result.addAll( elementDifference.getAttributeDifferences( filter ) );
 			}
+			final LeafDifference identifyingAttributesDifference =
+					elementDifference.getIdentifyingAttributesDifference();
+			if ( identifyingAttributesDifference instanceof InsertedDeletedElementDifference ) {
+				result.add( identifyingAttributesDifference );
+			}
+		}
+		return result;
+	}
+
+	public Set<LeafDifference> getDifferences() {
+		final Set<LeafDifference> result = new HashSet<>();
+		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
+			result.addAll( elementDifference.getAttributeDifferences() );
 			final LeafDifference identifyingAttributesDifference =
 					elementDifference.getIdentifyingAttributesDifference();
 			if ( identifyingAttributesDifference instanceof InsertedDeletedElementDifference ) {
