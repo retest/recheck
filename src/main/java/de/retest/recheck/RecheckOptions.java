@@ -93,8 +93,7 @@ public class RecheckOptions {
 		private Filter ignoreFilter = null;
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
-		private RecheckOptionsBuilder() {
-		}
+		private RecheckOptionsBuilder() {}
 
 		/**
 		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report files.
@@ -136,16 +135,20 @@ public class RecheckOptions {
 		 * Overwrites the filter used for printing the report after a test. The filter cannot be used in conjunction
 		 * with {@link #addIgnore(String)}.
 		 *
-		 * @param filtername
+		 * @param filterName
 		 *            The filter to use for printing the differences. Default: Loads the ignore files.
 		 * @return self
 		 */
-		public RecheckOptionsBuilder setIgnore( final String filtername ) {
-			if ( filtername == null ) {
-				ignoreFilter = Filter.FILTER_NOTHING;
-			} else {
-				ignoreFilter = getFilterByName( filtername );
-			}
+		public RecheckOptionsBuilder setIgnore( final String filterName ) {
+			ignoreFilter = getFilterByName( filterName );
+			return this;
+		}
+
+		/**
+		 * Use to use not ignore anything.
+		 */
+		public RecheckOptionsBuilder ignoreNothing() {
+			ignoreFilter = Filter.FILTER_NOTHING;
 			return this;
 		}
 
@@ -161,7 +164,7 @@ public class RecheckOptions {
 
 		/**
 		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
-		 * {@link #setIgnore(String filter)}.
+		 * {@link #setIgnore(String)}.
 		 *
 		 * @param filtername
 		 *            The filter to add to the ignore.
