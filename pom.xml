@@ -177,8 +177,7 @@
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<!-- later versions cause JAXBExceptions -->
-			<version>2.5.2</version>
+			<version>2.7.4</version>
 		</dependency>
 
 		<dependency>
