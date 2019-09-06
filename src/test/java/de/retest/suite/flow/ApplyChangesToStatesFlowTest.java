@@ -11,7 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ProvideSystemProperty;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
@@ -36,8 +36,7 @@ public class ApplyChangesToStatesFlowTest {
 	public TemporaryFolder temp = new TemporaryFolder();
 
 	@Rule
-	public final ProvideSystemProperty recheckDirProp =
-			new ProvideSystemProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, null );
+	public final RestoreSystemProperties recheckDirProp = new RestoreSystemProperties();
 
 	@Before
 	public void setUp() throws Exception {
