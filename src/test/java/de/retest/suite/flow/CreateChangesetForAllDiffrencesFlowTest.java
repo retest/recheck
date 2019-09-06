@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.junit.rules.TemporaryFolder;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
@@ -25,7 +26,6 @@ import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.review.ReviewResult;
 import de.retest.recheck.ui.review.SuiteChangeSet;
-import de.retest.recheck.util.junit.vintage.SystemProperty;
 
 public class CreateChangesetForAllDiffrencesFlowTest {
 
@@ -42,11 +42,11 @@ public class CreateChangesetForAllDiffrencesFlowTest {
 	public TemporaryFolder temp = new TemporaryFolder();
 
 	@Rule
-	public SystemProperty recheckDirProp = new SystemProperty( ProjectConfiguration.RETEST_PROJECT_ROOT );
+	public RestoreSystemProperties recheckDirProp = new RestoreSystemProperties();
 
 	@Before
 	public void setUp() throws Exception {
-		recheckDirProp.setValue( temp.getRoot().getAbsolutePath().toString() );
+		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, temp.getRoot().getAbsolutePath().toString() );
 		Files.createDirectories( temp.getRoot().toPath().resolve( "src/test/java" ) );
 		final PersistenceFactory persistenceFactory =
 				new PersistenceFactory( new HashSet<>( Arrays.asList( StdXmlClassesProvider.getXmlDataClasses() ) ) );
