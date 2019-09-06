@@ -17,3 +17,6 @@ retest-gmbh-gpg.asc
 
 # jqwik database to store data of previous runs
 .jqwik-database
+
+# ApprovalTests.
+**/*.received.*
