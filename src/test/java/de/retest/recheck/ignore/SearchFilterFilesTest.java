@@ -49,14 +49,14 @@ class SearchFilterFilesTest {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 		final Path someFilter = filterFolder.resolve( "some.filter" );
 		Files.createFile( someFilter );
-		final Path anotherFilter = filterFolder.resolve( "another.filter" );
+		final Path anotherFilter = filterFolder.resolve( "another.filter.js" );
 		Files.createFile( anotherFilter );
 
 		final List<Pair<String, FilterLoader>> projectFilterFiles = SearchFilterFiles.getProjectFilterFiles();
 		final List<String> actualFilterFileNames = projectFilterFiles.stream() //
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
-		final List<String> expectedFilterFileNames = Arrays.asList( "another.filter", "some.filter" );
+		final List<String> expectedFilterFileNames = Arrays.asList( "another.filter.js", "some.filter" );
 		assertThat( actualFilterFileNames ).isEqualTo( expectedFilterFileNames );
 	}
 
@@ -81,5 +81,25 @@ class SearchFilterFilesTest {
 		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
 		final CompoundFilter actualPositioningFilter = (CompoundFilter) mapping.get( posFilterFileName );
 		assertThat( actualPositioningFilter.getFilters() ).isEmpty();
+	}
+
+	@Test
+	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	void getFilterByName_should_return_user_filter_with_given_name_over_default_filter() throws IOException {
+		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
+		final Path positioningFilter = filterFolder.resolve( "content.filter" );
+		Files.createFile( positioningFilter );
+
+		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
+		assertThat( result ).isNotNull();
+		assertThat( result.toString() ).isEqualTo( "CompoundFilter(filters=[])" );
+	}
+
+	@Test
+	void getFilterByName_should_return_default_filter_with_given_name() {
+		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
+		assertThat( result ).isNotNull();
+		assertThat( result.toString() ).isEqualTo(
+				"CompoundFilter(filters=[# Filter file for recheck that will filter content, , attribute=text])" );
 	}
 }

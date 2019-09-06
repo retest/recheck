@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import static de.retest.recheck.ignore.SearchFilterFiles.getFilterByName;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +33,7 @@ public class RecheckOptions {
 	/**
 	 * Gets the configured {@link FileNamerStrategy} which should be used to identify the tests, locate the golden
 	 * masters and report files.
-	 * 
+	 *
 	 * @return The {@link FileNamerStrategy} to use for locating golden masters and reports.
 	 */
 	public FileNamerStrategy getFileNamerStrategy() {
@@ -74,7 +76,7 @@ public class RecheckOptions {
 		return new CompoundFilter( Arrays.asList( //
 				filter, //
 				RecheckIgnoreUtil.loadRecheckIgnore(), //
-				RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() )  //
+				RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) //
 		) );
 	}
 
@@ -88,8 +90,8 @@ public class RecheckOptions {
 		private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
-		private Filter filter = null;
-		private final List<Filter> filterToAdd = new ArrayList<>();
+		private Filter ignoreFilter = null;
+		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
 		private RecheckOptionsBuilder() {}
 
@@ -131,38 +133,58 @@ public class RecheckOptions {
 
 		/**
 		 * Overwrites the filter used for printing the report after a test. The filter cannot be used in conjunction
-		 * with {@link #addFilter(Filter)}.
+		 * with {@link #addIgnore(String)}.
 		 *
-		 * @param filter
+		 * @param filterName
 		 *            The filter to use for printing the differences. Default: Loads the ignore files.
 		 * @return self
 		 */
-		public RecheckOptionsBuilder setFilter( final Filter filter ) {
-			this.filter = filter;
+		public RecheckOptionsBuilder setIgnore( final String filterName ) {
+			ignoreFilter = getFilterByName( filterName );
+			return this;
+		}
+
+		/**
+		 * Use to use not ignore anything.
+		 */
+		public RecheckOptionsBuilder ignoreNothing() {
+			ignoreFilter = Filter.FILTER_NOTHING;
+			return this;
+		}
+
+		/**
+		 * This creates volatile filters, that make the test pass, but where that state of no differences cannot be
+		 * reproduced with neither the review GUI nor the CLI. Therefore it is strongly discouraged that this be used by
+		 * customers—it should only be used for internal tests.
+		 */
+		RecheckOptionsBuilder setIgnore( final Filter filter ) {
+			ignoreFilter = filter;
 			return this;
 		}
 
 		/**
 		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
-		 * {@link #setFilter(Filter)}.
+		 * {@link #setIgnore(String)}.
 		 *
-		 * @param added
-		 *            The filter to add.
+		 * @param filtername
+		 *            The filter to add to the ignore.
 		 * @return self
-		 * @see #setFilter(Filter)
+		 * @see #setIgnore(String)
 		 */
-		public RecheckOptionsBuilder addFilter( final Filter added ) {
-			if ( filter == null ) {
-				filterToAdd.add( added );
+		public RecheckOptionsBuilder addIgnore( final String filtername ) {
+			if ( ignoreFilter == null ) {
+				ignoreFilterToAdd.add( getFilterByName( filtername ) );
 			} else {
-				throw new IllegalStateException( "Cannot combine `setFilter(Filter)` and `addFilter(Filter)`." );
+				throw new IllegalStateException(
+						"Cannot combine `setIgnore(filtername)` and `addIgnore(filtername)`." );
 			}
 			return this;
 		}
 
 		public RecheckOptions build() {
 			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled,
-					filter != null ? filter : new CompoundFilter( filterToAdd ), filter == null );
+					ignoreFilter != null ? ignoreFilter : new CompoundFilter( ignoreFilterToAdd ),
+					ignoreFilter == null );
 		}
 	}
 }

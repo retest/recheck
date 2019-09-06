@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
+	public static final String FILTER_JS_EXTENSION = ".filter.js";
 	private static final String BASIC_FILTER_DIR = "/filter/";
 	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
 	private static final List<String> defaultWebFilter =
@@ -83,7 +85,7 @@ public class SearchFilterFiles {
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
-					.filter( file -> file.toString().endsWith( FILTER_EXTENSION ) ) //
+					.filter( isFilterFile() ) //
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final NoSuchFileException e ) {
@@ -92,6 +94,10 @@ public class SearchFilterFiles {
 			log.error( "Exception accessing project filter folder '{}'.", directory, e );
 		}
 		return Collections.emptyList();
+	}
+
+	private static Predicate<? super Path> isFilterFile() {
+		return file -> file.toString().endsWith( FILTER_EXTENSION ) || file.toString().endsWith( FILTER_JS_EXTENSION );
 	}
 
 	/**
@@ -120,5 +126,19 @@ public class SearchFilterFiles {
 
 	private static String getFileName( final Path path ) {
 		return path.getFileName().toString();
+	}
+
+	public static Filter getFilterByName( final String name ) {
+		final Filter result = toFileNameFilterMapping().get( name );
+		if ( result == null ) {
+			final String projectFilter = ProjectConfiguration.getInstance().getProjectConfigFolder() //
+					.map( path -> path.resolve( FILTER_FOLDER ) ) //
+					.map( Path::toAbsolutePath ) //
+					.map( Path::toString ) //
+					.orElse( "project not set" );
+
+			throw new FilterNotFoundException( name, projectFilter );
+		}
+		return result;
 	}
 }

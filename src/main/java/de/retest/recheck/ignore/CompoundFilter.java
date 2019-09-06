@@ -6,9 +6,13 @@ import java.util.List;
 
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class CompoundFilter implements Filter {
 
+	@Getter
 	private final List<Filter> filters;
 
 	public CompoundFilter() {
@@ -42,9 +46,4 @@ public class CompoundFilter implements Filter {
 		}
 		return false;
 	}
-
-	public List<Filter> getFilters() {
-		return filters;
-	}
-
 }
