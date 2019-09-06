@@ -15,7 +15,7 @@ import de.retest.recheck.ui.descriptors.SutState;
 class XmlTransformerTest {
 
 	@Test
-	void test() throws Exception {
+	void should_not_mix_data_from_multiple_xml_files() throws Exception {
 		final String base = "src/test/resources/de/retest/recheck/persistence/xml/";
 
 		final XmlTransformer cut = new XmlTransformer( StdXmlClassesProvider.getXmlDataClasses() );
