@@ -14,18 +14,18 @@ import de.retest.recheck.ui.descriptors.SutState;
 
 class XmlTransformerTest {
 
+	private static final String TEST_RESOURCES_BASE_PATH = "src/test/resources/de/retest/recheck/persistence/xml/";
+
 	@Test
 	void should_not_mix_data_from_multiple_xml_files() throws Exception {
-		final String base = "src/test/resources/de/retest/recheck/persistence/xml/";
-
 		final XmlTransformer cut = new XmlTransformer( StdXmlClassesProvider.getXmlDataClasses() );
 
 		// Load first XML (we don't care about the result).
-		final Path state0 = Paths.get( base, "XmlTransformerTest.test.state0.xml" );
+		final Path state0 = Paths.get( TEST_RESOURCES_BASE_PATH, "XmlTransformerTest.test.state0.xml" );
 		cut.fromXML( Files.newInputStream( state0 ), null );
 
 		// Load second XML.
-		final Path state1 = Paths.get( base, "XmlTransformerTest.test.state1.xml" );
+		final Path state1 = Paths.get( TEST_RESOURCES_BASE_PATH, "XmlTransformerTest.test.state1.xml" );
 		@SuppressWarnings( "unchecked" )
 		final ReTestXmlDataContainer<SutState> result =
 				(ReTestXmlDataContainer<SutState>) cut.fromXML( Files.newInputStream( state1 ), null );
