@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="1.4.0" dataType="de.retest.recheck.ui.descriptors.SutState" dataTypeVersion="4">
+	<data xsi:type="sutState">
+		<descriptors retestId="html" screenId="1" screen="Retest - GUI Test Automation Software" title="Retest - GUI Test Automation Software">
+			<containedElements retestId="head">
+				<containedElements retestId="meta-91ea5">
+					<identifyingAttributes>
+						<attributes>
+							<attribute key="absolute-outline" xsi:type="outlineAttribute">
+								<x>0</x>
+								<y>0</y>
+								<height>0</height>
+								<width>0</width>
+							</attribute>
+							<attribute key="name" xsi:type="stringAttribute">viewport</attribute>
+							<attribute key="outline" xsi:type="outlineAttribute">
+								<x>0</x>
+								<y>0</y>
+								<height>0</height>
+								<width>0</width>
+							</attribute>
+							<attribute key="path" xsi:type="pathAttribute">html[1]/head[1]/meta[3]</attribute>
+							<attribute key="suffix" xsi:type="suffixAttribute">3</attribute>
+							<attribute key="type" xsi:type="stringAttribute">meta</attribute>
+						</attributes>
+					</identifyingAttributes>
+					<attributes>
+						<attributes>
+							<entry>
+								<key>content</key>
+								<value xsi:type="xsd:string">width=device-width, initial-scale=1</value>
+							</entry>
+							<entry>
+								<key>shown</key>
+								<value xsi:type="xsd:string">false</value>
+							</entry>
+						</attributes>
+					</attributes>
+				</containedElements>
+			</containedElements>
+		</descriptors>
+	</data>
+</reTestXmlDataContainer>

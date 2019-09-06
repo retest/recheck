@@ -39,11 +39,11 @@ public class XmlTransformer {
 	}
 
 	private final XmlTransformerConfig[] config;
-	private final JAXBContext jc;
+	private final Class<?>[] additionalClazzes;
 
 	public XmlTransformer( final Class<?>[] additionalClazzes, final XmlTransformerConfig... config ) {
+		this.additionalClazzes = additionalClazzes;
 		this.config = config;
-		jc = createJAXBContext( additionalClazzes );
 	}
 
 	public XmlTransformer( final XmlTransformerConfig config, final Class<?>... additionalClazzes ) {
@@ -68,6 +68,7 @@ public class XmlTransformer {
 
 	public <T> T fromXML( final InputStream in, final Unmarshaller.Listener listener ) {
 		try {
+			final JAXBContext jc = createJAXBContext( additionalClazzes );
 			final Unmarshaller unmarshaller = jc.createUnmarshaller();
 			unmarshaller.setEventHandler( new DefaultValidationEventHandler() );
 			unmarshaller.setListener( listener );
@@ -91,6 +92,7 @@ public class XmlTransformer {
 	public void toXML( final Object obj, final OutputStream out, final Marshaller.Listener listener ) {
 		Marshaller marshaller = null;
 		try {
+			final JAXBContext jc = createJAXBContext( additionalClazzes );
 			marshaller = jc.createMarshaller();
 			marshaller.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, true );
 			marshaller.setProperty( MarshallerProperties.NAMESPACE_PREFIX_MAPPER,
@@ -140,7 +142,13 @@ public class XmlTransformer {
 	}
 
 	/**
-	 * Use well defined JAXB class context, so we don't interfere with some SUT-configured context.
+	 * Use a well-defined JAXB class context, so we don't interfere with some SUT-configured context. Although a context
+	 * <a href=https://stackoverflow.com/a/7400735>"should only be created once and reused"</a>, this fails the
+	 * corresponding test for this class.
+	 *
+	 * @param additionalClazzes
+	 *            Classes to be bound.
+	 * @return A sparkling fresh {@code JAXBContext}.
 	 */
 	private JAXBContext createJAXBContext( final Class<?>... additionalClazzes ) {
 		try {
