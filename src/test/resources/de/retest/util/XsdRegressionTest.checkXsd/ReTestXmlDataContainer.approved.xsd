@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="reTestXmlDataContainer">
+      <xsd:sequence>
+         <xsd:element name="data" type="xsd:anyType" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="reTestVersion" type="xsd:string"/>
+      <xsd:attribute name="dataType" type="xsd:string"/>
+      <xsd:attribute name="dataTypeVersion" type="xsd:int" use="required"/>
+   </xsd:complexType>
+   <xsd:element name="reTestXmlDataContainer" type="reTestXmlDataContainer"/>
+</xsd:schema>

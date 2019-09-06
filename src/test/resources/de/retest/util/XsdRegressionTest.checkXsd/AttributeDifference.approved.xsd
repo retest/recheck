@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="elementIdentificationWarning">
+      <xsd:sequence/>
+      <xsd:attribute name="elementIdentifier" type="xsd:string"/>
+      <xsd:attribute name="testClassName" type="xsd:string"/>
+      <xsd:attribute name="retestId" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="attributeDifference">
+      <xsd:sequence>
+         <xsd:element name="expected" type="xsd:anyType" minOccurs="0"/>
+         <xsd:element name="actual" type="xsd:anyType" minOccurs="0"/>
+         <xsd:element name="elementIdentificationWarning" type="elementIdentificationWarning" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="key" type="xsd:string"/>
+      <xsd:attribute name="attributeDifferenceId" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:element name="attributeDifference" type="attributeDifference"/>
+</xsd:schema>

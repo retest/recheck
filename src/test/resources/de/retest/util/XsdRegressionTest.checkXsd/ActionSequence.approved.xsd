@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="action" abstract="true"/>
+   <xsd:complexType name="persistable" abstract="true"/>
+   <xsd:complexType name="actionSequence">
+      <xsd:complexContent>
+         <xsd:extension base="persistable">
+            <xsd:sequence>
+               <xsd:any processContents="lax" namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element name="testName" type="xsd:string" minOccurs="0"/>
+               <xsd:element name="groundState" type="groundState" minOccurs="0"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="groundState">
+      <xsd:sequence>
+         <xsd:element name="sutVersion" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="executionDate" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="randomSeed" type="xsd:long"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="actionSequence" type="actionSequence"/>
+   <xsd:element name="groundState" type="groundState"/>
+</xsd:schema>
