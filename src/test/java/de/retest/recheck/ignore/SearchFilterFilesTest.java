@@ -82,4 +82,24 @@ class SearchFilterFilesTest {
 		final CompoundFilter actualPositioningFilter = (CompoundFilter) mapping.get( posFilterFileName );
 		assertThat( actualPositioningFilter.getFilters() ).isEmpty();
 	}
+
+	@Test
+	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	void getFilterByName_should_return_user_filter_with_given_name_over_default_filter() throws IOException {
+		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
+		final Path positioningFilter = filterFolder.resolve( "content.filter" );
+		Files.createFile( positioningFilter );
+
+		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
+		assertThat( result ).isNotNull();
+		assertThat( result.toString() ).isEqualTo( "CompoundFilter(filters=[])" );
+	}
+
+	@Test
+	void getFilterByName_should_return_default_filter_with_given_name() {
+		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
+		assertThat( result ).isNotNull();
+		assertThat( result.toString() ).isEqualTo(
+				"CompoundFilter(filters=[# Filter file for recheck that will filter content, , attribute=text])" );
+	}
 }
