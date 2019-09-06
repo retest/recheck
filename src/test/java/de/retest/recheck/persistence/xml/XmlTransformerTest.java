@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.SutState;
 
@@ -18,7 +17,7 @@ class XmlTransformerTest {
 
 	@Test
 	void should_not_mix_data_from_multiple_xml_files() throws Exception {
-		final XmlTransformer cut = new XmlTransformer( StdXmlClassesProvider.getXmlDataClasses() );
+		final XmlTransformer cut = new XmlTransformer();
 
 		// Load first XML (we don't care about the result).
 		final Path state0 = Paths.get( TEST_RESOURCES_BASE_PATH, "XmlTransformerTest.test.state0.xml" );
