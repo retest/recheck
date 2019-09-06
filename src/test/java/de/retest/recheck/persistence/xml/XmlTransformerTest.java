@@ -32,7 +32,7 @@ class XmlTransformerTest {
 		final Element meta3 = result.data() // SutState
 				.getRootElements().get( 0 ) // html[1]
 				.getContainedElements().get( 0 ) // head[1]
-				.getContainedElements().get( 1 ); // meta[3]
+				.getContainedElements().get( 0 ); // meta[3]
 
 		/*
 		 * XXX See path in line 130, retest ID in line 114, both in state1.xml. If we reuse the JAXBContext in
