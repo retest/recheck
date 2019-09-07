@@ -17,7 +17,16 @@ public interface FileNamerStrategy {
 	 *            the base names to be used
 	 * @return a file namer using the given base names
 	 */
-	FileNamer createFileNamer( String... baseNames );
+	FileNamer createFileNamer();
+
+	/**
+	 * @deprecated Because the old FileNamer mechanism was hard to understand and implement. Use
+	 *             {@link #createFileNamer()} instead.
+	 */
+	@Deprecated
+	default FileNamer createFileNamer( final String... baseNames ) {
+		return createFileNamer();
+	}
 
 	/**
 	 * Determines the current test class name.
