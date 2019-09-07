@@ -103,7 +103,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	@Override
 	public void startTest() {
-		startTest( fileNamerStrategy.getTestMethodName() );
+		startTest( fileNamerStrategy.getTestName() );
 	}
 
 	@Override

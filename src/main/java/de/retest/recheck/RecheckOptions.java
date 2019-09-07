@@ -78,7 +78,7 @@ public class RecheckOptions {
 		if ( suiteName != null ) {
 			return suiteName;
 		}
-		return fileNamerStrategy.getTestClassName();
+		return fileNamerStrategy.getSuiteName();
 	}
 
 	/**

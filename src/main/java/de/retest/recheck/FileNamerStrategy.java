@@ -29,10 +29,27 @@ public interface FileNamerStrategy {
 	}
 
 	/**
-	 * Determines the current test class name.
+	 * Determines the suite name.
 	 *
-	 * @return name of the current test class
+	 * @return name of the current test suite
 	 */
+	default String getSuiteName() {
+		return getTestClassName();
+	}
+
+	/**
+	 * Determines the test name.
+	 *
+	 * @return name of the current test
+	 */
+	default String getTestName() {
+		return getTestMethodName();
+	}
+
+	/**
+	 * @deprecated Use {@link #getSuiteName()} instead.
+	 */
+	@Deprecated
 	default String getTestClassName() {
 		return TestCaseFinder.getInstance() //
 				.findTestCaseClassNameInStack() //
@@ -42,10 +59,9 @@ public interface FileNamerStrategy {
 	}
 
 	/**
-	 * Determines the current test method name.
-	 *
-	 * @return name of the current test method
+	 * @deprecated Use {@link #getTestName()} instead.
 	 */
+	@Deprecated
 	default String getTestMethodName() {
 		return TestCaseFinder.getInstance() //
 				.findTestCaseMethodNameInStack() //
