@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 /**
  * This class configures the behaviour of {@link Recheck} and their implementations.
  */
-@AllArgsConstructor( access = AccessLevel.PRIVATE )
+@AllArgsConstructor( access = AccessLevel.PROTECTED )
 public class RecheckOptions {
 
 	private final FileNamerStrategy fileNamerStrategy;
