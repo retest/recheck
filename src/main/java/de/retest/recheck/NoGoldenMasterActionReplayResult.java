@@ -43,6 +43,8 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 	public Set<LeafDifference> getDifferencesWithout( final Filter filter ) {
 		return Collections.singleton( new LeafDifference() {
 
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public int size() {
 				return 0;
