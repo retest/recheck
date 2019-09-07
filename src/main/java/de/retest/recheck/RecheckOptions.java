@@ -93,7 +93,7 @@ public class RecheckOptions {
 		private Filter ignoreFilter = null;
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
-		private RecheckOptionsBuilder() {}
+		protected RecheckOptionsBuilder() {}
 
 		/**
 		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report files.
