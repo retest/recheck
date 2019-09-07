@@ -26,6 +26,14 @@ public class RecheckOptions {
 	private final Filter filter;
 	private final boolean addDefaultFilters;
 
+	public RecheckOptions( final RecheckOptions superOptions ) {
+		fileNamerStrategy = superOptions.fileNamerStrategy;
+		suiteName = superOptions.suiteName;
+		reportUploadEnabled = superOptions.reportUploadEnabled;
+		filter = superOptions.filter;
+		addDefaultFilters = superOptions.addDefaultFilters;
+	}
+
 	public static RecheckOptionsBuilder builder() {
 		return new RecheckOptionsBuilder();
 	}
