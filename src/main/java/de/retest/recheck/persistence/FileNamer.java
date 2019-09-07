@@ -1,8 +1,13 @@
 package de.retest.recheck.persistence;
 
-import java.io.File;
+import static de.retest.recheck.Properties.GOLDEN_MASTER_FILE_EXTENSION;
+import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
 
-import de.retest.recheck.Properties;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides file names, respectively, file paths for both Golden Masters and test reports.
@@ -37,4 +42,29 @@ public interface FileNamer {
 		throw new UnsupportedOperationException( "This method should not be used." );
 	}
 
+	public static class DefaultFileNamer implements FileNamer {
+
+		private final Path goldenMasterPath;
+		private final Path reportPath;
+
+		public DefaultFileNamer( final Path goldenMasterPath, final Path reportPath ) {
+			this.goldenMasterPath = goldenMasterPath;
+			this.reportPath = reportPath;
+		}
+
+		@Override
+		public File getGoldenMaster( final String suitename, final String testname, final String checkname ) {
+			String fileName = testname + "." + checkname;
+			if ( StringUtils.isEmpty( testname ) ) {
+				fileName = checkname;
+			}
+			return goldenMasterPath.resolve( Paths.get( suitename, fileName + GOLDEN_MASTER_FILE_EXTENSION ) ).toFile();
+		}
+
+		@Override
+		public File getReport( final String suitename ) {
+			return reportPath.resolve( Paths.get( suitename + TEST_REPORT_FILE_EXTENSION ) ).toFile();
+		}
+
+	}
 }

@@ -15,26 +15,26 @@ class GradleConformFileNamerStrategyTest {
 	void files_should_be_gradle_conform() throws Exception {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy();
 
-		final FileNamer fileNamer = cut.createFileNamer( "foo", "bar" );
-		final File goldenMaster = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
-		final File resultFile = fileNamer.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+		final FileNamer fileNamer = cut.createFileNamer();
+		final File goldenMaster = fileNamer.getGoldenMaster( "foo", "", "bar" );
+		final File resultFile = fileNamer.getReport( "bar" );
 
 		assertThat( goldenMaster.getPath() ).isEqualTo( "src/test/resources/retest/recheck/foo/bar.recheck" );
-		assertThat( resultFile.getPath() ).isEqualTo( "build/test-results/test/retest/recheck/foo/bar.report" );
+		assertThat( resultFile.getPath() ).isEqualTo( "build/test-results/test/retest/recheck/bar.report" );
 	}
 
 	@Test
 	void files_should_be_in_the_correct_source_set() {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy( "integrationTest" );
 
-		final FileNamer fileNamer = cut.createFileNamer( "foo", "bar" );
-		final File goldenMaster = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
-		final File resultFile = fileNamer.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+		final FileNamer fileNamer = cut.createFileNamer();
+		final File goldenMaster = fileNamer.getGoldenMaster( "foo", "", "bar" );
+		final File resultFile = fileNamer.getReport( "bar" );
 
 		assertThat( goldenMaster.getPath() )
 				.isEqualTo( "src/integrationTest/resources/retest/recheck/foo/bar.recheck" );
 		assertThat( resultFile.getPath() )
-				.isEqualTo( "build/test-results/integrationTest/retest/recheck/foo/bar.report" );
+				.isEqualTo( "build/test-results/integrationTest/retest/recheck/bar.report" );
 	}
 
 	@Test

@@ -1,11 +1,14 @@
 package de.retest.recheck;
 
 import static de.retest.recheck.Properties.RECHECK_FOLDER_NAME;
+import static java.lang.String.format;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 import de.retest.recheck.persistence.FileNamer;
+import de.retest.recheck.persistence.FileNamer.DefaultFileNamer;
 
 /**
  * Gradle-conform file namer strategy that uses the following paths:
@@ -44,6 +47,19 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 	public static final String DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT = "build/test-results/%s/retest/";
 
 	@Override
+	public FileNamer createFileNamer() {
+		return new DefaultFileNamer( //
+				Paths.get( format( DEFAULT_RETEST_PROJECT_PATH_FORMAT, sourceSetName ), RECHECK_FOLDER_NAME ),
+				Paths.get( format( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, sourceSetName ), RECHECK_FOLDER_NAME ) );
+	}
+
+	/**
+	 * DO NOT USE. This method only exists for legacy reasons.
+	 *
+	 * @deprecated Use {@link #getFileNamer()} instead.
+	 */
+	@Deprecated
+	@Override
 	public FileNamer createFileNamer( final String... baseNames ) {
 		return new FileNamer() {
 			@Override
@@ -55,13 +71,26 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 			public File getResultFile( final String extension ) {
 				return toFile( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, extension, baseNames );
 			}
-		};
-	}
 
-	private File toFile( final String prefixFormat, final String extension, final String... baseNames ) {
-		final String baseName = String.join( File.separator, baseNames );
-		final String prefix = String.format( prefixFormat, sourceSetName );
-		return new File( prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
+			@Override
+			public File getGoldenMaster( final String suitename, final String testname, final String checkname ) {
+				throw new UnsupportedOperationException(
+						"This method should not be used. Call `FileNamerStrategy.getFileNamer` instead." );
+			}
+
+			@Override
+			public File getReport( final String suitename ) {
+				throw new UnsupportedOperationException(
+						"This method should not be used. Call `FileNamerStrategy.getFileNamer` instead." );
+			}
+
+			private File toFile( final String prefixFormat, final String extension, final String... baseNames ) {
+				final String baseName = String.join( File.separator, baseNames );
+				final String prefix = String.format( prefixFormat, sourceSetName );
+				return new File(
+						prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
+			}
+		};
 	}
 
 }

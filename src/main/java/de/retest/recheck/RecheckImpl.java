@@ -133,8 +133,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
 		usedFinders.put( currentStep, defaultFinder );
 
-		final FileNamer fileNamer = createFileName( currentStep );
-		final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final FileNamer fileNamer = fileNamerStrategy.createFileNamer();
+		final File file = fileNamer.getGoldenMaster( suiteName, currentTestResult.getName(), normalize( currentStep ) );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
 		final SutState expected = loadExpected( file );
@@ -160,11 +160,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	@Override
 	public SutState createNew( final File file, final SutState actual ) {
 		return RecheckSutState.createNew( file, actual );
-	}
-
-	private FileNamer createFileName( final String currentStep ) {
-		final String name = suiteName + File.separator + currentTestResult.getName() + "." + normalize( currentStep );
-		return fileNamerStrategy.createFileNamer( name );
 	}
 
 	@Override
@@ -199,7 +194,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	public File getResultFile() {
-		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+		return fileNamerStrategy.createFileNamer().getReport( suiteName );
 	}
 
 	private class CapWarner extends Thread {

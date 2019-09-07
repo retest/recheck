@@ -109,8 +109,8 @@ public class RecheckOptions {
 	}
 
 	private File getSuitePath() {
-		final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
-		return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final FileNamer fileNamer = fileNamerStrategy.createFileNamer();
+		return fileNamer.getGoldenMaster( getSuiteName(), "", "" );
 	}
 
 	public static class RecheckOptionsBuilder {

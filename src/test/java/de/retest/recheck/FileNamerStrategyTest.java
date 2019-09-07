@@ -10,7 +10,7 @@ class FileNamerStrategyTest {
 
 	class FileNamerStrategyImpl implements FileNamerStrategy {
 		@Override
-		public FileNamer createFileNamer( final String... baseNames ) {
+		public FileNamer createFileNamer() {
 			return null;
 		}
 	}
