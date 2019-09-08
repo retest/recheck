@@ -109,7 +109,7 @@ public class RecheckOptions {
 	}
 
 	private File getSuitePath() {
-		final FileNamer fileNamer = fileNamerStrategy.createFileNamer();
+		final FileNamer fileNamer = fileNamerStrategy.getFileNamer();
 		return fileNamer.getGoldenMaster( getSuiteName(), "", "" );
 	}
 

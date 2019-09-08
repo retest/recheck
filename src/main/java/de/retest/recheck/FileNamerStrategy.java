@@ -13,7 +13,7 @@ public interface FileNamerStrategy {
 	 *
 	 * @return The {@link FileNamer} to use.
 	 */
-	FileNamer createFileNamer();
+	FileNamer getFileNamer();
 
 	/**
 	 * @deprecated Because the old FileNamer mechanism was hard to understand and implement. Use {@link #getFileNamer()}
@@ -25,7 +25,7 @@ public interface FileNamerStrategy {
 	 */
 	@Deprecated
 	default FileNamer createFileNamer( final String... baseNames ) {
-		return createFileNamer();
+		return getFileNamer();
 	}
 
 	/**

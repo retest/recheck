@@ -15,7 +15,7 @@ class GradleConformFileNamerStrategyTest {
 	void files_should_be_gradle_conform() throws Exception {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy();
 
-		final FileNamer fileNamer = cut.createFileNamer();
+		final FileNamer fileNamer = cut.getFileNamer();
 		final File goldenMaster = fileNamer.getGoldenMaster( "foo", "", "bar" );
 		final File resultFile = fileNamer.getReport( "bar" );
 
@@ -27,7 +27,7 @@ class GradleConformFileNamerStrategyTest {
 	void files_should_be_in_the_correct_source_set() {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy( "integrationTest" );
 
-		final FileNamer fileNamer = cut.createFileNamer();
+		final FileNamer fileNamer = cut.getFileNamer();
 		final File goldenMaster = fileNamer.getGoldenMaster( "foo", "", "bar" );
 		final File resultFile = fileNamer.getReport( "bar" );
 

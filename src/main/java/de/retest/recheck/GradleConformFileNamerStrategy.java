@@ -47,7 +47,7 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 	public static final String DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT = "build/test-results/%s/retest/";
 
 	@Override
-	public FileNamer createFileNamer() {
+	public FileNamer getFileNamer() {
 		return new DefaultFileNamer( //
 				Paths.get( format( DEFAULT_RETEST_PROJECT_PATH_FORMAT, sourceSetName ), RECHECK_FOLDER_NAME ),
 				Paths.get( format( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, sourceSetName ), RECHECK_FOLDER_NAME ) );

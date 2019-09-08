@@ -154,7 +154,7 @@ public class RecheckImplTest {
 		}
 
 		@Override
-		public FileNamer createFileNamer() {
+		public FileNamer getFileNamer() {
 			return new DefaultFileNamer( root, root );
 		}
 

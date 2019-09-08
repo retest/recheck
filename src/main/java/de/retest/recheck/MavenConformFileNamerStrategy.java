@@ -21,7 +21,7 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 	public static final String DEFAULT_RETEST_TESTREPORTS_PATH = "target/test-classes/retest/";
 
 	@Override
-	public FileNamer createFileNamer() {
+	public FileNamer getFileNamer() {
 		return new DefaultFileNamer( Paths.get( DEFAULT_RETEST_PROJECT_PATH, RECHECK_FOLDER_NAME ),
 				Paths.get( DEFAULT_RETEST_TESTREPORTS_PATH, RECHECK_FOLDER_NAME ) );
 	}
