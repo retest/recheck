@@ -174,6 +174,8 @@ public class RecheckOptions {
 
 		/**
 		 * Use to use not ignore anything.
+		 *
+		 * @return self
 		 */
 		public RecheckOptionsBuilder ignoreNothing() {
 			ignoreFilter = Filter.FILTER_NOTHING;

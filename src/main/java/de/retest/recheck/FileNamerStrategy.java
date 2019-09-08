@@ -9,19 +9,19 @@ import de.retest.recheck.persistence.FileNamer;
 public interface FileNamerStrategy {
 
 	/**
-	 * Creates a file namer for the given base names. For Golden Master files, these typically follow the format
-	 * <code>${TEST_CLASS_NAME}/${TEST_METHOD_NAME}.${STEP_NAME}</code>, whereas test report files only use
-	 * <code>${TEST_CLASS_NAME}</code>.
+	 * Returns a {@link FileNamer}, that from given suitename, testname and checkname can construct a file.
 	 *
-	 * @param baseNames
-	 *            the base names to be used
-	 * @return a file namer using the given base names
+	 * @return The {@link FileNamer} to use.
 	 */
 	FileNamer createFileNamer();
 
 	/**
-	 * @deprecated Because the old FileNamer mechanism was hard to understand and implement. Use
-	 *             {@link #createFileNamer()} instead.
+	 * @deprecated Because the old FileNamer mechanism was hard to understand and implement. Use {@link #getFileNamer()}
+	 *             instead.
+	 *
+	 * @param baseNames
+	 *            the base names to be used
+	 * @return a file namer using the given base names
 	 */
 	@Deprecated
 	default FileNamer createFileNamer( final String... baseNames ) {
@@ -48,6 +48,8 @@ public interface FileNamerStrategy {
 
 	/**
 	 * @deprecated Use {@link #getSuiteName()} instead.
+	 *
+	 * @return The test class name from the JUnit call stack.
 	 */
 	@Deprecated
 	default String getTestClassName() {
@@ -60,6 +62,8 @@ public interface FileNamerStrategy {
 
 	/**
 	 * @deprecated Use {@link #getTestName()} instead.
+	 *
+	 * @return The test method name from the JUnit call stack.
 	 */
 	@Deprecated
 	default String getTestMethodName() {

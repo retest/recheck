@@ -11,17 +11,33 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Provides file names, respectively, file paths for both Golden Masters and test reports.
+ *
+ * With the {@link DefaultFileNamer}, these follow the format
+ * <code>${TEST_CLASS_NAME}/${TEST_METHOD_NAME}.${STEP_NAME}</code>, whereas test report files only use
+ * <code>${TEST_CLASS_NAME}</code>.
  */
 public interface FileNamer {
 
 	/**
 	 * Get the GoldenMaster file for the current check, which this interface makes no assumptions about how it is
 	 * contrived.
+	 *
+	 * @param suitename
+	 *            The name to use for the suite to construct the path for the file.
+	 * @param testname
+	 *            The name to use for the test to construct the path for the file.
+	 * @param checkname
+	 *            The name to use for the check to construct the path for the file.
+	 * @return The file to use for storing or retrieving the Golden Master with the given params.
 	 */
 	File getGoldenMaster( final String suitename, final String testname, final String checkname );
 
 	/**
 	 * @deprecated Because the extension for the Golden Master is fixed
+	 *
+	 * @param extension
+	 *            The extension to use for the file. Obsolete as the Golden Master extension cannot change.
+	 * @return The file to use for storing or retrieving the Golden Master with the given params.
 	 */
 	@Deprecated
 	default File getFile( final String extension ) {
@@ -30,18 +46,29 @@ public interface FileNamer {
 
 	/**
 	 * Get the result file for the current suite, which this interface makes no assumptions about how it is contrived.
+	 *
+	 * @param suitename
+	 *            The name to use for the suite to construct the path for the file.
+	 * @return The file to use for storing or retrieving the report with the given param.
 	 */
 	File getReport( final String suitename );
 
 	/**
 	 * @deprecated Because the extension for the result files is fixed and this method is hard to implement/override
 	 *             without explicitly passing a suitename. Use {@link #getReport(String)} instead.
+	 *
+	 * @param extension
+	 *            The extension to use for the file. Obsolete as the report extension cannot change.
+	 * @return The file to use for storing or retrieving the report with the given param.
 	 */
 	@Deprecated
 	default File getResultFile( final String extension ) {
 		throw new UnsupportedOperationException( "This method should not be used." );
 	}
 
+	/**
+	 * @see FileNamer
+	 */
 	public static class DefaultFileNamer implements FileNamer {
 
 		private final Path goldenMasterPath;
