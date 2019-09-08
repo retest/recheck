@@ -26,12 +26,32 @@ public class RecheckOptions {
 	private final Filter filter;
 	private final boolean addDefaultFilters;
 
-	public RecheckOptions( final RecheckOptions superOptions ) {
-		fileNamerStrategy = superOptions.fileNamerStrategy;
-		suiteName = superOptions.suiteName;
-		reportUploadEnabled = superOptions.reportUploadEnabled;
-		filter = superOptions.filter;
-		addDefaultFilters = superOptions.addDefaultFilters;
+	/**
+	 * Creates a shallow copy of the given options. Useful when extending the RecheckOptions to minimize dependencies on
+	 * internals.
+	 *
+	 * Example:
+	 *
+	 * <pre>
+	 * &#64;Override
+	 * public RecheckWebOptions build() {
+	 * 	return new RecheckWebOptions( super.build(), namingStrategy );
+	 * }
+	 * </pre>
+	 *
+	 * or
+	 *
+	 * <pre>
+	 * public RecheckWebOptions( final RecheckOptions superOptions,
+	 * 		final AutocheckingCheckNamingStrategy namingStrategy ) {
+	 * 	super( superOptions );
+	 * 	this.namingStrategy = namingStrategy;
+	 * }
+	 * </pre>
+	 */
+	protected RecheckOptions( final RecheckOptions toCopy ) {
+		this( toCopy.fileNamerStrategy, toCopy.suiteName, toCopy.reportUploadEnabled, toCopy.filter,
+				toCopy.addDefaultFilters );
 	}
 
 	public static RecheckOptionsBuilder builder() {
