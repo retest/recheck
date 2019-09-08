@@ -3,6 +3,7 @@ package de.retest.recheck;
 import static de.retest.recheck.Properties.RECHECK_FOLDER_NAME;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import de.retest.recheck.persistence.FileNamer;
@@ -28,7 +29,7 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 
 	/**
 	 * DO NOT USE. This method only exists for legacy reasons.
-	 * 
+	 *
 	 * @deprecated Use {@link #getFileNamer()} instead.
 	 */
 	@Deprecated
@@ -45,6 +46,12 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 				return toFile( DEFAULT_RETEST_TESTREPORTS_PATH, extension, baseNames );
 			}
 
+			private File toFile( final String prefix, final String extension, final String... baseNames ) {
+				final String baseName = String.join( File.separator, baseNames );
+				return new File(
+						prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
+			}
+
 			@Override
 			public File getGoldenMaster( final String suitename, final String testname, final String checkname ) {
 				throw new UnsupportedOperationException(
@@ -57,12 +64,11 @@ public class MavenConformFileNamerStrategy implements FileNamerStrategy {
 						"This method should not be used. Call `FileNamerStrategy.getFileNamer` instead." );
 			}
 
-			private File toFile( final String prefix, final String extension, final String... baseNames ) {
-				final String baseName = String.join( File.separator, baseNames );
-				return new File(
-						prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
+			@Override
+			public Path getSuitsFolder( final String suitename ) {
+				throw new UnsupportedOperationException(
+						"This method should not be used. Call `FileNamerStrategy.getFileNamer` instead." );
 			}
 		};
 	}
-
 }

@@ -19,6 +19,16 @@ import org.apache.commons.lang3.StringUtils;
 public interface FileNamer {
 
 	/**
+	 * Gets the base-folder of the suite where the tests are stored in. Useful to store additional data, like a
+	 * suite-specific ignore file.
+	 *
+	 * @param suitename
+	 *            The name of the suite.
+	 * @return The base-folder for the given suite name.
+	 */
+	Path getSuitsFolder( final String suitename );
+
+	/**
 	 * Get the GoldenMaster file for the current check, which this interface makes no assumptions about how it is
 	 * contrived.
 	 *
@@ -85,12 +95,17 @@ public interface FileNamer {
 			if ( StringUtils.isEmpty( testname ) ) {
 				fileName = checkname;
 			}
-			return goldenMasterPath.resolve( Paths.get( suitename, fileName + GOLDEN_MASTER_FILE_EXTENSION ) ).toFile();
+			return getSuitsFolder( suitename ).resolve( Paths.get( fileName + GOLDEN_MASTER_FILE_EXTENSION ) ).toFile();
 		}
 
 		@Override
 		public File getReport( final String suitename ) {
 			return reportPath.resolve( Paths.get( suitename + TEST_REPORT_FILE_EXTENSION ) ).toFile();
+		}
+
+		@Override
+		public Path getSuitsFolder( final String suitename ) {
+			return goldenMasterPath.resolve( Paths.get( suitename ) );
 		}
 
 	}

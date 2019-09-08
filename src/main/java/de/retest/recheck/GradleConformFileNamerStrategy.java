@@ -4,6 +4,7 @@ import static de.retest.recheck.Properties.RECHECK_FOLDER_NAME;
 import static java.lang.String.format;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -72,6 +73,13 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 				return toFile( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, extension, baseNames );
 			}
 
+			private File toFile( final String prefixFormat, final String extension, final String... baseNames ) {
+				final String baseName = String.join( File.separator, baseNames );
+				final String prefix = String.format( prefixFormat, sourceSetName );
+				return new File(
+						prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
+			}
+
 			@Override
 			public File getGoldenMaster( final String suitename, final String testname, final String checkname ) {
 				throw new UnsupportedOperationException(
@@ -84,13 +92,11 @@ public class GradleConformFileNamerStrategy implements FileNamerStrategy {
 						"This method should not be used. Call `FileNamerStrategy.getFileNamer` instead." );
 			}
 
-			private File toFile( final String prefixFormat, final String extension, final String... baseNames ) {
-				final String baseName = String.join( File.separator, baseNames );
-				final String prefix = String.format( prefixFormat, sourceSetName );
-				return new File(
-						prefix + File.separator + RECHECK_FOLDER_NAME + File.separator + baseName + extension );
+			@Override
+			public Path getSuitsFolder( final String suitename ) {
+				throw new UnsupportedOperationException(
+						"This method should not be used. Call `FileNamerStrategy.getFileNamer` instead." );
 			}
 		};
 	}
-
 }
