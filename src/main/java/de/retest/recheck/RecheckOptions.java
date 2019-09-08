@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 /**
  * This class configures the behaviour of {@link Recheck} and their implementations.
  */
-@AllArgsConstructor( access = AccessLevel.PRIVATE )
+@AllArgsConstructor( access = AccessLevel.PROTECTED )
 public class RecheckOptions {
 
 	private final FileNamerStrategy fileNamerStrategy;
@@ -25,6 +25,34 @@ public class RecheckOptions {
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
 	private final boolean addDefaultFilters;
+
+	/**
+	 * Creates a shallow copy of the given options. Useful when extending the RecheckOptions to minimize dependencies on
+	 * internals.
+	 *
+	 * Example:
+	 *
+	 * <pre>
+	 * &#64;Override
+	 * public RecheckWebOptions build() {
+	 * 	return new RecheckWebOptions( super.build(), namingStrategy );
+	 * }
+	 * </pre>
+	 *
+	 * or
+	 *
+	 * <pre>
+	 * public RecheckWebOptions( final RecheckOptions superOptions,
+	 * 		final AutocheckingCheckNamingStrategy namingStrategy ) {
+	 * 	super( superOptions );
+	 * 	this.namingStrategy = namingStrategy;
+	 * }
+	 * </pre>
+	 */
+	protected RecheckOptions( final RecheckOptions toCopy ) {
+		this( toCopy.fileNamerStrategy, toCopy.suiteName, toCopy.reportUploadEnabled, toCopy.filter,
+				toCopy.addDefaultFilters );
+	}
 
 	public static RecheckOptionsBuilder builder() {
 		return new RecheckOptionsBuilder();
@@ -93,7 +121,7 @@ public class RecheckOptions {
 		private Filter ignoreFilter = null;
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
-		private RecheckOptionsBuilder() {}
+		protected RecheckOptionsBuilder() {}
 
 		/**
 		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report files.
