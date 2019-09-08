@@ -14,12 +14,12 @@ class MavenConformFileNamerStrategyTest {
 	void files_should_be_maven_conform() throws Exception {
 		final FileNamerStrategy cut = new MavenConformFileNamerStrategy();
 
-		final FileNamer fileNamer = cut.createFileNamer( "foo", "bar" );
-		final File goldenMaster = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
-		final File resultFile = fileNamer.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+		final FileNamer fileNamer = cut.getFileNamer();
+		final File goldenMaster = fileNamer.getGoldenMaster( "foo", "", "bar" );
+		final File resultFile = fileNamer.getReport( "bar" );
 
 		assertThat( goldenMaster.getPath() ).isEqualTo( "src/test/resources/retest/recheck/foo/bar.recheck" );
-		assertThat( resultFile.getPath() ).isEqualTo( "target/test-classes/retest/recheck/foo/bar.report" );
+		assertThat( resultFile.getPath() ).isEqualTo( "target/test-classes/retest/recheck/bar.report" );
 	}
 
 }

@@ -16,7 +16,7 @@ class RecheckOptionsTest {
 	@Test
 	void should_reuse_file_namer_strategy_for_suite_name() throws Exception {
 		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
-		when( fileNamerStrategy.getTestClassName() ).thenReturn( "foo" );
+		when( fileNamerStrategy.getSuiteName() ).thenReturn( "foo" );
 		final RecheckOptions cut = RecheckOptions.builder() //
 				.fileNamerStrategy( fileNamerStrategy ) //
 				.build();
