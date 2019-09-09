@@ -210,9 +210,9 @@ public class RecheckOptions {
 		}
 
 		public RecheckOptions build() {
-			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled,
-					ignoreFilter != null ? ignoreFilter : new CompoundFilter( ignoreFilterToAdd ),
-					ignoreFilter == null );
+			final Filter filter = ignoreFilter != null ? ignoreFilter : new CompoundFilter( ignoreFilterToAdd );
+			final boolean addDefaultFilters = ignoreFilter == null;
+			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled, filter, addDefaultFilters );
 		}
 	}
 }
