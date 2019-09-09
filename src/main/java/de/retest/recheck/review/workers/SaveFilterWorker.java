@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
@@ -28,6 +29,7 @@ public class SaveFilterWorker {
 
 		// Filter JSFilter because that would create unnecessary file content.
 		final Stream<Filter> filters = persist.getIgnores().stream() //
+				.map( this::extractCachedFilter ) //
 				.filter( filter -> !(filter instanceof JSFilterImpl) );
 		final Stream<String> save = Loaders.save( filters );
 
@@ -35,5 +37,9 @@ public class SaveFilterWorker {
 				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) ) ) ) {
 			save.forEach( writer::println );
 		}
+	}
+
+	private Filter extractCachedFilter( final Filter filter ) {
+		return filter instanceof CacheFilter ? ((CacheFilter) filter).getBase() : filter;
 	}
 }

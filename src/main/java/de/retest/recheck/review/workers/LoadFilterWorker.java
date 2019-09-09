@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
@@ -44,7 +45,7 @@ public class LoadFilterWorker {
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
 		final Optional<Path> ignoreRuleFile = getIgnoreRuleFile();
-		ignoreRuleFile.ifPresent( file -> result.addWithoutCounting( new JSFilterImpl( file ) ) );
+		ignoreRuleFile.ifPresent( file -> result.addWithoutCounting( new CacheFilter( new JSFilterImpl( file ) ) ) );
 
 		return result;
 	}
