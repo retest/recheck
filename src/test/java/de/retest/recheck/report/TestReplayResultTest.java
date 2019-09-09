@@ -1,16 +1,16 @@
 package de.retest.recheck.report;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
-
-import org.junit.jupiter.api.Test;
-
-import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
+
+import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ui.diff.LeafDifference;
 
 class TestReplayResultTest {
@@ -49,6 +49,27 @@ class TestReplayResultTest {
 		cut.addAction( action() );
 
 		assertThat( cut.getDifferences() ).hasSize( 15 );
+	}
+
+	@Test
+	void isEmpty_should_return_true_if_no_differences() throws Exception {
+		final ActionReplayResult action = mock( ActionReplayResult.class );
+
+		final TestReplayResult cut = new TestReplayResult( "foo", 1 );
+		cut.addAction( action );
+
+		assertThat( cut.isEmpty() ).isTrue();
+	}
+
+	@Test
+	void isEmpty_should_return_false_if_differences() throws Exception {
+		final ActionReplayResult action = mock( ActionReplayResult.class, RETURNS_DEEP_STUBS );
+		when( action.getAllElementDifferences().size() ).thenReturn( 1 );
+
+		final TestReplayResult cut = new TestReplayResult( "foo", 2 );
+		cut.addAction( action );
+
+		assertThat( cut.isEmpty() ).isFalse();
 	}
 
 	private ActionReplayResult action() {
