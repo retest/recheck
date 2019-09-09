@@ -5,9 +5,7 @@ import static de.retest.recheck.util.ObjectUtil.checkNull;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.eclipse.persistence.oxm.annotations.XmlPath;
+import javax.xml.bind.annotation.XmlValue;
 
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.util.StringSimilarity;
@@ -30,8 +28,7 @@ public class PathAttribute extends ParameterizedAttribute {
 
 	public static final String PATH_KEY = "path";
 
-	@XmlPath( "." )
-	@XmlJavaTypeAdapter( AttributeStringValueAdapter.class )
+	@XmlValue
 	private final String path;
 
 	private transient Path cachedPath;

@@ -3,10 +3,9 @@ package de.retest.recheck.ui.descriptors;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.persistence.oxm.annotations.XmlPath;
 
 import de.retest.recheck.util.StringSimilarity;
 
@@ -58,8 +57,7 @@ public class StringAttribute extends ParameterizedAttribute {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlPath( "." )
-	@XmlJavaTypeAdapter( AttributeStringValueAdapter.class )
+	@XmlValue
 	private final String value;
 
 	// Used by JaxB
