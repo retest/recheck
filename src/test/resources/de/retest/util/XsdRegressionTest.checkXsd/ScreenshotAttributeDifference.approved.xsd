@@ -9,6 +9,11 @@
          </xsd:extension>
       </xsd:complexContent>
    </xsd:complexType>
+   <xsd:complexType name="elementIdentificationWarning">
+      <xsd:sequence/>
+      <xsd:attribute name="testClassName" type="xsd:string"/>
+      <xsd:attribute name="testLineNumber" type="xsd:int"/>
+   </xsd:complexType>
    <xsd:complexType name="attributeDifference">
       <xsd:sequence>
          <xsd:element name="expected" type="xsd:anyType" minOccurs="0"/>
@@ -17,11 +22,6 @@
       </xsd:sequence>
       <xsd:attribute name="key" type="xsd:string"/>
       <xsd:attribute name="attributeDifferenceId" type="xsd:string"/>
-   </xsd:complexType>
-   <xsd:complexType name="elementIdentificationWarning">
-      <xsd:sequence/>
-      <xsd:attribute name="testClassName" type="xsd:string"/>
-      <xsd:attribute name="testLineNumber" type="xsd:int"/>
    </xsd:complexType>
    <xsd:element name="screenshotAttributeDifference" type="screenshotAttributeDifference"/>
    <xsd:element name="attributeDifference" type="attributeDifference"/>

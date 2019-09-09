@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <xsd:complexType name="stringAttribute">
-      <xsd:complexContent>
-         <xsd:extension base="parameterizedAttribute">
-            <xsd:sequence/>
-         </xsd:extension>
-      </xsd:complexContent>
-   </xsd:complexType>
    <xsd:complexType name="parameterizedAttribute" abstract="true">
       <xsd:complexContent>
          <xsd:extension base="attribute">
@@ -19,10 +12,10 @@
       <xsd:sequence/>
       <xsd:attribute name="key" type="xsd:string"/>
    </xsd:complexType>
-   <xsd:element name="stringAttribute" type="stringAttribute"/>
    <xsd:element name="parameterizedAttribute" type="parameterizedAttribute"/>
+   <xsd:element name="stringAttribute" type="stringAttribute"/>
    <xsd:element name="attribute" type="attribute"/>
-   <xsd:simpleType name="stringValue">
+   <xsd:simpleType name="stringAttribute">
       <xsd:restriction base="xsd:string"/>
    </xsd:simpleType>
 </xsd:schema>

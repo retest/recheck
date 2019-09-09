@@ -5,6 +5,11 @@
          <xsd:element name="difference" type="attributeDifference" minOccurs="0"/>
       </xsd:sequence>
    </xsd:complexType>
+   <xsd:complexType name="elementIdentificationWarning">
+      <xsd:sequence/>
+      <xsd:attribute name="testClassName" type="xsd:string"/>
+      <xsd:attribute name="testLineNumber" type="xsd:int"/>
+   </xsd:complexType>
    <xsd:complexType name="attributeDifference">
       <xsd:sequence>
          <xsd:element name="expected" type="xsd:anyType" minOccurs="0"/>
@@ -13,11 +18,6 @@
       </xsd:sequence>
       <xsd:attribute name="key" type="xsd:string"/>
       <xsd:attribute name="attributeDifferenceId" type="xsd:string"/>
-   </xsd:complexType>
-   <xsd:complexType name="elementIdentificationWarning">
-      <xsd:sequence/>
-      <xsd:attribute name="testClassName" type="xsd:string"/>
-      <xsd:attribute name="testLineNumber" type="xsd:int"/>
    </xsd:complexType>
    <xsd:element name="durationDifference" type="durationDifference"/>
    <xsd:element name="attributeDifference" type="attributeDifference"/>
