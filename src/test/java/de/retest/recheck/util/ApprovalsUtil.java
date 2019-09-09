@@ -2,17 +2,26 @@ package de.retest.recheck.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.SchemaOutputResolver;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 
 import org.approvaltests.Approvals;
 import org.approvaltests.core.ApprovalFailureReporter;
 import org.approvaltests.namer.ApprovalNamer;
 import org.approvaltests.reporters.DiffReporter;
 import org.approvaltests.writers.ApprovalTextWriter;
+import org.eclipse.persistence.jaxb.JAXBContextFactory;
 
 import com.spun.util.io.StackElementSelector;
 import com.spun.util.tests.StackTraceReflectionResult;
@@ -34,6 +43,10 @@ public class ApprovalsUtil {
 		verify( maskVersion( actual ), "xml" );
 	}
 
+	public static void verifyMultiXsd( final Class<?> clazz ) throws JAXBException, IOException {
+		verifyMulti( generateSchema( clazz ), clazz.getSimpleName(), "xsd" );
+	}
+
 	public static void verify( final Object o ) {
 		verify( o.toString(), "txt" );
 	}
@@ -41,6 +54,11 @@ public class ApprovalsUtil {
 	private static void verify( final String actual, final String fileExtensionWithoutDot ) {
 		Approvals.verify( new ApprovalTextWriter( actual, fileExtensionWithoutDot ),
 				new MavenConformJUnitStackTraceNamer(), DIFF_HANDLER );
+	}
+
+	private static void verifyMulti( final String actual, final String name, final String fileExtensionWithoutDot ) {
+		Approvals.verify( new ApprovalTextWriter( actual, fileExtensionWithoutDot ),
+				new MultiMavenConformJUnitStackTraceNamer( name ), DIFF_HANDLER );
 	}
 
 	private static String maskVersion( final String actual ) {
@@ -55,6 +73,24 @@ public class ApprovalsUtil {
 		}
 		final String versionString = matcher.group( 1 );
 		return actual.replace( versionString, "reTestVersion=\"" + UNSPECIFIED_DEVELOPMENT_VERSION + "\"" );
+	}
+
+	private static String generateSchema( final Class<?> type ) throws JAXBException, IOException {
+		final JAXBContext jaxbContext =
+				JAXBContextFactory.createContext( new Class<?>[] { type }, Collections.emptyMap() );
+
+		final StringWriter stringWriter = new StringWriter();
+
+		jaxbContext.generateSchema( new SchemaOutputResolver() {
+			@Override
+			public final Result createOutput( final String namespaceURI, final String suggestedFileName )
+					throws IOException {
+				final StreamResult result = new StreamResult( stringWriter );
+				result.setSystemId( suggestedFileName );
+				return result;
+			}
+		} );
+		return stringWriter.toString();
 	}
 
 	private static class MavenConformJUnitStackTraceNamer implements ApprovalNamer {
@@ -78,6 +114,27 @@ public class ApprovalsUtil {
 		}
 	}
 
+	public static class MultiMavenConformJUnitStackTraceNamer implements ApprovalNamer {
+
+		private final ApprovalNamer approvalNamer = new MavenConformJUnitStackTraceNamer();
+		private final String name;
+
+		public MultiMavenConformJUnitStackTraceNamer( final String name ) {
+			this.name = name;
+		}
+
+		@Override
+		public String getApprovalName() {
+			return name;
+		}
+
+		@Override
+		public String getSourceFilePath() {
+			return approvalNamer.getSourceFilePath() + File.separator + approvalNamer.getApprovalName()
+					+ File.separator;
+		}
+	}
+
 	public static class JUnitStackSelector implements StackElementSelector {
 
 		@Override
@@ -86,7 +143,8 @@ public class ApprovalsUtil {
 		}
 
 		@Override
-		public void increment() {}
+		public void increment() {
+		}
 	}
 
 	public static class ApprovalAutoApprover implements ApprovalFailureReporter {

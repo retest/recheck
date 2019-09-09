@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="parameterizedAction">
+      <xsd:complexContent>
+         <xsd:extension base="abstractAction">
+            <xsd:sequence>
+               <xsd:element name="actionParameter" type="actionParameter" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="abstractAction" abstract="true">
+      <xsd:sequence>
+         <xsd:element name="element" type="element" minOccurs="0"/>
+         <xsd:element name="windowsScreenshots" type="screenshot" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="uuid" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="element">
+      <xsd:sequence>
+         <xsd:element name="identifyingAttributes" type="identifyingAttributes" minOccurs="0"/>
+         <xsd:element name="attributes" type="attributes" minOccurs="0"/>
+         <xsd:element name="containedElements" type="element" minOccurs="0" maxOccurs="unbounded"/>
+         <xsd:element name="screenshot" type="screenshot" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="retestId" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="identifyingAttributes">
+      <xsd:sequence>
+         <xsd:element name="attributes" type="persistableAttributes" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="persistableAttributes">
+      <xsd:sequence>
+         <xsd:element name="attribute" type="attribute" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="attribute" abstract="true">
+      <xsd:sequence/>
+      <xsd:attribute name="key" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="attributes">
+      <xsd:sequence>
+         <xsd:element name="attributes" minOccurs="0">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                     <xsd:complexType>
+                        <xsd:sequence>
+                           <xsd:element name="key" type="xsd:string" minOccurs="0"/>
+                           <xsd:element name="value" type="xsd:anyType" minOccurs="0"/>
+                        </xsd:sequence>
+                     </xsd:complexType>
+                  </xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="screenshot" type="screenshot" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="screenshot">
+      <xsd:sequence>
+         <xsd:element name="persistenceId" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="type" type="imageType" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="actionParameter">
+      <xsd:sequence/>
+      <xsd:attribute name="name" type="xsd:string"/>
+      <xsd:attribute name="value" type="xsd:string"/>
+      <xsd:attribute name="type" type="xsd:string"/>
+      <xsd:attribute name="variableName" type="xsd:string"/>
+      <xsd:attribute name="attributeClass" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:element name="parameterizedAction" type="parameterizedAction"/>
+   <xsd:element name="element" type="element"/>
+   <xsd:element name="identifyingAttributes" type="identifyingAttributes"/>
+   <xsd:element name="persistableAttributes" type="persistableAttributes"/>
+   <xsd:element name="attribute" type="attribute"/>
+   <xsd:element name="attributes" type="attributes"/>
+   <xsd:element name="screenshot" type="screenshot"/>
+   <xsd:element name="actionParameter" type="actionParameter"/>
+   <xsd:simpleType name="imageType">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="PNG"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+</xsd:schema>

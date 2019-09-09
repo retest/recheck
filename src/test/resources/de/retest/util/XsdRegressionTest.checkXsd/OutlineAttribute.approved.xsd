@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="outlineAttribute">
+      <xsd:complexContent>
+         <xsd:extension base="attribute">
+            <xsd:sequence>
+               <xsd:element name="x" type="xsd:int"/>
+               <xsd:element name="y" type="xsd:int"/>
+               <xsd:element name="height" type="xsd:int"/>
+               <xsd:element name="width" type="xsd:int"/>
+            </xsd:sequence>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="attribute" abstract="true">
+      <xsd:sequence/>
+      <xsd:attribute name="key" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:element name="outlineAttribute" type="outlineAttribute"/>
+   <xsd:element name="attribute" type="attribute"/>
+</xsd:schema>

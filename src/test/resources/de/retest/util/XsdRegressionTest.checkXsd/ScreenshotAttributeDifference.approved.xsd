@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="screenshotAttributeDifference">
+      <xsd:complexContent>
+         <xsd:extension base="attributeDifference">
+            <xsd:sequence/>
+            <xsd:attribute name="strategyName" type="xsd:string"/>
+            <xsd:attribute name="match" type="xsd:double" use="required"/>
+         </xsd:extension>
+      </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType name="attributeDifference">
+      <xsd:sequence>
+         <xsd:element name="expected" type="xsd:anyType" minOccurs="0"/>
+         <xsd:element name="actual" type="xsd:anyType" minOccurs="0"/>
+         <xsd:element name="elementIdentificationWarnings" type="elementIdentificationWarning" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="key" type="xsd:string"/>
+      <xsd:attribute name="attributeDifferenceId" type="xsd:string"/>
+   </xsd:complexType>
+   <xsd:complexType name="elementIdentificationWarning">
+      <xsd:sequence/>
+      <xsd:attribute name="testClassName" type="xsd:string"/>
+      <xsd:attribute name="testLineNumber" type="xsd:int"/>
+   </xsd:complexType>
+   <xsd:element name="screenshotAttributeDifference" type="screenshotAttributeDifference"/>
+   <xsd:element name="attributeDifference" type="attributeDifference"/>
+</xsd:schema>
