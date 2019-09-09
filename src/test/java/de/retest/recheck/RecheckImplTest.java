@@ -56,9 +56,8 @@ public class RecheckImplTest {
 			// Ignore Exceptions, fear AssertionErrors...
 		}
 
-		verify( spy ).getGoldenMaster( this.getClass().getName(), "", "" );
 		verify( spy ).getGoldenMaster( this.getClass().getName(), "using_strange_stepText_should_be_normalized",
-				".!@#_$^&)te}{_____xt!(@_$" );
+				"!@#_$^&)te}{_____xt!(@_$" );
 	}
 
 	@Test
