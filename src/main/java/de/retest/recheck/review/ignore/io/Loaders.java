@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
@@ -51,6 +52,7 @@ public class Loaders {
 		pairs.add( Pair.of( ElementFilter.class, new ElementFilterLoader() ) );
 		pairs.add( Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ) );
 		pairs.add( Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ) );
+		pairs.add( Pair.of( CacheFilter.class, new CacheFilter.FilterLoader() ) );
 		pairs.add( Pair.of( JSFilterImpl.class, new JSFilterLoader() ) );
 
 		// This is error handling and should always be last
@@ -78,7 +80,7 @@ public class Loaders {
 		return objects.map( Loaders::save );
 	}
 
-	private static <T> String save( final T object ) {
+	public static <T> String save( final T object ) {
 		final Loader<T> loader = (Loader<T>) get( object.getClass() );
 		return loader.save( object );
 	}
