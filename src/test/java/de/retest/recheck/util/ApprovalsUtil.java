@@ -1,6 +1,7 @@
 package de.retest.recheck.util;
 
-import java.io.File;
+import static java.io.File.separator;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UncheckedIOException;
@@ -28,6 +29,7 @@ import com.spun.util.tests.StackTraceReflectionResult;
 import com.spun.util.tests.TestUtils;
 
 import de.retest.recheck.TestCaseFinder;
+import lombok.RequiredArgsConstructor;
 
 public class ApprovalsUtil {
 
@@ -43,10 +45,6 @@ public class ApprovalsUtil {
 		verify( maskVersion( actual ), "xml" );
 	}
 
-	public static void verifyMultiXsd( final Class<?> clazz ) throws JAXBException, IOException {
-		verifyMulti( generateSchema( clazz ), clazz.getSimpleName(), "xsd" );
-	}
-
 	public static void verify( final Object o ) {
 		verify( o.toString(), "txt" );
 	}
@@ -54,6 +52,10 @@ public class ApprovalsUtil {
 	private static void verify( final String actual, final String fileExtensionWithoutDot ) {
 		Approvals.verify( new ApprovalTextWriter( actual, fileExtensionWithoutDot ),
 				new MavenConformJUnitStackTraceNamer(), DIFF_HANDLER );
+	}
+
+	public static void verifyMultiXsd( final Class<?> clazz ) throws JAXBException, IOException {
+		verifyMulti( generateSchema( clazz ), clazz.getSimpleName(), "xsd" );
 	}
 
 	private static void verifyMulti( final String actual, final String name, final String fileExtensionWithoutDot ) {
@@ -76,11 +78,10 @@ public class ApprovalsUtil {
 	}
 
 	private static String generateSchema( final Class<?> type ) throws JAXBException, IOException {
-		final JAXBContext jaxbContext =
-				JAXBContextFactory.createContext( new Class<?>[] { type }, Collections.emptyMap() );
-
 		final StringWriter stringWriter = new StringWriter();
 
+		final JAXBContext jaxbContext =
+				JAXBContextFactory.createContext( new Class<?>[] { type }, Collections.emptyMap() );
 		jaxbContext.generateSchema( new SchemaOutputResolver() {
 			@Override
 			public final Result createOutput( final String namespaceURI, final String suggestedFileName )
@@ -90,6 +91,7 @@ public class ApprovalsUtil {
 				return result;
 			}
 		} );
+
 		return stringWriter.toString();
 	}
 
@@ -108,20 +110,19 @@ public class ApprovalsUtil {
 
 		@Override
 		public String getSourceFilePath() {
-			return (info.getSourceFile().getAbsolutePath() + File.separator).replace(
-					File.separator + "src" + File.separator + "test" + File.separator + "java",
-					File.separator + "src" + File.separator + "test" + File.separator + "resources" );
+			final String pathPrefix = separator + "src" + separator + "test" + separator;
+			final String srcTestJavaPath = pathPrefix + "java";
+			final String srcTestResourcesPath = pathPrefix + "resources";
+			final String testClassPath = info.getSourceFile().getAbsolutePath();
+			return (testClassPath + separator).replace( srcTestJavaPath, srcTestResourcesPath );
 		}
 	}
 
+	@RequiredArgsConstructor
 	public static class MultiMavenConformJUnitStackTraceNamer implements ApprovalNamer {
 
 		private final ApprovalNamer approvalNamer = new MavenConformJUnitStackTraceNamer();
 		private final String name;
-
-		public MultiMavenConformJUnitStackTraceNamer( final String name ) {
-			this.name = name;
-		}
 
 		@Override
 		public String getApprovalName() {
@@ -130,8 +131,7 @@ public class ApprovalsUtil {
 
 		@Override
 		public String getSourceFilePath() {
-			return approvalNamer.getSourceFilePath() + File.separator + approvalNamer.getApprovalName()
-					+ File.separator;
+			return approvalNamer.getSourceFilePath() + separator + approvalNamer.getApprovalName() + separator;
 		}
 	}
 
@@ -143,8 +143,7 @@ public class ApprovalsUtil {
 		}
 
 		@Override
-		public void increment() {
-		}
+		public void increment() {}
 	}
 
 	public static class ApprovalAutoApprover implements ApprovalFailureReporter {
