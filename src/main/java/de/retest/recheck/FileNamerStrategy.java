@@ -1,12 +1,24 @@
 package de.retest.recheck;
 
 import de.retest.recheck.persistence.FileNamer;
+import de.retest.recheck.persistence.NamingStrategy;
+import de.retest.recheck.persistence.ProjectLayout;
 
 /**
- * Determines the paths under which Golden Master and test report files should be persisted. The default implementation
- * derives test suite and test case name from the test class and test method, working for both JUnit and TestNG.
+ * @deprecated Use {@link NamingStrategy} and {@link ProjectLayout} instead.
  */
-public interface FileNamerStrategy {
+@Deprecated
+public interface FileNamerStrategy extends NamingStrategy {
+
+	@Override
+	default String getSuiteName() {
+		return getTestClassName();
+	}
+
+	@Override
+	default String getTestName() {
+		return getTestMethodName();
+	}
 
 	/**
 	 * Creates a file namer for the given base names. For Golden Master files, these typically follow the format

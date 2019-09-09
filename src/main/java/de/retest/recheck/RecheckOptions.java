@@ -11,6 +11,11 @@ import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.persistence.FileNamer;
+import de.retest.recheck.persistence.GradleProjectLayout;
+import de.retest.recheck.persistence.JUnitTestbasedNamingStrategy;
+import de.retest.recheck.persistence.MavenProjectLayout;
+import de.retest.recheck.persistence.NamingStrategy;
+import de.retest.recheck.persistence.ProjectLayout;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
@@ -21,6 +26,8 @@ import lombok.AllArgsConstructor;
 public class RecheckOptions {
 
 	private final FileNamerStrategy fileNamerStrategy;
+	private final NamingStrategy namingStrategy;
+	private final ProjectLayout projectLayout;
 	private final String suiteName;
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
@@ -50,8 +57,8 @@ public class RecheckOptions {
 	 * </pre>
 	 */
 	protected RecheckOptions( final RecheckOptions toCopy ) {
-		this( toCopy.fileNamerStrategy, toCopy.suiteName, toCopy.reportUploadEnabled, toCopy.filter,
-				toCopy.addDefaultFilters );
+		this( toCopy.fileNamerStrategy, toCopy.namingStrategy, toCopy.projectLayout, toCopy.suiteName,
+				toCopy.reportUploadEnabled, toCopy.filter, toCopy.addDefaultFilters );
 	}
 
 	public static RecheckOptionsBuilder builder() {
@@ -78,7 +85,10 @@ public class RecheckOptions {
 		if ( suiteName != null ) {
 			return suiteName;
 		}
-		return fileNamerStrategy.getTestClassName();
+		if ( fileNamerStrategy != null ) {
+			return fileNamerStrategy.getTestClassName();
+		}
+		return namingStrategy.getSuiteName();
 	}
 
 	/**
@@ -108,14 +118,33 @@ public class RecheckOptions {
 		) );
 	}
 
+	/**
+	 * @return The {@link ProjectLayout} to use (e.g. {@link MavenProjectLayout}, {@link GradleProjectLayout}, ...).
+	 */
+	public ProjectLayout getProjectLayout() {
+		return projectLayout;
+	}
+
+	/**
+	 * @return The {@link NamingStrategy} to use (e.g. a {@link JUnitTestbasedNamingStrategy}).
+	 */
+	public NamingStrategy getNamingStrategy() {
+		return namingStrategy;
+	}
+
 	private File getSuitePath() {
-		final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
-		return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		if ( fileNamerStrategy != null ) {
+			final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
+			return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		}
+		return projectLayout.getSuitsFolder( namingStrategy.getSuiteName() ).toFile();
 	}
 
 	public static class RecheckOptionsBuilder {
 
-		private FileNamerStrategy fileNamerStrategy = new MavenConformFileNamerStrategy();
+		private FileNamerStrategy fileNamerStrategy;
+		private NamingStrategy namingStrategy = new JUnitTestbasedNamingStrategy();
+		private ProjectLayout projectLayout = new MavenProjectLayout();
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
 		private Filter ignoreFilter = null;
@@ -124,14 +153,28 @@ public class RecheckOptions {
 		protected RecheckOptionsBuilder() {}
 
 		/**
-		 * Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report files.
+		 * @deprecated Use {@link #namingStrategy} and {@link #projectLayout} instead.
+		 *
+		 *             Configures the {@link FileNamerStrategy} to identify tests, locate golden masters and report
+		 *             files.
 		 *
 		 * @param fileNamerStrategy
 		 *            The strategy to use, defaults to {@link MavenConformFileNamerStrategy}
 		 * @return self
 		 */
+		@Deprecated
 		public RecheckOptionsBuilder fileNamerStrategy( final FileNamerStrategy fileNamerStrategy ) {
 			this.fileNamerStrategy = fileNamerStrategy;
+			return namingStrategy( fileNamerStrategy );
+		}
+
+		public RecheckOptionsBuilder namingStrategy( final NamingStrategy namingStrategy ) {
+			this.namingStrategy = namingStrategy;
+			return this;
+		}
+
+		public RecheckOptionsBuilder projectLayout( final ProjectLayout projectLayout ) {
+			this.projectLayout = projectLayout;
 			return this;
 		}
 
@@ -174,6 +217,8 @@ public class RecheckOptions {
 
 		/**
 		 * Use to use not ignore anything.
+		 *
+		 * @return self
 		 */
 		public RecheckOptionsBuilder ignoreNothing() {
 			ignoreFilter = Filter.FILTER_NOTHING;
@@ -212,7 +257,8 @@ public class RecheckOptions {
 		public RecheckOptions build() {
 			final Filter filter = ignoreFilter != null ? ignoreFilter : new CompoundFilter( ignoreFilterToAdd );
 			final boolean addDefaultFilters = ignoreFilter == null;
-			return new RecheckOptions( fileNamerStrategy, suiteName, reportUploadEnabled, filter, addDefaultFilters );
+			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout, suiteName, reportUploadEnabled,
+					filter, addDefaultFilters );
 		}
 	}
 }
