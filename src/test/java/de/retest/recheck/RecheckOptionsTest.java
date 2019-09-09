@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.persistence.JUnitTestbasedShortNamingStrategy;
+import de.retest.recheck.persistence.JunitbasedShortNamingStrategy;
 
 class RecheckOptionsTest {
 
@@ -23,7 +23,7 @@ class RecheckOptionsTest {
 	@Test
 	void should_use_NamingStrategy_for_suite_name() throws Exception {
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.namingStrategy( new JUnitTestbasedShortNamingStrategy() ).build();
+				.namingStrategy( new JunitbasedShortNamingStrategy() ).build();
 		assertThat( cut.getSuiteName() ).isEqualTo( getClass().getSimpleName() );
 	}
 

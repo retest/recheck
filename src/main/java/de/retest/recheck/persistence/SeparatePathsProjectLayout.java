@@ -4,7 +4,6 @@ import static de.retest.recheck.Properties.GOLDEN_MASTER_FILE_EXTENSION;
 import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,21 +25,21 @@ public class SeparatePathsProjectLayout implements ProjectLayout {
 	}
 
 	@Override
-	public Path getGoldenMaster( final String suitename, final String testname, final String checkname ) {
-		String fileName = testname + "." + checkname;
-		if ( StringUtils.isEmpty( testname ) ) {
-			fileName = checkname;
+	public Path getGoldenMaster( final String suiteName, final String testName, final String checkName ) {
+		String fileName = testName + "." + checkName;
+		if ( StringUtils.isEmpty( testName ) ) {
+			fileName = checkName;
 		}
-		return getSuitsFolder( suitename ).resolve( Paths.get( fileName + GOLDEN_MASTER_FILE_EXTENSION ) );
+		return getSuiteFolder( suiteName ).resolve( fileName + GOLDEN_MASTER_FILE_EXTENSION );
 	}
 
 	@Override
-	public Path getReport( final String suitename ) {
-		return reportPath.resolve( Paths.get( suitename + TEST_REPORT_FILE_EXTENSION ) );
+	public Path getReport( final String suiteName ) {
+		return reportPath.resolve( suiteName + TEST_REPORT_FILE_EXTENSION );
 	}
 
 	@Override
-	public Path getSuitsFolder( final String suitename ) {
-		return goldenMasterPath.resolve( Paths.get( suitename ) );
+	public Path getSuiteFolder( final String suiteName ) {
+		return goldenMasterPath.resolve( suiteName );
 	}
 }

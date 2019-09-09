@@ -3,6 +3,7 @@ package de.retest.recheck.persistence;
 import static de.retest.recheck.Properties.RECHECK_FOLDER_NAME;
 import static java.lang.String.format;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -34,10 +35,17 @@ public class GradleProjectLayout extends SeparatePathsProjectLayout {
 	 *            value for <code>${SOURCE_SET_NAME}</code>
 	 */
 	public GradleProjectLayout( final String sourceSetName ) {
-		super( Paths.get( format( DEFAULT_RETEST_PROJECT_PATH_FORMAT, validate( sourceSetName ) ),
-				RECHECK_FOLDER_NAME ),
-				Paths.get( format( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, validate( sourceSetName ) ),
-						RECHECK_FOLDER_NAME ) );
+		super( toGoldenMasterPath( sourceSetName ), toReportPath( sourceSetName ) );
+	}
+
+	private static Path toReportPath( final String sourceSetName ) {
+		return Paths.get( format( DEFAULT_RETEST_TESTREPORTS_PATH_FORMAT, validate( sourceSetName ) ),
+				RECHECK_FOLDER_NAME );
+	}
+
+	private static Path toGoldenMasterPath( final String sourceSetName ) {
+		return Paths.get( format( DEFAULT_RETEST_PROJECT_PATH_FORMAT, validate( sourceSetName ) ),
+				RECHECK_FOLDER_NAME );
 	}
 
 	private static String validate( final String sourceSetName ) {

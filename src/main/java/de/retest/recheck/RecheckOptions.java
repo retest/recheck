@@ -10,9 +10,11 @@ import java.util.List;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.persistence.ExplicitMutableNamingStrategy;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.GradleProjectLayout;
-import de.retest.recheck.persistence.JUnitTestbasedNamingStrategy;
+import de.retest.recheck.persistence.JunitbasedNamingStrategy;
+import de.retest.recheck.persistence.JunitbasedShortNamingStrategy;
 import de.retest.recheck.persistence.MavenProjectLayout;
 import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
@@ -61,6 +63,11 @@ public class RecheckOptions {
 				toCopy.reportUploadEnabled, toCopy.filter, toCopy.addDefaultFilters );
 	}
 
+	/**
+	 * Factory method for the builder.
+	 *
+	 * @return A {link RecheckOptionsBuilder}.
+	 */
 	public static RecheckOptionsBuilder builder() {
 		return new RecheckOptionsBuilder();
 	}
@@ -84,9 +91,6 @@ public class RecheckOptions {
 	public String getSuiteName() {
 		if ( suiteName != null ) {
 			return suiteName;
-		}
-		if ( fileNamerStrategy != null ) {
-			return fileNamerStrategy.getTestClassName();
 		}
 		return namingStrategy.getSuiteName();
 	}
@@ -126,7 +130,7 @@ public class RecheckOptions {
 	}
 
 	/**
-	 * @return The {@link NamingStrategy} to use (e.g. a {@link JUnitTestbasedNamingStrategy}).
+	 * @return The {@link NamingStrategy} to use (e.g. a {@link JunitbasedNamingStrategy}).
 	 */
 	public NamingStrategy getNamingStrategy() {
 		return namingStrategy;
@@ -137,13 +141,13 @@ public class RecheckOptions {
 			final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
 			return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 		}
-		return projectLayout.getSuitsFolder( namingStrategy.getSuiteName() ).toFile();
+		return projectLayout.getSuiteFolder( namingStrategy.getSuiteName() ).toFile();
 	}
 
 	public static class RecheckOptionsBuilder {
 
 		private FileNamerStrategy fileNamerStrategy;
-		private NamingStrategy namingStrategy = new JUnitTestbasedNamingStrategy();
+		private NamingStrategy namingStrategy = new JunitbasedNamingStrategy();
 		private ProjectLayout projectLayout = new MavenProjectLayout();
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
@@ -168,11 +172,24 @@ public class RecheckOptions {
 			return namingStrategy( fileNamerStrategy );
 		}
 
+		/**
+		 * @param namingStrategy
+		 *            The {@link NamingStrategy} that determines how to name tests and suites. Default is
+		 *            {@link JunitbasedNamingStrategy}. Other options include
+		 *            {@link JunitbasedShortNamingStrategy} and {@link ExplicitMutableNamingStrategy}.
+		 * @return self
+		 */
 		public RecheckOptionsBuilder namingStrategy( final NamingStrategy namingStrategy ) {
 			this.namingStrategy = namingStrategy;
 			return this;
 		}
 
+		/**
+		 * @param projectLayout
+		 *            The {@link ProjectLayout} that determines where Golden Master and report files are stored and how
+		 *            they are named. Default is {@link MavenProjectLayout}.
+		 * @return self
+		 */
 		public RecheckOptionsBuilder projectLayout( final ProjectLayout projectLayout ) {
 			this.projectLayout = projectLayout;
 			return this;

@@ -6,13 +6,8 @@ import de.retest.recheck.TestCaseFinder;
  * The default implementation that derives test suite and test case name from the test class and test method, working
  * for both JUnit and TestNG.
  */
-public class JUnitTestbasedNamingStrategy implements NamingStrategy {
+public class JunitbasedNamingStrategy implements NamingStrategy {
 
-	/**
-	 * Determines the suite name.
-	 *
-	 * @return name of the current test suite
-	 */
 	@Override
 	public String getSuiteName() {
 		return TestCaseFinder.getInstance() //
@@ -22,11 +17,6 @@ public class JUnitTestbasedNamingStrategy implements NamingStrategy {
 						+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
 	}
 
-	/**
-	 * Determines the test name.
-	 *
-	 * @return name of the current test
-	 */
 	@Override
 	public String getTestName() {
 		return TestCaseFinder.getInstance() //
