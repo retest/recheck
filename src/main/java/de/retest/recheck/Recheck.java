@@ -5,7 +5,7 @@ package de.retest.recheck;
  * 
  * @apiNote Provided {@link RecheckOptions} should be honored and fully supported.
  */
-public interface Recheck {
+public interface Recheck extends RecheckLifecycle {
 
 	/**
 	 * Checks the given object against the persisted golden master. The step name is a semantic string to later identify
@@ -40,30 +40,5 @@ public interface Recheck {
 	 *             if no RecheckAdapter for the given object can be found
 	 */
 	void check( Object toVerify, RecheckAdapter adapter, String stepName ) throws IllegalArgumentException;
-
-	/**
-	 * Start a test and infer the test name from the calling method.
-	 */
-	void startTest();
-
-	/**
-	 * Tells recheck that a test has started. This helps to check multiple states within a single test.
-	 *
-	 * @param testName
-	 *            the name of the test
-	 */
-	void startTest( String testName );
-
-	/**
-	 * Tells recheck that the test has finished. If one or more checks during this tests resulted in differences, this
-	 * triggers an {@link AssertionError} to be thrown like any other assertion would. Still, the differences are
-	 * persisted as test reports into the target folder.
-	 */
-	void capTest() throws AssertionError;
-
-	/**
-	 * Finishes recheck and persists the test report. Starting the review GUI is sensible.
-	 */
-	void cap();
 
 }
