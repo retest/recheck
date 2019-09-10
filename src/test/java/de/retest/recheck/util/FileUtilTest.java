@@ -162,11 +162,11 @@ public class FileUtilTest {
 	}
 
 	@Test( expected = ReTestSaveException.class )
-	public void writeFile_should_throw_exception_if_file_is_null() throws Exception {
-		FileUtil.writeToFile( null, new FileUtil.Writer() {
+	public void writeFile_should_throw_exception_if_error_occurs() throws Exception {
+		FileUtil.writeToFile( new File( "." ), new FileUtil.Writer() {
 			@Override
 			public void write( final FileOutputStream out ) throws IOException {
-				out.write( 0x41 );
+				throw new IOException( "Something bad happened" );
 			}
 		} );
 	}
