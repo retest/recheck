@@ -185,7 +185,7 @@
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
-			<version>1.5.5</version>
+			<version>1.6.2</version>
 		</dependency>
 
 		<dependency>
