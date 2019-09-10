@@ -3,8 +3,9 @@ package de.retest.recheck.persistence;
 import java.io.File;
 
 /**
- * Provides file names, respectively, file paths for both Golden Masters and test reports.
+ * @deprecated Use {@link ProjectLayout} instead.
  */
+@Deprecated
 public interface FileNamer {
 
 	/**

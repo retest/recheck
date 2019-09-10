@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.CloudPersistence;
 import de.retest.recheck.persistence.FileNamer;
+import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.printer.TestReplayResultPrinter;
@@ -52,14 +52,13 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	private final CapWarner capWarner = new CapWarner();
 	private final SuiteReplayResult suite;
-	private final FileNamerStrategy fileNamerStrategy;
+	private final RecheckOptions options;
 	private final String suiteName;
 
 	private TestReplayResult currentTestResult;
 
 	private final Map<String, DefaultValueFinder> usedFinders = new HashMap<>();
 	private final TestReplayResultPrinter printer = new TestReplayResultPrinter( usedFinders::get );
-	private final Filter filter;
 
 	/**
 	 * Constructor that works purely with defaults. Default {@link FileNamerStrategy} assumes being called from within a
@@ -75,11 +74,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
 		ensureConfigurationInitialized();
 		Runtime.getRuntime().addShutdownHook( capWarner );
-		fileNamerStrategy = options.getFileNamerStrategy();
+		this.options = options;
 		suiteName = options.getSuiteName();
 		suite = SuiteAggregator.getInstance().getSuite( suiteName );
-
-		filter = options.getFilter();
 
 		if ( isRehubEnabled( options ) ) {
 			try {
@@ -103,7 +100,11 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	@Override
 	public void startTest() {
-		startTest( fileNamerStrategy.getTestMethodName() );
+		if ( options.getFileNamerStrategy() != null ) {
+			startTest( options.getFileNamerStrategy().getTestMethodName() );
+		} else {
+			startTest( options.getNamingStrategy().getTestName() );
+		}
 	}
 
 	@Override
@@ -133,8 +134,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
 		usedFinders.put( currentStep, defaultFinder );
 
-		final FileNamer fileNamer = createFileName( currentStep );
-		final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+		final File file = getGoldenMasterFile( currentStep );
 
 		final SutState actual = RecheckSutState.convert( toVerify, adapter );
 		final SutState expected = loadExpected( file );
@@ -152,6 +152,21 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return actionReplayResult;
 	}
 
+	private File getGoldenMasterFile( final String currentStep ) {
+		// This is the legacy impl ... remove at some point
+		if ( options.getFileNamerStrategy() != null ) {
+			final String name =
+					suiteName + File.separator + currentTestResult.getName() + "." + normalize( currentStep );
+			final FileNamer fileNamer = options.getFileNamerStrategy().createFileNamer( name );
+			final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+			return file;
+		}
+		final NamingStrategy namingStrategy = options.getNamingStrategy();
+		return options.getProjectLayout()
+				.getGoldenMaster( namingStrategy.getSuiteName(), currentTestResult.getName(), normalize( currentStep ) )
+				.toFile();
+	}
+
 	@Override
 	public SutState loadExpected( final File file ) {
 		return RecheckSutState.loadExpected( file );
@@ -162,15 +177,10 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return RecheckSutState.createNew( file, actual );
 	}
 
-	private FileNamer createFileName( final String currentStep ) {
-		final String name = suiteName + File.separator + currentTestResult.getName() + "." + normalize( currentStep );
-		return fileNamerStrategy.createFileNamer( name );
-	}
-
 	@Override
 	public void capTest() {
 		suite.addTest( currentTestResult );
-		final TestReplayResult finishedTestResult = TestReportFilter.filter( currentTestResult, filter );
+		final TestReplayResult finishedTestResult = TestReportFilter.filter( currentTestResult, options.getFilter() );
 		currentTestResult = null;
 		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences();
 		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
@@ -199,7 +209,12 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	public File getResultFile() {
-		return fileNamerStrategy.createFileNamer( suiteName ).getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+		// legacy
+		if ( options.getFileNamerStrategy() != null ) {
+			return options.getFileNamerStrategy().createFileNamer( suiteName )
+					.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+		}
+		return options.getProjectLayout().getReport( suiteName ).toFile();
 	}
 
 	private class CapWarner extends Thread {

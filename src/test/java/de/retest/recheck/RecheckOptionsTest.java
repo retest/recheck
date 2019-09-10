@@ -1,8 +1,6 @@
 package de.retest.recheck;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -10,17 +8,23 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.persistence.JunitbasedShortNamingStrategy;
 
 class RecheckOptionsTest {
 
 	@Test
-	void should_reuse_file_namer_strategy_for_suite_name() throws Exception {
-		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
-		when( fileNamerStrategy.getTestClassName() ).thenReturn( "foo" );
+	void legacy_FileNamerStrategy_should_trump_for_suite_name() throws Exception {
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.fileNamerStrategy( fileNamerStrategy ) //
+				.fileNamerStrategy( new MavenConformFileNamerStrategy() ) //
 				.build();
-		assertThat( cut.getSuiteName() ).isEqualTo( "foo" );
+		assertThat( cut.getSuiteName() ).isEqualTo( getClass().getName() );
+	}
+
+	@Test
+	void should_use_NamingStrategy_for_suite_name() throws Exception {
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.namingStrategy( new JunitbasedShortNamingStrategy() ).build();
+		assertThat( cut.getSuiteName() ).isEqualTo( getClass().getSimpleName() );
 	}
 
 	@Test
