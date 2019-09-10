@@ -125,6 +125,6 @@ public class TestReplayResult implements Serializable {
 	}
 
 	public boolean isEmpty() {
-		return actionReplayResults.isEmpty();
+		return getDifferencesCount() == 0;
 	}
 }
