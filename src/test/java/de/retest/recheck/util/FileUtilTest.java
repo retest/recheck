@@ -44,18 +44,18 @@ public class FileUtilTest {
 	@Test
 	public void testConvertFileList2ListOfFiles_single_file() throws IOException {
 		final List<File> result =
-				convertSemicolonSeparatedString2ListOfFiles( getExecDir(), "src/test/resources/test.file" );
+				convertSemicolonSeparatedString2ListOfFiles( getExecDir(), "src/test/resources/ImageUtilsTest.png" );
 		assertThat( result.size() ).isEqualTo( 1 );
-		assertThat( result.get( 0 ).getName() ).isEqualTo( "test.file" );
+		assertThat( result.get( 0 ).getName() ).isEqualTo( "ImageUtilsTest.png" );
 	}
 
 	@Test
 	public void testConvertFileList2ListOfFiles_multiple_files() throws IOException {
 		final List<File> result = convertSemicolonSeparatedString2ListOfFiles( getExecDir(),
-				"src/test/resources/test.file;src/test/resources/de/retest/util/login.png" );
+				"src/test/resources/ImageUtilsTest.png;src/test/resources/de/retest/image/img1.png" );
 		assertThat( result.size() ).isEqualTo( 2 );
-		assertThat( result.get( 0 ).getName() ).isEqualTo( "test.file" );
-		assertThat( result.get( 1 ).getName() ).isEqualTo( "login.png" );
+		assertThat( result.get( 0 ).getName() ).isEqualTo( "ImageUtilsTest.png" );
+		assertThat( result.get( 1 ).getName() ).isEqualTo( "img1.png" );
 	}
 
 	@Test
@@ -101,10 +101,10 @@ public class FileUtilTest {
 
 	@Test
 	public void test_getFileSizeInMB() throws Exception {
-		final URL resourceUrl = FileUtilTest.class.getResource( "/de/retest/util/login.png" );
+		final URL resourceUrl = FileUtilTest.class.getResource( "/ImageUtilsTestResize.png" );
 		final String path = resourceUrl.toURI().getSchemeSpecificPart();
 		final File login = new File( path );
-		assertThat( getFileSizeInMB( login ) ).isEqualTo( 0.00317764d, offset( 0.00000001d ) );
+		assertThat( getFileSizeInMB( login ) ).isEqualTo( 0.39267635345458984d, offset( 0.00000001d ) );
 	}
 
 	@Test
