@@ -165,7 +165,7 @@
 			<artifactId>okhttp</artifactId>
 			<!-- last version compatible with Selenium v3.141.59 in recheck-web -->
 			<!-- see https://github.com/SeleniumHQ/selenium/issues/7373 -->
-			<version>3.14.2</version>
+			<version>3.14.3</version>
 		</dependency>
 
 		<dependency>
