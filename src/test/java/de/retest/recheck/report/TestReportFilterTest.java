@@ -34,6 +34,7 @@ import de.retest.recheck.ui.image.Screenshot;
 class TestReportFilterTest {
 
 	Filter filter;
+	AttributeDifference filterMe;
 	AttributeDifference notFilterMe;
 	AttributesDifference originalAttributesDifference;
 	IdentifyingAttributesDifference originalIdentAttributesDifference;
@@ -54,7 +55,7 @@ class TestReportFilterTest {
 		final String keyToFilter = "filterMe";
 		final String keyNotToFilter = "notFilterMe";
 		filter = new AttributeFilter( keyToFilter );
-		final AttributeDifference filterMe = new AttributeDifference( keyToFilter, null, null );
+		filterMe = new AttributeDifference( keyToFilter, null, null );
 		notFilterMe = new AttributeDifference( keyNotToFilter, null, null );
 		element = mock( Element.class );
 		identAttributes = mock( IdentifyingAttributes.class );
@@ -100,11 +101,29 @@ class TestReportFilterTest {
 	}
 
 	@Test
+	void attributes_differences_should_be_null_when_all_differences_are_filtered() throws Exception {
+		final AttributesDifference attributesDiff = new AttributesDifference( Arrays.asList( filterMe ) );
+		assertThat( TestReportFilter.filter( element, attributesDiff, filter ) ).isNull();
+	}
+
+	@Test
 	void identifying_attributes_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( mock( IdentifyingAttributes.class ) );
 		final IdentifyingAttributesDifference filtered =
 				TestReportFilter.filter( element, originalIdentAttributesDifference, filter );
 		assertThat( filtered.getAttributeDifferences() ).containsExactly( notFilterMe );
+	}
+
+	@Test
+	void identifying_attributes_differences_should_be_null_when_all_differences_are_filtered() throws Exception {
+		final IdentifyingAttributes expectedIdentAttributes = mock( IdentifyingAttributes.class );
+
+		final List<AttributeDifference> attributeDiffs = Arrays.asList( filterMe );
+
+		final IdentifyingAttributesDifference identAttributesDiff =
+				new IdentifyingAttributesDifference( expectedIdentAttributes, attributeDiffs );
+
+		assertThat( TestReportFilter.filter( element, identAttributesDiff, filter ) ).isNull();
 	}
 
 	@Test
