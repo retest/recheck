@@ -122,14 +122,17 @@ public class TestReportFilter {
 			final IdentifyingAttributesDifference identAttributesDiff, final Filter filter ) {
 		return identAttributesDiff.getAttributeDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(),
-						diffs -> new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), diffs ) ) );
+				.collect( Collectors.collectingAndThen( Collectors.toList(), diffs -> diffs.isEmpty() //
+						? null // expected by ElementDifference
+						: new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), diffs ) ) );
 	}
 
 	static AttributesDifference filter( final Element element, final AttributesDifference attributesDiff,
 			final Filter filter ) {
 		return attributesDiff.getDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(), AttributesDifference::new ) );
+				.collect( Collectors.collectingAndThen( Collectors.toList(), diffs -> diffs.isEmpty() //
+						? null // expected by ElementDifference
+						: new AttributesDifference( diffs ) ) );
 	}
 }
