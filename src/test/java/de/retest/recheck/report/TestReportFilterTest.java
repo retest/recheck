@@ -94,7 +94,7 @@ class TestReportFilterTest {
 	}
 
 	@Test
-	void Attributes_differences_should_be_filtered_properly() throws Exception {
+	void attributes_differences_should_be_filtered_properly() throws Exception {
 		final AttributesDifference filtered =
 				TestReportFilter.filter( mock( Element.class ), originalAttributesDifference, filter );
 		assertThat( filtered.getDifferences() ).containsExactly( notFilterMe );
