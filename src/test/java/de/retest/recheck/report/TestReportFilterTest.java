@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -142,15 +143,16 @@ class TestReportFilterTest {
 	@Test
 	void element_difference_and_child_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( identAttributes );
-		final ElementDifference filteredElementDifference =
-				TestReportFilter.filter( originalElementDifference, filter );
-		final List<ElementDifference> childElementDiffferences =
-				filteredElementDifference.getChildDifferences().stream()//
-						.collect( Collectors.toList() );
-		assertThat( filteredElementDifference.getAttributesDifference().getDifferences() )
-				.containsExactly( notFilterMe );
-		assertThat( childElementDiffferences.get( 0 ).getAttributesDifference().getDifferences() )
-				.containsExactly( notFilterMe );
+
+		assertThat( TestReportFilter.filter( originalElementDifference, filter ) )
+				.hasValueSatisfying( fiteredElementDiff -> {
+					assertThat( fiteredElementDiff.getAttributesDifference().getDifferences() )
+							.containsExactly( notFilterMe );
+					final List<ElementDifference> childElementDiffs = fiteredElementDiff.getChildDifferences().stream() //
+							.collect( Collectors.toList() );
+					assertThat( childElementDiffs.get( 0 ).getAttributesDifference().getDifferences() )
+							.containsExactly( notFilterMe );
+				} );
 	}
 
 	@Test
@@ -166,23 +168,20 @@ class TestReportFilterTest {
 		when( filterAll.matches( any() ) ).thenReturn( true );
 		when( filterAll.matches( any(), any() ) ).thenReturn( true );
 
-		final ElementDifference filteredDifference = TestReportFilter.filter( difference, filterAll );
+		final Optional<ElementDifference> filteredElementDifference = TestReportFilter.filter( difference, filterAll );
 
-		assertThat( filteredDifference.hasAttributesDifferences() ).isFalse();
-		assertThat( filteredDifference.hasIdentAttributesDifferences() ).isFalse();
-		assertThat( filteredDifference.isInsertionOrDeletion() ).isFalse();
-		assertThat( filteredDifference.hasAnyDifference() ).isFalse();
+		assertThat( filteredElementDifference ).isEmpty();
 	}
 
 	@Test
 	void root_element_difference_should_be_filtered_properly() throws Exception {
 		when( originalElementDifference.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		when( originalElementDifference.getIdentifyingAttributes().identifier() ).thenReturn( "identifier" );
-		final RootElementDifference filteredRootElementDifference =
-				TestReportFilter.filter( originalRootElementDifference, filter );
-		final List<AttributeDifference> differences =
-				filteredRootElementDifference.getElementDifference().getAttributesDifference().getDifferences();
-		assertThat( differences ).containsExactly( notFilterMe );
+		assertThat( TestReportFilter.filter( originalRootElementDifference, filter ) )
+				.map( filteredRootElementDiff -> filteredRootElementDiff.getElementDifference() //
+						.getAttributesDifference() //
+						.getDifferences() )
+				.hasValueSatisfying( attributeDiffs -> assertThat( attributeDiffs ).containsExactly( notFilterMe ) );
 	}
 
 	@Test
@@ -215,6 +214,31 @@ class TestReportFilterTest {
 
 		assertThat( TestReportFilter.filter( empty, mock( Filter.class ) ) ).isEqualTo( empty );
 		assertThat( TestReportFilter.filter( difference, mock( Filter.class ) ) ).isEqualTo( difference );
+	}
+
+	@Test
+	void state_difference_should_have_no_root_element_differences_when_all_differences_are_filtered() throws Exception {
+		final List<AttributeDifference> attributeDifferences = Arrays.asList( filterMe );
+
+		final AttributesDifference attributesDiff = new AttributesDifference( attributeDifferences );
+
+		final ElementDifference elementDiff = new ElementDifference( element, attributesDiff, null,
+				mock( Screenshot.class ), mock( Screenshot.class ), Collections.emptyList() );
+
+		final RootElementDifference rootElementDiff =
+				new RootElementDifference( elementDiff, mock( RootElement.class ), mock( RootElement.class ) );
+
+		final List<RootElementDifference> rootElementDiffs = Arrays.asList( rootElementDiff );
+
+		final DurationDifference durationDiff = DurationDifference.differenceFor( 0L, 0L );
+
+		final StateDifference stateDiff = new StateDifference( rootElementDiffs, durationDiff );
+
+		assertThat( stateDiff.getRootElementDifferences() ).isNotEmpty();
+
+		final StateDifference filteredStateDiff = TestReportFilter.filter( stateDiff, filter );
+
+		assertThat( filteredStateDiff.getRootElementDifferences() ).isEmpty();
 	}
 
 	@Test
