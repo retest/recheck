@@ -3,8 +3,8 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to
-[Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to
+[Semantic Versioning](https://semver.org/).
 
 But we group the changes as follows:
 
@@ -35,9 +35,8 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
-
 [1.5.0] (2019-09-13)
-------------
+--------------------
 
 ### Breaking Changes
 
@@ -47,22 +46,22 @@ Table of Contents
 
 * Fix a bug, where loading ignore files didn't work properly.
 * Display inserted and deleted elements correctly.
-* Fix a nasty bug, where the retestId sometimes changed upon persisting as XML.
+* Fix a nasty bug, where the `retestId` sometimes changed upon persisting as XML.
 
 ### Improvements
 
 * The persisted binary report now contains the version number of the recheck version that persisted it.
 * The persisted binary report now is also zipped, reducing file size.
 * On error during creating the persisted binary report file, delete the file to not leave corrupt files behind. 
-* The API key can now be accessed via method calls.
+* The recheck API key can now be accessed via `Rehub#getRecheckApiKey()`.
 * Give better error message, if using rehub and no API key is specified.
 * Move HTML attributes to the correct filters.
 * Treat `*.filter.ignore.js` files as normal filter files.
-* Cache calls to JS-filter to improve performance.
+* Cache calls to JavaScript filter to improve performance.
 * Introduce new `NamingStrategy` and `ProjectLayout` to replace old `FileNamerStrategy`, but be downwards compatible for now.
 
 
 [1.4.0] (2019-08-19)
-------------
+--------------------
 
 In previous releases changes were unlogged...
