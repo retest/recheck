@@ -50,6 +50,7 @@ class TestReportFilterTest {
 	TestReplayResult originalTestReplayResult;
 	SuiteReplayResult originalSuiteReplayResult;
 	TestReport originalTestReport;
+	TestReportFilter cut;
 
 	@BeforeEach
 	void setUp() {
@@ -92,26 +93,25 @@ class TestReportFilterTest {
 		originalSuiteReplayResult.addTest( originalTestReplayResult );
 		originalTestReport = new TestReport();
 		originalTestReport.addSuite( originalSuiteReplayResult );
+		cut = new TestReportFilter( filter );
 	}
 
 	@Test
 	void attributes_differences_should_be_filtered_properly() throws Exception {
-		final AttributesDifference filtered =
-				TestReportFilter.filter( mock( Element.class ), originalAttributesDifference, filter );
+		final AttributesDifference filtered = cut.filter( mock( Element.class ), originalAttributesDifference );
 		assertThat( filtered.getDifferences() ).containsExactly( notFilterMe );
 	}
 
 	@Test
 	void attributes_differences_should_be_null_when_all_differences_are_filtered() throws Exception {
 		final AttributesDifference attributesDiff = new AttributesDifference( Arrays.asList( filterMe ) );
-		assertThat( TestReportFilter.filter( element, attributesDiff, filter ) ).isNull();
+		assertThat( cut.filter( element, attributesDiff ) ).isNull();
 	}
 
 	@Test
 	void identifying_attributes_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( mock( IdentifyingAttributes.class ) );
-		final IdentifyingAttributesDifference filtered =
-				TestReportFilter.filter( element, originalIdentAttributesDifference, filter );
+		final IdentifyingAttributesDifference filtered = cut.filter( element, originalIdentAttributesDifference );
 		assertThat( filtered.getAttributeDifferences() ).containsExactly( notFilterMe );
 	}
 
@@ -124,14 +124,13 @@ class TestReportFilterTest {
 		final IdentifyingAttributesDifference identAttributesDiff =
 				new IdentifyingAttributesDifference( expectedIdentAttributes, attributeDiffs );
 
-		assertThat( TestReportFilter.filter( element, identAttributesDiff, filter ) ).isNull();
+		assertThat( cut.filter( element, identAttributesDiff ) ).isNull();
 	}
 
 	@Test
 	void collection_of_element_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( identAttributes );
-		final Collection<ElementDifference> filteredChildDifferences =
-				TestReportFilter.filter( childDifferences, filter );
+		final Collection<ElementDifference> filteredChildDifferences = cut.filter( childDifferences );
 		final List<ElementDifference> elementDifferences =
 				filteredChildDifferences.stream().collect( Collectors.toList() );
 		assertThat( elementDifferences.get( 0 ).getAttributesDifference().getDifferences() )
@@ -144,15 +143,13 @@ class TestReportFilterTest {
 	void element_difference_and_child_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( identAttributes );
 
-		assertThat( TestReportFilter.filter( originalElementDifference, filter ) )
-				.hasValueSatisfying( fiteredElementDiff -> {
-					assertThat( fiteredElementDiff.getAttributesDifference().getDifferences() )
-							.containsExactly( notFilterMe );
-					final List<ElementDifference> childElementDiffs = fiteredElementDiff.getChildDifferences().stream() //
-							.collect( Collectors.toList() );
-					assertThat( childElementDiffs.get( 0 ).getAttributesDifference().getDifferences() )
-							.containsExactly( notFilterMe );
-				} );
+		assertThat( cut.filter( originalElementDifference ) ).hasValueSatisfying( fiteredElementDiff -> {
+			assertThat( fiteredElementDiff.getAttributesDifference().getDifferences() ).containsExactly( notFilterMe );
+			final List<ElementDifference> childElementDiffs = fiteredElementDiff.getChildDifferences().stream() //
+					.collect( Collectors.toList() );
+			assertThat( childElementDiffs.get( 0 ).getAttributesDifference().getDifferences() )
+					.containsExactly( notFilterMe );
+		} );
 	}
 
 	@Test
@@ -168,7 +165,9 @@ class TestReportFilterTest {
 		when( filterAll.matches( any() ) ).thenReturn( true );
 		when( filterAll.matches( any(), any() ) ).thenReturn( true );
 
-		final Optional<ElementDifference> filteredElementDifference = TestReportFilter.filter( difference, filterAll );
+		final TestReportFilter cut = new TestReportFilter( filterAll );
+
+		final Optional<ElementDifference> filteredElementDifference = cut.filter( difference );
 
 		assertThat( filteredElementDifference ).isEmpty();
 	}
@@ -177,7 +176,7 @@ class TestReportFilterTest {
 	void root_element_difference_should_be_filtered_properly() throws Exception {
 		when( originalElementDifference.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		when( originalElementDifference.getIdentifyingAttributes().identifier() ).thenReturn( "identifier" );
-		assertThat( TestReportFilter.filter( originalRootElementDifference, filter ) )
+		assertThat( cut.filter( originalRootElementDifference ) )
 				.map( filteredRootElementDiff -> filteredRootElementDiff.getElementDifference() //
 						.getAttributesDifference() //
 						.getDifferences() )
@@ -186,8 +185,7 @@ class TestReportFilterTest {
 
 	@Test
 	void list_of_root_element_differences_should_be_filtered_properly() throws Exception {
-		final List<RootElementDifference> filteredRootElementDifferences =
-				TestReportFilter.filter( originalRootElementDifferences, filter );
+		final List<RootElementDifference> filteredRootElementDifferences = cut.filter( originalRootElementDifferences );
 		final List<AttributeDifference> differences = filteredRootElementDifferences.get( 0 ).getElementDifference()
 				.getAttributesDifference().getDifferences();
 		assertThat( differences ).contains( notFilterMe );
@@ -195,7 +193,7 @@ class TestReportFilterTest {
 
 	@Test
 	void state_difference_should_be_filtered_properly() throws Exception {
-		final StateDifference filteredStateDifference = TestReportFilter.filter( originalStateDifference, filter );
+		final StateDifference filteredStateDifference = cut.filter( originalStateDifference );
 		final List<AttributeDifference> differences = filteredStateDifference.getRootElementDifferences().get( 0 )
 				.getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
@@ -204,16 +202,18 @@ class TestReportFilterTest {
 	@Test
 	void state_difference_should_not_throw_if_null() {
 		final StateDifference empty = null; // This is the cause
-		assertThatCode( () -> TestReportFilter.filter( empty, mock( Filter.class ) ) ).doesNotThrowAnyException();
+		final TestReportFilter cut = new TestReportFilter( mock( Filter.class ) );
+		assertThatCode( () -> cut.filter( empty ) ).doesNotThrowAnyException();
 	}
 
 	@Test
 	void state_difference_should_not_destroy_if_no_difference() {
 		final StateDifference empty = null; // This is the cause
 		final StateDifference difference = mock( StateDifference.class );
+		final TestReportFilter cut = new TestReportFilter( mock( Filter.class ) );
 
-		assertThat( TestReportFilter.filter( empty, mock( Filter.class ) ) ).isEqualTo( empty );
-		assertThat( TestReportFilter.filter( difference, mock( Filter.class ) ) ).isEqualTo( difference );
+		assertThat( cut.filter( empty ) ).isEqualTo( empty );
+		assertThat( cut.filter( difference ) ).isEqualTo( difference );
 	}
 
 	@Test
@@ -236,15 +236,14 @@ class TestReportFilterTest {
 
 		assertThat( stateDiff.getRootElementDifferences() ).isNotEmpty();
 
-		final StateDifference filteredStateDiff = TestReportFilter.filter( stateDiff, filter );
+		final StateDifference filteredStateDiff = cut.filter( stateDiff );
 
 		assertThat( filteredStateDiff.getRootElementDifferences() ).isEmpty();
 	}
 
 	@Test
 	void action_replay_result_should_be_filtered_properly() throws Exception {
-		final ActionReplayResult filteredActionReplayResult =
-				TestReportFilter.filter( originalActionReplayResult, filter );
+		final ActionReplayResult filteredActionReplayResult = cut.filter( originalActionReplayResult );
 		final List<AttributeDifference> differences = filteredActionReplayResult.getStateDifference()
 				.getRootElementDifferences().get( 0 ).getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
@@ -254,8 +253,8 @@ class TestReportFilterTest {
 	void action_replay_result_should_not_throw_if_null() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getStateDifference() ).thenReturn( null ); // Just to make sure that this is the cause
-
-		assertThatCode( () -> TestReportFilter.filter( result, mock( Filter.class ) ) ).doesNotThrowAnyException();
+		final TestReportFilter cut = new TestReportFilter( mock( Filter.class ) );
+		assertThatCode( () -> cut.filter( result ) ).doesNotThrowAnyException();
 	}
 
 	@Test
@@ -267,15 +266,15 @@ class TestReportFilterTest {
 		when( doFilter.matches( any(), any() ) ).thenReturn( true );
 		when( doFilter.matches( any() ) ).thenReturn( true );
 
-		assertThat( TestReportFilter.filter( noGoldenMasterActionResult, noFilter ) )
+		assertThat( new TestReportFilter( noFilter ).filter( noGoldenMasterActionResult ) )
 				.isEqualTo( noGoldenMasterActionResult );
-		assertThat( TestReportFilter.filter( noGoldenMasterActionResult, doFilter ) )
+		assertThat( new TestReportFilter( doFilter ).filter( noGoldenMasterActionResult ) )
 				.isEqualTo( noGoldenMasterActionResult );
 	}
 
 	@Test
 	void test_replay_result_should_be_filtered_properly() throws Exception {
-		final TestReplayResult filteredTestReplayResult = TestReportFilter.filter( originalTestReplayResult, filter );
+		final TestReplayResult filteredTestReplayResult = cut.filter( originalTestReplayResult );
 		final List<AttributeDifference> differences = filteredTestReplayResult.getActionReplayResults().get( 0 )
 				.getStateDifference().getRootElementDifferences().get( 0 ).getElementDifference()
 				.getAttributesDifference().getDifferences();
@@ -284,8 +283,7 @@ class TestReportFilterTest {
 
 	@Test
 	void suite_replay_result_should_be_filtered_properly() throws Exception {
-		final SuiteReplayResult filteredSuiteReplayResult =
-				TestReportFilter.filter( originalSuiteReplayResult, filter );
+		final SuiteReplayResult filteredSuiteReplayResult = cut.filter( originalSuiteReplayResult );
 		final StateDifference stateDifference = filteredSuiteReplayResult.getTestReplayResults().get( 0 )
 				.getActionReplayResults().get( 0 ).getStateDifference();
 		final List<AttributeDifference> differences = stateDifference.getRootElementDifferences().get( 0 )
@@ -295,7 +293,7 @@ class TestReportFilterTest {
 
 	@Test
 	void test_report_should_be_filtered_properly() throws Exception {
-		final TestReport filteredTestReport = TestReportFilter.filter( originalTestReport, filter );
+		final TestReport filteredTestReport = cut.filter( originalTestReport );
 		final SuiteReplayResult suiteReplayResult = filteredTestReport.getSuiteReplayResults().get( 0 );
 		final ActionReplayResult actionReplayResult =
 				suiteReplayResult.getTestReplayResults().get( 0 ).getActionReplayResults().get( 0 );
