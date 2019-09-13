@@ -31,11 +31,11 @@ public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
-	private static final String BASIC_FILTER_DIR = "/filter/";
-	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
+	private static final String BASIC_FILTER_DIR = "filter";
+	private static final String WEB_FILTER_RESOURCE = "/" + BASIC_FILTER_DIR + "/web/";
 	private static final List<String> defaultWebFilter =
-			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "style-attributes.filter",
-					WEB_FILTER_DIR + "invisible-attributes.filter", WEB_FILTER_DIR + "content.filter" );
+			Arrays.asList( WEB_FILTER_RESOURCE + "positioning.filter", WEB_FILTER_RESOURCE + "style-attributes.filter",
+					WEB_FILTER_RESOURCE + "invisible-attributes.filter", WEB_FILTER_RESOURCE + "content.filter" );
 
 	private SearchFilterFiles() {}
 
