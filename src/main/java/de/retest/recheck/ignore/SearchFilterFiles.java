@@ -68,7 +68,7 @@ public class SearchFilterFiles {
 			final Path path = fs.provider().getPath( uri );
 			return Pair.of( getFileName( path ), FilterLoader.provide( path ) );
 		} catch ( final IOException e ) {
-			log.error( "Could not load Filter at '{}'", uri, e );
+			log.error( "Could not load filter at '{}'", uri, e );
 			return null;
 		}
 	}
