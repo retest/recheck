@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
+import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,8 +32,8 @@ public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
-	private static final String BASIC_FILTER_DIR = "filter";
-	private static final String WEB_FILTER_RESOURCE = "/" + BASIC_FILTER_DIR + "/web/";
+	private static final String FILTER_DIR_NAME = "filter";
+	private static final String WEB_FILTER_RESOURCE = "/" + FILTER_DIR_NAME + "/web/";
 	private static final List<String> defaultWebFilter =
 			Arrays.asList( WEB_FILTER_RESOURCE + "positioning.filter", WEB_FILTER_RESOURCE + "style-attributes.filter",
 					WEB_FILTER_RESOURCE + "invisible-attributes.filter", WEB_FILTER_RESOURCE + "content.filter" );
@@ -83,7 +84,8 @@ public class SearchFilterFiles {
 	}
 
 	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
-		final Path userFilterFolder = Paths.get( System.getProperty( "user.home" ), ".retest", "filter" );
+		final Path userFilterFolder =
+				Paths.get( System.getProperty( "user.home" ), RETEST_PROJECT_CONFIG_FOLDER, FILTER_DIR_NAME );
 		if ( Files.exists( userFilterFolder ) ) {
 			return loadFiltersFromDirectory( userFilterFolder );
 		}
