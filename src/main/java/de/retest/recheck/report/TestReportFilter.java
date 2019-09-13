@@ -36,7 +36,9 @@ public class TestReportFilter {
 		return newTestReport;
 	}
 
-	SuiteReplayResult filter( final SuiteReplayResult suiteReplayResult ) {
+	// Filter classes from de.retest.recheck.report.
+
+	public SuiteReplayResult filter( final SuiteReplayResult suiteReplayResult ) {
 		final SuiteReplayResult newSuiteReplayResult = new SuiteReplayResult( suiteReplayResult.getName(),
 				suiteReplayResult.getSuiteNr(), suiteReplayResult.getExecSuiteSutVersion(),
 				suiteReplayResult.getSuiteUuid(), suiteReplayResult.getReplaySutVersion() );
@@ -55,7 +57,7 @@ public class TestReportFilter {
 		return newTestReplayResult;
 	}
 
-	ActionReplayResult filter( final ActionReplayResult actionReplayResult ) {
+	public ActionReplayResult filter( final ActionReplayResult actionReplayResult ) {
 		if ( actionReplayResult instanceof NoGoldenMasterActionReplayResult ) {
 			return actionReplayResult;
 		}
@@ -71,6 +73,8 @@ public class TestReportFilter {
 		return ActionReplayResult.createActionReplayResult( data, error, tnfe, newStateDiff, actualDuration,
 				actualState );
 	}
+
+	// Filter classes from de.retest.recheck.ui.diff.
 
 	StateDifference filter( final StateDifference stateDiff ) {
 		if ( stateDiff == null || stateDiff.getRootElementDifferences().isEmpty() ) {
@@ -126,7 +130,8 @@ public class TestReportFilter {
 				.filter( diff -> !filter.matches( element, diff ) ) //
 				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
 						? Optional.empty() //
-						: Optional.of( new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), newDiffs ) ) ) );
+						: Optional.of( new IdentifyingAttributesDifference( element.getIdentifyingAttributes(),
+								newDiffs ) ) ) );
 	}
 
 	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
