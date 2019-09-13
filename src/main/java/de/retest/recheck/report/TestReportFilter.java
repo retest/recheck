@@ -98,11 +98,11 @@ public class TestReportFilter {
 		LeafDifference identAttributesDiff = elementDiff.getIdentifyingAttributesDifference();
 		Collection<ElementDifference> childDiffs = elementDiff.getChildDifferences();
 		if ( elementDiff.hasAttributesDifferences() ) {
-			attributesDiff = filter( elementDiff.getElement(), elementDiff.getAttributesDifference() );
+			attributesDiff = filter( elementDiff.getElement(), elementDiff.getAttributesDifference() ).orElse( null );
 		}
 		if ( elementDiff.hasIdentAttributesDifferences() ) {
 			identAttributesDiff = filter( elementDiff.getElement(),
-					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference() );
+					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference() ).orElse( null );
 		}
 		if ( !elementDiff.getChildDifferences().isEmpty() ) {
 			childDiffs = filter( elementDiff.getChildDifferences() );
@@ -120,20 +120,20 @@ public class TestReportFilter {
 				.collect( toList() );
 	}
 
-	IdentifyingAttributesDifference filter( final Element element,
+	Optional<IdentifyingAttributesDifference> filter( final Element element,
 			final IdentifyingAttributesDifference identAttributesDiff ) {
 		return identAttributesDiff.getAttributeDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
 				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
-						? null // expected by ElementDifference
-						: new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), newDiffs ) ) );
+						? Optional.empty() //
+						: Optional.of( new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), newDiffs ) ) ) );
 	}
 
-	AttributesDifference filter( final Element element, final AttributesDifference attributesDiff ) {
+	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
 		return attributesDiff.getDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
 				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
-						? null // expected by ElementDifference
-						: new AttributesDifference( newDiffs ) ) );
+						? Optional.empty() //
+						: Optional.of( new AttributesDifference( newDiffs ) ) ) );
 	}
 }

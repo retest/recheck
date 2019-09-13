@@ -110,21 +110,23 @@ class TestReportFilterTest {
 
 	@Test
 	void attributes_difference_should_be_filtered_properly() throws Exception {
-		final AttributesDifference filtered = cut.filter( mock( Element.class ), attributesDiff );
-		assertThat( filtered.getDifferences() ).containsExactly( notFilterMe );
+		assertThat( cut.filter( mock( Element.class ), attributesDiff ) ) //
+				.map( AttributesDifference::getDifferences ) //
+				.hasValueSatisfying( attributesDiff -> assertThat( attributesDiff ).containsExactly( notFilterMe ) );
 	}
 
 	@Test
 	void attributes_difference_should_be_null_when_all_differences_are_filtered() throws Exception {
 		final AttributesDifference attributesDiff = new AttributesDifference( Collections.singletonList( filterMe ) );
-		assertThat( cut.filter( element, attributesDiff ) ).isNull();
+		assertThat( cut.filter( element, attributesDiff ) ).isEmpty();
 	}
 
 	@Test
 	void identifying_attributes_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( mock( IdentifyingAttributes.class ) );
-		final IdentifyingAttributesDifference filtered = cut.filter( element, identAttributesDiff );
-		assertThat( filtered.getAttributeDifferences() ).containsExactly( notFilterMe );
+		assertThat( cut.filter( element, identAttributesDiff ) ) //
+				.map( IdentifyingAttributesDifference::getAttributeDifferences ) //
+				.hasValueSatisfying( attributeDiffs -> assertThat( attributeDiffs ).containsExactly( notFilterMe ) );
 	}
 
 	@Test
@@ -136,7 +138,7 @@ class TestReportFilterTest {
 		final IdentifyingAttributesDifference identAttributesDiff =
 				new IdentifyingAttributesDifference( expectedIdentAttributes, attributeDiffs );
 
-		assertThat( cut.filter( element, identAttributesDiff ) ).isNull();
+		assertThat( cut.filter( element, identAttributesDiff ) ).isEmpty();
 	}
 
 	@Test
