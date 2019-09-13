@@ -14,6 +14,8 @@ import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
 import de.retest.recheck.review.ignore.AttributeFilter.LegacyAttributeFilterLoader;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.LegacyAttributeRegexFilterLoader;
+import de.retest.recheck.review.ignore.DeletedFilter.DeletedFilterLoader;
+import de.retest.recheck.review.ignore.InsertedFilter.InsertedFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.ValueRegexFilter.ValueRegexFilterLoader;
 import de.retest.recheck.review.ignore.io.InheritanceLoader;
@@ -53,7 +55,9 @@ public class MatcherFilter implements Filter {
 				Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
 				Pair.of( AttributeRegexFilter.class, new LegacyAttributeRegexFilterLoader() ), //
 				Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
-				Pair.of( ValueRegexFilter.class, new ValueRegexFilterLoader() ) //
+				Pair.of( ValueRegexFilter.class, new ValueRegexFilterLoader() ), //
+				Pair.of( InsertedFilter.class, new InsertedFilterLoader() ), //
+				Pair.of( DeletedFilter.class, new DeletedFilterLoader() ) //
 		) );
 
 		static final String MATCHER = "matcher: ";

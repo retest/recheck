@@ -63,6 +63,12 @@ public class JSFilterImpl implements Filter {
 	}
 
 	@Override
+	public boolean matches( final Element element, final ChangeType change ) {
+		// "shouldIgnore" is legacy, so this needn't be called there
+		return callBooleanJSFunction( "matches", element, change.toString().toLowerCase() );
+	}
+
+	@Override
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		return callBooleanJSFunction( "matches", element, attributeDifference )
 				|| callBooleanJSFunction( "shouldIgnoreAttributeDifference", element, attributeDifference );

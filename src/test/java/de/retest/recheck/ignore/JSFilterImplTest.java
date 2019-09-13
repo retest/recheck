@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
+import de.retest.recheck.ignore.Filter.ChangeType;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import io.github.netmikey.logunit.api.LogCapturer;
@@ -62,6 +63,19 @@ class JSFilterImplTest {
 			}
 		};
 		assertThat( cut.matches( mock( Element.class ) ) ).isTrue();
+	}
+
+	@Test
+	void matches_with_changetype_should_be_called() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( "function matches(element, changetype) { return changetype == 'inserted'; }" );
+			}
+		};
+		assertThat( cut.matches( mock( Element.class ), ChangeType.Inserted ) ).isTrue();
+		assertThat( cut.matches( mock( Element.class ), ChangeType.Deleted ) ).isFalse();
+		assertThat( cut.matches( mock( Element.class ), ChangeType.Changed ) ).isFalse();
 	}
 
 	@Test

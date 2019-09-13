@@ -34,6 +34,11 @@ public class CacheFilter implements Filter {
 	}
 
 	@Override
+	public boolean matches( final Element element, final ChangeType changeType ) {
+		return elementCache.computeIfAbsent( element, e -> base.matches( e, changeType ) );
+	}
+
+	@Override
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		return attributeCache.computeIfAbsent( Pair.of( element, attributeDifference ), matchesDiff() );
 	}
