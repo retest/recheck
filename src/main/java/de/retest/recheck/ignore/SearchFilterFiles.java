@@ -82,6 +82,14 @@ public class SearchFilterFiles {
 				.orElse( Collections.emptyList() );
 	}
 
+	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
+		final Path userFilterFolder = Paths.get( System.getProperty( "user.home" ), ".retest", "filter" );
+		if ( Files.exists( userFilterFolder ) ) {
+			return loadFiltersFromDirectory( userFilterFolder );
+		}
+		return Collections.emptyList();
+	}
+
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
@@ -104,9 +112,8 @@ public class SearchFilterFiles {
 	 * @return Mapping from file names to filter. In the case of duplicates, project filters are preferred.
 	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
-		final List<Pair<String, FilterLoader>> projectFilterFiles = getProjectFilterFiles();
-		final List<Pair<String, FilterLoader>> defaultFilterFiles = getDefaultFilterFiles();
-		return Stream.concat( projectFilterFiles.stream(), defaultFilterFiles.stream() ) //
+		return Stream.of( getProjectFilterFiles(), getUserFilterFiles(), getDefaultFilterFiles() )
+				.flatMap( List::stream ) //
 				.collect( Collectors.toMap(
 						// Use the file name as key.
 						Pair::getLeft,
