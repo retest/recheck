@@ -5,6 +5,8 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJEC
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -81,6 +83,51 @@ class SearchFilterFilesTest {
 		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
 		final CompoundFilter actualPositioningFilter = (CompoundFilter) mapping.get( posFilterFileName );
 		assertThat( actualPositioningFilter.getFilters() ).isEmpty();
+	}
+
+	@Test
+	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@SystemProperty( key = "user.home" )
+	void filter_mapping_should_prefer_project_over_user_filters( @TempDir final Path temp ) throws Exception {
+		final String posFilterFileName = "positioning.filter";
+		final String posFilterInFolder = ".retest/filter/" + posFilterFileName;
+
+		final Path projectRoot = temp.resolve( "project" );
+		System.setProperty( RETEST_PROJECT_ROOT, projectRoot.toString() );
+		final Path projectPosFilterPath = projectRoot.resolve( posFilterInFolder );
+		writeString( projectPosFilterPath, "#projectFilter" );
+
+		final Path userRoot = temp.resolve( "user" );
+		System.setProperty( "user.home", userRoot.toString() );
+		final Path userPosFilterPath = userRoot.resolve( posFilterInFolder );
+		writeString( userPosFilterPath, "#userFilter" );
+
+		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
+		final CompoundFilter filter = (CompoundFilter) mapping.get( posFilterFileName );
+		assertThat( filter.toString() ).isEqualTo( "CompoundFilter(filters=[#projectFilter])" );
+	}
+
+	@Test
+	@SystemProperty( key = "user.home" )
+	void filter_mapping_should_prefer_user_over_default_filters( @TempDir final Path temp ) throws Exception {
+		final String posFilterFileName = "positioning.filter";
+		final String posFilterInFolder = ".retest/filter/" + posFilterFileName;
+
+		System.setProperty( "user.home", temp.toString() );
+		final Path userPosFilterPath = temp.resolve( posFilterInFolder );
+		writeString( userPosFilterPath, "#userFilter" );
+
+		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
+		final CompoundFilter filter = (CompoundFilter) mapping.get( posFilterFileName );
+		assertThat( filter.toString() ).isEqualTo( "CompoundFilter(filters=[#userFilter])" );
+	}
+
+	// TODO Replace with Files.writeString in Java 11+
+	private void writeString( final Path file, final String string ) throws IOException {
+		file.toFile().getParentFile().mkdirs();
+		final BufferedWriter writer = new BufferedWriter( new FileWriter( file.toFile() ) );
+		writer.write( string );
+		writer.close();
 	}
 
 	@Test
