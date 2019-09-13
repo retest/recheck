@@ -116,7 +116,7 @@ class TestReportFilterTest {
 
 	@Test
 	void attributes_difference_should_be_null_when_all_differences_are_filtered() throws Exception {
-		final AttributesDifference attributesDiff = new AttributesDifference( Arrays.asList( filterMe ) );
+		final AttributesDifference attributesDiff = new AttributesDifference( Collections.singletonList( filterMe ) );
 		assertThat( cut.filter( element, attributesDiff ) ).isNull();
 	}
 
@@ -131,7 +131,7 @@ class TestReportFilterTest {
 	void identifying_attributes_differences_should_be_null_when_all_differences_are_filtered() throws Exception {
 		final IdentifyingAttributes expectedIdentAttributes = mock( IdentifyingAttributes.class );
 
-		final List<AttributeDifference> attributeDiffs = Arrays.asList( filterMe );
+		final List<AttributeDifference> attributeDiffs = Collections.singletonList( filterMe );
 
 		final IdentifyingAttributesDifference identAttributesDiff =
 				new IdentifyingAttributesDifference( expectedIdentAttributes, attributeDiffs );
@@ -230,7 +230,7 @@ class TestReportFilterTest {
 
 	@Test
 	void state_difference_should_have_no_root_element_differences_when_all_differences_are_filtered() throws Exception {
-		final List<AttributeDifference> attributeDifferences = Arrays.asList( filterMe );
+		final List<AttributeDifference> attributeDifferences = Collections.singletonList( filterMe );
 
 		final AttributesDifference attributesDiff = new AttributesDifference( attributeDifferences );
 
@@ -240,7 +240,7 @@ class TestReportFilterTest {
 		final RootElementDifference rootElementDiff =
 				new RootElementDifference( elementDiff, mock( RootElement.class ), mock( RootElement.class ) );
 
-		final List<RootElementDifference> rootElementDiffs = Arrays.asList( rootElementDiff );
+		final List<RootElementDifference> rootElementDiffs = Collections.singletonList( rootElementDiff );
 
 		final DurationDifference durationDiff = DurationDifference.differenceFor( 0L, 0L );
 
