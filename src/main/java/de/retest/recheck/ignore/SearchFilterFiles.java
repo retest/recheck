@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
+import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,11 +32,11 @@ public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
-	private static final String BASIC_FILTER_DIR = "/filter/";
-	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
+	private static final String FILTER_DIR_NAME = "filter";
+	private static final String WEB_FILTER_RESOURCE = "/" + FILTER_DIR_NAME + "/web/";
 	private static final List<String> defaultWebFilter =
-			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "style-attributes.filter",
-					WEB_FILTER_DIR + "invisible-attributes.filter", WEB_FILTER_DIR + "content.filter" );
+			Arrays.asList( WEB_FILTER_RESOURCE + "positioning.filter", WEB_FILTER_RESOURCE + "style-attributes.filter",
+					WEB_FILTER_RESOURCE + "invisible-attributes.filter", WEB_FILTER_RESOURCE + "content.filter" );
 
 	private SearchFilterFiles() {}
 
@@ -82,6 +83,15 @@ public class SearchFilterFiles {
 				.orElse( Collections.emptyList() );
 	}
 
+	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
+		final Path userFilterFolder =
+				Paths.get( System.getProperty( "user.home" ), RETEST_PROJECT_CONFIG_FOLDER, FILTER_DIR_NAME );
+		if ( Files.exists( userFilterFolder ) ) {
+			return loadFiltersFromDirectory( userFilterFolder );
+		}
+		return Collections.emptyList();
+	}
+
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
@@ -104,9 +114,8 @@ public class SearchFilterFiles {
 	 * @return Mapping from file names to filter. In the case of duplicates, project filters are preferred.
 	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
-		final List<Pair<String, FilterLoader>> projectFilterFiles = getProjectFilterFiles();
-		final List<Pair<String, FilterLoader>> defaultFilterFiles = getDefaultFilterFiles();
-		return Stream.concat( projectFilterFiles.stream(), defaultFilterFiles.stream() ) //
+		return Stream.of( getProjectFilterFiles(), getUserFilterFiles(), getDefaultFilterFiles() )
+				.flatMap( List::stream ) //
 				.collect( Collectors.toMap(
 						// Use the file name as key.
 						Pair::getLeft,
