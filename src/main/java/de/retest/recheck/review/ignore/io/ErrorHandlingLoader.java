@@ -20,7 +20,9 @@ public final class ErrorHandlingLoader implements Loader<FilterPreserveLine> {
 			logger.error(
 					"For ignoring an attribute globally, please use 'attribute=' (to ensure weired line breaks do not break your ignore file)." );
 		} else {
-			logger.error( "No loader defined for line '{}'. Read more at https://bit.ly/2QMxxO2", line );
+			logger.error(
+					"No loader defined for line '{}'. Read more at https://docs.retest.de/recheck/how-ignore-works/",
+					line );
 		}
 		return new FilterPreserveLine( line );
 	}
