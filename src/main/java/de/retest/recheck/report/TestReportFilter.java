@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
@@ -19,6 +18,7 @@ import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.util.StreamUtil;
 
 public class TestReportFilter {
 
@@ -81,8 +81,7 @@ public class TestReportFilter {
 			final Filter filter ) {
 		return rootElementDifferences.stream() //
 				.map( rootElementDifference -> filter( rootElementDifference, filter ) ) //
-				.flatMap( newRootElementDifference -> newRootElementDifference.map( Stream::of ) //
-						.orElseGet( Stream::empty ) ) //
+				.flatMap( StreamUtil::optionalToStream ) //
 				.collect( Collectors.toList() );
 	}
 
@@ -117,8 +116,7 @@ public class TestReportFilter {
 			final Filter filter ) {
 		return elementDifferences.stream() //
 				.map( elementDifference -> filter( elementDifference, filter ) ) //
-				.flatMap( newElementDifference -> newElementDifference.map( Stream::of ) //
-						.orElseGet( Stream::empty ) ) //
+				.flatMap( StreamUtil::optionalToStream ) //
 				.collect( Collectors.toList() );
 	}
 
