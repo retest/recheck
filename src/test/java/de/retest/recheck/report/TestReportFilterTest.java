@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -156,8 +157,8 @@ class TestReportFilterTest {
 
 		assertThat( cut.filter( elementDiff ) ).hasValueSatisfying( fiteredElementDiff -> {
 			assertThat( fiteredElementDiff.getAttributesDifference().getDifferences() ).containsExactly( notFilterMe );
-			final List<ElementDifference> childElementDiffs = fiteredElementDiff.getChildDifferences().stream() //
-					.collect( Collectors.toList() );
+			final List<ElementDifference> childElementDiffs =
+					new ArrayList<>( fiteredElementDiff.getChildDifferences() );
 			assertThat( childElementDiffs.get( 0 ).getAttributesDifference().getDifferences() )
 					.containsExactly( notFilterMe );
 		} );
