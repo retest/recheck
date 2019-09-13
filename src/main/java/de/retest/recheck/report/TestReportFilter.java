@@ -89,7 +89,7 @@ public class TestReportFilter {
 
 	Optional<RootElementDifference> filter( final RootElementDifference rootElementDiff ) {
 		return filter( rootElementDiff.getElementDifference() ) //
-				.map( newRootElementDiff -> new RootElementDifference( newRootElementDiff,
+				.map( newElementDifference -> new RootElementDifference( newElementDifference,
 						rootElementDiff.getExpectedDescriptor(), rootElementDiff.getActualDescriptor() ) );
 	}
 
