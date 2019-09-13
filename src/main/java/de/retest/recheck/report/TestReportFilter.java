@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
@@ -21,6 +20,7 @@ import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.util.StreamUtil;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -83,7 +83,7 @@ public class TestReportFilter {
 	List<RootElementDifference> filter( final List<RootElementDifference> rootElementDiffs ) {
 		return rootElementDiffs.stream() //
 				.map( this::filter ) //
-				.flatMap( newRootElementDiff -> newRootElementDiff.map( Stream::of ).orElseGet( Stream::empty ) ) //
+				.flatMap( StreamUtil::optionalToStream ) //
 				.collect( toList() );
 	}
 
@@ -116,7 +116,7 @@ public class TestReportFilter {
 	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
 		return elementDiffs.stream() //
 				.map( this::filter ) //
-				.flatMap( newElementDiff -> newElementDiff.map( Stream::of ).orElseGet( Stream::empty ) ) //
+				.flatMap( StreamUtil::optionalToStream ) //
 				.collect( toList() );
 	}
 
