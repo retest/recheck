@@ -1,6 +1,6 @@
 package de.retest.recheck.ignore;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
+import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,11 +31,11 @@ public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
-	private static final String BASIC_FILTER_DIR = "/filter/";
-	private static final String WEB_FILTER_DIR = BASIC_FILTER_DIR + "web/";
-	private static final List<String> defaultWebFilter =
-			Arrays.asList( WEB_FILTER_DIR + "positioning.filter", WEB_FILTER_DIR + "style-attributes.filter",
-					WEB_FILTER_DIR + "invisible-attributes.filter", WEB_FILTER_DIR + "content.filter" );
+	public static final String FILTER_DIR_NAME = "filter";
+	public static final String WEB_FILTER_DIR_PATH = FILTER_DIR_NAME + "/web";
+
+	private static final List<String> defaultWebFilter = Arrays.asList( "positioning.filter", "style-attributes.filter",
+			"invisible-attributes.filter", "content.filter" );
 
 	private SearchFilterFiles() {}
 
@@ -44,16 +44,20 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
-				.map( SearchFilterFiles.class::getResource ) //
+				.map( SearchFilterFiles::getWebFilterResource ) //
 				.filter( Objects::nonNull ) //
-				.map( URL::toExternalForm ) //
-				.map( URI::create ) //
-				.map( SearchFilterFiles::loadFilterFromUri ) //
+				.map( SearchFilterFiles::loadFilterFromUrl ) //
 				.filter( Objects::nonNull ) //
 				.collect( Collectors.toList() );
 	}
 
-	private static Pair<String, FilterLoader> loadFilterFromUri( final URI uri ) {
+	private static URL getWebFilterResource( final String webFilterName ) {
+		final String webFilterResource = "/" + WEB_FILTER_DIR_PATH + "/" + webFilterName;
+		return SearchFilterFiles.class.getResource( webFilterResource );
+	}
+
+	private static Pair<String, FilterLoader> loadFilterFromUrl( final URL url ) {
+		final URI uri = URI.create( url.toExternalForm() );
 		try {
 			final Path path = Paths.get( uri );
 			return Pair.of( getFileName( path ), FilterLoader.load( path ) );
@@ -67,7 +71,7 @@ public class SearchFilterFiles {
 			final Path path = fs.provider().getPath( uri );
 			return Pair.of( getFileName( path ), FilterLoader.provide( path ) );
 		} catch ( final IOException e ) {
-			log.error( "Could not load Filter at '{}'", uri, e );
+			log.error( "Could not load filter at '{}'", uri, e );
 			return null;
 		}
 	}
@@ -77,15 +81,27 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getProjectFilterFiles() {
 		return ProjectConfiguration.getInstance().getProjectConfigFolder() //
-				.map( path -> path.resolve( FILTER_FOLDER ) ) //
+				.map( path -> path.resolve( FILTER_DIR_NAME ) ) //
 				.map( SearchFilterFiles::loadFiltersFromDirectory ) //
 				.orElse( Collections.emptyList() );
+	}
+
+	/**
+	 * @return The user filter files from the user's home.
+	 */
+	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
+		final Path userFilterFolder =
+				Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, FILTER_DIR_NAME );
+		if ( Files.exists( userFilterFolder ) ) {
+			return loadFiltersFromDirectory( userFilterFolder );
+		}
+		return Collections.emptyList();
 	}
 
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
-					.filter( isFilterFile() ) //
+					.filter( SearchFilterFiles::isFilterFile ) //
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final NoSuchFileException e ) {
@@ -96,17 +112,19 @@ public class SearchFilterFiles {
 		return Collections.emptyList();
 	}
 
-	private static Predicate<? super Path> isFilterFile() {
-		return file -> file.toString().endsWith( FILTER_EXTENSION ) || file.toString().endsWith( FILTER_JS_EXTENSION );
+	private static boolean isFilterFile( final Path path ) {
+		final String fileName = getFileName( path );
+		return fileName.endsWith( FILTER_EXTENSION ) || fileName.endsWith( FILTER_JS_EXTENSION );
 	}
 
 	/**
-	 * @return Mapping from file names to filter. In the case of duplicates, project filters are preferred.
+	 * @return Mapping from file names to filter. In the case of duplicates, specific filters are preferred over generic
+	 *         filters (i.e. project filer over user filter over default filter).
 	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
-		final List<Pair<String, FilterLoader>> projectFilterFiles = getProjectFilterFiles();
-		final List<Pair<String, FilterLoader>> defaultFilterFiles = getDefaultFilterFiles();
-		return Stream.concat( projectFilterFiles.stream(), defaultFilterFiles.stream() ) //
+		// Concat from specific to generic.
+		return Stream.of( getProjectFilterFiles(), getUserFilterFiles(), getDefaultFilterFiles() )
+				.flatMap( List::stream ) //
 				.collect( Collectors.toMap(
 						// Use the file name as key.
 						Pair::getLeft,
@@ -116,29 +134,29 @@ public class SearchFilterFiles {
 							try {
 								return loader.load();
 							} catch ( final IOException e ) {
-								log.error( "Could not load Filter for '{}'.", pair.getLeft(), e );
+								log.error( "Could not load filter for name '{}'.", pair.getLeft(), e );
 								return Filter.FILTER_NOTHING;
 							}
 						},
-						// Prefer project over default filters (due to concat order).
-						( projectFilter, defaultFilter ) -> projectFilter ) );
+						// Prefer specific over generic filters (due to concat order).
+						( specificFilter, genericFilter ) -> specificFilter ) );
 	}
 
 	private static String getFileName( final Path path ) {
-		return path.getFileName().toString();
+		final Path fileName = path.getFileName();
+		return fileName != null ? fileName.toString() : "n/a";
 	}
 
 	public static Filter getFilterByName( final String name ) {
-		final Filter result = toFileNameFilterMapping().get( name );
-		if ( result == null ) {
-			final String projectFilter = ProjectConfiguration.getInstance().getProjectConfigFolder() //
-					.map( path -> path.resolve( FILTER_FOLDER ) ) //
+		final Filter filter = toFileNameFilterMapping().get( name );
+		if ( filter == null ) {
+			final Optional<String> projectFilterDir = ProjectConfiguration.getInstance().getProjectConfigFolder() //
+					.map( path -> path.resolve( FILTER_DIR_NAME ) ) //
 					.map( Path::toAbsolutePath ) //
-					.map( Path::toString ) //
-					.orElse( "project not set" );
-
-			throw new FilterNotFoundException( name, projectFilter );
+					.map( Path::toString );
+			throw projectFilterDir.isPresent() ? new FilterNotFoundException( name, projectFilterDir.get() )
+					: new FilterNotFoundException( name );
 		}
-		return result;
+		return filter;
 	}
 }

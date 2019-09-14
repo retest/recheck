@@ -9,13 +9,15 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.Properties;
+
 public class PathBasedProjectRootFinder implements ProjectRootFinder {
 
 	private static final Logger logger = LoggerFactory.getLogger( PathBasedProjectRootFinder.class );
 	private final Set<Path> indicators = new HashSet<>();
 
 	public PathBasedProjectRootFinder() {
-		indicators.add( Paths.get( ".retest" ) );
+		indicators.add( Paths.get( Properties.RETEST_FOLDER_NAME ) );
 		indicators.add( Paths.get( "src/main/java" ) );
 		indicators.add( Paths.get( "src/test/java" ) );
 	}

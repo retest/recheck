@@ -1,8 +1,7 @@
 package de.retest.recheck.ignore;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
-import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
+import static java.nio.file.Files.write;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
@@ -18,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import de.retest.recheck.Properties;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class SearchFilterFilesTest {
@@ -27,8 +27,8 @@ class SearchFilterFilesTest {
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws IOException {
-		retestFolder = temp.resolve( RETEST_PROJECT_CONFIG_FOLDER );
-		filterFolder = retestFolder.resolve( FILTER_FOLDER );
+		retestFolder = temp.resolve( Properties.RETEST_FOLDER_NAME );
+		filterFolder = retestFolder.resolve( SearchFilterFiles.FILTER_DIR_NAME );
 		Files.createDirectories( filterFolder );
 	}
 
@@ -81,6 +81,45 @@ class SearchFilterFilesTest {
 		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
 		final CompoundFilter actualPositioningFilter = (CompoundFilter) mapping.get( posFilterFileName );
 		assertThat( actualPositioningFilter.getFilters() ).isEmpty();
+	}
+
+	@Test
+	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@SystemProperty( key = "user.home" )
+	void filter_mapping_should_prefer_project_over_user_filters( @TempDir final Path temp ) throws Exception {
+		final String posFilterFileName = "positioning.filter";
+		final String posFilterInFolder = ".retest/filter/" + posFilterFileName;
+
+		final Path projectRoot = temp.resolve( "project" );
+		System.setProperty( RETEST_PROJECT_ROOT, projectRoot.toString() );
+		final Path projectPosFilterPath = projectRoot.resolve( posFilterInFolder );
+		Files.createDirectories( projectPosFilterPath.getParent() );
+		write( projectPosFilterPath, "#projectFilter".getBytes() );
+
+		final Path userRoot = temp.resolve( "user" );
+		System.setProperty( "user.home", userRoot.toString() );
+		final Path userPosFilterPath = userRoot.resolve( posFilterInFolder );
+		Files.createDirectories( userPosFilterPath.getParent() );
+		write( userPosFilterPath, "#userFilter".getBytes() );
+
+		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
+		final Filter filter = mapping.get( posFilterFileName );
+		assertThat( filter ).hasToString( "CompoundFilter(filters=[#projectFilter])" );
+	}
+
+	@Test
+	@SystemProperty( key = "user.home" )
+	void filter_mapping_should_prefer_user_over_default_filters( @TempDir final Path temp ) throws Exception {
+		final String posFilterFileName = "positioning.filter";
+		final String posFilterInFolder = ".retest/filter/" + posFilterFileName;
+
+		System.setProperty( "user.home", temp.toString() );
+		final Path userPosFilterPath = temp.resolve( posFilterInFolder );
+		write( userPosFilterPath, "#userFilter".getBytes() );
+
+		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
+		final Filter filter = mapping.get( posFilterFileName );
+		assertThat( filter ).hasToString( "CompoundFilter(filters=[#userFilter])" );
 	}
 
 	@Test

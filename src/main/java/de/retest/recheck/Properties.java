@@ -19,6 +19,8 @@ public class Properties {
 	public static final String SCREENSHOT_FOLDER_NAME = "screenshot";
 	public static final String RECHECK_FOLDER_NAME = "recheck";
 	public static final String DEFAULT_XML_FILE_NAME = "retest.xml";
+
+	public static final String RETEST_FOLDER_NAME = ".retest";
 	public static final String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
 
 	public static final String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";

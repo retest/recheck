@@ -1,8 +1,8 @@
 package de.retest.recheck.review.workers;
 
+import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
-import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +25,7 @@ class LoadAndSaveFilterWorkerTest {
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws Exception {
-		final Path configFolder = temp.resolve( RETEST_PROJECT_CONFIG_FOLDER );
+		final Path configFolder = temp.resolve( RETEST_FOLDER_NAME );
 		Files.createDirectory( configFolder );
 
 		final Path jsIgnoreFile = configFolder.resolve( RECHECK_IGNORE_JSRULES );
