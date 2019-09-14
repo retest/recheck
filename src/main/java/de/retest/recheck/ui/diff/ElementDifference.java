@@ -164,6 +164,10 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return identifyingAttributesDifference instanceof InsertedDeletedElementDifference;
 	}
 
+	public boolean hasChildDifferences() {
+		return !childDifferences.isEmpty();
+	}
+
 	public boolean isInsertion() {
 		return isInsertionOrDeletion()
 				&& ((InsertedDeletedElementDifference) identifyingAttributesDifference).isInserted();
@@ -185,7 +189,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( identifyingAttributesDifference != null || attributesDifference != null ) {
 			return 1;
 		}
-		if ( !childDifferences.isEmpty() ) {
+		if ( hasChildDifferences() ) {
 			int size = 0;
 			for ( final Difference difference : childDifferences ) {
 				size += difference.size();
@@ -232,7 +236,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 					+ ":\n at: " + getIdentifyingAttributes().getPath() //
 					+ ":\n\t" + differences;
 		}
-		if ( !childDifferences.isEmpty() ) {
+		if ( hasChildDifferences() ) {
 			if ( size() > 50 ) {
 				String result = "";
 				int diffCnt = 0;

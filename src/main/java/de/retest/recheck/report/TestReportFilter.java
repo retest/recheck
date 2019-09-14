@@ -103,7 +103,7 @@ public class TestReportFilter {
 			identifyingAttributesDifference = filter( elementDiff.getElement(),
 					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference(), filter );
 		}
-		if ( !elementDiff.getChildDifferences().isEmpty() ) {
+		if ( elementDiff.hasChildDifferences() ) {
 			childDifferences = filter( elementDiff.getChildDifferences(), filter );
 		}
 		final ElementDifference newElementDiff =
