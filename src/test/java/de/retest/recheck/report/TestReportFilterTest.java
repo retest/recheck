@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
+import de.retest.recheck.review.ignore.ElementFilter;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.GroundState;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -172,6 +173,24 @@ class TestReportFilterTest {
 		final Optional<ElementDifference> filteredElementDifference = TestReportFilter.filter( difference, filterAll );
 
 		assertThat( filteredElementDifference ).isEmpty();
+	}
+
+	@Test
+	void element_difference_should_be_preserved_if_child_differences() throws Exception {
+		final Element child = mock( Element.class );
+		final ElementDifference childWithOwnDiffs =
+				new ElementDifference( child, originalAttributesDifference, null, null, null, Collections.emptyList() );
+
+		final Element parent = mock( Element.class );
+		final ElementDifference parentWithoutOwnDiffs =
+				new ElementDifference( parent, null, null, null, null, Collections.singletonList( childWithOwnDiffs ) );
+
+		final Filter childFilter = new ElementFilter( e -> e == child );
+		final Filter parentFilter = new ElementFilter( e -> e == parent );
+
+		assertThat( TestReportFilter.filter( childWithOwnDiffs, childFilter ) ).isEmpty();
+		assertThat( TestReportFilter.filter( childWithOwnDiffs, parentFilter ) ).isNotEmpty();
+		assertThat( TestReportFilter.filter( parentWithoutOwnDiffs, parentFilter ) ).isNotEmpty();
 	}
 
 	@Test

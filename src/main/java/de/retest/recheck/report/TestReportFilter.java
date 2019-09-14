@@ -109,7 +109,8 @@ public class TestReportFilter {
 		final ElementDifference newElementDiff =
 				new ElementDifference( elementDiff.getElement(), attributesDifference, identifyingAttributesDifference,
 						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDifferences );
-		return newElementDiff.hasAnyDifference() ? Optional.of( newElementDiff ) : Optional.empty();
+		final boolean anyOwnOrChildDiffs = newElementDiff.hasAnyDifference() || newElementDiff.hasChildDifferences();
+		return anyOwnOrChildDiffs ? Optional.of( newElementDiff ) : Optional.empty();
 	}
 
 	static Collection<ElementDifference> filter( final Collection<ElementDifference> elementDifferences,
