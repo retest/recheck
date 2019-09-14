@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.ignore.SearchFilterFiles;
+
 public class ProjectConfiguration {
 
 	private static final Logger logger = LoggerFactory.getLogger( ProjectConfiguration.class );
@@ -17,7 +19,6 @@ public class ProjectConfiguration {
 	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
 	public static final String RECHECK_IGNORE_JSRULES = "recheck.ignore.js";
-	public static final String FILTER_FOLDER = "filter";
 
 	private static final String DEFAULT_PREFIX = "default-";
 	private static final String RETEST_PROJECT_DEFAULTS = DEFAULT_PREFIX + RETEST_PROJECT_PROPERTIES;
@@ -52,7 +53,7 @@ public class ProjectConfiguration {
 	}
 
 	public void ensureProjectConfigurationInitialized() {
-		final Path projectFilterFolder = findProjectConfigFolder().resolve( FILTER_FOLDER );
+		final Path projectFilterFolder = findProjectConfigFolder().resolve( SearchFilterFiles.FILTER_DIR_NAME );
 		final Path projectConfigFile = findProjectConfigFolder().resolve( RETEST_PROJECT_PROPERTIES );
 		final Path projectIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE );
 		final Path projectRuleIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE_JSRULES );

@@ -1,6 +1,5 @@
 package de.retest.recheck.ignore;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 
 import java.io.IOException;
@@ -32,7 +31,8 @@ public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
-	private static final String FILTER_DIR_NAME = "filter";
+	public static final String FILTER_DIR_NAME = "filter";
+
 	private static final String WEB_FILTER_RESOURCE = "/" + FILTER_DIR_NAME + "/web/";
 	private static final List<String> defaultWebFilter =
 			Arrays.asList( WEB_FILTER_RESOURCE + "positioning.filter", WEB_FILTER_RESOURCE + "style-attributes.filter",
@@ -78,7 +78,7 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getProjectFilterFiles() {
 		return ProjectConfiguration.getInstance().getProjectConfigFolder() //
-				.map( path -> path.resolve( FILTER_FOLDER ) ) //
+				.map( path -> path.resolve( FILTER_DIR_NAME ) ) //
 				.map( SearchFilterFiles::loadFiltersFromDirectory ) //
 				.orElse( Collections.emptyList() );
 	}
@@ -148,7 +148,7 @@ public class SearchFilterFiles {
 		final Filter filter = toFileNameFilterMapping().get( name );
 		if ( filter == null ) {
 			final Optional<String> projectFilterDir = ProjectConfiguration.getInstance().getProjectConfigFolder() //
-					.map( path -> path.resolve( FILTER_FOLDER ) ) //
+					.map( path -> path.resolve( FILTER_DIR_NAME ) ) //
 					.map( Path::toAbsolutePath ) //
 					.map( Path::toString );
 			throw projectFilterDir.isPresent() ? new FilterNotFoundException( name, projectFilterDir.get() )

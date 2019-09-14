@@ -1,6 +1,5 @@
 package de.retest.recheck.ignore;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.FILTER_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static java.nio.file.Files.write;
@@ -29,7 +28,7 @@ class SearchFilterFilesTest {
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws IOException {
 		retestFolder = temp.resolve( RETEST_PROJECT_CONFIG_FOLDER );
-		filterFolder = retestFolder.resolve( FILTER_FOLDER );
+		filterFolder = retestFolder.resolve( SearchFilterFiles.FILTER_DIR_NAME );
 		Files.createDirectories( filterFolder );
 	}
 
