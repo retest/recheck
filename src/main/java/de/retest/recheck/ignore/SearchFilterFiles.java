@@ -44,17 +44,20 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
-				.map( filterName -> "/" + WEB_FILTER_DIR_PATH + "/" + filterName ) //
-				.map( SearchFilterFiles.class::getResource ) //
+				.map( SearchFilterFiles::getWebFilterResource ) //
 				.filter( Objects::nonNull ) //
-				.map( URL::toExternalForm ) //
-				.map( URI::create ) //
-				.map( SearchFilterFiles::loadFilterFromUri ) //
+				.map( SearchFilterFiles::loadFilterFromUrl ) //
 				.filter( Objects::nonNull ) //
 				.collect( Collectors.toList() );
 	}
 
-	private static Pair<String, FilterLoader> loadFilterFromUri( final URI uri ) {
+	private static URL getWebFilterResource( final String webFilterName ) {
+		final String webFilterResource = "/" + WEB_FILTER_DIR_PATH + "/" + webFilterName;
+		return SearchFilterFiles.class.getResource( webFilterResource );
+	}
+
+	private static Pair<String, FilterLoader> loadFilterFromUrl( final URL url ) {
+		final URI uri = URI.create( url.toExternalForm() );
 		try {
 			final Path path = Paths.get( uri );
 			return Pair.of( getFileName( path ), FilterLoader.load( path ) );
