@@ -32,11 +32,10 @@ public class SearchFilterFiles {
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
 	public static final String FILTER_DIR_NAME = "filter";
+	public static final String WEB_FILTER_DIR_PATH = FILTER_DIR_NAME + "/web";
 
-	private static final String WEB_FILTER_RESOURCE = "/" + FILTER_DIR_NAME + "/web/";
-	private static final List<String> defaultWebFilter =
-			Arrays.asList( WEB_FILTER_RESOURCE + "positioning.filter", WEB_FILTER_RESOURCE + "style-attributes.filter",
-					WEB_FILTER_RESOURCE + "invisible-attributes.filter", WEB_FILTER_RESOURCE + "content.filter" );
+	private static final List<String> defaultWebFilter = Arrays.asList( "positioning.filter", "style-attributes.filter",
+			"invisible-attributes.filter", "content.filter" );
 
 	private SearchFilterFiles() {}
 
@@ -45,6 +44,7 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
+				.map( filterName -> "/" + WEB_FILTER_DIR_PATH + "/" + filterName ) //
 				.map( SearchFilterFiles.class::getResource ) //
 				.filter( Objects::nonNull ) //
 				.map( URL::toExternalForm ) //
