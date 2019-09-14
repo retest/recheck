@@ -140,7 +140,8 @@ public class SearchFilterFiles {
 	}
 
 	private static String getFileName( final Path path ) {
-		return path.getFileName().toString();
+		final Path fileName = path.getFileName();
+		return fileName != null ? fileName.toString() : "n/a";
 	}
 
 	public static Filter getFilterByName( final String name ) {
