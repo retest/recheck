@@ -83,6 +83,9 @@ public class SearchFilterFiles {
 				.orElse( Collections.emptyList() );
 	}
 
+	/**
+	 * @return The user filter files from the user's home.
+	 */
 	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
 		final Path userFilterFolder =
 				Paths.get( System.getProperty( "user.home" ), RETEST_PROJECT_CONFIG_FOLDER, FILTER_DIR_NAME );
