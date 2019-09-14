@@ -1,6 +1,6 @@
 package de.retest.recheck.ignore;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_CONFIG_FOLDER;
+import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
 
 import java.io.IOException;
 import java.net.URI;
@@ -91,7 +91,7 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
 		final Path userFilterFolder =
-				Paths.get( System.getProperty( "user.home" ), RETEST_PROJECT_CONFIG_FOLDER, FILTER_DIR_NAME );
+				Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, FILTER_DIR_NAME );
 		if ( Files.exists( userFilterFolder ) ) {
 			return loadFiltersFromDirectory( userFilterFolder );
 		}
