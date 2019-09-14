@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -99,7 +98,7 @@ public class SearchFilterFiles {
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
 			return paths.filter( Files::isRegularFile ) //
-					.filter( isFilterFile() ) //
+					.filter( SearchFilterFiles::isFilterFile ) //
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
 		} catch ( final NoSuchFileException e ) {
@@ -110,8 +109,9 @@ public class SearchFilterFiles {
 		return Collections.emptyList();
 	}
 
-	private static Predicate<? super Path> isFilterFile() {
-		return file -> file.toString().endsWith( FILTER_EXTENSION ) || file.toString().endsWith( FILTER_JS_EXTENSION );
+	private static boolean isFilterFile( final Path path ) {
+		final String fileName = getFileName( path );
+		return fileName.endsWith( FILTER_EXTENSION ) || fileName.endsWith( FILTER_JS_EXTENSION );
 	}
 
 	/**
