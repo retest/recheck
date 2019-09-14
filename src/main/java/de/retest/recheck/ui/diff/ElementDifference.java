@@ -178,6 +178,10 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 				&& !((InsertedDeletedElementDifference) identifyingAttributesDifference).isInserted();
 	}
 
+	/**
+	 * @return <code>true</code> if there any <em>own</em> differences (i.e. attributes, identifying attributes and
+	 *         inserted or deleted), excluding child differences.
+	 */
 	public boolean hasAnyDifference() {
 		return hasAttributesDifferences() || hasIdentAttributesDifferences() || isInsertionOrDeletion();
 	}

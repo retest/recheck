@@ -83,6 +83,26 @@ class ElementDifferenceTest {
 	}
 
 	@Test
+	void hasAnyDifference_should_exclude_child_differences() {
+		final AttributesDifference attributesDiff = mock( AttributesDifference.class );
+		when( attributesDiff.size() ).thenReturn( 1 );
+
+		final Element element = mock( Element.class );
+
+		final ElementDifference childWithOwnDiffs =
+				new ElementDifference( element, attributesDiff, null, null, null, Collections.emptyList() );
+
+		assertThat( childWithOwnDiffs.hasAnyDifference() ).isTrue();
+		assertThat( childWithOwnDiffs.hasChildDifferences() ).isFalse();
+
+		final ElementDifference parentWithoutOwnDiffs = new ElementDifference( element, null, null, null, null,
+				Collections.singletonList( childWithOwnDiffs ) );
+
+		assertThat( parentWithoutOwnDiffs.hasAnyDifference() ).isFalse();
+		assertThat( parentWithoutOwnDiffs.hasChildDifferences() ).isTrue();
+	}
+
+	@Test
 	void getAttributeDifferences_should_gather_all_differences() {
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
