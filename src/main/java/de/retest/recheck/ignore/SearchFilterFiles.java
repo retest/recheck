@@ -115,9 +115,11 @@ public class SearchFilterFiles {
 	}
 
 	/**
-	 * @return Mapping from file names to filter. In the case of duplicates, project filters are preferred.
+	 * @return Mapping from file names to filter. In the case of duplicates, specific filters are preferred over generic
+	 *         filters (i.e. project filer over user filter over default filter).
 	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
+		// Concat from specific to generic.
 		return Stream.of( getProjectFilterFiles(), getUserFilterFiles(), getDefaultFilterFiles() )
 				.flatMap( List::stream ) //
 				.collect( Collectors.toMap(
@@ -129,12 +131,12 @@ public class SearchFilterFiles {
 							try {
 								return loader.load();
 							} catch ( final IOException e ) {
-								log.error( "Could not load Filter for '{}'.", pair.getLeft(), e );
+								log.error( "Could not load filter for name '{}'.", pair.getLeft(), e );
 								return Filter.FILTER_NOTHING;
 							}
 						},
-						// Prefer project over default filters (due to concat order).
-						( projectFilter, defaultFilter ) -> projectFilter ) );
+						// Prefer specific over generic filters (due to concat order).
+						( specificFilter, genericFilter ) -> specificFilter ) );
 	}
 
 	private static String getFileName( final Path path ) {
