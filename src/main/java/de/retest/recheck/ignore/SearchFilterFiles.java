@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -141,16 +142,15 @@ public class SearchFilterFiles {
 	}
 
 	public static Filter getFilterByName( final String name ) {
-		final Filter result = toFileNameFilterMapping().get( name );
-		if ( result == null ) {
-			final String projectFilter = ProjectConfiguration.getInstance().getProjectConfigFolder() //
+		final Filter filter = toFileNameFilterMapping().get( name );
+		if ( filter == null ) {
+			final Optional<String> projectFilterDir = ProjectConfiguration.getInstance().getProjectConfigFolder() //
 					.map( path -> path.resolve( FILTER_FOLDER ) ) //
 					.map( Path::toAbsolutePath ) //
-					.map( Path::toString ) //
-					.orElse( "project not set" );
-
-			throw new FilterNotFoundException( name, projectFilter );
+					.map( Path::toString );
+			throw projectFilterDir.isPresent() ? new FilterNotFoundException( name, projectFilterDir.get() )
+					: new FilterNotFoundException( name );
 		}
-		return result;
+		return filter;
 	}
 }
