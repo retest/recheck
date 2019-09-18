@@ -1,6 +1,8 @@
 package de.retest.recheck;
 
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,9 +39,26 @@ class RecheckImplIT {
 		execute( "filter", withIgnore( Filters.parse( "matcher: retestid=same-id" ) ) );
 	}
 
-	private RecheckOptions withIgnore( final Filter filterNothing ) {
+	@Test
+	void diff_should_handle_legacy_spaces_accordingly() {
+		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
+		doReturn( RecheckImplIT.class.getName() + " legacy spaces" ).when( fileNamerStrategy ).getTestClassName();
+
+		execute( "with legacy spaces", RecheckOptions.builder() //
+				.fileNamerStrategy( fileNamerStrategy ) //
+				.build() );
+	}
+
+	@Test
+	void diff_should_handle_spaces_accordingly() {
+		execute( "with spaces", RecheckOptions.builder() //
+				.suiteName( RecheckImplIT.class.getName() + " spaces" ) //
+				.build() );
+	}
+
+	private RecheckOptions withIgnore( final Filter ignore ) {
 		return RecheckOptions.builder() //
-				.setIgnore( filterNothing ) //
+				.setIgnore( ignore ) //
 				.build();
 	}
 
