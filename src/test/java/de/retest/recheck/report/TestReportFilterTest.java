@@ -133,6 +133,22 @@ class TestReportFilterTest {
 	}
 
 	@Test
+	void inserted_deleted_differences_should_be_filtered_properly() throws Exception {
+		final InsertedDeletedElementDifference insertedDiff =
+				InsertedDeletedElementDifference.differenceFor( null, element );
+		final InsertedDeletedElementDifference deletedDiff =
+				InsertedDeletedElementDifference.differenceFor( element, null );
+
+		assertThat( TestReportFilter.filter( insertedDiff, filter ) ).isEqualTo( insertedDiff );
+		assertThat( TestReportFilter.filter( deletedDiff, filter ) ).isEqualTo( deletedDiff );
+
+		final Filter elementFilter = new ElementFilter( e -> e == element );
+
+		assertThat( TestReportFilter.filter( insertedDiff, elementFilter ) ).isNull();
+		assertThat( TestReportFilter.filter( deletedDiff, elementFilter ) ).isNull();
+	}
+
+	@Test
 	void collection_of_element_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		final Collection<ElementDifference> filteredChildDifferences =
