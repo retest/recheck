@@ -1,10 +1,10 @@
 package de.retest.recheck.persistence;
 
 /**
- * Extends the standard {@link JunitbasedNamingStrategy}, but instead of the qualified class name (e.g.
+ * Extends the standard {@link ClassAndMethodBasedNamingStrategy}, but instead of the qualified class name (e.g.
  * `com.mycompany.MyTest`) returns the {@link Class#getSimpleName()} of the class (e.g. `MyTest`).
  */
-public class JunitbasedShortNamingStrategy extends JunitbasedNamingStrategy {
+public class ClassAndMethodBasedShortNamingStrategy extends ClassAndMethodBasedNamingStrategy {
 
 	/**
 	 * @return The {@link Class#getSimpleName()} of the test class (e.g. `MyTest`).

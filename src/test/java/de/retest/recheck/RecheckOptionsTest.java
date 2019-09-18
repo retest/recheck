@@ -15,8 +15,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.persistence.ClassAndMethodBasedShortNamingStrategy;
 import de.retest.recheck.persistence.FileNamer;
-import de.retest.recheck.persistence.JunitbasedShortNamingStrategy;
 import de.retest.recheck.persistence.NamingStrategy;
 
 class RecheckOptionsTest {
@@ -32,7 +32,7 @@ class RecheckOptionsTest {
 	@Test
 	void should_use_NamingStrategy_for_suite_name() throws Exception {
 		final RecheckOptions cut = RecheckOptions.builder() //
-				.namingStrategy( new JunitbasedShortNamingStrategy() ).build();
+				.namingStrategy( new ClassAndMethodBasedShortNamingStrategy() ).build();
 		assertThat( cut.getSuiteName() ).isEqualTo( getClass().getSimpleName() );
 	}
 
@@ -94,7 +94,7 @@ class RecheckOptionsTest {
 		when( fileNamerStrategy.getTestMethodName() ).thenReturn( "test" );
 		when( fileNamerStrategy.createFileNamer( "name" ) ).thenReturn( fileNamer );
 
-		return Stream.of( // 
+		return Stream.of( //
 				RecheckOptions.builder() // name only
 						.suiteName( "name" ) //
 						.build(), //
