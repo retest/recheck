@@ -99,30 +99,29 @@ public class TestReportFilter {
 	}
 
 	Optional<ElementDifference> filter( final ElementDifference elementDiff ) {
+		final Element element = elementDiff.getElement();
+
 		AttributesDifference attributesDiff = elementDiff.getAttributesDifference();
 		LeafDifference identAttributesDiff = elementDiff.getIdentifyingAttributesDifference();
 		Collection<ElementDifference> childDiffs = elementDiff.getChildDifferences();
 
 		if ( elementDiff.hasAttributesDifferences() ) {
-			attributesDiff = filter( elementDiff.getElement(), elementDiff.getAttributesDifference() ).orElse( null );
+			attributesDiff = filter( element, attributesDiff ).orElse( null );
 		}
 
 		if ( elementDiff.hasIdentAttributesDifferences() ) {
-			identAttributesDiff = filter( elementDiff.getElement(),
-					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference() ).orElse( null );
-		} else if ( elementDiff.isInsertionOrDeletion() ) {
 			identAttributesDiff =
-					filter( (InsertedDeletedElementDifference) elementDiff.getIdentifyingAttributesDifference() )
-							.orElse( null );
+					filter( element, (IdentifyingAttributesDifference) identAttributesDiff ).orElse( null );
+		} else if ( elementDiff.isInsertionOrDeletion() ) {
+			identAttributesDiff = filter( (InsertedDeletedElementDifference) identAttributesDiff ).orElse( null );
 		}
 
 		if ( elementDiff.hasChildDifferences() ) {
-			childDiffs = filter( elementDiff.getChildDifferences() );
+			childDiffs = filter( childDiffs );
 		}
 
-		final ElementDifference newElementDiff =
-				new ElementDifference( elementDiff.getElement(), attributesDiff, identAttributesDiff,
-						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDiffs );
+		final ElementDifference newElementDiff = new ElementDifference( element, attributesDiff, identAttributesDiff,
+				elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDiffs );
 		final boolean anyOwnOrChildDiffs = newElementDiff.hasAnyDifference() || newElementDiff.hasChildDifferences();
 		return anyOwnOrChildDiffs ? Optional.of( newElementDiff ) : Optional.empty();
 	}
