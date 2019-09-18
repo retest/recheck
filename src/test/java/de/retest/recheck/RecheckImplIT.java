@@ -29,30 +29,34 @@ class RecheckImplIT {
 
 	@Test
 	void diff_should_be_created_accordingly() {
-		execute( "no-filter", Filter.FILTER_NOTHING );
+		execute( "no-filter", withIgnore( Filter.FILTER_NOTHING ) );
 	}
 
 	@Test
 	void diff_should_be_created_if_filtered() {
-		execute( "filter", Filters.parse( "matcher: retestid=same-id" ) );
+		execute( "filter", withIgnore( Filters.parse( "matcher: retestid=same-id" ) ) );
 	}
 
-	void execute( final String name, final Filter filter ) {
+	private RecheckOptions withIgnore( final Filter filterNothing ) {
+		return RecheckOptions.builder() //
+				.setIgnore( filterNothing ) //
+				.build();
+	}
+
+	void execute( final String name, final RecheckOptions options ) {
 		// No differences
-		execute( name, createRootInitial(), filter );
+		execute( name, createRootInitial(), options );
 		// Differences
 		try {
-			execute( name, createRootDifference(), filter );
+			execute( name, createRootDifference(), options );
 			fail( "An assertion error should have been produced" );
 		} catch ( final AssertionError e ) {
 			ApprovalsUtil.verify( removeProjectSpecificPath( e.getMessage() ) );
 		}
 	}
 
-	void execute( final String name, final RootElement toVerify, final Filter filter ) {
-		final RecheckImpl re = new RecheckImpl( RecheckOptions.builder() //
-				.setIgnore( filter ) //
-				.build() );
+	void execute( final String name, final RootElement toVerify, final RecheckOptions options ) {
+		final RecheckImpl re = new RecheckImpl( options );
 
 		re.startTest( name );
 		re.check( toVerify, new RootElementAdapter(), "check" );
