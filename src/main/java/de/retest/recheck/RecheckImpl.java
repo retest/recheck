@@ -16,7 +16,6 @@ import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.persistence.CloudPersistence;
 import de.retest.recheck.persistence.FileNamer;
-import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.RecheckSutState;
 import de.retest.recheck.persistence.RecheckTestReportUtil;
 import de.retest.recheck.printer.TestReplayResultPrinter;
@@ -152,19 +151,16 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return actionReplayResult;
 	}
 
-	private File getGoldenMasterFile( final String currentStep ) {
+	File getGoldenMasterFile( final String currentStep ) {
 		// This is the legacy impl ... remove at some point
 		if ( options.getFileNamerStrategy() != null ) {
 			final String name =
 					suiteName + File.separator + currentTestResult.getName() + "." + normalize( currentStep );
 			final FileNamer fileNamer = options.getFileNamerStrategy().createFileNamer( name );
-			final File file = fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
-			return file;
+			return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 		}
-		final NamingStrategy namingStrategy = options.getNamingStrategy();
 		return options.getProjectLayout()
-				.getGoldenMaster( namingStrategy.getSuiteName(), currentTestResult.getName(), normalize( currentStep ) )
-				.toFile();
+				.getGoldenMaster( suiteName, currentTestResult.getName(), normalize( currentStep ) ).toFile();
 	}
 
 	@Override
