@@ -127,11 +127,12 @@ public class TestReportFilter {
 		return anyOwnOrChildDiffs ? Optional.of( newElementDiff ) : Optional.empty();
 	}
 
-	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
-		return elementDiffs.stream() //
-				.map( this::filter ) //
-				.flatMap( StreamUtil::optionalToStream ) //
-				.collect( toList() );
+	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
+		return attributesDiff.getDifferences().stream() //
+				.filter( diff -> !filter.matches( element, diff ) ) //
+				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
+						? Optional.empty() //
+						: Optional.of( new AttributesDifference( newDiffs ) ) ) );
 	}
 
 	Optional<IdentifyingAttributesDifference> filter( final Element element,
@@ -150,11 +151,10 @@ public class TestReportFilter {
 		return filter.matches( insertedDeleted ) ? Optional.empty() : Optional.of( insertedDeletedDiff );
 	}
 
-	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
-		return attributesDiff.getDifferences().stream() //
-				.filter( diff -> !filter.matches( element, diff ) ) //
-				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
-						? Optional.empty() //
-						: Optional.of( new AttributesDifference( newDiffs ) ) ) );
+	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
+		return elementDiffs.stream() //
+				.map( this::filter ) //
+				.flatMap( StreamUtil::optionalToStream ) //
+				.collect( toList() );
 	}
 }
