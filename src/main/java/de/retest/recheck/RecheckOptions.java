@@ -10,11 +10,11 @@ import java.util.List;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.persistence.ClassAndMethodBasedNamingStrategy;
+import de.retest.recheck.persistence.ClassAndMethodBasedShortNamingStrategy;
 import de.retest.recheck.persistence.ExplicitMutableNamingStrategy;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.GradleProjectLayout;
-import de.retest.recheck.persistence.JunitbasedNamingStrategy;
-import de.retest.recheck.persistence.JunitbasedShortNamingStrategy;
 import de.retest.recheck.persistence.MavenProjectLayout;
 import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
@@ -130,7 +130,7 @@ public class RecheckOptions {
 	}
 
 	/**
-	 * @return The {@link NamingStrategy} to use (e.g. a {@link JunitbasedNamingStrategy}).
+	 * @return The {@link NamingStrategy} to use (e.g. a {@link ClassAndMethodBasedNamingStrategy}).
 	 */
 	public NamingStrategy getNamingStrategy() {
 		return namingStrategy;
@@ -147,7 +147,7 @@ public class RecheckOptions {
 	public static class RecheckOptionsBuilder {
 
 		private FileNamerStrategy fileNamerStrategy;
-		private NamingStrategy namingStrategy = new JunitbasedNamingStrategy();
+		private NamingStrategy namingStrategy = new ClassAndMethodBasedNamingStrategy();
 		private ProjectLayout projectLayout = new MavenProjectLayout();
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
@@ -175,8 +175,8 @@ public class RecheckOptions {
 		/**
 		 * @param namingStrategy
 		 *            The {@link NamingStrategy} that determines how to name tests and suites. Default is
-		 *            {@link JunitbasedNamingStrategy}. Other options include {@link JunitbasedShortNamingStrategy} and
-		 *            {@link ExplicitMutableNamingStrategy}.
+		 *            {@link ClassAndMethodBasedNamingStrategy}. Other options include
+		 *            {@link ClassAndMethodBasedShortNamingStrategy} and {@link ExplicitMutableNamingStrategy}.
 		 * @return self
 		 */
 		public RecheckOptionsBuilder namingStrategy( final NamingStrategy namingStrategy ) {
