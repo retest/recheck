@@ -15,6 +15,7 @@ import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -96,16 +97,23 @@ public class TestReportFilter {
 		AttributesDifference attributesDifference = elementDiff.getAttributesDifference();
 		LeafDifference identifyingAttributesDifference = elementDiff.getIdentifyingAttributesDifference();
 		Collection<ElementDifference> childDifferences = elementDiff.getChildDifferences();
+
 		if ( elementDiff.hasAttributesDifferences() ) {
 			attributesDifference = filter( elementDiff.getElement(), elementDiff.getAttributesDifference(), filter );
 		}
+
 		if ( elementDiff.hasIdentAttributesDifferences() ) {
 			identifyingAttributesDifference = filter( elementDiff.getElement(),
 					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference(), filter );
+		} else if ( elementDiff.isInsertionOrDeletion() ) {
+			identifyingAttributesDifference = filter(
+					(InsertedDeletedElementDifference) elementDiff.getIdentifyingAttributesDifference(), filter );
 		}
+
 		if ( elementDiff.hasChildDifferences() ) {
 			childDifferences = filter( elementDiff.getChildDifferences(), filter );
 		}
+
 		final ElementDifference newElementDiff =
 				new ElementDifference( elementDiff.getElement(), attributesDifference, identifyingAttributesDifference,
 						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDifferences );
@@ -128,6 +136,13 @@ public class TestReportFilter {
 				.collect( Collectors.collectingAndThen( Collectors.toList(), diffs -> diffs.isEmpty() //
 						? null // expected by ElementDifference
 						: new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), diffs ) ) );
+	}
+
+	static InsertedDeletedElementDifference filter( final InsertedDeletedElementDifference insertedDeletedDiff,
+			final Filter filter ) {
+		final Element insertedDeleted =
+				insertedDeletedDiff.isInserted() ? insertedDeletedDiff.getActual() : insertedDeletedDiff.getExpected();
+		return filter.matches( insertedDeleted ) ? null : insertedDeletedDiff;
 	}
 
 	static AttributesDifference filter( final Element element, final AttributesDifference attributesDiff,
