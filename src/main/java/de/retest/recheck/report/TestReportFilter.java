@@ -1,9 +1,11 @@
 package de.retest.recheck.report;
 
-import java.util.ArrayList;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
@@ -18,39 +20,44 @@ import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.util.StreamUtil;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class TestReportFilter {
 
-	private TestReportFilter() {}
+	private final Filter filter;
 
-	public static TestReport filter( final TestReport report, final Filter filter ) {
+	public TestReport filter( final TestReport report ) {
 		final TestReport newTestReport = new TestReport();
 		for ( final SuiteReplayResult suiteReplayResult : report.getSuiteReplayResults() ) {
-			newTestReport.addSuite( filter( suiteReplayResult, filter ) );
+			newTestReport.addSuite( filter( suiteReplayResult ) );
 		}
 		return newTestReport;
 	}
 
-	static SuiteReplayResult filter( final SuiteReplayResult suiteReplayResult, final Filter filter ) {
+	// Filter classes from de.retest.recheck.report.
+
+	public SuiteReplayResult filter( final SuiteReplayResult suiteReplayResult ) {
 		final SuiteReplayResult newSuiteReplayResult = new SuiteReplayResult( suiteReplayResult.getName(),
 				suiteReplayResult.getSuiteNr(), suiteReplayResult.getExecSuiteSutVersion(),
 				suiteReplayResult.getSuiteUuid(), suiteReplayResult.getReplaySutVersion() );
 		for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
-			newSuiteReplayResult.addTest( filter( testReplayResult, filter ) );
+			newSuiteReplayResult.addTest( filter( testReplayResult ) );
 		}
 		return newSuiteReplayResult;
 	}
 
-	public static TestReplayResult filter( final TestReplayResult testReplayResult, final Filter filter ) {
+	public TestReplayResult filter( final TestReplayResult testReplayResult ) {
 		final TestReplayResult newTestReplayResult =
 				new TestReplayResult( testReplayResult.getName(), testReplayResult.getTestNr() );
 		for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-			newTestReplayResult.addAction( filter( actionReplayResult, filter ) );
+			newTestReplayResult.addAction( filter( actionReplayResult ) );
 		}
 		return newTestReplayResult;
 	}
 
-	static ActionReplayResult filter( final ActionReplayResult actionReplayResult, final Filter filter ) {
+	public ActionReplayResult filter( final ActionReplayResult actionReplayResult ) {
 		if ( actionReplayResult instanceof NoGoldenMasterActionReplayResult ) {
 			return actionReplayResult;
 		}
@@ -58,78 +65,81 @@ public class TestReportFilter {
 		final ActionReplayData data = ActionReplayData.withTarget( actionReplayResult.getDescription(),
 				actionReplayResult.getTargetComponent(), actionReplayResult.getGoldenMasterPath() );
 		final ExceptionWrapper error = actionReplayResult.getThrowableWrapper();
-		final TargetNotFoundException targetNotFound =
-				(TargetNotFoundException) actionReplayResult.getTargetNotFoundException();
-		final StateDifference newStateDifference = filter( actionReplayResult.getStateDifference(), filter );
+		final TargetNotFoundException tnfe = (TargetNotFoundException) actionReplayResult.getTargetNotFoundException();
+		final StateDifference newStateDiff = filter( actionReplayResult.getStateDifference() );
 		final long actualDuration = actionReplayResult.getDuration();
 		final SutState actualState = new SutState( actionReplayResult.getWindows() );
-		return ActionReplayResult.createActionReplayResult( data, error, targetNotFound, newStateDifference,
-				actualDuration, actualState );
+
+		return ActionReplayResult.createActionReplayResult( data, error, tnfe, newStateDiff, actualDuration,
+				actualState );
 	}
 
-	static StateDifference filter( final StateDifference stateDifference, final Filter filter ) {
-		if ( stateDifference == null || stateDifference.getRootElementDifferences().isEmpty() ) {
-			return stateDifference;
+	// Filter classes from de.retest.recheck.ui.diff.
+
+	StateDifference filter( final StateDifference stateDiff ) {
+		if ( stateDiff == null || stateDiff.getRootElementDifferences().isEmpty() ) {
+			return stateDiff;
 		}
-		final List<RootElementDifference> newRootElementDifferences =
-				filter( stateDifference.getRootElementDifferences(), filter );
-		return new StateDifference( newRootElementDifferences, stateDifference.getDurationDifference() );
+		final List<RootElementDifference> newRootElementDiffs = filter( stateDiff.getRootElementDifferences() );
+		return new StateDifference( newRootElementDiffs, stateDiff.getDurationDifference() );
 	}
 
-	static List<RootElementDifference> filter( final List<RootElementDifference> rootElementDifferences,
-			final Filter filter ) {
-		final List<RootElementDifference> newRootElementDifferences = new ArrayList<>();
-		for ( final RootElementDifference rootElementDifference : rootElementDifferences ) {
-			newRootElementDifferences.add( filter( rootElementDifference, filter ) );
-		}
-		return newRootElementDifferences;
+	List<RootElementDifference> filter( final List<RootElementDifference> rootElementDiffs ) {
+		return rootElementDiffs.stream() //
+				.map( this::filter ) //
+				.flatMap( StreamUtil::optionalToStream ) //
+				.collect( toList() );
 	}
 
-	static RootElementDifference filter( final RootElementDifference rootElementDifference, final Filter filter ) {
-		final ElementDifference newElementDifference = filter( rootElementDifference.getElementDifference(), filter );
-		return new RootElementDifference( newElementDifference, rootElementDifference.getExpectedDescriptor(),
-				rootElementDifference.getActualDescriptor() );
+	Optional<RootElementDifference> filter( final RootElementDifference rootElementDiff ) {
+		return filter( rootElementDiff.getElementDifference() ) //
+				.map( newElementDifference -> new RootElementDifference( newElementDifference,
+						rootElementDiff.getExpectedDescriptor(), rootElementDiff.getActualDescriptor() ) );
 	}
 
-	static ElementDifference filter( final ElementDifference elementDiff, final Filter filter ) {
-		AttributesDifference attributesDifference = elementDiff.getAttributesDifference();
-		LeafDifference identifyingAttributesDifference = elementDiff.getIdentifyingAttributesDifference();
-		Collection<ElementDifference> childDifferences = elementDiff.getChildDifferences();
+	Optional<ElementDifference> filter( final ElementDifference elementDiff ) {
+		AttributesDifference attributesDiff = elementDiff.getAttributesDifference();
+		LeafDifference identAttributesDiff = elementDiff.getIdentifyingAttributesDifference();
+		Collection<ElementDifference> childDiffs = elementDiff.getChildDifferences();
 		if ( elementDiff.hasAttributesDifferences() ) {
-			attributesDifference = filter( elementDiff.getElement(), elementDiff.getAttributesDifference(), filter );
+			attributesDiff = filter( elementDiff.getElement(), elementDiff.getAttributesDifference() ).orElse( null );
 		}
 		if ( elementDiff.hasIdentAttributesDifferences() ) {
-			identifyingAttributesDifference = filter( elementDiff.getElement(),
-					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference(), filter );
+			identAttributesDiff = filter( elementDiff.getElement(),
+					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference() ).orElse( null );
 		}
-		if ( !elementDiff.getChildDifferences().isEmpty() ) {
-			childDifferences = filter( elementDiff.getChildDifferences(), filter );
+		if ( elementDiff.hasChildDifferences() ) {
+			childDiffs = filter( elementDiff.getChildDifferences() );
 		}
-		return new ElementDifference( elementDiff.getElement(), attributesDifference, identifyingAttributesDifference,
-				elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDifferences );
+		final ElementDifference newElementDiff =
+				new ElementDifference( elementDiff.getElement(), attributesDiff, identAttributesDiff,
+						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDiffs );
+		final boolean anyOwnOrChildDiffs = newElementDiff.hasAnyDifference() || newElementDiff.hasChildDifferences();
+		return anyOwnOrChildDiffs ? Optional.of( newElementDiff ) : Optional.empty();
 	}
 
-	static Collection<ElementDifference> filter( final Collection<ElementDifference> elementDifferences,
-			final Filter filter ) {
-		final List<ElementDifference> newElementDifferences = new ArrayList<>();
-		for ( final ElementDifference elementDifference : elementDifferences ) {
-			newElementDifferences.add( filter( elementDifference, filter ) );
-		}
-		return newElementDifferences;
+	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
+		return elementDiffs.stream() //
+				.map( this::filter ) //
+				.flatMap( StreamUtil::optionalToStream ) //
+				.collect( toList() );
 	}
 
-	static IdentifyingAttributesDifference filter( final Element element,
-			final IdentifyingAttributesDifference identAttributesDiff, final Filter filter ) {
+	Optional<IdentifyingAttributesDifference> filter( final Element element,
+			final IdentifyingAttributesDifference identAttributesDiff ) {
 		return identAttributesDiff.getAttributeDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(),
-						diffs -> new IdentifyingAttributesDifference( element.getIdentifyingAttributes(), diffs ) ) );
+				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
+						? Optional.empty() //
+						: Optional.of( new IdentifyingAttributesDifference( element.getIdentifyingAttributes(),
+								newDiffs ) ) ) );
 	}
 
-	static AttributesDifference filter( final Element element, final AttributesDifference attributesDiff,
-			final Filter filter ) {
+	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
 		return attributesDiff.getDifferences().stream() //
 				.filter( diff -> !filter.matches( element, diff ) ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(), AttributesDifference::new ) );
+				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
+						? Optional.empty() //
+						: Optional.of( new AttributesDifference( newDiffs ) ) ) );
 	}
 }
