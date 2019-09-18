@@ -79,9 +79,12 @@ class RecheckImplIT {
 
 		re.startTest( name );
 		re.check( toVerify, new RootElementAdapter(), "check" );
-		re.capTest();
 
-		re.cap();
+		try {
+			re.capTest();
+		} finally {
+			re.cap();
+		}
 	}
 
 	String removeProjectSpecificPath( final String message ) {
