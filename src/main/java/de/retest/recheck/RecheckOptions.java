@@ -136,12 +136,12 @@ public class RecheckOptions {
 		return namingStrategy;
 	}
 
-	private File getSuitePath() {
+	File getSuitePath() {
 		if ( fileNamerStrategy != null ) {
 			final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
 			return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
 		}
-		return projectLayout.getSuiteFolder( namingStrategy.getSuiteName() ).toFile();
+		return projectLayout.getSuiteFolder( getSuiteName() ).toFile();
 	}
 
 	public static class RecheckOptionsBuilder {
@@ -175,8 +175,8 @@ public class RecheckOptions {
 		/**
 		 * @param namingStrategy
 		 *            The {@link NamingStrategy} that determines how to name tests and suites. Default is
-		 *            {@link JunitbasedNamingStrategy}. Other options include
-		 *            {@link JunitbasedShortNamingStrategy} and {@link ExplicitMutableNamingStrategy}.
+		 *            {@link JunitbasedNamingStrategy}. Other options include {@link JunitbasedShortNamingStrategy} and
+		 *            {@link ExplicitMutableNamingStrategy}.
 		 * @return self
 		 */
 		public RecheckOptionsBuilder namingStrategy( final NamingStrategy namingStrategy ) {
