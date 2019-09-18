@@ -17,6 +17,7 @@ import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -101,16 +102,24 @@ public class TestReportFilter {
 		AttributesDifference attributesDiff = elementDiff.getAttributesDifference();
 		LeafDifference identAttributesDiff = elementDiff.getIdentifyingAttributesDifference();
 		Collection<ElementDifference> childDiffs = elementDiff.getChildDifferences();
+
 		if ( elementDiff.hasAttributesDifferences() ) {
 			attributesDiff = filter( elementDiff.getElement(), elementDiff.getAttributesDifference() ).orElse( null );
 		}
+
 		if ( elementDiff.hasIdentAttributesDifferences() ) {
 			identAttributesDiff = filter( elementDiff.getElement(),
 					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference() ).orElse( null );
+		} else if ( elementDiff.isInsertionOrDeletion() ) {
+			identAttributesDiff =
+					filter( (InsertedDeletedElementDifference) elementDiff.getIdentifyingAttributesDifference() )
+							.orElse( null );
 		}
+
 		if ( elementDiff.hasChildDifferences() ) {
 			childDiffs = filter( elementDiff.getChildDifferences() );
 		}
+
 		final ElementDifference newElementDiff =
 				new ElementDifference( elementDiff.getElement(), attributesDiff, identAttributesDiff,
 						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDiffs );
@@ -133,6 +142,12 @@ public class TestReportFilter {
 						? Optional.empty() //
 						: Optional.of( new IdentifyingAttributesDifference( element.getIdentifyingAttributes(),
 								newDiffs ) ) ) );
+	}
+
+	Optional<InsertedDeletedElementDifference> filter( final InsertedDeletedElementDifference insertedDeletedDiff ) {
+		final Element insertedDeleted =
+				insertedDeletedDiff.isInserted() ? insertedDeletedDiff.getActual() : insertedDeletedDiff.getExpected();
+		return filter.matches( insertedDeleted ) ? Optional.empty() : Optional.of( insertedDeletedDiff );
 	}
 
 	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
