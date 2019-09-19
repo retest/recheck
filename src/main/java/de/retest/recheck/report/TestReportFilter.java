@@ -140,9 +140,7 @@ public class TestReportFilter {
 
 	static InsertedDeletedElementDifference filter( final InsertedDeletedElementDifference insertedDeletedDiff,
 			final Filter filter ) {
-		final Element insertedDeleted =
-				insertedDeletedDiff.isInserted() ? insertedDeletedDiff.getActual() : insertedDeletedDiff.getExpected();
-		return filter.matches( insertedDeleted ) ? null : insertedDeletedDiff;
+		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement() ) ? null : insertedDeletedDiff;
 	}
 
 	static AttributesDifference filter( final Element element, final AttributesDifference attributesDiff,
