@@ -3,6 +3,7 @@ package de.retest.recheck.report;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +22,7 @@ import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.ElementFilter;
+import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.GroundState;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -30,6 +32,7 @@ import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.DurationDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 import de.retest.recheck.ui.image.Screenshot;
@@ -130,6 +133,22 @@ class TestReportFilterTest {
 	}
 
 	@Test
+	void inserted_deleted_differences_should_be_filtered_properly() throws Exception {
+		final InsertedDeletedElementDifference insertedDiff =
+				InsertedDeletedElementDifference.differenceFor( null, element );
+		final InsertedDeletedElementDifference deletedDiff =
+				InsertedDeletedElementDifference.differenceFor( element, null );
+
+		assertThat( TestReportFilter.filter( insertedDiff, filter ) ).isEqualTo( insertedDiff );
+		assertThat( TestReportFilter.filter( deletedDiff, filter ) ).isEqualTo( deletedDiff );
+
+		final Filter elementFilter = new ElementFilter( e -> e == element );
+
+		assertThat( TestReportFilter.filter( insertedDiff, elementFilter ) ).isNull();
+		assertThat( TestReportFilter.filter( deletedDiff, elementFilter ) ).isNull();
+	}
+
+	@Test
 	void collection_of_element_differences_should_be_filtered_properly() throws Exception {
 		when( element.getIdentifyingAttributes() ).thenReturn( identAttributes );
 		final Collection<ElementDifference> filteredChildDifferences =
@@ -191,6 +210,35 @@ class TestReportFilterTest {
 		assertThat( TestReportFilter.filter( childWithOwnDiffs, childFilter ) ).isEmpty();
 		assertThat( TestReportFilter.filter( childWithOwnDiffs, parentFilter ) ).isNotEmpty();
 		assertThat( TestReportFilter.filter( parentWithoutOwnDiffs, parentFilter ) ).isNotEmpty();
+	}
+
+	@Test
+	void inserted_deleted_element_difference_should_be_filtered() throws Exception {
+		final Element deletedChild = mock( Element.class, RETURNS_DEEP_STUBS );
+		when( deletedChild.getIdentifyingAttributes().getPath() ).thenReturn( "parent[1]/child[1]" );
+		final InsertedDeletedElementDifference deletedDiff =
+				InsertedDeletedElementDifference.differenceFor( deletedChild, null );
+		final ElementDifference deletedElementDiff =
+				new ElementDifference( deletedChild, null, deletedDiff, null, null, Collections.emptyList() );
+
+		final Element insertedChild = mock( Element.class, RETURNS_DEEP_STUBS );
+		when( insertedChild.getIdentifyingAttributes().getPath() ).thenReturn( "parent[1]/child[2]" );
+		final InsertedDeletedElementDifference insertedDiff =
+				InsertedDeletedElementDifference.differenceFor( null, insertedChild );
+		final ElementDifference insertedElementDiff =
+				new ElementDifference( insertedChild, null, insertedDiff, null, null, Collections.emptyList() );
+
+		final Element parent = mock( Element.class, RETURNS_DEEP_STUBS );
+		when( parent.getIdentifyingAttributes().getPath() ).thenReturn( "parent[1]" );
+		final ElementDifference parentDiff = new ElementDifference( parent, null, null, null, null,
+				Arrays.asList( deletedElementDiff, insertedElementDiff ) );
+
+		final Filter parentXPathFilter = new ElementFilter( new ElementXPathMatcher( parent ) );
+
+		assertThat( parentXPathFilter.matches( parent ) ).isTrue();
+		assertThat( parentXPathFilter.matches( deletedChild ) ).isTrue();
+		assertThat( parentXPathFilter.matches( insertedChild ) ).isTrue();
+		assertThat( TestReportFilter.filter( parentDiff, parentXPathFilter ) ).isEmpty();
 	}
 
 	@Test
