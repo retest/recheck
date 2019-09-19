@@ -145,9 +145,9 @@ public class TestReportFilter {
 	}
 
 	Optional<InsertedDeletedElementDifference> filter( final InsertedDeletedElementDifference insertedDeletedDiff ) {
-		final Element insertedDeleted =
-				insertedDeletedDiff.isInserted() ? insertedDeletedDiff.getActual() : insertedDeletedDiff.getExpected();
-		return filter.matches( insertedDeleted ) ? Optional.empty() : Optional.of( insertedDeletedDiff );
+		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement() ) //
+				? Optional.empty() //
+				: Optional.of( insertedDeletedDiff );
 	}
 
 	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {

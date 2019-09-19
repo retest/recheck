@@ -101,4 +101,12 @@ public class InsertedDeletedElementDifference implements LeafDifference {
 		return expectedElement == null;
 	}
 
+	/**
+	 * @return The inserted or deleted element. That is, {@link #getActual()} if {@link #isInserted()} is
+	 *         <code>true</code>, otherwise {@link #getExpected()}.
+	 */
+	public Element getInsertedOrDeletedElement() {
+		return isInserted() ? actualElement : expectedElement;
+	}
+
 }
