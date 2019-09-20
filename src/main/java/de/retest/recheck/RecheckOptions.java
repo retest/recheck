@@ -266,8 +266,7 @@ public class RecheckOptions {
 			if ( ignoreFilter == null ) {
 				ignoreFilterToAdd.add( getFilterByName( filterName ) );
 			} else {
-				throw new IllegalStateException(
-						"Cannot combine `setIgnore(filtername)` and `addIgnore(filtername)`." );
+				throw new IllegalStateException( "Cannot combine `setIgnore( String )` and `addIgnore( String )`." );
 			}
 			return this;
 		}
