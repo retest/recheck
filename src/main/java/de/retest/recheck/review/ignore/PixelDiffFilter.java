@@ -84,7 +84,7 @@ public class PixelDiffFilter implements Filter {
 			final double actualDouble = Double.parseDouble( clean( actual ) );
 			return Math.abs( expectedDouble - actualDouble ) <= pixelDiff;
 		} catch ( final NumberFormatException e ) {
-			log.error( "Could not parse {} and {} for pixel diff.", expected, actual, e );
+			log.error( "Could not parse expected '{}' and actual '{}' for pixel diff.", expected, actual );
 			return false;
 		}
 	}
