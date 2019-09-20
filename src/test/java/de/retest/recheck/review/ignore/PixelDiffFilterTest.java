@@ -89,8 +89,8 @@ class PixelDiffFilterTest {
 
 	@Test
 	void style_attribute_should_return_false() {
-		final String expected = "18px";
-		final String actual = "189px";
+		final String expected = "width: 1px; height: 1px";
+		final String actual = "width: 1000px; height: 1000px";
 		final AttributeDifference diff = new AttributeDifference( "style", expected, actual );
 
 		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
