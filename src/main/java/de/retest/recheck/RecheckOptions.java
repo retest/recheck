@@ -106,9 +106,9 @@ public class RecheckOptions {
 	}
 
 	/**
-	 * Gets the configured filter which is used for printing the report after a test.
+	 * Gets the configured filter which is used for filtering the report after a test.
 	 *
-	 * @return The filter to use for printing the report.
+	 * @return The filter to use for filtering the report.
 	 * @implNote If no filter is provided, the default filters are used.
 	 */
 	public Filter getFilter() {
@@ -220,11 +220,12 @@ public class RecheckOptions {
 		}
 
 		/**
-		 * Overwrites the filter used for printing the report after a test. The filter cannot be used in conjunction
+		 * Overwrites the filter used for filtering the report after a test. The filter cannot be used in conjunction
 		 * with {@link #addIgnore(String)}.
 		 *
 		 * @param filterName
-		 *            The filter to use for printing the differences. Default: Loads the ignore files.
+		 *            The name of the filter (including .filter extension) to use for filtering differences. Default:
+		 *            Loads the ignore files.
 		 * @return self
 		 */
 		public RecheckOptionsBuilder setIgnore( final String filterName ) {
@@ -256,8 +257,8 @@ public class RecheckOptions {
 		 * Appends a filter to the default filters. Cannot be used once a filter is overwritten with
 		 * {@link #setIgnore(String)}.
 		 *
-		 * @param filtername
-		 *            The filter to add to the ignore.
+		 * @param filterName
+		 *            The name of the filter (including .filter extension) to use for filtering the differences.
 		 * @return self
 		 * @see #setIgnore(String)
 		 */
