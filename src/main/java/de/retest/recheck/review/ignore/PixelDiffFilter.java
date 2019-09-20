@@ -2,6 +2,9 @@ package de.retest.recheck.review.ignore;
 
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -25,6 +28,8 @@ public class PixelDiffFilter implements Filter {
 	private final boolean specifiedAsDouble;
 	private final double pixelDiff;
 
+	private static final Set<String> ignoredKeys = new HashSet<>( Collections.singletonList( "style" ) );
+
 	public PixelDiffFilter( final boolean specifiedAsDouble, final double pixelDiff ) {
 		this.specifiedAsDouble = specifiedAsDouble;
 		this.pixelDiff = pixelDiff;
@@ -39,6 +44,11 @@ public class PixelDiffFilter implements Filter {
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		final Serializable expected = attributeDifference.getExpected();
 		final Serializable actual = attributeDifference.getActual();
+		final String key = attributeDifference.getKey();
+
+		if ( ignoredKeys.contains( key ) ) {
+			return false;
+		}
 
 		if ( expected instanceof Rectangle ) {
 			return checkRectangle( (Rectangle) expected, (Rectangle) actual );
