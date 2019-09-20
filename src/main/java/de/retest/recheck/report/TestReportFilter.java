@@ -17,6 +17,7 @@ import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -98,31 +99,39 @@ public class TestReportFilter {
 	}
 
 	Optional<ElementDifference> filter( final ElementDifference elementDiff ) {
+		final Element element = elementDiff.getElement();
+
 		AttributesDifference attributesDiff = elementDiff.getAttributesDifference();
 		LeafDifference identAttributesDiff = elementDiff.getIdentifyingAttributesDifference();
 		Collection<ElementDifference> childDiffs = elementDiff.getChildDifferences();
+
 		if ( elementDiff.hasAttributesDifferences() ) {
-			attributesDiff = filter( elementDiff.getElement(), elementDiff.getAttributesDifference() ).orElse( null );
+			attributesDiff = filter( element, attributesDiff ).orElse( null );
 		}
+
 		if ( elementDiff.hasIdentAttributesDifferences() ) {
-			identAttributesDiff = filter( elementDiff.getElement(),
-					(IdentifyingAttributesDifference) elementDiff.getIdentifyingAttributesDifference() ).orElse( null );
+			identAttributesDiff =
+					filter( element, (IdentifyingAttributesDifference) identAttributesDiff ).orElse( null );
+		} else if ( elementDiff.isInsertionOrDeletion() ) {
+			identAttributesDiff = filter( (InsertedDeletedElementDifference) identAttributesDiff ).orElse( null );
 		}
+
 		if ( elementDiff.hasChildDifferences() ) {
-			childDiffs = filter( elementDiff.getChildDifferences() );
+			childDiffs = filter( childDiffs );
 		}
-		final ElementDifference newElementDiff =
-				new ElementDifference( elementDiff.getElement(), attributesDiff, identAttributesDiff,
-						elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDiffs );
+
+		final ElementDifference newElementDiff = new ElementDifference( element, attributesDiff, identAttributesDiff,
+				elementDiff.getExpectedScreenshot(), elementDiff.getActualScreenshot(), childDiffs );
 		final boolean anyOwnOrChildDiffs = newElementDiff.hasAnyDifference() || newElementDiff.hasChildDifferences();
 		return anyOwnOrChildDiffs ? Optional.of( newElementDiff ) : Optional.empty();
 	}
 
-	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
-		return elementDiffs.stream() //
-				.map( this::filter ) //
-				.flatMap( StreamUtil::optionalToStream ) //
-				.collect( toList() );
+	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
+		return attributesDiff.getDifferences().stream() //
+				.filter( diff -> !filter.matches( element, diff ) ) //
+				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
+						? Optional.empty() //
+						: Optional.of( new AttributesDifference( newDiffs ) ) ) );
 	}
 
 	Optional<IdentifyingAttributesDifference> filter( final Element element,
@@ -135,11 +144,16 @@ public class TestReportFilter {
 								newDiffs ) ) ) );
 	}
 
-	Optional<AttributesDifference> filter( final Element element, final AttributesDifference attributesDiff ) {
-		return attributesDiff.getDifferences().stream() //
-				.filter( diff -> !filter.matches( element, diff ) ) //
-				.collect( collectingAndThen( toList(), newDiffs -> newDiffs.isEmpty() //
-						? Optional.empty() //
-						: Optional.of( new AttributesDifference( newDiffs ) ) ) );
+	Optional<InsertedDeletedElementDifference> filter( final InsertedDeletedElementDifference insertedDeletedDiff ) {
+		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement() ) //
+				? Optional.empty() //
+				: Optional.of( insertedDeletedDiff );
+	}
+
+	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
+		return elementDiffs.stream() //
+				.map( this::filter ) //
+				.flatMap( StreamUtil::optionalToStream ) //
+				.collect( toList() );
 	}
 }
