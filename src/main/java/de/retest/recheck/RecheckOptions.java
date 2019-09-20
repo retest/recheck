@@ -262,9 +262,9 @@ public class RecheckOptions {
 		 * @return self
 		 * @see #setIgnore(String)
 		 */
-		public RecheckOptionsBuilder addIgnore( final String filtername ) {
+		public RecheckOptionsBuilder addIgnore( final String filterName ) {
 			if ( ignoreFilter == null ) {
-				ignoreFilterToAdd.add( getFilterByName( filtername ) );
+				ignoreFilterToAdd.add( getFilterByName( filterName ) );
 			} else {
 				throw new IllegalStateException(
 						"Cannot combine `setIgnore(filtername)` and `addIgnore(filtername)`." );
