@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Slf4j
 public class PixelDiffFilter implements Filter {
+	//TODO Move this web specific class to recheck-web
 
 	private static final String PIXEL = "px";
 
