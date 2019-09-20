@@ -3,7 +3,6 @@ package de.retest.recheck.review.ignore;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -15,12 +14,13 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+// TODO Move this web specific class to recheck-web
 @Getter
 @Slf4j
 public class PixelDiffFilter implements Filter {
-	//TODO Move this web specific class to recheck-web
 
 	private static final String PIXEL = "px";
+	private static final Set<String> ignoredKeys = Collections.singleton( "style" );
 
 	/**
 	 * Indicates whether {@link #pixelDiff} is specified as double ({@code true}) or integer ({@code false}). Although
@@ -28,8 +28,6 @@ public class PixelDiffFilter implements Filter {
 	 */
 	private final boolean specifiedAsDouble;
 	private final double pixelDiff;
-
-	private static final Set<String> ignoredKeys = new HashSet<>( Collections.singletonList( "style" ) );
 
 	public PixelDiffFilter( final boolean specifiedAsDouble, final double pixelDiff ) {
 		this.specifiedAsDouble = specifiedAsDouble;
