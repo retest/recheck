@@ -14,7 +14,8 @@ public class ClassAndMethodBasedNamingStrategy implements NamingStrategy {
 				.findTestCaseClassNameInStack() //
 				.orElseThrow( () -> new IllegalStateException( "Couldn't identify test class in call stack.\n"
 						+ "This is needed to dynamically name the Golden Master files.\n "
-						+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
+						+ "Please call `suiteName(\"name\")` in RecheckImpl with RecheckOptions, giving an explicit name, "
+						+ "or instantiate it in a method, and provide a different NamingStrategy." ) );
 	}
 
 	@Override
@@ -24,6 +25,6 @@ public class ClassAndMethodBasedNamingStrategy implements NamingStrategy {
 				.orElseThrow( () -> new IllegalStateException( "Couldn't identify test method in call stack.\n"
 						+ "This is needed to dynamically name the Golden Master files.\n"
 						+ "Please call `startTest(\"name\")`, giving an explicit name, "
-						+ "or instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
+						+ "or instantiate RecheckImpl with RecheckOptions, and provide a different NamingStrategy." ) );
 	}
 }
