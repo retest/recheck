@@ -170,7 +170,7 @@ public class SuiteReplayResult implements Serializable {
 	}
 
 	public boolean isEmpty() {
-		return getNumberOfTestsWithChanges() != 0;
+		return getNumberOfTestsWithChanges() == 0;
 	}
 
 	public int getNumberOfTestsWithChanges() {

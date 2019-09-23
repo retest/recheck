@@ -1,6 +1,8 @@
 package de.retest.recheck;
 
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,36 +31,60 @@ class RecheckImplIT {
 
 	@Test
 	void diff_should_be_created_accordingly() {
-		execute( "no-filter", Filter.FILTER_NOTHING );
+		execute( "no-filter", withIgnore( Filter.FILTER_NOTHING ) );
 	}
 
 	@Test
 	void diff_should_be_created_if_filtered() {
-		execute( "filter", Filters.parse( "matcher: retestid=same-id" ) );
+		execute( "filter", withIgnore( Filters.parse( "matcher: retestid=same-id" ) ) );
 	}
 
-	void execute( final String name, final Filter filter ) {
+	@Test
+	void diff_should_handle_legacy_spaces_accordingly() {
+		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
+		doReturn( RecheckImplIT.class.getName() + " legacy spaces" ).when( fileNamerStrategy ).getTestClassName();
+
+		execute( "with legacy spaces", RecheckOptions.builder() //
+				.fileNamerStrategy( fileNamerStrategy ) //
+				.build() );
+	}
+
+	@Test
+	void diff_should_handle_spaces_accordingly() {
+		execute( "with spaces", RecheckOptions.builder() //
+				.suiteName( RecheckImplIT.class.getName() + " spaces" ) //
+				.build() );
+	}
+
+	private RecheckOptions withIgnore( final Filter ignore ) {
+		return RecheckOptions.builder() //
+				.setIgnore( ignore ) //
+				.build();
+	}
+
+	void execute( final String name, final RecheckOptions options ) {
 		// No differences
-		execute( name, createRootInitial(), filter );
+		execute( name, createRootInitial(), options );
 		// Differences
 		try {
-			execute( name, createRootDifference(), filter );
+			execute( name, createRootDifference(), options );
 			fail( "An assertion error should have been produced" );
 		} catch ( final AssertionError e ) {
 			ApprovalsUtil.verify( removeProjectSpecificPath( e.getMessage() ) );
 		}
 	}
 
-	void execute( final String name, final RootElement toVerify, final Filter filter ) {
-		final RecheckImpl re = new RecheckImpl( RecheckOptions.builder() //
-				.setIgnore( filter ) //
-				.build() );
+	void execute( final String name, final RootElement toVerify, final RecheckOptions options ) {
+		final RecheckImpl re = new RecheckImpl( options );
 
 		re.startTest( name );
 		re.check( toVerify, new RootElementAdapter(), "check" );
-		re.capTest();
 
-		re.cap();
+		try {
+			re.capTest();
+		} finally {
+			re.cap();
+		}
 	}
 
 	String removeProjectSpecificPath( final String message ) {

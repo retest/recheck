@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
@@ -99,7 +98,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		try ( final Input input = new Input( new LZ4FrameInputStream( newInputStream( path ) ) ) ) {
 			writerVersion = input.readString();
 			return (T) kryo.readClassAndObject( input );
-		} catch ( final KryoException | IOException e ) {
+		} catch ( final Exception e ) {
 			if ( version.equals( writerVersion ) ) {
 				throw e;
 			}

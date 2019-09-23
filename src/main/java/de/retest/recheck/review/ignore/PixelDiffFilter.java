@@ -2,6 +2,8 @@ package de.retest.recheck.review.ignore;
 
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -12,11 +14,13 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+// TODO Move this web specific class to recheck-web
 @Getter
 @Slf4j
 public class PixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
+	private static final Set<String> ignoredKeys = Collections.singleton( "style" );
 
 	/**
 	 * Indicates whether {@link #pixelDiff} is specified as double ({@code true}) or integer ({@code false}). Although
@@ -39,6 +43,11 @@ public class PixelDiffFilter implements Filter {
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		final Serializable expected = attributeDifference.getExpected();
 		final Serializable actual = attributeDifference.getActual();
+		final String key = attributeDifference.getKey();
+
+		if ( ignoredKeys.contains( key ) ) {
+			return false;
+		}
 
 		if ( expected instanceof Rectangle ) {
 			return checkRectangle( (Rectangle) expected, (Rectangle) actual );
@@ -73,7 +82,7 @@ public class PixelDiffFilter implements Filter {
 			final double actualDouble = Double.parseDouble( clean( actual ) );
 			return Math.abs( expectedDouble - actualDouble ) <= pixelDiff;
 		} catch ( final NumberFormatException e ) {
-			log.error( "Could not parse {} and {} for pixel diff.", expected, actual, e );
+			log.error( "Could not parse expected '{}' and actual '{}' for pixel diff.", expected, actual );
 			return false;
 		}
 	}

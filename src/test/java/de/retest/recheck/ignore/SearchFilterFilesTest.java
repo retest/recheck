@@ -138,7 +138,7 @@ class SearchFilterFilesTest {
 	void getFilterByName_should_return_default_filter_with_given_name() {
 		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
 		assertThat( result ).isNotNull();
-		assertThat( result.toString() ).isEqualTo(
-				"CompoundFilter(filters=[# Filter file for recheck that will filter content, , attribute=text])" );
+		assertThat( result.toString() )
+				.startsWith( "CompoundFilter(filters=[# Filter file for recheck that will filter content" );
 	}
 }

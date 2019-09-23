@@ -1,3 +1,4 @@
 # Filter file for recheck that will filter content
 
 attribute=text
+matcher: type=img, attribute=src

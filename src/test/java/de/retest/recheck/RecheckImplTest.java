@@ -13,6 +13,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
 import java.awt.HeadlessException;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,7 +57,7 @@ public class RecheckImplTest {
 			// Ignore Exceptions, fear AssertionErrors...
 		}
 
-		verify( spy ).getGoldenMaster( this.getClass().getName(), "using_strange_stepText_should_be_normalized",
+		verify( spy ).getGoldenMaster( getClass().getName(), "using_strange_stepText_should_be_normalized",
 				"!@#_$^&)te}{_____xt!(@_$" );
 	}
 
@@ -66,6 +67,20 @@ public class RecheckImplTest {
 		final RecheckImpl cut = new RecheckImpl();
 		final String resultFileName = cut.getResultFile().getName();
 		assertThat( resultFileName ).isEqualTo( suiteName + TEST_REPORT_FILE_EXTENSION );
+	}
+
+	@Test
+	public void suiteName_should_return_correct_path() {
+		final RecheckImpl cut = new RecheckImpl( RecheckOptions.builder() //
+				.suiteName( "name" ) //
+				.namingStrategy( new NamingStrategyStub() ) //
+				.build() );
+
+		cut.startTest( "foo" );
+
+		assertThat( cut.getGoldenMasterFile( "check" ) )
+				.isEqualTo( new File( "src/test/resources/retest/recheck/name/foo.check.recheck" ) );
+		assertThat( cut.getResultFile() ).isEqualTo( new File( "target/test-classes/retest/recheck/name.report" ) );
 	}
 
 	@Test
