@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,7 +88,36 @@ public class TestCaseFinder {
 	 * @return The class name for the test case method in all stack traces.
 	 */
 	public Optional<String> findTestCaseClassNameInStack() {
-		return findTestCaseMethodInStack( toClassName() );
+		final Optional<String> testCaseClassName = findTestCaseMethodInStack( toClassName() );
+		if ( testCaseClassName.isPresent() ) {
+			return testCaseClassName;
+		} else {
+			return findTestCaseClassInStack();
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	public Optional<String> findTestCaseClassInStack() {
+		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
+			final Optional<String> className = findTestCaseClassInStack( stack );
+			if ( className.isPresent() ) {
+				return className;
+			}
+		}
+		return Optional.empty();
+	}
+
+	public Optional<String> findTestCaseClassInStack( final StackTraceElement[] trace ) {
+		for ( final StackTraceElement element : trace ) {
+			final String className = element.getClassName();
+			if ( StringUtils.endsWith( className, "Test" ) || StringUtils.endsWith( className, "IT" ) ) {
+				return Optional.of( className );
+			}
+		}
+
+		return Optional.empty();
 	}
 
 	/**
