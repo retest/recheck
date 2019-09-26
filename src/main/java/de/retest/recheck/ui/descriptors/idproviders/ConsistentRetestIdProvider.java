@@ -21,6 +21,9 @@ public class ConsistentRetestIdProvider implements RetestIdProvider {
 			return result;
 		}
 		result = delegate.getRetestId( identifyingAttributes );
+		while ( consistency.containsValue( result ) ) {
+			result = delegate.getRetestId( identifyingAttributes );
+		}
 		consistency.put( identifyingAttributes.identifier(), result );
 		return result;
 	}
