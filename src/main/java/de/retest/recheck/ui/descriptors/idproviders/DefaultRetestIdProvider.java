@@ -13,7 +13,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
 
-	private static final String DELIMITER = "-";
+	protected static final String DELIMITER = "-";
 
 	private final Set<String> knownRetestIds = new HashSet<>();
 
@@ -29,7 +29,7 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 		return makeUnique( id );
 	}
 
-	private String makeUnique( final String id ) {
+	protected String makeUnique( final String id ) {
 		String uniqueId = id;
 		while ( knownRetestIds.contains( uniqueId ) ) {
 			uniqueId = id + DELIMITER + getUniqueSuffix();
