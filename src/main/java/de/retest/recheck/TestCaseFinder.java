@@ -97,7 +97,7 @@ public class TestCaseFinder {
 	}
 
 	/**
-	 * @return
+	 * @return The class name for the test being called from.
 	 */
 	public Optional<String> findTestCaseClassInStack() {
 		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
@@ -109,6 +109,11 @@ public class TestCaseFinder {
 		return Optional.empty();
 	}
 
+	/**
+	 * @param trace
+	 *            The trace to be used for search.
+	 * @return The class name for the test being called from.
+	 */
 	public Optional<String> findTestCaseClassInStack( final StackTraceElement[] trace ) {
 		for ( final StackTraceElement element : trace ) {
 			final String className = element.getClassName();
