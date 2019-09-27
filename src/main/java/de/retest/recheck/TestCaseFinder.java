@@ -53,8 +53,19 @@ public class TestCaseFinder {
 			"org.junit.jupiter.api.RepeatedTest", //
 			"org.junit.jupiter.params.ParameterizedTest" ) );
 
-	private static final List<String> suffixes = Arrays.asList( "Test", "IT", "TestCase", "ITCase", "Tests" );
-	private static final List<String> prefixes = Arrays.asList( "Test", "IT" );
+	private static final List<String> suffixes = Arrays.asList( //
+			// Maven Surefire Plugin
+			"Test", //
+			"Tests", //
+			"TestCase", //
+			// Maven Failsaife Plugin
+			"IT", //
+			"ITCase" );
+	private static final List<String> prefixes = Arrays.asList( //
+			// Maven Surefire Plugin
+			"Test", //
+			// Maven Failsaife Plugin
+			"IT" );
 
 	private static Function<TestCaseInformation, String> toClassName() {
 		return info -> info.getStackTraceElement().getClassName();
