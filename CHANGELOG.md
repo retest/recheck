@@ -31,6 +31,8 @@ Table of Contents
 
 ### Improvements
 
+* `RecheckImpl` can now be initialized as a member variable without additional parameters if inside a test class.
+
 
 --------------------------------------------------------------------------------
 
