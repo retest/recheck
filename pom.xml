@@ -161,11 +161,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.squareup.okhttp3</groupId>
-			<artifactId>okhttp</artifactId>
-			<!-- last version compatible with Selenium v3.141.59 in recheck-web -->
-			<!-- see https://github.com/SeleniumHQ/selenium/issues/7373 -->
-			<version>3.14.3</version>
+			<groupId>com.konghq</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>3.0.00</version>
 		</dependency>
 
 		<dependency>

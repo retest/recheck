@@ -11,18 +11,15 @@ import de.retest.recheck.Properties;
 import de.retest.recheck.auth.RetestAuthentication;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 @Slf4j
 public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	private static final String SERVICE_ENDPOINT = "https://marvin.prod.cloud.retest.org/api/report";
 	private final KryoPersistence<T> kryoPersistence = new KryoPersistence<>();
 	private final XmlFolderPersistence<T> folderPersistence = new XmlFolderPersistence<>( getXmlTransformer() );
-	private final OkHttpClient client = new OkHttpClient();
 
 	public static final String RECHECK_API_KEY = "RECHECK_API_KEY";
 
@@ -35,38 +32,31 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	}
 
 	private void saveToCloud( final URI identifier ) throws IOException {
-		final Response uploadUrlResponse = getUploadUrl();
+		final HttpResponse<String> uploadUrlResponse = getUploadUrl();
 
-		if ( uploadUrlResponse.isSuccessful() ) {
-			uploadReport( identifier, uploadUrlResponse.body().string() );
+		if ( uploadUrlResponse.isSuccess() ) {
+			uploadReport( identifier, uploadUrlResponse.getBody() );
 		}
 	}
 
 	private void uploadReport( final URI identifier, final String url ) throws IOException {
-		final Request uploadRequest = new Request.Builder() //
-				.url( url ) //
-				.put( RequestBody.create( null, new File( identifier ) ) ) //
-				.addHeader( "x-amz-meta-report-name", Paths.get( identifier ).getFileName().toString() ) //
-				.build();
+		final HttpResponse<?> uploadResponse = Unirest.put( url ) //
+				.header( "x-amz-meta-report-name", Paths.get( identifier ).getFileName().toString() )
+				.field( "upload", new File( identifier ) ) //
+				.asEmpty();
 
-		final Response uploadResponse = client.newCall( uploadRequest ).execute();
-
-		if ( uploadResponse.isSuccessful() ) {
+		if ( uploadResponse.isSuccess() ) {
 			log.info( "Successfully uploaded report to rehub" );
 		}
 	}
 
-	private Response getUploadUrl() throws IOException {
+	private HttpResponse<String> getUploadUrl() throws IOException {
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 		final String token = String.format( "Bearer %s", auth.getAccessTokenString() );
 
-		final Request uploadUrlRequest = new Request.Builder() //
-				.url( SERVICE_ENDPOINT ) //
-				.post( RequestBody.create( null, "" ) ) //
-				.addHeader( "Authorization", token ) //
-				.build();
-
-		return client.newCall( uploadUrlRequest ).execute();
+		return Unirest.post( SERVICE_ENDPOINT ) //
+				.header( "Authorization", token )//
+				.asString();
 	}
 
 	@Override
