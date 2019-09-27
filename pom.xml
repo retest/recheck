@@ -161,6 +161,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.konghq</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>3.0.00</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-installed-adapter</artifactId>
 			<version>7.0.0</version>
