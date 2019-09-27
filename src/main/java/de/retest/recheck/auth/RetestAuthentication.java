@@ -10,8 +10,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.OAuthErrorException;
 import org.keycloak.adapters.KeycloakDeployment;
@@ -27,7 +32,6 @@ import org.keycloak.representations.adapters.config.AdapterConfig;
 
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.HttpUrl;
 
 @Slf4j
 public class RetestAuthentication {
@@ -177,13 +181,16 @@ public class RetestAuthentication {
 	}
 
 	static KeycloakResult getRequestParameters( final String request ) {
-		final HttpUrl url = HttpUrl.parse( "http://localhost/" ).resolve( request.split( " " )[1] );
+		final String url = "http://localhost/" + request.split( " " )[1];
+		final Map<String, String> parameters = URLEncodedUtils.parse( URI.create( url ), StandardCharsets.UTF_8 ) //
+				.stream() //
+				.collect( Collectors.toMap( NameValuePair::getName, NameValuePair::getValue ) );
 
 		return KeycloakResult.builder() //
-				.code( url.queryParameter( OAuth2Constants.CODE ) ) //
-				.error( url.queryParameter( OAuth2Constants.ERROR ) ) //
-				.errorDescription( url.queryParameter( "error-description" ) ) //
-				.state( url.queryParameter( OAuth2Constants.STATE ) )//
+				.code( parameters.get( OAuth2Constants.CODE ) ) //
+				.error( parameters.get( OAuth2Constants.ERROR ) ) //
+				.errorDescription( parameters.get( "error-description" ) ) //
+				.state( parameters.get( OAuth2Constants.STATE ) ) //
 				.build();
 	}
 
