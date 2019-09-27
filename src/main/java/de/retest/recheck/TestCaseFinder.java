@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import org.apache.commons.lang3.StringUtils;
-
+import de.retest.recheck.util.StreamUtil;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,6 +52,9 @@ public class TestCaseFinder {
 			// JUnit Jupiter (v5)
 			"org.junit.jupiter.api.RepeatedTest", //
 			"org.junit.jupiter.params.ParameterizedTest" ) );
+
+	private static final List<String> suffixes = Arrays.asList( "Test", "IT", "TestCase", "ITCase", "Tests" );
+	private static final List<String> prefixes = Arrays.asList( "Test", "IT" );
 
 	private static Function<TestCaseInformation, String> toClassName() {
 		return info -> info.getStackTraceElement().getClassName();
@@ -100,13 +103,10 @@ public class TestCaseFinder {
 	 * @return The class name for the test being called from.
 	 */
 	public Optional<String> findTestCaseClassInStack() {
-		for ( final StackTraceElement[] stack : Thread.getAllStackTraces().values() ) {
-			final Optional<String> className = findTestCaseClassInStack( stack );
-			if ( className.isPresent() ) {
-				return className;
-			}
-		}
-		return Optional.empty();
+		return Thread.getAllStackTraces().values().stream() //
+				.map( this::findTestCaseClassInStack ) //
+				.flatMap( StreamUtil::optionalToStream ) //
+				.findFirst();
 	}
 
 	/**
@@ -115,14 +115,33 @@ public class TestCaseFinder {
 	 * @return The class name for the test being called from.
 	 */
 	public Optional<String> findTestCaseClassInStack( final StackTraceElement[] trace ) {
-		for ( final StackTraceElement element : trace ) {
-			final String className = element.getClassName();
-			if ( StringUtils.endsWith( className, "Test" ) || StringUtils.endsWith( className, "IT" ) ) {
-				return Optional.of( className );
+		return Arrays.stream( trace ) //
+				.map( StackTraceElement::getClassName ) //
+				.filter( TestCaseFinder::isTestClass ) //
+				.findFirst();
+	}
+
+	private static boolean isTestClass( final String className ) {
+		if ( className.equals( TestCaseFinder.class.getName() ) ) {
+			return false;
+		}
+
+		final String substringMarker = className.contains( "$" ) ? "$" : ".";
+		final String simpleClassName = className.substring( className.lastIndexOf( substringMarker ) + 1 );
+
+		for ( final String suffix : suffixes ) {
+			if ( simpleClassName.endsWith( suffix ) ) {
+				return true;
 			}
 		}
 
-		return Optional.empty();
+		for ( final String prefix : prefixes ) {
+			if ( simpleClassName.startsWith( prefix ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
