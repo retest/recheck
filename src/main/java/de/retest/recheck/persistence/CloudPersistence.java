@@ -50,7 +50,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private HttpResponse<String> getUploadUrl() throws IOException {
+	private HttpResponse<String> getUploadUrl() {
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 		final String token = String.format( "Bearer %s", auth.getAccessTokenString() );
 
