@@ -96,4 +96,14 @@ class PixelDiffFilterTest {
 		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
 	}
 
+	@Test
+	void box_shadow_should_not_be_parsed() throws Exception {
+		final String expected =
+				"rgba(0, 0, 0, 0.03) 0px 0px 1.18247px 0px, rgba(0, 0, 0, 0.06) 0px 1.18247px 2.36495px 0px";
+		final String actual =
+				"rgba(0, 0, 0, 0.098) 0px 0px 3.90236px 0px, rgba(0, 0, 0, 0.196) 0px 3.90236px 7.80472px 0px";
+		final AttributeDifference difference = new AttributeDifference( "box-shadow", expected, actual );
+
+		assertThat( cut.matches( mock( Element.class ), difference ) ).isFalse();
+	}
 }
