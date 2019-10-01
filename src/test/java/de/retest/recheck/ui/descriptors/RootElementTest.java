@@ -1,6 +1,9 @@
 package de.retest.recheck.ui.descriptors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,15 +12,11 @@ import java.util.List;
 import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.Attributes;
-import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.RootElement;
-import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 import de.retest.recheck.ui.review.ActionChangeSet;
+import de.retest.recheck.ui.review.AttributeChanges;
+import de.retest.recheck.ui.review.ScreenshotChanges;
 
 public class RootElementTest {
 
@@ -68,6 +67,34 @@ public class RootElementTest {
 
 		final List<Element> containedComponents = changed.getContainedElements();
 		assertThat( containedComponents ).hasSize( 0 );
+	}
+
+	@Test
+	public void applyChanges_updates_screenshot() throws Exception {
+		final Screenshot newScreenshot = mock( Screenshot.class );
+
+		final ScreenshotChanges screenshotChange = mock( ScreenshotChanges.class );
+		when( screenshotChange.getScreenshot( any() ) ).thenReturn( newScreenshot );
+
+		final IdentifyingAttributes identifyingAttribute = mock( IdentifyingAttributes.class );
+		when( identifyingAttribute.applyChanges( any() ) ).thenReturn( identifyingAttribute );
+
+		final Attributes attribute = mock( Attributes.class );
+		when( attribute.applyChanges( any() ) ).thenReturn( attribute );
+
+		final RootElement rootElement =
+				new RootElement( "a", identifyingAttribute, attribute, screenshot, null, 0, null );
+
+		final ActionChangeSet actionChangeSet = mock( ActionChangeSet.class );
+		when( actionChangeSet.getIdentAttributeChanges() ).thenReturn( mock( AttributeChanges.class ) );
+		when( actionChangeSet.getAttributesChanges() ).thenReturn( mock( AttributeChanges.class ) );
+		when( actionChangeSet.getScreenshot() ).thenReturn( screenshotChange );
+
+		final Screenshot screenshot = rootElement.getScreenshot();
+		final RootElement changed = rootElement.applyChanges( actionChangeSet );
+
+		assertThat( changed.getScreenshot() ).isNotEqualTo( screenshot );
+		assertThat( changed.getScreenshot() ).isEqualTo( newScreenshot );
 	}
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
