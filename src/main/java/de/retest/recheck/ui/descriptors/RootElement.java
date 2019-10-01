@@ -76,8 +76,8 @@ public class RootElement extends Element {
 
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		final RootElement rootElement =
-				new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, screen, screenId, title );
+		final RootElement rootElement = new RootElement( retestId, newIdentAttributes, newAttributes,
+				actionChangeSet.getScreenshot().getScreenshot( identifyingAttributes ), screen, screenId, title );
 		rootElement.addChildren( newContainedElements );
 		return rootElement;
 	}
