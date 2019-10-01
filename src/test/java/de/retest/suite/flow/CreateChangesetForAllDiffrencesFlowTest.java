@@ -25,6 +25,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.review.ReviewResult;
+import de.retest.recheck.ui.review.ScreenshotChanges;
 import de.retest.recheck.ui.review.SuiteChangeSet;
 
 public class CreateChangesetForAllDiffrencesFlowTest {
@@ -71,16 +72,19 @@ public class CreateChangesetForAllDiffrencesFlowTest {
 		final Element toChange = sutState.getRootElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 ).getContainedElements().get( 0 ).getContainedElements().get( 0 );
 
-		changesWhitPathAndDescription.createTestChangeSet().createActionChangeSet( ACTION, temporaryFile.getName() )
+		changesWhitPathAndDescription.createTestChangeSet()
+				.createActionChangeSet( ACTION, temporaryFile.getName(), ScreenshotChanges.empty() )
 				.getAttributesChanges()
 				.add( toChange.getIdentifyingAttributes(), new AttributeDifference( "enabled", "false", "true" ) );
 
-		changesWhitoutDescription.createTestChangeSet().createActionChangeSet( null, temporaryFile.getName() )
+		changesWhitoutDescription.createTestChangeSet()
+				.createActionChangeSet( null, temporaryFile.getName(), ScreenshotChanges.empty() )
 				.getAttributesChanges()
 				.add( toChange.getIdentifyingAttributes(), new AttributeDifference( "enabled", "false", "true" ) );
 
 		//if createActionChangeSet is called whitout the stateFilePath, a NoStateFileFoundException is thrown
-		changesWhitoutStateFilePath.createTestChangeSet().createActionChangeSet( ACTION, null ).getAttributesChanges()
+		changesWhitoutStateFilePath.createTestChangeSet()
+				.createActionChangeSet( ACTION, null, ScreenshotChanges.empty() ).getAttributesChanges()
 				.add( toChange.getIdentifyingAttributes(), new AttributeDifference( "enabled", "false", "true" ) );
 
 		changesWhitoutAnything.createTestChangeSet().createActionChangeSet().getAttributesChanges()

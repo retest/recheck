@@ -13,14 +13,17 @@ public class ActionChangeSet {
 
 	private final String description;
 	private final String goldenMasterPath;
+	private final ScreenshotChanges screenshots;
 
 	public ActionChangeSet() {
-		this( null, null );
+		this( null, null, null );
 	}
 
-	public ActionChangeSet( final String description, final String goldenMasterPath ) {
+	public ActionChangeSet( final String description, final String goldenMasterPath,
+			final ScreenshotChanges screenshots ) {
 		this.description = description;
 		this.goldenMasterPath = goldenMasterPath;
+		this.screenshots = screenshots;
 	}
 
 	private final AttributeChanges identAttributeChanges = new AttributeChanges();
@@ -96,5 +99,9 @@ public class ActionChangeSet {
 
 	public String getGoldenMasterPath() {
 		return goldenMasterPath;
+	}
+
+	public ScreenshotChanges getScreenshot() {
+		return screenshots;
 	}
 }

@@ -9,6 +9,7 @@ import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.ui.review.ReviewResult;
+import de.retest.recheck.ui.review.ScreenshotChanges;
 import de.retest.recheck.ui.review.SuiteChangeSet;
 import de.retest.recheck.ui.review.TestChangeSet;
 
@@ -40,15 +41,15 @@ public class CreateChangesetForAllDifferencesFlow {
 					final String goldenMasterPath = actionReplayResult.getGoldenMasterPath();
 					if ( first ) {
 						if ( testChangeSet.getInitialStateChangeSet().isEmpty() ) {
-							addAllElementDifferences( actionReplayResult,
-									testChangeSet.createInitialActionChangeSet( description, goldenMasterPath ) );
+							addAllElementDifferences( actionReplayResult, testChangeSet.createInitialActionChangeSet(
+									description, goldenMasterPath, ScreenshotChanges.actual( actionReplayResult ) ) );
 						} else {
 							addAllElementDifferences( actionReplayResult, testChangeSet.getInitialStateChangeSet() );
 						}
 						first = false;
 					} else {
-						final ActionChangeSet actionChangeSet =
-								testChangeSet.createActionChangeSet( description, goldenMasterPath );
+						final ActionChangeSet actionChangeSet = testChangeSet.createActionChangeSet( description,
+								goldenMasterPath, ScreenshotChanges.actual( actionReplayResult ) );
 						if ( actionReplayResult.getStateDifference() != null ) {
 							addAllElementDifferences( actionReplayResult, actionChangeSet );
 						}
