@@ -38,7 +38,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 
 	private boolean isAggregatedReport( final URI identifier ) {
 		return identifier.getPath().endsWith( Properties.AGGREGATED_TEST_REPORT_FILE_NAME );
-		}
+	}
 
 	private List<String> getTestClasses( final TestReport report ) {
 		return report.getSuiteReplayResults().stream() //
@@ -64,6 +64,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		final String reportName = metadata.getTestClasses() //
 				.stream() //
 				.collect( Collectors.joining( ", " ) );
+		final long start = System.currentTimeMillis();
 
 		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
 				.header( "x-amz-meta-report-name", reportName ) //
@@ -71,7 +72,8 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 				.asEmpty();
 
 		if ( uploadResponse.isSuccess() ) {
-			log.info( "Successfully uploaded report to rehub" );
+			final long duration = System.currentTimeMillis() - start;
+			log.info( "Successfully uploaded report to rehub in {} ms", duration );
 		}
 	}
 
