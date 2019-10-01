@@ -28,6 +28,7 @@ Table of Contents
 ### Bug Fixes
 
 * Do not parse the CSS attribute `box-shadow` for the filter `pixel-diff`.
+* Update screenshots always instead of never.
 
 ### New Features
 
