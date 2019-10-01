@@ -15,10 +15,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor( access = AccessLevel.PRIVATE )
 public class ScreenshotChanges {
 
+	private static final ScreenshotChanges EMPTY_SCREENSHOTS = new ScreenshotChanges( Collections.emptyMap() );
+
 	private final Map<IdentifyingAttributes, Screenshot> screenshotMap;
 
 	public static ScreenshotChanges empty() {
-		return new ScreenshotChanges( Collections.emptyMap() );
+		return EMPTY_SCREENSHOTS;
 	}
 
 	public static ScreenshotChanges actual( final ActionReplayResult result ) {

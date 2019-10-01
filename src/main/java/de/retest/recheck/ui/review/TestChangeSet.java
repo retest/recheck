@@ -23,7 +23,7 @@ public class TestChangeSet {
 	}
 
 	public ActionChangeSet createActionChangeSet() {
-		return createActionChangeSet( null, null, null );
+		return createActionChangeSet( null, null, ScreenshotChanges.empty() );
 	}
 
 	public ActionChangeSet createActionChangeSet( final String description, final String goldenMasterPath,

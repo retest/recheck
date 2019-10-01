@@ -74,10 +74,12 @@ public class RootElement extends Element {
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 
+		final Screenshot newScreenshot = actionChangeSet.getScreenshot().getScreenshot( identifyingAttributes );
+
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		final RootElement rootElement = new RootElement( retestId, newIdentAttributes, newAttributes,
-				actionChangeSet.getScreenshot().getScreenshot( identifyingAttributes ), screen, screenId, title );
+		final RootElement rootElement =
+				new RootElement( retestId, newIdentAttributes, newAttributes, newScreenshot, screen, screenId, title );
 		rootElement.addChildren( newContainedElements );
 		return rootElement;
 	}

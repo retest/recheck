@@ -16,7 +16,7 @@ public class ActionChangeSet {
 	private final ScreenshotChanges screenshots;
 
 	public ActionChangeSet() {
-		this( null, null, null );
+		this( null, null, ScreenshotChanges.empty() );
 	}
 
 	public ActionChangeSet( final String description, final String goldenMasterPath,

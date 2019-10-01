@@ -39,17 +39,18 @@ public class CreateChangesetForAllDifferencesFlow {
 				for ( final ActionReplayResult actionReplayResult : test.getActionReplayResults() ) {
 					final String description = actionReplayResult.getDescription();
 					final String goldenMasterPath = actionReplayResult.getGoldenMasterPath();
+					final ScreenshotChanges actualScreenshot = ScreenshotChanges.actual( actionReplayResult );
 					if ( first ) {
 						if ( testChangeSet.getInitialStateChangeSet().isEmpty() ) {
-							addAllElementDifferences( actionReplayResult, testChangeSet.createInitialActionChangeSet(
-									description, goldenMasterPath, ScreenshotChanges.actual( actionReplayResult ) ) );
+							addAllElementDifferences( actionReplayResult, testChangeSet
+									.createInitialActionChangeSet( description, goldenMasterPath, actualScreenshot ) );
 						} else {
 							addAllElementDifferences( actionReplayResult, testChangeSet.getInitialStateChangeSet() );
 						}
 						first = false;
 					} else {
-						final ActionChangeSet actionChangeSet = testChangeSet.createActionChangeSet( description,
-								goldenMasterPath, ScreenshotChanges.actual( actionReplayResult ) );
+						final ActionChangeSet actionChangeSet =
+								testChangeSet.createActionChangeSet( description, goldenMasterPath, actualScreenshot );
 						if ( actionReplayResult.getStateDifference() != null ) {
 							addAllElementDifferences( actionReplayResult, actionChangeSet );
 						}
