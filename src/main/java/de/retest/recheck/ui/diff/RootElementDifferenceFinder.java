@@ -71,7 +71,7 @@ public class RootElementDifferenceFinder {
 				expected.getIdentifyingAttributes(), bestMatch, bestWindow );
 		final double containedComponentsMatch = compareContainedComponents( expected, bestWindow );
 		if ( containedComponentsMatch >= WINDOW_CHILDS_MATCH_THRESHOLD ) {
-			logger.info( "Best match of window hat a match of contained components of {}.", containedComponentsMatch );
+			logger.info( "Best match of window has a match of contained components of {}.", containedComponentsMatch );
 			return bestWindow;
 		}
 		return null;
