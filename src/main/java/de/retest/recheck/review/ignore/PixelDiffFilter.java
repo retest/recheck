@@ -2,7 +2,8 @@ package de.retest.recheck.review.ignore;
 
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -20,7 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
-	private static final Set<String> ignoredKeys = Collections.singleton( "style" );
+
+	private static final Set<String> ignoredKeys = new HashSet<>( Arrays.asList( //
+			"style", //
+			"box-shadow" //
+	) );
 
 	/**
 	 * Indicates whether {@link #pixelDiff} is specified as double ({@code true}) or integer ({@code false}). Although
