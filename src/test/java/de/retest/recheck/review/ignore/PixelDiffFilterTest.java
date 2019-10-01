@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 
 import java.awt.Rectangle;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.Filter;
@@ -14,7 +15,14 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 class PixelDiffFilterTest {
 
 	double pixelDiff = 5.0;
-	Filter cut = new PixelDiffFilter( false, pixelDiff );
+	Filter cut;
+	Element element;
+
+	@BeforeEach
+	void setUp() {
+		cut = new PixelDiffFilter( false, pixelDiff );
+		element = element = mock( Element.class );
+	}
 
 	@Test
 	void should_filter_diff_when_pixel_diff_is_not_exceeded() throws Exception {
@@ -22,7 +30,7 @@ class PixelDiffFilterTest {
 		final Rectangle actual = new Rectangle( 1, -1, 15, 5 );
 		final AttributeDifference diff = new AttributeDifference( "outline", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isTrue();
+		assertThat( cut.matches( element, diff ) ).isTrue();
 	}
 
 	@Test
@@ -33,7 +41,7 @@ class PixelDiffFilterTest {
 
 		final Filter cut = new PixelDiffFilter( false, 0.0 );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
+		assertThat( cut.matches( element, diff ) ).isFalse();
 	}
 
 	@Test
@@ -42,7 +50,7 @@ class PixelDiffFilterTest {
 		final String actual = "45.3px";
 		final AttributeDifference diff = new AttributeDifference( "foo", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isTrue();
+		assertThat( cut.matches( element, diff ) ).isTrue();
 	}
 
 	@Test
@@ -51,7 +59,7 @@ class PixelDiffFilterTest {
 		final String actual = "-45.3px";
 		final AttributeDifference diff = new AttributeDifference( "foo", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isTrue();
+		assertThat( cut.matches( element, diff ) ).isTrue();
 	}
 
 	@Test
@@ -60,7 +68,7 @@ class PixelDiffFilterTest {
 		final String actual = "45,3px";
 		final AttributeDifference diff = new AttributeDifference( "foo", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isTrue();
+		assertThat( cut.matches( element, diff ) ).isTrue();
 	}
 
 	@Test
@@ -69,7 +77,7 @@ class PixelDiffFilterTest {
 		final String actual = null;
 		final AttributeDifference diff = new AttributeDifference( "foo", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
+		assertThat( cut.matches( element, diff ) ).isFalse();
 	}
 
 	@Test
@@ -78,7 +86,7 @@ class PixelDiffFilterTest {
 		final String actual = "baz";
 		final AttributeDifference diff = new AttributeDifference( "foo", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
+		assertThat( cut.matches( element, diff ) ).isFalse();
 	}
 
 	@Test
@@ -93,7 +101,7 @@ class PixelDiffFilterTest {
 		final String actual = "width: 1000px; height: 1000px";
 		final AttributeDifference diff = new AttributeDifference( "style", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), diff ) ).isFalse();
+		assertThat( cut.matches( element, diff ) ).isFalse();
 	}
 
 	@Test
@@ -104,6 +112,6 @@ class PixelDiffFilterTest {
 				"rgba(0, 0, 0, 0.098) 0px 0px 3.90236px 0px, rgba(0, 0, 0, 0.196) 0px 3.90236px 7.80472px 0px";
 		final AttributeDifference difference = new AttributeDifference( "box-shadow", expected, actual );
 
-		assertThat( cut.matches( mock( Element.class ), difference ) ).isFalse();
+		assertThat( cut.matches( element, difference ) ).isFalse();
 	}
 }
