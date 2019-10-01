@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Do not parse the CSS attribute `box-shadow` for the filter `pixel-diff`.
+
 ### New Features
 
 ### Improvements

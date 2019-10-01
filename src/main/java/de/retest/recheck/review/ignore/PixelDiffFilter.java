@@ -2,7 +2,8 @@ package de.retest.recheck.review.ignore;
 
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -20,7 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PixelDiffFilter implements Filter {
 
 	private static final String PIXEL = "px";
-	private static final Set<String> ignoredKeys = Collections.singleton( "style" );
+
+	private static final Set<String> ignoredKeys = new HashSet<>( Arrays.asList( //
+			"style", //
+			"box-shadow" //
+	) );
 
 	/**
 	 * Indicates whether {@link #pixelDiff} is specified as double ({@code true}) or integer ({@code false}). Although
@@ -54,7 +59,7 @@ public class PixelDiffFilter implements Filter {
 		}
 
 		if ( expected instanceof String ) {
-			return checkString( (String) expected, (String) actual );
+			return checkString( key, (String) expected, (String) actual );
 		}
 
 		return false;
@@ -68,7 +73,7 @@ public class PixelDiffFilter implements Filter {
 		return filterX && filterY && filterHeight && filterWidth;
 	}
 
-	private boolean checkString( final String expected, final String actual ) {
+	private boolean checkString( final String key, final String expected, final String actual ) {
 		if ( expected == null || actual == null ) {
 			return false;
 		}
@@ -82,7 +87,8 @@ public class PixelDiffFilter implements Filter {
 			final double actualDouble = Double.parseDouble( clean( actual ) );
 			return Math.abs( expectedDouble - actualDouble ) <= pixelDiff;
 		} catch ( final NumberFormatException e ) {
-			log.error( "Could not parse expected '{}' and actual '{}' for pixel diff.", expected, actual );
+			log.error( "Could not parse difference with key {}, expected '{}' and actual '{}' for pixel diff.", key,
+					expected, actual );
 			return false;
 		}
 	}
