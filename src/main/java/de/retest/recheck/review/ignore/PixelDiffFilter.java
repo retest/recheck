@@ -59,7 +59,7 @@ public class PixelDiffFilter implements Filter {
 		}
 
 		if ( expected instanceof String ) {
-			return checkString( (String) expected, (String) actual );
+			return checkString( key, (String) expected, (String) actual );
 		}
 
 		return false;
@@ -73,7 +73,7 @@ public class PixelDiffFilter implements Filter {
 		return filterX && filterY && filterHeight && filterWidth;
 	}
 
-	private boolean checkString( final String expected, final String actual ) {
+	private boolean checkString( final String key, final String expected, final String actual ) {
 		if ( expected == null || actual == null ) {
 			return false;
 		}
@@ -87,7 +87,8 @@ public class PixelDiffFilter implements Filter {
 			final double actualDouble = Double.parseDouble( clean( actual ) );
 			return Math.abs( expectedDouble - actualDouble ) <= pixelDiff;
 		} catch ( final NumberFormatException e ) {
-			log.error( "Could not parse expected '{}' and actual '{}' for pixel diff.", expected, actual );
+			log.error( "Could not parse difference with key {}, expected '{}' and actual '{}' for pixel diff.", key,
+					expected, actual );
 			return false;
 		}
 	}
