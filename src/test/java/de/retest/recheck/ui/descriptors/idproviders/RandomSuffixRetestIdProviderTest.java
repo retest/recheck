@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.descriptors.Attribute;
@@ -22,7 +22,7 @@ class RandomSuffixRetestIdProviderTest {
 
 	RandomSuffixRetestIdProvider cut;
 
-	@BeforeAll
+	@BeforeEach
 	void setUp() {
 		cut = new RandomSuffixRetestIdProvider();
 	}
