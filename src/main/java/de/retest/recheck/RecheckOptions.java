@@ -4,7 +4,6 @@ import static de.retest.recheck.ignore.SearchFilterFiles.getFilterByName;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.retest.recheck.ignore.CompoundFilter;
@@ -20,6 +19,7 @@ import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * This class configures the behaviour of {@link Recheck} and their implementations.
@@ -30,10 +30,8 @@ public class RecheckOptions {
 	private final FileNamerStrategy fileNamerStrategy;
 	private final NamingStrategy namingStrategy;
 	private final ProjectLayout projectLayout;
-	private final String suiteName;
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
-	private final boolean addDefaultFilters;
 
 	/**
 	 * Creates a shallow copy of the given options. Useful when extending the RecheckOptions to minimize dependencies on
@@ -59,8 +57,8 @@ public class RecheckOptions {
 	 * </pre>
 	 */
 	protected RecheckOptions( final RecheckOptions toCopy ) {
-		this( toCopy.fileNamerStrategy, toCopy.namingStrategy, toCopy.projectLayout, toCopy.suiteName,
-				toCopy.reportUploadEnabled, toCopy.filter, toCopy.addDefaultFilters );
+		this( toCopy.fileNamerStrategy, toCopy.namingStrategy, toCopy.projectLayout, toCopy.reportUploadEnabled,
+				toCopy.filter );
 	}
 
 	/**
@@ -83,19 +81,6 @@ public class RecheckOptions {
 	}
 
 	/**
-	 * Gets the suite name which overwrites {@link FileNamerStrategy#getTestClassName()}.
-	 *
-	 * @return The suite name to use for identifying the golden master.
-	 * @implNote If no suite name is provided, the {@link FileNamerStrategy#getTestClassName()} is used.
-	 */
-	public String getSuiteName() {
-		if ( suiteName != null ) {
-			return suiteName;
-		}
-		return namingStrategy.getSuiteName();
-	}
-
-	/**
 	 * If the report should be uploaded to <a href="https://retest.de/rehub/">rehub</a>.
 	 *
 	 * @return If the report should be uploaded.
@@ -112,14 +97,7 @@ public class RecheckOptions {
 	 * @implNote If no filter is provided, the default filters are used.
 	 */
 	public Filter getFilter() {
-		if ( !addDefaultFilters ) {
-			return filter;
-		}
-		return new CompoundFilter( Arrays.asList( //
-				filter, //
-				RecheckIgnoreUtil.loadRecheckIgnore(), //
-				RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath() ) //
-		) );
+		return filter;
 	}
 
 	/**
@@ -134,14 +112,6 @@ public class RecheckOptions {
 	 */
 	public NamingStrategy getNamingStrategy() {
 		return namingStrategy;
-	}
-
-	File getSuitePath() {
-		if ( fileNamerStrategy != null ) {
-			final FileNamer fileNamer = fileNamerStrategy.createFileNamer( getSuiteName() );
-			return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
-		}
-		return projectLayout.getSuiteFolder( getSuiteName() ).toFile();
 	}
 
 	public static class RecheckOptionsBuilder {
@@ -272,10 +242,55 @@ public class RecheckOptions {
 		}
 
 		public RecheckOptions build() {
+			final String suiteName = getSuiteName();
+			final NamingStrategy namingStrategy = new FixedSuiteNamingStrategy( suiteName, this.namingStrategy );
+			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout, reportUploadEnabled,
+					buildFilter( suiteName ) );
+		}
+
+		private String getSuiteName() {
+			if ( suiteName != null ) {
+				return suiteName;
+			}
+			return namingStrategy.getSuiteName();
+		}
+
+		private Filter buildFilter( final String suiteName ) {
 			final Filter filter = ignoreFilter != null ? ignoreFilter : new CompoundFilter( ignoreFilterToAdd );
 			final boolean addDefaultFilters = ignoreFilter == null;
-			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout, suiteName, reportUploadEnabled,
-					filter, addDefaultFilters );
+			if ( !addDefaultFilters ) {
+				return filter;
+			}
+			return new CompoundFilter( filter, //
+					RecheckIgnoreUtil.loadRecheckIgnore(), //
+					RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath( suiteName ) ) );
 		}
+
+		File getSuitePath( final String suiteName ) {
+			if ( fileNamerStrategy != null ) {
+				final FileNamer fileNamer = fileNamerStrategy.createFileNamer( suiteName );
+				return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+			}
+			return projectLayout.getSuiteFolder( suiteName ).toFile();
+		}
+
+	}
+
+	@RequiredArgsConstructor
+	private static final class FixedSuiteNamingStrategy implements NamingStrategy {
+
+		private final String suiteName;
+		private final NamingStrategy namingStrategy;
+
+		@Override
+		public String getSuiteName() {
+			return suiteName;
+		}
+
+		@Override
+		public String getTestName() {
+			return namingStrategy.getTestName();
+		}
+
 	}
 }
