@@ -4,7 +4,6 @@ import static de.retest.recheck.ignore.SearchFilterFiles.getFilterByName;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.retest.recheck.ignore.CompoundFilter;
@@ -262,11 +261,9 @@ public class RecheckOptions {
 			if ( !addDefaultFilters ) {
 				return filter;
 			}
-			return new CompoundFilter( Arrays.asList( //
-					filter, //
+			return new CompoundFilter( filter, //
 					RecheckIgnoreUtil.loadRecheckIgnore(), //
-					RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath( suiteName ) ) //
-			) );
+					RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath( suiteName ) ) );
 		}
 
 		File getSuitePath( final String suiteName ) {
