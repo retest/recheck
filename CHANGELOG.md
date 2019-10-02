@@ -32,6 +32,10 @@ Table of Contents
 
 ### New Features
 
+* Added some more `RetestIdProviders`:
+    * `de.retest.recheck.ui.descriptors.idproviders.RandomSuffixRetestIdProvider`: Add a random suffix to the element.
+    * `de.retest.recheck.ui.descriptors.idproviders.ElementCountingRetestIdProvider`: Add a counter suffix to the element.
+
 ### Improvements
 
 * `RecheckImpl` can now be initialized as a member variable without additional parameters if inside a test class.
