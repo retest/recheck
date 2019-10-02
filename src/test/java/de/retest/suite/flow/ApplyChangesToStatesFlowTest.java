@@ -23,6 +23,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.review.ReviewResult;
+import de.retest.recheck.ui.review.ScreenshotChanges;
 import de.retest.recheck.ui.review.SuiteChangeSet;
 
 public class ApplyChangesToStatesFlowTest {
@@ -62,7 +63,8 @@ public class ApplyChangesToStatesFlowTest {
 		final Element toChange = before.getRootElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 ).getContainedElements().get( 0 ).getContainedElements().get( 0 )
 				.getContainedElements().get( 0 );
-		acceptedChanges.createTestChangeSet().createActionChangeSet( ACTION, temporaryFile.getName() )
+		acceptedChanges.createTestChangeSet()
+				.createActionChangeSet( ACTION, temporaryFile.getName(), ScreenshotChanges.empty() )
 				.getAttributesChanges()
 				.add( toChange.getIdentifyingAttributes(), new AttributeDifference( "enabled", "false", "true" ) );
 

@@ -16,17 +16,19 @@ public class TestChangeSet {
 		actionChangeSets = new ArrayList<>();
 	}
 
-	public ActionChangeSet createInitialActionChangeSet( final String description, final String goldenMasterPath ) {
-		initialStateChangeSet = new ActionChangeSet( description, goldenMasterPath );
+	public ActionChangeSet createInitialActionChangeSet( final String description, final String goldenMasterPath,
+			final ScreenshotChanges screenshots ) {
+		initialStateChangeSet = new ActionChangeSet( description, goldenMasterPath, screenshots );
 		return initialStateChangeSet;
 	}
 
 	public ActionChangeSet createActionChangeSet() {
-		return createActionChangeSet( null, null );
+		return createActionChangeSet( null, null, ScreenshotChanges.empty() );
 	}
 
-	public ActionChangeSet createActionChangeSet( final String description, final String goldenMasterPath ) {
-		final ActionChangeSet actionChangeSet = new ActionChangeSet( description, goldenMasterPath );
+	public ActionChangeSet createActionChangeSet( final String description, final String goldenMasterPath,
+			final ScreenshotChanges screenshots ) {
+		final ActionChangeSet actionChangeSet = new ActionChangeSet( description, goldenMasterPath, screenshots );
 		actionChangeSets.add( actionChangeSet );
 		return actionChangeSet;
 	}
