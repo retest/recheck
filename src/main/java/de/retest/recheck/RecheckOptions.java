@@ -125,8 +125,7 @@ public class RecheckOptions {
 		private Filter ignoreFilter = null;
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
-		protected RecheckOptionsBuilder() {
-		}
+		protected RecheckOptionsBuilder() {}
 
 		/**
 		 * @deprecated Use {@link #namingStrategy} and {@link #projectLayout} instead.
