@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * Instead of a counting suffix, create a random suffix if there is more than one of the same element.
  */
-public class RandomSuffixRetestIdProvider extends AbstractFirstNonNullRetestIdProvider {
+public final class RandomSuffixRetestIdProvider extends AbstractFirstNonNullRetestIdProvider {
 
 	private final Set<String> knownRetestIds = new HashSet<>();
 

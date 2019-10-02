@@ -5,7 +5,7 @@ import java.util.Map;
 
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
-public class ConsistentRetestIdProvider implements RetestIdProvider {
+public final class ConsistentRetestIdProvider implements RetestIdProvider {
 
 	private final RetestIdProvider delegate;
 	private final Map<String, String> consistency = new HashMap<>();
