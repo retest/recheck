@@ -18,13 +18,13 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.descriptors.SuffixAttribute;
 
-class DefaultRetestIdProviderTest {
+class RandomSuffixRetestIdProviderTest {
 
-	DefaultRetestIdProvider cut;
+	RandomSuffixRetestIdProvider cut;
 
 	@BeforeEach
 	void setUp() {
-		cut = new DefaultRetestIdProvider();
+		cut = new RandomSuffixRetestIdProvider();
 	}
 
 	@Test
@@ -142,15 +142,5 @@ class DefaultRetestIdProviderTest {
 		when( identifyingAttributes.get( "type" ) ).thenReturn( "javax.swing.Box$Filler" );
 		final String id = cut.getRetestId( identifyingAttributes );
 		assertThat( id ).isEqualTo( "boxfiller" );
-	}
-
-	@Test
-	void counter_should_not_be_suffix() {
-		final ElementCountingRetestIdProvider cut = new ElementCountingRetestIdProvider();
-		assertThat( cut.getRetestId( create( fromString( "/html[1]/div[1]" ), "div" ) ) ).isEqualTo( "div" );
-		assertThat( cut.getRetestId( create( fromString( "/html[1]/div[1]" ), "div" ) ) ).isEqualTo( "div-1" );
-		assertThat( cut.getRetestId( create( fromString( "/html[1]/div[1]/div[1]" ), "div" ) ) ).isEqualTo( "div-2" );
-		assertThat( cut.getRetestId( create( fromString( "/html[1]/div[4]" ), "div" ) ) ).isEqualTo( "div-3" );
-		assertThat( cut.getRetestId( create( fromString( "/html[1]/a[1]" ), "a" ) ) ).isEqualTo( "a" );
 	}
 }

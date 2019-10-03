@@ -5,7 +5,7 @@ import java.util.Map;
 
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
-public class ConsistentRetestIdProvider implements RetestIdProvider {
+public final class ConsistentRetestIdProvider implements RetestIdProvider {
 
 	private final RetestIdProvider delegate;
 	private final Map<String, String> consistency = new HashMap<>();
@@ -21,6 +21,9 @@ public class ConsistentRetestIdProvider implements RetestIdProvider {
 			return result;
 		}
 		result = delegate.getRetestId( identifyingAttributes );
+		while ( consistency.containsValue( result ) ) {
+			result = delegate.getRetestId( identifyingAttributes );
+		}
 		consistency.put( identifyingAttributes.identifier(), result );
 		return result;
 	}
