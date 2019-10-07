@@ -1,6 +1,7 @@
 package de.retest.recheck.persistence;
 
 import static de.retest.recheck.XmlTransformerUtil.getXmlTransformer;
+import static org.apache.commons.lang3.StringUtils.abbreviate;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CloudPersistence<T extends Persistable> implements Persistence<T> {
+	private static final int MAX_REPORT_NAME_LENGTH = 50;
 	private static final String SERVICE_ENDPOINT = "https://marvin.prod.cloud.retest.org/api/report";
 	private final KryoPersistence<T> kryoPersistence = new KryoPersistence<>();
 	private final XmlFolderPersistence<T> folderPersistence = new XmlFolderPersistence<>( getXmlTransformer() );
@@ -67,7 +69,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		final long start = System.currentTimeMillis();
 
 		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
-				.header( "x-amz-meta-report-name", reportName ) //
+				.header( "x-amz-meta-report-name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
 				.field( "upload", new File( metadata.getLocation() ) ) //
 				.asEmpty();
 
