@@ -144,7 +144,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return ChecksumCalculator.getInstance().sha256( result );
 	}
 
-	public static String getSumIdentifier( final Collection<ElementDifference> differences ) {
+	private static String getSumIdentifier( final Collection<ElementDifference> differences ) {
 		String result = "";
 		for ( final ElementDifference difference : differences ) {
 			result += " # " + difference.getIdentifier();
