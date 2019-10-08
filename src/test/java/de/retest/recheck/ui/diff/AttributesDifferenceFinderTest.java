@@ -156,7 +156,8 @@ class AttributesDifferenceFinderTest {
 
 		final AttributesDifference difference = cut.differenceFor( element( defaults ), element( nondefault ) );
 
-		assertThat( difference.expected() ).hasToString( "{background=#FFFFFF, font=Arial, foreground=#000000}" );
+		assertThat( difference ).hasToString(
+				"{background: expected=\"#FFFFFF\", actual=\"#FF0000\", font: expected=\"Arial\", actual=\"Lucida Grance-italic-123\", foreground: expected=\"#000000\", actual=\"#00FF00\"}" );
 	}
 
 	@Test
