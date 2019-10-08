@@ -262,7 +262,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	@Override
 	public int compareTo( final ElementDifference other ) {
 		if ( getIdentifyingAttributes() == null || other.getIdentifyingAttributes() == null ) {
-			throw new IllegalStateException( "Identifying attributes may not be null. Loaded leighweight XML?" );
+			throw new IllegalStateException( "Identifying attributes may not be null. Loaded lightweight XML?" );
 		}
 		return getIdentifyingAttributes().compareTo( other.getIdentifyingAttributes() );
 	}
