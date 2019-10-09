@@ -15,8 +15,11 @@ public class Properties {
 	public static final String PROPERTY_VALUE_SEPARATOR = ";";
 	public static final String ZIP_FOLDER_SEPARATOR = "/";
 
-	public static final double WINDOW_MATCH_THRESHOLD = 0.8;
-	public static final double WINDOW_CHILDS_MATCH_THRESHOLD = 0.5;
+	public static final double WINDOW_MATCH_THRESHOLD_DEFAULT = 0.8;
+	public static final String WINDOW_MATCH_THRESHOLD_PROPERTY = "de.retest.recheck.windowMatchThreshold";
+	public static final double WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT = 0.5;
+	public static final String WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY =
+			"de.retest.recheck.windowContainedChildrenMatchThreshold";
 
 	public static final double ELEMENT_MATCH_THRESHOLD_DEFAULT = 0.3;
 	public static final String ELEMENT_MATCH_THRESHOLD_PROPERTY = "de.retest.recheck.elementMatchThreshold";

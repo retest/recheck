@@ -1,7 +1,10 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.Properties.WINDOW_CHILDS_MATCH_THRESHOLD;
-import static de.retest.recheck.Properties.WINDOW_MATCH_THRESHOLD;
+import static de.retest.recheck.Properties.WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT;
+import static de.retest.recheck.Properties.WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY;
+import static de.retest.recheck.Properties.WINDOW_MATCH_THRESHOLD_DEFAULT;
+import static de.retest.recheck.Properties.WINDOW_MATCH_THRESHOLD_PROPERTY;
+import static de.retest.recheck.Properties.getConfiguredDouble;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +20,11 @@ public class RootElementDifferenceFinder {
 			org.slf4j.LoggerFactory.getLogger( RootElementDifferenceFinder.class );
 
 	private final ElementDifferenceFinder elementDifferenceFinder;
+
+	private final Double minimumWindowMatch =
+			getConfiguredDouble( WINDOW_MATCH_THRESHOLD_PROPERTY, WINDOW_MATCH_THRESHOLD_DEFAULT );
+	private final Double minimumContainedComponentsMatchMatch = getConfiguredDouble(
+			WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY, WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT );
 
 	public RootElementDifferenceFinder( final DefaultValueFinder defaultValueFinder ) {
 		elementDifferenceFinder = new ElementDifferenceFinder( defaultValueFinder );
@@ -58,14 +66,14 @@ public class RootElementDifferenceFinder {
 			logger.info( "No window at all found!" );
 			return null;
 		}
-		if ( bestMatch >= WINDOW_MATCH_THRESHOLD ) {
+		if ( bestMatch >= minimumWindowMatch ) {
 			actuals.remove( bestWindow );
 			return bestWindow;
 		}
 		logger.info( "Best match of window {} did not exceed MATCH_THRESHOLD with {}: {}",
 				expected.getIdentifyingAttributes(), bestMatch, bestWindow );
 		final double containedComponentsMatch = compareContainedComponents( expected, bestWindow );
-		if ( containedComponentsMatch >= WINDOW_CHILDS_MATCH_THRESHOLD ) {
+		if ( containedComponentsMatch >= minimumContainedComponentsMatchMatch ) {
 			logger.info( "Best match of window has a match of contained components of {}.", containedComponentsMatch );
 			return bestWindow;
 		}
