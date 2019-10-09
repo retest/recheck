@@ -1,6 +1,11 @@
 package de.retest.recheck;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Properties {
+
+	private static final Logger logger = LoggerFactory.getLogger( Properties.class );
 
 	public static final String FILE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
 	public static final String CONFIG_FILE_PROPERTY = "de.retest.configFile";
@@ -48,5 +53,19 @@ public class Properties {
 			return FileOutputFormat.ZIP;
 		}
 		return FileOutputFormat.PLAIN;
+	}
+
+	public static Double getConfiguredDouble( final String property, final Double defaultValue ) {
+		final String value = System.getProperty( property );
+		if ( value == null ) {
+			return defaultValue;
+		}
+		try {
+			return Double.parseDouble( value );
+		} catch ( final NumberFormatException e ) {
+			logger.error( "Exception parsing value {} of property {} to double, using default {} instead.", value,
+					property, defaultValue );
+			return defaultValue;
+		}
 	}
 }

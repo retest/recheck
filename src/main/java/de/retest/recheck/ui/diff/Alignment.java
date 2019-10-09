@@ -1,5 +1,8 @@
 package de.retest.recheck.ui.diff;
 
+import static de.retest.recheck.Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
+import static de.retest.recheck.Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY;
+import static de.retest.recheck.Properties.getConfiguredDouble;
 import static java.util.Collections.reverse;
 
 import java.util.ArrayList;
@@ -13,7 +16,6 @@ import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.Properties;
 import de.retest.recheck.ui.descriptors.Element;
 
 public final class Alignment {
@@ -23,7 +25,8 @@ public final class Alignment {
 	private final Map<Element, Element> alignment;
 	private final Map<Element, Element> expectedMapOfElementTree = new HashMap<>();
 	private final Map<Element, Element> actualMapOfElementTree = new HashMap<>();
-	private final Double minimumMatch = getRequiredMinimumMatch();
+	private final Double minimumMatch =
+			getConfiguredDouble( ELEMENT_MATCH_THRESHOLD_PROPERTY, ELEMENT_MATCH_THRESHOLD_DEFAULT );
 
 	private Alignment( final Element expectedComponent, final Element actualComponent ) {
 		final List<Element> expectedComponents = flattenLeafElements( expectedComponent, expectedMapOfElementTree );
@@ -158,20 +161,6 @@ public final class Alignment {
 			matches.put( bestMatch.element, new Match( bestMatch.similarity, expected ) );
 		}
 		return alignment;
-	}
-
-	private static Double getRequiredMinimumMatch() {
-		final String value = System.getProperty( Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY );
-		if ( value == null ) {
-			return Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
-		}
-		try {
-			return Double.parseDouble( value );
-		} catch ( final NumberFormatException e ) {
-			logger.error( "Exception parsing value {} of property {} to double, using default {} instead.", value,
-					Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY, Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT );
-			return Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
-		}
 	}
 
 	private static Stack<Element> toStack( final List<Element> expectedElements ) {
