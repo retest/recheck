@@ -38,32 +38,32 @@ class StateDifferenceTest {
 			new RootElementDifferenceFinder( mock( Environment.class ) );
 
 	@Test
-		final StateDifference difference = new StateDifference(
 	void listDifference_with_one_entry_each() {
+		final StateDifference cut = new StateDifference(
 				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ),
 				null );
 
-		assertThat( difference.size() ).isEqualTo( 1 );
-		assertThat( difference.getNonEmptyDifferences().size() ).isEqualTo( 1 );
-		assertThat( difference.toString() ).isEqualTo(
+		assertThat( cut.size() ).isEqualTo( 1 );
+		assertThat( cut.getNonEmptyDifferences().size() ).isEqualTo( 1 );
+		assertThat( cut.toString() ).isEqualTo(
 				"[nullIdentifyingAttributesDifference expected type: de.retest.recheck.ui.diff.StateDifferenceTest$Window - actual type: de.retest.recheck.ui.diff.StateDifferenceTest$OtherWindow]" );
-		assertThat( difference.getElementDifferences().size() ).isEqualTo( 1 );
-		verifyXml( toXmlFragmentViaJAXB( difference, StateDifference.class ) );
+		assertThat( cut.getElementDifferences().size() ).isEqualTo( 1 );
+		verifyXml( toXmlFragmentViaJAXB( cut, StateDifference.class ) );
 	}
 
 	@Test
-		final StateDifference difference = new StateDifference(
 	void listDifference_with_many_entries_some_of_which_differ() {
+		final StateDifference cut = new StateDifference(
 				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ),
 				null );
 
-		assertThat( difference.size() ).isEqualTo( 1 );
-		assertThat( difference.getNonEmptyDifferences().size() ).isEqualTo( 1 );
-		assertThat( difference.toString() ).isEqualTo(
+		assertThat( cut.size() ).isEqualTo( 1 );
+		assertThat( cut.getNonEmptyDifferences().size() ).isEqualTo( 1 );
+		assertThat( cut.toString() ).isEqualTo(
 				"[nullIdentifyingAttributesDifference expected type: de.retest.recheck.ui.diff.StateDifferenceTest$Window - actual type: de.retest.recheck.ui.diff.StateDifferenceTest$OtherWindow]" );
-		assertThat( difference.getElementDifferences().size() ).isEqualTo( 1 );
+		assertThat( cut.getElementDifferences().size() ).isEqualTo( 1 );
 
-		verifyXml( toXmlFragmentViaJAXB( difference, StateDifference.class ) );
+		verifyXml( toXmlFragmentViaJAXB( cut, StateDifference.class ) );
 	}
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,

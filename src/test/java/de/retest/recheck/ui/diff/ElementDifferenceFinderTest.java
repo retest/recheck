@@ -29,9 +29,8 @@ import de.retest.recheck.ui.diff.ElementBuilder.comp1;
 class ElementDifferenceFinderTest {
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void path_differences_in_children_should_result_in_difference() throws Exception {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element parent = mock( Element.class );
 		final Attributes attributes = new Attributes();
@@ -61,8 +60,7 @@ class ElementDifferenceFinderTest {
 		otherWindow.addChildren( otherPath );
 
 		// should result in one difference: path[1] and path[2]
-		final Collection<ElementDifference> differences =
-				elementDifferenceFinder.findChildDifferences( window, otherWindow );
+		final Collection<ElementDifference> differences = cut.findChildDifferences( window, otherWindow );
 		final ElementDifference diff = differences.iterator().next();
 
 		assertThat( diff.toString() ).isEqualTo( //
@@ -72,22 +70,20 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void same_component_should_produce_no_difference() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 		final Element actual = buildElement();
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNull();
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_state_in_first_child() throws Exception {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -99,7 +95,7 @@ class ElementDifferenceFinderTest {
 				toAttributes( "{color=yellow}" ) );
 		actual.addChildren( child1 );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -110,9 +106,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_state_in_child_attribute() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -124,7 +119,7 @@ class ElementDifferenceFinderTest {
 				toAttributes( "{color=yellow}" ) );
 		actual.addChildren( child2 );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -135,9 +130,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_state_in_last_child() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -149,7 +143,7 @@ class ElementDifferenceFinderTest {
 				toAttributes( "{color=yellow}" ) );
 		actual.addChildren( child3 );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -160,9 +154,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_children_abc_dbe() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -183,7 +176,7 @@ class ElementDifferenceFinderTest {
 		final List<Element> containedComponents = Arrays.asList( actualChild1, actualChild2, actualChild3 );
 		actual.addChildren( containedComponents );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 2 );
@@ -195,9 +188,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void children_of_different_components() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -218,7 +210,7 @@ class ElementDifferenceFinderTest {
 		final List<Element> containedComponents = Arrays.asList( actualChild1, actualChild2, actualChild3 );
 		actual.addChildren( containedComponents );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -232,9 +224,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_children_abc() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -242,7 +233,7 @@ class ElementDifferenceFinderTest {
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) ),
 				toAttributes( "{color=blue}" ) );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 3 );
@@ -253,9 +244,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_children_bc_abc() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) ),
@@ -273,7 +263,7 @@ class ElementDifferenceFinderTest {
 
 		final Element actual = buildElement();
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -285,9 +275,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_children_abc_ab() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -305,7 +294,7 @@ class ElementDifferenceFinderTest {
 		final List<Element> containedComponents = Arrays.asList( actualChild1, actualChild2 );
 		actual.addChildren( containedComponents );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -317,13 +306,12 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_children_abc_null() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, null );
+		final ElementDifference difference = cut.differenceFor( expected, null );
 
 		assertThat( expected ).isNotNull();
 		assertThat( difference ).isNotNull();
@@ -334,13 +322,12 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void different_children_null_abc() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element actual = buildElement();
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( null, actual );
+		final ElementDifference difference = cut.differenceFor( null, actual );
 
 		assertThat( actual ).isNotNull();
 		assertThat( difference ).isNotNull();
@@ -352,17 +339,15 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void two_null_arguments_have_no_difference() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
-		assertThat( elementDifferenceFinder.differenceFor( null, null ) ).isNull();
+		assertThat( cut.differenceFor( null, null ) ).isNull();
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void expected_children_on_deeper_hierarchy_level() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element parent = mock( Element.class );
 		final Attributes attributes = new Attributes();
@@ -385,7 +370,7 @@ class ElementDifferenceFinderTest {
 				IdentifyingAttributes.create( fromString( "root[0]" ), root.class ), attributes );
 		actual.addChildren( otherElement );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );
@@ -399,9 +384,8 @@ class ElementDifferenceFinderTest {
 	}
 
 	@Test
-		final ElementDifferenceFinder elementDifferenceFinder =
-				new ElementDifferenceFinder( mock( Environment.class ) );
 	void actual_children_on_deeper_hierarchy_level() {
+		final ElementDifferenceFinder cut = new ElementDifferenceFinder( mock( Environment.class ) );
 
 		final Element expected = buildElement();
 
@@ -411,7 +395,7 @@ class ElementDifferenceFinderTest {
 
 		actual.addChildren( buildElement() );
 
-		final ElementDifference difference = elementDifferenceFinder.differenceFor( expected, actual );
+		final ElementDifference difference = cut.differenceFor( expected, actual );
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );

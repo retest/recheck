@@ -9,38 +9,38 @@ import org.junit.jupiter.api.Test;
 class DurationDifferenceTest {
 
 	@Test
-		final DurationDifference difference = DurationDifference.differenceFor( 70, 70 );
-		assertThat( difference ).isNull();
 	void same_duration() {
+		final DurationDifference cut = DurationDifference.differenceFor( 70, 70 );
+		assertThat( cut ).isNull();
 	}
 
 	@Test
-		final DurationDifference difference = DurationDifference.differenceFor( 1000, 1 );
-		assertThat( difference ).isNull();
 	void expected_is_longer_but_below_threshold() {
+		final DurationDifference cut = DurationDifference.differenceFor( 1000, 1 );
+		assertThat( cut ).isNull();
 	}
 
 	@Test
-		final DurationDifference difference = DurationDifference.differenceFor( 1001, 1 );
-		assertThat( difference ).isNull();
 	void expected_is_longer_and_above_threshold() {
+		final DurationDifference cut = DurationDifference.differenceFor( 1001, 1 );
+		assertThat( cut ).isNull();
 	}
 
 	@Test
-		final DurationDifference difference = DurationDifference.differenceFor( 1, 1000 );
-		assertThat( difference ).isNull();
 	void expected_is_shorter_but_below_threshold() {
+		final DurationDifference cut = DurationDifference.differenceFor( 1, 1000 );
+		assertThat( cut ).isNull();
 	}
 
 	@Test
-		final DurationDifference difference = DurationDifference.differenceFor( 1, 1001 );
 	void expected_is_shorter_and_above_threshold() {
+		final DurationDifference cut = DurationDifference.differenceFor( 1, 1001 );
 
-		assertThat( difference ).isNotNull();
-		assertThat( difference.size() ).isEqualTo( 1 );
-		assertThat( difference.toString() ).isEqualTo( "[1.000 s]" );
-		assertThat( difference.getElementDifferences().size() ).isEqualTo( 0 );
+		assertThat( cut ).isNotNull();
+		assertThat( cut.size() ).isEqualTo( 1 );
+		assertThat( cut.toString() ).isEqualTo( "[1.000 s]" );
+		assertThat( cut.getElementDifferences().size() ).isEqualTo( 0 );
 
-		verifyXml( toXmlFragmentViaJAXB( difference ) );
+		verifyXml( toXmlFragmentViaJAXB( cut ) );
 	}
 }

@@ -194,22 +194,22 @@ class ElementDifferenceTest {
 	void isInsertion_should_return_true_if_insertion() throws Exception {
 		final ElementDifferenceFinder elementDifferenceFinder =
 				new ElementDifferenceFinder( mock( Environment.class ) );
-		final ElementDifference element = elementDifferenceFinder.differenceFor( null, mock( Element.class ) );
+		final ElementDifference cut = elementDifferenceFinder.differenceFor( null, mock( Element.class ) );
 
-		assertThat( element.isInsertionOrDeletion() ).isTrue();
-		assertThat( element.isDeletion() ).isFalse();
-		assertThat( element.isInsertion() ).isTrue();
+		assertThat( cut.isInsertionOrDeletion() ).isTrue();
+		assertThat( cut.isDeletion() ).isFalse();
+		assertThat( cut.isInsertion() ).isTrue();
 	}
 
 	@Test
 	void isDeletion_should_return_true_if_deletion() throws Exception {
 		final ElementDifferenceFinder elementDifferenceFinder =
 				new ElementDifferenceFinder( mock( Environment.class ) );
-		final ElementDifference element = elementDifferenceFinder.differenceFor( mock( Element.class ), null );
+		final ElementDifference cut = elementDifferenceFinder.differenceFor( mock( Element.class ), null );
 
-		assertThat( element.isInsertionOrDeletion() ).isTrue();
-		assertThat( element.isInsertion() ).isFalse();
-		assertThat( element.isDeletion() ).isTrue();
+		assertThat( cut.isInsertionOrDeletion() ).isTrue();
+		assertThat( cut.isInsertion() ).isFalse();
+		assertThat( cut.isDeletion() ).isTrue();
 	}
 
 	@Test
@@ -227,20 +227,20 @@ class ElementDifferenceTest {
 		final InsertedDeletedElementDifference deletion = mock( InsertedDeletedElementDifference.class );
 		when( deletion.isInserted() ).thenReturn( false );
 
-		final ElementDifference e1 = new ElementDifference( element, null, null, null, null, childDifferences );
-		final ElementDifference e2 = new ElementDifference( element, attributes, null, null, null, childDifferences );
-		final ElementDifference e3 = new ElementDifference( element, null, identifying, null, null, childDifferences );
-		final ElementDifference e4 =
+		final ElementDifference cut1 = new ElementDifference( element, null, null, null, null, childDifferences );
+		final ElementDifference cut2 = new ElementDifference( element, attributes, null, null, null, childDifferences );
+		final ElementDifference cut3 = new ElementDifference( element, null, identifying, null, null, childDifferences );
+		final ElementDifference cut4 =
 				new ElementDifference( element, attributes, identifying, null, null, childDifferences );
-		final ElementDifference e5 = new ElementDifference( element, null, insertion, null, null, childDifferences );
-		final ElementDifference e6 = new ElementDifference( element, null, deletion, null, null, childDifferences );
+		final ElementDifference cut5 = new ElementDifference( element, null, insertion, null, null, childDifferences );
+		final ElementDifference cut6 = new ElementDifference( element, null, deletion, null, null, childDifferences );
 
-		assertThat( e1.hasAnyDifference() ).isFalse();
-		assertThat( e2.hasAnyDifference() ).isTrue();
-		assertThat( e3.hasAnyDifference() ).isTrue();
-		assertThat( e4.hasAnyDifference() ).isTrue();
-		assertThat( e5.hasAnyDifference() ).isTrue();
-		assertThat( e6.hasAnyDifference() ).isTrue();
+		assertThat( cut1.hasAnyDifference() ).isFalse();
+		assertThat( cut2.hasAnyDifference() ).isTrue();
+		assertThat( cut3.hasAnyDifference() ).isTrue();
+		assertThat( cut4.hasAnyDifference() ).isTrue();
+		assertThat( cut5.hasAnyDifference() ).isTrue();
+		assertThat( cut6.hasAnyDifference() ).isTrue();
 	}
 
 	@Test
@@ -373,10 +373,10 @@ class ElementDifferenceTest {
 
 	@Test
 	void compareTo_returns_correct_int() throws Exception {
-		final ElementDifference difference = mock( ElementDifference.class );
-		final ElementDifference other = mock( ElementDifference.class );
+		final ElementDifference cut = mock( ElementDifference.class );
+		final ElementDifference otherCut = mock( ElementDifference.class );
 
-		assertThat( difference.compareTo( difference ) ).isEqualTo( 0 );
-		assertThat( difference.compareTo( other ) ).isEqualTo( 1 );
+		assertThat( cut.compareTo( cut ) ).isEqualTo( 0 );
+		assertThat( cut.compareTo( otherCut ) ).isEqualTo( 1 );
 	}
 }

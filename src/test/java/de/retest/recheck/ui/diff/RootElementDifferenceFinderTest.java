@@ -2,7 +2,6 @@ package de.retest.recheck.ui.diff;
 
 import static de.retest.recheck.ui.diff.ElementBuilder.buildElement;
 import static de.retest.recheck.util.ApprovalsUtil.verify;
-import static de.retest.recheck.util.ApprovalsUtil.verifyXml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -16,7 +15,6 @@ import javax.swing.JDialog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ui.Environment;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
@@ -39,7 +37,7 @@ class RootElementDifferenceFinderTest {
 
 	private final Attributes attributes = new Attributes();
 	private final MutableAttributes otherAttributes = new MutableAttributes();
-	private final RootElementDifferenceFinder rootElementDifferenceFinder =
+	private final RootElementDifferenceFinder cut =
 			new RootElementDifferenceFinder( mock( Environment.class ) );
 
 	@BeforeEach
@@ -51,7 +49,7 @@ class RootElementDifferenceFinderTest {
 	void expected_root_element_is_null() {
 		final RootElement actualDescriptor = descriptorFor( identifyingAttributesA, new Attributes(), screenshot );
 
-		final RootElementDifference difference = rootElementDifferenceFinder.findDifference( null, actualDescriptor );
+		final RootElementDifference difference = cut.findDifference( null, actualDescriptor );
 
 		assertThat( difference.elementDifference.actualScreenshot ).isEqualTo( screenshot );
 		assertThat( difference.elementDifference.expectedScreenshot ).isNull();
@@ -62,14 +60,13 @@ class RootElementDifferenceFinderTest {
 		assertThat( difference.elementDifference.childDifferences ).containsExactly();
 
 		verify( difference );
-		verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( difference ) );
 	}
 
 	@Test
 	void actual_root_element_is_null() {
 		final RootElement expectedDescriptor = descriptorFor( identifyingAttributesA, new Attributes(), screenshot );
 
-		final RootElementDifference difference = rootElementDifferenceFinder.findDifference( expectedDescriptor, null );
+		final RootElementDifference difference = cut.findDifference( expectedDescriptor, null );
 
 		assertThat( difference.elementDifference.actualScreenshot ).isNull();
 		assertThat( difference.elementDifference.expectedScreenshot ).isEqualTo( screenshot );
@@ -80,14 +77,13 @@ class RootElementDifferenceFinderTest {
 		assertThat( difference.elementDifference.childDifferences ).containsExactly();
 
 		verify( difference );
-		verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( difference ) );
 	}
 
 	@Test
 	void expected_and_actual_root_element_are_identical() {
 		final RootElement descriptor = descriptorFor( identifyingAttributesA, attributes, screenshot );
 
-		final RootElementDifference differences = rootElementDifferenceFinder.findDifference( descriptor, descriptor );
+		final RootElementDifference differences = cut.findDifference( descriptor, descriptor );
 
 		assertThat( differences ).isNull();
 	}
@@ -100,7 +96,7 @@ class RootElementDifferenceFinderTest {
 		final RootElement actualDescriptor = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
 		final RootElementDifference difference =
-				rootElementDifferenceFinder.findDifference( expectedDescriptor, actualDescriptor );
+				cut.findDifference( expectedDescriptor, actualDescriptor );
 
 		assertThat( difference.elementDifference.actualScreenshot ).isEqualTo( screenshot );
 		assertThat( difference.elementDifference.expectedScreenshot ).isEqualTo( screenshot );
@@ -111,7 +107,6 @@ class RootElementDifferenceFinderTest {
 		assertThat( difference.elementDifference.childDifferences ).containsExactly();
 
 		verify( difference );
-		verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( difference ) );
 	}
 
 	@Test
@@ -119,7 +114,7 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor = descriptorFor( identifyingAttributesA, attributes, screenshot );
 
 		final List<RootElementDifference> differences =
-				rootElementDifferenceFinder.findDifferences( Arrays.asList( descriptor ), Arrays.asList( descriptor ) );
+				cut.findDifferences( Arrays.asList( descriptor ), Arrays.asList( descriptor ) );
 
 		assertThat( differences.isEmpty() ).isTrue();
 	}
@@ -129,7 +124,7 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
-		final List<RootElementDifference> differences = rootElementDifferenceFinder.findDifferences(
+		final List<RootElementDifference> differences = cut.findDifferences(
 				Arrays.asList( descriptor1, descriptor2 ), Arrays.asList( descriptor2, descriptor1 ) );
 
 		assertThat( differences.isEmpty() ).isTrue();
@@ -144,7 +139,7 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor_BO =
 				descriptorFor( identifyingAttributesB, otherAttributes.immutable(), screenshot );
 
-		final List<RootElementDifference> differences = rootElementDifferenceFinder.findDifferences(
+		final List<RootElementDifference> differences = cut.findDifferences(
 				Arrays.asList( descriptor_AS, descriptor_BS ), Arrays.asList( descriptor_BO, descriptor_AO ) );
 
 		assertThat( differences.isEmpty() ).isFalse();
@@ -157,7 +152,7 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor_1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor_2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
-		final List<RootElementDifference> differences = rootElementDifferenceFinder.findDifferences(
+		final List<RootElementDifference> differences = cut.findDifferences(
 				Collections.singletonList( descriptor_1 ), Collections.singletonList( descriptor_2 ) );
 
 		assertThat( differences.isEmpty() ).isFalse();
@@ -174,11 +169,11 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor1 = descriptorFor( identifyingAttributes1, attributes, screenshot, buildElement() );
 		final RootElement descriptor2 = descriptorFor( identifyingAttributes2, attributes, screenshot, buildElement() );
 
-		final List<RootElementDifference> differences = rootElementDifferenceFinder
+		final List<RootElementDifference> differences = cut
 				.findDifferences( Collections.singletonList( descriptor1 ), Collections.singletonList( descriptor2 ) );
 
 		assertThat( differences.isEmpty() ).isFalse();
-		verifyXml( XmlTransformerUtil.toXmlFragmentViaJAXB( differences ) );
+		verify( differences );
 	}
 
 	@Test
