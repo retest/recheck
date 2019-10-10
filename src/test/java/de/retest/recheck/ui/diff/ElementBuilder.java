@@ -18,27 +18,27 @@ import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.descriptors.TextAttribute;
 import de.retest.recheck.ui.image.Screenshot;
 
-public class ElementBuilder {
+class ElementBuilder {
 
 	public static Element buildElement() {
 		final IdentifyingAttributes identifyingAttributes =
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) );
 		final String retestId = "id";
 		final Element parent = mock( Element.class );
-		final Attributes attributes = toAttributes( "{color=blue}" );
+		final Attributes attributes = toAttributes( "color", "blue" );
 		final Screenshot screenshot = null;
 
 		final Element element = Element.create( retestId, parent, identifyingAttributes, attributes, screenshot );
 
 		final Element child1 = Element.create( retestId, parent,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child1.class ) ),
-				toAttributes( "{color=red}" ) );
+				toAttributes( "color", "red" ) );
 		final Element child2 = Element.create( retestId, parent,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child2.class ) ),
-				toAttributes( "{color=green}" ) );
+				toAttributes( "color", "green" ) );
 		final Element child3 = Element.create( retestId, parent,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child3.class ) ),
-				toAttributes( "{color=violett}" ) );
+				toAttributes( "color", "violett" ) );
 
 		final List<Element> containedComponents = Arrays.asList( child1, child2, child3 );
 		element.addChildren( containedComponents );
@@ -46,15 +46,9 @@ public class ElementBuilder {
 		return element;
 	}
 
-	public static Attributes toAttributes( String attribute ) {
+	public static Attributes toAttributes( final String key, final String value ) {
 		final MutableAttributes result = new MutableAttributes();
-
-		attribute = attribute.trim().substring( 1, attribute.length() - 1 );
-
-		for ( final String criterion : attribute.split( "," ) ) {
-			final String[] splitCriterion = criterion.trim().split( "=" );
-			result.put( splitCriterion[0], splitCriterion[1] );
-		}
+		result.put( key, value );
 
 		return result.immutable();
 	}

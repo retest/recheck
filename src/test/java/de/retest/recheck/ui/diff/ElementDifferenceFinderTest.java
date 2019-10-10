@@ -92,7 +92,7 @@ class ElementDifferenceFinderTest {
 
 		final Element child1 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child1.class ) ),
-				toAttributes( "{color=yellow}" ) );
+				toAttributes( "color", "yellow" ) );
 		actual.addChildren( child1 );
 
 		final ElementDifference difference = cut.differenceFor( expected, actual );
@@ -116,7 +116,7 @@ class ElementDifferenceFinderTest {
 
 		final Element child2 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child2.class ) ),
-				toAttributes( "{color=yellow}" ) );
+				toAttributes( "color", "yellow" ) );
 		actual.addChildren( child2 );
 
 		final ElementDifference difference = cut.differenceFor( expected, actual );
@@ -140,7 +140,7 @@ class ElementDifferenceFinderTest {
 
 		final Element child3 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child3.class ) ),
-				toAttributes( "{color=yellow}" ) );
+				toAttributes( "color", "yellow" ) );
 		actual.addChildren( child3 );
 
 		final ElementDifference difference = cut.differenceFor( expected, actual );
@@ -161,17 +161,17 @@ class ElementDifferenceFinderTest {
 
 		final Element actual = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) ),
-				toAttributes( "{color=blue}" ) );
+				toAttributes( "color", "blue" ) );
 
 		final Element actualChild1 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), otherChild1.class ) ),
-				toAttributes( "{color=red}" ) );
+				toAttributes( "color", "red" ) );
 		final Element actualChild2 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child2.class ) ),
-				toAttributes( "{color=green}" ) );
+				toAttributes( "color", "green" ) );
 		final Element actualChild3 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), otherChild3.class ) ),
-				toAttributes( "{color=violett}" ) );
+				toAttributes( "color", "violett" ) );
 
 		final List<Element> containedComponents = Arrays.asList( actualChild1, actualChild2, actualChild3 );
 		actual.addChildren( containedComponents );
@@ -195,17 +195,17 @@ class ElementDifferenceFinderTest {
 
 		final Element actual = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1a" ), comp1a.class ) ),
-				toAttributes( "{color=blue}" ) );
+				toAttributes( "color", "blue" ) );
 
 		final Element actualChild1 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1a/child1" ), child1.class ) ),
-				toAttributes( "{color=red}" ) );
+				toAttributes( "color", "red" ) );
 		final Element actualChild2 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1a/child2" ), child2.class ) ),
-				toAttributes( "{color=yellow}" ) );
+				toAttributes( "color", "yellow" ) );
 		final Element actualChild3 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1a/child3" ), child3.class ) ),
-				toAttributes( "{color=black}" ) );
+				toAttributes( "color", "black" ) );
 
 		final List<Element> containedComponents = Arrays.asList( actualChild1, actualChild2, actualChild3 );
 		actual.addChildren( containedComponents );
@@ -231,7 +231,7 @@ class ElementDifferenceFinderTest {
 
 		final Element actual = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) ),
-				toAttributes( "{color=blue}" ) );
+				toAttributes( "color", "blue" ) );
 
 		final ElementDifference difference = cut.differenceFor( expected, actual );
 
@@ -249,14 +249,14 @@ class ElementDifferenceFinderTest {
 
 		final Element expected = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) ),
-				toAttributes( "{color=blue}" ), null );
+				toAttributes( "color", "blue" ), null );
 
 		final Element expectedChild2 = Element.create( "id", expected,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child2.class ) ),
-				toAttributes( "{color=green}" ) );
+				toAttributes( "color", "green" ) );
 		final Element expectedChild3 = Element.create( "id", expected,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child3.class ) ),
-				toAttributes( "{color=violett}" ) );
+				toAttributes( "color", "violett" ) );
 
 		final List<Element> containedComponents = Arrays.asList( expectedChild2, expectedChild3 );
 		expected.addChildren( containedComponents );
@@ -282,14 +282,14 @@ class ElementDifferenceFinderTest {
 
 		final Element actual = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( null, comp1.class ) ),
-				toAttributes( "{color=blue}" ), null );
+				toAttributes( "color", "blue" ), null );
 
 		final Element actualChild1 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child1.class ) ),
-				toAttributes( "{color=red}" ) );
+				toAttributes( "color", "red" ) );
 		final Element actualChild2 = Element.create( "id", actual,
 				new IdentifyingAttributes( createIdentifyingAttribute( fromString( "comp1" ), child2.class ) ),
-				toAttributes( "{color=green}" ) );
+				toAttributes( "color", "green" ) );
 
 		final List<Element> containedComponents = Arrays.asList( actualChild1, actualChild2 );
 		actual.addChildren( containedComponents );
@@ -391,7 +391,7 @@ class ElementDifferenceFinderTest {
 
 		final Element actual = Element.create( "id", mock( Element.class ),
 				new IdentifyingAttributes( createIdentifyingAttribute( null, root.class ) ),
-				toAttributes( "{color=red}" ), null );
+				toAttributes( "color", "red" ), null );
 
 		actual.addChildren( buildElement() );
 

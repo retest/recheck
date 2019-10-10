@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
-import de.retest.recheck.ui.descriptors.Attributes;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.MutableAttributes;
 
 class MatchTest {
 
@@ -53,7 +51,7 @@ class MatchTest {
 	private Element getElement( final Class<?> clazz, final int cnt ) {
 		return Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.path( new PathElement( clazz.getSimpleName(), 1 ) ), clazz ),
-				toAttributes( "{color=green}" ) );
+				toAttributes( "color", "green" ) );
 	}
 
 	private class comp1 extends Element {
