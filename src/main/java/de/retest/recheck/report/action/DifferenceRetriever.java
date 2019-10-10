@@ -18,7 +18,7 @@ public interface DifferenceRetriever extends Supplier<StateDifference> {
 	}
 
 	static DifferenceRetriever of( final List<RootElementDifference> differences ) {
-		return of( new StateDifference( differences, null ) );
+		return of( new StateDifference( differences ) );
 	}
 
 	static DifferenceRetriever of( final StateDifference difference ) {

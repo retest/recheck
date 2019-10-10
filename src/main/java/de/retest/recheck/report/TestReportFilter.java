@@ -82,7 +82,7 @@ public class TestReportFilter {
 			return stateDiff;
 		}
 		final List<RootElementDifference> newRootElementDiffs = filter( stateDiff.getRootElementDifferences() );
-		return new StateDifference( newRootElementDiffs, stateDiff.getDurationDifference() );
+		return new StateDifference( newRootElementDiffs );
 	}
 
 	List<RootElementDifference> filter( final List<RootElementDifference> rootElementDiffs ) {

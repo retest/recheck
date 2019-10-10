@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.retest.recheck.util.ChecksumCalculator;
@@ -25,30 +24,20 @@ public class StateDifference implements Difference {
 	@XmlAnyElement( lax = true )
 	private final List<RootElementDifference> differences;
 
-	@XmlElement
-	private final DurationDifference durationDifference;
-
 	@SuppressWarnings( "unused" )
 	private StateDifference() {
 		// for JAXB
 		differenceId = null;
 		differences = new ArrayList<>();
-		durationDifference = null;
 	}
 
-	public StateDifference( final List<RootElementDifference> differences,
-			final DurationDifference durationDifference ) {
+	public StateDifference( final List<RootElementDifference> differences ) {
 		differenceId = getSumIdentifier( differences );
 		this.differences = Collections.unmodifiableList( differences );
-		this.durationDifference = durationDifference;
 	}
 
 	public List<RootElementDifference> getStateDifference() {
 		return differences;
-	}
-
-	public DurationDifference getDurationDifference() {
-		return durationDifference;
 	}
 
 	@Override
