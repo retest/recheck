@@ -29,7 +29,6 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.AttributesDifference;
-import de.retest.recheck.ui.diff.DurationDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
@@ -95,7 +94,7 @@ class TestReportFilterTest {
 
 		rootElementDiffs = Arrays.asList( rootElementDiff, otherRootElementDiff );
 
-		stateDiff = new StateDifference( rootElementDiffs, mock( DurationDifference.class ) );
+		stateDiff = new StateDifference( rootElementDiffs );
 
 		actionReplayResult = mock( ActionReplayResult.class );
 		when( actionReplayResult.getStateDifference() ).thenReturn( stateDiff );
@@ -311,9 +310,7 @@ class TestReportFilterTest {
 
 		final List<RootElementDifference> rootElementDiffs = Collections.singletonList( rootElementDiff );
 
-		final DurationDifference durationDiff = DurationDifference.differenceFor( 0L, 0L );
-
-		final StateDifference stateDiff = new StateDifference( rootElementDiffs, durationDiff );
+		final StateDifference stateDiff = new StateDifference( rootElementDiffs );
 
 		assertThat( stateDiff.getRootElementDifferences() ).isNotEmpty();
 

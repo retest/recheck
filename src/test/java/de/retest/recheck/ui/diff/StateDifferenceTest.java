@@ -40,8 +40,7 @@ class StateDifferenceTest {
 	@Test
 	void listDifference_with_one_entry_each() {
 		final StateDifference cut = new StateDifference(
-				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ),
-				null );
+				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ) );
 
 		assertThat( cut.size() ).isEqualTo( 1 );
 		assertThat( cut.getNonEmptyDifferences().size() ).isEqualTo( 1 );
@@ -54,8 +53,7 @@ class StateDifferenceTest {
 	@Test
 	void listDifference_with_many_entries_some_of_which_differ() {
 		final StateDifference cut = new StateDifference(
-				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ),
-				null );
+				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ) );
 
 		assertThat( cut.size() ).isEqualTo( 1 );
 		assertThat( cut.getNonEmptyDifferences().size() ).isEqualTo( 1 );

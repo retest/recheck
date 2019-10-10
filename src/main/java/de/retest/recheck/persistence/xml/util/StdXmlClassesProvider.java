@@ -23,7 +23,6 @@ import de.retest.recheck.ui.descriptors.TextAttribute;
 import de.retest.recheck.ui.descriptors.WeightedTextAttribute;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.AttributesDifference;
-import de.retest.recheck.ui.diff.DurationDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
@@ -57,7 +56,6 @@ public class StdXmlClassesProvider {
 			OutlineAttribute.class, //
 			WeightedTextAttribute.class, //
 
-			DurationDifference.class, //
 			AttributesDifference.class, //
 			AttributeDifference.class, //
 			ScreenshotAttributeDifference.class, //

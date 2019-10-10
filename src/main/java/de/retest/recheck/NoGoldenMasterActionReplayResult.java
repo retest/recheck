@@ -36,7 +36,7 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 		final RootElementDifference rootDiff =
 				new RootElementDifferenceFinder( ( comp, attributesKey, value ) -> false ).findDifference( null,
 						actual.getRootElements().get( 0 ) );
-		return new StateDifference( Collections.singletonList( rootDiff ), null );
+		return new StateDifference( Collections.singletonList( rootDiff ) );
 	}
 
 	@Override
