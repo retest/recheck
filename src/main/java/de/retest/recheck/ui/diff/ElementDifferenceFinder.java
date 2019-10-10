@@ -51,7 +51,7 @@ public class ElementDifferenceFinder {
 		return result;
 	}
 
-	public ElementDifference differenceFor( final Element expected, final Element actual,
+	private ElementDifference differenceFor( final Element expected, final Element actual,
 			final List<Element> remainingActual, final Alignment alignment ) {
 		AttributesDifference attributesDifference = null;
 		LeafDifference identifyingAttributesDifference = null;

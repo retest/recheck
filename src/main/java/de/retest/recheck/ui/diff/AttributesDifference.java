@@ -1,9 +1,7 @@
 package de.retest.recheck.ui.diff;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,8 +10,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.common.base.Joiner;
-
-import de.retest.recheck.util.ListMap;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
@@ -57,22 +53,6 @@ public class AttributesDifference implements Difference {
 	@Override
 	public List<ElementDifference> getElementDifferences() {
 		return Collections.emptyList();
-	}
-
-	public Map<String, Serializable> expected() {
-		final Map<String, Serializable> expected = new ListMap<>();
-		for ( final AttributeDifference difference : differences ) {
-			expected.put( difference.getKey(), difference.getExpected() );
-		}
-		return expected;
-	}
-
-	public Map<String, Serializable> actual() {
-		final Map<String, Serializable> actual = new ListMap<>();
-		for ( final AttributeDifference difference : differences ) {
-			actual.put( difference.getKey(), difference.getActual() );
-		}
-		return actual;
 	}
 
 	public List<AttributeDifference> getDifferences() {

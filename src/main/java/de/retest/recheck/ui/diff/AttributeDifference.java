@@ -2,7 +2,6 @@ package de.retest.recheck.ui.diff;
 
 import static de.retest.recheck.util.ObjectUtil.compare;
 import static de.retest.recheck.util.ObjectUtil.isNullOrEmptyString;
-import static de.retest.recheck.util.ObjectUtil.nextHashCode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,7 +22,9 @@ import org.slf4j.LoggerFactory;
 
 import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.util.ChecksumCalculator;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
 public class AttributeDifference implements LeafDifference, Comparable<AttributeDifference>, Serializable {
@@ -130,27 +131,6 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 		logger.warn(
 				"Mismatch for attribute '{}': value from ExecSuite '{}', value from TestResult '{}'. This could be due to a change of the execsuite in between.",
 				key, fromAttribute, expected );
-	}
-
-	@Override
-	public int hashCode() {
-		return nextHashCode( nextHashCode( nextHashCode( 1, (Serializable) actual ), (Serializable) expected ), key );
-	}
-
-	@Override
-	public boolean equals( final Object obj ) {
-		if ( this == obj ) {
-			return true;
-		}
-		if ( obj == null ) {
-			return false;
-		}
-		if ( !(obj instanceof AttributeDifference) ) {
-			return false;
-		}
-		final AttributeDifference other = (AttributeDifference) obj;
-		return Objects.equals( key, other.key ) && Objects.equals( expected, other.expected )
-				&& Objects.equals( actual, other.actual );
 	}
 
 	@Override

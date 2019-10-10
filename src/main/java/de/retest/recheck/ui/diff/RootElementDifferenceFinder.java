@@ -24,11 +24,6 @@ public class RootElementDifferenceFinder {
 
 	public List<RootElementDifference> findDifferences( final List<RootElement> expecteds,
 			final List<RootElement> actuals ) {
-		return findDifferencesAsList( expecteds, actuals );
-	}
-
-	public List<RootElementDifference> findDifferencesAsList( final List<RootElement> expecteds,
-			final List<RootElement> actuals ) {
 		final List<RootElementDifference> differences = new ArrayList<>();
 		final List<RootElement> copyOfActuals = new ArrayList<>( actuals );
 		for ( final RootElement expected : expecteds ) {

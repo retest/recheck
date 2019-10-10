@@ -3,14 +3,17 @@ package de.retest.recheck.ui.diff;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.contrib.java.lang.system.SystemOutRule;
 
-import de.retest.recheck.ui.diff.AttributeDifference;
+public class AttributeDifferenceTest {
 
-class AttributeDifferenceTest {
+	@Rule
+	public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
 
 	@Test
-	void apply_changes_to_null_attribute_yields_NullPointerException() {
+	public void apply_changes_to_null_attribute_yields_NullPointerException() throws Exception {
 		final AttributeDifference cut = new AttributeDifference();
 		assertThatThrownBy( () -> cut.applyChangeTo( null ) ) //
 				.isInstanceOf( NullPointerException.class ) //
@@ -18,40 +21,19 @@ class AttributeDifferenceTest {
 	}
 
 	@Test
-	void equals_should_be_false_for_null() {
+	public void compare_to_same_object_is_zero() throws Exception {
 		final AttributeDifference cut = new AttributeDifference();
-		assertThat( cut.equals( null ) ).isFalse();
+		assertThat( cut.compareTo( cut ) ).isEqualTo( 0 );
 	}
 
 	@Test
-	void equals_should_be_false_for_other_types() {
-		final AttributeDifference cut = new AttributeDifference();
-		assertThat( cut.equals( new Object() ) ).isFalse();
-	}
+	public void warn_if_attributes_dont_match_logs_correct_string() throws Exception {
+		final AttributeDifference cut = new AttributeDifference( null, "something", null );
+		cut.warnIfAttributesDontMatch( "somethingElse" );
 
-	@Test
-	void equals_should_be_true_if_same_object() {
-		final AttributeDifference cut = new AttributeDifference();
-		assertThat( cut.equals( cut ) ).isTrue();
-	}
+		final String expected = "Mismatch for attribute 'null': value from ExecSuite 'somethingElse', "
+				+ "value from TestResult 'something'. This could be due to a change of the execsuite in between.";
 
-	@Test
-	void equals_should_be_true_if_same_properties() {
-		final String key = "key";
-		final String expected = "foo";
-		final String actual = "bar";
-		final AttributeDifference cut0 = new AttributeDifference( key, expected, actual );
-		final AttributeDifference cut1 = new AttributeDifference( key, expected, actual );
-		assertThat( cut0.equals( cut1 ) ).isTrue();
-	}
-
-	@Test
-	void equals_should_be_false_if_not_same_properties() {
-		final String key = "key";
-		final String expected = "foo";
-		final String actual = "bar";
-		final AttributeDifference cut0 = new AttributeDifference( key, expected, actual );
-		final AttributeDifference cut1 = new AttributeDifference( key, expected, "baz" );
-		assertThat( cut0.equals( cut1 ) ).isFalse();
+		assertThat( systemOutRule.getLog() ).contains( expected );
 	}
 }

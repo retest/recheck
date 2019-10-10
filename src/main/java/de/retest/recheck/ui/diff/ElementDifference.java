@@ -144,7 +144,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return ChecksumCalculator.getInstance().sha256( result );
 	}
 
-	public static String getSumIdentifier( final Collection<ElementDifference> differences ) {
+	private static String getSumIdentifier( final Collection<ElementDifference> differences ) {
 		String result = "";
 		for ( final ElementDifference difference : differences ) {
 			result += " # " + difference.getIdentifier();
@@ -262,7 +262,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	@Override
 	public int compareTo( final ElementDifference other ) {
 		if ( getIdentifyingAttributes() == null || other.getIdentifyingAttributes() == null ) {
-			throw new IllegalStateException( "Identifying attributes may not be null. Loaded leighweight XML?" );
+			throw new IllegalStateException( "Identifying attributes may not be null. Loaded lightweight XML?" );
 		}
 		return getIdentifyingAttributes().compareTo( other.getIdentifyingAttributes() );
 	}
