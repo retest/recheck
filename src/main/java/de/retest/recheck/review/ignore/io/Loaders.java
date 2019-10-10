@@ -24,6 +24,8 @@ import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLi
 import de.retest.recheck.review.ignore.JSFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
+import de.retest.recheck.review.ignore.matcher.ElementClassMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementClassMatcher.ElementClassMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
@@ -41,6 +43,7 @@ public class Loaders {
 
 	private static List<Pair<Class<?>, Loader<?>>> registerLoaders() {
 		final List<Pair<Class<?>, Loader<?>>> pairs = new ArrayList<>();
+		pairs.add( Pair.of( ElementClassMatcher.class, new ElementClassMatcherLoader() ) );
 		pairs.add( Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ) );
 		pairs.add( Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ) );
 		pairs.add( Pair.of( ElementXPathMatcher.class, new ElementXpathMatcherLoader() ) );
