@@ -199,7 +199,7 @@ class AlignmentTest {
 	}
 
 	private static Element buildEqual( final String path, final Class<?> type, final Element... containedComponents ) {
-		final Element element = Element.create( "id", new Element() {},
+		final Element element = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( fromString( path ), type ), new Attributes() );
 		element.addChildren( containedComponents );
 		return element;

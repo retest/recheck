@@ -6,6 +6,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.util.DurationUtil;
+import de.retest.recheck.util.junit.jupiter.SystemProperty;
+
+@SystemProperty( key = DurationUtil.DURATION_DIFFERENCE_PROPERTY, value = "1" )
 class DurationDifferenceTest {
 
 	@Test

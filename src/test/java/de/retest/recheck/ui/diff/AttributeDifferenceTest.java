@@ -2,7 +2,6 @@ package de.retest.recheck.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,7 +23,7 @@ public class AttributeDifferenceTest {
 	@Test
 	public void compare_to_same_object_is_zero() throws Exception {
 		final AttributeDifference cut = new AttributeDifference();
-		assertEquals( 0, cut.compareTo( cut ) );
+		assertThat( cut.compareTo( cut ) ).isEqualTo( 0 );
 	}
 
 	@Test

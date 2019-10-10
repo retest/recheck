@@ -1,0 +1,5 @@
+[RootElementDifferenceFinderTest$Window:
+ at: Window[1]:
+	criterion: expected="null", actual="true", RootElementDifferenceFinderTest$OtherWindow:
+ at: Window[1]:
+	criterion: expected="null", actual="true"]
