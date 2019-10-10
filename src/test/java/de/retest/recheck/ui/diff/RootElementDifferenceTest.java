@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.image.ImageDifference;
 import de.retest.recheck.image.ImageDifferenceCalculator;
@@ -19,11 +19,11 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.ScreenshotAttributeDifference;
 import de.retest.recheck.ui.image.Screenshot;
 
-public class RootElementDifferenceTest {
+class RootElementDifferenceTest {
 
 	RootElementDifference cut;
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		final Screenshot expected = mock( Screenshot.class );
 		final Screenshot actual = mock( Screenshot.class );
@@ -39,12 +39,12 @@ public class RootElementDifferenceTest {
 	}
 
 	@Test
-	public void getScreenshotDifference_should_find_difference() {
+	void getScreenshotDifference_should_find_difference() {
 		assertThat( cut.getScreenshotDifference() ).isNotNull();
 	}
 
 	@Test
-	public void getExpectedScreenshot_should_recalc_diff() throws Exception {
+	void getExpectedScreenshot_should_recalc_diff() throws Exception {
 		// image2Screenshot will return null instead of mocked screenshot.
 		assertThat( cut.getExpectedScreenshot() ).isNull();
 	}

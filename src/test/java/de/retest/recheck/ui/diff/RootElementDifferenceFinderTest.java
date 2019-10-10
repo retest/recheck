@@ -13,9 +13,8 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.XmlTransformerUtil;
 import de.retest.recheck.ui.Environment;
@@ -29,7 +28,7 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 
-public class RootElementDifferenceFinderTest {
+class RootElementDifferenceFinderTest {
 
 	private final Screenshot screenshot = new Screenshot( "", new byte[0], ImageType.PNG );
 
@@ -43,13 +42,13 @@ public class RootElementDifferenceFinderTest {
 	private final RootElementDifferenceFinder rootElementDifferenceFinder =
 			new RootElementDifferenceFinder( mock( Environment.class ) );
 
-	@Before
+	@BeforeEach
 	public void setup() {
 		otherAttributes.put( "criterion", Boolean.TRUE );
 	}
 
 	@Test
-	public void expected_root_element_is_null() {
+	void expected_root_element_is_null() {
 		final RootElement actualDescriptor = descriptorFor( identifyingAttributesA, new Attributes(), screenshot );
 
 		final RootElementDifference difference = rootElementDifferenceFinder.findDifference( null, actualDescriptor );
@@ -67,7 +66,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void actual_root_element_is_null() {
+	void actual_root_element_is_null() {
 		final RootElement expectedDescriptor = descriptorFor( identifyingAttributesA, new Attributes(), screenshot );
 
 		final RootElementDifference difference = rootElementDifferenceFinder.findDifference( expectedDescriptor, null );
@@ -85,7 +84,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void expected_and_actual_root_element_are_identical() {
+	void expected_and_actual_root_element_are_identical() {
 		final RootElement descriptor = descriptorFor( identifyingAttributesA, attributes, screenshot );
 
 		final RootElementDifference differences = rootElementDifferenceFinder.findDifference( descriptor, descriptor );
@@ -94,7 +93,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void expected_and_actual_root_element_are_different() {
+	void expected_and_actual_root_element_are_different() {
 
 		final RootElement expectedDescriptor = descriptorFor( identifyingAttributesA, attributes, screenshot );
 
@@ -116,7 +115,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void identical_root_element_are_matched() {
+	void identical_root_element_are_matched() {
 		final RootElement descriptor = descriptorFor( identifyingAttributesA, attributes, screenshot );
 
 		final List<RootElementDifference> differences =
@@ -126,7 +125,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void lists_of_identical_root_element_are_matched_even_if_the_order_is_different() {
+	void lists_of_identical_root_element_are_matched_even_if_the_order_is_different() {
 		final RootElement descriptor1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
@@ -137,8 +136,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	@Ignore
-	public void lists_of_different_root_element_are_matched_even_if_the_order_is_different() {
+	void lists_of_different_root_element_are_matched_even_if_the_order_is_different() {
 		final RootElement descriptor_AS = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor_AO =
 				descriptorFor( identifyingAttributesA, otherAttributes.immutable(), screenshot );
@@ -155,7 +153,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void lists_of_root_element_with_different_window_titles_are_not_matched() {
+	void lists_of_root_element_with_different_window_titles_are_not_matched() {
 		final RootElement descriptor_1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor_2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
@@ -168,7 +166,7 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void different_root_element_with_same_components_should_match() {
+	void different_root_element_with_same_components_should_match() {
 		final IdentifyingAttributes identifyingAttributes1 =
 				IdentifyingAttributes.create( Path.path( new PathElement( "Window", 1 ) ), Window.class );
 		final IdentifyingAttributes identifyingAttributes2 =
@@ -184,8 +182,8 @@ public class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	public void two_null_arguments() {
-		assertThat( rootElementDifferenceFinder.findDifference( (RootElement) null, null ) ).isNull();
+	void two_null_arguments() {
+		assertThat( cut.findDifference( (RootElement) null, null ) ).isNull();
 	}
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,

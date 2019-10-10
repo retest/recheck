@@ -302,7 +302,7 @@ class ElementDifferenceTest {
 	}
 
 	@Test
-	public void getNonEmptyDifferences_should_add_ElementDifference_if_identifyingAttributesDifference_is_present()
+	void getNonEmptyDifferences_should_add_ElementDifference_if_identifyingAttributesDifference_is_present()
 			throws Exception {
 		final Element element = mock( Element.class );
 		final Collection<ElementDifference> childDifferences = new ArrayList<>();
@@ -317,8 +317,7 @@ class ElementDifferenceTest {
 	}
 
 	@Test
-	public void getNonEmptyDifferences_should_add_ElementDifference_if_AttributesDifference_is_present()
-			throws Exception {
+	void getNonEmptyDifferences_should_add_ElementDifference_if_AttributesDifference_is_present() throws Exception {
 		final Element element = mock( Element.class );
 		final Collection<ElementDifference> childDifferences = new ArrayList<>();
 		final Screenshot actualScreenshot = mock( Screenshot.class );
@@ -333,7 +332,7 @@ class ElementDifferenceTest {
 	}
 
 	@Test
-	public void getNonEmptyDifferences_should_add_child_differences_if_there_are_any() throws Exception {
+	void getNonEmptyDifferences_should_add_child_differences_if_there_are_any() throws Exception {
 		final Element element = mock( Element.class );
 		final Collection<ElementDifference> childDifferences = new ArrayList<>();
 		final Screenshot actualScreenshot = mock( Screenshot.class );

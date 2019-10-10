@@ -4,37 +4,37 @@ import static de.retest.recheck.XmlTransformerUtil.toXmlFragmentViaJAXB;
 import static de.retest.recheck.util.ApprovalsUtil.verifyXml;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class DurationDifferenceTest {
+class DurationDifferenceTest {
 
 	@Test
-	public void same_duration() {
 		final DurationDifference difference = DurationDifference.differenceFor( 70, 70 );
 		assertThat( difference ).isNull();
+	void same_duration() {
 	}
 
 	@Test
-	public void expected_is_longer_but_below_threshold() {
 		final DurationDifference difference = DurationDifference.differenceFor( 1000, 1 );
 		assertThat( difference ).isNull();
+	void expected_is_longer_but_below_threshold() {
 	}
 
 	@Test
-	public void expected_is_longer_and_above_threshold() {
 		final DurationDifference difference = DurationDifference.differenceFor( 1001, 1 );
 		assertThat( difference ).isNull();
+	void expected_is_longer_and_above_threshold() {
 	}
 
 	@Test
-	public void expected_is_shorter_but_below_threshold() {
 		final DurationDifference difference = DurationDifference.differenceFor( 1, 1000 );
 		assertThat( difference ).isNull();
+	void expected_is_shorter_but_below_threshold() {
 	}
 
 	@Test
-	public void expected_is_shorter_and_above_threshold() {
 		final DurationDifference difference = DurationDifference.differenceFor( 1, 1001 );
+	void expected_is_shorter_and_above_threshold() {
 
 		assertThat( difference ).isNotNull();
 		assertThat( difference.size() ).isEqualTo( 1 );

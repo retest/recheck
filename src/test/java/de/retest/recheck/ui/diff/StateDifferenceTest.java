@@ -8,8 +8,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Environment;
 import de.retest.recheck.ui.Path;
@@ -20,8 +20,8 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 
-@Ignore( "see RET-1549" )
-public class StateDifferenceTest {
+@Disabled( "see RET-1549" )
+class StateDifferenceTest {
 
 	private final Screenshot screenshot = new Screenshot( "", new byte[0], ImageType.PNG );
 	private final Attributes attributes = new Attributes();
@@ -38,8 +38,8 @@ public class StateDifferenceTest {
 			new RootElementDifferenceFinder( mock( Environment.class ) );
 
 	@Test
-	public void listDifference_with_one_entry_each() {
 		final StateDifference difference = new StateDifference(
+	void listDifference_with_one_entry_each() {
 				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ),
 				null );
 
@@ -52,8 +52,8 @@ public class StateDifferenceTest {
 	}
 
 	@Test
-	public void listDifference_with_many_entries_some_of_which_differ() {
 		final StateDifference difference = new StateDifference(
+	void listDifference_with_many_entries_some_of_which_differ() {
 				Collections.singletonList( rootElementDifferenceFinder.findDifference( descriptorA, descriptorB ) ),
 				null );
 
