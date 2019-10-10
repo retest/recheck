@@ -28,7 +28,7 @@ public class DurationUtil {
 	}
 
 	public static boolean ignore( final long expected, final long actual ) {
-		return ignore( actual - expected );
+		return ignore( Math.abs( actual - expected ) );
 	}
 
 	public static boolean ignore( final long duration ) {

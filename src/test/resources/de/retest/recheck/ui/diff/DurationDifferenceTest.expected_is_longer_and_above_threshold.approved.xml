@@ -1,0 +1,6 @@
+<durationDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<difference key="duration" attributeDifferenceId="3bc9f32abe763f35d5472e44657237d71832383592890dec5ed5075f4809ab43">
+		<expected xsi:type="xsd:long">1001</expected>
+		<actual xsi:type="xsd:long">1</actual>
+	</difference>
+</durationDifference>

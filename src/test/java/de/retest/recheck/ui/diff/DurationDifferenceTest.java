@@ -25,15 +25,21 @@ class DurationDifferenceTest {
 	}
 
 	@Test
-	void expected_is_longer_and_above_threshold() {
-		final DurationDifference cut = DurationDifference.differenceFor( 1001, 1 );
+	void expected_is_shorter_but_below_threshold() {
+		final DurationDifference cut = DurationDifference.differenceFor( 1, 1000 );
 		assertThat( cut ).isNull();
 	}
 
 	@Test
-	void expected_is_shorter_but_below_threshold() {
-		final DurationDifference cut = DurationDifference.differenceFor( 1, 1000 );
-		assertThat( cut ).isNull();
+	void expected_is_longer_and_above_threshold() {
+		final DurationDifference cut = DurationDifference.differenceFor( 1001, 1 );
+
+		assertThat( cut ).isNotNull();
+		assertThat( cut.size() ).isEqualTo( 1 );
+		assertThat( cut.toString() ).isEqualTo( "[-1.000 s]" );
+		assertThat( cut.getElementDifferences().size() ).isEqualTo( 0 );
+
+		verifyXml( toXmlFragmentViaJAXB( cut ) );
 	}
 
 	@Test
