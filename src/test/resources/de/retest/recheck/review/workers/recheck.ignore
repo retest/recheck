@@ -1,3 +1,7 @@
+matcher: class=some-class
+matcher: class=one two
+matcher: class=some-class, attribute: font
+matcher: class=one two, attribute-regex: .*color
 matcher: id=banner
 matcher: id=title, attribute: font
 matcher: retestid=banner
