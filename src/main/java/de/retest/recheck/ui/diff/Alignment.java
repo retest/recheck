@@ -1,8 +1,6 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
-import static de.retest.recheck.Properties.ELEMENT_MATCH_THRESHOLD_PROPERTY;
-import static de.retest.recheck.Properties.getConfiguredDouble;
+import static de.retest.recheck.Properties.getElementMatchThreshhold;
 import static java.util.Collections.reverse;
 
 import java.util.ArrayList;
@@ -25,8 +23,7 @@ public final class Alignment {
 	private final Map<Element, Element> alignment;
 	private final Map<Element, Element> expectedMapOfElementTree = new HashMap<>();
 	private final Map<Element, Element> actualMapOfElementTree = new HashMap<>();
-	private final Double minimumMatch =
-			getConfiguredDouble( ELEMENT_MATCH_THRESHOLD_PROPERTY, ELEMENT_MATCH_THRESHOLD_DEFAULT );
+	private final Double minimumMatch = getElementMatchThreshhold();
 
 	private Alignment( final Element expectedComponent, final Element actualComponent ) {
 		final List<Element> expectedComponents = flattenLeafElements( expectedComponent, expectedMapOfElementTree );

@@ -1,10 +1,7 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.Properties.WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT;
-import static de.retest.recheck.Properties.WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY;
-import static de.retest.recheck.Properties.WINDOW_MATCH_THRESHOLD_DEFAULT;
-import static de.retest.recheck.Properties.WINDOW_MATCH_THRESHOLD_PROPERTY;
-import static de.retest.recheck.Properties.getConfiguredDouble;
+import static de.retest.recheck.Properties.getMinimumContainedComponentsMatchThreshold;
+import static de.retest.recheck.Properties.getMinimumWindowMatchThreshold;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,10 +18,8 @@ public class RootElementDifferenceFinder {
 
 	private final ElementDifferenceFinder elementDifferenceFinder;
 
-	private final Double minimumWindowMatch =
-			getConfiguredDouble( WINDOW_MATCH_THRESHOLD_PROPERTY, WINDOW_MATCH_THRESHOLD_DEFAULT );
-	private final Double minimumContainedComponentsMatchMatch = getConfiguredDouble(
-			WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY, WINDOW_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT );
+	private final Double minimumWindowMatch = getMinimumWindowMatchThreshold();
+	private final Double minimumContainedComponentsMatch = getMinimumContainedComponentsMatchThreshold();
 
 	public RootElementDifferenceFinder( final DefaultValueFinder defaultValueFinder ) {
 		elementDifferenceFinder = new ElementDifferenceFinder( defaultValueFinder );
@@ -73,7 +68,7 @@ public class RootElementDifferenceFinder {
 		logger.info( "Best match of window {} did not exceed MATCH_THRESHOLD with {}: {}",
 				expected.getIdentifyingAttributes(), bestMatch, bestWindow );
 		final double containedComponentsMatch = compareContainedComponents( expected, bestWindow );
-		if ( containedComponentsMatch >= minimumContainedComponentsMatchMatch ) {
+		if ( containedComponentsMatch >= minimumContainedComponentsMatch ) {
 			logger.info( "Best match of window has a match of contained components of {}.", containedComponentsMatch );
 			return bestWindow;
 		}
