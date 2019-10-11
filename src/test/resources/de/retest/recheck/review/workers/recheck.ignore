@@ -1,3 +1,4 @@
+# Matcher
 matcher: class=some-class
 matcher: class=one two
 matcher: class=some-class, attribute: font
@@ -10,17 +11,22 @@ matcher: retestid=banner, attribute-regex: .*color
 matcher: xpath=/html[1]/div[1]/div[1]/div[1]
 matcher: xpath=/html[1]/div[1]/div[1]/div[2], attribute: background-url
 matcher: type=div, attribute-regex: .*color
+
+# Attributes
 attribute=outline
 attribute=possible-*regex
 attribute-regex= .*
 
- 
-	
- match: foo
-# This is a comment
-
-# Intentional error to trigger logging 
-attribute:outline
-
+# Misc
 pixel-diff=5
 pixel-diff=5.0
+
+# Whitespace
+ 
+# Tab
+	
+# Leading whitespace
+ match: foo
+
+# Error: wrong syntax
+attribute:outline
