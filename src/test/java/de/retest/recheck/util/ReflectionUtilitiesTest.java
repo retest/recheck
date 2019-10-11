@@ -32,15 +32,6 @@ public class ReflectionUtilitiesTest {
 	}
 
 	@Test
-	@Ignore
-	public void getField_should_return_null_if_no_field() {
-		// instead of throwing an exception
-		// this is important if we check for fields that get added by Javaagent
-		final Field field = ReflectionUtilities.getField( JMenu.class, "feblededdu" );
-		assertThat( field ).isNull();
-	}
-
-	@Test
 	public void isThreadDeathWhileClosingSuT_returns_true_on_direct() throws Exception {
 		final Throwable e = getThreadDeathWhileClosingSuTEx();
 		final boolean result = ReflectionUtilities.isThreadDeathWhileClosingSuT( e );
