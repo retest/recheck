@@ -4,7 +4,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,43 +37,6 @@ public final class ReflectionUtilities {
 		}
 		field.setAccessible( true );
 		return field;
-	}
-
-	public static void setField( final Object object, final String fieldName, final Object value )
-			throws IncompatibleTypesException {
-		final Field field = getField( object.getClass(), fieldName );
-		try {
-			try {
-				// remove final modifier from field
-				final Field modifiersField = Field.class.getDeclaredField( "modifiers" );
-				modifiersField.setAccessible( true );
-				modifiersField.setInt( field, field.getModifiers() & ~Modifier.FINAL );
-			} catch ( final NoSuchFieldException e ) {
-				// on JDK12 and later you cannot change 'modifiers'
-				// TODO call with reflection Unsafe.putObject(base, offset, value) instead of field.set
-			}
-
-			field.set( object, value );
-		} catch ( final IllegalArgumentException e ) {
-			throw new IncompatibleTypesException( field.getType(), value.getClass(),
-					"for field '" + fieldName + "' in class '" + field.getDeclaringClass() + "'." );
-		} catch ( final Exception exc ) {
-			throw new RuntimeException( exc );
-		}
-	}
-
-	public static void setStaticField( final Class<?> clazz, final String fieldName, final Object value ) {
-		try {
-			final Field field = getField( clazz, fieldName );
-			// remove final modifier from field
-			final Field modifiersField = Field.class.getDeclaredField( "modifiers" );
-			modifiersField.setAccessible( true );
-			modifiersField.setInt( field, field.getModifiers() & ~Modifier.FINAL );
-
-			field.set( null, value );
-		} catch ( final Exception exc ) {
-			throw new RuntimeException( exc );
-		}
 	}
 
 	public static Class<?> getClassOrNull( final String className ) {

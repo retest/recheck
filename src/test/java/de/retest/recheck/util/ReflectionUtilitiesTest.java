@@ -3,7 +3,6 @@ package de.retest.recheck.util;
 import static de.retest.recheck.util.ReflectionUtilities.getSimpleName;
 import static de.retest.recheck.util.ReflectionUtilities.setChildInParentToNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -12,13 +11,9 @@ import java.lang.reflect.Field;
 import javax.swing.JMenu;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import de.retest.recheck.ui.image.Screenshot;
-import de.retest.recheck.util.ReflectionUtilities.IncompatibleTypesException;
 
 public class ReflectionUtilitiesTest {
 
@@ -182,24 +177,6 @@ public class ReflectionUtilitiesTest {
 	}
 
 	@Test
-	@Ignore( "see comment/todo in ReflectionUtilities.setField" )
-	public void setField_should_throw_meaningful_IncompatibleTypesException_on_wrong_types() {
-		try {
-			ReflectionUtilities.setField( new IntField(), "field", "asd" );
-			fail( "Should throw exception!" );
-		} catch ( final IncompatibleTypesException e ) {
-			// expected
-		}
-
-		try {
-			ReflectionUtilities.setField( new NotYetImplementedField(), "field", "asd" );
-			fail( "Should throw exception!" );
-		} catch ( final IncompatibleTypesException e ) {
-			// expected
-		}
-	}
-
-	@Test
 	public void hasMethod_should_return_true_if_method_exist() throws Exception {
 		assertThat( ReflectionUtilities.hasMethod( Object.class, "toString" ) ).isTrue();
 		assertThat( ReflectionUtilities.hasMethod( Object.class, "equals", Object.class ) ).isTrue();
@@ -223,16 +200,6 @@ public class ReflectionUtilitiesTest {
 	public void getSimpleName_should_return_classname() throws Exception {
 		assertThat( getSimpleName( "de.retest.Main" ) ).isEqualTo( "Main" );
 		assertThat( getSimpleName( "de.retest.Main$1" ) ).isEqualTo( "Main$1" );
-	}
-
-	private static class IntField {
-		@SuppressWarnings( "unused" )
-		private final int field = 0;
-	}
-
-	private static class NotYetImplementedField {
-		@SuppressWarnings( "unused" )
-		private final Screenshot field = null;
 	}
 
 	private class A {
