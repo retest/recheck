@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.review.ignore.io.RegexLoader;
@@ -37,7 +38,8 @@ public class ElementClassMatcher implements Matcher<Element> {
 
 	@Override
 	public String toString() {
-		return String.format( ElementClassMatcherLoader.FORMAT, classValues );
+		final String classValueString = classValues.stream().collect( Collectors.joining( " " ) );
+		return String.format( ElementClassMatcherLoader.FORMAT, classValueString );
 	}
 
 	public static final class ElementClassMatcherLoader extends RegexLoader<ElementClassMatcher> {
