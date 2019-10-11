@@ -64,7 +64,7 @@ class LoadAndSaveFilterWorkerTest {
 		warningAndErrorLogs.assertContains(
 				"'attribute=possible-*regex' contains '*'. For regular expressions, please use 'attribute-regex=possible-*regex'." );
 		warningAndErrorLogs.assertContains( "Please remove leading whitespace from the following line:\n" //
-				+ " match: foo" );
+				+ " attribute:foo" );
 		warningAndErrorLogs.assertContains(
 				"For ignoring an attribute globally, please use 'attribute=' (to ensure weired line breaks do not break your ignore file)." );
 	}
