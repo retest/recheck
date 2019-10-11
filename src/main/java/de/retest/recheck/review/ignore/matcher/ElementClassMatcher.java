@@ -1,8 +1,13 @@
 package de.retest.recheck.review.ignore.matcher;
 
-import java.util.Objects;
+import static java.util.stream.Collectors.toCollection;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
@@ -11,25 +16,28 @@ public class ElementClassMatcher implements Matcher<Element> {
 
 	public static final String CLASS_KEY = "class";
 
-	private final String classValue;
+	private final Set<String> classValues;
 
 	public ElementClassMatcher( final Element element ) {
-		this( Objects.toString( element.getIdentifyingAttributes().get( CLASS_KEY ), "" ) );
+		this( toClassValuesSet( toClassValueString( element ) ) );
 	}
 
-	private ElementClassMatcher( final String classValue ) {
-		this.classValue = classValue;
+	private ElementClassMatcher( final Set<String> classValues ) {
+		this.classValues = classValues;
 	}
 
 	@Override
 	public boolean test( final Element element ) {
-		final String classValue = element.getIdentifyingAttributes().get( CLASS_KEY );
-		return classValue != null && this.classValue.contains( classValue );
+		final Set<String> classValues = toClassValuesSet( toClassValueString( element ) );
+		if ( classValues.isEmpty() ) {
+			return false;
+		}
+		return this.classValues.containsAll( classValues );
 	}
 
 	@Override
 	public String toString() {
-		return String.format( ElementClassMatcherLoader.FORMAT, classValue );
+		return String.format( ElementClassMatcherLoader.FORMAT, classValues );
 	}
 
 	public static final class ElementClassMatcherLoader extends RegexLoader<ElementClassMatcher> {
@@ -46,7 +54,18 @@ public class ElementClassMatcher implements Matcher<Element> {
 		@Override
 		protected ElementClassMatcher load( final MatchResult matcher ) {
 			final String classValue = matcher.group( 1 );
-			return new ElementClassMatcher( classValue );
+			return new ElementClassMatcher( toClassValuesSet( classValue ) );
 		}
+	}
+
+	private static String toClassValueString( final Element element ) {
+		return element.getIdentifyingAttributes().get( CLASS_KEY );
+	}
+
+	private static Set<String> toClassValuesSet( final String classValue ) {
+		if ( classValue == null ) {
+			return Collections.emptySet();
+		}
+		return Stream.of( classValue.split( " " ) ).collect( toCollection( HashSet::new ) );
 	}
 }
