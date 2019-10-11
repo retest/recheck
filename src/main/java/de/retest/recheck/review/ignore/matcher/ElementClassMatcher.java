@@ -24,7 +24,7 @@ public class ElementClassMatcher implements Matcher<Element> {
 	@Override
 	public boolean test( final Element element ) {
 		final String classValue = element.getIdentifyingAttributes().get( CLASS_KEY );
-		return classValue != null && classValue.matches( this.classValue );
+		return classValue != null && this.classValue.contains( classValue );
 	}
 
 	@Override

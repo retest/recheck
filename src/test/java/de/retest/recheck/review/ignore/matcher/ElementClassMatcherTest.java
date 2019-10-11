@@ -44,6 +44,19 @@ class ElementClassMatcherTest {
 		assertThat( cut ).rejects( this.element );
 	}
 
+	@Test
+	void should_match_multiple_equal_class_values() throws Exception {
+		final Element oneTwoOnone = mockElementWithClassValue( "one two onone" );
+
+		final ElementClassMatcher cut = new ElementClassMatcher( oneTwoOnone );
+
+		final Element one = mockElementWithClassValue( "one" );
+		final Element two = mockElementWithClassValue( "two" );
+		final Element oneTwo = mockElementWithClassValue( "one two" );
+
+		assertThat( cut ).accepts( one, two, oneTwo );
+	}
+
 	private Element mockElementWithClassValue( final String classValue ) {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.get( ElementClassMatcher.CLASS_KEY ) ).thenReturn( classValue );
