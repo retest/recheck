@@ -44,10 +44,15 @@ public final class ReflectionUtilities {
 			throws IncompatibleTypesException {
 		final Field field = getField( object.getClass(), fieldName );
 		try {
-			// remove final modifier from field
-			final Field modifiersField = Field.class.getDeclaredField( "modifiers" );
-			modifiersField.setAccessible( true );
-			modifiersField.setInt( field, field.getModifiers() & ~Modifier.FINAL );
+			try {
+				// remove final modifier from field
+				final Field modifiersField = Field.class.getDeclaredField( "modifiers" );
+				modifiersField.setAccessible( true );
+				modifiersField.setInt( field, field.getModifiers() & ~Modifier.FINAL );
+			} catch ( final NoSuchFieldException e ) {
+				// on JDK12 and later you cannot change 'modifiers'
+				// TODO call with reflection Unsafe.putObject(base, offset, value) instead of field.set
+			}
 
 			field.set( object, value );
 		} catch ( final IllegalArgumentException e ) {
