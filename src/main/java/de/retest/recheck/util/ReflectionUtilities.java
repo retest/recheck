@@ -154,6 +154,14 @@ public final class ReflectionUtilities {
 		}
 	}
 
+	public static boolean hasMethod( final Class<?> clazz, final String name, final Class<?>... parameterTypes ) {
+		try {
+			return clazz.getMethod( name, parameterTypes ) != null;
+		} catch ( final NoSuchMethodException e ) {
+			return false;
+		}
+	}
+
 	@SuppressWarnings( "unchecked" )
 	public static <T> T invokeMethod( final Object callee, final String methodName, final Class<?>[] argClasses,
 			final Object[] args ) {

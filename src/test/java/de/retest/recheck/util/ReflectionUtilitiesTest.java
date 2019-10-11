@@ -207,6 +207,19 @@ public class ReflectionUtilitiesTest {
 	}
 
 	@Test
+	public void hasMethod_should_return_true_if_method_exist() throws Exception {
+		assertThat( ReflectionUtilities.hasMethod( Object.class, "toString" ) ).isTrue();
+		assertThat( ReflectionUtilities.hasMethod( Object.class, "equals", Object.class ) ).isTrue();
+	}
+
+	@Test
+	public void hasMethod_should_return_false_if_method_NOT_exist() throws Exception {
+		assertThat( ReflectionUtilities.hasMethod( Object.class, "notExisting" ) ).isFalse();
+		assertThat( ReflectionUtilities.hasMethod( Object.class, "equals" ) ).isFalse();
+		assertThat( ReflectionUtilities.hasMethod( Object.class, "equals", Object.class, Object.class ) ).isFalse();
+	}
+
+	@Test
 	public void getSimpleName_should_be_robust() {
 		assertThat( getSimpleName( "" ) ).isEqualTo( "" );
 		assertThat( getSimpleName( "Main" ) ).isEqualTo( "Main" );
