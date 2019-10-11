@@ -13,55 +13,53 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
 class ElementClassMatcherLoaderTest {
 
+	String classValue;
 	ElementClassMatcher matcher;
 	ElementClassMatcherLoader cut;
 
 	@BeforeEach
 	void setUp() {
-		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.get( ElementClassMatcher.CLASS_KEY ) ).thenReturn( "some-class" );
-
-		final Element element = mock( Element.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
-
-		matcher = new ElementClassMatcher( element );
-
+		classValue = "some-class";
+		matcher = new ElementClassMatcher( mockElementWithClassValue( classValue ) );
 		cut = new ElementClassMatcherLoader();
 	}
 
 	@Test
 	void save_should_produce_correct_line_for_single_class_value() {
-		final String line = "class=some-class";
-		assertThat( cut.save( matcher ) ).isEqualTo( line );
+		assertThat( cut.save( matcher ) ).isEqualTo( toLine( classValue ) );
 	}
 
 	@Test
 	void load_should_produce_correct_ignore_for_single_class_value() {
-		final String line = "class=some-class";
+		final String line = toLine( classValue );
 		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
 	}
 
 	@Test
 	void save_should_produce_correct_line_for_multiple_class_values() {
 		final String classValue = "one two";
+		final ElementClassMatcher matcher = new ElementClassMatcher( mockElementWithClassValue( classValue ) );
+		assertThat( cut.save( matcher ) ).isEqualTo( toLine( classValue ) );
+	}
 
+	@Test
+	void load_should_produce_correct_ignore_for_multiple_class_values() {
+		final String line = toLine( "one two" );
+		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
+	}
+
+	private String toLine( final String classValue ) {
+		return ElementClassMatcher.CLASS_KEY + "=" + classValue;
+	}
+
+	private Element mockElementWithClassValue( final String classValue ) {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.get( ElementClassMatcher.CLASS_KEY ) ).thenReturn( classValue );
 
 		final Element element = mock( Element.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 
-		final ElementClassMatcher matcher = new ElementClassMatcher( element );
-
-		final String line = "class=" + classValue;
-
-		assertThat( cut.save( matcher ) ).isEqualTo( line );
-	}
-
-	@Test
-	void load_should_produce_correct_ignore_for_multiple_class_values() {
-		final String line = "class=one two";
-		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
+		return element;
 	}
 
 }
