@@ -16,7 +16,7 @@ public final class ErrorHandlingLoader implements Loader<FilterPreserveLine> {
 
 	@Override
 	public FilterPreserveLine load( final String line ) {
-		if ( line.trim().startsWith( "attribute:" ) ) {
+		if ( line.startsWith( "attribute:" ) ) {
 			logger.error(
 					"For ignoring an attribute globally, please use 'attribute=' (to ensure weired line breaks do not break your ignore file)." );
 		} else {
