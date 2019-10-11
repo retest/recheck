@@ -53,8 +53,22 @@ class ElementClassMatcherTest {
 		final Element one = mockElementWithClassValue( "one" );
 		final Element two = mockElementWithClassValue( "two" );
 		final Element oneTwo = mockElementWithClassValue( "one two" );
+		final Element twoOne = mockElementWithClassValue( "two one" );
 
-		assertThat( cut ).accepts( one, two, oneTwo );
+		assertThat( cut ).accepts( one, two, oneTwo, twoOne );
+	}
+
+	@Test
+	void should_not_match_multiple_unequal_class_values() throws Exception {
+		final Element oneTwoOnone = mockElementWithClassValue( "one two onone" );
+
+		final ElementClassMatcher cut = new ElementClassMatcher( oneTwoOnone );
+
+		final Element three = mockElementWithClassValue( "three" );
+		final Element oneThree = mockElementWithClassValue( "one three" );
+		final Element threeOne = mockElementWithClassValue( "three one" );
+
+		assertThat( cut ).rejects( three, oneThree, threeOne );
 	}
 
 	private Element mockElementWithClassValue( final String classValue ) {
