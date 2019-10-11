@@ -4,6 +4,8 @@ import static de.retest.recheck.util.ReflectionUtilities.getSimpleName;
 import static de.retest.recheck.util.ReflectionUtilities.setChildInParentToNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
 
@@ -14,7 +16,6 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.Mockito;
 
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.util.ReflectionUtilities.IncompatibleTypesException;
@@ -63,36 +64,36 @@ public class ReflectionUtilitiesTest {
 	@Test
 	public void isThreadDeathWhileClosingSuT_returns_false() throws Exception {
 		// wrong method
-		final ThreadDeath e1 = Mockito.mock( ThreadDeath.class );
+		final ThreadDeath e1 = mock( ThreadDeath.class );
 		@SuppressWarnings( "restriction" )
 		final StackTraceElement[] value1 =
 				{ new StackTraceElement( sun.awt.AppContext.class.getCanonicalName(), "disposeNOT", "", 0 ) };
-		Mockito.when( e1.getStackTrace() ).thenReturn( value1 );
+		when( e1.getStackTrace() ).thenReturn( value1 );
 
 		// wrong class
-		final ThreadDeath e2 = Mockito.mock( ThreadDeath.class );
+		final ThreadDeath e2 = mock( ThreadDeath.class );
 		final StackTraceElement[] value2 =
 				{ new StackTraceElement( Object.class.getCanonicalName(), "dispose", "", 0 ) };
-		Mockito.when( e2.getStackTrace() ).thenReturn( value2 );
-		Mockito.when( e2.getCause() ).thenReturn( e1 );
+		when( e2.getStackTrace() ).thenReturn( value2 );
+		when( e2.getCause() ).thenReturn( e1 );
 
 		// wrong Exception
-		final Exception e3 = Mockito.mock( Exception.class );
+		final Exception e3 = mock( Exception.class );
 		@SuppressWarnings( "restriction" )
 		final StackTraceElement[] value3 =
 				{ new StackTraceElement( sun.awt.AppContext.class.getCanonicalName(), "dispose", "", 0 ) };
-		Mockito.when( e3.getStackTrace() ).thenReturn( value3 );
-		Mockito.when( e3.getCause() ).thenReturn( e2 );
+		when( e3.getStackTrace() ).thenReturn( value3 );
+		when( e3.getCause() ).thenReturn( e2 );
 
 		assertThat( ReflectionUtilities.isThreadDeathWhileClosingSuT( e3 ) ).isFalse();
 	}
 
 	private static ThreadDeath getThreadDeathWhileClosingSuTEx() {
-		final ThreadDeath e = Mockito.mock( ThreadDeath.class );
+		final ThreadDeath e = mock( ThreadDeath.class );
 		@SuppressWarnings( "restriction" )
 		final StackTraceElement[] value =
 				{ new StackTraceElement( sun.awt.AppContext.class.getCanonicalName(), "dispose", "", 0 ) };
-		Mockito.when( e.getStackTrace() ).thenReturn( value );
+		when( e.getStackTrace() ).thenReturn( value );
 		return e;
 	}
 
@@ -242,9 +243,12 @@ public class ReflectionUtilitiesTest {
 		private final Screenshot field = null;
 	}
 
-	private class A {};
+	private class A {
+	};
 
-	private class B extends A {};
+	private class B extends A {
+	};
 
-	private class C extends B {};
+	private class C extends B {
+	};
 }
