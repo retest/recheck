@@ -43,4 +43,5 @@ class FiltersTest {
 		assertThat( filter.matches( element ) ).isFalse();
 		assertThat( filter.matches( element, difference ) ).isTrue();
 	}
+
 }
