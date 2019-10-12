@@ -13,6 +13,15 @@ import de.retest.recheck.ui.descriptors.RootElement;
 public interface RecheckAdapter {
 
 	/**
+	 * Returns an instance of the RecheckAdapter, that has been initialized with the given {@link RecheckOptions}. In
+	 * case more specific recheck options are used during initialization of the {@link RecheckImpl}, then these are
+	 * passed on (and need to be cast).
+	 */
+	default RecheckAdapter initialize( final RecheckOptions opts ) {
+		return this;
+	}
+
+	/**
 	 * Returns {@code true} if the given object can be converted by the adapter.
 	 *
 	 * @param toVerify

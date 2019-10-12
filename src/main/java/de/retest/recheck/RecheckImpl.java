@@ -113,7 +113,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	@Override
 	public void check( final Object toVerify, final String currentStep ) {
-		check( toVerify, RecheckAdapters.findAdapterFor( toVerify ), currentStep );
+		check( toVerify, RecheckAdapters.findAdapterFor( toVerify, options ), currentStep );
 	}
 
 	@Override
