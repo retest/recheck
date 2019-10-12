@@ -1,5 +1,8 @@
 package de.retest.recheck;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Properties {
 
 	public static final String FILE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
@@ -10,8 +13,11 @@ public class Properties {
 	public static final String PROPERTY_VALUE_SEPARATOR = ";";
 	public static final String ZIP_FOLDER_SEPARATOR = "/";
 
-	public static final double WINDOW_MATCH_THRESHOLD = 0.8;
-	public static final double WINDOW_CHILDS_MATCH_THRESHOLD = 0.5;
+	public static final double ROOT_ELEMENT_MATCH_THRESHOLD_DEFAULT = 0.8;
+	public static final String ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY = "de.retest.recheck.rootElementMatchThreshold";
+	public static final double ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT = 0.5;
+	public static final String ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY =
+			"de.retest.recheck.rootElementContainedChildrenMatchThreshold";
 
 	public static final double ELEMENT_MATCH_THRESHOLD_DEFAULT = 0.3;
 	public static final String ELEMENT_MATCH_THRESHOLD_PROPERTY = "de.retest.recheck.elementMatchThreshold";
@@ -48,5 +54,32 @@ public class Properties {
 			return FileOutputFormat.ZIP;
 		}
 		return FileOutputFormat.PLAIN;
+	}
+
+	public static double getElementMatchThreshhold() {
+		return getConfiguredDouble( ELEMENT_MATCH_THRESHOLD_PROPERTY, ELEMENT_MATCH_THRESHOLD_DEFAULT );
+	}
+
+	public static double getMinimumWindowMatchThreshold() {
+		return getConfiguredDouble( ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY, ROOT_ELEMENT_MATCH_THRESHOLD_DEFAULT );
+	}
+
+	public static double getMinimumContainedComponentsMatchThreshold() {
+		return getConfiguredDouble( ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY,
+				ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_DEFAULT );
+	}
+
+	public static double getConfiguredDouble( final String property, final double defaultValue ) {
+		final String value = System.getProperty( property );
+		if ( value == null ) {
+			return defaultValue;
+		}
+		try {
+			return Double.parseDouble( value );
+		} catch ( final NumberFormatException e ) {
+			log.error( "Exception parsing value {} of property {} to double, using default {} instead.", value,
+					property, defaultValue );
+			return defaultValue;
+		}
 	}
 }
