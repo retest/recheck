@@ -18,6 +18,7 @@ import de.retest.recheck.persistence.MavenProjectLayout;
 import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
 import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
+import de.retest.recheck.util.RetestIdProviderUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -131,7 +132,7 @@ public class RecheckOptions {
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
 		private Filter ignoreFilter = null;
-		private RetestIdProvider retestIdProvider;
+		private RetestIdProvider retestIdProvider = RetestIdProviderUtil.getConfiguredRetestIdProvider();
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
 		protected RecheckOptionsBuilder() {
