@@ -32,9 +32,10 @@ Table of Contents
 
 ### New Features
 
-* Added some more `RetestIdProviders`:
+* Add some more `RetestIdProviders`:
     * `de.retest.recheck.ui.descriptors.idproviders.RandomSuffixRetestIdProvider`: Add a random suffix to the element.
     * `de.retest.recheck.ui.descriptors.idproviders.ElementCountingRetestIdProvider`: Add a counter suffix to the element.
+* Add new element matcher for `class` attribute, which allows elements to be ignored by `matcher: class=some-class`.
 
 ### Improvements
 
