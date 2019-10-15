@@ -135,8 +135,8 @@ public class RecheckOptions {
 		private RetestIdProvider retestIdProvider = RetestIdProviderUtil.getConfiguredRetestIdProvider();
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
-		protected RecheckOptionsBuilder() {
-		}
+		protected RecheckOptionsBuilder() {}
+
 
 		/**
 		 * @deprecated Use {@link #namingStrategy} and {@link #projectLayout} instead.
