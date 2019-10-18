@@ -40,7 +40,7 @@ public class RecheckDifferenceFinder {
 
 	private ActionReplayResult toActionReplayResult( final DifferenceResult check ) {
 		final List<RootElementDifference> differences = check.getDifferences();
-		if ( differences != null && differences.size() > 0 ) {
+		if ( differences != null && !differences.isEmpty() ) {
 			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
 			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
 					WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
