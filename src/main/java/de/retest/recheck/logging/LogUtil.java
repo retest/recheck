@@ -11,6 +11,8 @@ import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 
 public class LogUtil {
 
+	private LogUtil() {}
+
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( LogUtil.class );
 
 	public static final String LOG_SEPARATOR =

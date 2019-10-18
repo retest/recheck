@@ -11,6 +11,8 @@ import de.retest.recheck.ui.descriptors.SutState;
 
 public class XmlTransformerUtil {
 
+	private XmlTransformerUtil() {}
+
 	public static XmlTransformer getXmlTransformer() {
 		final Set<Class<?>> xmlDataClasses = new HashSet<>();
 		xmlDataClasses.add( TestReport.class );

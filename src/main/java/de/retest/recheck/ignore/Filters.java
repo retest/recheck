@@ -11,6 +11,8 @@ import de.retest.recheck.review.ignore.io.Loaders;
 
 public class Filters {
 
+	private Filters() {};
+
 	public static Filter load( final Path path ) throws IOException {
 		try ( final Stream<String> filterFileLines = Files.lines( path ) ) {
 			return parse( filterFileLines );

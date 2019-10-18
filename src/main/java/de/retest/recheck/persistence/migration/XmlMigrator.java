@@ -15,6 +15,8 @@ import de.retest.recheck.util.ThreadUtil;
 
 public class XmlMigrator {
 
+	private XmlMigrator() {}
+
 	private static final Logger logger = LoggerFactory.getLogger( XmlMigrator.class );
 
 	public static NamedBufferedInputStream tryToMigrate( final XmlVersionCheckResult checkResult,

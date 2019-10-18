@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Properties {
 
+	private Properties() {}
+
 	public static final String FILE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
 	public static final String CONFIG_FILE_PROPERTY = "de.retest.configFile";
 
