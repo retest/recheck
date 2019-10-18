@@ -33,7 +33,6 @@ public class LogUtil {
 
 	public static URL getLogbackConfigFile() {
 		final LoggerContext loggerContext = ((ch.qos.logback.classic.Logger) logger).getLoggerContext();
-		final URL mainURL = ConfigurationWatchListUtil.getMainWatchURL( loggerContext );
-		return mainURL;
+		return ConfigurationWatchListUtil.getMainWatchURL( loggerContext );
 	}
 }
