@@ -180,9 +180,9 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		final TestReplayResult filteredTestResult = testReportFilter.filter( currentTestResult );
 		currentTestResult = null;
 		final Set<LeafDifference> uniqueDifferences = filteredTestResult.getDifferences();
-		logger.info( "Found {} not ignored differences in test '{}'.", uniqueDifferences.size(),
-				filteredTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
+			logger.info( "Found {} not ignored differences in test '{}'.", uniqueDifferences.size(),
+					filteredTestResult.getName() );
 			final RecheckCapMessage msg =
 					new RecheckCapMessage( suiteName, filteredTestResult, printer, getResultFile() );
 			throw new AssertionError( msg );
