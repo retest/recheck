@@ -177,14 +177,14 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	public void capTest() {
 		suite.addTest( currentTestResult );
 		final TestReportFilter testReportFilter = new TestReportFilter( options.getFilter() );
-		final TestReplayResult finishedTestResult = testReportFilter.filter( currentTestResult );
+		final TestReplayResult filteredTestResult = testReportFilter.filter( currentTestResult );
 		currentTestResult = null;
-		final Set<LeafDifference> uniqueDifferences = finishedTestResult.getDifferences();
-		logger.info( "Found {} not ignored differences in test {}.", uniqueDifferences.size(),
-				finishedTestResult.getName() );
+		final Set<LeafDifference> uniqueDifferences = filteredTestResult.getDifferences();
+		logger.info( "Found {} not ignored differences in test '{}'.", uniqueDifferences.size(),
+				filteredTestResult.getName() );
 		if ( !uniqueDifferences.isEmpty() ) {
 			final RecheckCapMessage msg =
-					new RecheckCapMessage( suiteName, finishedTestResult, printer, getResultFile() );
+					new RecheckCapMessage( suiteName, filteredTestResult, printer, getResultFile() );
 			throw new AssertionError( msg );
 		}
 	}
