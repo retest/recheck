@@ -181,7 +181,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		currentTestResult = null;
 		final Set<LeafDifference> uniqueDifferences = filteredTestResult.getDifferences();
 		if ( !uniqueDifferences.isEmpty() ) {
-			logger.info( "Found {} not ignored differences in test '{}'.", uniqueDifferences.size(),
+			logger.info( "Found {} not ignored difference(s) in test '{}'.", uniqueDifferences.size(),
 					filteredTestResult.getName() );
 			final RecheckCapMessage msg =
 					new RecheckCapMessage( suiteName, filteredTestResult, printer, getResultFile() );
