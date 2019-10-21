@@ -244,6 +244,9 @@ class TestReportFilterTest {
 		final ElementDifference parentDiff = new ElementDifference( parent, null, null, null, null,
 				Arrays.asList( deletedElementDiff, insertedElementDiff ) );
 
+		when( deletedChild.getParent() ).thenReturn( parent );
+		when( insertedChild.getParent() ).thenReturn( parent );
+
 		final Filter parentXPathFilter = new ElementFilter( new ElementXPathMatcher( parent ) );
 
 		assertThat( parentXPathFilter.matches( parent ) ).isTrue();
