@@ -19,18 +19,8 @@ class ElementXPathMatcherTest {
 		final Element element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "/HTML[1]/DIV[1]" );
+		when( attribs.getPath() ).thenReturn( "html[1]/div[1]" );
 		matcher = new ElementXPathMatcher( element );
-	}
-
-	@Test
-	void should_match_when_xpath_is_parent() {
-		final Element element = mock( Element.class );
-		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "/HTML[1]/DIV[1]/DIV[1]" );
-
-		assertThat( matcher ).accepts( element );
 	}
 
 	@Test
@@ -38,7 +28,7 @@ class ElementXPathMatcherTest {
 		final Element element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "/HTML[1]/DIV[1]/" );
+		when( attribs.getPath() ).thenReturn( "html[1]/div[1]" );
 
 		assertThat( matcher ).accepts( element );
 	}
@@ -48,7 +38,7 @@ class ElementXPathMatcherTest {
 		final Element element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "/HTML[1]/DIV[2]" );
+		when( attribs.getPath() ).thenReturn( "html[1]/div[2]" );
 
 		assertThat( matcher ).rejects( element );
 	}
