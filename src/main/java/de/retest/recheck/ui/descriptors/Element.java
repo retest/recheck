@@ -78,7 +78,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public static Element create( final String retestId, final Element parent,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes ) {
-		return new Element( retestId, parent, identifyingAttributes, attributes, null );
+		return create( retestId, parent, identifyingAttributes, attributes, null );
 	}
 
 	public static Element create( final String retestId, final Element parent,
