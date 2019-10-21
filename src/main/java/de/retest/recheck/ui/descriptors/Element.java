@@ -72,8 +72,8 @@ public class Element implements Serializable, Comparable<Element> {
 		this.identifyingAttributes =
 				Objects.requireNonNull( identifyingAttributes, "IdentifyingAttributes must not be null" );
 		this.attributes = Objects.requireNonNull( attributes, "Attributes must not be null" );
-		containedElements = new ArrayList<>();
 		this.screenshot = screenshot;
+		containedElements = new ArrayList<>();
 	}
 
 	public static Element create( final String retestId, final Element parent,
