@@ -49,11 +49,75 @@ class ElementFilterTest {
 	}
 
 	@Test
-	void matches_diff_should_NOT_match_when_element_does() {
+	void matches_diff_should_not_match_when_element_does_not() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "cba" );
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
 		assertThat( cut.matches( element, difference ) ).isFalse();
+	}
+
+	@Test
+	void matches_should_match_when_id_is_parent() {
+		final Element childElement = mock( Element.class );
+		when( childElement.getRetestId() ).thenReturn( "childabc" );
+
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "abc" );
+
+		when( childElement.getParent() ).thenReturn( element );
+
+		assertThat( cut.matches( childElement ) ).isTrue();
+	}
+
+	@Test
+	void matches_should_match_when_id_is_parent_of_parent() {
+		final Element childElement = mock( Element.class );
+		when( childElement.getRetestId() ).thenReturn( "childabc" );
+
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "normalabc" );
+
+		final Element parentElement = mock( Element.class );
+		when( parentElement.getRetestId() ).thenReturn( "abc" );
+
+		when( childElement.getParent() ).thenReturn( element );
+		when( element.getParent() ).thenReturn( parentElement );
+
+		assertThat( cut.matches( childElement ) ).isTrue();
+	}
+
+	@Test
+	void matches_diff_should_match_when_id_is_parent() {
+		final Element childElement = mock( Element.class );
+		when( childElement.getRetestId() ).thenReturn( "childabc" );
+
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "abc" );
+
+		when( childElement.getParent() ).thenReturn( element );
+
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		assertThat( cut.matches( childElement, difference ) ).isTrue();
+	}
+
+	@Test
+	void matches_diff_should_match_when_id_is_parent_of_parent() {
+		final Element childElement = mock( Element.class );
+		when( childElement.getRetestId() ).thenReturn( "childabc" );
+
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "normalabc" );
+
+		final Element parentElement = mock( Element.class );
+		when( parentElement.getRetestId() ).thenReturn( "abc" );
+
+		when( childElement.getParent() ).thenReturn( element );
+		when( element.getParent() ).thenReturn( parentElement );
+
+		final AttributeDifference difference = mock( AttributeDifference.class );
+
+		assertThat( cut.matches( childElement, difference ) ).isTrue();
 	}
 }
