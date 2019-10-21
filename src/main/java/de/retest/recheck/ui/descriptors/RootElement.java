@@ -35,7 +35,7 @@ public class RootElement extends Element {
 	public RootElement( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Screenshot screenshot, final String screen, final int screenId,
 			final String title ) {
-		super( retestId, new Element(), identifyingAttributes, attributes, screenshot );
+		super( retestId, null, identifyingAttributes, attributes, screenshot );
 		this.screen = screen;
 		this.screenId = screenId;
 		this.title = title;

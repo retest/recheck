@@ -95,6 +95,17 @@ class RootElementTest {
 		assertThat( changed.getScreenshot() ).isEqualTo( newScreenshot );
 	}
 
+	@Test
+	public void parent_should_be_null() throws Exception {
+		final String retestId = "someRetestId";
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		final Attributes attributes = mock( Attributes.class );
+		final int screenId = 0;
+		final RootElement cut =
+				new RootElement( retestId, identifyingAttributes, attributes, null, null, screenId, null );
+		assertThat( cut.getParent() ).isNull();
+	}
+
 	private RootElement rootElementFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot, final Element... childrenArray ) {
 		final RootElement rootElement = new RootElement( "asdasd", identifyingAttributes, attributes, screenshot,

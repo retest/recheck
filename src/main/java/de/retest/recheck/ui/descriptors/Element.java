@@ -68,7 +68,7 @@ public class Element implements Serializable, Comparable<Element> {
 			final Attributes attributes, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		this.retestId = retestId;
-		this.parent = Objects.requireNonNull( parent, "Parent must not be null" );
+		this.parent = parent;
 		this.identifyingAttributes =
 				Objects.requireNonNull( identifyingAttributes, "IdentifyingAttributes must not be null" );
 		this.attributes = Objects.requireNonNull( attributes, "Attributes must not be null" );
@@ -84,6 +84,7 @@ public class Element implements Serializable, Comparable<Element> {
 	public static Element create( final String retestId, final Element parent,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot ) {
+		Objects.requireNonNull( parent, "Parent must not be null" );
 		return new Element( retestId, parent, identifyingAttributes, attributes, screenshot );
 	}
 
