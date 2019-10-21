@@ -5,11 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.image.Screenshot;
@@ -18,7 +17,7 @@ import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.ui.review.AttributeChanges;
 import de.retest.recheck.ui.review.ScreenshotChanges;
 
-public class RootElementTest {
+class RootElementTest {
 
 	private static class Window {}
 
@@ -30,12 +29,11 @@ public class RootElementTest {
 			.create( Path.fromString( "Window[1]/Comp[1]" ), Comp.class, "name", "comp 1", "code-loc A" );
 	private final IdentifyingAttributes childIdentAttributes0 = RootIdentifyingAttributes
 			.create( Path.fromString( "Window[1]/Comp[1]/Comp[1]" ), Comp.class, "name", "child 1", "code-loc A" );
-
 	private final Screenshot screenshot = new Screenshot( "", new byte[0], ImageType.PNG );
 
 	@Test
-	public void applyChanges_adds_inserted_components() throws Exception {
-		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot );
+	void applyChanges_should_add_inserted_components() throws Exception {
+		final RootElement rootElement = rootElementFor( windowIdentAttributes, new Attributes(), screenshot );
 		final Element child = Element.create( "wesdf", rootElement, compIdentAttributes, new Attributes() );
 
 		final Element child1 = Element.create( "asdasg", child, childIdentAttributes0, new Attributes() );
@@ -53,9 +51,9 @@ public class RootElementTest {
 	}
 
 	@Test
-	public void applyChanges_removes_deleted_components() throws Exception {
+	void applyChanges_should_remove_deleted_components() throws Exception {
 
-		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot );
+		final RootElement rootElement = rootElementFor( windowIdentAttributes, new Attributes(), screenshot );
 
 		final Element element = Element.create( "fsdfasd", rootElement, compIdentAttributes, new Attributes() );
 		rootElement.addChildren( element );
@@ -70,7 +68,7 @@ public class RootElementTest {
 	}
 
 	@Test
-	public void applyChanges_updates_screenshot() throws Exception {
+	void applyChanges_should_update_screenshot() throws Exception {
 		final Screenshot newScreenshot = mock( Screenshot.class );
 
 		final ScreenshotChanges screenshotChange = mock( ScreenshotChanges.class );
@@ -97,13 +95,12 @@ public class RootElementTest {
 		assertThat( changed.getScreenshot() ).isEqualTo( newScreenshot );
 	}
 
-	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
+	private RootElement rootElementFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot, final Element... childrenArray ) {
-		final List<Element> children = new ArrayList<>();
-
 		final RootElement rootElement = new RootElement( "asdasd", identifyingAttributes, attributes, screenshot,
 				(String) identifyingAttributes.get( "name" ), identifyingAttributes.get( "name" ).hashCode(),
 				identifyingAttributes.get( "text" ) + "-Window" );
+
 		if ( childrenArray != null ) {
 			rootElement.addChildren( childrenArray );
 		}
@@ -122,13 +119,9 @@ public class RootElementTest {
 			return new RootIdentifyingAttributes( parent );
 		}
 
-		@SuppressWarnings( "unused" )
-		public RootIdentifyingAttributes() {}
-
 		public RootIdentifyingAttributes( final Collection<Attribute> attributes ) {
 			super( attributes );
 		}
-
 	}
 
 }
