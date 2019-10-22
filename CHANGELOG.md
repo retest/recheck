@@ -29,6 +29,7 @@ Table of Contents
 
 * Do not parse the CSS attribute `box-shadow` for the filter `pixel-diff`.
 * Update screenshots always instead of never.
+* Matching elements now properly ignores child elements for identifying attributes other than XPath.
 
 ### New Features
 

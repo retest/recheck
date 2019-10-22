@@ -10,36 +10,36 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
-class ElementXPathMatcherTest {
+class ElementIdMatcherTest {
 
-	private ElementXPathMatcher matcher;
+	ElementIdMatcher cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "html[1]/div[1]" );
-		matcher = new ElementXPathMatcher( element );
+		when( attribs.get( "id" ) ).thenReturn( "someDiv" );
+		cut = new ElementIdMatcher( element );
 	}
 
 	@Test
-	void should_match_when_xpath_is_equal() {
+	void should_match_when_id_is_equal() {
 		final Element element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "html[1]/div[1]" );
+		when( attribs.get( "id" ) ).thenReturn( "someDiv" );
 
-		assertThat( matcher ).accepts( element );
+		assertThat( cut ).accepts( element );
 	}
 
 	@Test
-	void should_not_match_when_xpath_is_not_equal() {
+	void should_not_match_when_id_is_not_equal() {
 		final Element element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.getPath() ).thenReturn( "html[1]/div[2]" );
+		when( attribs.get( "id" ) ).thenReturn( "otherDiv" );
 
-		assertThat( matcher ).rejects( element );
+		assertThat( cut ).rejects( element );
 	}
 }

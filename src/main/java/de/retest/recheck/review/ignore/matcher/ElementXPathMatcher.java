@@ -20,7 +20,7 @@ public class ElementXPathMatcher implements Matcher<Element> {
 
 	@Override
 	public boolean test( final Element element ) {
-		return element.getIdentifyingAttributes().getPath().startsWith( xpath );
+		return element.getIdentifyingAttributes().getPath().equals( xpath );
 	}
 
 	@Override

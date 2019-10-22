@@ -14,31 +14,13 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 class AttributeFilterTest {
 
 	@Test
-	void should_match_when_attribute_is_identifying() {
+	void should_match_when_attribute_is_same() {
 		final AttributeFilter filter = new AttributeFilter( "tag" );
 
 		final Element element = mock( Element.class );
-		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.get( "tag" ) ).thenReturn( "div" );
 
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "tag" );
-
-		assertThat( filter.matches( element, attributeDifference ) ).isTrue();
-	}
-
-	@Test
-	void should_match_when_attribute_is_not_identifying() {
-		final AttributeFilter filter = new AttributeFilter( "mySpecialAttribute" );
-
-		final Element element = mock( Element.class );
-		final Attributes attribs = mock( Attributes.class );
-		when( element.getAttributes() ).thenReturn( attribs );
-		when( attribs.get( "mySpecialAttribute" ) ).thenReturn( "someValue" );
-
-		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
-		when( attributeDifference.getKey() ).thenReturn( "mySpecialAttribute" );
 
 		assertThat( filter.matches( element, attributeDifference ) ).isTrue();
 	}

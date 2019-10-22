@@ -20,7 +20,12 @@ public class ElementFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element ) {
-		return matcher.test( element );
+		if ( matcher.test( element ) ) {
+			return true;
+		}
+		final Element parent = element.getParent();
+		return parent != null && matches( parent );
+
 	}
 
 	@Override
