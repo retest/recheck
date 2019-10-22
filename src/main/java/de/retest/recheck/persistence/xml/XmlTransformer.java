@@ -14,7 +14,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.helpers.DefaultValidationEventHandler;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.persistence.internal.oxm.record.namespaces.MapNamespacePrefixMapper;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
@@ -25,41 +24,35 @@ import com.google.common.collect.ImmutableMap;
 import de.retest.recheck.persistence.xml.util.SessionLogDelegate;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.persistence.xml.util.XmlUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class XmlTransformer {
-
-	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( XmlTransformer.class );
 
 	private static final ImmutableMap<String, String> NAMESPACE_MAPPINGS = ImmutableMap
 			.of( "http://www.w3.org/2001/XMLSchema", "xsd", "http://www.w3.org/2001/XMLSchema-instance", "xsi" );
 
-	public static enum XmlTransformerConfig {
-		USE_LIGHTWEIGHT_XML,
-		CREATE_ONLY_FRAGMENT,
+	// TODO Try if this is possible with a marshaller delegate instead?
+	private static final Set<Marshaller> lightweightMarshallerSet = new HashSet<>();
+
+	public static boolean isLightweightMarshaller( final Marshaller m ) {
+		return lightweightMarshallerSet.contains( m );
 	}
 
-	private final XmlTransformerConfig[] config;
+	private final XmlTransformerConfiguration config;
 	private final Class<?>[] additionalClazzes;
 
-	public XmlTransformer( final Class<?>[] additionalClazzes, final XmlTransformerConfig... config ) {
-		this.additionalClazzes = additionalClazzes;
+	public XmlTransformer( final XmlTransformerConfiguration config, final Class<?>... additionalClazzes ) {
 		this.config = config;
-	}
-
-	public XmlTransformer( final XmlTransformerConfig config, final Class<?>... additionalClazzes ) {
-		this( additionalClazzes, config );
+		this.additionalClazzes = additionalClazzes;
 	}
 
 	public XmlTransformer( final Class<?>... additionalClazzes ) {
-		this( additionalClazzes, new XmlTransformerConfig[0] );
-	}
-
-	public XmlTransformer( final XmlTransformerConfig config, final Set<Class<?>> xmlDataClasses ) {
-		this( config, xmlDataClasses.toArray( new Class<?>[xmlDataClasses.size()] ) );
+		this( XmlTransformerConfiguration.builder().build(), additionalClazzes );
 	}
 
 	public XmlTransformer( final Set<Class<?>> xmlDataClasses ) {
-		this( null, xmlDataClasses );
+		this( xmlDataClasses.toArray( new Class<?>[xmlDataClasses.size()] ) );
 	}
 
 	public <T> T fromXML( final InputStream in ) {
@@ -82,13 +75,6 @@ public class XmlTransformer {
 		}
 	}
 
-	// TODO Try if this is possible with a marshaller delegate instead?
-	private static final Set<Marshaller> lightweightMarshallerSet = new HashSet<>();
-
-	public static boolean isLightweightMarshaller( final Marshaller m ) {
-		return lightweightMarshallerSet.contains( m );
-	}
-
 	public void toXML( final Object obj, final OutputStream out, final Marshaller.Listener listener ) {
 		Marshaller marshaller = null;
 		try {
@@ -103,13 +89,13 @@ public class XmlTransformer {
 			final SessionLogDelegate sessionLog = new SessionLogDelegate( AbstractSessionLog.getLog() );
 			AbstractSessionLog.setLog( sessionLog );
 
-			if ( ArrayUtils.contains( config, XmlTransformerConfig.CREATE_ONLY_FRAGMENT ) ) {
-				logger.info( "Create only fragment for '{}'.", obj );
+			if ( config.isOnlyFragment() ) {
+				log.info( "Create only fragment for '{}'.", obj );
 				marshaller.setProperty( Marshaller.JAXB_FRAGMENT, true );
 			}
 
-			if ( ArrayUtils.contains( config, XmlTransformerConfig.USE_LIGHTWEIGHT_XML ) ) {
-				logger.info( "Use lightweight xml for '{}'.", obj );
+			if ( config.isLightweightXml() ) {
+				log.info( "Use lightweight XML for '{}'.", obj );
 				lightweightMarshallerSet.add( marshaller );
 				XmlUtil.addLightWeightAdapter( marshaller );
 			}
@@ -117,12 +103,12 @@ public class XmlTransformer {
 			marshaller.marshal( obj, out );
 
 			if ( sessionLog.containsMessages() ) {
-				throw new RuntimeException( "Error persisting xml: " + sessionLog.getLog() );
+				throw new RuntimeException( "Error persisting XML: " + sessionLog.getLog() );
 			}
 		} catch ( final JAXBException e ) {
 			throw new RuntimeException( e );
 		} finally {
-			if ( ArrayUtils.contains( config, XmlTransformerConfig.USE_LIGHTWEIGHT_XML ) && marshaller != null ) {
+			if ( config.isLightweightXml() && marshaller != null ) {
 				lightweightMarshallerSet.remove( marshaller );
 			}
 		}
