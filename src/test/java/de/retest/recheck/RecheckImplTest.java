@@ -124,7 +124,7 @@ public class RecheckImplTest {
 		cut.startTest( "some-test" );
 		cut.check( "to-verify", adapter, "some-step" );
 
-		final String goldenMasterName = "SomeTestClass/some-test.some-step.recheck";
+		final String goldenMasterName = "SomeTestClass" + File.separator + "some-test.some-step.recheck";
 		assertThatThrownBy( cut::capTest ) //
 				.isExactlyInstanceOf( AssertionError.class ) //
 				.hasMessageStartingWith( "'SomeTestClass': " + NoGoldenMasterActionReplayResult.MSG_LONG ) //
