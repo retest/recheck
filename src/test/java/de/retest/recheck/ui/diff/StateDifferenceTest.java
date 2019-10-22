@@ -1,14 +1,11 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.XmlTransformerUtil.toXmlFragmentViaJAXB;
-import static de.retest.recheck.util.ApprovalsUtil.verifyXml;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Environment;
@@ -20,7 +17,6 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 
-@Disabled( "see RET-1549" )
 class StateDifferenceTest {
 
 	private final Screenshot screenshot = new Screenshot( "", new byte[0], ImageType.PNG );
@@ -47,7 +43,6 @@ class StateDifferenceTest {
 		assertThat( cut.toString() ).isEqualTo(
 				"[nullIdentifyingAttributesDifference expected type: de.retest.recheck.ui.diff.StateDifferenceTest$Window - actual type: de.retest.recheck.ui.diff.StateDifferenceTest$OtherWindow]" );
 		assertThat( cut.getElementDifferences().size() ).isEqualTo( 1 );
-		verifyXml( toXmlFragmentViaJAXB( cut, StateDifference.class ) );
 	}
 
 	@Test
@@ -60,8 +55,6 @@ class StateDifferenceTest {
 		assertThat( cut.toString() ).isEqualTo(
 				"[nullIdentifyingAttributesDifference expected type: de.retest.recheck.ui.diff.StateDifferenceTest$Window - actual type: de.retest.recheck.ui.diff.StateDifferenceTest$OtherWindow]" );
 		assertThat( cut.getElementDifferences().size() ).isEqualTo( 1 );
-
-		verifyXml( toXmlFragmentViaJAXB( cut, StateDifference.class ) );
 	}
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
