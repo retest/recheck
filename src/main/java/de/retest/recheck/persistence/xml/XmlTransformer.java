@@ -24,13 +24,20 @@ import com.google.common.collect.ImmutableMap;
 import de.retest.recheck.persistence.xml.util.SessionLogDelegate;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.persistence.xml.util.XmlUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class XmlTransformer {
-
-	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( XmlTransformer.class );
 
 	private static final ImmutableMap<String, String> NAMESPACE_MAPPINGS = ImmutableMap
 			.of( "http://www.w3.org/2001/XMLSchema", "xsd", "http://www.w3.org/2001/XMLSchema-instance", "xsi" );
+
+	// TODO Try if this is possible with a marshaller delegate instead?
+	private static final Set<Marshaller> lightweightMarshallerSet = new HashSet<>();
+
+	public static boolean isLightweightMarshaller( final Marshaller m ) {
+		return lightweightMarshallerSet.contains( m );
+	}
 
 	private final XmlTransformerConfiguration config;
 	private final Class<?>[] additionalClazzes;
@@ -68,13 +75,6 @@ public class XmlTransformer {
 		}
 	}
 
-	// TODO Try if this is possible with a marshaller delegate instead?
-	private static final Set<Marshaller> lightweightMarshallerSet = new HashSet<>();
-
-	public static boolean isLightweightMarshaller( final Marshaller m ) {
-		return lightweightMarshallerSet.contains( m );
-	}
-
 	public void toXML( final Object obj, final OutputStream out, final Marshaller.Listener listener ) {
 		Marshaller marshaller = null;
 		try {
@@ -90,12 +90,12 @@ public class XmlTransformer {
 			AbstractSessionLog.setLog( sessionLog );
 
 			if ( config.isOnlyFragment() ) {
-				logger.info( "Create only fragment for '{}'.", obj );
+				log.info( "Create only fragment for '{}'.", obj );
 				marshaller.setProperty( Marshaller.JAXB_FRAGMENT, true );
 			}
 
 			if ( config.isLightweightXml() ) {
-				logger.info( "Use lightweight xml for '{}'.", obj );
+				log.info( "Use lightweight XML for '{}'.", obj );
 				lightweightMarshallerSet.add( marshaller );
 				XmlUtil.addLightWeightAdapter( marshaller );
 			}
@@ -103,7 +103,7 @@ public class XmlTransformer {
 			marshaller.marshal( obj, out );
 
 			if ( sessionLog.containsMessages() ) {
-				throw new RuntimeException( "Error persisting xml: " + sessionLog.getLog() );
+				throw new RuntimeException( "Error persisting XML: " + sessionLog.getLog() );
 			}
 		} catch ( final JAXBException e ) {
 			throw new RuntimeException( e );
