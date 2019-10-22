@@ -11,6 +11,8 @@ import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil;
 
 public class LogUtil {
 
+	private LogUtil() {}
+
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( LogUtil.class );
 
 	public static final String LOG_SEPARATOR =
@@ -31,7 +33,6 @@ public class LogUtil {
 
 	public static URL getLogbackConfigFile() {
 		final LoggerContext loggerContext = ((ch.qos.logback.classic.Logger) logger).getLoggerContext();
-		final URL mainURL = ConfigurationWatchListUtil.getMainWatchURL( loggerContext );
-		return mainURL;
+		return ConfigurationWatchListUtil.getMainWatchURL( loggerContext );
 	}
 }

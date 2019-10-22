@@ -13,10 +13,10 @@ public class ClassAndMethodBasedShortNamingStrategy extends ClassAndMethodBasedN
 	public String getSuiteName() {
 		String result = super.getSuiteName();
 		if ( result.contains( "." ) ) {
-			result = result.substring( result.lastIndexOf( "." ) + 1 );
+			result = result.substring( result.lastIndexOf( '.' ) + 1 );
 		}
 		if ( result.contains( "$" ) ) {
-			result = result.substring( 0, result.indexOf( "$" ) );
+			result = result.substring( 0, result.indexOf( '$' ) );
 		}
 		return result;
 	}

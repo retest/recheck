@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Properties {
 
+	private Properties() {}
+
 	public static final String FILE_OUTPUT_FORMAT_PROPERTY = "de.retest.output.Format";
 	public static final String CONFIG_FILE_PROPERTY = "de.retest.configFile";
 
@@ -33,7 +35,7 @@ public class Properties {
 	public static final String TEST_REPORT_FILE_EXTENSION = ".report";
 	public static final String AGGREGATED_TEST_REPORT_FILE_NAME = "tests" + TEST_REPORT_FILE_EXTENSION;
 
-	public static enum FileOutputFormat {
+	public enum FileOutputFormat {
 		PLAIN,
 		ZIP,
 		KRYO,

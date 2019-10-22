@@ -92,7 +92,7 @@ public class SearchFilterFiles {
 	public static List<Pair<String, FilterLoader>> getUserFilterFiles() {
 		final Path userFilterFolder =
 				Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, FILTER_DIR_NAME );
-		if ( Files.exists( userFilterFolder ) ) {
+		if ( userFilterFolder.toFile().exists() ) {
 			return loadFiltersFromDirectory( userFilterFolder );
 		}
 		return Collections.emptyList();
@@ -100,7 +100,7 @@ public class SearchFilterFiles {
 
 	private static List<Pair<String, FilterLoader>> loadFiltersFromDirectory( final Path directory ) {
 		try ( final Stream<Path> paths = Files.walk( directory ) ) {
-			return paths.filter( Files::isRegularFile ) //
+			return paths.filter( path -> path.toFile().isFile() ) //
 					.filter( SearchFilterFiles::isFilterFile ) //
 					.map( path -> Pair.of( getFileName( path ), FilterLoader.load( path ) ) ) //
 					.collect( Collectors.toList() ); //
