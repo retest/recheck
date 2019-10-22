@@ -1,5 +1,7 @@
 package de.retest.recheck.ui.descriptors;
 
+import static java.util.Objects.requireNonNull;
+
 import java.beans.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -68,22 +70,22 @@ public class Element implements Serializable, Comparable<Element> {
 			final Attributes attributes, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		this.retestId = retestId;
-		this.parent = Objects.requireNonNull( parent, "Parent must not be null" );
-		this.identifyingAttributes =
-				Objects.requireNonNull( identifyingAttributes, "IdentifyingAttributes must not be null" );
-		this.attributes = Objects.requireNonNull( attributes, "Attributes must not be null" );
-		containedElements = new ArrayList<>();
+		this.parent = parent;
+		this.identifyingAttributes = requireNonNull( identifyingAttributes, "IdentifyingAttributes must not be null" );
+		this.attributes = requireNonNull( attributes, "Attributes must not be null" );
 		this.screenshot = screenshot;
+		containedElements = new ArrayList<>();
 	}
 
 	public static Element create( final String retestId, final Element parent,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes ) {
-		return new Element( retestId, parent, identifyingAttributes, attributes, null );
+		return create( retestId, parent, identifyingAttributes, attributes, null );
 	}
 
 	public static Element create( final String retestId, final Element parent,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot ) {
+		requireNonNull( parent, "Parent must not be null" );
 		return new Element( retestId, parent, identifyingAttributes, attributes, screenshot );
 	}
 
