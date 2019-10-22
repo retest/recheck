@@ -7,30 +7,31 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.Filters;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 class FiltersIT {
 
-	private final Element element = mock( Element.class );
-	private final Element childElement = mock( Element.class );
-	private final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+	private Element element;
+	private Element childElement;
+	private AttributeDifference attributeDifference;
 
 	@BeforeEach
-	void setup() {
+	void setUp() {
+		element = mock( Element.class );
 		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
 		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
 		when( attribs.getType() ).thenReturn( "input" );
 
+		childElement = mock( Element.class );
 		final IdentifyingAttributes childAttribs = mock( IdentifyingAttributes.class );
 		when( childElement.getIdentifyingAttributes() ).thenReturn( childAttribs );
 		when( childAttribs.getType() ).thenReturn( "output" );
 
 		when( childElement.getParent() ).thenReturn( element );
 
+		attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "outline" );
 	}
 
