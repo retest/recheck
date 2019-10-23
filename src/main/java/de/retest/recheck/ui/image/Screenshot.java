@@ -79,7 +79,7 @@ public class Screenshot implements Serializable {
 		return persistenceId;
 	}
 
-	private static final String PERSISTENCE_ID_SEPARATOR = "_";
+	public static final String PERSISTENCE_ID_SEPARATOR = "_";
 
 	private static final String REGEX_PREFIX_EXTRACT =
 			PERSISTENCE_ID_SEPARATOR + "[0-9a-f]{" + ChecksumCalculator.LENGTH_OF_SHA256 + "}$";
