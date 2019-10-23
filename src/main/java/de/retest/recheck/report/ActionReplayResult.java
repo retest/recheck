@@ -246,7 +246,7 @@ public class ActionReplayResult implements Serializable {
 	}
 
 	public int getCheckedUiElementsCount() {
-		if ( !windows.isEmpty() ) {
+		if ( hasWindows() ) {
 			int result = 0;
 			for ( final RootElement rootElement : windows ) {
 				result += rootElement.countAllContainedElements();
