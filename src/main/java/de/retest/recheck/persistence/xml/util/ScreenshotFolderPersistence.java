@@ -41,11 +41,7 @@ public class ScreenshotFolderPersistence {
 	}
 
 	protected static String createFileName( final Screenshot screenshot ) {
-		String result = screenshot.getPersistenceId();
-		if ( result.contains( Screenshot.PERSISTENCE_ID_SEPARATOR ) ) {
-			result = result.substring( 0, result.lastIndexOf( Screenshot.PERSISTENCE_ID_SEPARATOR ) );
-		}
-		return result + "." + screenshot.getType().getFileExtension();
+		return screenshot.getPersistenceId() + "." + screenshot.getType().getFileExtension();
 	}
 
 	public Marshaller.Listener getMarshallListener() {

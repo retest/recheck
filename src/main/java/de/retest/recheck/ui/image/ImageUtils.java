@@ -79,7 +79,7 @@ public class ImageUtils {
 		if ( image == null ) {
 			return null;
 		}
-		return image2Screenshot( image.getPersistenceIdPrefix(), mark( screenshot2Image( image ), mark ) );
+		return image2Screenshot( image.getPersistenceId(), mark( screenshot2Image( image ), mark ) );
 	}
 
 	public static BufferedImage mark( final BufferedImage image, final Rectangle mark ) {
@@ -233,8 +233,7 @@ public class ImageUtils {
 		if ( screenshot == null ) {
 			return null;
 		}
-		return image2Screenshot( screenshot.getPersistenceIdPrefix(),
-				cutImage( screenshot2Image( screenshot ), bounds ) );
+		return image2Screenshot( screenshot.getPersistenceId(), cutImage( screenshot2Image( screenshot ), bounds ) );
 	}
 
 	public static BufferedImage cutImage( final BufferedImage image, final Rectangle bounds ) {

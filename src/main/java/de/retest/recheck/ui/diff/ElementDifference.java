@@ -64,7 +64,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 				}
 			}
 		}
-		return image2Screenshot( screenshot.getPersistenceIdPrefix(),
+		return image2Screenshot( screenshot.getPersistenceId(),
 				ImageUtils.mark( screenshot2Image( screenshot ), marks ) );
 	}
 
@@ -80,7 +80,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 				}
 			}
 		}
-		return image2Screenshot( screenshot.getPersistenceIdPrefix(),
+		return image2Screenshot( screenshot.getPersistenceId(),
 				ImageUtils.mark( screenshot2Image( screenshot ), marks ) );
 	}
 
