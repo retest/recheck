@@ -30,4 +30,10 @@ class ScreenshotTest {
 		shot1.setBinaryData( new byte[] { 1, 4, 5, 6, 2, 3, 4, 5 } );
 		assertThat( shot1.equals( shot2 ) ).isFalse();
 	}
+
+	@Test
+	void updating_should_be_null_save() {
+		final Screenshot shot = new Screenshot( "some", new byte[] { 1, 2, 4, 6, 3, 4, 7, 8, 2 }, ImageType.PNG );
+		shot.setBinaryData( null );
+	}
 }

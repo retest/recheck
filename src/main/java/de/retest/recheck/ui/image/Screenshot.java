@@ -35,8 +35,9 @@ public class Screenshot implements Serializable {
 	@XmlTransient
 	private byte[] binaryData;
 
+	// TODO After recheck 2.0 remove transient and ensureSha
 	@XmlTransient
-	private String sha256;
+	private transient String sha256;
 
 	@XmlElement
 	private final ImageType type;
@@ -57,9 +58,9 @@ public class Screenshot implements Serializable {
 			throw new NullPointerException( "type must not be null." );
 		}
 		this.binaryData = binaryData;
-		sha256 = ChecksumCalculator.getInstance().sha256( binaryData );
 		this.type = type;
 		this.persistenceId = persistenceId;
+		ensureSha();
 	}
 
 	public byte[] getBinaryData() {
@@ -68,7 +69,8 @@ public class Screenshot implements Serializable {
 
 	public void setBinaryData( final byte[] binaryData ) {
 		this.binaryData = binaryData;
-		sha256 = ChecksumCalculator.getInstance().sha256( binaryData );
+		sha256 = null;
+		ensureSha();
 	}
 
 	public ImageType getType() {
@@ -81,6 +83,7 @@ public class Screenshot implements Serializable {
 
 	@Override
 	public int hashCode() {
+		ensureSha();
 		return type.hashCode() + (persistenceId.hashCode() * 31 + sha256.hashCode()) * 31;
 	}
 
@@ -104,7 +107,17 @@ public class Screenshot implements Serializable {
 		}
 
 		// most expensive, should be last
+		ensureSha();
+		other.ensureSha();
 		return sha256.equals( other.sha256 );
+	}
+
+	private void ensureSha() {
+		if ( binaryData != null ) {
+			sha256 = ChecksumCalculator.getInstance().sha256( binaryData );
+		} else {
+			sha256 = "";
+		}
 	}
 
 	@Override
