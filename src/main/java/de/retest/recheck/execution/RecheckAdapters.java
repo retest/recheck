@@ -4,6 +4,7 @@ import java.util.ServiceLoader;
 import java.util.stream.StreamSupport;
 
 import de.retest.recheck.RecheckAdapter;
+import de.retest.recheck.RecheckOptions;
 
 public class RecheckAdapters {
 
@@ -11,11 +12,12 @@ public class RecheckAdapters {
 
 	private RecheckAdapters() {}
 
-	public static RecheckAdapter findAdapterFor( final Object toVerify ) {
+	public static RecheckAdapter findAdapterFor( final Object toVerify, final RecheckOptions options ) {
 		return StreamSupport.stream( adapters.spliterator(), false ) //
 				.filter( adapter -> adapter.canCheck( toVerify ) ) //
 				.findAny() //
-				.orElseThrow( () -> createHelpfulExceptionForMissingAdapter( toVerify.getClass().getName() ) );
+				.orElseThrow( () -> createHelpfulExceptionForMissingAdapter( toVerify.getClass().getName() ) )
+				.initialize( options );
 	}
 
 	static UnsupportedOperationException createHelpfulExceptionForMissingAdapter( final String className ) {

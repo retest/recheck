@@ -17,6 +17,8 @@ import de.retest.recheck.persistence.GradleProjectLayout;
 import de.retest.recheck.persistence.MavenProjectLayout;
 import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
+import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
+import de.retest.recheck.util.RetestIdProviderUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class RecheckOptions {
 	private final ProjectLayout projectLayout;
 	private final boolean reportUploadEnabled;
 	private final Filter filter;
+	private final RetestIdProvider retestIdProvider;
 
 	/**
 	 * Creates a shallow copy of the given options. Useful when extending the RecheckOptions to minimize dependencies on
@@ -58,7 +61,7 @@ public class RecheckOptions {
 	 */
 	protected RecheckOptions( final RecheckOptions toCopy ) {
 		this( toCopy.fileNamerStrategy, toCopy.namingStrategy, toCopy.projectLayout, toCopy.reportUploadEnabled,
-				toCopy.filter );
+				toCopy.filter, toCopy.retestIdProvider );
 	}
 
 	/**
@@ -88,6 +91,13 @@ public class RecheckOptions {
 	 */
 	public boolean isReportUploadEnabled() {
 		return reportUploadEnabled;
+	}
+
+	/**
+	 * The {@link RetestIdProvider} to use to generate the retestId for the elements in the Golden Masters.
+	 */
+	public RetestIdProvider getRetestIdProvider() {
+		return retestIdProvider;
 	}
 
 	/**
@@ -122,9 +132,11 @@ public class RecheckOptions {
 		private String suiteName = null;
 		private boolean reportUploadEnabled = false;
 		private Filter ignoreFilter = null;
+		private RetestIdProvider retestIdProvider = RetestIdProviderUtil.getConfiguredRetestIdProvider();
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
 
 		protected RecheckOptionsBuilder() {}
+
 
 		/**
 		 * @deprecated Use {@link #namingStrategy} and {@link #projectLayout} instead.
@@ -241,11 +253,19 @@ public class RecheckOptions {
 			return this;
 		}
 
+		/**
+		 * The {@link RetestIdProvider} to use.
+		 */
+		public RecheckOptionsBuilder retestIdProvider( final RetestIdProvider retestIdProvider ) {
+			this.retestIdProvider = retestIdProvider;
+			return this;
+		}
+
 		public RecheckOptions build() {
 			final String suiteName = getSuiteName();
 			final NamingStrategy namingStrategy = new FixedSuiteNamingStrategy( suiteName, this.namingStrategy );
 			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout, reportUploadEnabled,
-					buildFilter( suiteName ) );
+					buildFilter( suiteName ), retestIdProvider );
 		}
 
 		private String getSuiteName() {
