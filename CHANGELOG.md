@@ -41,7 +41,7 @@ Table of Contents
 ### Improvements
 
 * `RecheckImpl` can now be initialized as a member variable without additional parameters if inside a test class.
-* The screenshot does now have a fixed filename. This makes it much easier to work with CVS and the like.
+* The screenshot does now have a fixed filename. This makes it much easier to work with VCS.
 
 
 --------------------------------------------------------------------------------

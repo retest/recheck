@@ -35,7 +35,6 @@ public class Screenshot implements Serializable {
 	@XmlTransient
 	private byte[] binaryData;
 
-	// TODO After recheck 2.0 remove transient and ensureSha
 	@XmlTransient
 	private transient String sha256;
 
