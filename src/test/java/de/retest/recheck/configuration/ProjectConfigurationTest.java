@@ -18,7 +18,7 @@ class ProjectConfigurationTest {
 		cut.ensureProjectConfigurationInitialized();
 
 		final Path configFolder = getProjectRoot().get().resolve( Properties.RETEST_FOLDER_NAME );
-		final Path configFile = configFolder.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
+		final Path configFile = configFolder.resolve( Properties.RETEST_PROPERTIES_FILE_NAME );
 		final Path ignpreFile = configFolder.resolve( ProjectConfiguration.RECHECK_IGNORE );
 
 		assertThat( configFolder ).exists();

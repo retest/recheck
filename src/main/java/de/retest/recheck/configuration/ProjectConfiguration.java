@@ -1,6 +1,7 @@
 package de.retest.recheck.configuration;
 
 import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
+import static de.retest.recheck.Properties.RETEST_PROPERTIES_FILE_NAME;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +18,11 @@ public class ProjectConfiguration {
 
 	private static final Logger logger = LoggerFactory.getLogger( ProjectConfiguration.class );
 
-	public static final String RETEST_PROJECT_PROPERTIES = "retest.properties";
 	public static final String RECHECK_IGNORE = "recheck.ignore";
 	public static final String RECHECK_IGNORE_JSRULES = "recheck.ignore.js";
 
 	private static final String DEFAULT_PREFIX = "default-";
-	private static final String RETEST_PROJECT_DEFAULTS = DEFAULT_PREFIX + RETEST_PROJECT_PROPERTIES;
+	private static final String RETEST_PROJECT_DEFAULTS = DEFAULT_PREFIX + RETEST_PROPERTIES_FILE_NAME;
 	private static final String RECHECK_IGNORE_DEFAULTS = DEFAULT_PREFIX + RECHECK_IGNORE;
 	private static final String RECHECK_IGNORE_JSRULES_DEFAULTS = DEFAULT_PREFIX + RECHECK_IGNORE_JSRULES;
 
@@ -55,7 +55,7 @@ public class ProjectConfiguration {
 
 	public void ensureProjectConfigurationInitialized() {
 		final Path projectFilterFolder = findProjectConfigFolder().resolve( SearchFilterFiles.FILTER_DIR_NAME );
-		final Path projectConfigFile = findProjectConfigFolder().resolve( RETEST_PROJECT_PROPERTIES );
+		final Path projectConfigFile = findProjectConfigFolder().resolve( RETEST_PROPERTIES_FILE_NAME );
 		final Path projectIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE );
 		final Path projectRuleIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE_JSRULES );
 
@@ -71,7 +71,7 @@ public class ProjectConfiguration {
 			try {
 				Files.createDirectories( configFolder );
 				Files.copy( getClass().getClassLoader().getResourceAsStream( RETEST_PROJECT_DEFAULTS ),
-						configFolder.resolve( RETEST_PROJECT_PROPERTIES ) );
+						configFolder.resolve( RETEST_PROPERTIES_FILE_NAME ) );
 				logger.info( "Creating empty project configuration in {}.", configFolder );
 			} catch ( final IOException e ) {
 				logger.error( "Error creating project configuration folder in {}.", configFolder );
