@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -153,7 +154,7 @@ public class ApprovalsUtil {
 		@Override
 		public void report( final String received, final String approved ) {
 			try {
-				Files.copy( Paths.get( received ), Paths.get( approved ) );
+				Files.copy( Paths.get( received ), Paths.get( approved ), StandardCopyOption.REPLACE_EXISTING );
 			} catch ( final IOException e ) {
 				throw new UncheckedIOException( e );
 			}
