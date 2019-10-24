@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.util.ChecksumCalculator;
 
 @XmlRootElement
@@ -70,6 +71,22 @@ public class StateDifference implements Difference {
 
 	public List<RootElementDifference> getRootElementDifferences() {
 		return differences;
+	}
+
+	public List<Screenshot> getExpectedScreenshots() {
+		final List<Screenshot> result = new ArrayList<>();
+		for ( final RootElementDifference rootElementDifference : differences ) {
+			result.add( rootElementDifference.getExpectedScreenshot() );
+		}
+		return result;
+	}
+
+	public List<Screenshot> getActualScreenshots() {
+		final List<Screenshot> result = new ArrayList<>();
+		for ( final RootElementDifference rootElementDifference : differences ) {
+			result.add( rootElementDifference.getActualScreenshot() );
+		}
+		return result;
 	}
 
 	private static String getSumIdentifier( final List<RootElementDifference> differences ) {
