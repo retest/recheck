@@ -11,8 +11,10 @@
    </xsd:complexType>
    <xsd:complexType name="elementIdentificationWarning">
       <xsd:sequence/>
-      <xsd:attribute name="testClassName" type="xsd:string"/>
+      <xsd:attribute name="testFileName" type="xsd:string"/>
       <xsd:attribute name="testLineNumber" type="xsd:int"/>
+      <xsd:attribute name="findByMethodName" type="xsd:string"/>
+      <xsd:attribute name="qualifiedTestName" type="xsd:string"/>
    </xsd:complexType>
    <xsd:complexType name="attributeDifference">
       <xsd:sequence>

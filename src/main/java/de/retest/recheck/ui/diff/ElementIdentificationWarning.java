@@ -18,15 +18,42 @@ public class ElementIdentificationWarning implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * The name of the file the test resides in (e.g. "MySeleniumTest.java"). Note that the file name can be different
+	 * from the qualified class name of the test class given in {@link #qualifiedTestName}. Also, the file name (which
+	 * comes without path) can exist multiple times in different folders (aka packages). Therefore we need both.
+	 */
 	@XmlAttribute
-	private final String testClassName;
+	private final String testFileName;
 
+	/**
+	 * The line number of the invocation of the method that needs to be adapted (e.g. 534).
+	 */
 	@XmlAttribute
 	private final Integer testLineNumber;
 
+	/**
+	 * The method name of the calling method that needs to be adapted (e.g. "findById"). Note that e.g. an ID change can
+	 * both affect a call to `findByTag("a")` as well as a call to `findByCSS("a")`. Therefore, the affected attribute
+	 * (e.g id) alone does not suffice.
+	 */
+	@XmlAttribute
+	private final String findByMethodName;
+
+	/**
+	 * The qualified name of the test class (e.g. "de.retest.MySeleniumTest"). Note that the class can reside in a file
+	 * with a different name (e.g. "Tests.java"). But the file name alone as given by {@link #testFileName} does not
+	 * suffice as well, because a file with the same name could exist multiple times in different packages of the
+	 * project.
+	 */
+	@XmlAttribute
+	private final String qualifiedTestName;
+
 	@SuppressWarnings( "unused" )
 	private ElementIdentificationWarning() {
-		testClassName = null;
+		testFileName = null;
 		testLineNumber = null;
+		findByMethodName = null;
+		qualifiedTestName = null;
 	}
 }
