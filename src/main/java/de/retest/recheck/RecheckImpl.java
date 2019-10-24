@@ -11,6 +11,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.configuration.Configuration;
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
@@ -44,7 +45,7 @@ import de.retest.recheck.ui.diff.LeafDifference;
  */
 public class RecheckImpl implements Recheck, SutStateLoader {
 
-	private static final String PROJECT_DEFAULT = "src/test/resources/retest/";
+	private static final String PROJECT_DEFAULT = ".retest" + File.separator;
 	private static final String CONFIG_PATH = PROJECT_DEFAULT + Properties.RETEST_PROPERTIES_FILE_NAME;
 
 	private static final Logger logger = LoggerFactory.getLogger( RecheckImpl.class );
@@ -95,6 +96,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		if ( System.getProperty( Properties.CONFIG_FILE_PROPERTY ) == null ) {
 			System.setProperty( Properties.CONFIG_FILE_PROPERTY, CONFIG_PATH );
 		}
+		Configuration.setConfigFile( new File( CONFIG_PATH ) );
 	}
 
 	@Override
