@@ -16,10 +16,10 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.commons.io.IOUtils;
 
 import de.retest.recheck.ui.image.Screenshot;
-import de.retest.recheck.util.NamedBufferedInputStream;
-import de.retest.recheck.util.ReflectionUtilities;
 import de.retest.recheck.util.FileUtil.Reader;
 import de.retest.recheck.util.FileUtil.Writer;
+import de.retest.recheck.util.NamedBufferedInputStream;
+import de.retest.recheck.util.ReflectionUtilities;
 
 public class ScreenshotFolderPersistence {
 
@@ -40,7 +40,7 @@ public class ScreenshotFolderPersistence {
 		prepared = true;
 	}
 
-	private static String createFileName( final Screenshot screenshot ) {
+	protected static String createFileName( final Screenshot screenshot ) {
 		return screenshot.getPersistenceId() + "." + screenshot.getType().getFileExtension();
 	}
 

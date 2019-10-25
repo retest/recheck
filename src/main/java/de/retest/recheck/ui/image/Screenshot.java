@@ -32,13 +32,11 @@ public class Screenshot implements Serializable {
 	@XmlElement
 	private final String persistenceId;
 
-	/**
-	 * This should be final, too. When the corresponding setter is invoked, the persistence ID is <em>not</em> updated.
-	 * However, as we take care of this in our surrounding implementation, this shouldn't be an issue. Nonetheless, one
-	 * should note that this class is broken since it can be in a corrupt state.
-	 */
 	@XmlTransient
 	private byte[] binaryData;
+
+	@XmlTransient
+	private transient String sha256;
 
 	@XmlElement
 	private final ImageType type;
@@ -51,7 +49,7 @@ public class Screenshot implements Serializable {
 		type = null;
 	}
 
-	public Screenshot( final String prefix, final byte[] binaryData, final ImageType type ) {
+	public Screenshot( final String persistenceId, final byte[] binaryData, final ImageType type ) {
 		if ( binaryData == null ) {
 			throw new NullPointerException( "binaryData must not be null." );
 		}
@@ -60,7 +58,8 @@ public class Screenshot implements Serializable {
 		}
 		this.binaryData = binaryData;
 		this.type = type;
-		persistenceId = createPersistenceId( prefix, binaryData );
+		this.persistenceId = persistenceId;
+		ensureSha();
 	}
 
 	public byte[] getBinaryData() {
@@ -69,6 +68,8 @@ public class Screenshot implements Serializable {
 
 	public void setBinaryData( final byte[] binaryData ) {
 		this.binaryData = binaryData;
+		sha256 = null;
+		ensureSha();
 	}
 
 	public ImageType getType() {
@@ -79,29 +80,10 @@ public class Screenshot implements Serializable {
 		return persistenceId;
 	}
 
-	private static final String PERSISTENCE_ID_SEPARATOR = "_";
-
-	private static final String REGEX_PREFIX_EXTRACT =
-			PERSISTENCE_ID_SEPARATOR + "[0-9a-f]{" + ChecksumCalculator.LENGTH_OF_SHA256 + "}$";
-
-	public static String createPersistenceId( final String prefix, final byte[] binaryData ) {
-		if ( prefix.length() > ChecksumCalculator.LENGTH_OF_SHA256 ) {
-			throw new RuntimeException( "prefix (" + prefix + ") looks like a full persistenceId" );
-		}
-		return prefix + PERSISTENCE_ID_SEPARATOR + ChecksumCalculator.getInstance().sha256( binaryData );
-	}
-
-	public static String getPersistenceIdPrefix( final String persistenceId ) {
-		return persistenceId.replaceAll( REGEX_PREFIX_EXTRACT, "" );
-	}
-
-	public String getPersistenceIdPrefix() {
-		return getPersistenceIdPrefix( persistenceId );
-	}
-
 	@Override
 	public int hashCode() {
-		return type.hashCode() * 31 + persistenceId.hashCode();
+		ensureSha();
+		return type.hashCode() + (persistenceId.hashCode() * 31 + sha256.hashCode()) * 31;
 	}
 
 	@Override
@@ -119,12 +101,26 @@ public class Screenshot implements Serializable {
 		if ( type != other.type ) {
 			return false;
 		}
+		if ( !persistenceId.equals( other.persistenceId ) ) {
+			return false;
+		}
 
-		return persistenceId.equals( other.persistenceId );
+		// most expensive, should be last
+		ensureSha();
+		other.ensureSha();
+		return sha256.equals( other.sha256 );
+	}
+
+	private void ensureSha() {
+		if ( binaryData != null ) {
+			sha256 = ChecksumCalculator.getInstance().sha256( binaryData );
+		} else {
+			sha256 = "";
+		}
 	}
 
 	@Override
 	public String toString() {
-		return "Screenshot of " + getPersistenceIdPrefix();
+		return "Screenshot of " + persistenceId;
 	}
 }

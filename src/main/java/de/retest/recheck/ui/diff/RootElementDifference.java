@@ -131,7 +131,7 @@ public class RootElementDifference implements Difference {
 				final ImageDifferenceCalculator imgDiffCalc = (ImageDifferenceCalculator) clazz.newInstance();
 				final BufferedImage differenceImage =
 						imgDiffCalc.compare( expectedScreenshot, actualScreenshot ).getDifferenceImage();
-				return ImageUtils.image2Screenshot( expectedScreenshot.getPersistenceIdPrefix(), differenceImage );
+				return ImageUtils.image2Screenshot( expectedScreenshot.getPersistenceId(), differenceImage );
 			} catch ( final Exception e ) {
 				logger.error( "Exception creating difference image.", e );
 			}

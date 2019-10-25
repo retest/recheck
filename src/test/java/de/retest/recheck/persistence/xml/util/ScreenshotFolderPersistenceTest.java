@@ -41,12 +41,10 @@ class ScreenshotFolderPersistenceTest {
 
 		filledImageBytes = "testcontent1".getBytes();
 		filledScreenshot = new Screenshot( "testimage", filledImageBytes, ImageType.PNG );
-		filledImageFile = new File( screenshotFolder,
-				filledScreenshot.getPersistenceId() + "." + ImageType.PNG.getFileExtension() );
+		filledImageFile = new File( screenshotFolder, "testimage." + ImageType.PNG.getFileExtension() );
 
 		emptyScreenshot = new Screenshot( "emptyimage", new byte[0], ImageType.PNG );
-		emptyImageFile = new File( screenshotFolder,
-				emptyScreenshot.getPersistenceId() + "." + ImageType.PNG.getFileExtension() );
+		emptyImageFile = new File( screenshotFolder, "emptyimage." + ImageType.PNG.getFileExtension() );
 	}
 
 	@Test
@@ -75,6 +73,11 @@ class ScreenshotFolderPersistenceTest {
 	void save_works_with_existing_dir() throws Exception {
 		screenshotPersistence.getMarshallListener().afterMarshal( filledScreenshot );
 		assertThat( filledImageFile ).exists();
+	}
+
+	@Test
+	void screenshot_filename_should_not_contain_hash() {
+		assertThat( ScreenshotFolderPersistence.createFileName( filledScreenshot ) ).isEqualTo( "testimage.png" );
 	}
 
 	// TODO what if screenshot folder is a file?
