@@ -5,6 +5,7 @@ import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.PATH_ATTRIB
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -266,7 +267,19 @@ public class ElementTest {
 		final Element element = Element.create( "retestId", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" ),
 				new MutableAttributes().immutable() );
-		assertThat( element.getAttributeValue( PATH_ATTRIBUTE_KEY ) ).isNotNull();
+		assertThat( element.getAttributeValue( PATH_ATTRIBUTE_KEY ).toString() ).isEqualTo( "SomePath[0]" );
+	}
+
+	@Test
+	public void getAttributeValue_should_prefer_identifying_over_ordinary_attribute() {
+		final Collection<Attribute> identCrit = IdentifyingAttributes.createList( fromString( "html[1]/a[1]" ), "a" );
+		identCrit.add( new StringAttribute( "text", "my identifying text" ) );
+		final MutableAttributes attributes = new MutableAttributes();
+		attributes.put( "text", "my ordinary text" );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				new IdentifyingAttributes( identCrit ), attributes.immutable() );
+
+		assertThat( element.getAttributeValue( "text" ) ).isEqualTo( "my identifying text" );
 	}
 
 	@Test
