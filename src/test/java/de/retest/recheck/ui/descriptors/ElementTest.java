@@ -1,9 +1,11 @@
 package de.retest.recheck.ui.descriptors;
 
 import static de.retest.recheck.ui.Path.fromString;
+import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.PATH_ATTRIBUTE_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -258,6 +260,43 @@ public class ElementTest {
 
 		assertThat( e0 ).isNotEqualTo( e1 );
 		assertThat( e0.hashCode() ).isNotEqualTo( e1.hashCode() );
+	}
+
+	@Test
+	public void getAttributeValue_should_return_IdentifyingAttribute_if_present() {
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" ),
+				new MutableAttributes().immutable() );
+		assertThat( element.getAttributeValue( PATH_ATTRIBUTE_KEY ).toString() ).isEqualTo( "SomePath[0]" );
+	}
+
+	@Test
+	public void getAttributeValue_should_prefer_identifying_over_ordinary_attribute() {
+		final Collection<Attribute> identCrit = IdentifyingAttributes.createList( fromString( "html[1]/a[1]" ), "a" );
+		identCrit.add( new StringAttribute( "text", "my identifying text" ) );
+		final MutableAttributes attributes = new MutableAttributes();
+		attributes.put( "text", "my ordinary text" );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				new IdentifyingAttributes( identCrit ), attributes.immutable() );
+
+		assertThat( element.getAttributeValue( "text" ) ).isEqualTo( "my identifying text" );
+	}
+
+	@Test
+	public void getAttributeValue_should_return_Attribute_if_present() {
+		final MutableAttributes attributes = new MutableAttributes();
+		attributes.put( "key", "value" );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" ), attributes.immutable() );
+		assertThat( element.getAttributeValue( "key" ) ).isEqualTo( "value" );
+	}
+
+	@Test
+	public void getAttributeValue_should_return_null_if_not_present() {
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" ),
+				new MutableAttributes().immutable() );
+		assertThat( element.getAttributeValue( "key" ) ).isNull();
 	}
 
 	// Copy & paste from ElementBuilder due to cyclic dependency.

@@ -213,6 +213,25 @@ public class Element implements Serializable, Comparable<Element> {
 		return attributes;
 	}
 
+	/**
+	 * Returns the value of the given attribute, whether this is an identifying attribute or not.
+	 *
+	 * @return The {@link java.io.Serializable} value of the attribute.
+	 */
+	public Object getAttributeValue( final String attributeName ) {
+		final Attribute identifyingAttribute = getIdentifyingAttributes().getAttribute( attributeName );
+		if ( identifyingAttribute != null ) {
+			return identifyingAttribute.getValue();
+		}
+
+		final Object ordinaryAttribute = getAttributes().get( attributeName );
+		if ( ordinaryAttribute != null ) {
+			return ordinaryAttribute;
+		}
+
+		return null;
+	}
+
 	public String getRetestId() {
 		return retestId;
 	}
