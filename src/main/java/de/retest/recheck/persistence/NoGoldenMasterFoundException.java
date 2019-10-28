@@ -1,17 +1,21 @@
 package de.retest.recheck.persistence;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class NoGoldenMasterFoundException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String filename;
+	private final List<String> filenames;
 
-	public NoGoldenMasterFoundException( final String filename ) {
-		super( "No Golden Master with the name '" + filename + "' has been found!" );
-		this.filename = filename;
+	public NoGoldenMasterFoundException( final String... filenames ) {
+		super( "No Golden Master with the following name(s) has/have been found: " + Arrays.toString( filenames ) );
+		this.filenames = Arrays.asList( filenames );
 	}
 
-	public String getFilename() {
-		return filename;
+	public List<String> getFilenames() {
+		return Collections.unmodifiableList( filenames );
 	}
 }
