@@ -125,7 +125,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 			if ( isNullOrEmptyString( expected ) ) {
 				return;
 			}
-		} else if ( expected != null && fromAttribute.toString().equals( expected.toString() ) ) {
+		} else if ( expected != null && fromAttribute.equals( expected ) ) {
 			return;
 		}
 		logger.warn(
