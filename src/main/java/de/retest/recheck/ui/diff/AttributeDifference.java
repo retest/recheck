@@ -129,7 +129,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 			return;
 		}
 		logger.warn(
-				"Mismatch for attribute '{}': value from ExecSuite '{}', value from TestResult '{}'. This could be due to a change of the execsuite in between.",
+				"Mismatch for attribute '{}': value from Golden Master '{}', value from test report '{}'. This could be due to a change in between.",
 				key, fromAttribute, expected );
 	}
 

@@ -40,9 +40,8 @@ class AttributeDifferenceTest {
 
 		cut.warnIfAttributesDontMatch( fromAttribute );
 
-		final String log = "Mismatch for attribute '" + key + "': value from ExecSuite '" + fromAttribute + "', "
-				+ "value from TestResult '" + expected
-				+ "'. This could be due to a change of the execsuite in between.";
+		final String log = "Mismatch for attribute '" + key + "': value from Golden Master '" + fromAttribute + "', "
+				+ "value from test report '" + expected + "'. This could be due to a change in between.";
 
 		logs.assertContains( log );
 	}
