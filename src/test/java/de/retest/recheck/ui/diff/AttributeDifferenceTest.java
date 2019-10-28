@@ -3,8 +3,13 @@ package de.retest.recheck.ui.diff;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import io.github.netmikey.logunit.api.LogCapturer;
 
@@ -27,14 +32,48 @@ class AttributeDifferenceTest {
 		assertThat( cut.compareTo( cut ) ).isEqualTo( 0 );
 	}
 
-	@Test
-	void warn_if_attributes_dont_match_logs_correct_string() throws Exception {
-		final AttributeDifference cut = new AttributeDifference( null, "something", null );
-		cut.warnIfAttributesDontMatch( "somethingElse" );
+	@ParameterizedTest
+	@MethodSource( "warnArgs" )
+	void should_warn_if_attributes_dont_match( final String expected, final String fromAttribute ) throws Exception {
+		final String key = "key";
+		final AttributeDifference cut = new AttributeDifference( key, expected, null );
 
-		final String expected = "Mismatch for attribute 'null': value from ExecSuite 'somethingElse', "
-				+ "value from TestResult 'something'. This could be due to a change of the execsuite in between.";
+		cut.warnIfAttributesDontMatch( fromAttribute );
 
-		logs.assertContains( expected );
+		final String log = "Mismatch for attribute '" + key + "': value from ExecSuite '" + fromAttribute + "', "
+				+ "value from TestResult '" + expected
+				+ "'. This could be due to a change of the execsuite in between.";
+
+		logs.assertContains( log );
+	}
+
+	static Stream<Arguments> warnArgs() {
+		return Stream.of( //
+				Arguments.of( "something", null ), //
+				Arguments.of( "something", "" ), //
+				Arguments.of( null, "somethingElse" ), //
+				Arguments.of( "", "somethingElse" ), //
+				Arguments.of( "something", "somethingElse" ) );
+	}
+
+	@ParameterizedTest
+	@MethodSource( "dontWarnArgs" )
+	void should_not_warn_if_attributes_are_null_or_empty_or_match( final String expected, final String fromAttribute )
+			throws Exception {
+		final String key = "key";
+		final AttributeDifference cut = new AttributeDifference( key, expected, null );
+
+		cut.warnIfAttributesDontMatch( fromAttribute );
+
+		assertThat( logs.getEvents() ).isEmpty();
+	}
+
+	static Stream<Arguments> dontWarnArgs() {
+		return Stream.of( //
+				Arguments.of( null, null ), //
+				Arguments.of( "", null ), //
+				Arguments.of( null, "" ), //
+				Arguments.of( "", "" ), //
+				Arguments.of( "unchanged", "unchanged" ) );
 	}
 }
