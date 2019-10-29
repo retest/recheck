@@ -98,11 +98,11 @@ public class CreateChangesetForAllDiffrencesFlowTest {
 
 		assertThatThrownBy( () -> ApplyChangesToStatesFlow.apply( persistence, changesWhitoutStateFilePath ) ) //
 				.isInstanceOf( NoGoldenMasterFoundException.class ) //
-				.hasMessage( "No Golden Master file(s) with the following name(s) found: \nnull" );
+				.hasMessage( "No Golden Master file(s) with the following name(s) found:\n\tnull" );
 
 		assertThatThrownBy( () -> ApplyChangesToStatesFlow.apply( persistence, changesWhitoutAnything ) ) //
 				.isInstanceOf( NoGoldenMasterFoundException.class ) //
-				.hasMessage( "No Golden Master file(s) with the following name(s) found: \nnull" );
+				.hasMessage( "No Golden Master file(s) with the following name(s) found:\n\tnull" );
 
 	}
 }
