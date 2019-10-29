@@ -11,6 +11,8 @@ import de.retest.recheck.util.NamedBufferedInputStream;
 
 public class XmlPersistenceUtil {
 
+	private XmlPersistenceUtil() {}
+
 	static <T extends Persistable> ReTestXmlDataContainer<T> migrateAndRead( final XmlTransformer xml,
 			final NamedBufferedInputStream inputStream, final Listener unmarshallListener ) throws IOException {
 		NamedBufferedInputStream bin = inputStream;
