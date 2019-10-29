@@ -22,6 +22,7 @@ public class ApplyChangesToStatesFlow {
 	private static final Logger logger = LoggerFactory.getLogger( ApplyChangesToStatesFlow.class );
 
 	private final GoldenMasterProvider goldenMasterProvider;
+	private final List<String> missingGoldenMastersFilenames = new ArrayList<>();
 
 	public static List<String> apply( final Persistence<SutState> persistence, final SuiteChangeSet acceptedChanges )
 			throws NoGoldenMasterFoundException {
@@ -37,10 +38,13 @@ public class ApplyChangesToStatesFlow {
 		for ( final TestChangeSet testChangeSet : acceptedChanges.getTestChangeSets() ) {
 			updatedFiles.addAll( apply( testChangeSet ) );
 		}
+		if ( !missingGoldenMastersFilenames.isEmpty() ) {
+			throw new NoGoldenMasterFoundException( missingGoldenMastersFilenames.stream().toArray( String[]::new ) );
+		}
 		return updatedFiles;
 	}
 
-	private List<String> apply( final TestChangeSet testChangeSet ) throws NoGoldenMasterFoundException {
+	private List<String> apply( final TestChangeSet testChangeSet ) {
 		if ( testChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
@@ -56,18 +60,23 @@ public class ApplyChangesToStatesFlow {
 		return updatedFiles;
 	}
 
-	private List<String> apply( final ActionChangeSet actionChangeSet ) throws NoGoldenMasterFoundException {
+	private List<String> apply( final ActionChangeSet actionChangeSet ) {
 		if ( actionChangeSet.isEmpty() ) {
 			return Collections.emptyList();
 		}
-		final File file = goldenMasterProvider.getGoldenMaster( actionChangeSet.getGoldenMasterPath() );
-		final SutState oldState = goldenMasterProvider.loadGoldenMaster( file );
-		final SutState newState = oldState.applyChanges( actionChangeSet );
-		if ( newState.equals( oldState ) ) {
-			logger.debug( "SutState {} did not change after applying changes, so not persisting it...", oldState );
+		try {
+			final File file = goldenMasterProvider.getGoldenMaster( actionChangeSet.getGoldenMasterPath() );
+			final SutState oldState = goldenMasterProvider.loadGoldenMaster( file );
+			final SutState newState = oldState.applyChanges( actionChangeSet );
+			if ( newState.equals( oldState ) ) {
+				logger.debug( "SutState {} did not change after applying changes, so not persisting it...", oldState );
+				return Collections.emptyList();
+			}
+			goldenMasterProvider.saveGoldenMaster( file, newState );
+			return Collections.singletonList( actionChangeSet.getDescription() );
+		} catch ( final NoGoldenMasterFoundException e ) {
+			missingGoldenMastersFilenames.addAll( e.getFilenames() );
 			return Collections.emptyList();
 		}
-		goldenMasterProvider.saveGoldenMaster( file, newState );
-		return Collections.singletonList( actionChangeSet.getDescription() );
 	}
 }
