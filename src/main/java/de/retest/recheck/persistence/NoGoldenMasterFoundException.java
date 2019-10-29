@@ -3,6 +3,7 @@ package de.retest.recheck.persistence;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NoGoldenMasterFoundException extends Exception {
 
@@ -11,7 +12,8 @@ public class NoGoldenMasterFoundException extends Exception {
 	private final List<String> filenames;
 
 	public NoGoldenMasterFoundException( final String... filenames ) {
-		super( "No Golden Master with the following name(s) has/have been found: " + Arrays.toString( filenames ) );
+		super( "No Golden Master file(s) with the following name(s) found: \n"
+				+ Arrays.asList( filenames ).stream().collect( Collectors.joining( "\n" ) ) );
 		this.filenames = Arrays.asList( filenames );
 	}
 

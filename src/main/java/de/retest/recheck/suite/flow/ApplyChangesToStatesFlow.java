@@ -22,7 +22,7 @@ public class ApplyChangesToStatesFlow {
 	private static final Logger logger = LoggerFactory.getLogger( ApplyChangesToStatesFlow.class );
 
 	private final GoldenMasterProvider goldenMasterProvider;
-	private final List<String> filenames = new ArrayList<>();
+	private final List<String> missingGoldenMastersFilenames = new ArrayList<>();
 
 	public static List<String> apply( final Persistence<SutState> persistence, final SuiteChangeSet acceptedChanges )
 			throws NoGoldenMasterFoundException {
@@ -38,9 +38,9 @@ public class ApplyChangesToStatesFlow {
 		for ( final TestChangeSet testChangeSet : acceptedChanges.getTestChangeSets() ) {
 			updatedFiles.addAll( apply( testChangeSet ) );
 		}
-		if ( !filenames.isEmpty() ) {
+		if ( !missingGoldenMastersFilenames.isEmpty() ) {
 			throw new NoGoldenMasterFoundException(
-					filenames.toArray( new String[filenames.size()] ) );
+					missingGoldenMastersFilenames.toArray( new String[missingGoldenMastersFilenames.size()] ) );
 		}
 		return updatedFiles;
 	}
@@ -76,7 +76,7 @@ public class ApplyChangesToStatesFlow {
 			goldenMasterProvider.saveGoldenMaster( file, newState );
 			return Collections.singletonList( actionChangeSet.getDescription() );
 		} catch ( final NoGoldenMasterFoundException e ) {
-			filenames.addAll( e.getFilenames() );
+			missingGoldenMastersFilenames.addAll( e.getFilenames() );
 			return Collections.emptyList();
 		}
 	}
