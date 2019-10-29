@@ -39,8 +39,7 @@ public class ApplyChangesToStatesFlow {
 			updatedFiles.addAll( apply( testChangeSet ) );
 		}
 		if ( !missingGoldenMastersFilenames.isEmpty() ) {
-			throw new NoGoldenMasterFoundException(
-					missingGoldenMastersFilenames.toArray( new String[missingGoldenMastersFilenames.size()] ) );
+			throw new NoGoldenMasterFoundException( missingGoldenMastersFilenames.stream().toArray( String[]::new ) );
 		}
 		return updatedFiles;
 	}
