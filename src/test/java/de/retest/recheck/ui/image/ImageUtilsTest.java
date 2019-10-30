@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.Icon;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -230,5 +231,14 @@ public class ImageUtilsTest {
 		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "", newImage ), new File( "result.png" ) );
 		assertThat( newImage.getWidth() ).isEqualTo( width );
 		assertThat( newImage.getHeight() ).isEqualTo( height );
+	}
+
+	@Test
+	public void extract_scale_should_return_value_related_on_os() {
+		if ( !SystemUtils.IS_OS_MAC ) {
+			assertThat( ImageUtils.extractScale() ).isEqualTo( 1 );
+		} else {
+			assertThat( ImageUtils.extractScale() ).isEqualTo( 2 );
+		}
 	}
 }
