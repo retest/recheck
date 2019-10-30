@@ -351,10 +351,14 @@ public class ImageUtils {
 	}
 
 	public static int extractScale() {
-		final int defaultScale = 1;
-		if ( !GraphicsEnvironment.isHeadless() && SystemUtils.IS_OS_MAC ) {
-			final GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			final GraphicsDevice device = environment.getDefaultScreenDevice();
+		if ( GraphicsEnvironment.isHeadless() ) {
+			return 1;
+		}
+		if ( !SystemUtils.IS_OS_MAC ) {
+			return 1;
+		}
+		final GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if ( SystemUtils.IS_JAVA_1_8 ) {
 			try {
 				final Field scale = device.getClass().getDeclaredField( "scale" );
 				if ( scale != null ) {
@@ -364,8 +368,14 @@ public class ImageUtils {
 			} catch ( final Exception e ) {
 				logger.error( "Unable to get the scale from the graphic environment", e );
 			}
+		} else {
+			try {
+				return (int) device.getDefaultConfiguration().getDefaultTransform().getScaleX();
+			} catch ( final Exception e ) {
+				logger.error( "Unable to get the scale from default configuration", e );
+			}
 		}
-		return defaultScale;
+		return 1;
 	}
 
 }
