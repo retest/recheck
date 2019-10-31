@@ -105,9 +105,9 @@ public class ApplyChangesToStatesFlowTest {
 
 		assertThatThrownBy( () -> ApplyChangesToStatesFlow.apply( persistence, acceptedChanges ) ) //
 				.isInstanceOf( NoGoldenMasterFoundException.class ) //
-				.hasMessage( "No Golden Master file(s) with the following name(s) found:" //
-						+ "\n\tcheck_GUI_with_review_license.launch1.recheck" //
-						+ "\n\tcheck_GUI_with_review_license.launch3.recheck" );
+				.hasMessage( "The following Golden Master(s) cannot be found:\n" //
+						+ "\t- check_GUI_with_review_license.launch1.recheck\n"//
+						+ "\t- check_GUI_with_review_license.launch3.recheck" );
 
 		final SutState after2 = persistence.load( temporaryFile2.toURI() );
 		final Element changed2 = after2.getRootElements().get( 0 ).getContainedElements().get( 0 )
