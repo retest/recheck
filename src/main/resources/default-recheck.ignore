@@ -17,3 +17,9 @@
 
 # More details and examples can be found here:
 # https://docs.retest.de/recheck/how-ignore-works/
+
+
+# these are sensible defaults
+# delete if they don't apply
+attribute=absolute-outline
+matcher: type=input, attribute-regex: border-.*-color
