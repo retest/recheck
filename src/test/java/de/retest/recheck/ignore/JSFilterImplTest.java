@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Rectangle;
-import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -17,7 +17,7 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 class JSFilterImplTest {
 
-	Path ctorArg = new File( "unused" ).toPath();
+	Path ctorArg = Paths.get( "nonExistentFilterFile" );
 
 	@Test
 	void no_matches_function_should_not_cause_exception() {
