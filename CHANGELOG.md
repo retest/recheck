@@ -27,6 +27,21 @@ Table of Contents
 
 ### Bug Fixes
 
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+
+[1.6.0]
+--------------------
+
+### Breaking Changes
+
+### Bug Fixes
+
 * Do not parse the CSS attribute `box-shadow` for the filter `pixel-diff`.
 * Update screenshots always instead of never.
 * Matching elements now properly ignores child elements for identifying attributes other than XPath.
