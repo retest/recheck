@@ -178,12 +178,17 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return RecheckSutState.createNew( file, actual );
 	}
 
-	@Override
-	public void capTest() {
+	protected TestReplayResult capTestSilently() {
 		suite.addTest( currentTestResult );
 		final TestReportFilter testReportFilter = new TestReportFilter( options.getFilter() );
 		final TestReplayResult filteredTestResult = testReportFilter.filter( currentTestResult );
 		currentTestResult = null;
+		return filteredTestResult;
+	}
+
+	@Override
+	public void capTest() {
+		final TestReplayResult filteredTestResult = capTestSilently();
 		final Set<LeafDifference> uniqueDifferences = filteredTestResult.getDifferences();
 		if ( !uniqueDifferences.isEmpty() ) {
 			logger.warn( "Found {} not ignored difference(s) in test '{}'.", uniqueDifferences.size(),
