@@ -6,8 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -28,7 +26,6 @@ public class JSFilterImpl implements Filter {
 
 	private final String filePath;
 	private final ScriptEngine engine;
-	private final Set<String> errorFunctions = new HashSet<>();
 
 	public JSFilterImpl( final Path filterFilePath ) {
 		filePath = filterFilePath.toString();
@@ -71,7 +68,7 @@ public class JSFilterImpl implements Filter {
 	}
 
 	private boolean callBooleanJSFunction( final String functionName, final Object... args ) {
-		if ( engine == null || errorFunctions.contains( functionName ) ) {
+		if ( engine == null ) {
 			return false;
 		}
 		final Invocable inv = (Invocable) engine;
@@ -84,18 +81,15 @@ public class JSFilterImpl implements Filter {
 				return false;
 			}
 			if ( !(callResult instanceof Boolean) ) {
-				errorFunctions.add( functionName );
 				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean in file {}.", callResult,
 						callResult.getClass(), filePath );
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
-			errorFunctions.add( functionName );
 			logger.error( "JS '{}' method caused an exception: {} in file {}.", functionName, e.getMessage(),
 					filePath );
 		} catch ( final NoSuchMethodException e ) {
 			if ( !functionName.startsWith( "shouldIgnore" ) ) {
-				errorFunctions.add( functionName );
 				logger.warn( "Specified JS filter file {} has no '{}' function.", filePath, functionName );
 			}
 		}
