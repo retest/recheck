@@ -130,8 +130,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	protected ActionReplayResult createActionReplayResult( final Object toVerify, final RecheckAdapter adapter,
 			final String currentStep ) {
-		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
-		usedFinders.put( currentStep, defaultFinder );
+		final DefaultValueFinder defaultFinder = getFinder( adapter, currentStep );
 
 		final File file = getGoldenMasterFile( currentStep );
 
@@ -142,13 +141,19 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			return new NoGoldenMasterActionReplayResult( currentStep, actual, file.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
-				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
+				new RecheckDifferenceFinder( defaultFinder, currentStep, file.getPath() );
 
 		final ActionReplayResult actionReplayResult = finder.findDifferences( actual, expected );
 		if ( actionReplayResult.hasDifferences() ) {
 			adapter.notifyAboutDifferences( actionReplayResult );
 		}
 		return actionReplayResult;
+	}
+
+	protected DefaultValueFinder getFinder( final RecheckAdapter adapter, final String currentStep ) {
+		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
+		usedFinders.put( currentStep, defaultFinder );
+		return defaultFinder;
 	}
 
 	File getGoldenMasterFile( final String currentStep ) {
