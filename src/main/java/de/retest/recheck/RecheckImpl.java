@@ -156,7 +156,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return defaultFinder;
 	}
 
-	File getGoldenMasterFile( final String currentStep ) {
+	protected File getGoldenMasterFile( final String currentStep ) {
 		// This is the legacy impl ... remove at some point
 		if ( options.getFileNamerStrategy() != null ) {
 			final String name =
