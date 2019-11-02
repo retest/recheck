@@ -1,7 +1,6 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Rectangle;
 import java.io.Reader;
@@ -116,7 +115,7 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void matches_return_non_boolean_should_throw_exc() {
+	void matches_return_non_boolean_should_not_throw_exc() {
 		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
@@ -127,8 +126,7 @@ class JSFilterImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThrows( ClassCastException.class,
-				() -> cut.matches( element, new AttributeDifference( "outline", "580", "578" ) ) );
+		assertThat( cut.matches( element, new AttributeDifference( "outline", "580", "578" ) ) ).isFalse();
 	}
 
 	@Test
