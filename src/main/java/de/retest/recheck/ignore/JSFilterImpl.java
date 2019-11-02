@@ -44,14 +44,14 @@ public class JSFilterImpl implements Filter {
 		}
 	}
 
-	Reader readScriptFile( final Path ignoreFilePath ) {
+	Reader readScriptFile( final Path filterFilePath ) {
 		try {
-			logger.info( "Reading JS filter rules file from {}.", ignoreFilePath );
-			return Files.newBufferedReader( ignoreFilePath, StandardCharsets.UTF_8 );
+			logger.info( "Reading JS filter rules file from {}.", filterFilePath );
+			return Files.newBufferedReader( filterFilePath, StandardCharsets.UTF_8 );
 		} catch ( final NoSuchFileException e ) {
-			logger.warn( "No JS filter file found at '{}': ", ignoreFilePath, e.getMessage() );
+			logger.warn( "No JS filter file found at '{}': ", filterFilePath, e.getMessage() );
 		} catch ( final Exception e ) {
-			logger.error( "Error opening JS file from '{}': ", ignoreFilePath, e );
+			logger.error( "Error opening JS file from '{}': ", filterFilePath, e );
 		}
 		return new StringReader( "" );
 	}
