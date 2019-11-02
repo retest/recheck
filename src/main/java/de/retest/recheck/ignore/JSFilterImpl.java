@@ -83,6 +83,7 @@ public class JSFilterImpl implements Filter {
 			if ( !(callResult instanceof Boolean) ) {
 				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean in file {}.", callResult,
 						callResult.getClass(), filePath );
+				return false;
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
