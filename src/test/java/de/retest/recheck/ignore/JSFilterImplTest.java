@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Rectangle;
+import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Path;
@@ -16,9 +17,11 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 class JSFilterImplTest {
 
+	Path ctorArg = new File( "unused" ).toPath();
+
 	@Test
 	void no_matches_function_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "" );
@@ -29,7 +32,7 @@ class JSFilterImplTest {
 
 	@Test
 	void invalid_matches_function_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "asdasd.asd.asd();" );
@@ -40,14 +43,14 @@ class JSFilterImplTest {
 
 	@Test
 	void nonexistent_file_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 		};
 		cut.matches( Mockito.mock( Element.class ) );
 	}
 
 	@Test
 	void matches_should_be_called() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "function matches(element) { return true; }" );
@@ -58,7 +61,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_should_be_called_with_element_param() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -75,7 +78,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_example_implementation() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -99,7 +102,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_return_null_should_be_false() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -114,7 +117,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_return_non_boolean_should_throw_exc() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -130,7 +133,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_filter_URL_example_implementation() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
