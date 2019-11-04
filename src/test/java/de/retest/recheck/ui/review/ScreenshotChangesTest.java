@@ -66,4 +66,11 @@ class ScreenshotChangesTest {
 	void actual_should_not_produce_null_pointer_with_null_screenshots() throws Exception {
 		assertThatCode( () -> ScreenshotChanges.actual( actionWithDifferences ) ).doesNotThrowAnyException();
 	}
+
+	@Test
+	void actual_should_not_throw_if_difference_is_null() throws Exception {
+		final ActionReplayResult actionWithoutDifferences = mock( ActionReplayResult.class );
+
+		assertThatCode( () -> ScreenshotChanges.actual( actionWithoutDifferences ) ).doesNotThrowAnyException();
+	}
 }
