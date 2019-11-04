@@ -50,6 +50,8 @@ public class ImageUtils {
 	private static final int MAX_SCREENSHOT_WIDTH =
 			Integer.getInteger( MAX_SCREENSHOT_WIDTH_PROP, MAX_SCREENSHOT_WIDTH_DEFAULT );
 
+	private static final int DEFAULT_SCALE = 1;
+
 	public static BufferedImage screenshot2Image( final Screenshot input ) {
 		if ( input == null || input.getBinaryData() == null ) {
 			return null;
@@ -351,10 +353,16 @@ public class ImageUtils {
 	}
 
 	public static int extractScale() {
-		final int defaultScale = 1;
-		if ( !GraphicsEnvironment.isHeadless() && SystemUtils.IS_OS_MAC ) {
-			final GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			final GraphicsDevice device = environment.getDefaultScreenDevice();
+		if ( GraphicsEnvironment.isHeadless() ) {
+			return DEFAULT_SCALE;
+		}
+
+		if ( !SystemUtils.IS_OS_MAC ) {
+			return DEFAULT_SCALE;
+		}
+
+		final GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		if ( SystemUtils.IS_JAVA_1_8 ) {
 			try {
 				final Field scale = device.getClass().getDeclaredField( "scale" );
 				if ( scale != null ) {
@@ -362,10 +370,17 @@ public class ImageUtils {
 					return (Integer) scale.get( device );
 				}
 			} catch ( final Exception e ) {
-				logger.error( "Unable to get the scale from the graphic environment", e );
+				logger.error( "Unable to get the scale from the graphic environment.", e );
+			}
+		} else {
+			try {
+				return (int) device.getDefaultConfiguration().getDefaultTransform().getScaleX();
+			} catch ( final Exception e ) {
+				logger.error( "Unable to get the scale from default configuration.", e );
 			}
 		}
-		return defaultScale;
+
+		return DEFAULT_SCALE;
 	}
 
 }
