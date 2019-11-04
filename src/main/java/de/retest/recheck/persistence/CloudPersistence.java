@@ -3,9 +3,9 @@ package de.retest.recheck.persistence;
 import static de.retest.recheck.XmlTransformerUtil.getXmlTransformer;
 import static org.apache.commons.lang3.StringUtils.abbreviate;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,7 +70,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 
 		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
 				.header( "x-amz-meta-report-name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
-				.field( "upload", new File( metadata.getLocation() ) ) //
+				.body( Files.readAllBytes( Paths.get( metadata.getLocation() ) ) ) //
 				.asEmpty();
 
 		if ( uploadResponse.isSuccess() ) {
