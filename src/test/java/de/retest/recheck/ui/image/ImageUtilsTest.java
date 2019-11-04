@@ -235,10 +235,9 @@ public class ImageUtilsTest {
 
 	@Test
 	public void extract_scale_should_return_value_related_on_os() {
-		if ( !SystemUtils.IS_OS_MAC ) {
-			assertThat( ImageUtils.extractScale() ).isEqualTo( 1 );
-		} else {
-			assertThat( ImageUtils.extractScale() ).isEqualTo( 2 );
-		}
+		final int actualScale = ImageUtils.extractScale();
+		// Note this is only 2 if on Retina (i.e. not external display).
+		final int expectedScale = SystemUtils.IS_OS_MAC ? 2 : 1;
+		assertThat( actualScale ).isEqualTo( expectedScale );
 	}
 }
