@@ -19,7 +19,7 @@ import de.retest.recheck.ui.image.Screenshot;
 
 class ScreenshotChangesTest {
 
-	ActionReplayResult actionReplayResult;
+	ActionReplayResult actionWithDifferences;
 
 	Screenshot screenshot;
 
@@ -50,13 +50,13 @@ class ScreenshotChangesTest {
 		when( stateDifference.getRootElementDifferences() )
 				.thenReturn( Arrays.asList( rootElementWithScreenshot, rootElementWithoutScreenshot ) );
 
-		actionReplayResult = mock( ActionReplayResult.class );
-		when( actionReplayResult.getStateDifference() ).thenReturn( stateDifference );
+		actionWithDifferences = mock( ActionReplayResult.class );
+		when( actionWithDifferences.getStateDifference() ).thenReturn( stateDifference );
 	}
 
 	@Test
 	void actual_should_properly_lookup_element_screenshots() throws Exception {
-		final ScreenshotChanges cut = ScreenshotChanges.actual( actionReplayResult );
+		final ScreenshotChanges cut = ScreenshotChanges.actual( actionWithDifferences );
 
 		assertThat( cut.getScreenshot( identifyingForPresentScreenshot ) ).isEqualTo( screenshot );
 		assertThat( cut.getScreenshot( identifyingForMissingScreenshot ) ).isNull();
@@ -64,6 +64,6 @@ class ScreenshotChangesTest {
 
 	@Test
 	void actual_should_not_produce_null_pointer_with_null_screenshots() throws Exception {
-		assertThatCode( () -> ScreenshotChanges.actual( actionReplayResult ) ).doesNotThrowAnyException();
+		assertThatCode( () -> ScreenshotChanges.actual( actionWithDifferences ) ).doesNotThrowAnyException();
 	}
 }
