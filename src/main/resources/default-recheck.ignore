@@ -23,3 +23,4 @@
 # delete if they don't apply
 attribute=absolute-outline
 matcher: type=input, attribute-regex: border-.*-color
+pixel-diff=5
