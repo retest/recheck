@@ -16,7 +16,7 @@
 # attribute-regex=data-.*
 
 # More details and examples can be found here:
-# https://docs.retest.de/recheck/how-ignore-works/
+# https://docs.retest.de/recheck/usage/filter/
 
 
 # these are sensible defaults
