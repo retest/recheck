@@ -9,6 +9,7 @@ import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
+import de.retest.recheck.ui.diff.StateDifference;
 import de.retest.recheck.ui.image.Screenshot;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,11 @@ public class ScreenshotChanges {
 	}
 
 	public static ScreenshotChanges actual( final ActionReplayResult result ) {
-		return new ScreenshotChanges( result.getStateDifference().getRootElementDifferences().stream() //
+		final StateDifference stateDifference = result.getStateDifference();
+		if ( stateDifference == null ) {
+			return EMPTY_SCREENSHOTS;
+		}
+		return new ScreenshotChanges( stateDifference.getRootElementDifferences().stream() //
 				.filter( actualScreenshotNotNull() ) //
 				.map( RootElementDifference::getElementDifference ) //
 				.collect( Collectors.toMap( ElementDifference::getIdentifyingAttributes,
