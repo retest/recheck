@@ -57,6 +57,7 @@ Table of Contents
 
 * `RecheckImpl` can now be initialized as a member variable without additional parameters if inside a test class.
 * The screenshot does now have a fixed filename. This makes it much easier to work with VCS.
+* Add sensible default values to the recheck.ignore file that is installed. This will only be created with new project.
 
 
 --------------------------------------------------------------------------------
