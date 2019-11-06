@@ -9,7 +9,7 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeFilter;
 import de.retest.recheck.review.ignore.ElementFilter;
-import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
@@ -37,7 +37,7 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
-		add( new ElementAttributeFilter( new ElementXPathMatcher( element ), difference.getKey() ) );
+		add( new ElementAttributeFilter( new ElementRetestIdMatcher( element ), difference.getKey() ) );
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -50,7 +50,7 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void ignoreElement( final Element element ) {
-		add( new ElementFilter( new ElementXPathMatcher( element ) ) );
+		add( new ElementFilter( new ElementRetestIdMatcher( element ) ) );
 	}
 
 	public void unignoreElement( final Element element ) {
