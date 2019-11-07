@@ -1,8 +1,3 @@
----
-name: Custom
-about: Create a custom pull request.
----
-
 *Before submission, please check that ...*
 
 - [ ] the code follows the [Clean Code](https://clean-code-developer.com/) guidelines.
