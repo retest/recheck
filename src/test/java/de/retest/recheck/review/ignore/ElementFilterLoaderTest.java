@@ -60,4 +60,10 @@ class ElementFilterLoaderTest {
 		final String line = "matcher: id=abc";
 		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
+
+	@Test
+	void load_with_invalid_matcher_should_not_load_parent() throws Exception {
+		final String line = "matcher: foo=bar";
+		assertThat( cut.load( line ) ).isNotPresent();
+	}
 }

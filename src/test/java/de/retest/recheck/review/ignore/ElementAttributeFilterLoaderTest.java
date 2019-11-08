@@ -35,4 +35,10 @@ class ElementAttributeFilterLoaderTest {
 		final String line = "matcher: retestid=abc, attribute: 123";
 		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
+
+	@Test
+	void load_with_invalid_matcher_should_not_load_parent() throws Exception {
+		final String line = "matcher: foo=bar, attribute: 123";
+		assertThat( cut.load( line ) ).isNotPresent();
+	}
 }

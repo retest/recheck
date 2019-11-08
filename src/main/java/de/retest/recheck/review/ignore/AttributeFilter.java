@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -48,7 +49,7 @@ public class AttributeFilter implements Filter {
 		}
 
 		@Override
-		protected AttributeFilter load( final MatchResult regex ) {
+		protected Optional<AttributeFilter> load( final MatchResult regex ) {
 			final String attribute = regex.group( 1 );
 			if ( attribute.contains( POSSIBLE_REGEX ) ) {
 				final String actualLine = KEY + attribute;
@@ -56,7 +57,7 @@ public class AttributeFilter implements Filter {
 				log.warn( "'{}' contains '{}'. For regular expressions, please use '{}'.", actualLine, POSSIBLE_REGEX,
 						suggestedLine );
 			}
-			return new AttributeFilter( attribute );
+			return Optional.of( new AttributeFilter( attribute ) );
 		}
 	}
 }

@@ -19,10 +19,10 @@ public abstract class RegexLoader<T> implements Loader<T> {
 		if ( !matcher.matches() ) {
 			return Optional.empty();
 		}
-		return Optional.of( load( matcher.toMatchResult() ) );
+		return load( matcher.toMatchResult() );
 	}
 
-	protected abstract T load( final MatchResult matcher );
+	protected abstract Optional<T> load( final MatchResult matcher );
 
 	@Override
 	public String save( final T ignore ) {

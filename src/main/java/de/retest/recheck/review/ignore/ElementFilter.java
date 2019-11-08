@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -44,9 +45,10 @@ public class ElementFilter implements Filter {
 		}
 
 		@Override
-		protected ElementFilter load( final MatchResult regex ) {
-			final Matcher<Element> matcher = Loaders.elementMatcher().load( regex.group( 1 ) ).get();
-			return new ElementFilter( matcher );
+		protected Optional<ElementFilter> load( final MatchResult regex ) {
+			final String matcher = regex.group( 1 );
+			return Loaders.elementMatcher().load( matcher ) //
+					.map( ElementFilter::new );
 		}
 	}
 }

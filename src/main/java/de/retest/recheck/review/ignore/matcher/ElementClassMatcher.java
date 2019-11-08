@@ -3,6 +3,7 @@ package de.retest.recheck.review.ignore.matcher;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -51,9 +52,9 @@ public class ElementClassMatcher implements Matcher<Element> {
 		}
 
 		@Override
-		protected ElementClassMatcher load( final MatchResult matcher ) {
+		protected Optional<ElementClassMatcher> load( final MatchResult matcher ) {
 			final String classValue = matcher.group( 1 );
-			return new ElementClassMatcher( toClassValuesList( classValue ) );
+			return Optional.of( new ElementClassMatcher( toClassValuesList( classValue ) ) );
 		}
 	}
 

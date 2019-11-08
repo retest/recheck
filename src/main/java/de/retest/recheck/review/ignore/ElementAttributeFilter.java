@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -48,10 +49,11 @@ public class ElementAttributeFilter implements Filter {
 		}
 
 		@Override
-		protected ElementAttributeFilter load( final MatchResult regex ) {
-			final Matcher<Element> matcher = Loaders.elementMatcher().load( regex.group( 1 ) ).get();
+		protected Optional<ElementAttributeFilter> load( final MatchResult regex ) {
+			final String matcher = regex.group( 1 );
 			final String key = regex.group( 2 );
-			return new ElementAttributeFilter( matcher, key );
+			return Loaders.elementMatcher().load( matcher ) //
+					.map( match -> new ElementAttributeFilter( match, key ) );
 		}
 	}
 }
