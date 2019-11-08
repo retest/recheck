@@ -1,14 +1,11 @@
 package de.retest.recheck.review.ignore.io;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ignore.CacheFilter;
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
@@ -35,64 +32,42 @@ import de.retest.recheck.review.ignore.matcher.ElementTypeMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementTypeMatcher.ElementTypeMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher.ElementXpathMatcherLoader;
+import de.retest.recheck.review.ignore.matcher.Matcher;
+import de.retest.recheck.ui.descriptors.Element;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class Loaders {
 
-	private static final List<Pair<Class<?>, Loader<?>>> registeredLoaders = registerLoaders();
+	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
+			Pair.of( ElementAttributeFilter.class, new ElementAttributeFilterLoader() ), //
+			Pair.of( ElementAttributeRegexFilter.class, new ElementAttributeRegexFilterLoader() ), //
+			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
+			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
+			Pair.of( ElementFilter.class, new ElementFilterLoader() ), //
+			Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
+			Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ), //
+			Pair.of( CacheFilter.class, new CacheFilter.FilterLoader() ), //
+			Pair.of( JSFilterImpl.class, new JSFilterLoader() ), //
 
-	private Loaders() {}
+			// This is error handling and should always be last
+			Pair.of( Filter.class, new ErrorHandlingLoader() ) // 
+	) );
 
-	private static List<Pair<Class<?>, Loader<?>>> registerLoaders() {
-		final List<Pair<Class<?>, Loader<?>>> pairs = new ArrayList<>();
-		pairs.add( Pair.of( ElementClassMatcher.class, new ElementClassMatcherLoader() ) );
-		pairs.add( Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ) );
-		pairs.add( Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ) );
-		pairs.add( Pair.of( ElementXPathMatcher.class, new ElementXpathMatcherLoader() ) );
-		pairs.add( Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ) );
-		pairs.add( Pair.of( ElementAttributeFilter.class, new ElementAttributeFilterLoader() ) );
-		pairs.add( Pair.of( ElementAttributeRegexFilter.class, new ElementAttributeRegexFilterLoader() ) );
-		pairs.add( Pair.of( AttributeFilter.class, new AttributeFilterLoader() ) );
-		pairs.add( Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ) );
-		pairs.add( Pair.of( ElementFilter.class, new ElementFilterLoader() ) );
-		pairs.add( Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ) );
-		pairs.add( Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ) );
-		pairs.add( Pair.of( CacheFilter.class, new CacheFilter.FilterLoader() ) );
-		pairs.add( Pair.of( JSFilterImpl.class, new JSFilterLoader() ) );
-
-		// This is error handling and should always be last
-		pairs.add( Pair.of( FilterPreserveLine.class, new ErrorHandlingLoader() ) );
-		return pairs;
+	public static Loader<Filter> filter() {
+		return Loaders.filter;
 	}
 
-	public static <T> Loader<T> get( final Class<? extends T> clazz ) {
-		return (Loader<T>) registeredLoaders.stream() //
-				.filter( pair -> clazz.isAssignableFrom( pair.getLeft() ) ) //
-				.findFirst() //
-				.map( Pair::getRight ) //
-				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + clazz ) );
-	}
+	private static final Loader<Matcher<Element>> elementMatcher = new InheritanceLoader<>( Arrays.asList( //
+			Pair.of( ElementClassMatcher.class, new ElementClassMatcherLoader() ), //
+			Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ), //
+			Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ), //
+			Pair.of( ElementXPathMatcher.class, new ElementXpathMatcherLoader() ), //
+			Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ) //
+	) );
 
-	public static Stream<String> save( final Stream<?> objects ) {
-		return objects.map( Loaders::save );
-	}
-
-	public static <T> String save( final T object ) {
-		final Loader<T> loader = (Loader<T>) get( object.getClass() );
-		return loader.save( object );
-	}
-
-	public static Stream<?> load( final Stream<String> lines ) {
-		return lines.map( Loaders::load ).filter( Objects::nonNull );
-	}
-
-	public static <T> T load( final String line ) {
-		return (T) registeredLoaders.stream() //
-				.map( Pair::getRight ) //
-				.map( pair -> pair.load( line ) ) //
-				.filter( Optional::isPresent ) //
-				.parallel() //
-				.findFirst() //
-				.map( Optional::get ) //
-				.orElse( null );
+	public static Loader<Matcher<Element>> elementMatcher() {
+		return Loaders.elementMatcher;
 	}
 }

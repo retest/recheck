@@ -49,9 +49,9 @@ public class ElementAttributeRegexFilter implements Filter {
 
 		@Override
 		protected ElementAttributeRegexFilter load( final MatchResult regex ) {
-			final String matcher = regex.group( 1 );
+			final Matcher<Element> matcher = Loaders.elementMatcher().load( regex.group( 1 ) ).get();
 			final String key = regex.group( 2 );
-			return new ElementAttributeRegexFilter( Loaders.load( matcher ), key );
+			return new ElementAttributeRegexFilter( matcher, key );
 		}
 	}
 }

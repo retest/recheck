@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.CacheFilter;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.RecheckIgnoreUtil;
 import de.retest.recheck.review.GlobalIgnoreApplier;
@@ -38,9 +37,7 @@ public class LoadFilterWorker {
 		final Optional<Path> ignoreFile = getIgnoreFile();
 		final Stream<String> ignoreFileLines = Files.lines(
 				ignoreFile.orElseThrow( () -> new NoSuchFileException( "No '" + RECHECK_IGNORE + "' found." ) ) );
-		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.load( ignoreFileLines ) //
-				.filter( Filter.class::isInstance ) //
-				.map( Filter.class::cast ) //
+		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( ignoreFileLines ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
@@ -55,7 +52,8 @@ public class LoadFilterWorker {
 	}
 
 	private Optional<Path> getIgnoreRuleFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE_JSRULES ) : RecheckIgnoreUtil.getIgnoreRuleFile();
+		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE_JSRULES )
+				: RecheckIgnoreUtil.getIgnoreRuleFile();
 	}
 
 	private Optional<Path> resolveAndCheckFile( final String ignoreFilename ) {

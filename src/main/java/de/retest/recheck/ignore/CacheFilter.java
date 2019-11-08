@@ -50,7 +50,7 @@ public class CacheFilter implements Filter {
 
 		@Override
 		public String save( final CacheFilter ignore ) {
-			return Loaders.save( ignore.base );
+			return Loaders.filter().save( ignore.base );
 		}
 	}
 }

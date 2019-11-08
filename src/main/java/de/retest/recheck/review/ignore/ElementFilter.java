@@ -45,8 +45,8 @@ public class ElementFilter implements Filter {
 
 		@Override
 		protected ElementFilter load( final MatchResult regex ) {
-			final String matcher = regex.group( 1 );
-			return new ElementFilter( Loaders.load( matcher ) );
+			final Matcher<Element> matcher = Loaders.elementMatcher().load( regex.group( 1 ) ).get();
+			return new ElementFilter( matcher );
 		}
 	}
 }
