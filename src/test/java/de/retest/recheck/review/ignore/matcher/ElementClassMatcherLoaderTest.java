@@ -32,7 +32,7 @@ class ElementClassMatcherLoaderTest {
 	@Test
 	void load_should_produce_correct_ignore_for_single_class_value() {
 		final String line = toLine( classValue );
-		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
+		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
 
 	@Test
@@ -45,7 +45,7 @@ class ElementClassMatcherLoaderTest {
 	@Test
 	void load_should_produce_correct_ignore_for_multiple_class_values() {
 		final String line = toLine( "one two" );
-		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
+		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
 
 	private String toLine( final String classValue ) {

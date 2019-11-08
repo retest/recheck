@@ -3,6 +3,7 @@ package de.retest.recheck.review.ignore.io;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -71,14 +72,6 @@ public class Loaders {
 				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + clazz ) );
 	}
 
-	public static <T> Loader<T> get( final String line ) {
-		return (Loader<T>) registeredLoaders.stream() //
-				.filter( pair -> pair.getRight().canLoad( line ) ) //
-				.findFirst() //
-				.map( Pair::getRight ) //
-				.orElseThrow( () -> new UnsupportedOperationException( "No loader registered for " + line ) );
-	}
-
 	public static Stream<String> save( final Stream<?> objects ) {
 		return objects.map( Loaders::save );
 	}
@@ -92,12 +85,14 @@ public class Loaders {
 		return lines.map( Loaders::load ).filter( Objects::nonNull );
 	}
 
-	private static <T> T load( final String line ) {
+	public static <T> T load( final String line ) {
 		return (T) registeredLoaders.stream() //
 				.map( Pair::getRight ) //
-				.filter( loader -> loader.canLoad( line ) ) //
+				.map( pair -> pair.load( line ) ) //
+				.filter( Optional::isPresent ) //
+				.parallel() //
 				.findFirst() //
-				.map( loader -> loader.load( line ) ) //
+				.map( Optional::get ) //
 				.orElse( null );
 	}
 }

@@ -1,11 +1,10 @@
 package de.retest.recheck.review.ignore.io;
 
+import java.util.Optional;
+
 public interface Loader<T> {
 
-	boolean canLoad( final String line );
-
-	T load( String line );
+	Optional<T> load( String line );
 
 	String save( T ignore );
-
 }

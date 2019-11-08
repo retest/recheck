@@ -1,5 +1,7 @@
 package de.retest.recheck.review.ignore.io;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,12 +12,7 @@ public final class ErrorHandlingLoader implements Loader<FilterPreserveLine> {
 	private static final Logger logger = LoggerFactory.getLogger( ErrorHandlingLoader.class );
 
 	@Override
-	public boolean canLoad( final String line ) {
-		return true;
-	}
-
-	@Override
-	public FilterPreserveLine load( final String line ) {
+	public Optional<FilterPreserveLine> load( final String line ) {
 		if ( line.startsWith( "attribute:" ) ) {
 			logger.error(
 					"For ignoring an attribute globally, please use 'attribute=' (to ensure weired line breaks do not break your ignore file)." );
@@ -24,7 +21,7 @@ public final class ErrorHandlingLoader implements Loader<FilterPreserveLine> {
 					"No loader defined for line '{}'. Read more at https://docs.retest.de/recheck/how-ignore-works/",
 					line );
 		}
-		return new FilterPreserveLine( line );
+		return Optional.of( new FilterPreserveLine( line ) );
 	}
 
 	@Override

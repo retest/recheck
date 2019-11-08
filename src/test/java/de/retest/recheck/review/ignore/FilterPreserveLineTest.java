@@ -18,7 +18,7 @@ public class FilterPreserveLineTest {
 	public void should_load_comments() throws Exception {
 		final String comment = FilterPreserveLine.COMMENT + " some comment";
 		final Loader<FilterPreserveLine> cut = new FilterPreserveLineLoader();
-		assertThat( cut.canLoad( comment ) ).isTrue();
+		assertThat( cut.load( comment ) ).isPresent();
 	}
 
 	@Test
@@ -28,17 +28,17 @@ public class FilterPreserveLineTest {
 		final String whitespace2 = "\n";
 		final String whitespace3 = "\t";
 		final Loader<FilterPreserveLine> cut = new FilterPreserveLineLoader();
-		assertThat( cut.canLoad( whitespace0 ) ).isTrue();
-		assertThat( cut.canLoad( whitespace1 ) ).isTrue();
-		assertThat( cut.canLoad( whitespace2 ) ).isTrue();
-		assertThat( cut.canLoad( whitespace3 ) ).isTrue();
+		assertThat( cut.load( whitespace0 ) ).isPresent();
+		assertThat( cut.load( whitespace1 ) ).isPresent();
+		assertThat( cut.load( whitespace2 ) ).isPresent();
+		assertThat( cut.load( whitespace3 ) ).isPresent();
 	}
 
 	@Test
 	public void should_load_leading_whitespace_and_warn() throws Exception {
 		final String line = " foo bar baz";
 		final Loader<FilterPreserveLine> cut = new FilterPreserveLineLoader();
-		assertThat( cut.canLoad( line ) ).isTrue();
+		assertThat( cut.load( line ) ).isPresent();
 		assertThat( systemOut.getLog() )
 				.contains( "Please remove leading whitespace from the following line:\n" + line );
 	}

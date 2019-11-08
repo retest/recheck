@@ -33,6 +33,6 @@ class ElementAttributeFilterLoaderTest {
 	@Test
 	void load_should_produce_correct_ignore() {
 		final String line = "matcher: retestid=abc, attribute: 123";
-		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
+		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
 }

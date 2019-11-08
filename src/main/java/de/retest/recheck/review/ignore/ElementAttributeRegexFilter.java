@@ -4,7 +4,6 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.review.ignore.io.Loaders;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.review.ignore.matcher.Matcher;
@@ -51,9 +50,8 @@ public class ElementAttributeRegexFilter implements Filter {
 		@Override
 		protected ElementAttributeRegexFilter load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
-			final Loader<Matcher> loader = Loaders.get( matcher );
 			final String key = regex.group( 2 );
-			return new ElementAttributeRegexFilter( loader.load( matcher ), key );
+			return new ElementAttributeRegexFilter( Loaders.load( matcher ), key );
 		}
 	}
 }

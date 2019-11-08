@@ -2,6 +2,7 @@ package de.retest.recheck.ignore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -43,13 +44,8 @@ public class CacheFilter implements Filter {
 	public static class FilterLoader implements Loader<CacheFilter> {
 
 		@Override
-		public boolean canLoad( final String line ) {
-			return false;
-		}
-
-		@Override
-		public CacheFilter load( final String line ) {
-			return null;
+		public Optional<CacheFilter> load( final String line ) {
+			return Optional.empty();
 		}
 
 		@Override
