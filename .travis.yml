@@ -9,8 +9,7 @@ git:
 addons:
   sonarcloud:
     organization: retest
-    token:
-      secure: "${SONAR_CLOUD_TOKEN}"
+    token: "${SONAR_CLOUD_TOKEN}"
 
 notifications:
   email: false
