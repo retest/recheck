@@ -130,8 +130,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	protected ActionReplayResult createActionReplayResult( final Object toVerify, final RecheckAdapter adapter,
 			final String currentStep ) {
-		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
-		usedFinders.put( currentStep, defaultFinder );
+		final DefaultValueFinder defaultFinder = getFinder( adapter, currentStep );
 
 		final File file = getGoldenMasterFile( currentStep );
 
@@ -142,7 +141,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			return new NoGoldenMasterActionReplayResult( currentStep, actual, file.getPath() );
 		}
 		final RecheckDifferenceFinder finder =
-				new RecheckDifferenceFinder( adapter.getDefaultValueFinder(), currentStep, file.getPath() );
+				new RecheckDifferenceFinder( defaultFinder, currentStep, file.getPath() );
 
 		final ActionReplayResult actionReplayResult = finder.findDifferences( actual, expected );
 		if ( actionReplayResult.hasDifferences() ) {
@@ -151,7 +150,13 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return actionReplayResult;
 	}
 
-	File getGoldenMasterFile( final String currentStep ) {
+	protected DefaultValueFinder getFinder( final RecheckAdapter adapter, final String currentStep ) {
+		final DefaultValueFinder defaultFinder = adapter.getDefaultValueFinder();
+		usedFinders.put( currentStep, defaultFinder );
+		return defaultFinder;
+	}
+
+	protected File getGoldenMasterFile( final String currentStep ) {
 		// This is the legacy impl ... remove at some point
 		if ( options.getFileNamerStrategy() != null ) {
 			final String name =
@@ -173,12 +178,17 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		return RecheckSutState.createNew( file, actual );
 	}
 
-	@Override
-	public void capTest() {
+	protected TestReplayResult capTestSilently() {
 		suite.addTest( currentTestResult );
 		final TestReportFilter testReportFilter = new TestReportFilter( options.getFilter() );
 		final TestReplayResult filteredTestResult = testReportFilter.filter( currentTestResult );
 		currentTestResult = null;
+		return filteredTestResult;
+	}
+
+	@Override
+	public void capTest() {
+		final TestReplayResult filteredTestResult = capTestSilently();
 		final Set<LeafDifference> uniqueDifferences = filteredTestResult.getDifferences();
 		if ( !uniqueDifferences.isEmpty() ) {
 			logger.warn( "Found {} not ignored difference(s) in test '{}'.", uniqueDifferences.size(),
