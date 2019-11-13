@@ -12,12 +12,12 @@ class PixelDiffFilterLoaderTest {
 	void should_not_load_non_integer_and_non_double() throws Exception {
 		final PixelDiffFilterLoader cut = new PixelDiffFilterLoader();
 
-		assertThat( cut.canLoad( "foo=bar" ) ).isFalse();
-		assertThat( cut.canLoad( "pixel-diff=baz" ) ).isFalse();
-		assertThat( cut.canLoad( "pixel-diff=-5" ) ).isFalse();
-		assertThat( cut.canLoad( "pixel-diff=5." ) ).isFalse();
-		assertThat( cut.canLoad( "pixel-diff=5.0." ) ).isFalse();
-		assertThat( cut.canLoad( "pixel-diff=5,0" ) ).isFalse();
+		assertThat( cut.load( "foo=bar" ) ).isNotPresent();
+		assertThat( cut.load( "pixel-diff=baz" ) ).isNotPresent();
+		assertThat( cut.load( "pixel-diff=-5" ) ).isNotPresent();
+		assertThat( cut.load( "pixel-diff=5." ) ).isNotPresent();
+		assertThat( cut.load( "pixel-diff=5.0." ) ).isNotPresent();
+		assertThat( cut.load( "pixel-diff=5,0" ) ).isNotPresent();
 	}
 
 	@Test
@@ -25,14 +25,14 @@ class PixelDiffFilterLoaderTest {
 		final PixelDiffFilterLoader cut = new PixelDiffFilterLoader();
 
 		final String intDiff = "pixel-diff=5";
-		assertThat( cut.canLoad( intDiff ) ).isTrue();
-		final PixelDiffFilter loadedIntDiff = cut.load( intDiff );
+		assertThat( cut.load( intDiff ) ).isPresent();
+		final PixelDiffFilter loadedIntDiff = cut.load( intDiff ).get();
 		assertThat( loadedIntDiff.isSpecifiedAsDouble() ).isFalse();
 		assertThat( loadedIntDiff.getPixelDiff() ).isEqualTo( 5.0 );
 
 		final String doubleDiff = "pixel-diff=5.0";
-		assertThat( cut.canLoad( doubleDiff ) ).isTrue();
-		final PixelDiffFilter loadedDoubleDiff = cut.load( doubleDiff );
+		assertThat( cut.load( doubleDiff ) ).isPresent();
+		final PixelDiffFilter loadedDoubleDiff = cut.load( doubleDiff ).get();
 		assertThat( loadedDoubleDiff.isSpecifiedAsDouble() ).isTrue();
 		assertThat( loadedDoubleDiff.getPixelDiff() ).isEqualTo( 5.0 );
 	}

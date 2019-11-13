@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore.matcher;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,7 @@ public class ElementRetestIdMatcher implements Matcher<Element> {
 	}
 
 	private ElementRetestIdMatcher( final String id ) {
-		this.retestid = id;
+		retestid = id;
 	}
 
 	@Override
@@ -40,9 +41,9 @@ public class ElementRetestIdMatcher implements Matcher<Element> {
 		}
 
 		@Override
-		protected ElementRetestIdMatcher load( final MatchResult matcher ) {
+		protected Optional<ElementRetestIdMatcher> load( final MatchResult matcher ) {
 			final String id = matcher.group( 1 );
-			return new ElementRetestIdMatcher( id );
+			return Optional.of( new ElementRetestIdMatcher( id ) );
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -43,9 +44,9 @@ public class AttributeRegexFilter implements Filter {
 		}
 
 		@Override
-		protected AttributeRegexFilter load( final MatchResult regex ) {
+		protected Optional<AttributeRegexFilter> load( final MatchResult regex ) {
 			final String attributeRegex = regex.group( 1 );
-			return new AttributeRegexFilter( attributeRegex );
+			return Optional.of( new AttributeRegexFilter( attributeRegex ) );
 		}
 	}
 }

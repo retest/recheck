@@ -11,7 +11,7 @@ import de.retest.recheck.review.ignore.io.Loaders;
 
 public class Filters {
 
-	private Filters() {};
+	private Filters() {}
 
 	public static Filter load( final Path path ) throws IOException {
 		try ( final Stream<String> filterFileLines = Files.lines( path ) ) {
@@ -28,9 +28,7 @@ public class Filters {
 	}
 
 	public static Filter parse( final Stream<String> lines ) {
-		return Loaders.load( lines ) //
-				.filter( Filter.class::isInstance ) //
-				.map( Filter.class::cast ) //
+		return Loaders.filter().load( lines ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
 	}
 }

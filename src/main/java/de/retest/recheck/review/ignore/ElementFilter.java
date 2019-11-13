@@ -1,10 +1,10 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.review.ignore.io.Loaders;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.review.ignore.matcher.Matcher;
@@ -45,10 +45,10 @@ public class ElementFilter implements Filter {
 		}
 
 		@Override
-		protected ElementFilter load( final MatchResult regex ) {
+		protected Optional<ElementFilter> load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
-			final Loader<Matcher> loader = Loaders.get( matcher );
-			return new ElementFilter( loader.load( matcher ) );
+			return Loaders.elementMatcher().load( matcher ) //
+					.map( ElementFilter::new );
 		}
 	}
 }

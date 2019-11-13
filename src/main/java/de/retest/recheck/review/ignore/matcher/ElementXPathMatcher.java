@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore.matcher;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -40,9 +41,9 @@ public class ElementXPathMatcher implements Matcher<Element> {
 		}
 
 		@Override
-		protected ElementXPathMatcher load( final MatchResult matcher ) {
+		protected Optional<ElementXPathMatcher> load( final MatchResult matcher ) {
 			final String xpath = matcher.group( 1 );
-			return new ElementXPathMatcher( xpath );
+			return Optional.of( new ElementXPathMatcher( xpath ) );
 		}
 	}
 }

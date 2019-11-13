@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -114,11 +115,11 @@ public class PixelDiffFilter implements Filter {
 		}
 
 		@Override
-		protected PixelDiffFilter load( final MatchResult regex ) {
+		protected Optional<PixelDiffFilter> load( final MatchResult regex ) {
 			final String value = regex.group( 1 );
 			final boolean specifiedAsDouble = value.contains( "." );
 			final double pixelDiff = Double.parseDouble( value );
-			return new PixelDiffFilter( specifiedAsDouble, pixelDiff );
+			return Optional.of( new PixelDiffFilter( specifiedAsDouble, pixelDiff ) );
 		}
 	}
 }

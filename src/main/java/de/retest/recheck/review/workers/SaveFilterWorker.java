@@ -31,7 +31,7 @@ public class SaveFilterWorker {
 		final Stream<Filter> filters = persist.getIgnores().stream() //
 				.map( this::extractCachedFilter ) //
 				.filter( filter -> !(filter instanceof JSFilterImpl) );
-		final Stream<String> save = Loaders.save( filters );
+		final Stream<String> save = Loaders.filter().save( filters );
 
 		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(
 				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) ) ) ) {

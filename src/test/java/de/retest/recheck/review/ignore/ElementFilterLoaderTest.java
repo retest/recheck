@@ -35,7 +35,7 @@ class ElementFilterLoaderTest {
 	@Test
 	void ignore_element_by_tag_should_work() {
 		cut = new ElementFilterLoader();
-		final ElementFilter filter = cut.load( "matcher: type=meta" );
+		final ElementFilter filter = cut.load( "matcher: type=meta" ).get();
 
 		final IdentifyingAttributes attributes = mock( IdentifyingAttributes.class );
 		when( attributes.get( "type" ) ).thenReturn( "meta" );
@@ -58,6 +58,12 @@ class ElementFilterLoaderTest {
 	@Test
 	void load_should_produce_correct_ignore() {
 		final String line = "matcher: id=abc";
-		assertThat( cut.save( cut.load( line ) ) ).isEqualTo( line );
+		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
+	}
+
+	@Test
+	void load_with_invalid_matcher_should_not_load_parent() throws Exception {
+		final String line = "matcher: foo=bar";
+		assertThat( cut.load( line ) ).isNotPresent();
 	}
 }

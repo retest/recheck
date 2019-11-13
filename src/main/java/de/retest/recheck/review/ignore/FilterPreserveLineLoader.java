@@ -1,5 +1,7 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 
 import de.retest.recheck.ignore.Filter;
@@ -28,8 +30,7 @@ public class FilterPreserveLineLoader implements Loader<FilterPreserveLine> {
 		}
 
 		@Override
-		public boolean matches( final Element element,
-				final AttributeDifference attributeDifference ) {
+		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 			return false;
 		}
 
@@ -40,8 +41,7 @@ public class FilterPreserveLineLoader implements Loader<FilterPreserveLine> {
 
 	}
 
-	@Override
-	public boolean canLoad( final String line ) {
+	private boolean canLoad( final String line ) {
 		final boolean comment = line.startsWith( FilterPreserveLine.COMMENT );
 		if ( comment ) {
 			return true;
@@ -62,8 +62,11 @@ public class FilterPreserveLineLoader implements Loader<FilterPreserveLine> {
 	}
 
 	@Override
-	public FilterPreserveLine load( final String line ) {
-		return new FilterPreserveLine( line );
+	public Optional<FilterPreserveLine> load( final String line ) {
+		if ( canLoad( line ) ) {
+			return Optional.of( new FilterPreserveLine( line ) );
+		}
+		return Optional.empty();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package de.retest.recheck.review.ignore.matcher;
 
+import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
@@ -42,9 +43,9 @@ public class ElementIdMatcher implements Matcher<Element> {
 		}
 
 		@Override
-		protected ElementIdMatcher load( final MatchResult matcher ) {
+		protected Optional<ElementIdMatcher> load( final MatchResult matcher ) {
 			final String id = matcher.group( 1 );
-			return new ElementIdMatcher( id );
+			return Optional.of( new ElementIdMatcher( id ) );
 		}
 	}
 }
