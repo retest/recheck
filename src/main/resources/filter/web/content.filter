@@ -1,4 +1,6 @@
 # Filter file for recheck that will filter content
 
 attribute=text
-matcher: type=img, attribute=src
+matcher: type=img, attribute: src
+matcher: type=img, attribute: alt
+matcher: type=input, attribute: placeholder
