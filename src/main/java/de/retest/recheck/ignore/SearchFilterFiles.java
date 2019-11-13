@@ -31,6 +31,7 @@ public class SearchFilterFiles {
 
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
+	public static final String JS_EXTENSION = ".js";
 	public static final String FILTER_DIR_NAME = "filter";
 	public static final String WEB_FILTER_DIR_PATH = FILTER_DIR_NAME + "/web";
 
