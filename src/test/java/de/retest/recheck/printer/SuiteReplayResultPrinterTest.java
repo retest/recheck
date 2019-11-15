@@ -23,6 +23,6 @@ class SuiteReplayResultPrinterTest {
 				new SuiteReplayResult( "suite", 0, mock( GroundState.class ), "uuid", mock( GroundState.class ) );
 		replayResult.addTest( emptyTestResult );
 
-		assertThat( cut.toString( replayResult ) ).isEmpty();
+		assertThat( cut.toString( replayResult ) ).isEqualTo( "Suite 'suite' has 0 difference(s) in 1 test(s):\n" );
 	}
 }
