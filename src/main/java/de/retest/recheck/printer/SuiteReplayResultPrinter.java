@@ -14,6 +14,17 @@ public class SuiteReplayResultPrinter implements Printer<SuiteReplayResult> {
 
 	@Override
 	public String toString( final SuiteReplayResult difference, final String indent ) {
+		return indent + createDescription( difference ) + "\n" + createDifferences( difference, indent + "\t" );
+	}
+
+	private String createDescription( final SuiteReplayResult difference ) {
+		final String name = difference.getName();
+		final int differences = difference.getDifferencesCount();
+		final int states = difference.getTestReplayResults().size();
+		return String.format( "Suite '%s' has %d difference(s) in %d test(s):", name, differences, states );
+	}
+
+	private String createDifferences( final SuiteReplayResult difference, final String indent ) {
 		return difference.getTestReplayResults().stream() //
 				.filter( testReplayResult -> !testReplayResult.isEmpty() ) //
 				.map( d -> delegate.toString( d, indent ) ) //
