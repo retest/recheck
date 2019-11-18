@@ -68,7 +68,7 @@ class JSFilterImplTest {
 								+ "if (element != null) {" //
 								+ "  return true;" //
 								+ "} " //
-								+ "return false;" //
+								+ "  return false;" //
 								+ "}" );
 			}
 		};
