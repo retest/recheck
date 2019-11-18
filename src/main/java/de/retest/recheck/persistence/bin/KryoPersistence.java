@@ -13,8 +13,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.objenesis.strategy.StdInstantiatorStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.Registration;
@@ -28,14 +26,14 @@ import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.VersionProvider;
+import lombok.extern.slf4j.Slf4j;
 import net.jpountz.lz4.LZ4FrameInputStream;
 import net.jpountz.lz4.LZ4FrameOutputStream;
 
+@Slf4j
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 	private static final String OLD_RECHECK_VERSION = "an old recheck version (pre 1.5.0)";
-
-	private static final Logger logger = LoggerFactory.getLogger( KryoPersistence.class );
 
 	private final Kryo kryo;
 	private final String version;
@@ -77,13 +75,12 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		FileUtil.ensureFolder( path.toFile() );
 		try ( final Output output = new Output( new LZ4FrameOutputStream( newOutputStream( path ) ) ) ) {
 			output.writeString( version );
-			logger.debug( "Writing {} to {}. Do not write to same identifier or interrupt until done.", element,
+			log.debug( "Writing {} to {}. Do not write to same identifier or interrupt until done.", element,
 					identifier );
 			kryo.writeClassAndObject( output, element );
-			logger.debug( "Done writing {} to {}", element, identifier );
+			log.debug( "Done writing {} to {}", element, identifier );
 		} catch ( final Throwable t ) {
-			logger.error(
-					"Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
+			log.error( "Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
 					identifier, t );
 			FileUtils.deleteQuietly( file );
 			throw t;
