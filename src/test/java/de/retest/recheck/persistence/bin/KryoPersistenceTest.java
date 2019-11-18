@@ -22,6 +22,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
+import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.util.VersionProvider;
 
@@ -91,5 +92,27 @@ class KryoPersistenceTest {
 		assertThatThrownBy( () -> persistence.save( nonexistent.toURI(), createDummyTest() ) )
 				.isInstanceOf( KryoException.class );
 		assertThat( nonexistent ).doesNotExist();
+	}
+
+	@Test
+	void isCompatible_should_be_compatible_with_equal_or_higher_value() throws Exception {
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThat( cut.isCompatible( TestReport.class, TestReport.PERSISTENCE_VERSION ) ).isTrue();
+		assertThat( cut.isCompatible( TestReport.class, TestReport.PERSISTENCE_VERSION + 1 ) ).isTrue();
+	}
+
+	@Test
+	void isCompatible_should_incompatible_with_lower_value() throws Exception {
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThat( cut.isCompatible( TestReport.class, TestReport.PERSISTENCE_VERSION - 1 ) ).isFalse();
+	}
+
+	@Test
+	void isCompatible_should_compatible_with_not_present_value() throws Exception {
+		final KryoPersistence<Persistable> cut = new KryoPersistence<>();
+
+		assertThat( cut.isCompatible( Persistable.class, 1 ) ).isTrue();
 	}
 }

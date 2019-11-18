@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +26,7 @@ import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
+import de.retest.recheck.report.TestReport;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.VersionProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,17 @@ import net.jpountz.lz4.LZ4FrameOutputStream;
 public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 	private static final String OLD_RECHECK_VERSION = "an old recheck version (pre 1.5.0)";
+
+	private static final Map<Class<?>, Integer> compatibleVersions = createCompatibleVersions();
+
+	private static Map<Class<?>, Integer> createCompatibleVersions() {
+		final Map<Class<?>, Integer> map = new HashMap<>();
+
+		// Specify the class and lowest readable version here
+		map.put( TestReport.class, TestReport.PERSISTENCE_VERSION );
+
+		return map;
+	}
 
 	private final Kryo kryo;
 	private final String version;
@@ -94,7 +108,13 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		String writerVersion = null;
 		try ( final Input input = new Input( new LZ4FrameInputStream( newInputStream( path ) ) ) ) {
 			writerVersion = input.readString();
-			return (T) kryo.readClassAndObject( input );
+			final T persistable = (T) kryo.readClassAndObject( input );
+			if ( !isCompatible( persistable ) ) {
+				throw new IncompatibleReportVersionException( writerVersion, version, identifier );
+			}
+			return persistable;
+		} catch ( final IncompatibleReportVersionException e ) {
+			throw e;
 		} catch ( final Exception e ) {
 			if ( version.equals( writerVersion ) ) {
 				throw e;
@@ -104,6 +124,16 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
+	}
+
+	private boolean isCompatible( final T persistable ) {
+		return isCompatible( persistable.getClass(), persistable.version() );
+	}
+
+	// For testing only
+	boolean isCompatible( final Class<? extends Persistable> clazz, final int version ) {
+		final Integer minVersion = compatibleVersions.get( clazz );
+		return minVersion == null || minVersion <= version;
 	}
 
 	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$]+" );
