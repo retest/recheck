@@ -152,4 +152,22 @@ class JSFilterImplTest {
 				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
 				"url(\"http://icullen-website-public-spring4-8:8080/some-other-URL.png\")" ) ) ).isFalse();
 	}
+
+	@Test
+	void calling_erroneous_method_twice_with_different_args_should_actually_call_method() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( //
+						"function matches(element) { " //
+								+ "if (element != null) {" //
+								+ "  return true;" //
+								+ "}" //
+								+ "throw 42;" //
+								+ "}" );
+			}
+		};
+		cut.matches( null );
+		assertThat( cut.matches( Mockito.mock( Element.class ) ) ).isTrue();
+	}
 }
