@@ -10,6 +10,10 @@ public class ReTestLoadException extends ReTestIOException {
 		super( location, throwable );
 	}
 
+	public ReTestLoadException( final URI location, final String details ) {
+		super( location, details );
+	}
+
 	public ReTestLoadException( final URI location, final String details, final Throwable throwable ) {
 		super( location, details, throwable );
 	}
