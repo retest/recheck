@@ -69,6 +69,17 @@ class KryoPersistenceTest {
 	}
 
 	@Test
+	void load_should_not_be_able_to_load_1_6_0_report_version() throws Exception {
+		final Path report = Paths.get( getClass().getResource( "1.6.0.report" ).toURI() );
+
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThatThrownBy( () -> cut.load( report.toUri() ) ) //
+				.isInstanceOf( IncompatibleReportVersionException.class ) //
+				.hasMessageContaining( "Incompatible recheck versions: report was written with 1.6.0" );
+	}
+
+	@Test
 	void unknown_version_should_give_correct_error() throws IOException {
 		final Path file = Paths.get( "src/test/resources/de/retest/recheck/persistence/bin/old.report" );
 		final URI identifier = file.toUri();
