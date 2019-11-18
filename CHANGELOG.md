@@ -32,6 +32,8 @@ Table of Contents
 ### Improvements
 
 * Change the default element identification mechanism within the `recheck.ignore` file (i.e. when using CLI or GUI) from XPath to retestId.
+* Display suite description for test report printing so that tests now can properly be identified with their parent suite.
+
 
 --------------------------------------------------------------------------------
 
