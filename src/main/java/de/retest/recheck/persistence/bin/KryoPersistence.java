@@ -81,12 +81,12 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 					identifier );
 			kryo.writeClassAndObject( output, element );
 			logger.debug( "Done writing {} to {}", element, identifier );
-		} catch ( final Error | Exception anything ) {
+		} catch ( final Throwable t ) {
 			logger.error(
 					"Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
-					identifier, anything );
+					identifier, t );
 			FileUtils.deleteQuietly( file );
-			throw anything;
+			throw t;
 		}
 	}
 
