@@ -81,7 +81,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 					identifier );
 			kryo.writeClassAndObject( output, element );
 			logger.debug( "Done writing {} to {}", element, identifier );
-		} catch ( Error | Exception anything ) {
+		} catch ( final Error | Exception anything ) {
 			logger.error(
 					"Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
 					identifier, anything );
@@ -104,11 +104,6 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			}
 			if ( isUnknownFormat( writerVersion ) ) {
 				writerVersion = OLD_RECHECK_VERSION;
-				// TODO Remove after release of 1.6.0
-				try ( final Input secondInput = new Input( newInputStream( path ) ) ) {
-					return (T) kryo.readClassAndObject( secondInput );
-				}
-				// remove until here
 			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
 		}
