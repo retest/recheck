@@ -12,6 +12,11 @@ public class ReTestIOException extends IOException {
 		this( location, throwable.getMessage(), throwable );
 	}
 
+	public ReTestIOException( final URI location, final String details ) {
+		super( "Error reading from '" + location + "': " + details );
+		this.location = location;
+	}
+
 	public ReTestIOException( final URI location, final String details, final Throwable throwable ) {
 		super( "Error reading from '" + location + "': " + details, throwable );
 		this.location = location;

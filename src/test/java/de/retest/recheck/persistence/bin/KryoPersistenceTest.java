@@ -22,6 +22,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
+import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.util.VersionProvider;
 
@@ -68,20 +69,28 @@ class KryoPersistenceTest {
 	}
 
 	@Test
+	void load_should_not_be_able_to_load_1_6_0_report_version() throws Exception {
+		final Path report = Paths.get( getClass().getResource( "1.6.0.report" ).toURI() );
+
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThatThrownBy( () -> cut.load( report.toUri() ) ) //
+				.isInstanceOf( IncompatibleReportVersionException.class ) //
+				.hasMessageContaining( "Incompatible recheck versions: report was written with 1.6.0" );
+	}
+
+	@Test
 	void unknown_version_should_give_correct_error() throws IOException {
 		final Path file = Paths.get( "src/test/resources/de/retest/recheck/persistence/bin/old.report" );
 		final URI identifier = file.toUri();
 
 		final KryoPersistence<TestReport> differentKryoPersistence = new KryoPersistence<>();
 
-		//		TODO Reactivate that code after the TODO in KryoPersistence has been adressed (post 1.6.0)
-		//		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) )
-		//		.isInstanceOf( IncompatibleReportVersionException.class ).hasMessageContaining(
-		//				"Incompatible recheck versions: report was written with an old recheck version (pre 1.5.0), but read with "
-		//						+ VersionProvider.RETEST_VERSION + "." );
-
-		final TestReport report = differentKryoPersistence.load( identifier );
-		assertThat( report ).isNotNull();
+		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) ) //
+				.isInstanceOf( IncompatibleReportVersionException.class ) //
+				.hasMessageContaining(
+						"Incompatible recheck versions: report was written with an old recheck version (pre 1.5.0), but read with "
+								+ VersionProvider.RETEST_VERSION + "." );
 	}
 
 	@Test
@@ -94,5 +103,27 @@ class KryoPersistenceTest {
 		assertThatThrownBy( () -> persistence.save( nonexistent.toURI(), createDummyTest() ) )
 				.isInstanceOf( KryoException.class );
 		assertThat( nonexistent ).doesNotExist();
+	}
+
+	@Test
+	void isCompatible_should_be_compatible_with_equal_or_higher_value() throws Exception {
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThat( cut.isCompatible( TestReport.class, TestReport.PERSISTENCE_VERSION ) ).isTrue();
+		assertThat( cut.isCompatible( TestReport.class, TestReport.PERSISTENCE_VERSION + 1 ) ).isTrue();
+	}
+
+	@Test
+	void isCompatible_should_incompatible_with_lower_value() throws Exception {
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThat( cut.isCompatible( TestReport.class, TestReport.PERSISTENCE_VERSION - 1 ) ).isFalse();
+	}
+
+	@Test
+	void isCompatible_should_compatible_with_not_present_value() throws Exception {
+		final KryoPersistence<Persistable> cut = new KryoPersistence<>();
+
+		assertThat( cut.isCompatible( Persistable.class, 1 ) ).isTrue();
 	}
 }
