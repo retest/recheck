@@ -1,12 +1,12 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Rectangle;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,9 +16,11 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 class JSFilterImplTest {
 
+	Path ctorArg = Paths.get( "nonExistentFilterFile" );
+
 	@Test
 	void no_matches_function_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "" );
@@ -29,7 +31,7 @@ class JSFilterImplTest {
 
 	@Test
 	void invalid_matches_function_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "asdasd.asd.asd();" );
@@ -40,14 +42,14 @@ class JSFilterImplTest {
 
 	@Test
 	void nonexistent_file_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 		};
 		cut.matches( Mockito.mock( Element.class ) );
 	}
 
 	@Test
 	void matches_should_be_called() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( "function matches(element) { return true; }" );
@@ -58,7 +60,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_should_be_called_with_element_param() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -66,7 +68,7 @@ class JSFilterImplTest {
 								+ "if (element != null) {" //
 								+ "  return true;" //
 								+ "} " //
-								+ "return false;" //
+								+ "  return false;" //
 								+ "}" );
 			}
 		};
@@ -75,7 +77,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_example_implementation() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -99,7 +101,7 @@ class JSFilterImplTest {
 
 	@Test
 	void matches_return_null_should_be_false() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -113,8 +115,8 @@ class JSFilterImplTest {
 	}
 
 	@Test
-	void matches_return_non_boolean_should_throw_exc() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+	void matches_return_non_boolean_should_not_throw_exc() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -124,13 +126,12 @@ class JSFilterImplTest {
 			}
 		};
 		final Element element = Mockito.mock( Element.class );
-		assertThrows( ClassCastException.class,
-				() -> cut.matches( element, new AttributeDifference( "outline", "580", "578" ) ) );
+		assertThat( cut.matches( element, new AttributeDifference( "outline", "580", "578" ) ) ).isFalse();
 	}
 
 	@Test
 	void matches_filter_URL_example_implementation() {
-		final JSFilterImpl cut = new JSFilterImpl( null ) {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
@@ -150,5 +151,23 @@ class JSFilterImplTest {
 		assertThat( cut.matches( element, new AttributeDifference( "background-image",
 				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
 				"url(\"http://icullen-website-public-spring4-8:8080/some-other-URL.png\")" ) ) ).isFalse();
+	}
+
+	@Test
+	void calling_erroneous_method_twice_with_different_args_should_actually_call_method() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( //
+						"function matches(element) { " //
+								+ "if (element != null) {" //
+								+ "  return true;" //
+								+ "}" //
+								+ "throw 42;" //
+								+ "}" );
+			}
+		};
+		cut.matches( null );
+		assertThat( cut.matches( Mockito.mock( Element.class ) ) ).isTrue();
 	}
 }
