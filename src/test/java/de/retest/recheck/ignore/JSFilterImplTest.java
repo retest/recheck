@@ -10,11 +10,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
+import io.github.netmikey.logunit.api.LogCapturer;
 
 class JSFilterImplTest {
+
+	@RegisterExtension
+	LogCapturer warningAndErrorLogs = LogCapturer.create() //
+			.captureForType( JSFilterImpl.class );
 
 	Path ctorArg = Paths.get( "nonExistentFilterFile" );
 
@@ -169,5 +175,31 @@ class JSFilterImplTest {
 		};
 		cut.matches( null );
 		assertThat( cut.matches( mock( Element.class ) ) ).isTrue();
+	}
+
+	@Test
+	void no_method_warning_should_only_be_printed_once_for_element() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( "" );
+			}
+		};
+		cut.matches( mock( Element.class ) );
+		cut.matches( mock( Element.class ) );
+		assertThat( warningAndErrorLogs.size() ).isEqualTo( 1 );
+	}
+
+	@Test
+	void no_method_warning_should_only_be_printed_once_for_element_and_diff() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( "" );
+			}
+		};
+		cut.matches( mock( Element.class ), mock( AttributeDifference.class ) );
+		cut.matches( mock( Element.class ), mock( AttributeDifference.class ) );
+		assertThat( warningAndErrorLogs.size() ).isEqualTo( 1 );
 	}
 }
