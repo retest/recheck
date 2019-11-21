@@ -26,6 +26,7 @@ public class JSFilterImpl implements Filter {
 
 	private final String filePath;
 	private final ScriptEngine engine;
+	private boolean noMethodWarningPrinted = false;
 
 	public JSFilterImpl( final Path filterFilePath ) {
 		filePath = filterFilePath.toString();
@@ -90,8 +91,9 @@ public class JSFilterImpl implements Filter {
 			logger.error( "JS '{}' method caused an exception: {} in file {}.", functionName, e.getMessage(),
 					filePath );
 		} catch ( final NoSuchMethodException e ) {
-			if ( !functionName.startsWith( "shouldIgnore" ) ) {
+			if ( !functionName.startsWith( "shouldIgnore" ) && !noMethodWarningPrinted ) {
 				logger.warn( "Specified JS filter file {} has no '{}' function.", filePath, functionName );
+				noMethodWarningPrinted = true;
 			}
 		}
 		return false;
