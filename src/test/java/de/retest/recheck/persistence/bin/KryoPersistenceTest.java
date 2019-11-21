@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -125,5 +126,13 @@ class KryoPersistenceTest {
 		final KryoPersistence<Persistable> cut = new KryoPersistence<>();
 
 		assertThat( cut.isCompatible( Persistable.class, 1 ) ).isTrue();
+	}
+
+	@Test
+	void non_existent_file_should_properly_throw_correct_exception() throws Exception {
+		final KryoPersistence<TestReport> cut = new KryoPersistence<>();
+
+		assertThatThrownBy( () -> cut.load( Paths.get( "/non/existent/file" ).toUri() ) ) //
+				.isInstanceOf( NoSuchFileException.class );
 	}
 }

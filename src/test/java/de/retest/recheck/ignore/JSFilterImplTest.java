@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.awt.Rectangle;
 import java.io.Reader;
@@ -9,12 +10,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
+import io.github.netmikey.logunit.api.LogCapturer;
 
 class JSFilterImplTest {
+
+	@RegisterExtension
+	LogCapturer warningAndErrorLogs = LogCapturer.create() //
+			.captureForType( JSFilterImpl.class );
 
 	Path ctorArg = Paths.get( "nonExistentFilterFile" );
 
@@ -26,7 +32,7 @@ class JSFilterImplTest {
 				return new StringReader( "" );
 			}
 		};
-		cut.matches( Mockito.mock( Element.class ) );
+		cut.matches( mock( Element.class ) );
 	}
 
 	@Test
@@ -37,14 +43,14 @@ class JSFilterImplTest {
 				return new StringReader( "asdasd.asd.asd();" );
 			}
 		};
-		cut.matches( Mockito.mock( Element.class ) );
+		cut.matches( mock( Element.class ) );
 	}
 
 	@Test
 	void nonexistent_file_should_not_cause_exception() {
 		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
 		};
-		cut.matches( Mockito.mock( Element.class ) );
+		cut.matches( mock( Element.class ) );
 	}
 
 	@Test
@@ -55,7 +61,7 @@ class JSFilterImplTest {
 				return new StringReader( "function matches(element) { return true; }" );
 			}
 		};
-		assertThat( cut.matches( Mockito.mock( Element.class ) ) ).isTrue();
+		assertThat( cut.matches( mock( Element.class ) ) ).isTrue();
 	}
 
 	@Test
@@ -72,7 +78,7 @@ class JSFilterImplTest {
 								+ "}" );
 			}
 		};
-		assertThat( cut.matches( Mockito.mock( Element.class ) ) ).isTrue();
+		assertThat( cut.matches( mock( Element.class ) ) ).isTrue();
 	}
 
 	@Test
@@ -92,7 +98,7 @@ class JSFilterImplTest {
 								+ "}\n" );
 			}
 		};
-		final Element element = Mockito.mock( Element.class );
+		final Element element = mock( Element.class );
 		assertThat( cut.matches( element, new AttributeDifference( "outline", new Rectangle( 580, 610, 200, 20 ),
 				new Rectangle( 578, 605, 200, 20 ) ) ) ).isTrue();
 		assertThat( cut.matches( element, new AttributeDifference( "outline", new Rectangle( 580, 610, 200, 20 ),
@@ -110,7 +116,7 @@ class JSFilterImplTest {
 								+ "}" );
 			}
 		};
-		final Element element = Mockito.mock( Element.class );
+		final Element element = mock( Element.class );
 		assertThat( cut.matches( element, new AttributeDifference( "outline", "580", "578" ) ) ).isFalse();
 	}
 
@@ -125,7 +131,7 @@ class JSFilterImplTest {
 								+ "}" );
 			}
 		};
-		final Element element = Mockito.mock( Element.class );
+		final Element element = mock( Element.class );
 		assertThat( cut.matches( element, new AttributeDifference( "outline", "580", "578" ) ) ).isFalse();
 	}
 
@@ -143,7 +149,7 @@ class JSFilterImplTest {
 								+ "}" );
 			}
 		};
-		final Element element = Mockito.mock( Element.class );
+		final Element element = mock( Element.class );
 		assertThat( cut.matches( element, new AttributeDifference( "background-image",
 				"url(\"https://www2.test.k8s.bigcct.be/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")",
 				"url(\"http://icullen-website-public-spring4-8:8080/.imaging/default/dam/clients/BT_logo.svg.png/jcr:content.png\")" ) ) )
@@ -168,6 +174,32 @@ class JSFilterImplTest {
 			}
 		};
 		cut.matches( null );
-		assertThat( cut.matches( Mockito.mock( Element.class ) ) ).isTrue();
+		assertThat( cut.matches( mock( Element.class ) ) ).isTrue();
+	}
+
+	@Test
+	void no_method_warning_should_only_be_printed_once_for_element() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( "" );
+			}
+		};
+		cut.matches( mock( Element.class ) );
+		cut.matches( mock( Element.class ) );
+		assertThat( warningAndErrorLogs.size() ).isEqualTo( 1 );
+	}
+
+	@Test
+	void no_method_warning_should_only_be_printed_once_for_element_and_diff() {
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
+			@Override
+			Reader readScriptFile( final Path path ) {
+				return new StringReader( "" );
+			}
+		};
+		cut.matches( mock( Element.class ), mock( AttributeDifference.class ) );
+		cut.matches( mock( Element.class ), mock( AttributeDifference.class ) );
+		assertThat( warningAndErrorLogs.size() ).isEqualTo( 1 );
 	}
 }

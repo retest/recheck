@@ -6,6 +6,7 @@ import static java.nio.file.Files.newOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -113,7 +114,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 				throw new IncompatibleReportVersionException( writerVersion, version, identifier );
 			}
 			return persistable;
-		} catch ( final IncompatibleReportVersionException e ) {
+		} catch ( final IncompatibleReportVersionException | NoSuchFileException e ) {
 			throw e;
 		} catch ( final Exception e ) {
 			if ( version.equals( writerVersion ) ) {
