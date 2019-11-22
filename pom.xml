@@ -192,6 +192,20 @@
 			<version>1.8</version>
 		</dependency>
 
+		<!--Nashorn replacment-->
+		<dependency>
+			<groupId>org.graalvm.js</groupId>
+			<artifactId>js</artifactId>
+			<version>19.3.0</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.graalvm.js</groupId>
+			<artifactId>js-scriptengine</artifactId>
+			<version>19.3.0</version>
+		</dependency>
+
 		<!-- test dependencies -->
 
 		<dependency>
