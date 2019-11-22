@@ -9,11 +9,14 @@ import java.nio.file.Path;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.oracle.truffle.js.scriptengine.GraalJSScriptEngine;
 
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -22,7 +25,7 @@ public class JSFilterImpl implements Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger( JSFilterImpl.class );
 
-	private static final String JS_ENGINE_NAME = "JavaScript";
+	private static final String JS_ENGINE_NAME = "js";
 
 	private final String filePath;
 	private final ScriptEngine engine;
@@ -30,14 +33,12 @@ public class JSFilterImpl implements Filter {
 
 	public JSFilterImpl( final Path filterFilePath ) {
 		filePath = filterFilePath.toString();
-		final ScriptEngineManager manager = new ScriptEngineManager();
-		engine = manager.getEngineByName( JS_ENGINE_NAME );
-		if ( engine == null ) {
-			logger.error(
-					"Cannot execute JavaScript rules, `ScriptEngineManager` returned null for engine `JavaScript`. Try switching JDK or add a JavaScript engine: ",
-					new IllegalStateException( "No JavaScript available." ) );
-			return;
-		}
+		final Context.Builder context = Context.newBuilder( JS_ENGINE_NAME ) //
+				.allowExperimentalOptions( true ) //
+				.allowHostAccess( HostAccess.ALL ) //
+				.allowHostClassLookup( s -> true ) // 
+				.option( "js.nashorn-compat", "true" );
+		engine = GraalJSScriptEngine.create( null, context );
 		try {
 			engine.eval( readScriptFile( filterFilePath ) );
 		} catch ( final Exception e ) {
