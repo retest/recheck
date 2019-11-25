@@ -18,7 +18,9 @@ import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.io.Loaders;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class LoadFilterWorker {
 
 	private final Counter counter;
@@ -35,6 +37,7 @@ public class LoadFilterWorker {
 
 	public GlobalIgnoreApplier load() throws IOException {
 		final Optional<Path> ignoreFile = getIgnoreFile();
+		ignoreFile.ifPresent( path -> log.info( "Reading ignore file from {}.", path ) );
 		final Stream<String> ignoreFileLines = Files.lines(
 				ignoreFile.orElseThrow( () -> new NoSuchFileException( "No '" + RECHECK_IGNORE + "' found." ) ) );
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( ignoreFileLines ) //
