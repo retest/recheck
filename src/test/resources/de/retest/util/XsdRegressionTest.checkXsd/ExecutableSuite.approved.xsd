@@ -5,6 +5,20 @@
          <xsd:extension base="persistable">
             <xsd:sequence>
                <xsd:element name="descriptors" type="rootElement" minOccurs="0" maxOccurs="unbounded"/>
+               <xsd:element name="metaData" minOccurs="0">
+                  <xsd:complexType>
+                     <xsd:sequence>
+                        <xsd:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                           <xsd:complexType>
+                              <xsd:sequence>
+                                 <xsd:element name="key" type="xsd:string" minOccurs="0"/>
+                                 <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                              </xsd:sequence>
+                           </xsd:complexType>
+                        </xsd:element>
+                     </xsd:sequence>
+                  </xsd:complexType>
+               </xsd:element>
             </xsd:sequence>
          </xsd:extension>
       </xsd:complexContent>

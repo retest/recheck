@@ -2,7 +2,10 @@ package de.retest.recheck.ui.descriptors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,23 +25,40 @@ public class SutState extends Persistable {
 	@XmlElement
 	private final List<RootElement> descriptors;
 
+	@XmlElement
+	private final Map<String, String> metaData;
+
 	@SuppressWarnings( "unused" )
 	private SutState() {
 		super( PERSISTENCE_VERSION );
 		// for JAXB
 		descriptors = new ArrayList<>();
+		metaData = new HashMap<>();
 	}
 
 	public SutState( final Collection<RootElement> set ) {
+		this( set, new HashMap<>() );
+	}
+
+	public SutState( final Collection<RootElement> set, final Map<String, String> metaData ) {
 		super( PERSISTENCE_VERSION );
 		if ( set == null ) {
 			throw new NullPointerException();
 		}
 		descriptors = new ArrayList<>( set );
+		this.metaData = new HashMap<>( metaData );
 	}
 
 	public List<RootElement> getRootElements() {
 		return descriptors;
+	}
+
+	public Map<String, String> getMetaData() {
+		return Collections.unmodifiableMap( metaData );
+	}
+
+	public String getMetaData( final String key ) {
+		return metaData.get( key );
 	}
 
 	@Override
