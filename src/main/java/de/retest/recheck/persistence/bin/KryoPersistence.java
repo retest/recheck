@@ -5,6 +5,8 @@ import static java.nio.file.Files.newOutputStream;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -88,11 +90,10 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		final Path path = Paths.get( identifier );
 		final File file = path.toFile();
 		FileUtil.ensureFolder( path.toFile() );
-		try ( final Output output = new Output( new LZ4FrameOutputStream( newOutputStream( path ) ) ) ) {
-			output.writeString( version );
+		try ( OutputStream outputStream = newOutputStream( path ) ) {
 			log.debug( "Writing {} to {}. Do not write to same identifier or interrupt until done.", element,
 					identifier );
-			kryo.writeClassAndObject( output, element );
+			save( outputStream, element );
 			log.debug( "Done writing {} to {}", element, identifier );
 		} catch ( final Throwable t ) {
 			log.error( "Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
@@ -102,12 +103,27 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
+	public void save( final OutputStream outputStream, final T element ) throws IOException {
+		final Output output = new Output( new LZ4FrameOutputStream( outputStream ) );
+		output.writeString( version );
+		kryo.writeClassAndObject( output, element );
+		output.close();
+	}
+
 	@Override
 	public T load( final URI identifier ) throws IOException {
 		final Path path = Paths.get( identifier );
+		try {
+			return load( newInputStream( path ), identifier );
+		} catch ( final IncompatibleReportVersionException | NoSuchFileException e ) {
+			throw e;
+		}
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public T load( final InputStream in, final URI identifier ) throws IOException {
 		String writerVersion = null;
-		try ( final Input input = new Input( new LZ4FrameInputStream( newInputStream( path ) ) ) ) {
+		try ( final Input input = new Input( new LZ4FrameInputStream( in ) ) ) {
 			writerVersion = input.readString();
 			final T persistable = (T) kryo.readClassAndObject( input );
 			if ( !isCompatible( persistable ) ) {
