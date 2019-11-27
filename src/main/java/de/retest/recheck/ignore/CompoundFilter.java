@@ -46,4 +46,14 @@ public class CompoundFilter implements Filter {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean matches( final Element element, final String attributeKey ) {
+		for ( final Filter filter : filters ) {
+			if ( filter.matches( element, attributeKey ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
