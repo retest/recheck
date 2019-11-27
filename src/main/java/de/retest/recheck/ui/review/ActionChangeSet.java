@@ -2,8 +2,10 @@ package de.retest.recheck.ui.review;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.retest.recheck.ui.descriptors.Element;
@@ -14,16 +16,23 @@ public class ActionChangeSet {
 	private final String description;
 	private final String goldenMasterPath;
 	private final ScreenshotChanges screenshots;
+	private final Map<String, String> metadata;
 
 	public ActionChangeSet() {
-		this( null, null, ScreenshotChanges.empty() );
+		this( null, null, ScreenshotChanges.empty(), new HashMap<>() );
 	}
 
 	public ActionChangeSet( final String description, final String goldenMasterPath,
 			final ScreenshotChanges screenshots ) {
+		this( description, goldenMasterPath, screenshots, new HashMap<>() );
+	}
+
+	public ActionChangeSet( final String description, final String goldenMasterPath,
+			final ScreenshotChanges screenshots, final Map<String, String> metadata ) {
 		this.description = description;
 		this.goldenMasterPath = goldenMasterPath;
 		this.screenshots = screenshots;
+		this.metadata = metadata;
 	}
 
 	private final AttributeChanges identAttributeChanges = new AttributeChanges();
@@ -84,8 +93,7 @@ public class ActionChangeSet {
 	}
 
 	private int size() {
-		return identAttributeChanges.size() + attributeChanges.size() + insertChanges
-				.size() + deletedChanges.size();
+		return identAttributeChanges.size() + attributeChanges.size() + insertChanges.size() + deletedChanges.size();
 	}
 
 	@Override
@@ -103,5 +111,9 @@ public class ActionChangeSet {
 
 	public ScreenshotChanges getScreenshot() {
 		return screenshots;
+	}
+
+	public Map<String, String> getMetadata() {
+		return Collections.unmodifiableMap( metadata );
 	}
 }

@@ -98,6 +98,8 @@ public class SutState extends Persistable {
 				descriptors.add( (RootElement) element );
 			}
 		}
-		return new SutState( descriptors );
+		final Map<String, String> newMetadata = new HashMap<>( metadata );
+		newMetadata.putAll( actionChangeSet.getMetadata() );
+		return new SutState( descriptors, newMetadata );
 	}
 }
