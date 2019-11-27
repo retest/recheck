@@ -63,4 +63,22 @@ class ElementAttributeFilterTest {
 
 		assertThat( cut.matches( element, difference ) ).isFalse();
 	}
+
+	@Test
+	void should_match_with_attribute_key_when_attribute_is_same() {
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "abc" );
+		final String attributeKey = "123";
+
+		assertThat( cut.matches( element, attributeKey ) ).isTrue();
+	}
+
+	@Test
+	void should_not_match_with_attribute_key_when_attribute_is_different() {
+		final Element element = mock( Element.class );
+		when( element.getRetestId() ).thenReturn( "abc" );
+		final String attributeKey = "234";
+
+		assertThat( cut.matches( element, attributeKey ) ).isFalse();
+	}
 }

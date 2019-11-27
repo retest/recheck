@@ -39,4 +39,19 @@ class CacheFilterTest {
 		verify( base ).matches( element, difference );
 		verifyNoMoreInteractions( base );
 	}
+
+	@Test
+	void matches_attribute_key_should_not_call_base_method_multiple_times() {
+		final Element element = mock( Element.class );
+		final Filter base = mock( Filter.class );
+		final String attributeKey = "foo";
+
+		final CacheFilter cut = new CacheFilter( base );
+
+		cut.matches( element, attributeKey );
+		cut.matches( element, attributeKey );
+
+		verify( base ).matches( element, attributeKey );
+		verifyNoMoreInteractions( base );
+	}
 }

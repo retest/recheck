@@ -30,6 +30,23 @@ public interface Filter {
 	boolean matches( final Element element );
 
 	/**
+	 * Returns <code>true</code> if the given attribute as specified by the attribute-key should be filtered for the
+	 * given element.
+	 *
+	 * If {@link #matches(Element)} returns <code>true</code>, this method must always return <code>true</code>. Can
+	 * return any value only if {@link #matches(Element)} returns <code>false</code>.
+	 *
+	 * @param element
+	 *            The element in question.
+	 * @param attributeKey
+	 *            The attribute-key for the given element.
+	 * @return <code>true</code> if the given attribute should be filtered.
+	 */
+	default boolean matches( final Element element, final String attributeKey ) {
+		return matches( element );
+	}
+
+	/**
 	 * Returns <code>true</code> if the given attribute difference as specified by the triple (attribute-key,
 	 * expectedValue, actualValue) should be filtered for the given element as specified by its
 	 * {@link IdentifyingAttributes}.
@@ -38,8 +55,8 @@ public interface Filter {
 	 * elements. But sometimes one wants to specify that a certain difference is meaningless, such as
 	 * <code>Times Roman</code> vs. <code>Times New Roman</code> for font-family or a 5px difference for outline.
 	 *
-	 * If {@link #matches(Element)} returns <code>true</code>, this method must always return <code>true</code>. Can
-	 * return any value only if {@link #matches(Element)} returns <code>false</code>.
+	 * If {@link #matches(Element,String)} returns <code>true</code>, this method must always return <code>true</code>.
+	 * Can return any value only if {@link #matches(Element,String)} returns <code>false</code>.
 	 *
 	 * @param element
 	 *            The element in question.
@@ -48,7 +65,7 @@ public interface Filter {
 	 * @return <code>true</code> if the given attribute difference should be filtered.
 	 */
 	default boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-		return matches( element );
+		return matches( element, attributeDifference.getKey() );
 	}
 
 	public static final Filter FILTER_NOTHING = new Filter() {

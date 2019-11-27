@@ -196,7 +196,7 @@ class TestReportFilterTest {
 
 		final Filter filterAll = mock( Filter.class );
 		when( filterAll.matches( any() ) ).thenReturn( true );
-		when( filterAll.matches( any(), any() ) ).thenReturn( true );
+		when( filterAll.matches( any(), any( AttributeDifference.class ) ) ).thenReturn( true );
 
 		final TestReportFilter cut = new TestReportFilter( filterAll );
 
@@ -344,7 +344,7 @@ class TestReportFilterTest {
 
 		final Filter noFilter = mock( Filter.class );
 		final Filter doFilter = mock( Filter.class );
-		when( doFilter.matches( any(), any() ) ).thenReturn( true );
+		when( doFilter.matches( any(), any( AttributeDifference.class ) ) ).thenReturn( true );
 		when( doFilter.matches( any() ) ).thenReturn( true );
 
 		assertThat( new TestReportFilter( noFilter ).filter( noGoldenMasterActionResult ) )

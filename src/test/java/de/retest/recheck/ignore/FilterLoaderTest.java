@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ui.descriptors.Element;
+
 class FilterLoaderTest {
 
 	@Test
@@ -14,6 +16,8 @@ class FilterLoaderTest {
 				FilterLoader.load( Paths.get( getClass().getResource( "file.filter.js" ).toURI() ) );
 		final Filter filter = loader.load();
 		assertThat( filter ).isInstanceOf( JSFilterImpl.class );
-		assertThat( filter.matches( null, null ) ).isTrue();
+		final Element element = null;
+		final String attributeKey = null;
+		assertThat( filter.matches( element, attributeKey ) ).isTrue();
 	}
 }
