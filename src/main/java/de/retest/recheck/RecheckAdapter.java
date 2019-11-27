@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import de.retest.recheck.report.ActionReplayResult;
@@ -39,6 +41,19 @@ public interface RecheckAdapter {
 	 * @return The RootElement(s) for the given object
 	 */
 	Set<RootElement> convert( Object toCheck );
+
+	/**
+	 * Return some metadata with respect to the checked object. For e.g. a selenium driver, this could be things like
+	 * browser name and version.
+	 *
+	 * @param toCheck
+	 *            the object to check
+	 *
+	 * @return The meta data for the given object
+	 */
+	default Map<String, String> retrieveMetadata( final Object toCheck ) {
+		return new HashMap<>();
+	}
 
 	/**
 	 * Returns a {@code DefaultValueFinder} for the converted element attributes. Default values of attributes are

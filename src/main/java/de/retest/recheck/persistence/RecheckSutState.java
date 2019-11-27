@@ -24,7 +24,7 @@ public class RecheckSutState {
 		if ( converted == null || converted.isEmpty() ) {
 			throw new IllegalStateException( "Cannot check empty state!" );
 		}
-		return new SutState( converted );
+		return new SutState( converted, adapter.retrieveMetadata( toCheck ) );
 	}
 
 	public static SutState createNew( final File file, final SutState actual ) {
