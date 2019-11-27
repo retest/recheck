@@ -24,21 +24,21 @@ public interface RecheckAdapter {
 	/**
 	 * Returns {@code true} if the given object can be converted by the adapter.
 	 *
-	 * @param toVerify
-	 *            the object to verify
+	 * @param toCheck
+	 *            the object to check
 	 * @return true if the given object can be converted by the adapter
 	 */
-	boolean canCheck( Object toVerify );
+	boolean canCheck( Object toCheck );
 
 	/**
 	 * Convert the given object into a {@code RootElement} (respectively into a set of {@code RootElement}s if this is
 	 * sensible for this type of object).
 	 *
-	 * @param toVerify
-	 *            the object to verify
+	 * @param toCheck
+	 *            the object to check
 	 * @return The RootElement(s) for the given object
 	 */
-	Set<RootElement> convert( Object toVerify );
+	Set<RootElement> convert( Object toCheck );
 
 	/**
 	 * Returns a {@code DefaultValueFinder} for the converted element attributes. Default values of attributes are
