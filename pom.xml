@@ -192,6 +192,18 @@
 			<version>1.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.mozilla</groupId>
+			<artifactId>rhino</artifactId>
+			<version>1.7.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>cat.inspiracio</groupId>
+			<artifactId>rhino-js-engine</artifactId>
+			<version>1.7.10</version>
+		</dependency>
+
 		<!-- test dependencies -->
 
 		<dependency>
