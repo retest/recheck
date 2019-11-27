@@ -8,7 +8,6 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.extern.slf4j.Slf4j;
 
 public class AttributeFilter implements Filter {
@@ -25,8 +24,8 @@ public class AttributeFilter implements Filter {
 	}
 
 	@Override
-	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-		return attributeDifference.getKey().equals( attribute );
+	public boolean matches( final Element element, final String attributeKey ) {
+		return attributeKey.equals( attribute );
 	}
 
 	@Override

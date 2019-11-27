@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class AttributeRegexFilter implements Filter {
 
@@ -23,8 +22,8 @@ public class AttributeRegexFilter implements Filter {
 	}
 
 	@Override
-	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-		return attributePattern.matcher( attributeDifference.getKey() ).matches();
+	public boolean matches( final Element element, final String attributeKey ) {
+		return attributePattern.matcher( attributeKey ).matches();
 	}
 
 	@Override

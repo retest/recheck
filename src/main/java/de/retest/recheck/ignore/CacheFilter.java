@@ -19,6 +19,7 @@ public class CacheFilter implements Filter {
 
 	private final Map<Element, Boolean> elementCache = new HashMap<>();
 	private final Map<Pair<Element, AttributeDifference>, Boolean> attributeCache = new HashMap<>();
+	private final Map<Pair<Element, String>, Boolean> attributeKeyCache = new HashMap<>();
 
 	@Getter
 	private final Filter base;
@@ -38,6 +39,15 @@ public class CacheFilter implements Filter {
 	}
 
 	private Function<Pair<Element, AttributeDifference>, Boolean> matchesDiff() {
+		return p -> base.matches( p.getLeft(), p.getRight() );
+	}
+
+	@Override
+	public boolean matches( final Element element, final String attributeKey ) {
+		return attributeKeyCache.computeIfAbsent( Pair.of( element, attributeKey ), matchesKeyDiff() );
+	}
+
+	private Function<Pair<Element, String>, Boolean> matchesKeyDiff() {
 		return p -> base.matches( p.getLeft(), p.getRight() );
 	}
 
