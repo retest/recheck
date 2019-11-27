@@ -17,9 +17,7 @@ public class RecheckSutState {
 
 	private static final PersistenceFactory persistenceFactory = new PersistenceFactory( getXmlTransformer() );
 
-	private RecheckSutState() {
-
-	}
+	private RecheckSutState() {}
 
 	public static SutState convert( final Object toVerify, final RecheckAdapter adapter ) {
 		final Set<RootElement> converted = adapter.convert( toVerify );
