@@ -139,6 +139,7 @@ attribute=position
 attribute=quotes
 attribute=resize
 attribute=right
+attribute=scale
 attribute=scroll-behavior
 attribute=tab-size
 attribute=table-layout
