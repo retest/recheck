@@ -22,7 +22,7 @@ public class JSFilterImpl implements Filter {
 
 	private static final Logger logger = LoggerFactory.getLogger( JSFilterImpl.class );
 
-	private static final String JS_ENGINE_NAME = "JavaScript";
+	private static final String JS_ENGINE_NAME = "rhino";
 
 	private final String filePath;
 	private final ScriptEngine engine;
