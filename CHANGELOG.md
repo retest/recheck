@@ -33,7 +33,7 @@ Table of Contents
 
 ### Improvements
 
-- Added 'target', 'rel' and 'xmlns' as attributes to invisible filters and 'scale' as attribute to style filter.
+* Added 'target', 'rel' and 'xmlns' as attributes to invisible filters and 'scale' as attribute to style filter.
 
 --------------------------------------------------------------------------------
 
