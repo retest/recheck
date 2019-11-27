@@ -29,6 +29,8 @@ Table of Contents
 
 ### New Features
 
+* Retrieve and handle metadata from the recheck adapter.
+
 ### Improvements
 
 - Added 'target', 'rel' and 'xmlns' as attributes to invisible filters and 'scale' as attribute to style filter.
