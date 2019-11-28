@@ -18,7 +18,6 @@ import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
-import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Attributes;
@@ -58,11 +57,8 @@ class ActionReplayResultTest {
 
 		final ActionReplayResult differences = cut.findDifferences( actual, expected );
 
-		final AttributeFilter filter = new AttributeFilter( "path" );
-
 		assertThat( differences.hasDifferences() ).isTrue();
 		assertThat( differences.getDifferences() ).hasSize( 1 );
-		assertThat( differences.getDifferencesWithout( filter ) ).hasSize( 0 );
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();
 	}
@@ -99,10 +95,6 @@ class ActionReplayResultTest {
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( dvf, "foo", "" );
 
 		final ActionReplayResult differences = cut.findDifferences( actual, expected );
-		final AttributeFilter filterFont = new AttributeFilter( "font" );
-		final AttributeFilter filterForeground = new AttributeFilter( "foreground" );
-		final AttributeFilter filterPath = new AttributeFilter( "path" );
-		final AttributeFilter filterBackground = new AttributeFilter( "background" );
 
 		final Filter filterAll = mock( Filter.class );
 		when( filterAll.matches( expectedElement ) ).thenReturn( true );
@@ -110,12 +102,6 @@ class ActionReplayResultTest {
 		assertThat( differences.hasDifferences() ).isTrue();
 
 		assertThat( differences.getDifferences() ).hasSize( 4 );
-		assertThat( differences.getDifferencesWithout( filterAll ) ).hasSize( 0 );
-
-		assertThat( differences.getDifferencesWithout( filterFont ) ).hasSize( 3 );
-		assertThat( differences.getDifferencesWithout( filterForeground ) ).hasSize( 3 );
-		assertThat( differences.getDifferencesWithout( filterPath ) ).hasSize( 3 );
-		assertThat( differences.getDifferencesWithout( filterBackground ) ).hasSize( 3 );
 
 		assertThat( differences.getStateDifference() ).isNotNull();
 		assertThat( differences.getWindows() ).isEmpty();
@@ -147,15 +133,15 @@ class ActionReplayResultTest {
 	void getDifferences_should_retrieve_all_child_differences() {
 		final List<ElementDifference> empty = Collections.emptyList();
 
-		final List<RootElementDifference> differences = Arrays.asList( // 
+		final List<RootElementDifference> differences = Arrays.asList( //
 				root( difference( 5, Arrays.asList( //
-						difference( 3, Arrays.asList( // 
+						difference( 3, Arrays.asList( //
 								difference( 2, empty ), //
 								difference( 1, empty ) //
 						) ), //
 						difference( 4, empty ) //
 				) ) ), //
-				root( difference( 2, Arrays.asList( // 
+				root( difference( 2, Arrays.asList( //
 						difference( 1, empty ), //
 						difference( 3, empty ) //
 				) ) ) );
