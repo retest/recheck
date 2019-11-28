@@ -1,6 +1,6 @@
 package de.retest.recheck;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +52,7 @@ public interface RecheckAdapter {
 	 * @return The meta data for the given object
 	 */
 	default Map<String, String> retrieveMetadata( final Object toCheck ) {
-		return new HashMap<>();
+		return Collections.emptyMap();
 	}
 
 	/**

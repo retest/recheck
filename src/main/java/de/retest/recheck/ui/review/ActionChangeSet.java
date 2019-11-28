@@ -2,7 +2,6 @@ package de.retest.recheck.ui.review;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +18,12 @@ public class ActionChangeSet {
 	private final Map<String, String> metadata;
 
 	public ActionChangeSet() {
-		this( null, null, ScreenshotChanges.empty(), new HashMap<>() );
+		this( null, null, ScreenshotChanges.empty(), Collections.emptyMap() );
 	}
 
 	public ActionChangeSet( final String description, final String goldenMasterPath,
 			final ScreenshotChanges screenshots ) {
-		this( description, goldenMasterPath, screenshots, new HashMap<>() );
+		this( description, goldenMasterPath, screenshots, Collections.emptyMap() );
 	}
 
 	public ActionChangeSet( final String description, final String goldenMasterPath,

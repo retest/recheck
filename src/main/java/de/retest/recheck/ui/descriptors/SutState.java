@@ -37,7 +37,7 @@ public class SutState extends Persistable {
 	}
 
 	public SutState( final Collection<RootElement> set ) {
-		this( set, new HashMap<>() );
+		this( set, Collections.emptyMap() );
 	}
 
 	public SutState( final Collection<RootElement> set, final Map<String, String> metadata ) {
