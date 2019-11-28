@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Element;
@@ -47,25 +46,6 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		this.expectedScreenshot = expectedScreenshot;
 		this.actualScreenshot = actualScreenshot;
 		this.childDifferences.addAll( childDifferences );
-	}
-
-	@Deprecated
-	public Screenshot mark( final Screenshot screenshot, final Filter filter ) {
-		if ( screenshot == null ) {
-			return null;
-		}
-		final List<Rectangle> marks = new ArrayList<>();
-		if ( childDifferences != null ) {
-			for ( final Difference childDifference : childDifferences ) {
-				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					if ( !filter.matches( element ) && !compDiff.getAttributeDifferences( filter ).isEmpty() ) {
-						marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
-					}
-				}
-			}
-		}
-		return image2Screenshot( screenshot.getPersistenceId(),
-				ImageUtils.mark( screenshot2Image( screenshot ), marks ) );
 	}
 
 	public Screenshot mark( final Screenshot screenshot ) {
@@ -107,17 +87,6 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 			differences.add( attributesDifference );
 		}
 		return differences;
-	}
-
-	@Deprecated
-	public List<AttributeDifference> getAttributeDifferences( final Filter filter ) {
-		final List<AttributeDifference> differences = getAttributeDifferences();
-		if ( filter == null ) {
-			return differences;
-		}
-		return differences.stream() //
-				.filter( d -> !filter.matches( element, d ) ) //
-				.collect( Collectors.toList() );
 	}
 
 	public List<AttributeDifference> getAttributeDifferences() {

@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ui.diff.LeafDifference;
 
 @XmlRootElement( name = "test" )
@@ -84,15 +83,6 @@ public class TestReplayResult implements Serializable {
 			uiElementsCount += actionReplayResult.getCheckedUiElementsCount();
 		}
 		return uiElementsCount;
-	}
-
-	@Deprecated
-	public Set<LeafDifference> getDifferences( final Filter filter ) {
-		final Set<LeafDifference> diffs = new HashSet<>();
-		for ( final ActionReplayResult actionReplayResult : actionReplayResults ) {
-			diffs.addAll( actionReplayResult.getDifferencesWithout( filter ) );
-		}
-		return diffs;
 	}
 
 	public Set<LeafDifference> getDifferences() {
