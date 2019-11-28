@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.ErrorHolder;
@@ -199,22 +198,6 @@ public class ActionReplayResult implements Serializable {
 			// TODO what to do about this?
 		}
 		return differences;
-	}
-
-	@Deprecated
-	public Set<LeafDifference> getDifferencesWithout( final Filter filter ) {
-		final Set<LeafDifference> result = new HashSet<>();
-		for ( final ElementDifference elementDifference : getAllElementDifferences() ) {
-			if ( !filter.matches( elementDifference.getElement() ) ) {
-				result.addAll( elementDifference.getAttributeDifferences( filter ) );
-			}
-			final LeafDifference identifyingAttributesDifference =
-					elementDifference.getIdentifyingAttributesDifference();
-			if ( identifyingAttributesDifference instanceof InsertedDeletedElementDifference ) {
-				result.add( identifyingAttributesDifference );
-			}
-		}
-		return result;
 	}
 
 	public Set<LeafDifference> getDifferences() {
