@@ -80,8 +80,7 @@ public class RetestAuthentication {
 				accessTokenString = response.getToken();
 				return true;
 			} catch ( IOException | HttpFailure | VerificationException e ) {
-				log.info( "Token not recognized, please authenticate" );
-				log.debug( "Error verifying offline token", e );
+				log.info( "Token not recognized, initiating authentication" );
 			}
 		}
 
