@@ -81,7 +81,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 
 	private HttpResponse<String> getUploadUrl() {
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
-		final String token = String.format( "Bearer %s", auth.getAccessTokenString() );
+		final String token = String.format( "Bearer %s", auth.getAccessToken() );
 
 		return Unirest.post( SERVICE_ENDPOINT ) //
 				.header( "Authorization", token )//
