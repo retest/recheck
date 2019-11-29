@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.prefs.Preferences;
 
 import org.keycloak.adapters.ServerRequest.HttpFailure;
-import org.keycloak.common.VerificationException;
 
 import de.retest.recheck.Properties.FileOutputFormat;
 import de.retest.recheck.auth.RehubAuthenticationHandler;
@@ -32,7 +31,7 @@ public class Rehub {
 				auth.login( new RehubAuthenticationHandler() );
 			}
 			System.setProperty( Properties.FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.CLOUD.toString() );
-		} catch ( IOException | HttpFailure | VerificationException e ) {
+		} catch ( IOException | HttpFailure e ) {
 			log.error( "Error verifying offline token: ", e );
 		}
 	}

@@ -76,10 +76,9 @@ public class RetestAuthentication {
 			this.offlineToken = offlineToken;
 			try {
 				final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
-				accessToken = verifyToken( response.getToken(), deployment );
 				accessTokenString = response.getToken();
 				return true;
-			} catch ( IOException | HttpFailure | VerificationException e ) {
+			} catch ( IOException | HttpFailure e ) {
 				log.info( "Token not recognized, initiating authentication" );
 			}
 		}
@@ -87,7 +86,7 @@ public class RetestAuthentication {
 		return false;
 	}
 
-	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure, VerificationException {
+	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
