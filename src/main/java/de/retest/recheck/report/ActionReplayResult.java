@@ -18,7 +18,6 @@ import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.actions.Action;
 import de.retest.recheck.ui.actions.ActionExecutionResult;
-import de.retest.recheck.ui.actions.ActionState;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
@@ -44,12 +43,6 @@ import de.retest.recheck.ui.image.Screenshot;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ActionReplayResult implements Serializable {
 
-	public static enum ExecutionType {
-		NORMAL,
-		INSERTION,
-		DELETION
-	}
-
 	private static final long serialVersionUID = 1L;
 	private static final long NO_DURATION = 0L;
 
@@ -67,9 +60,6 @@ public class ActionReplayResult implements Serializable {
 	@XmlAttribute
 	private long duration;
 
-	@XmlAttribute
-	private final ExecutionType executionType;
-
 	@XmlElement( name = "window" )
 	@XmlElementWrapper( name = "state" )
 	private final List<RootElement> windows;
@@ -80,7 +70,6 @@ public class ActionReplayResult implements Serializable {
 		targetcomponent = null;
 		stateDifference = null;
 		windows = null;
-		executionType = null;
 	}
 
 	public static ActionReplayResult createActionReplayResult( final ActionReplayData data,
@@ -95,7 +84,7 @@ public class ActionReplayResult implements Serializable {
 
 	public static ActionReplayResult withDifference( final ActionReplayData data, final WindowRetriever windows,
 			final DifferenceRetriever difference, final long duration ) {
-		return new ActionReplayResult( data, windows, difference, duration, null );
+		return new ActionReplayResult( data, windows, difference, duration );
 	}
 
 	public static ActionReplayResult withoutDifference( final ActionReplayData data, final WindowRetriever windows,
@@ -103,19 +92,8 @@ public class ActionReplayResult implements Serializable {
 		return withDifference( data, windows, DifferenceRetriever.empty(), duration );
 	}
 
-	public static ActionReplayResult insertion( final ActionState actionState ) {
-		return new ActionReplayResult( ActionReplayData.of( actionState.getAction() ),
-				WindowRetriever.of( actionState ), DifferenceRetriever.empty(), actionState.getDuration(),
-				ExecutionType.INSERTION );
-	}
-
-	public static ActionReplayResult deletion( final ActionState actionState ) {
-		return new ActionReplayResult( ActionReplayData.of( actionState.getAction() ),
-				WindowRetriever.of( actionState ), DifferenceRetriever.empty(), NO_DURATION, ExecutionType.DELETION );
-	}
-
 	protected ActionReplayResult( final ActionReplayData data, final WindowRetriever windows,
-			final DifferenceRetriever difference, final long duration, final ExecutionType executionType ) {
+			final DifferenceRetriever difference, final long duration ) {
 		if ( windows.isNull() && difference.isNull() ) {
 			throw new NullPointerException(
 					"ActionReplayResult must not be empty! Affected action: " + data.getDescription() + "." );
@@ -126,7 +104,6 @@ public class ActionReplayResult implements Serializable {
 		this.windows = windows.get();
 		stateDifference = difference.get();
 		this.duration = duration;
-		this.executionType = executionType;
 	}
 
 	public StateDifference getStateDifference() {
@@ -210,10 +187,6 @@ public class ActionReplayResult implements Serializable {
 
 	public boolean hasWindows() {
 		return windows != null && windows.size() > 0;
-	}
-
-	public ExecutionType getExecutionType() {
-		return executionType != null ? executionType : ExecutionType.NORMAL;
 	}
 
 	@Override
