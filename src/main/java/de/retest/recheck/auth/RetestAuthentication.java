@@ -23,7 +23,6 @@ import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.ServerRequest;
 import org.keycloak.adapters.ServerRequest.HttpFailure;
-import org.keycloak.adapters.rotation.AdapterTokenVerifier;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.representations.AccessTokenResponse;
@@ -122,8 +121,8 @@ public class RetestAuthentication {
 
 			final AccessTokenResponse tokenResponse =
 					ServerRequest.invokeAccessCodeToToken( deployment, callback.result.getCode(), redirectUri, null );
+			accessToken = tokenResponse.getToken();
 			offlineToken = tokenResponse.getRefreshToken();
-			parseAccessToken( tokenResponse );
 
 			handler.authenticated();
 		} catch ( final InterruptedException e ) {
@@ -131,14 +130,6 @@ public class RetestAuthentication {
 			Thread.currentThread().interrupt();
 		}
 
-	}
-
-	private void parseAccessToken( final AccessTokenResponse tokenResponse ) throws VerificationException {
-		accessToken = tokenResponse.getToken();
-		final String idTokenString = tokenResponse.getIdToken();
-
-		final AdapterTokenVerifier.VerifiedTokens tokens =
-				AdapterTokenVerifier.verifyTokens( accessToken, idTokenString, deployment );
 	}
 
 	public String getAccessToken() {
@@ -153,8 +144,8 @@ public class RetestAuthentication {
 	private void refreshTokens() {
 		if ( !isTokenValid() ) {
 			try {
-				parseAccessToken( ServerRequest.invokeRefresh( deployment, offlineToken ) );
-			} catch ( final IOException | HttpFailure | VerificationException e ) {
+				ServerRequest.invokeRefresh( deployment, offlineToken );
+			} catch ( final IOException | HttpFailure e ) {
 				log.error( "Error refreshing token(s)", e );
 			}
 		}
