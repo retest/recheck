@@ -87,7 +87,6 @@ public class TestReport extends Persistable {
 				+ ", Actions: " + getNumberOfActions() //
 				+ ", Checked Elements: " + getCheckedUiElementsCount() //
 				+ ", Differences: " + getDifferencesCount() //
-				+ ", Errors: " + getErrorsCount() //
 				+ ")";
 	}
 
@@ -129,14 +128,6 @@ public class TestReport extends Persistable {
 			differences += suiteReplayResult.getDifferencesCount();
 		}
 		return differences;
-	}
-
-	public int getErrorsCount() {
-		int errors = 0;
-		for ( final SuiteReplayResult suiteReplayResult : suiteReplayResults ) {
-			errors += suiteReplayResult.getErrorsCount();
-		}
-		return errors;
 	}
 
 	public String getExecSuiteSutVersion() {

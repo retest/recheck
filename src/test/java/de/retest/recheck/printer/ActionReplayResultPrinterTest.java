@@ -17,8 +17,6 @@ import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.actions.ExceptionWrapper;
-import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.PathAttribute;
@@ -39,34 +37,6 @@ class ActionReplayResultPrinterTest {
 	@BeforeEach
 	void setUp() {
 		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
-	}
-
-	@Test
-	void toString_with_error_should_print_error() {
-		final ExceptionWrapper exception = mock( ExceptionWrapper.class );
-		when( exception.toString() ).thenReturn( "error" );
-
-		final ActionReplayResult result = mock( ActionReplayResult.class );
-		when( result.getDescription() ).thenReturn( "foo" );
-		when( result.getThrowableWrapper() ).thenReturn( exception );
-
-		final String string = cut.toString( result );
-
-		assertThat( string ).isEqualTo( "foo resulted in:\n\terror" );
-	}
-
-	@Test
-	void toString_with_target_not_found_should_print_error() {
-		final TargetNotFoundException exception = mock( TargetNotFoundException.class );
-		when( exception.toString() ).thenReturn( "tnfe" );
-
-		final ActionReplayResult result = mock( ActionReplayResult.class );
-		when( result.getDescription() ).thenReturn( "foo" );
-		when( result.getTargetNotFoundException() ).thenReturn( exception );
-
-		final String string = cut.toString( result );
-
-		assertThat( string ).isEqualTo( "foo resulted in:\n\ttnfe" );
 	}
 
 	@Test

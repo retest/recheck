@@ -32,7 +32,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	}
 
 	private boolean shouldPrint( final ActionReplayResult actionReplayResult ) {
-		return actionReplayResult.hasDifferences() || actionReplayResult.hasError();
+		return actionReplayResult.hasDifferences();
 	}
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {

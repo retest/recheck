@@ -10,8 +10,6 @@ import java.util.Optional;
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.report.action.ActionReplayData;
-import de.retest.recheck.ui.actions.ExceptionWrapper;
-import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributesDifference;
@@ -65,14 +63,11 @@ public class TestReportFilter {
 
 		final ActionReplayData data = ActionReplayData.withTarget( actionReplayResult.getDescription(),
 				actionReplayResult.getTargetComponent(), actionReplayResult.getGoldenMasterPath() );
-		final ExceptionWrapper error = actionReplayResult.getThrowableWrapper();
-		final TargetNotFoundException tnfe = (TargetNotFoundException) actionReplayResult.getTargetNotFoundException();
 		final StateDifference newStateDiff = filter( actionReplayResult.getStateDifference() );
 		final long actualDuration = actionReplayResult.getDuration();
 		final SutState actualState = new SutState( actionReplayResult.getWindows() );
 
-		return ActionReplayResult.createActionReplayResult( data, error, tnfe, newStateDiff, actualDuration,
-				actualState );
+		return ActionReplayResult.createActionReplayResult( data, newStateDiff, actualDuration, actualState );
 	}
 
 	// Filter classes from de.retest.recheck.ui.diff.

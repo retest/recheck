@@ -5,7 +5,6 @@ import java.util.Collections;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
-import de.retest.recheck.report.action.ErrorHolder;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.RootElementDifference;
@@ -23,7 +22,7 @@ public class NoGoldenMasterActionReplayResult extends ActionReplayResult {
 	public NoGoldenMasterActionReplayResult( final String currentStep, final SutState actual,
 			final String goldenMasterPath ) {
 		super( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ), WindowRetriever.empty(),
-				ErrorHolder.empty(), DifferenceRetriever.of( toStateDifference( actual ) ), 0L, null );
+				DifferenceRetriever.of( toStateDifference( actual ) ), 0L );
 	}
 
 	private static StateDifference toStateDifference( final SutState actual ) {
