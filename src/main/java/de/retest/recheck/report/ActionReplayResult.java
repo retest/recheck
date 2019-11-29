@@ -43,7 +43,7 @@ import de.retest.recheck.ui.image.Screenshot;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ActionReplayResult implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private static final long NO_DURATION = 0L;
 
 	@XmlAttribute
