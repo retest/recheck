@@ -99,7 +99,6 @@ public class RetestAuthentication {
 					.queryParam( OAuth2Constants.SCOPE, OAuth2Constants.OFFLINE_ACCESS );
 
 			final URI loginUri = URI.create( builder.build().toString() );
-			log.debug( "Open login URI '{}' in browser to login", loginUri );
 			handler.showWebLoginUri( loginUri );
 
 			callback.join();
