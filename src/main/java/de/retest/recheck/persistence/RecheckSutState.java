@@ -19,12 +19,12 @@ public class RecheckSutState {
 
 	private RecheckSutState() {}
 
-	public static SutState convert( final Object toVerify, final RecheckAdapter adapter ) {
-		final Set<RootElement> converted = adapter.convert( toVerify );
+	public static SutState convert( final Object toCheck, final RecheckAdapter adapter ) {
+		final Set<RootElement> converted = adapter.convert( toCheck );
 		if ( converted == null || converted.isEmpty() ) {
 			throw new IllegalStateException( "Cannot check empty state!" );
 		}
-		return new SutState( converted );
+		return new SutState( converted, adapter.retrieveMetadata( toCheck ) );
 	}
 
 	public static SutState createNew( final File file, final SutState actual ) {

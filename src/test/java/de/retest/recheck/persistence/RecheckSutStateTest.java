@@ -10,6 +10,8 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -62,6 +64,18 @@ class RecheckSutStateTest {
 		when( adapter.convert( any() ) ).thenReturn( Collections.singleton( mock( RootElement.class ) ) );
 
 		assertThat( RecheckSutState.convert( convert, adapter ) ).isNotNull();
+	}
+
+	@Test
+	void convert_should_respect_metadata() {
+		final Object convert = mock( Object.class );
+		final RecheckAdapter adapter = mock( RecheckAdapter.class );
+		when( adapter.convert( any() ) ).thenReturn( Collections.singleton( mock( RootElement.class ) ) );
+		final Map<String, String> metadata = new HashMap<>();
+		metadata.put( "someKey", "someValue" );
+		when( adapter.retrieveMetadata( any() ) ).thenReturn( metadata );
+
+		assertThat( RecheckSutState.convert( convert, adapter ).getMetadata( "someKey" ) ).isEqualTo( "someValue" );
 	}
 
 	@Test
