@@ -69,7 +69,7 @@ class RecheckDifferenceFinderTest {
 
 		assertThat( differences.hasDifferences() ).isFalse();
 		assertThat( differences.getDifferences() ).hasSize( 0 );
-		assertThat( differences.getStateDifference() ).isNull();
+		assertThat( differences.getStateDifference().size() ).isEqualTo( 0 );
 		assertThat( differences.getWindows() ).isNotEmpty();
 	}
 }
