@@ -33,7 +33,7 @@ public class RecheckDifferenceFinder {
 	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
 		final List<RootElementDifference> differences =
 				finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
-		if ( differences != null && !differences.isEmpty() ) {
+		if ( !differences.isEmpty() ) {
 			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
 			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
 					WindowRetriever.empty(), DifferenceRetriever.of( new StateDifference( differences ) ), 0L );
