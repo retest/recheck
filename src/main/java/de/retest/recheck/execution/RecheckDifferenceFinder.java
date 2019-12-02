@@ -11,7 +11,6 @@ import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
-import de.retest.recheck.ui.diff.DifferenceResult;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -32,15 +31,15 @@ public class RecheckDifferenceFinder {
 	}
 
 	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
-		return toActionReplayResult( new DifferenceResult( actual, findDifferencesBetweenStates( actual, expected ) ) );
+		return toActionReplayResult( actual, findDifferencesBetweenStates( actual, expected ) );
 	}
 
 	private List<RootElementDifference> findDifferencesBetweenStates( final SutState actual, final SutState expected ) {
 		return finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
 	}
 
-	private ActionReplayResult toActionReplayResult( final DifferenceResult check ) {
-		final List<RootElementDifference> differences = check.getDifferences();
+	private ActionReplayResult toActionReplayResult( final SutState actual,
+			final List<RootElementDifference> differences ) {
 		if ( differences != null && !differences.isEmpty() ) {
 			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
 			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
@@ -48,6 +47,6 @@ public class RecheckDifferenceFinder {
 		}
 		logger.debug( "Found no differences in step '{}'.", currentStep );
 		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
-				WindowRetriever.of( check.getCurrentSutState() ), 0L );
+				WindowRetriever.of( actual ), 0L );
 	}
 }
