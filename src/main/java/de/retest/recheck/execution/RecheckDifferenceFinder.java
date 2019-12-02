@@ -31,15 +31,8 @@ public class RecheckDifferenceFinder {
 	}
 
 	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
-		return toActionReplayResult( actual, findDifferencesBetweenStates( actual, expected ) );
-	}
-
-	private List<RootElementDifference> findDifferencesBetweenStates( final SutState actual, final SutState expected ) {
-		return finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
-	}
-
-	private ActionReplayResult toActionReplayResult( final SutState actual,
-			final List<RootElementDifference> differences ) {
+		final List<RootElementDifference> differences =
+				finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
 		if ( differences != null && !differences.isEmpty() ) {
 			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
 			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
@@ -49,4 +42,5 @@ public class RecheckDifferenceFinder {
 		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
 				WindowRetriever.of( actual ), 0L );
 	}
+
 }
