@@ -5,6 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -71,5 +73,29 @@ class RecheckDifferenceFinderTest {
 		assertThat( differences.getDifferences() ).hasSize( 0 );
 		assertThat( differences.getStateDifference().size() ).isEqualTo( 0 );
 		assertThat( differences.getWindows() ).isNotEmpty();
+	}
+
+	@Test
+	void findDifferences_should_still_find_metadata_differences_if_no_element_differences_found() throws Exception {
+		final Map<String, String> actualMetadata = new HashMap<>();
+		actualMetadata.put( "a", "b" );
+
+		final SutState actual = mock( SutState.class );
+		when( actual.getRootElements() ).thenReturn( Collections.emptyList() );
+		when( actual.getMetadata() ).thenReturn( actualMetadata );
+
+		final Map<String, String> expectedMetadata = new HashMap<>();
+		expectedMetadata.put( "a", "c" );
+
+		final SutState expected = mock( SutState.class );
+		when( expected.getRootElements() ).thenReturn( Collections.emptyList() );
+		when( expected.getMetadata() ).thenReturn( expectedMetadata );
+
+		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( null, "foo", "" );
+
+		final ActionReplayResult differences = cut.findDifferences( actual, expected );
+
+		assertThat( differences.hasDifferences() ).isFalse();
+		assertThat( differences.getMetadataDifference() ).isNotEmpty();
 	}
 }
