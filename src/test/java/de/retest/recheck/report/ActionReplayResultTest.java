@@ -147,7 +147,7 @@ class ActionReplayResultTest {
 				) ) ) );
 
 		final ActionReplayResult cut = ActionReplayResult.withDifference( ActionReplayData.ofSutStart(),
-				WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
+				WindowRetriever.empty(), DifferenceRetriever.of( new StateDifference( differences ) ), 0L );
 
 		assertThat( cut.getDifferences() ).hasSize( 21 );
 	}

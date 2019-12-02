@@ -14,6 +14,7 @@ import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.DifferenceResult;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
+import de.retest.recheck.ui.diff.StateDifference;
 
 public class RecheckDifferenceFinder {
 
@@ -43,7 +44,7 @@ public class RecheckDifferenceFinder {
 		if ( differences != null && !differences.isEmpty() ) {
 			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
 			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
-					WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
+					WindowRetriever.empty(), DifferenceRetriever.of( new StateDifference( differences ) ), 0L );
 		}
 		logger.debug( "Found no differences in step '{}'.", currentStep );
 		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),

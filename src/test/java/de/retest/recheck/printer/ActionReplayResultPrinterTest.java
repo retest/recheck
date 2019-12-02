@@ -149,7 +149,8 @@ class ActionReplayResultPrinterTest {
 				new RootElementDifference( differences, mock( RootElement.class ), mock( RootElement.class ) );
 
 		final ActionReplayResult replayResult = ActionReplayResult.withDifference( ActionReplayData.ofSutStart(),
-				WindowRetriever.empty(), DifferenceRetriever.of( Collections.singletonList( rootDifference ) ), 0L );
+				WindowRetriever.empty(),
+				DifferenceRetriever.of( new StateDifference( Collections.singletonList( rootDifference ) ) ), 0L );
 
 		ApprovalsUtil.verify( cut.toString( replayResult ) );
 	}
