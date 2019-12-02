@@ -67,7 +67,7 @@ public class TestReportFilter {
 		final long actualDuration = actionReplayResult.getDuration();
 
 		return ActionReplayResult.withDifference( data, actionReplayResult::getWindows,
-				DifferenceRetriever.of( newStateDiff ), actualDuration );
+				DifferenceRetriever.of( newStateDiff, actionReplayResult.getMetadataDifference() ), actualDuration );
 	}
 
 	// Filter classes from de.retest.recheck.ui.diff.
