@@ -1,16 +1,17 @@
 package de.retest.recheck.report.action;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 
 @FunctionalInterface
-public interface DifferenceRetriever extends Supplier<StateDifference> {
+public interface DifferenceRetriever {
+
+	StateDifference getStateDifference();
 
 	default boolean isNull() {
-		return get() == null;
+		return getStateDifference() == null;
 	}
 
 	static DifferenceRetriever empty() {

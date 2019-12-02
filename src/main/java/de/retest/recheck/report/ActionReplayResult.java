@@ -147,7 +147,7 @@ public class ActionReplayResult implements Serializable {
 		this.windows = windows.get();
 		this.error = error.getThrowableWrapper();
 		targetNotFound = error.getTargetNotFoundWrapper();
-		stateDifference = difference.get();
+		stateDifference = difference.getStateDifference();
 		this.duration = duration;
 		this.executionType = executionType;
 	}
