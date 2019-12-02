@@ -20,8 +20,7 @@ public class SutStateFilter {
 		final List<RootElement> filteredRootElements = rootElements.stream() //
 				.map( this::filter ) //
 				.collect( Collectors.toList() );
-		final SutState newSutState = new SutState( filteredRootElements, sutState.getMetadata() );
-		return newSutState;
+		return new SutState( filteredRootElements, sutState::getMetadata );
 	}
 
 	public RootElement filter( final RootElement rootElement ) {

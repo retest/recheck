@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.meta.MetadataProvider;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.image.Screenshot;
@@ -291,7 +292,7 @@ class SutStateFilterTest {
 	}
 
 	private SutState createSutState( final Collection<RootElement> rootElements ) {
-		return new SutState( rootElements, Collections.emptyMap() );
+		return new SutState( rootElements, MetadataProvider.empty() );
 	}
 
 	private static class Component {}

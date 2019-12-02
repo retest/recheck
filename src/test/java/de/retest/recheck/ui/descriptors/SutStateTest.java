@@ -16,7 +16,7 @@ class SutStateTest {
 		final HashMap<String, String> oldMetadata = new HashMap<>();
 		oldMetadata.put( "unchanged", "oldValue" );
 		oldMetadata.put( "updated", "oldValue" );
-		final SutState old = new SutState( Collections.emptyList(), oldMetadata );
+		final SutState old = new SutState( Collections.emptyList(), () -> oldMetadata );
 
 		final HashMap<String, String> newMetadata = new HashMap<>();
 		newMetadata.put( "updated", "newValue" );
