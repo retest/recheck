@@ -282,7 +282,8 @@ public class RecheckOptions {
 			}
 			return new CompoundFilter( filter, //
 					RecheckIgnoreUtil.loadRecheckIgnore(), //
-					RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath( suiteName ) ) );
+					RecheckIgnoreUtil.loadRecheckSuiteIgnore( getSuitePath( suiteName ) ), //
+					RecheckIgnoreUtil.loadRecheckUserIgnore() );
 		}
 
 		File getSuitePath( final String suiteName ) {

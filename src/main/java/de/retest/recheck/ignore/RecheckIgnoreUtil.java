@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -42,13 +43,18 @@ public class RecheckIgnoreUtil {
 		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath.toPath() ) );
 	}
 
+	public static GlobalIgnoreApplier loadRecheckUserIgnore() {
+		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(),
+				Paths.get( System.getProperty( "user.home" ), ".retest" ) ) );
+	}
+
 	private static GlobalIgnoreApplier loadRecheckSuiteIgnore( final LoadFilterWorker loadFilterWorker ) {
 		try {
 			return loadFilterWorker.load();
 		} catch ( final NoSuchFileException | FileNotFoundException e ) {
-			logger.debug( "Ignoring missing suite ignore file." );
+			logger.debug( "Ignoring missing suite or user ignore file." );
 		} catch ( final Exception e ) {
-			logger.error( "Exception loading suite ignore file.", e );
+			logger.error( "Exception loading suite or user ignore file.", e );
 		}
 		return GlobalIgnoreApplier.create( NopCounter.getInstance() );
 	}
