@@ -31,6 +31,8 @@ import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
+import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 
 class ActionReplayResultTest {
 
@@ -150,6 +152,22 @@ class ActionReplayResultTest {
 				WindowRetriever.empty(), DifferenceRetriever.of( new StateDifference( differences ) ), 0L );
 
 		assertThat( cut.getDifferences() ).hasSize( 21 );
+	}
+
+	@Test
+	void metadata_should_have_no_influence_in_differences() throws Exception {
+		final ActionReplayResult cut =
+				ActionReplayResult
+						.withDifference( ActionReplayData.ofSutStart(), WindowRetriever.empty(),
+								DifferenceRetriever.of( MetadataDifference.of(
+										Collections.singleton( new MetadataElementDifference( "a", "b", "c" ) ) ) ),
+								0L );
+
+		assertThat( cut.getMetadataDifference() ).isNotEmpty();
+		assertThat( cut.hasDifferences() ).isFalse();
+		assertThat( cut.getDifferences() ).isEmpty();
+		assertThat( cut.getStateDifference().size() ).isEqualTo( 0 );
+		assertThat( cut.getAllElementDifferences() ).isEmpty();
 	}
 
 	RootElementDifference root( final ElementDifference difference ) {
