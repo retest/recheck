@@ -34,10 +34,18 @@ public class RecheckDifferenceFinder {
 		final List<RootElementDifference> differences =
 				finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
 		if ( !differences.isEmpty() ) {
-			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
-			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
-					WindowRetriever.empty(), DifferenceRetriever.of( new StateDifference( differences ) ), 0L );
+			return createResult( new StateDifference( differences ) );
 		}
+		return createEmptyResult( actual );
+	}
+
+	private ActionReplayResult createResult( final StateDifference stateDifference ) {
+		logger.debug( "Found {} differences for step '{}'.", stateDifference.size(), currentStep );
+		return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
+				WindowRetriever.empty(), DifferenceRetriever.of( stateDifference ), 0L );
+	}
+
+	private ActionReplayResult createEmptyResult( final SutState actual ) {
 		logger.debug( "Found no differences in step '{}'.", currentStep );
 		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
 				WindowRetriever.of( actual ), 0L );
