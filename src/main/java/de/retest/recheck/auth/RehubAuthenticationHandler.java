@@ -33,4 +33,9 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 		log.error( "Login failed: ", reason );
 	}
 
+	@Override
+	public String getOfflineToken() {
+		return Rehub.getRecheckApiKey();
+	}
+
 }

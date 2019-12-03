@@ -24,4 +24,9 @@ public class DefaultAuthenticationHandler implements AuthenticationHandler {
 		logger.error( "Login failed: ", reason );
 	}
 
+	@Override
+	public String getOfflineToken() {
+		return null;
+	}
+
 }
