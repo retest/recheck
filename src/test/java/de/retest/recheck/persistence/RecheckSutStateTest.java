@@ -18,6 +18,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.RecheckAdapter;
 import de.retest.recheck.ui.descriptors.RootElement;
+import de.retest.recheck.ui.descriptors.SutState;
 
 class RecheckSutStateTest {
 
@@ -76,6 +77,17 @@ class RecheckSutStateTest {
 		when( adapter.retrieveMetadata( any() ) ).thenReturn( metadata );
 
 		assertThat( RecheckSutState.convert( convert, adapter ).getMetadata( "someKey" ) ).isEqualTo( "someValue" );
+	}
+
+	@Test
+	void convert_should_add_global_metadata() throws Exception {
+		final Object convert = mock( Object.class );
+		final RecheckAdapter adapter = mock( RecheckAdapter.class );
+		when( adapter.convert( any() ) ).thenReturn( Collections.singleton( mock( RootElement.class ) ) );
+
+		final SutState state = RecheckSutState.convert( convert, adapter );
+
+		assertThat( state.getMetadata() ).isNotEmpty();
 	}
 
 	@Test
