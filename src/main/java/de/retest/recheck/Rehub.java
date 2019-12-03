@@ -2,10 +2,10 @@ package de.retest.recheck;
 
 import java.util.prefs.Preferences;
 
-import de.retest.recheck.Properties.FileOutputFormat;
 import de.retest.recheck.auth.RehubAuthenticationHandler;
 import de.retest.recheck.auth.RetestAuthentication;
 import de.retest.recheck.persistence.CloudPersistence;
+import de.retest.recheck.persistence.FileOutputFormat;
 
 public class Rehub {
 
@@ -21,7 +21,7 @@ public class Rehub {
 
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 		auth.authenticate( new RehubAuthenticationHandler() );
-		System.setProperty( Properties.FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.CLOUD.toString() );
+		RecheckProperties.getInstance().setProperty( "de.retest.output.Format", FileOutputFormat.CLOUD.toString() );
 	}
 
 	/**

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class SearchFilterFilesTest {
@@ -27,7 +27,7 @@ class SearchFilterFilesTest {
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws IOException {
-		retestFolder = temp.resolve( Properties.RETEST_FOLDER_NAME );
+		retestFolder = temp.resolve( RecheckProperties.RETEST_FOLDER_NAME );
 		filterFolder = retestFolder.resolve( SearchFilterFiles.FILTER_DIR_NAME );
 		Files.createDirectories( filterFolder );
 	}

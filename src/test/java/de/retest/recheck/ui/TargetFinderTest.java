@@ -126,7 +126,7 @@ public class TargetFinderTest {
 
 	@Test
 	public void other_identifyingAttributes_in_best_match_and_match_is_less_than_threshold() throws Exception {
-		final double match = TargetFinder.MATCH_THRESHOLD - 0.01;
+		final double match = TargetFinder.ELEMENT_MATCH_THRESHOLD - 0.01;
 		when( component.match( any( IdentifyingAttributes.class ) ) ).thenReturn( match );
 
 		final IdentifyingAttributes otherIdentAttributes = mock( IdentifyingAttributes.class );
@@ -154,7 +154,7 @@ public class TargetFinderTest {
 
 	@Test
 	public void other_identifyingAttributes_in_best_match_and_match_is_equal_to_threshold() throws Exception {
-		final double match = TargetFinder.MATCH_THRESHOLD;
+		final double match = TargetFinder.ELEMENT_MATCH_THRESHOLD;
 
 		when( component.getIdentifyingAttributes() ).thenReturn( otherIdentAttributes );
 		when( component.match( any( IdentifyingAttributes.class ) ) ).thenReturn( match );
@@ -170,7 +170,7 @@ public class TargetFinderTest {
 
 	@Test
 	public void other_identifyingAttributes_in_best_match_and_match_is_greater_than_threshold() throws Exception {
-		final double match = TargetFinder.MATCH_THRESHOLD + 0.01d;
+		final double match = TargetFinder.ELEMENT_MATCH_THRESHOLD + 0.01d;
 
 		when( component.getIdentifyingAttributes() ).thenReturn( otherIdentAttributes );
 		when( component.match( any( IdentifyingAttributes.class ) ) ).thenReturn( match );

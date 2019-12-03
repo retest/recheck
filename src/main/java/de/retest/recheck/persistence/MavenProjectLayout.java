@@ -1,6 +1,6 @@
 package de.retest.recheck.persistence;
 
-import static de.retest.recheck.Properties.RECHECK_FOLDER_NAME;
+import static de.retest.recheck.RecheckProperties.RECHECK_FOLDER_NAME;
 
 import java.nio.file.Paths;
 

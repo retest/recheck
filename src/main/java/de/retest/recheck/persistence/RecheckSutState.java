@@ -8,8 +8,8 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import de.retest.recheck.Properties;
 import de.retest.recheck.RecheckAdapter;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.meta.MetadataProviderService;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
@@ -42,7 +42,7 @@ public class RecheckSutState {
 			return null;
 		}
 		// Folder could exist, but not the retest.xml...
-		if ( !new File( file, Properties.DEFAULT_XML_FILE_NAME ).exists() ) {
+		if ( !new File( file, RecheckProperties.DEFAULT_XML_FILE_NAME ).exists() ) {
 			return null;
 		}
 		try {

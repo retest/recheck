@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.auth.RetestAuthentication;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
@@ -39,7 +39,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	}
 
 	private boolean isAggregatedReport( final URI identifier ) {
-		return identifier.getPath().endsWith( Properties.AGGREGATED_TEST_REPORT_FILE_NAME );
+		return identifier.getPath().endsWith( RecheckProperties.AGGREGATED_TEST_REPORT_FILE_NAME );
 	}
 
 	private List<String> getTestClasses( final TestReport report ) {

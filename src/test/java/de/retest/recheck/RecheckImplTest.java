@@ -1,6 +1,6 @@
 package de.retest.recheck;
 
-import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
+import static de.retest.recheck.RecheckProperties.TEST_REPORT_FILE_EXTENSION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;

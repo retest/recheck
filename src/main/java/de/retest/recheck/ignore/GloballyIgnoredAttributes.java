@@ -1,13 +1,12 @@
 package de.retest.recheck.ignore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 
 /**
  * General interface to ignore changes during Matching
@@ -24,15 +23,11 @@ public class GloballyIgnoredAttributes {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( GloballyIgnoredAttributes.class );
 
-	public static final String IGNORED_ATTRIBUTES_PROPERTY = "de.retest.recheck.ignore.attributes";
-	private static final List<String> ignoredGlobal =
-			Arrays.asList( System.getProperty( IGNORED_ATTRIBUTES_PROPERTY, "" ).split( Properties.PROPERTY_VALUE_SEPARATOR ) );
-
 	private static GloballyIgnoredAttributes instance;
 
 	public static GloballyIgnoredAttributes getInstance() {
 		if ( instance == null ) {
-			instance = new GloballyIgnoredAttributes( ignoredGlobal );
+			instance = new GloballyIgnoredAttributes( RecheckProperties.getInstance().ignoreAttributes() );
 		}
 		return instance;
 	}

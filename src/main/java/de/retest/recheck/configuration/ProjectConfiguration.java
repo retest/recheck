@@ -1,6 +1,6 @@
 package de.retest.recheck.configuration;
 
-import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
+import static de.retest.recheck.RecheckProperties.RETEST_FOLDER_NAME;
 
 import java.io.IOException;
 import java.io.InputStream;

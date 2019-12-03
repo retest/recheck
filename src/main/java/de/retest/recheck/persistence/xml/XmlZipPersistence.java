@@ -1,6 +1,6 @@
 package de.retest.recheck.persistence.xml;
 
-import static de.retest.recheck.Properties.DEFAULT_XML_FILE_NAME;
+import static de.retest.recheck.RecheckProperties.DEFAULT_XML_FILE_NAME;
 import static de.retest.recheck.util.FileUtil.readFromZipFile;
 import static de.retest.recheck.util.FileUtil.writeToFile;
 
@@ -16,7 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.xml.util.LazyScreenshotZipPersistence;
@@ -55,7 +55,7 @@ public class XmlZipPersistence<T extends Persistable> implements Persistence<T> 
 			public void write( final FileOutputStream out ) throws IOException {
 				final ZipOutputStream zout = new ZipOutputStream( out );
 				zout.setLevel( COMPRESSION_LEVEL );
-				zout.putNextEntry( new ZipEntry( Properties.DEFAULT_XML_FILE_NAME ) );
+				zout.putNextEntry( new ZipEntry( RecheckProperties.DEFAULT_XML_FILE_NAME ) );
 				xml.toXML( container, zout, screenshotPersistence.getMarshallListener() );
 				logger.debug( "XML saved, now saving screenshots..." );
 				screenshotPersistence.saveScreenshotsNow( zout );

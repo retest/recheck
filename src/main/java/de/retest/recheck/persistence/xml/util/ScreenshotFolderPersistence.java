@@ -1,6 +1,6 @@
 package de.retest.recheck.persistence.xml.util;
 
-import static de.retest.recheck.Properties.SCREENSHOT_FOLDER_NAME;
+import static de.retest.recheck.RecheckProperties.SCREENSHOT_FOLDER_NAME;
 import static de.retest.recheck.util.FileUtil.tryReadFromFile;
 import static de.retest.recheck.util.FileUtil.tryWriteToFile;
 
