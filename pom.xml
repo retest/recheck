@@ -169,7 +169,7 @@
 		<dependency>
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-installed-adapter</artifactId>
-			<version>8.0.0</version>
+			<version>8.0.1</version>
 		</dependency>
 
 		<dependency>
