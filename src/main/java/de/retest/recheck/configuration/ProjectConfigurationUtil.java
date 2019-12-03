@@ -16,4 +16,8 @@ public class ProjectConfigurationUtil {
 	public static Optional<Path> findProjectConfigurationFolder( final Path basePath ) {
 		return ProjectRootFinderUtil.getProjectRoot( basePath ).map( path -> path.resolve( RETEST_FOLDER_NAME ) );
 	}
+
+	public static Optional<Path> findSuiteConfigurationFolder( final Path basePath ) {
+		return Optional.of( basePath.toAbsolutePath() );
+	}
 }
