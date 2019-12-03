@@ -68,22 +68,23 @@ public class RetestAuthentication {
 		return URI.create( deployment.getAccountUrl() );
 	}
 
-	public boolean isAuthenticated( final String offlineToken ) {
+	public void authenticate( final AuthenticationHandler handler ) throws IOException, HttpFailure {
+		offlineToken = handler.getOfflineToken();
+
 		if ( offlineToken != null ) {
-			this.offlineToken = offlineToken;
 			try {
-				final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
-				accessToken = response.getToken();
-				return true;
+				refreshTokens();
 			} catch ( IOException | HttpFailure e ) {
 				log.info( "Token not recognized, initiating authentication" );
+				login( handler );
 			}
+		} else {
+			log.info( "No active token found, initiating authentication" );
+			login( handler );
 		}
-
-		return false;
 	}
 
-	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
+	private void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -132,7 +133,11 @@ public class RetestAuthentication {
 	}
 
 	public String getAccessToken() {
-		refreshTokens();
+		try {
+			refreshTokens();
+		} catch ( IOException | HttpFailure e ) {
+			log.error( "Error refreshing token(s)", e );
+		}
 		return accessToken;
 	}
 
@@ -140,13 +145,10 @@ public class RetestAuthentication {
 		return offlineToken;
 	}
 
-	private void refreshTokens() {
+	private void refreshTokens() throws IOException, HttpFailure {
 		if ( !isTokenValid() ) {
-			try {
-				ServerRequest.invokeRefresh( deployment, offlineToken );
-			} catch ( final IOException | HttpFailure e ) {
-				log.error( "Error refreshing token(s)", e );
-			}
+			final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
+			accessToken = response.getToken();
 		}
 	}
 
