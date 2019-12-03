@@ -30,6 +30,10 @@ Table of Contents
 ### New Features
 
 * Retrieve and handle metadata from the recheck adapter.
+* Retrieve metadata for the created Golden Master or SUT state that contains the following:
+    * Operating system name and version.
+    * Machine name (if available).
+    * Date and time.
 
 ### Improvements
 
