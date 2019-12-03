@@ -1,7 +1,10 @@
 package de.retest.recheck.ignore;
 
+import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,7 +13,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.configuration.ProjectConfigurationUtil;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
@@ -22,30 +24,31 @@ public class RecheckIgnoreUtil {
 
 	private RecheckIgnoreUtil() {}
 
-	public static Optional<Path> getIgnoreFile() {
-		return getRetestFile( ProjectConfiguration.RECHECK_IGNORE );
-	}
-
-	public static Optional<Path> getIgnoreRuleFile() {
-		return getRetestFile( ProjectConfiguration.RECHECK_IGNORE_JSRULES );
-	}
-
-	private static Optional<Path> getRetestFile( final String filename ) {
+	public static Optional<Path> getProjectIgnoreFile( final String filename ) {
 		final Optional<Path> projectConfigurationFolder = ProjectConfigurationUtil.findProjectConfigurationFolder();
 		return projectConfigurationFolder.map( p -> p.resolve( filename ) );
 	}
 
-	public static GlobalIgnoreApplier loadRecheckIgnore() {
-		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance() ) );
+	public static Optional<Path> getUserIgnoreFile( final String filename ) {
+		final Path userIgnoreFile = Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, filename );
+		if ( Files.exists( userIgnoreFile ) ) {
+			return Optional.of( userIgnoreFile );
+		} else {
+			return Optional.empty();
+		}
 	}
 
-	public static GlobalIgnoreApplier loadRecheckSuiteIgnore( final File ignoreFilesBasePath ) {
+	public static Optional<Path> getSuiteIgnoreFile( final String filename, final Path basePath ) {
+		final Path suiteIgnoreFile = Paths.get( basePath.toAbsolutePath().toString(), filename );
+		if ( Files.exists( suiteIgnoreFile ) ) {
+			return Optional.of( suiteIgnoreFile );
+		} else {
+			return Optional.empty();
+		}
+	}
+
+	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
 		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath.toPath() ) );
-	}
-
-	public static GlobalIgnoreApplier loadRecheckUserIgnore() {
-		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(),
-				Paths.get( System.getProperty( "user.home" ), ".retest" ) ) );
 	}
 
 	private static GlobalIgnoreApplier loadRecheckSuiteIgnore( final LoadFilterWorker loadFilterWorker ) {
