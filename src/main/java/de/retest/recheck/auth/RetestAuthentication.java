@@ -23,10 +23,8 @@ import org.keycloak.adapters.KeycloakDeployment;
 import org.keycloak.adapters.KeycloakDeploymentBuilder;
 import org.keycloak.adapters.ServerRequest;
 import org.keycloak.adapters.ServerRequest.HttpFailure;
-import org.keycloak.adapters.rotation.AdapterTokenVerifier;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.KeycloakUriBuilder;
-import org.keycloak.representations.AccessToken;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.adapters.config.AdapterConfig;
 
@@ -43,9 +41,8 @@ public class RetestAuthentication {
 
 	private final KeycloakDeployment deployment;
 
-	private String refreshToken;
-	private AccessToken accessToken;
-	private String accessTokenString;
+	private String offlineToken;
+	private String accessToken;
 
 	private static RetestAuthentication instance;
 
@@ -73,22 +70,20 @@ public class RetestAuthentication {
 
 	public boolean isAuthenticated( final String offlineToken ) {
 		if ( offlineToken != null ) {
-			refreshToken = offlineToken;
+			this.offlineToken = offlineToken;
 			try {
 				final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
-				accessToken = verifyToken( response.getToken(), deployment );
-				accessTokenString = response.getToken();
+				accessToken = response.getToken();
 				return true;
-			} catch ( IOException | HttpFailure | VerificationException e ) {
-				log.info( "Token not recognized, please authenticate" );
-				log.debug( "Error verifying offline token", e );
+			} catch ( IOException | HttpFailure e ) {
+				log.info( "Token not recognized, initiating authentication" );
 			}
 		}
 
 		return false;
 	}
 
-	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure, VerificationException {
+	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -104,7 +99,6 @@ public class RetestAuthentication {
 					.queryParam( OAuth2Constants.SCOPE, OAuth2Constants.OFFLINE_ACCESS );
 
 			final URI loginUri = URI.create( builder.build().toString() );
-			log.debug( "Open login URI '{}' in browser to login", loginUri );
 			handler.showWebLoginUri( loginUri );
 
 			callback.join();
@@ -126,8 +120,8 @@ public class RetestAuthentication {
 
 			final AccessTokenResponse tokenResponse =
 					ServerRequest.invokeAccessCodeToToken( deployment, callback.result.getCode(), redirectUri, null );
-			refreshToken = tokenResponse.getRefreshToken();
-			parseAccessToken( tokenResponse );
+			accessToken = tokenResponse.getToken();
+			offlineToken = tokenResponse.getRefreshToken();
 
 			handler.authenticated();
 		} catch ( final InterruptedException e ) {
@@ -137,34 +131,20 @@ public class RetestAuthentication {
 
 	}
 
-	private void parseAccessToken( final AccessTokenResponse tokenResponse ) throws VerificationException {
-		accessTokenString = tokenResponse.getToken();
-		final String idTokenString = tokenResponse.getIdToken();
-
-		final AdapterTokenVerifier.VerifiedTokens tokens =
-				AdapterTokenVerifier.verifyTokens( accessTokenString, idTokenString, deployment );
-		accessToken = tokens.getAccessToken();
-	}
-
-	public AccessToken getAccessToken() {
+	public String getAccessToken() {
 		refreshTokens();
 		return accessToken;
 	}
 
-	public String getAccessTokenString() {
-		refreshTokens();
-		return accessTokenString;
-	}
-
-	public String getOfflineTokenString() {
-		return refreshToken;
+	public String getOfflineToken() {
+		return offlineToken;
 	}
 
 	private void refreshTokens() {
 		if ( !isTokenValid() ) {
 			try {
-				parseAccessToken( ServerRequest.invokeRefresh( deployment, refreshToken ) );
-			} catch ( final IOException | HttpFailure | VerificationException e ) {
+				ServerRequest.invokeRefresh( deployment, offlineToken );
+			} catch ( final IOException | HttpFailure e ) {
 				log.error( "Error refreshing token(s)", e );
 			}
 		}
@@ -172,8 +152,7 @@ public class RetestAuthentication {
 
 	private boolean isTokenValid() {
 		try {
-			return accessTokenString != null && accessToken != null
-					&& verifyToken( accessTokenString, deployment ).isActive();
+			return accessToken != null && verifyToken( accessToken, deployment ).isActive();
 		} catch ( final VerificationException e ) {
 			log.info( "Current token is invalid, requesting new one" );
 		}
