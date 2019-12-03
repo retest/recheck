@@ -1,5 +1,7 @@
 package de.retest.recheck.review.workers;
 
+import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
@@ -24,7 +26,7 @@ public class SaveFilterWorker {
 	}
 
 	public void save() throws IOException {
-		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getIgnoreFile();
+		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
 		// Filter JSFilter because that would create unnecessary file content.
