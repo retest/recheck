@@ -137,7 +137,6 @@ public class RecheckOptions {
 
 		protected RecheckOptionsBuilder() {}
 
-
 		/**
 		 * @deprecated Use {@link #namingStrategy} and {@link #projectLayout} instead.
 		 *

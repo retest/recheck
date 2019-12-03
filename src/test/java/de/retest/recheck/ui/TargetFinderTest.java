@@ -183,6 +183,5 @@ public class TargetFinderTest {
 
 	}
 
-	private static class Comp {
-	}
+	private static class Comp {}
 }

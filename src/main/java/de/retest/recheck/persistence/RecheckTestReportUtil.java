@@ -20,8 +20,7 @@ public class RecheckTestReportUtil {
 
 	private static final PersistenceFactory persistenceFactory = new PersistenceFactory( getXmlTransformer() );
 
-	private RecheckTestReportUtil() {
-	}
+	private RecheckTestReportUtil() {}
 
 	public static void persist( final SuiteReplayResult suite, final File file ) {
 		logger.info( "Persisting test report to file '{}'.", file.getAbsoluteFile().toURI() );
