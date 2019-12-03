@@ -68,7 +68,7 @@ public class RetestAuthentication {
 		return URI.create( deployment.getAccountUrl() );
 	}
 
-	public void authenticate( final AuthenticationHandler handler ) throws IOException, HttpFailure {
+	public void authenticate( final AuthenticationHandler handler ) {
 		offlineToken = handler.getOfflineToken();
 
 		if ( offlineToken != null ) {
@@ -84,7 +84,7 @@ public class RetestAuthentication {
 		}
 	}
 
-	private void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
+	private void login( final AuthenticationHandler handler ) {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -125,8 +125,8 @@ public class RetestAuthentication {
 			offlineToken = tokenResponse.getRefreshToken();
 
 			handler.loginPerformed( offlineToken );
-		} catch ( final InterruptedException e ) {
-			log.error( "Error during authentication, thread interrupted", e );
+		} catch ( final InterruptedException | IOException | HttpFailure e ) {
+			log.error( "Error during authentication", e );
 			Thread.currentThread().interrupt();
 		}
 
