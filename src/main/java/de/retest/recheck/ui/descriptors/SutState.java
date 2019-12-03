@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.retest.recheck.meta.MetadataProvider;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.review.ActionChangeSet;
 
@@ -37,16 +38,16 @@ public class SutState extends Persistable {
 	}
 
 	public SutState( final Collection<RootElement> set ) {
-		this( set, Collections.emptyMap() );
+		this( set, MetadataProvider.empty() );
 	}
 
-	public SutState( final Collection<RootElement> set, final Map<String, String> metadata ) {
+	public SutState( final Collection<RootElement> set, final MetadataProvider metadata ) {
 		super( PERSISTENCE_VERSION );
 		if ( set == null ) {
 			throw new NullPointerException();
 		}
 		descriptors = new ArrayList<>( set );
-		this.metadata = new HashMap<>( metadata );
+		this.metadata = new HashMap<>( metadata.retrieve() );
 	}
 
 	public List<RootElement> getRootElements() {
@@ -100,6 +101,6 @@ public class SutState extends Persistable {
 		}
 		final Map<String, String> newMetadata = new HashMap<>( metadata );
 		newMetadata.putAll( actionChangeSet.getMetadata() );
-		return new SutState( descriptors, newMetadata );
+		return new SutState( descriptors, () -> newMetadata );
 	}
 }

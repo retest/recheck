@@ -10,6 +10,7 @@ import java.util.Set;
 
 import de.retest.recheck.Properties;
 import de.retest.recheck.RecheckAdapter;
+import de.retest.recheck.meta.MetadataProviderService;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
 
@@ -24,7 +25,7 @@ public class RecheckSutState {
 		if ( converted == null || converted.isEmpty() ) {
 			throw new IllegalStateException( "Cannot check empty state!" );
 		}
-		return new SutState( converted, adapter.retrieveMetadata( toCheck ) );
+		return new SutState( converted, MetadataProviderService.of( () -> adapter.retrieveMetadata( toCheck ) ) );
 	}
 
 	public static SutState createNew( final File file, final SutState actual ) {
