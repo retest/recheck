@@ -6,7 +6,7 @@ public interface AuthenticationHandler {
 
 	void showWebLoginUri( URI loginUri );
 
-	void loginPerformed();
+	void loginPerformed( String token );
 
 	void loginFailed( Throwable reason );
 

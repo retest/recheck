@@ -15,7 +15,7 @@ public class DefaultAuthenticationHandler implements AuthenticationHandler {
 	}
 
 	@Override
-	public void loginPerformed() {
+	public void loginPerformed( final String token ) {
 		logger.info( "Login successful." );
 	}
 

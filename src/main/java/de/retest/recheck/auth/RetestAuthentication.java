@@ -123,7 +123,7 @@ public class RetestAuthentication {
 			accessToken = tokenResponse.getToken();
 			offlineToken = tokenResponse.getRefreshToken();
 
-			handler.loginPerformed();
+			handler.loginPerformed( offlineToken );
 		} catch ( final InterruptedException e ) {
 			log.error( "Error during authentication, thread interrupted", e );
 			Thread.currentThread().interrupt();
