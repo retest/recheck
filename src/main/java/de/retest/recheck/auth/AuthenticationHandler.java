@@ -10,6 +10,10 @@ public interface AuthenticationHandler {
 
 	void loginFailed( Throwable reason );
 
+	void logoutPerformed();
+
+	void logoutFailed( Throwable reason );
+
 	String getOfflineToken();
 
 }

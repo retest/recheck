@@ -132,6 +132,22 @@ public class RetestAuthentication {
 
 	}
 
+	public void logout( final AuthenticationHandler handler ) {
+		offlineToken = handler.getOfflineToken();
+		if ( offlineToken != null ) {
+			try {
+				log.info( "Performing logout" );
+				ServerRequest.invokeLogout( deployment, offlineToken );
+				handler.logoutPerformed();
+			} catch ( IOException | HttpFailure e ) {
+				log.error( "Error during logout", e );
+				handler.logoutFailed( e );
+			}
+		} else {
+			log.error( "No offline token provided" );
+		}
+	}
+
 	public String getAccessToken() {
 		try {
 			refreshTokens();
