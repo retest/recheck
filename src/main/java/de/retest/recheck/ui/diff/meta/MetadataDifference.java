@@ -22,6 +22,11 @@ public final class MetadataDifference implements Iterable<MetadataElementDiffere
 	@Getter
 	private final Set<MetadataElementDifference> differences;
 
+	// For JAXB
+	private MetadataDifference() {
+		this( Collections.emptySet() );
+	}
+
 	public static MetadataDifference empty() {
 		return new MetadataDifference( Collections.emptySet() );
 	}
