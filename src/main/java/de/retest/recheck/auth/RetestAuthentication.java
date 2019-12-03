@@ -37,7 +37,7 @@ public class RetestAuthentication {
 	public static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
 	private static final String AUTH_SERVER_PROPERTY_DEFAULT = "https://sso.prod.cloud.retest.org/auth";
 	public static final String RESOURCE_PROPERTY = "de.retest.auth.resource";
-	private static final String RESOURCE_PROPERTY_DEFAULT = "review";
+	private static final String RESOURCE_PROPERTY_DEFAULT = "marvin";
 
 	private final KeycloakDeployment deployment;
 
