@@ -105,17 +105,17 @@ public class RetestAuthentication {
 
 			if ( !state.equals( callback.result.getState() ) ) {
 				final VerificationException reason = new VerificationException( "Invalid state" );
-				handler.authenticationFailed( reason );
+				handler.loginFailed( reason );
 			}
 
 			if ( callback.result.getError() != null ) {
 				final OAuthErrorException reason =
 						new OAuthErrorException( callback.result.getError(), callback.result.getErrorDescription() );
-				handler.authenticationFailed( reason );
+				handler.loginFailed( reason );
 			}
 
 			if ( callback.result.getErrorException() != null ) {
-				handler.authenticationFailed( callback.result.getErrorException() );
+				handler.loginFailed( callback.result.getErrorException() );
 			}
 
 			final AccessTokenResponse tokenResponse =
@@ -123,7 +123,7 @@ public class RetestAuthentication {
 			accessToken = tokenResponse.getToken();
 			offlineToken = tokenResponse.getRefreshToken();
 
-			handler.authenticated();
+			handler.loginPerformed();
 		} catch ( final InterruptedException e ) {
 			log.error( "Error during authentication, thread interrupted", e );
 			Thread.currentThread().interrupt();

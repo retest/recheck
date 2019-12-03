@@ -6,8 +6,8 @@ public interface AuthenticationHandler {
 
 	void showWebLoginUri( URI loginUri );
 
-	void authenticated();
+	void loginPerformed();
 
-	void authenticationFailed( Throwable reason );
+	void loginFailed( Throwable reason );
 
 }

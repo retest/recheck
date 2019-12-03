@@ -27,16 +27,16 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 	}
 
 	@Override
-	public void authenticated() {
-		logger.info( "Successful authenticated." );
+	public void loginPerformed() {
+		logger.info( "Login successful." );
 		final String offlineToken = RetestAuthentication.getInstance().getOfflineToken();
 		log.info( "Please use this token for your CI: {}", offlineToken );
 		Preferences.userNodeForPackage( Rehub.class ).put( CloudPersistence.RECHECK_API_KEY, offlineToken );
 	}
 
 	@Override
-	public void authenticationFailed( final Throwable reason ) {
-		logger.error( "Authentication failed: ", reason );
+	public void loginFailed( final Throwable reason ) {
+		logger.error( "Login failed: ", reason );
 	}
 
 }
