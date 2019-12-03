@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.ignore.SearchFilterFiles;
 
 public class ProjectConfiguration {
@@ -64,6 +65,8 @@ public class ProjectConfiguration {
 		createEmptyProjectConfigurationIfNeeded( projectIgnoreFile, RECHECK_IGNORE_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectRuleIgnoreFile, RECHECK_IGNORE_JSRULES_DEFAULTS );
 		createEmptyFolderIfNeeded( projectFilterFolder );
+
+		RecheckProperties.init();
 	}
 
 	private void createProjectConfigurationFolderIfNeeded( final Path configFolder ) {
