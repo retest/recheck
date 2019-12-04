@@ -72,9 +72,22 @@ public class ActionReplayResult implements Serializable {
 		windows = null;
 	}
 
+	protected ActionReplayResult( final ActionReplayData data, final WindowRetriever windows,
+			final DifferenceRetriever difference, final long duration ) {
+		if ( windows.isNull() && difference.isNull() ) {
+			throw new NullPointerException(
+					"ActionReplayResult must not be empty! Affected action: " + data.getDescription() + "." );
+		}
+		description = data.getDescription();
+		goldenMasterPath = data.getGoldenMasterPath();
+		targetcomponent = data.getElement();
+		this.windows = windows.get();
+		stateDifference = difference.get();
+		this.duration = duration;
+	}
+
 	public static ActionReplayResult createActionReplayResult( final ActionReplayData data,
 			final StateDifference difference, final long actualDuration, final SutState actualState ) {
-
 		if ( difference != null && !difference.getRootElementDifferences().isEmpty() ) {
 			return withDifference( data, WindowRetriever.empty(), DifferenceRetriever.of( difference ),
 					actualDuration );
@@ -90,20 +103,6 @@ public class ActionReplayResult implements Serializable {
 	public static ActionReplayResult withoutDifference( final ActionReplayData data, final WindowRetriever windows,
 			final long duration ) {
 		return withDifference( data, windows, DifferenceRetriever.empty(), duration );
-	}
-
-	protected ActionReplayResult( final ActionReplayData data, final WindowRetriever windows,
-			final DifferenceRetriever difference, final long duration ) {
-		if ( windows.isNull() && difference.isNull() ) {
-			throw new NullPointerException(
-					"ActionReplayResult must not be empty! Affected action: " + data.getDescription() + "." );
-		}
-		description = data.getDescription();
-		goldenMasterPath = data.getGoldenMasterPath();
-		targetcomponent = data.getElement();
-		this.windows = windows.get();
-		stateDifference = difference.get();
-		this.duration = duration;
 	}
 
 	public StateDifference getStateDifference() {
