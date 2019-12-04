@@ -13,6 +13,10 @@ import de.retest.recheck.persistence.FileOutputFormat;
 @Sources( "file:${projectroot}/.retest/retest.properties" )
 public interface RecheckProperties extends Mutable {
 
+	/*
+	 * Basic usage.
+	 */
+
 	static void init() {
 		ProjectRootFinderUtil.getProjectRoot().ifPresent(
 				projectRoot -> ConfigFactory.setProperty( "projectroot", projectRoot.toAbsolutePath().toString() ) );
@@ -22,21 +26,9 @@ public interface RecheckProperties extends Mutable {
 		return ConfigCache.getOrCreate( RecheckProperties.class, System.getProperties() );
 	}
 
-	default FileOutputFormat getReportOutputFormat() {
-		if ( rehubReportUploadEnabled() ) {
-			return FileOutputFormat.CLOUD;
-		}
-		final FileOutputFormat format = fileOutputFormat();
-		if ( format == null ) {
-			return FileOutputFormat.KRYO;
-		}
-		return format;
-	}
-
-	default FileOutputFormat getStateOutputFormat() {
-		final FileOutputFormat format = fileOutputFormat();
-		return format == FileOutputFormat.ZIP ? format : FileOutputFormat.PLAIN;
-	}
+	/*
+	 * Various constants.
+	 */
 
 	static final String PROPERTY_VALUE_SEPARATOR = ";";
 	static final String ZIP_FOLDER_SEPARATOR = "/";
@@ -51,6 +43,10 @@ public interface RecheckProperties extends Mutable {
 	static final String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";
 	static final String TEST_REPORT_FILE_EXTENSION = ".report";
 	static final String AGGREGATED_TEST_REPORT_FILE_NAME = "tests" + TEST_REPORT_FILE_EXTENSION;
+
+	/*
+	 * Properties, their key constants and related functionality.
+	 */
 
 	static final String IGNORE_ATTRIBUTES_PROPERTY_KEY = "de.retest.recheck.ignore.attributes";
 
@@ -88,5 +84,21 @@ public interface RecheckProperties extends Mutable {
 
 	@Key( FILE_OUTPUT_FORMAT_PROPERTY_KEY )
 	FileOutputFormat fileOutputFormat();
+
+	default FileOutputFormat getReportOutputFormat() {
+		if ( rehubReportUploadEnabled() ) {
+			return FileOutputFormat.CLOUD;
+		}
+		final FileOutputFormat format = fileOutputFormat();
+		if ( format == null ) {
+			return FileOutputFormat.KRYO;
+		}
+		return format;
+	}
+
+	default FileOutputFormat getStateOutputFormat() {
+		final FileOutputFormat format = fileOutputFormat();
+		return format == FileOutputFormat.ZIP ? format : FileOutputFormat.PLAIN;
+	}
 
 }
