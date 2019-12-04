@@ -37,7 +37,7 @@ public class RetestAuthentication {
 	public static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
 	private static final String AUTH_SERVER_PROPERTY_DEFAULT = "https://sso.prod.cloud.retest.org/auth";
 	public static final String RESOURCE_PROPERTY = "de.retest.auth.resource";
-	private static final String RESOURCE_PROPERTY_DEFAULT = "review";
+	private static final String RESOURCE_PROPERTY_DEFAULT = "marvin";
 
 	private final KeycloakDeployment deployment;
 
@@ -68,22 +68,23 @@ public class RetestAuthentication {
 		return URI.create( deployment.getAccountUrl() );
 	}
 
-	public boolean isAuthenticated( final String offlineToken ) {
+	public void authenticate( final AuthenticationHandler handler ) throws IOException, HttpFailure {
+		offlineToken = handler.getOfflineToken();
+
 		if ( offlineToken != null ) {
-			this.offlineToken = offlineToken;
 			try {
-				final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
-				accessToken = response.getToken();
-				return true;
+				refreshTokens();
 			} catch ( IOException | HttpFailure e ) {
 				log.info( "Token not recognized, initiating authentication" );
+				login( handler );
 			}
+		} else {
+			log.info( "No active token found, initiating authentication" );
+			login( handler );
 		}
-
-		return false;
 	}
 
-	public void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
+	private void login( final AuthenticationHandler handler ) throws IOException, HttpFailure {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -105,17 +106,17 @@ public class RetestAuthentication {
 
 			if ( !state.equals( callback.result.getState() ) ) {
 				final VerificationException reason = new VerificationException( "Invalid state" );
-				handler.authenticationFailed( reason );
+				handler.loginFailed( reason );
 			}
 
 			if ( callback.result.getError() != null ) {
 				final OAuthErrorException reason =
 						new OAuthErrorException( callback.result.getError(), callback.result.getErrorDescription() );
-				handler.authenticationFailed( reason );
+				handler.loginFailed( reason );
 			}
 
 			if ( callback.result.getErrorException() != null ) {
-				handler.authenticationFailed( callback.result.getErrorException() );
+				handler.loginFailed( callback.result.getErrorException() );
 			}
 
 			final AccessTokenResponse tokenResponse =
@@ -123,7 +124,7 @@ public class RetestAuthentication {
 			accessToken = tokenResponse.getToken();
 			offlineToken = tokenResponse.getRefreshToken();
 
-			handler.authenticated();
+			handler.loginPerformed( offlineToken );
 		} catch ( final InterruptedException e ) {
 			log.error( "Error during authentication, thread interrupted", e );
 			Thread.currentThread().interrupt();
@@ -132,7 +133,11 @@ public class RetestAuthentication {
 	}
 
 	public String getAccessToken() {
-		refreshTokens();
+		try {
+			refreshTokens();
+		} catch ( IOException | HttpFailure e ) {
+			log.error( "Error refreshing token(s)", e );
+		}
 		return accessToken;
 	}
 
@@ -140,13 +145,10 @@ public class RetestAuthentication {
 		return offlineToken;
 	}
 
-	private void refreshTokens() {
+	private void refreshTokens() throws IOException, HttpFailure {
 		if ( !isTokenValid() ) {
-			try {
-				ServerRequest.invokeRefresh( deployment, offlineToken );
-			} catch ( final IOException | HttpFailure e ) {
-				log.error( "Error refreshing token(s)", e );
-			}
+			final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
+			accessToken = response.getToken();
 		}
 	}
 

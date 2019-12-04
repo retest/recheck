@@ -15,13 +15,18 @@ public class DefaultAuthenticationHandler implements AuthenticationHandler {
 	}
 
 	@Override
-	public void authenticated() {
-		logger.info( "Successful authenticated." );
+	public void loginPerformed( final String token ) {
+		logger.info( "Login successful." );
 	}
 
 	@Override
-	public void authenticationFailed( final Throwable reason ) {
-		logger.error( "Authentication failed: ", reason );
+	public void loginFailed( final Throwable reason ) {
+		logger.error( "Login failed: ", reason );
+	}
+
+	@Override
+	public String getOfflineToken() {
+		return null;
 	}
 
 }

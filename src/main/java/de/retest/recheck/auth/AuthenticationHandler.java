@@ -6,8 +6,10 @@ public interface AuthenticationHandler {
 
 	void showWebLoginUri( URI loginUri );
 
-	void authenticated();
+	void loginPerformed( String token );
 
-	void authenticationFailed( Throwable reason );
+	void loginFailed( Throwable reason );
+
+	String getOfflineToken();
 
 }

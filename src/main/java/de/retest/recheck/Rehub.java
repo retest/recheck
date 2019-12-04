@@ -27,9 +27,7 @@ public class Rehub {
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 
 		try {
-			if ( !auth.isAuthenticated( getRecheckApiKey() ) ) {
-				auth.login( new RehubAuthenticationHandler() );
-			}
+			auth.authenticate( new RehubAuthenticationHandler() );
 			System.setProperty( Properties.FILE_OUTPUT_FORMAT_PROPERTY, FileOutputFormat.CLOUD.toString() );
 		} catch ( IOException | HttpFailure e ) {
 			log.error( "Error verifying offline token: ", e );
