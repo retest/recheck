@@ -37,6 +37,7 @@ Table of Contents
     * Operating system name and version.
     * Machine name (if available).
     * Date and time.
+    * Git branch and commit.
 
 ### Improvements
 
