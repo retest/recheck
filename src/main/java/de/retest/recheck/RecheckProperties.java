@@ -58,28 +58,41 @@ public interface RecheckProperties extends Mutable {
 
 	// Properties.
 
-	@Key( "de.retest.recheck.ignore.attributes" )
+	static final String IGNORE_ATTRIBUTES_PROPERTY_KEY = "de.retest.recheck.ignore.attributes";
+
+	@Key( IGNORE_ATTRIBUTES_PROPERTY_KEY )
 	@DefaultValue( "" )
 	@Separator( PROPERTY_VALUE_SEPARATOR )
 	List<String> ignoreAttributes();
 
-	@Key( "de.retest.recheck.elementMatchThreshold" )
+	static final String ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY = "de.retest.recheck.elementMatchThreshold";
+
+	@Key( ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY )
 	@DefaultValue( "0.3" )
 	double elementMatchThreshold();
 
-	@Key( "de.retest.recheck.rootElementMatchThreshold" )
+	static final String ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY = "de.retest.recheck.rootElementMatchThreshold";
+
+	@Key( ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY )
 	@DefaultValue( "0.8" )
 	double rootElementMatchThreshold();
 
-	@Key( "de.retest.recheck.rootElementContainedChildrenMatchThreshold" )
+	static final String ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY_KEY =
+			"de.retest.recheck.rootElementContainedChildrenMatchThreshold";
+
+	@Key( ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY_KEY )
 	@DefaultValue( "0.5" )
 	double rootElementContainedChildrenMatchThreshold();
 
-	@Key( "de.retest.recheck.rehub.reportUploadEnabled" )
+	static final String REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY = "de.retest.recheck.rehub.reportUploadEnabled";
+
+	@Key( REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
 	@DefaultValue( "false" )
 	boolean rehubReportUploadEnabled();
 
-	@Key( "de.retest.output.Format" )
+	static final String FILE_OUTPUT_FORMAT_PROPERTY_KEY = "de.retest.output.Format";
+
+	@Key( FILE_OUTPUT_FORMAT_PROPERTY_KEY )
 	FileOutputFormat fileOutputFormat();
 
 }

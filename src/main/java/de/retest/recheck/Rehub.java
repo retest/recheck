@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import static de.retest.recheck.RecheckProperties.FILE_OUTPUT_FORMAT_PROPERTY_KEY;
+
 import java.util.prefs.Preferences;
 
 import de.retest.recheck.auth.RehubAuthenticationHandler;
@@ -21,7 +23,8 @@ public class Rehub {
 
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 		auth.authenticate( new RehubAuthenticationHandler() );
-		RecheckProperties.getInstance().setProperty( "de.retest.output.Format", FileOutputFormat.CLOUD.toString() );
+		RecheckProperties.getInstance().setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY,
+				FileOutputFormat.CLOUD.toString() );
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package de.retest.recheck;
 
+import static de.retest.recheck.RecheckProperties.FILE_OUTPUT_FORMAT_PROPERTY_KEY;
+import static de.retest.recheck.RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY;
 import static de.retest.recheck.persistence.FileOutputFormat.CLOUD;
 import static de.retest.recheck.persistence.FileOutputFormat.KRYO;
 import static de.retest.recheck.persistence.FileOutputFormat.PLAIN;
@@ -27,7 +29,7 @@ class RecheckPropertiesTest {
 
 	@Test
 	void report_output_format_should_use_cloud_when_rehub_is_enabled() {
-		cut.setProperty( "de.retest.recheck.rehub.reportUploadEnabled", "true" );
+		cut.setProperty( REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, "true" );
 
 		assertThat( cut.getReportOutputFormat() ).isEqualTo( CLOUD );
 	}
@@ -40,7 +42,7 @@ class RecheckPropertiesTest {
 	@ParameterizedTest
 	@ValueSource( strings = { "KRYO", "CLOUD" } )
 	void state_output_format_should_use_plain_when_format_is_not_supported( final String unsupportedFormat ) {
-		cut.setProperty( "de.retest.output.Format", unsupportedFormat );
+		cut.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, unsupportedFormat );
 
 		assertThat( cut.getStateOutputFormat() ).isEqualTo( PLAIN );
 	}
