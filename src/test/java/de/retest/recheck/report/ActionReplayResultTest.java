@@ -112,8 +112,7 @@ class ActionReplayResultTest {
 		final ActionReplayData data = mock( ActionReplayData.class );
 		final SutState sutState = mock( SutState.class );
 		final StateDifference difference = null; // This difference should be null vs empty
-		final ActionReplayResult result =
-				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
+		final ActionReplayResult result = ActionReplayResult.createActionReplayResult( data, difference, 0L, sutState );
 
 		assertThat( result.hasDifferences() ).isFalse();
 	}
@@ -123,8 +122,7 @@ class ActionReplayResultTest {
 		final ActionReplayData data = mock( ActionReplayData.class );
 		final SutState sutState = mock( SutState.class );
 		final StateDifference difference = mock( StateDifference.class ); // This difference should be empty vs null
-		final ActionReplayResult result =
-				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
+		final ActionReplayResult result = ActionReplayResult.createActionReplayResult( data, difference, 0L, sutState );
 
 		assertThat( result.hasDifferences() ).isFalse();
 	}
