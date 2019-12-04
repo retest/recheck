@@ -29,4 +29,14 @@ public class DefaultAuthenticationHandler implements AuthenticationHandler {
 		return null;
 	}
 
+	@Override
+	public void logoutPerformed() {
+		logger.info( "Logout successful." );
+	}
+
+	@Override
+	public void logoutFailed( final Throwable reason ) {
+		logger.error( "Logout failed: {}", reason );
+	}
+
 }

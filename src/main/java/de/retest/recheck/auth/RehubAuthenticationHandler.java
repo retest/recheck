@@ -38,4 +38,15 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 		return Rehub.getRecheckApiKey();
 	}
 
+	@Override
+	public void logoutPerformed() {
+		Preferences.userNodeForPackage( Rehub.class ).remove( CloudPersistence.RECHECK_API_KEY );
+		log.info( "Logout successful." );
+	}
+
+	@Override
+	public void logoutFailed( final Throwable reason ) {
+		log.error( "Logout failed: {}", reason );
+	}
+
 }
