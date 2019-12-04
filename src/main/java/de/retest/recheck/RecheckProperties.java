@@ -8,6 +8,7 @@ import org.aeonbits.owner.ConfigFactory;
 import org.aeonbits.owner.Mutable;
 
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
+import de.retest.recheck.persistence.FileOutputFormat;
 
 @Sources( "file:${projectroot}/.retest/retest.properties" )
 public interface RecheckProperties extends Mutable {

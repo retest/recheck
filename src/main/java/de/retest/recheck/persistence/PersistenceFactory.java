@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
 
-import de.retest.recheck.FileOutputFormat;
 import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;

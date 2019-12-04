@@ -1,8 +1,8 @@
 package de.retest.recheck;
 
-import static de.retest.recheck.FileOutputFormat.CLOUD;
-import static de.retest.recheck.FileOutputFormat.KRYO;
-import static de.retest.recheck.FileOutputFormat.PLAIN;
+import static de.retest.recheck.persistence.FileOutputFormat.CLOUD;
+import static de.retest.recheck.persistence.FileOutputFormat.KRYO;
+import static de.retest.recheck.persistence.FileOutputFormat.PLAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.aeonbits.owner.ConfigFactory;

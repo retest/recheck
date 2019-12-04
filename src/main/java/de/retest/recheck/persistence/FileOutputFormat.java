@@ -1,4 +1,4 @@
-package de.retest.recheck;
+package de.retest.recheck.persistence;
 
 public enum FileOutputFormat {
 
