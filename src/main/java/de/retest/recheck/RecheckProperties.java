@@ -15,8 +15,8 @@ public interface RecheckProperties extends Mutable {
 	// Usage.
 
 	static void init() {
-		ProjectRootFinderUtil.getProjectRoot()
-				.ifPresent( projectRoot -> ConfigFactory.setProperty( "projectroot", projectRoot.toString() ) );
+		ProjectRootFinderUtil.getProjectRoot().ifPresent(
+				projectRoot -> ConfigFactory.setProperty( "projectroot", projectRoot.toAbsolutePath().toString() ) );
 	}
 
 	static RecheckProperties getInstance() {
