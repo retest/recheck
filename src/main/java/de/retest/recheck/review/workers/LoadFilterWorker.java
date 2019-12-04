@@ -38,12 +38,15 @@ public class LoadFilterWorker {
 	public GlobalIgnoreApplier load() throws IOException {
 		final Optional<Path> projectIgnoreFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
 		final Optional<Path> userIgnoreFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE );
-		final Optional<Path> suiteIgnoreFile =
-				RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE, ignoreFilesBasePath );
 		final Stream<String> concatIgnoreFileLines =
 				Stream.concat( getIgnoreFileLines( projectIgnoreFile ), getIgnoreFileLines( userIgnoreFile ) );
-		final Stream<String> allIgnoreFileLines =
-				Stream.concat( concatIgnoreFileLines, getIgnoreFileLines( suiteIgnoreFile ) );
+		Stream<String> allIgnoreFileLines = concatIgnoreFileLines;
+
+		if ( ignoreFilesBasePath != null ) {
+			final Optional<Path> suiteIgnoreFile =
+					RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE, ignoreFilesBasePath );
+			allIgnoreFileLines = Stream.concat( concatIgnoreFileLines, getIgnoreFileLines( suiteIgnoreFile ) );
+		}
 
 		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( allIgnoreFileLines ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
@@ -51,14 +54,17 @@ public class LoadFilterWorker {
 
 		final Optional<Path> projectIgnoreRuleFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE_JSRULES );
 		final Optional<Path> userIgnoreRuleFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE_JSRULES );
-		final Optional<Path> suiteIgnoreRuleFile =
-				RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE_JSRULES, ignoreFilesBasePath );
 		projectIgnoreRuleFile
-				.ifPresent( file -> result.addWithoutCounting( new CacheFilter( new JSFilterImpl( file ) ) ) );
-		suiteIgnoreRuleFile
 				.ifPresent( file -> result.addWithoutCounting( new CacheFilter( new JSFilterImpl( file ) ) ) );
 		userIgnoreRuleFile
 				.ifPresent( file -> result.addWithoutCounting( new CacheFilter( new JSFilterImpl( file ) ) ) );
+
+		if ( ignoreFilesBasePath != null ) {
+			final Optional<Path> suiteIgnoreRuleFile =
+					RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE_JSRULES, ignoreFilesBasePath );
+			suiteIgnoreRuleFile
+					.ifPresent( file -> result.addWithoutCounting( new CacheFilter( new JSFilterImpl( file ) ) ) );
+		}
 
 		return result;
 	}
