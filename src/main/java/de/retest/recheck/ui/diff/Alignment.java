@@ -1,6 +1,5 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.Properties.getElementMatchThreshhold;
 import static java.util.Collections.reverse;
 
 import java.util.ArrayList;
@@ -14,16 +13,19 @@ import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.ui.descriptors.Element;
 
 public final class Alignment {
 
 	private static final Logger logger = LoggerFactory.getLogger( Alignment.class );
 
-	private final Map<Element, Element> alignment;
+	private static final double ELEMENT_MATCH_THRESHOLD = RecheckProperties.getInstance().elementMatchThreshold();
+
 	private final Map<Element, Element> expectedMapOfElementTree = new HashMap<>();
 	private final Map<Element, Element> actualMapOfElementTree = new HashMap<>();
-	private final Double minimumMatch = getElementMatchThreshhold();
+
+	private final Map<Element, Element> alignment;
 
 	private Alignment( final Element expectedComponent, final Element actualComponent ) {
 		final List<Element> expectedComponents = flattenLeafElements( expectedComponent, expectedMapOfElementTree );
@@ -147,7 +149,7 @@ public final class Alignment {
 				continue;
 			}
 
-			if ( bestMatch.similarity < minimumMatch ) {
+			if ( bestMatch.similarity < ELEMENT_MATCH_THRESHOLD ) {
 				logger.debug( "Best match {} is below threshold with {} similarity.", bestMatch.element,
 						bestMatch.similarity );
 				alignment.put( expected, null );

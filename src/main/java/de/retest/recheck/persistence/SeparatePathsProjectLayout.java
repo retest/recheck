@@ -1,7 +1,7 @@
 package de.retest.recheck.persistence;
 
-import static de.retest.recheck.Properties.GOLDEN_MASTER_FILE_EXTENSION;
-import static de.retest.recheck.Properties.TEST_REPORT_FILE_EXTENSION;
+import static de.retest.recheck.RecheckProperties.GOLDEN_MASTER_FILE_EXTENSION;
+import static de.retest.recheck.RecheckProperties.TEST_REPORT_FILE_EXTENSION;
 
 import java.nio.file.Path;
 

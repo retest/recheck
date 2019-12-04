@@ -7,8 +7,7 @@ import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
 
-import de.retest.recheck.Properties;
-import de.retest.recheck.Properties.FileOutputFormat;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
 import de.retest.recheck.persistence.xml.XmlTransformer;
@@ -43,7 +42,8 @@ public class PersistenceFactory {
 			case CLOUD:
 				return new CloudPersistence<>();
 			default:
-				throw new RuntimeException( "Unexpected FileOutputFormat: " + Properties.getStateOutputFormat() );
+				throw new RuntimeException(
+						"Unexpected FileOutputFormat: " + RecheckProperties.getInstance().getStateOutputFormat() );
 		}
 	}
 
@@ -64,11 +64,11 @@ public class PersistenceFactory {
 	private FileOutputFormat getFormatForIdentifier( final URI identifier ) {
 		final String filename = FilenameUtils.getName( identifier.getPath() );
 
-		if ( filename.endsWith( Properties.TEST_REPORT_FILE_EXTENSION ) ) {
-			return Properties.getReportOutputFormat();
+		if ( filename.endsWith( RecheckProperties.TEST_REPORT_FILE_EXTENSION ) ) {
+			return RecheckProperties.getInstance().getReportOutputFormat();
 		}
 
-		return Properties.getStateOutputFormat();
+		return RecheckProperties.getInstance().getStateOutputFormat();
 	}
 
 	class DynamicLoadPersistenceProxy<T extends Persistable> implements Persistence<T> {

@@ -275,14 +275,14 @@
 			<version>1.19.0</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.github.netmikey.logunit</groupId>
 			<artifactId>logunit-core</artifactId>
 			<version>1.1.0</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.github.netmikey.logunit</groupId>
 			<artifactId>logunit-logback</artifactId>
@@ -295,6 +295,12 @@
 			<artifactId>jqwik</artifactId>
 			<version>1.2.1</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aeonbits.owner</groupId>
+			<artifactId>owner-java8</artifactId>
+			<version>1.0.10</version>
 		</dependency>
 	</dependencies>
 

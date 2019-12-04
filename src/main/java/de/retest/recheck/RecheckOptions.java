@@ -137,7 +137,6 @@ public class RecheckOptions {
 
 		protected RecheckOptionsBuilder() {}
 
-
 		/**
 		 * @deprecated Use {@link #namingStrategy} and {@link #projectLayout} instead.
 		 *
@@ -289,7 +288,7 @@ public class RecheckOptions {
 		File getSuitePath( final String suiteName ) {
 			if ( fileNamerStrategy != null ) {
 				final FileNamer fileNamer = fileNamerStrategy.createFileNamer( suiteName );
-				return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+				return fileNamer.getFile( RecheckProperties.GOLDEN_MASTER_FILE_EXTENSION );
 			}
 			return projectLayout.getSuiteFolder( suiteName ).toFile();
 		}

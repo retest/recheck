@@ -1,12 +1,10 @@
 package de.retest.recheck.ui.diff;
 
-import static de.retest.recheck.Properties.getMinimumContainedComponentsMatchThreshold;
-import static de.retest.recheck.Properties.getMinimumWindowMatchThreshold;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.ElementUtil;
 import de.retest.recheck.ui.descriptors.RootElement;
@@ -16,10 +14,12 @@ public class RootElementDifferenceFinder {
 	private static final org.slf4j.Logger logger =
 			org.slf4j.LoggerFactory.getLogger( RootElementDifferenceFinder.class );
 
-	private final ElementDifferenceFinder elementDifferenceFinder;
+	private static final double ROOT_ELEMENT_MATCH_THRESHOLD =
+			RecheckProperties.getInstance().rootElementMatchThreshold();
+	private static final double ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD =
+			RecheckProperties.getInstance().rootElementContainedChildrenMatchThreshold();
 
-	private final Double minimumWindowMatch = getMinimumWindowMatchThreshold();
-	private final Double minimumContainedComponentsMatch = getMinimumContainedComponentsMatchThreshold();
+	private final ElementDifferenceFinder elementDifferenceFinder;
 
 	public RootElementDifferenceFinder( final DefaultValueFinder defaultValueFinder ) {
 		elementDifferenceFinder = new ElementDifferenceFinder( defaultValueFinder );
@@ -61,14 +61,14 @@ public class RootElementDifferenceFinder {
 			logger.info( "No window at all found!" );
 			return null;
 		}
-		if ( bestMatch >= minimumWindowMatch ) {
+		if ( bestMatch >= ROOT_ELEMENT_MATCH_THRESHOLD ) {
 			actuals.remove( bestWindow );
 			return bestWindow;
 		}
 		logger.info( "Best match of window {} did not exceed MATCH_THRESHOLD with {}: {}",
 				expected.getIdentifyingAttributes(), bestMatch, bestWindow );
 		final double containedComponentsMatch = compareContainedComponents( expected, bestWindow );
-		if ( containedComponentsMatch >= minimumContainedComponentsMatch ) {
+		if ( containedComponentsMatch >= ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD ) {
 			logger.info( "Best match of window has a match of contained components of {}.", containedComponentsMatch );
 			return bestWindow;
 		}

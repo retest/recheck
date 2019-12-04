@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.ui.actions.Action;
 import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.components.Component;
@@ -17,6 +17,8 @@ import de.retest.recheck.ui.image.Screenshot;
 public class TargetFinder<T> {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( TargetFinder.class );
+
+	static final double ELEMENT_MATCH_THRESHOLD = RecheckProperties.getInstance().elementMatchThreshold();
 
 	public static <T> ImmutablePair<TargetNotFoundException, Component<T>> findTargetComponent( final Element element,
 			final List<RootContainer<T>> targetableWindows, final Screenshot[] windowsScreenshots ) {
@@ -31,9 +33,6 @@ public class TargetFinder<T> {
 
 	private final List<RootContainer<T>> targetableWindows;
 	private final Screenshot[] windowsScreenshots;
-
-	@Deprecated // use Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT instead
-	public static final double MATCH_THRESHOLD = Properties.ELEMENT_MATCH_THRESHOLD_DEFAULT;
 
 	private TargetFinder( final List<RootContainer<T>> targetableWindows, final Screenshot[] windowsScreenshots ) {
 		this.targetableWindows = targetableWindows;
@@ -51,7 +50,7 @@ public class TargetFinder<T> {
 		final Component<T> bestMatch = getBestMatchForAllWindows( element );
 		final double match = bestMatch != null ? bestMatch.match( identifyingAttributes ) : 0.0d;
 
-		if ( match >= TargetFinder.MATCH_THRESHOLD ) {
+		if ( match >= ELEMENT_MATCH_THRESHOLD ) {
 			return new ImmutablePair<>( null, bestMatch );
 		}
 

@@ -9,7 +9,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 
 public class PathBasedProjectRootFinder implements ProjectRootFinder {
 
@@ -17,7 +17,7 @@ public class PathBasedProjectRootFinder implements ProjectRootFinder {
 	private final Set<Path> indicators = new HashSet<>();
 
 	public PathBasedProjectRootFinder() {
-		indicators.add( Paths.get( Properties.RETEST_FOLDER_NAME ) );
+		indicators.add( Paths.get( RecheckProperties.RETEST_FOLDER_NAME ) );
 		indicators.add( Paths.get( "src/main/java" ) );
 		indicators.add( Paths.get( "src/test/java" ) );
 	}

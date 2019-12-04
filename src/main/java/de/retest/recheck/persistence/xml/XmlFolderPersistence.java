@@ -11,13 +11,13 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.xml.util.ScreenshotFolderPersistence;
-import de.retest.recheck.util.NamedBufferedInputStream;
 import de.retest.recheck.util.FileUtil.Reader;
 import de.retest.recheck.util.FileUtil.Writer;
+import de.retest.recheck.util.NamedBufferedInputStream;
 
 public class XmlFolderPersistence<T extends Persistable> implements Persistence<T> {
 
@@ -28,7 +28,7 @@ public class XmlFolderPersistence<T extends Persistable> implements Persistence<
 
 	public XmlFolderPersistence( final XmlTransformer xmlTransformer ) {
 		this.xmlTransformer = xmlTransformer;
-		xmlFileName = Properties.DEFAULT_XML_FILE_NAME;
+		xmlFileName = RecheckProperties.DEFAULT_XML_FILE_NAME;
 	}
 
 	public XmlFolderPersistence( final XmlTransformer xmlTransformer, final String xmlFileName ) {

@@ -7,7 +7,7 @@ import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.Properties;
+import de.retest.recheck.RecheckProperties;
 
 class ProjectConfigurationTest {
 
@@ -17,7 +17,7 @@ class ProjectConfigurationTest {
 	void local_config_file_should_be_created() throws Exception {
 		cut.ensureProjectConfigurationInitialized();
 
-		final Path configFolder = getProjectRoot().get().resolve( Properties.RETEST_FOLDER_NAME );
+		final Path configFolder = getProjectRoot().get().resolve( RecheckProperties.RETEST_FOLDER_NAME );
 		final Path configFile = configFolder.resolve( ProjectConfiguration.RETEST_PROJECT_PROPERTIES );
 		final Path ignpreFile = configFolder.resolve( ProjectConfiguration.RECHECK_IGNORE );
 

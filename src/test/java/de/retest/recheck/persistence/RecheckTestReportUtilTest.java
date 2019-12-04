@@ -1,6 +1,6 @@
 package de.retest.recheck.persistence;
 
-import static de.retest.recheck.Properties.AGGREGATED_TEST_REPORT_FILE_NAME;
+import static de.retest.recheck.RecheckProperties.AGGREGATED_TEST_REPORT_FILE_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

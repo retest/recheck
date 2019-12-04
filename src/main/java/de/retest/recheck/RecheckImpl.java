@@ -44,9 +44,6 @@ import de.retest.recheck.ui.diff.LeafDifference;
  */
 public class RecheckImpl implements Recheck, SutStateLoader {
 
-	private static final String PROJECT_DEFAULT = "src/test/resources/retest/";
-	private static final String CONFIG_PATH = PROJECT_DEFAULT + Properties.RETEST_PROPERTIES_FILE_NAME;
-
 	private static final Logger logger = LoggerFactory.getLogger( RecheckImpl.class );
 
 	private final CapWarner capWarner = new CapWarner();
@@ -71,7 +68,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 	public RecheckImpl( final RecheckOptions options ) {
 		ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
-		ensureConfigurationInitialized();
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		this.options = options;
 		suiteName = options.getNamingStrategy().getSuiteName();
@@ -88,13 +84,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	private boolean isRehubEnabled( final RecheckOptions options ) {
-		return options.isReportUploadEnabled() || Boolean.getBoolean( Properties.REHUB_REPORT_UPLOAD_ENABLED );
-	}
-
-	private static void ensureConfigurationInitialized() {
-		if ( System.getProperty( Properties.CONFIG_FILE_PROPERTY ) == null ) {
-			System.setProperty( Properties.CONFIG_FILE_PROPERTY, CONFIG_PATH );
-		}
+		return options.isReportUploadEnabled() || RecheckProperties.getInstance().rehubReportUploadEnabled();
 	}
 
 	@Override
@@ -162,7 +152,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 			final String name =
 					suiteName + File.separator + currentTestResult.getName() + "." + normalize( currentStep );
 			final FileNamer fileNamer = options.getFileNamerStrategy().createFileNamer( name );
-			return fileNamer.getFile( Properties.GOLDEN_MASTER_FILE_EXTENSION );
+			return fileNamer.getFile( RecheckProperties.GOLDEN_MASTER_FILE_EXTENSION );
 		}
 		return options.getProjectLayout()
 				.getGoldenMaster( suiteName, currentTestResult.getName(), normalize( currentStep ) ).toFile();
@@ -219,7 +209,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		// legacy
 		if ( options.getFileNamerStrategy() != null ) {
 			return options.getFileNamerStrategy().createFileNamer( suiteName )
-					.getResultFile( Properties.TEST_REPORT_FILE_EXTENSION );
+					.getResultFile( RecheckProperties.TEST_REPORT_FILE_EXTENSION );
 		}
 		return options.getProjectLayout().getReport( suiteName ).toFile();
 	}
