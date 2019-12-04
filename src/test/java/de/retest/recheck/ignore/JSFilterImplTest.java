@@ -141,10 +141,12 @@ class JSFilterImplTest {
 			@Override
 			Reader readScriptFile( final Path path ) {
 				return new StringReader( //
-						"function matches(element, diff) { " //
-								+ "  re = /http[s]?:\\/\\/[\\w.:\\d\\-]*/;" //
-								+ "  cleanExpected = diff.expected.replace(re, '');" //
-								+ "  cleanActual = diff.actual.replace(re, '');" //
+						"function matches(element, diff) {" //
+								+ "  var re = /http[s]?:\\/\\/[\\w.:\\d\\-]*/;" //
+								+ "  var expected = new String(diff.expected);" //
+								+ "  var actual = new String(diff.actual);" //
+								+ "  cleanExpected = expected.replace(re, '');" //
+								+ "  cleanActual = actual.replace(re, '');" //
 								+ "  return cleanExpected === cleanActual;" //
 								+ "}" );
 			}
