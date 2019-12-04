@@ -2,6 +2,10 @@ package de.retest.recheck.meta;
 
 import java.util.Map;
 
+import de.retest.recheck.meta.global.MachineMetadataProvider;
+import de.retest.recheck.meta.global.OSMetadataProvider;
+import de.retest.recheck.meta.global.TimeMetadataProvider;
+
 /**
  * Provides generic metadata that apply in particular to the current context in which a program is executed. This
  * includes for example:
@@ -13,8 +17,10 @@ import java.util.Map;
  */
 final class GlobalMetadataProvider implements MetadataProvider {
 
-	private final MetadataProvider globalProvider = MultiMetadataProvider.of(
-	// TODO RET-1898 insert the global metadata providers here
+	private final MetadataProvider globalProvider = MultiMetadataProvider.of( //
+			new MachineMetadataProvider(), //
+			new OSMetadataProvider(), //
+			new TimeMetadataProvider() //
 	);
 
 	@Override
