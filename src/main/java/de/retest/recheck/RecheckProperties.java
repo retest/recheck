@@ -41,19 +41,19 @@ public interface RecheckProperties extends Mutable {
 
 	// Constants.
 
-	public static final String PROPERTY_VALUE_SEPARATOR = ";";
-	public static final String ZIP_FOLDER_SEPARATOR = "/";
+	static final String PROPERTY_VALUE_SEPARATOR = ";";
+	static final String ZIP_FOLDER_SEPARATOR = "/";
 
-	public static final String SCREENSHOT_FOLDER_NAME = "screenshot";
-	public static final String RECHECK_FOLDER_NAME = "recheck";
-	public static final String DEFAULT_XML_FILE_NAME = "retest.xml";
+	static final String SCREENSHOT_FOLDER_NAME = "screenshot";
+	static final String RECHECK_FOLDER_NAME = "recheck";
+	static final String DEFAULT_XML_FILE_NAME = "retest.xml";
 
-	public static final String RETEST_FOLDER_NAME = ".retest";
-	public static final String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
+	static final String RETEST_FOLDER_NAME = ".retest";
+	static final String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
 
-	public static final String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";
-	public static final String TEST_REPORT_FILE_EXTENSION = ".report";
-	public static final String AGGREGATED_TEST_REPORT_FILE_NAME = "tests" + TEST_REPORT_FILE_EXTENSION;
+	static final String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";
+	static final String TEST_REPORT_FILE_EXTENSION = ".report";
+	static final String AGGREGATED_TEST_REPORT_FILE_NAME = "tests" + TEST_REPORT_FILE_EXTENSION;
 
 	// Properties.
 
