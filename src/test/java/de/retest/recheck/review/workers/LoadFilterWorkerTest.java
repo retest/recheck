@@ -1,6 +1,6 @@
 package de.retest.recheck.review.workers;
 
-import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
+import static de.retest.recheck.RecheckProperties.RETEST_FOLDER_NAME;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 import static org.assertj.core.api.Assertions.assertThat;
 
