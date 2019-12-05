@@ -39,6 +39,7 @@ Table of Contents
 
 * Switched the underlying JavaScript engine (used for, e.g., `recheck.ignore.js`) by replacing Nashorn (deprecated) with [Mozilla's Rhino](https://github.com/mozilla/rhino/).
 * Added 'target', 'rel' and 'xmlns' as attributes to invisible filters and 'scale' as attribute to style filter.
+* Support XPath in the ignore file also directly like it's returned from Chrome (e.g. `/html/body/div[3]`).
 
 --------------------------------------------------------------------------------
 
