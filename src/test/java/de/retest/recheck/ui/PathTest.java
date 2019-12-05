@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.PathElement;
-
 public class PathTest {
 
 	private static final PathElement ELEMENT_0 = new PathElement( "elem", 1 );
@@ -18,6 +15,11 @@ public class PathTest {
 	public void string_representation_of_simple_path() throws Exception {
 		assertThat( Path.path( ELEMENT_0 ).toString() ).isEqualTo( "elem[1]" );
 		assertThat( Path.fromString( "elem[1]" ) ).isEqualTo( Path.path( ELEMENT_0 ) );
+	}
+
+	@Test
+	public void should_add_missing_suffixes() throws Exception {
+		assertThat( Path.fromString( "elem/leleme/bubi[3]/muma" ) ).hasToString( "elem[1]/leleme[1]/bubi[3]/muma[1]" );
 	}
 
 	@Test
