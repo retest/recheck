@@ -4,7 +4,6 @@ import static de.retest.recheck.Properties.RETEST_FOLDER_NAME;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,21 +29,11 @@ public class RecheckIgnoreUtil {
 	}
 
 	public static Optional<Path> getUserIgnoreFile( final String filename ) {
-		final Path userIgnoreFile = Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, filename );
-		if ( Files.exists( userIgnoreFile ) ) {
-			return Optional.of( userIgnoreFile );
-		} else {
-			return Optional.empty();
-		}
+		return Optional.of( Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, filename ) );
 	}
 
 	public static Optional<Path> getSuiteIgnoreFile( final String filename, final Path basePath ) {
-		final Path suiteIgnoreFile = Paths.get( basePath.toAbsolutePath().toString(), filename );
-		if ( Files.exists( suiteIgnoreFile ) ) {
-			return Optional.of( suiteIgnoreFile );
-		} else {
-			return Optional.empty();
-		}
+		return Optional.of( Paths.get( basePath.toAbsolutePath().toString(), filename ) );
 	}
 
 	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
