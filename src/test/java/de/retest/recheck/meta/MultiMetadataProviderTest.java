@@ -40,7 +40,7 @@ class MultiMetadataProviderTest {
 	}
 
 	@Test
-	void retrieve_should_throw_duplicate_key() throws Exception {
+	void retrieve_should_take_last_value_encountered() throws Exception {
 		final MetadataProvider first = mock( MetadataProvider.class );
 		when( first.retrieve() ).thenReturn( Collections.singletonMap( "a", "b" ) );
 
@@ -50,12 +50,12 @@ class MultiMetadataProviderTest {
 		final MetadataProvider firstSecond = MultiMetadataProvider.of( first, second );
 		final MetadataProvider secondFirst = MultiMetadataProvider.of( second, first );
 
-		assertThatThrownBy( firstSecond::retrieve ) //
-				.isInstanceOf( IllegalStateException.class ) //
-				.hasMessageContaining( "Duplicate key" );
+		assertThat( firstSecond.retrieve() ) //
+				.hasSize( 1 ) //
+				.contains( Pair.of( "a", "c" ) );
 
-		assertThatThrownBy( secondFirst::retrieve ) //
-				.isInstanceOf( IllegalStateException.class ) //
-				.hasMessageContaining( "Duplicate key" );
+		assertThat( secondFirst.retrieve() ) //
+				.hasSize( 1 ) //
+				.contains( Pair.of( "a", "b" ) );
 	}
 }
