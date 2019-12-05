@@ -33,6 +33,17 @@ class ElementXPathMatcherTest {
 	}
 
 	@Test
+	void should_match_with_xpath_from_Chrome() {
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "html[1]/body[1]/div[3]/section[1]" ), "DIV" ),
+				new MutableAttributes().immutable() );
+
+		final ElementXPathMatcher matcher =
+				new ElementXPathMatcher.ElementXpathMatcherLoader().load( "xpath=/html/body/div[3]/section" ).get();
+		assertThat( matcher ).accepts( element );
+	}
+
+	@Test
 	void should_not_match_when_xpath_is_not_equal() {
 		final Element element = Element.create( "retestId", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "html[1]/div[2]" ), "DIV" ),

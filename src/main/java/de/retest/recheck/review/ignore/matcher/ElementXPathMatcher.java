@@ -5,6 +5,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import de.retest.recheck.review.ignore.io.RegexLoader;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
 
 public class ElementXPathMatcher implements Matcher<Element> {
@@ -12,11 +13,13 @@ public class ElementXPathMatcher implements Matcher<Element> {
 	private final String xpath;
 
 	public ElementXPathMatcher( final Element element ) {
-		this( element.getIdentifyingAttributes().getPath() );
+		// do not normalize again
+		xpath = element.getIdentifyingAttributes().getPath();
 	}
 
 	private ElementXPathMatcher( final String xpath ) {
-		this.xpath = xpath;
+		// normalize xpath
+		this.xpath = Path.fromString( xpath ).toString();
 	}
 
 	@Override
@@ -26,7 +29,7 @@ public class ElementXPathMatcher implements Matcher<Element> {
 
 	@Override
 	public String toString() {
-		return String.format( ElementXpathMatcherLoader.FORMAT, xpath );
+		return String.format( ElementXpathMatcherLoader.FORMAT, "/" + xpath );
 	}
 
 	public static final class ElementXpathMatcherLoader extends RegexLoader<ElementXPathMatcher> {
