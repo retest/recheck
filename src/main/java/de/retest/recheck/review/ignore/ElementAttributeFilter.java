@@ -38,7 +38,7 @@ public class ElementAttributeFilter implements Filter {
 	public static class ElementAttributeFilterLoader extends RegexLoader<ElementAttributeFilter> {
 
 		static final String MATCHER = "matcher: ";
-		static final String KEY = "attribute: ";
+		static final String KEY = "attribute=";
 
 		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
