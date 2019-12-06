@@ -34,57 +34,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RetestAuthentication {
 
-	public static final String AUTH_SERVER_PROPERTY = "de.retest.auth.server";
-	private static final String AUTH_SERVER_PROPERTY_DEFAULT = "https://sso.prod.cloud.retest.org/auth";
-	public static final String RESOURCE_PROPERTY = "de.retest.auth.resource";
-	private static final String RESOURCE_PROPERTY_DEFAULT = "marvin";
+	private static final String AUTH_URL = "https://sso.prod.cloud.retest.org/auth";
+	private static final String REALM = "customer";
 
 	private final KeycloakDeployment deployment;
-
-	private String offlineToken;
 	private String accessToken;
+	private final AuthenticationHandler handler;
 
-	private static RetestAuthentication instance;
+	public RetestAuthentication( final AuthenticationHandler handler, final String client ) {
+		this.handler = handler;
 
-	private RetestAuthentication() {
 		final AdapterConfig config = new AdapterConfig();
-		config.setRealm( "customer" );
-		config.setAuthServerUrl( System.getProperty( AUTH_SERVER_PROPERTY, AUTH_SERVER_PROPERTY_DEFAULT ) );
+		config.setRealm( REALM );
+		config.setAuthServerUrl( AUTH_URL );
 		config.setSslRequired( "external" );
-		config.setResource( System.getProperty( RESOURCE_PROPERTY, RESOURCE_PROPERTY_DEFAULT ) );
+		config.setResource( client );
 		config.setPublicClient( true );
 
 		deployment = KeycloakDeploymentBuilder.build( config );
 	}
 
-	public static RetestAuthentication getInstance() {
-		if ( instance == null ) {
-			instance = new RetestAuthentication();
-		}
-		return instance;
-	}
-
-	public URI getAccountUrl() {
-		return URI.create( deployment.getAccountUrl() );
-	}
-
-	public void authenticate( final AuthenticationHandler handler ) {
-		offlineToken = handler.getOfflineToken();
-
-		if ( offlineToken != null ) {
+	public void authenticate() {
+		if ( handler.getOfflineToken() != null ) {
 			try {
 				refreshTokens();
 			} catch ( IOException | HttpFailure e ) {
 				log.info( "Token not recognized, initiating authentication" );
-				login( handler );
+				login();
 			}
 		} else {
 			log.info( "No active token found, initiating authentication" );
-			login( handler );
+			login();
 		}
 	}
 
-	private void login( final AuthenticationHandler handler ) {
+	private void login() {
 		try {
 			final CallbackListener callback = new CallbackListener();
 			callback.start();
@@ -122,9 +106,8 @@ public class RetestAuthentication {
 			final AccessTokenResponse tokenResponse =
 					ServerRequest.invokeAccessCodeToToken( deployment, callback.result.getCode(), redirectUri, null );
 			accessToken = tokenResponse.getToken();
-			offlineToken = tokenResponse.getRefreshToken();
 
-			handler.loginPerformed( offlineToken );
+			handler.loginPerformed( tokenResponse.getRefreshToken() );
 		} catch ( final InterruptedException | IOException | HttpFailure e ) {
 			log.error( "Error during authentication", e );
 			Thread.currentThread().interrupt();
@@ -132,8 +115,8 @@ public class RetestAuthentication {
 
 	}
 
-	public void logout( final AuthenticationHandler handler ) {
-		offlineToken = handler.getOfflineToken();
+	public void logout() {
+		final String offlineToken = handler.getOfflineToken();
 		if ( offlineToken != null ) {
 			try {
 				log.info( "Performing logout" );
@@ -157,13 +140,9 @@ public class RetestAuthentication {
 		return accessToken;
 	}
 
-	public String getOfflineToken() {
-		return offlineToken;
-	}
-
 	private void refreshTokens() throws IOException, HttpFailure {
 		if ( !isTokenValid() ) {
-			final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, offlineToken );
+			final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, handler.getOfflineToken() );
 			accessToken = response.getToken();
 		}
 	}
