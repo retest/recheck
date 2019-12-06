@@ -6,9 +6,10 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.ui.descriptors.Attributes;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 class AttributeFilterTest {
@@ -29,13 +30,10 @@ class AttributeFilterTest {
 	void should_not_match_when_attribute_is_different() {
 		final AttributeFilter filter = new AttributeFilter( "tag" );
 
-		final Element element = mock( Element.class );
-		final IdentifyingAttributes identAttribs = mock( IdentifyingAttributes.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( identAttribs );
-		when( identAttribs.get( "type" ) ).thenReturn( "div" );
-		final Attributes attribs = mock( Attributes.class );
-		when( element.getAttributes() ).thenReturn( attribs );
-		when( attribs.get( "mySpecialAttribute" ) ).thenReturn( "someValue" );
+		final MutableAttributes attributes = new MutableAttributes();
+		attributes.put( "mySpecialAttribute", "someValue" );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "html/div" ), "div" ), attributes.immutable() );
 
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "mySpecialAttribute" );
@@ -58,13 +56,10 @@ class AttributeFilterTest {
 	void should_not_match_with_attribute_key_when_attribute_is_different() {
 		final AttributeFilter filter = new AttributeFilter( "tag" );
 
-		final Element element = mock( Element.class );
-		final IdentifyingAttributes identAttribs = mock( IdentifyingAttributes.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( identAttribs );
-		when( identAttribs.get( "type" ) ).thenReturn( "div" );
-		final Attributes attribs = mock( Attributes.class );
-		when( element.getAttributes() ).thenReturn( attribs );
-		when( attribs.get( "mySpecialAttribute" ) ).thenReturn( "someValue" );
+		final MutableAttributes attributes = new MutableAttributes();
+		attributes.put( "mySpecialAttribute", "someValue" );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "html/div" ), "div" ), attributes.immutable() );
 
 		final String attributeKey = "mySpecialAttribute";
 
