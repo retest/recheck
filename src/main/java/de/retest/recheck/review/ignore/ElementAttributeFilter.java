@@ -50,7 +50,7 @@ public class ElementAttributeFilter implements Filter {
 		@Override
 		protected Optional<ElementAttributeFilter> load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
-			final String key = regex.group( 2 );
+			final String key = regex.group( 2 ).trim();
 			return Loaders.elementMatcher().load( matcher ) //
 					.map( match -> new ElementAttributeFilter( match, key ) );
 		}
