@@ -16,6 +16,7 @@ import de.retest.recheck.review.ignore.ElementAttributeFilter.ElementAttributeFi
 import de.retest.recheck.review.ignore.ElementAttributeFilter.LegacyElementAttributeFilterLoader;
 import de.retest.recheck.review.ignore.ElementAttributeRegexFilter;
 import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.ElementAttributeRegexFilterLoader;
+import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.LegacyElementAttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.ElementFilter;
 import de.retest.recheck.review.ignore.ElementFilter.ElementFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
@@ -45,6 +46,7 @@ public class Loaders {
 			Pair.of( ElementAttributeFilter.class, new ElementAttributeFilterLoader() ), //
 			Pair.of( ElementAttributeFilter.class, new LegacyElementAttributeFilterLoader() ), //
 			Pair.of( ElementAttributeRegexFilter.class, new ElementAttributeRegexFilterLoader() ), //
+			Pair.of( ElementAttributeRegexFilter.class, new LegacyElementAttributeRegexFilterLoader() ), //
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
 			Pair.of( ElementFilter.class, new ElementFilterLoader() ), //

@@ -38,12 +38,34 @@ public class ElementAttributeRegexFilter implements Filter {
 	public static class ElementAttributeRegexFilterLoader extends RegexLoader<ElementAttributeRegexFilter> {
 
 		static final String MATCHER = "matcher: ";
-		static final String KEY = "attribute-regex: ";
+		static final String KEY = "attribute-regex=";
 
 		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
 
 		public ElementAttributeRegexFilterLoader() {
+			super( REGEX );
+		}
+
+		@Override
+		protected Optional<ElementAttributeRegexFilter> load( final MatchResult regex ) {
+			final String matcher = regex.group( 1 );
+			final String key = regex.group( 2 );
+			return Loaders.elementMatcher().load( matcher ) //
+					.map( match -> new ElementAttributeRegexFilter( match, key ) );
+		}
+	}
+
+	// TODO Remove again after it was sufficiently long in the project
+	// for all .filter and recheck.ignore files to be migrated
+	public static class LegacyElementAttributeRegexFilterLoader extends RegexLoader<ElementAttributeRegexFilter> {
+
+		static final String MATCHER = ElementAttributeRegexFilterLoader.MATCHER;
+		static final String KEY = "attribute-regex: ";
+
+		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
+
+		public LegacyElementAttributeRegexFilterLoader() {
 			super( REGEX );
 		}
 
