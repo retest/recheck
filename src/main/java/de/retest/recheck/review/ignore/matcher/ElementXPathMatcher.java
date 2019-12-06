@@ -5,28 +5,34 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import de.retest.recheck.review.ignore.io.RegexLoader;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
 
 public class ElementXPathMatcher implements Matcher<Element> {
 
-	private final String xpath;
+	private final String givenXPath;
+	private final String normalizedXPath;
 
 	public ElementXPathMatcher( final Element element ) {
-		this( element.getIdentifyingAttributes().getPath() );
+		// do not normalize again
+		normalizedXPath = element.getIdentifyingAttributes().getPath();
+		givenXPath = normalizedXPath;
 	}
 
 	private ElementXPathMatcher( final String xpath ) {
-		this.xpath = xpath;
+		givenXPath = xpath;
+		// normalize xpath
+		normalizedXPath = Path.fromString( xpath ).toString();
 	}
 
 	@Override
 	public boolean test( final Element element ) {
-		return element.getIdentifyingAttributes().getPath().equals( xpath );
+		return element.getIdentifyingAttributes().getPath().equals( normalizedXPath );
 	}
 
 	@Override
 	public String toString() {
-		return String.format( ElementXpathMatcherLoader.FORMAT, xpath );
+		return String.format( ElementXpathMatcherLoader.FORMAT, givenXPath );
 	}
 
 	public static final class ElementXpathMatcherLoader extends RegexLoader<ElementXPathMatcher> {
