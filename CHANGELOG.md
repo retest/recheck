@@ -46,7 +46,7 @@ Table of Contents
 * Switched the underlying JavaScript engine (used for, e.g., `recheck.ignore.js`) by replacing Nashorn (deprecated) with [Mozilla's Rhino](https://github.com/mozilla/rhino/).
 * Added 'target', 'rel' and 'xmlns' as attributes to invisible filters and 'scale' as attribute to style filter.
 * Support XPath in the ignore file also directly like it's returned from Chrome (e.g. `/html/body/div[3]`).
-* Changed the definition of the ignore rules from `matcher: id=title, attribute: font` to `matcher: id=title, attribute=font` to be more consistent. recheck will automatically migrate existing `recheck.ignore` files.
+* Changed the definition of the ignore rules from `matcher: id=title, attribute: font` to `matcher: id=title, attribute=font` and from `matcher: id=title, attribute-regex: font-.*` to `matcher: id=title, attribute-regex=font-.*` to be more consistent. recheck will automatically migrate existing `recheck.ignore` files.
 
 --------------------------------------------------------------------------------
 
