@@ -8,8 +8,8 @@ matcher: id=title, attribute: font
 matcher: retestid=banner
 matcher: retestid=banner, attribute: outline
 matcher: retestid=banner, attribute-regex: .*color
-matcher: xpath=/html[1]/div[1]/div[1]/div[1]
-matcher: xpath=/html[1]/div[1]/div[1]/div[2], attribute: background-url
+matcher: xpath=html[1]/div[1]/div[1]/div[2]
+matcher: xpath=/html/div/div/div[2], attribute: background-url
 matcher: type=div, attribute-regex: .*color
 
 # Attributes
