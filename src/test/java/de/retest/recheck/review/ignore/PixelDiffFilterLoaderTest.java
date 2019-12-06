@@ -28,13 +28,29 @@ class PixelDiffFilterLoaderTest {
 		assertThat( cut.load( intDiff ) ).isPresent();
 		final PixelDiffFilter loadedIntDiff = cut.load( intDiff ).get();
 		assertThat( loadedIntDiff.getPixelDiff() ).isEqualTo( 5.0 );
-		assertThat( loadedIntDiff ).hasToString( intDiff );
+		assertThat( loadedIntDiff ).hasToString( "pixel-diff=5px" );
 
 		final String doubleDiff = "pixel-diff=5.0";
 		assertThat( cut.load( doubleDiff ) ).isPresent();
 		final PixelDiffFilter loadedDoubleDiff = cut.load( doubleDiff ).get();
 		assertThat( loadedDoubleDiff.getPixelDiff() ).isEqualTo( 5.0 );
-		assertThat( loadedDoubleDiff ).hasToString( doubleDiff );
+		assertThat( loadedDoubleDiff ).hasToString( "pixel-diff=5.0px" );
 	}
 
+	@Test
+	void should_load_integer_and_double_px() throws Exception {
+		final PixelDiffFilterLoader cut = new PixelDiffFilterLoader();
+
+		final String intDiff = "pixel-diff=5px";
+		assertThat( cut.load( intDiff ) ).isPresent();
+		final PixelDiffFilter loadedIntDiff = cut.load( intDiff ).get();
+		assertThat( loadedIntDiff.getPixelDiff() ).isEqualTo( 5.0 );
+		assertThat( loadedIntDiff ).hasToString( intDiff );
+
+		final String doubleDiff = "pixel-diff=5.0px";
+		assertThat( cut.load( doubleDiff ) ).isPresent();
+		final PixelDiffFilter loadedDoubleDiff = cut.load( doubleDiff ).get();
+		assertThat( loadedDoubleDiff.getPixelDiff() ).isEqualTo( 5.0 );
+		assertThat( loadedDoubleDiff ).hasToString( doubleDiff );
+	}
 }

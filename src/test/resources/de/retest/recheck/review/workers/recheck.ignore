@@ -18,8 +18,8 @@ attribute=possible-*regex
 attribute-regex= .*
 
 # Misc
-pixel-diff=5
-pixel-diff=5.0
+pixel-diff=5px
+pixel-diff=5.0px
 
 # Whitespace
  

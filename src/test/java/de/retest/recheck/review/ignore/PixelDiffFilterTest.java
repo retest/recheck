@@ -91,8 +91,14 @@ class PixelDiffFilterTest {
 
 	@Test
 	void input_should_control_toString() throws Exception {
-		assertThat( new PixelDiffFilter( "0", 0.0 ) ).hasToString( "pixel-diff=0" );
-		assertThat( new PixelDiffFilter( "0.0", 0.0 ) ).hasToString( "pixel-diff=0.0" );
+		assertThat( new PixelDiffFilter( "0px", 0.0 ) ).hasToString( "pixel-diff=0px" );
+		assertThat( new PixelDiffFilter( "0.0px", 0.0 ) ).hasToString( "pixel-diff=0.0px" );
+	}
+
+	@Test
+	void legacy_should_be_migrated() throws Exception {
+		assertThat( new PixelDiffFilter( "0", 0.0 ) ).hasToString( "pixel-diff=0px" );
+		assertThat( new PixelDiffFilter( "0.0", 0.0 ) ).hasToString( "pixel-diff=0.0px" );
 	}
 
 	@Test

@@ -35,7 +35,7 @@ public class PixelDiffFilter implements Filter {
 	private final double pixelDiff;
 
 	public PixelDiffFilter( final String givenInput, final double pixelDiff ) {
-		this.givenInput = givenInput;
+		this.givenInput = givenInput.endsWith( PIXEL ) ? givenInput : givenInput + PIXEL;
 		this.pixelDiff = pixelDiff;
 	}
 
@@ -106,7 +106,7 @@ public class PixelDiffFilter implements Filter {
 
 		private static final String KEY = "pixel-diff=";
 		private static final String FORMAT = KEY + "%s";
-		private static final Pattern REGEX = Pattern.compile( KEY + "(\\d+(\\.\\d+)?)" );
+		private static final Pattern REGEX = Pattern.compile( KEY + "(\\d+(\\.\\d+)?)(px)?" );
 
 		public PixelDiffFilterLoader() {
 			super( REGEX );
