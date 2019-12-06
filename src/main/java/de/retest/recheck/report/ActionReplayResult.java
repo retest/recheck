@@ -31,7 +31,9 @@ import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.image.Screenshot;
+import lombok.Getter;
 
 /**
  * This class is more heavy than the {@link ActionExecutionResult} - it contains the result of the execution of an
@@ -55,7 +57,8 @@ public class ActionReplayResult implements Serializable {
 		DELETION
 	}
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
+
 	private static final long NO_DURATION = 0L;
 
 	@XmlAttribute
@@ -74,6 +77,10 @@ public class ActionReplayResult implements Serializable {
 	@XmlElement
 	private final StateDifference stateDifference;
 
+	@XmlElement
+	@Getter
+	private final MetadataDifference metadataDifference;
+
 	@XmlAttribute
 	private long duration;
 
@@ -91,6 +98,7 @@ public class ActionReplayResult implements Serializable {
 		error = null;
 		targetNotFound = null;
 		stateDifference = null;
+		metadataDifference = MetadataDifference.empty();
 		windows = null;
 		executionType = null;
 	}
@@ -147,7 +155,8 @@ public class ActionReplayResult implements Serializable {
 		this.windows = windows.get();
 		this.error = error.getThrowableWrapper();
 		targetNotFound = error.getTargetNotFoundWrapper();
-		stateDifference = difference.get();
+		stateDifference = difference.getStateDifference();
+		metadataDifference = difference.getMetadataDifference();
 		this.duration = duration;
 		this.executionType = executionType;
 	}

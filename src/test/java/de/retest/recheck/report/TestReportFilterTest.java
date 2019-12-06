@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
+import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.ElementFilter;
@@ -34,6 +35,8 @@ import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
+import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 import de.retest.recheck.ui.image.Screenshot;
 
 class TestReportFilterTest {
@@ -61,7 +64,7 @@ class TestReportFilterTest {
 		final String keyToFilter = "filterMe";
 		final String keyNotToFilter = "notFilterMe";
 
-		filter = new AttributeFilter( keyToFilter );
+		filter = new CompoundFilter( new AttributeFilter( "a" ), new AttributeFilter( keyToFilter ) );
 
 		filterMe = new AttributeDifference( keyToFilter, null, null );
 		notFilterMe = new AttributeDifference( keyNotToFilter, null, null );
@@ -97,6 +100,8 @@ class TestReportFilterTest {
 		stateDiff = new StateDifference( rootElementDiffs );
 
 		actionReplayResult = mock( ActionReplayResult.class );
+		when( actionReplayResult.getMetadataDifference() ).thenReturn(
+				MetadataDifference.of( Collections.singleton( new MetadataElementDifference( "a", "b", "c" ) ) ) );
 		when( actionReplayResult.getStateDifference() ).thenReturn( stateDiff );
 
 		testReplayResult = new TestReplayResult( "test", 1 );
@@ -381,5 +386,12 @@ class TestReportFilterTest {
 		final List<AttributeDifference> differences = actionReplayResult.getStateDifference()
 				.getRootElementDifferences().get( 0 ).getElementDifference().getAttributesDifference().getDifferences();
 		assertThat( differences ).containsExactly( notFilterMe );
+	}
+
+	@Test
+	void filter_should_not_destroy_metadata() throws Exception {
+		final ActionReplayResult filtered = cut.filter( actionReplayResult );
+
+		assertThat( filtered.getMetadataDifference() ).isEqualTo( actionReplayResult.getMetadataDifference() );
 	}
 }

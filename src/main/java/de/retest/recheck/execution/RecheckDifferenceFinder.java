@@ -11,15 +11,19 @@ import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.SutState;
-import de.retest.recheck.ui.diff.DifferenceResult;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifferenceFinder;
+import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifferenceFinder;
 
 public class RecheckDifferenceFinder {
 
 	private static final Logger logger = LoggerFactory.getLogger( RecheckDifferenceFinder.class );
 
 	private final RootElementDifferenceFinder finder;
+	private final MetadataDifferenceFinder metadataDifferenceFinder = new MetadataDifferenceFinder();
+
 	private final String currentStep;
 	private final String goldenMasterPath;
 
@@ -31,22 +35,26 @@ public class RecheckDifferenceFinder {
 	}
 
 	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
-		return toActionReplayResult( new DifferenceResult( actual, findDifferencesBetweenStates( actual, expected ) ) );
-	}
-
-	private List<RootElementDifference> findDifferencesBetweenStates( final SutState actual, final SutState expected ) {
-		return finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
-	}
-
-	private ActionReplayResult toActionReplayResult( final DifferenceResult check ) {
-		final List<RootElementDifference> differences = check.getDifferences();
-		if ( differences != null && !differences.isEmpty() ) {
-			logger.debug( "Found {} differences for step '{}'.", differences.size(), currentStep );
-			return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
-					WindowRetriever.empty(), DifferenceRetriever.of( differences ), 0L );
+		final List<RootElementDifference> differences =
+				finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
+		final MetadataDifference metadataDifference = metadataDifferenceFinder.findDifferences( actual, expected );
+		if ( !differences.isEmpty() ) {
+			return createResult( new StateDifference( differences ), metadataDifference );
 		}
-		logger.debug( "Found no differences in step '{}'.", currentStep );
-		return ActionReplayResult.withoutDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
-				WindowRetriever.of( check.getCurrentSutState() ), 0L );
+		return createEmptyResult( actual, metadataDifference );
 	}
+
+	private ActionReplayResult createResult( final StateDifference stateDifference,
+			final MetadataDifference metadataDifference ) {
+		logger.debug( "Found {} differences for step '{}'.", stateDifference.size(), currentStep );
+		return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
+				WindowRetriever.empty(), DifferenceRetriever.of( stateDifference, metadataDifference ), 0L );
+	}
+
+	private ActionReplayResult createEmptyResult( final SutState actual, final MetadataDifference metadataDifference ) {
+		logger.debug( "Found no differences in step '{}'.", currentStep );
+		return ActionReplayResult.withDifference( ActionReplayData.withoutTarget( currentStep, goldenMasterPath ),
+				WindowRetriever.of( actual ), DifferenceRetriever.of( metadataDifference ), 0L );
+	}
+
 }
