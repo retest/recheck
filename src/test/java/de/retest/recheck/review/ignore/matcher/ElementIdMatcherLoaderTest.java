@@ -2,14 +2,19 @@ package de.retest.recheck.review.ignore.matcher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
+import java.util.Collection;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
+import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
+import de.retest.recheck.ui.descriptors.StringAttribute;
 
 class ElementIdMatcherLoaderTest {
 
@@ -20,10 +25,12 @@ class ElementIdMatcherLoaderTest {
 	void setUp() {
 		cut = new ElementIdMatcherLoader();
 
-		final Element element = mock( Element.class );
-		final IdentifyingAttributes attribs = mock( IdentifyingAttributes.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( attribs );
-		when( attribs.get( "id" ) ).thenReturn( "abc" );
+		final Collection<Attribute> idAttribs =
+				IdentifyingAttributes.createList( Path.fromString( "html/div" ), "div" );
+		idAttribs.add( new StringAttribute( "id", "abc" ) );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				new IdentifyingAttributes( idAttribs ), new MutableAttributes().immutable() );
+
 		matcher = new ElementIdMatcher( element );
 	}
 
