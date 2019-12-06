@@ -20,8 +20,8 @@ class PixelDiffFilterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new PixelDiffFilter( false, pixelDiff );
-		element = element = mock( Element.class );
+		cut = new PixelDiffFilter( "5.0", pixelDiff );
+		element = mock( Element.class );
 	}
 
 	@Test
@@ -39,7 +39,7 @@ class PixelDiffFilterTest {
 		final Rectangle actual = new Rectangle( 1, -1, 15, 5 );
 		final AttributeDifference diff = new AttributeDifference( "outline", expected, actual );
 
-		final Filter cut = new PixelDiffFilter( false, 0.0 );
+		final Filter cut = new PixelDiffFilter( "0", 0.0 );
 
 		assertThat( cut.matches( element, diff ) ).isFalse();
 	}
@@ -90,9 +90,9 @@ class PixelDiffFilterTest {
 	}
 
 	@Test
-	void specifiedAsDouble_flag_should_control_toString() throws Exception {
-		assertThat( new PixelDiffFilter( false, 0.0 ) ).hasToString( "pixel-diff=0" );
-		assertThat( new PixelDiffFilter( true, 0.0 ) ).hasToString( "pixel-diff=0.0" );
+	void input_should_control_toString() throws Exception {
+		assertThat( new PixelDiffFilter( "0", 0.0 ) ).hasToString( "pixel-diff=0" );
+		assertThat( new PixelDiffFilter( "0.0", 0.0 ) ).hasToString( "pixel-diff=0.0" );
 	}
 
 	@Test
