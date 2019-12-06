@@ -55,4 +55,26 @@ public class ElementAttributeFilter implements Filter {
 					.map( match -> new ElementAttributeFilter( match, key ) );
 		}
 	}
+
+	// TODO Remove again after it was sufficiently long in the project
+	// for all .filter and recheck.ignore files to be migrated
+	public static class LegacyElementAttributeFilterLoader extends RegexLoader<ElementAttributeFilter> {
+
+		static final String KEY = "attribute: ";
+
+		private static final Pattern REGEX =
+				Pattern.compile( ElementAttributeFilterLoader.MATCHER + "(.+), " + KEY + "(.+)" );
+
+		public LegacyElementAttributeFilterLoader() {
+			super( REGEX );
+		}
+
+		@Override
+		protected Optional<ElementAttributeFilter> load( final MatchResult regex ) {
+			final String matcher = regex.group( 1 );
+			final String key = regex.group( 2 );
+			return Loaders.elementMatcher().load( matcher ) //
+					.map( match -> new ElementAttributeFilter( match, key ) );
+		}
+	}
 }

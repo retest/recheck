@@ -13,6 +13,7 @@ import de.retest.recheck.review.ignore.AttributeRegexFilter;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.ElementAttributeFilter;
 import de.retest.recheck.review.ignore.ElementAttributeFilter.ElementAttributeFilterLoader;
+import de.retest.recheck.review.ignore.ElementAttributeFilter.LegacyElementAttributeFilterLoader;
 import de.retest.recheck.review.ignore.ElementAttributeRegexFilter;
 import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.ElementAttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.ElementFilter;
@@ -42,6 +43,7 @@ public class Loaders {
 
 	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
 			Pair.of( ElementAttributeFilter.class, new ElementAttributeFilterLoader() ), //
+			Pair.of( ElementAttributeFilter.class, new LegacyElementAttributeFilterLoader() ), //
 			Pair.of( ElementAttributeRegexFilter.class, new ElementAttributeRegexFilterLoader() ), //
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
