@@ -10,26 +10,29 @@ import de.retest.recheck.ui.descriptors.Element;
 
 public class ElementXPathMatcher implements Matcher<Element> {
 
-	private final String xpath;
+	private final String givenXPath;
+	private final String normalizedXPath;
 
 	public ElementXPathMatcher( final Element element ) {
 		// do not normalize again
-		xpath = element.getIdentifyingAttributes().getPath();
+		normalizedXPath = element.getIdentifyingAttributes().getPath();
+		givenXPath = normalizedXPath;
 	}
 
 	private ElementXPathMatcher( final String xpath ) {
+		givenXPath = xpath;
 		// normalize xpath
-		this.xpath = Path.fromString( xpath ).toString();
+		normalizedXPath = Path.fromString( xpath ).toString();
 	}
 
 	@Override
 	public boolean test( final Element element ) {
-		return element.getIdentifyingAttributes().getPath().equals( xpath );
+		return element.getIdentifyingAttributes().getPath().equals( normalizedXPath );
 	}
 
 	@Override
 	public String toString() {
-		return String.format( ElementXpathMatcherLoader.FORMAT, "/" + xpath );
+		return String.format( ElementXpathMatcherLoader.FORMAT, givenXPath );
 	}
 
 	public static final class ElementXpathMatcherLoader extends RegexLoader<ElementXPathMatcher> {
