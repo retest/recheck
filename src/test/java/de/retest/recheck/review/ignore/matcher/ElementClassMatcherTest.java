@@ -2,13 +2,18 @@ package de.retest.recheck.review.ignore.matcher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+
+import java.util.Collection;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.descriptors.Attribute;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
+import de.retest.recheck.ui.descriptors.StringAttribute;
 
 class ElementClassMatcherTest {
 
@@ -72,12 +77,11 @@ class ElementClassMatcherTest {
 	}
 
 	private Element mockElementWithClassValue( final String classValue ) {
-		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.get( ElementClassMatcher.CLASS_KEY ) ).thenReturn( classValue );
-
-		final Element element = mock( Element.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
-
+		final Collection<Attribute> idAttribs =
+				IdentifyingAttributes.createList( Path.fromString( "html/div" ), "div" );
+		idAttribs.add( new StringAttribute( ElementClassMatcher.CLASS_KEY, classValue ) );
+		final Element element = Element.create( "retestId", mock( Element.class ),
+				new IdentifyingAttributes( idAttribs ), new MutableAttributes().immutable() );
 		return element;
 	}
 
