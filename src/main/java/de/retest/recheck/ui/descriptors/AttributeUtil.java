@@ -36,6 +36,10 @@ public class AttributeUtil {
 		return outlineAttribute.getValue();
 	}
 
+	public static Rectangle getAbsoluteOutline( final ElementDifference difference ) {
+		return getAbsoluteOutline( difference.getIdentifyingAttributes() );
+	}
+
 	public static Rectangle getAbsoluteOutline( final IdentifyingAttributes attributes ) {
 		final OutlineAttribute outlineAttribute =
 				(OutlineAttribute) attributes.getAttribute( OutlineAttribute.ABSOLUTE_OUTLINE );
