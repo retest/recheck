@@ -61,7 +61,7 @@ public class AttributeUtil {
 			if ( attributeDifferences != null ) {
 				for ( final AttributeDifference aDiff : attributeDifferences ) {
 					if ( aDiff.getKey().equals( type ) ) {
-						return ((Rectangle) aDiff.getActual());
+						return (Rectangle) aDiff.getActual();
 					}
 				}
 			}
