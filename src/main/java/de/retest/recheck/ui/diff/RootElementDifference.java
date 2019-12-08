@@ -22,10 +22,6 @@ public class RootElementDifference implements Difference {
 
 	private final String title;
 
-	private final String screen;
-
-	private final int screenId;
-
 	private final int checkedUiComponentCount;
 
 	protected final ElementDifference elementDifference;
@@ -44,8 +40,6 @@ public class RootElementDifference implements Difference {
 		super();
 		differenceId = null;
 		title = null;
-		screen = null;
-		screenId = 0;
 		elementDifference = null;
 		expectedScreenshot = null;
 		actualScreenshot = null;
@@ -58,8 +52,6 @@ public class RootElementDifference implements Difference {
 		this.expectedDescriptor = expectedDescriptor;
 		this.actualDescriptor = actualDescriptor;
 		title = instance.getTitle();
-		screen = instance.getScreen();
-		screenId = instance.getScreenId();
 		differenceId = elementDifference.getIdentifier();
 		this.elementDifference = elementDifference;
 		expectedScreenshot = elementDifference.getExpectedScreenshot();
