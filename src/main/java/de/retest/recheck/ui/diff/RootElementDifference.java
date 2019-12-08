@@ -155,4 +155,8 @@ public class RootElementDifference implements Difference {
 	public String getTitle() {
 		return title;
 	}
+
+	public RootElement getElement() {
+		return getExpectedDescriptor() != null ? getExpectedDescriptor() : getActualDescriptor();
+	}
 }
