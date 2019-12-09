@@ -28,16 +28,16 @@ public class RecheckIgnoreUtil {
 		return projectConfigurationFolder.map( p -> p.resolve( filename ) );
 	}
 
-	public static Optional<Path> getUserIgnoreFile( final String filename ) {
-		return Optional.of( Paths.get( System.getProperty( "user.home" ), RETEST_FOLDER_NAME, filename ) );
+	public static Path getUserIgnoreFile( final String filename ) {
+		return Paths.get( System.getProperty( "user.home" ) ).resolve( RETEST_FOLDER_NAME ).resolve( filename );
 	}
 
-	public static Optional<Path> getSuiteIgnoreFile( final String filename, final Path basePath ) {
-		return Optional.of( Paths.get( basePath.toAbsolutePath().toString(), filename ) );
+	public static Path getSuiteIgnoreFile( final String filename, final Path basePath ) {
+		return basePath.resolve( filename );
 	}
 
-	public static GlobalIgnoreApplier loadRecheckIgnore( final File ignoreFilesBasePath ) {
-		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(), ignoreFilesBasePath.toPath() ) );
+	public static GlobalIgnoreApplier loadRecheckIgnore( final File suiteIgnorePath ) {
+		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(), suiteIgnorePath.toPath() ) );
 	}
 
 	private static GlobalIgnoreApplier loadRecheckSuiteIgnore( final LoadFilterWorker loadFilterWorker ) {
