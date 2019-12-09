@@ -13,6 +13,7 @@ import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.descriptors.GroundState;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
 
 class SuiteReplayResultPrinterTest {
 
@@ -47,6 +48,7 @@ class SuiteReplayResultPrinterTest {
 		final ActionReplayResult actionResult = mock( ActionReplayResult.class );
 		when( actionResult.hasDifferences() ).thenReturn( true );
 		when( actionResult.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( actionResult.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final TestReplayResult testResult = mock( TestReplayResult.class );
 		when( testResult.isEmpty() ).thenReturn( false );

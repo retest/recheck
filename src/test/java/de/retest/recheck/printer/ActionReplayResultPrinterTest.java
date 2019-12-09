@@ -30,6 +30,7 @@ import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.util.ApprovalsUtil;
 
 class ActionReplayResultPrinterTest {
@@ -91,6 +92,7 @@ class ActionReplayResultPrinterTest {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
 		when( result.getStateDifference() ).thenReturn( stateDifference );
+		when( result.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final String string = cut.toString( result );
 
@@ -101,6 +103,7 @@ class ActionReplayResultPrinterTest {
 	void toString_should_respect_indent() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( result.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final String string = cut.toString( result, "____" );
 
