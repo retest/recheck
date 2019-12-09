@@ -299,6 +299,22 @@ public class ElementTest {
 		assertThat( element.getAttributeValue( "key" ) ).isNull();
 	}
 
+	@Test
+	public void getRootElement_should_return_root() {
+		final Element root = new RootElement( "root", IdentifyingAttributes.create( Path.fromString( "html" ), "html" ),
+				new MutableAttributes().immutable(), null, "screen", 1, "title" );
+		final Element parent =
+				Element.create( "dad", root, IdentifyingAttributes.create( Path.fromString( "html/body" ), "body" ),
+						new MutableAttributes().immutable() );
+		final Element kid = Element.create( "kid", parent,
+				IdentifyingAttributes.create( Path.fromString( "html/body/div" ), "div" ),
+				new MutableAttributes().immutable() );
+
+		assertThat( kid.getRootElement() ).isEqualTo( root );
+		assertThat( parent.getRootElement() ).isEqualTo( root );
+		assertThat( root.getRootElement() ).isEqualTo( root );
+	}
+
 	// Copy & paste from ElementBuilder due to cyclic dependency.
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {

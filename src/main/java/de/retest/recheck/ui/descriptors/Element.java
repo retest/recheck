@@ -308,4 +308,15 @@ public class Element implements Serializable, Comparable<Element> {
 	public String toString() {
 		return identifyingAttributes.toString();
 	}
+
+	public RootElement getRootElement() {
+		if ( parent != null ) {
+			return parent.getRootElement();
+		}
+		if ( !(this instanceof RootElement) ) {
+			throw new IllegalStateException(
+					"No parent defined, but element " + toString() + " is no instance of root!" );
+		}
+		return (RootElement) this;
+	}
 }
