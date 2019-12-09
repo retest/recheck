@@ -8,7 +8,7 @@ public class VersionProviderTest {
 
 	@Test
 	public void retest_version_is_not_null() {
-		assertThat( VersionProvider.RETEST_VERSION ).isNotNull();
+		assertThat( VersionProvider.RECHECK_VERSION ).isNotNull();
 	}
 
 }

@@ -45,7 +45,7 @@ public class ReTestXmlDataContainer<T extends Persistable> implements Serializab
 		dataType = data.getClass().getCanonicalName();
 		dataTypeVersion = data.version();
 
-		reTestVersion = VersionProvider.RETEST_VERSION;
+		reTestVersion = VersionProvider.RECHECK_VERSION;
 	}
 
 	public T data() {
