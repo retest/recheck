@@ -41,7 +41,8 @@ class ActionReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
+		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
+				Collections.emptySet() );
 	}
 
 	@Test
@@ -161,9 +162,12 @@ class ActionReplayResultPrinterTest {
 		when( actionResult.hasDifferences() ).thenReturn( true );
 		when( actionResult.getMetadataDifference() ).thenReturn( metadataDifference );
 
-		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" + "\tMetadata Differences:\n"
-				+ "\t\ta: expected=\"b\", actual=\"c\"\n" + "\t\tb: expected=\"c\", actual=\"d\"\n"
-				+ "\tIdentifying at 'path/to/element':\n" + "\t\tkey: expected=\"expected\", actual=\"actual\"" );
+		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" // 
+				+ "\tMetadata Differences:\n" //
+				+ "\t\ta: expected=\"b\", actual=\"c\"\n" // 
+				+ "\t\tb: expected=\"c\", actual=\"d\"\n" //
+				+ "\tIdentifying at 'path/to/element':\n" // 
+				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
 	}
 
 	@Test

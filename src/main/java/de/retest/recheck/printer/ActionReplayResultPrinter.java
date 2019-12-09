@@ -1,5 +1,6 @@
 package de.retest.recheck.printer;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -15,10 +16,17 @@ import de.retest.recheck.ui.diff.meta.MetadataDifference;
 public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private final ElementDifferencePrinter printer;
-	private final MetadataDifferencePrinter metadataDifferencePrinter = new MetadataDifferencePrinter();
+	private final MetadataDifferencePrinter metadataDifferencePrinter;
 
 	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder ) {
 		printer = new ElementDifferencePrinter( defaultValueFinder );
+		metadataDifferencePrinter = new MetadataDifferencePrinter();
+	}
+
+	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder,
+			final Set<String> metadataDifferencesToPrint ) {
+		printer = new ElementDifferencePrinter( defaultValueFinder );
+		metadataDifferencePrinter = new MetadataDifferencePrinter( metadataDifferencesToPrint );
 	}
 
 	@Override

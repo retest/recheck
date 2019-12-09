@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import de.retest.recheck.meta.global.OSMetadataProvider;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 
 	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
@@ -18,6 +20,12 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 			OSMetadataProvider.OS_NAME, //
 			OSMetadataProvider.OS_VERSION //
 	) );
+
+	private final Set<String> filter;
+
+	public MetadataDifferencePrinter() {
+		this( DIFFERENCES_TO_PRINT );
+	}
 
 	@Override
 	public String toString( final MetadataDifference difference, final String indent ) {
@@ -33,7 +41,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	}
 
 	private boolean shouldPrint( final MetadataElementDifference difference ) {
-		return DIFFERENCES_TO_PRINT.contains( difference.getKey() );
+		return filter.isEmpty() || DIFFERENCES_TO_PRINT.contains( difference.getKey() );
 	}
 
 	private String print( final MetadataElementDifference difference ) {

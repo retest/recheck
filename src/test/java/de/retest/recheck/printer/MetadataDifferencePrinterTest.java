@@ -1,6 +1,7 @@
 package de.retest.recheck.printer;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 import org.assertj.core.api.Assertions;
@@ -18,7 +19,7 @@ class MetadataDifferencePrinterTest {
 				new MetadataElementDifference( "b", "c", "d" ) //
 		) ) );
 
-		final MetadataDifferencePrinter cut = new MetadataDifferencePrinter();
+		final MetadataDifferencePrinter cut = new MetadataDifferencePrinter( Collections.emptySet() );
 
 		Assertions.assertThat( cut.toString( differences, "____" ) ).isEqualTo( "____Metadata Differences:\n" //
 				+ "____\ta: expected=\"b\", actual=\"c\"\n" //
