@@ -1,5 +1,6 @@
 package de.retest.recheck.persistence;
 
+import static de.retest.recheck.RecheckProperties.FILE_OUTPUT_FORMAT_PROPERTY_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -11,6 +12,7 @@ import java.net.URI;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -18,14 +20,11 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
 
-import de.retest.junit.vintage.SystemProperty;
-import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.persistence.PersistenceFactory.DynamicLoadPersistenceProxy;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
 import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.persistence.xml.XmlZipPersistence;
-import de.retest.testutils.FileUtils;
 
 @PrepareForTest( { PersistenceFactory.class, XmlZipPersistence.class, XmlFolderPersistence.class } )
 public class PersistenceFactoryTest {
@@ -37,7 +36,7 @@ public class PersistenceFactoryTest {
 	public PowerMockRule powerMockRule = new PowerMockRule();
 
 	@Rule
-	public SystemProperty fileFormat = new SystemProperty( RecheckProperties.FILE_OUTPUT_FORMAT_PROPERTY_KEY, null );
+	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	private PersistenceFactory factory;
 
@@ -82,7 +81,7 @@ public class PersistenceFactoryTest {
 	public void save_use_zip_persistence_when_zip_is_default() throws Exception {
 		final URI identifier = new URI( "" );
 		final Persistable element = mock( Persistable.class );
-		fileFormat.setValue( FileOutputFormat.ZIP.name() );
+		System.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, FileOutputFormat.ZIP.name() );
 
 		factory.getPersistence().save( identifier, element );
 
@@ -94,7 +93,7 @@ public class PersistenceFactoryTest {
 	public void save_use_folder_persistence_when_folder_is_default() throws Exception {
 		final URI identifier = new URI( "" );
 		final Persistable element = mock( Persistable.class );
-		fileFormat.setValue( FileOutputFormat.PLAIN.name() );
+		System.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, FileOutputFormat.PLAIN.name() );
 
 		factory.getPersistence().save( identifier, element );
 
