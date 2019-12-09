@@ -71,17 +71,20 @@ class ActionReplayResultPrinterTest {
 	}
 
 	@Test
-	void toString_with_no_exception_should_print_differences() {
-		final IdentifyingAttributes mock = mock( IdentifyingAttributes.class );
-		when( mock.toString() ).thenReturn( "Identifying" );
-		when( mock.getPath() ).thenReturn( "path/to/element" );
+	void toString_should_print_state_differences_if_no_meta_differences() {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.toString() ).thenReturn( "Identifying" );
+		when( identifyingAttributes.getPath() ).thenReturn( "path/to/element" );
 
-		final ElementDifference childDifference = mock( ElementDifference.class );
-		when( childDifference.getIdentifyingAttributes() ).thenReturn( mock );
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+		when( attributeDifference.getKey() ).thenReturn( "key" );
+		when( attributeDifference.getActual() ).thenReturn( "actual" );
+		when( attributeDifference.getExpected() ).thenReturn( "expected" );
 
 		final ElementDifference rootDifference = mock( ElementDifference.class );
-		when( rootDifference.getElementDifferences() ).thenReturn( Collections.singletonList( childDifference ) );
-		when( rootDifference.getIdentifyingAttributes() ).thenReturn( mock );
+		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+		when( rootDifference.hasAnyDifference() ).thenReturn( true );
+		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
 
 		final RootElementDifference root = mock( RootElementDifference.class );
 		when( root.getElementDifference() ).thenReturn( rootDifference );
