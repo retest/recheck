@@ -129,6 +129,44 @@ class ActionReplayResultPrinterTest {
 	}
 
 	@Test
+	void toString_should_print_meta_before_state_differences() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.toString() ).thenReturn( "Identifying" );
+		when( identifyingAttributes.getPath() ).thenReturn( "path/to/element" );
+
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+		when( attributeDifference.getKey() ).thenReturn( "key" );
+		when( attributeDifference.getActual() ).thenReturn( "actual" );
+		when( attributeDifference.getExpected() ).thenReturn( "expected" );
+
+		final ElementDifference rootDifference = mock( ElementDifference.class );
+		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+		when( rootDifference.hasAnyDifference() ).thenReturn( true );
+		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+
+		final RootElementDifference root = mock( RootElementDifference.class );
+		when( root.getElementDifference() ).thenReturn( rootDifference );
+
+		final StateDifference stateDifference = mock( StateDifference.class );
+		when( stateDifference.getRootElementDifferences() ).thenReturn( Collections.singletonList( root ) );
+
+		final MetadataDifference metadataDifference =
+				MetadataDifference.of( new HashSet<>( Arrays.asList( new MetadataElementDifference( "a", "b", "c" ), //
+						new MetadataElementDifference( "b", "c", "d" ) //
+				) ) );
+
+		final ActionReplayResult actionResult = mock( ActionReplayResult.class );
+		when( actionResult.getDescription() ).thenReturn( "foo" );
+		when( actionResult.getStateDifference() ).thenReturn( stateDifference );
+		when( actionResult.hasDifferences() ).thenReturn( true );
+		when( actionResult.getMetadataDifference() ).thenReturn( metadataDifference );
+
+		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" + "\tMetadata Differences:\n"
+				+ "\t\ta: expected=\"b\", actual=\"c\"\n" + "\t\tb: expected=\"c\", actual=\"d\"\n"
+				+ "\tIdentifying at 'path/to/element':\n" + "\t\tkey: expected=\"expected\", actual=\"actual\"" );
+	}
+
+	@Test
 	void toString_should_respect_indent() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
