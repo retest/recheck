@@ -7,7 +7,6 @@ import static de.retest.recheck.persistence.FileOutputFormat.KRYO;
 import static de.retest.recheck.persistence.FileOutputFormat.PLAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +20,7 @@ class RecheckPropertiesTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = ConfigFactory.create( RecheckProperties.class );
+		cut = RecheckProperties.getInstance();
 	}
 
 	@Test
