@@ -23,8 +23,7 @@ public class Rehub {
 
 		final RetestAuthentication auth = RetestAuthentication.getInstance();
 		auth.authenticate( new RehubAuthenticationHandler() );
-		RecheckProperties.getInstance().setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY,
-				FileOutputFormat.CLOUD.toString() );
+		System.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, FileOutputFormat.CLOUD.toString() );
 	}
 
 	/**

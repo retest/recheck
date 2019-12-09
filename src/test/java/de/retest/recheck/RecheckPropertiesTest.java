@@ -7,11 +7,12 @@ import static de.retest.recheck.persistence.FileOutputFormat.KRYO;
 import static de.retest.recheck.persistence.FileOutputFormat.PLAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class RecheckPropertiesTest {
 
@@ -19,7 +20,7 @@ class RecheckPropertiesTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = ConfigFactory.create( RecheckProperties.class );
+		cut = RecheckProperties.getInstance();
 	}
 
 	@Test
@@ -28,9 +29,8 @@ class RecheckPropertiesTest {
 	}
 
 	@Test
+	@SystemProperty( key = REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, value = "true" )
 	void report_output_format_should_use_cloud_when_rehub_is_enabled() {
-		cut.setProperty( REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, "true" );
-
 		assertThat( cut.getReportOutputFormat() ).isEqualTo( CLOUD );
 	}
 
@@ -41,8 +41,9 @@ class RecheckPropertiesTest {
 
 	@ParameterizedTest
 	@ValueSource( strings = { "KRYO", "CLOUD" } )
+	@SystemProperty( key = FILE_OUTPUT_FORMAT_PROPERTY_KEY )
 	void state_output_format_should_use_plain_when_format_is_not_supported( final String unsupportedFormat ) {
-		cut.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, unsupportedFormat );
+		System.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, unsupportedFormat );
 
 		assertThat( cut.getStateOutputFormat() ).isEqualTo( PLAIN );
 	}
