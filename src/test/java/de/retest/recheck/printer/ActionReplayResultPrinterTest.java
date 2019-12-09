@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,7 @@ import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
+import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 import de.retest.recheck.util.ApprovalsUtil;
 
 class ActionReplayResultPrinterTest {
@@ -94,12 +96,36 @@ class ActionReplayResultPrinterTest {
 
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
+		when( result.hasDifferences() ).thenReturn( true );
 		when( result.getStateDifference() ).thenReturn( stateDifference );
 		when( result.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).startsWith( "foo resulted in:\n" );
+		assertThat( string ).isEqualTo( "foo resulted in:\n" //
+				+ "\tIdentifying at 'path/to/element':\n" //
+				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
+	}
+
+	@Test
+	void toString_should_print_meta_differences_if_no_state_differences() throws Exception {
+		final StateDifference stateDifference = mock( StateDifference.class );
+		when( stateDifference.getRootElementDifferences() ).thenReturn( Collections.emptyList() );
+
+		final MetadataDifference metadataDifference =
+				MetadataDifference.of( new HashSet<>( Arrays.asList( new MetadataElementDifference( "a", "b", "c" ), //
+						new MetadataElementDifference( "b", "c", "d" ) //
+				) ) );
+
+		final ActionReplayResult actionResult = mock( ActionReplayResult.class );
+		when( actionResult.getDescription() ).thenReturn( "foo" );
+		when( actionResult.getStateDifference() ).thenReturn( stateDifference );
+		when( actionResult.getMetadataDifference() ).thenReturn( metadataDifference );
+
+		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
+				+ "\tMetadata Differences:\n" //
+				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
+				+ "\t\tb: expected=\"c\", actual=\"d\"" );
 	}
 
 	@Test
