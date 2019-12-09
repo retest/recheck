@@ -39,7 +39,7 @@ public class ReTestXmlDataContainerTest {
 	public void container_contains_retest_version() throws Exception {
 		container = new ReTestXmlDataContainer<>( mock( Persistable.class ) );
 
-		assertThat( container.reTestVersion ).isEqualTo( VersionProvider.RETEST_VERSION );
+		assertThat( container.reTestVersion ).isEqualTo( VersionProvider.RECHECK_VERSION );
 	}
 
 	@Test

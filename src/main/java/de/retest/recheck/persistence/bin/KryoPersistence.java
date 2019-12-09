@@ -56,7 +56,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	private final String version;
 
 	public KryoPersistence() {
-		this( createKryo(), VersionProvider.RETEST_VERSION );
+		this( createKryo(), VersionProvider.RECHECK_VERSION );
 	}
 
 	/**

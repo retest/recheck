@@ -16,10 +16,12 @@ public class VersionProvider {
 	private static final String PROPERTIES_FILE_LOCATION = "/retest-defaults.properties";
 	private static final String RETEST_VERSION_PROPERTY = "de.retest.version";
 
-	public static final String RETEST_VERSION = parseRetestVersion();
-	public static final String RETEST_BUILD_DATE = parseRetestBuildDate();
+	public static final String RECHECK_VERSION = parseRecheckVersion();
+	public static final String RECHECK_BUILD_DATE = parseRecheckBuildDate();
 
-	private static String parseRetestVersion() {
+	private VersionProvider() {}
+
+	private static String parseRecheckVersion() {
 		{
 			final String packageVersion = VersionProvider.class.getPackage().getImplementationVersion();
 			if ( StringUtils.isNoneBlank( packageVersion ) ) {
@@ -48,7 +50,7 @@ public class VersionProvider {
 				"No version found. This seems to be a corrupted jar file: " + getLocationOfClass() );
 	}
 
-	private static String parseRetestBuildDate() {
+	private static String parseRecheckBuildDate() {
 		{
 			final String manifestBuildDate = readBuildDateFromManifest();
 			if ( StringUtils.isNoneBlank( manifestBuildDate ) ) {
