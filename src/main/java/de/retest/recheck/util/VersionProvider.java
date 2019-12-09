@@ -16,8 +16,8 @@ public class VersionProvider {
 	private static final String PROPERTIES_FILE_LOCATION = "/retest-defaults.properties";
 	private static final String RETEST_VERSION_PROPERTY = "de.retest.version";
 
-	public static final String RETEST_VERSION = parseRetestVersion();
-	public static final String RETEST_BUILD_DATE = parseRetestBuildDate();
+
+	private VersionProvider() {}
 
 	private static String parseRetestVersion() {
 		{
