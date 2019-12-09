@@ -2,16 +2,19 @@ package de.retest.recheck;
 
 import java.util.List;
 
-import org.aeonbits.owner.Config;
+import org.aeonbits.owner.Config.LoadPolicy;
+import org.aeonbits.owner.Config.LoadType;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.ConfigCache;
 import org.aeonbits.owner.ConfigFactory;
+import org.aeonbits.owner.Reloadable;
 
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.persistence.FileOutputFormat;
 
-@Sources( "file:${projectroot}/.retest/retest.properties" )
-public interface RecheckProperties extends Config {
+@LoadPolicy( LoadType.MERGE )
+@Sources( { "system:properties", "file:${projectroot}/.retest/retest.properties" } )
+public interface RecheckProperties extends Reloadable {
 
 	/*
 	 * Basic usage.
@@ -23,7 +26,9 @@ public interface RecheckProperties extends Config {
 	}
 
 	static RecheckProperties getInstance() {
-		return ConfigCache.getOrCreate( RecheckProperties.class, System.getProperties() );
+		final RecheckProperties instance = ConfigCache.getOrCreate( RecheckProperties.class );
+		instance.reload();
+		return instance;
 	}
 
 	/*
