@@ -14,12 +14,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.RestoreSystemProperties;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.rule.PowerMockRule;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.retest.recheck.persistence.PersistenceFactory.DynamicLoadPersistenceProxy;
 import de.retest.recheck.persistence.bin.KryoPersistence;
@@ -28,29 +26,24 @@ import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.persistence.xml.XmlZipPersistence;
 
 @PrepareForTest( { PersistenceFactory.class, XmlZipPersistence.class, XmlFolderPersistence.class } )
+@RunWith( PowerMockRunner.class )
 public class PersistenceFactoryTest {
-
-	@Rule
-	public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-	@Rule
-	public PowerMockRule powerMockRule = new PowerMockRule();
 
 	@Rule
 	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	private PersistenceFactory factory;
 
-	@Mock
 	public XmlZipPersistence<Persistable> xmlZipPersistence;
 
-	@Mock
 	public XmlFolderPersistence<Persistable> xmlFolderPersistence;
 
 	@Before
 	public void setUp() throws Exception {
 		factory = new PersistenceFactory( (XmlTransformer) null );
+		xmlZipPersistence = mock( XmlZipPersistence.class );
 		PowerMockito.whenNew( XmlZipPersistence.class ).withAnyArguments().thenReturn( xmlZipPersistence );
+		xmlFolderPersistence = mock( XmlFolderPersistence.class );
 		PowerMockito.whenNew( XmlFolderPersistence.class ).withAnyArguments().thenReturn( xmlFolderPersistence );
 	}
 
