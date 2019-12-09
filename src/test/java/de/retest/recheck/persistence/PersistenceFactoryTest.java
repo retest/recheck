@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.file.Paths;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -61,7 +62,7 @@ public class PersistenceFactoryTest {
 
 	@Test
 	public void load_starts_zip_persistence_if_its_a_zip_file() throws Exception {
-		final URI identifier = FileUtils.getFileUriForClasspathRelativPath( "/persistence/empty.zip" );
+		final URI identifier = Paths.get( "src/test/resources/persistence/empty.zip" ).toUri();
 		factory.getPersistence().load( identifier );
 
 		verify( xmlZipPersistence ).load( identifier );
@@ -70,7 +71,7 @@ public class PersistenceFactoryTest {
 
 	@Test
 	public void load_starts_folder_persistence_if_its_a_folder() throws Exception {
-		final URI identifier = FileUtils.getFileUriForClasspathRelativPath( "/persistence" );
+		final URI identifier = Paths.get( "src/test/resources/persistence/" ).toUri();
 		factory.getPersistence().load( identifier );
 
 		verify( xmlFolderPersistence ).load( identifier );
