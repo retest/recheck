@@ -2,16 +2,16 @@ package de.retest.recheck;
 
 import java.util.List;
 
+import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.Sources;
 import org.aeonbits.owner.ConfigCache;
 import org.aeonbits.owner.ConfigFactory;
-import org.aeonbits.owner.Mutable;
 
 import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.persistence.FileOutputFormat;
 
 @Sources( "file:${projectroot}/.retest/retest.properties" )
-public interface RecheckProperties extends Mutable {
+public interface RecheckProperties extends Config {
 
 	/*
 	 * Basic usage.
