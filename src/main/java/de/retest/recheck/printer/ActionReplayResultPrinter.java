@@ -10,10 +10,12 @@ import de.retest.recheck.ui.actions.ExceptionWrapper;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
 
 public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 
 	private final ElementDifferencePrinter printer;
+	private final MetadataDifferencePrinter metadataDifferencePrinter = new MetadataDifferencePrinter();
 
 	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder ) {
 		printer = new ElementDifferencePrinter( defaultValueFinder );
@@ -34,14 +36,31 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 		if ( difference instanceof NoGoldenMasterActionReplayResult ) {
 			return prefix + nextIndent + NoGoldenMasterActionReplayResult.MSG_LONG;
 		}
-		return prefix + createDifferences( difference.getStateDifference(), nextIndent );
+		final StateDifference stateDifference = difference.getStateDifference();
+		final boolean hasStateDifferences = difference.hasDifferences();
+		final MetadataDifference metadataDifference = difference.getMetadataDifference();
+		final boolean hasMetadataDifferences = !metadataDifference.isEmpty();
+
+		if ( !hasMetadataDifferences && hasStateDifferences ) {
+			return prefix + createStateDifferences( stateDifference, nextIndent );
+		}
+		if ( hasMetadataDifferences && !hasStateDifferences ) {
+			return prefix + createMetadataDifferences( metadataDifference, nextIndent );
+		}
+		return prefix // 
+				+ createMetadataDifferences( metadataDifference, nextIndent ) + "\n" // 
+				+ createStateDifferences( stateDifference, nextIndent );
 	}
 
 	private String createDescription( final ActionReplayResult difference ) {
 		return difference.getDescription() + " resulted in:";
 	}
 
-	private String createDifferences( final StateDifference difference, final String indent ) {
+	private String createMetadataDifferences( final MetadataDifference difference, final String indent ) {
+		return metadataDifferencePrinter.toString( difference, indent );
+	}
+
+	private String createStateDifferences( final StateDifference difference, final String indent ) {
 		return difference.getRootElementDifferences().stream() //
 				.map( RootElementDifference::getElementDifference ) //
 				.flatMap( this::getDifference ) //
