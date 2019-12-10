@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,8 @@ import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
+import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 import de.retest.recheck.util.ApprovalsUtil;
 
 class ActionReplayResultPrinterTest {
@@ -38,7 +41,8 @@ class ActionReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
+		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
+				Collections.emptySet() );
 	}
 
 	@Test
@@ -70,17 +74,20 @@ class ActionReplayResultPrinterTest {
 	}
 
 	@Test
-	void toString_with_no_exception_should_print_differences() {
-		final IdentifyingAttributes mock = mock( IdentifyingAttributes.class );
-		when( mock.toString() ).thenReturn( "Identifying" );
-		when( mock.getPath() ).thenReturn( "path/to/element" );
+	void toString_should_print_state_differences_if_no_meta_differences() {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.toString() ).thenReturn( "Identifying" );
+		when( identifyingAttributes.getPath() ).thenReturn( "path/to/element" );
 
-		final ElementDifference childDifference = mock( ElementDifference.class );
-		when( childDifference.getIdentifyingAttributes() ).thenReturn( mock );
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+		when( attributeDifference.getKey() ).thenReturn( "key" );
+		when( attributeDifference.getActual() ).thenReturn( "actual" );
+		when( attributeDifference.getExpected() ).thenReturn( "expected" );
 
 		final ElementDifference rootDifference = mock( ElementDifference.class );
-		when( rootDifference.getElementDifferences() ).thenReturn( Collections.singletonList( childDifference ) );
-		when( rootDifference.getIdentifyingAttributes() ).thenReturn( mock );
+		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+		when( rootDifference.hasAnyDifference() ).thenReturn( true );
+		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
 
 		final RootElementDifference root = mock( RootElementDifference.class );
 		when( root.getElementDifference() ).thenReturn( rootDifference );
@@ -90,17 +97,84 @@ class ActionReplayResultPrinterTest {
 
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getDescription() ).thenReturn( "foo" );
+		when( result.hasDifferences() ).thenReturn( true );
 		when( result.getStateDifference() ).thenReturn( stateDifference );
+		when( result.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final String string = cut.toString( result );
 
-		assertThat( string ).startsWith( "foo resulted in:\n" );
+		assertThat( string ).isEqualTo( "foo resulted in:\n" //
+				+ "\tIdentifying at 'path/to/element':\n" //
+				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
+	}
+
+	@Test
+	void toString_should_print_meta_differences_if_no_state_differences() throws Exception {
+		final StateDifference stateDifference = mock( StateDifference.class );
+		when( stateDifference.getRootElementDifferences() ).thenReturn( Collections.emptyList() );
+
+		final MetadataDifference metadataDifference =
+				MetadataDifference.of( new HashSet<>( Arrays.asList( new MetadataElementDifference( "a", "b", "c" ), //
+						new MetadataElementDifference( "b", "c", "d" ) //
+				) ) );
+
+		final ActionReplayResult actionResult = mock( ActionReplayResult.class );
+		when( actionResult.getDescription() ).thenReturn( "foo" );
+		when( actionResult.getStateDifference() ).thenReturn( stateDifference );
+		when( actionResult.getMetadataDifference() ).thenReturn( metadataDifference );
+
+		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
+				+ "\tMetadata Differences:\n" //
+				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
+				+ "\t\tb: expected=\"c\", actual=\"d\"" );
+	}
+
+	@Test
+	void toString_should_print_meta_before_state_differences() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.toString() ).thenReturn( "Identifying" );
+		when( identifyingAttributes.getPath() ).thenReturn( "path/to/element" );
+
+		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
+		when( attributeDifference.getKey() ).thenReturn( "key" );
+		when( attributeDifference.getActual() ).thenReturn( "actual" );
+		when( attributeDifference.getExpected() ).thenReturn( "expected" );
+
+		final ElementDifference rootDifference = mock( ElementDifference.class );
+		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+		when( rootDifference.hasAnyDifference() ).thenReturn( true );
+		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+
+		final RootElementDifference root = mock( RootElementDifference.class );
+		when( root.getElementDifference() ).thenReturn( rootDifference );
+
+		final StateDifference stateDifference = mock( StateDifference.class );
+		when( stateDifference.getRootElementDifferences() ).thenReturn( Collections.singletonList( root ) );
+
+		final MetadataDifference metadataDifference =
+				MetadataDifference.of( new HashSet<>( Arrays.asList( new MetadataElementDifference( "a", "b", "c" ), //
+						new MetadataElementDifference( "b", "c", "d" ) //
+				) ) );
+
+		final ActionReplayResult actionResult = mock( ActionReplayResult.class );
+		when( actionResult.getDescription() ).thenReturn( "foo" );
+		when( actionResult.getStateDifference() ).thenReturn( stateDifference );
+		when( actionResult.hasDifferences() ).thenReturn( true );
+		when( actionResult.getMetadataDifference() ).thenReturn( metadataDifference );
+
+		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" // 
+				+ "\tMetadata Differences:\n" //
+				+ "\t\ta: expected=\"b\", actual=\"c\"\n" // 
+				+ "\t\tb: expected=\"c\", actual=\"d\"\n" //
+				+ "\tIdentifying at 'path/to/element':\n" // 
+				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
 	}
 
 	@Test
 	void toString_should_respect_indent() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( result.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final String string = cut.toString( result, "____" );
 

@@ -20,6 +20,7 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
 
 class TestReplayResultPrinterTest {
 
@@ -54,13 +55,14 @@ class TestReplayResultPrinterTest {
 
 	@Test
 	void toString_should_print_difference() {
-		final ActionReplayResult a1 = mock( ActionReplayResult.class );
-		when( a1.getDescription() ).thenReturn( "foo" );
-		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		final ActionReplayResult actionReplayResult = mock( ActionReplayResult.class );
+		when( actionReplayResult.getDescription() ).thenReturn( "foo" );
+		when( actionReplayResult.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( actionReplayResult.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferencesCount() ).thenReturn( 1 );
-		when( result.getActionReplayResults() ).thenReturn( singletonList( a1 ) );
+		when( result.getActionReplayResults() ).thenReturn( singletonList( actionReplayResult ) );
 		when( result.getDifferences() ).thenReturn( singleton( mock( LeafDifference.class ) ) );
 
 		final String string = cut.toString( result );
@@ -70,13 +72,14 @@ class TestReplayResultPrinterTest {
 
 	@Test
 	void toString_should_print_difference_with_indent() {
-		final ActionReplayResult a1 = mock( ActionReplayResult.class );
-		when( a1.getDescription() ).thenReturn( "foo" );
-		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		final ActionReplayResult actionReplayResult = mock( ActionReplayResult.class );
+		when( actionReplayResult.getDescription() ).thenReturn( "foo" );
+		when( actionReplayResult.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( actionReplayResult.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferences() ).thenReturn( singleton( mock( LeafDifference.class ) ) );
-		when( result.getActionReplayResults() ).thenReturn( Collections.singletonList( a1 ) );
+		when( result.getActionReplayResults() ).thenReturn( Collections.singletonList( actionReplayResult ) );
 
 		final String string = cut.toString( result, "____" );
 
@@ -88,9 +91,12 @@ class TestReplayResultPrinterTest {
 		final ActionReplayResult a1 = mock( ActionReplayResult.class );
 		when( a1.getDescription() ).thenReturn( "foo" );
 		when( a1.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( a1.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
+
 		final ActionReplayResult a2 = mock( ActionReplayResult.class );
 		when( a2.getDescription() ).thenReturn( "bar" );
 		when( a2.getStateDifference() ).thenReturn( mock( StateDifference.class ) );
+		when( a2.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final TestReplayResult result = mock( TestReplayResult.class );
 		when( result.getDifferences() ).thenReturn( singleton( mock( LeafDifference.class ) ) );
@@ -105,6 +111,7 @@ class TestReplayResultPrinterTest {
 	void toString_should_not_print_if_no_differences() {
 		final ActionReplayResult emptyActionResult = mock( ActionReplayResult.class );
 		when( emptyActionResult.hasDifferences() ).thenReturn( false );
+		when( emptyActionResult.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 
 		final TestReplayResult testResult = mock( TestReplayResult.class );
 		when( testResult.getActionReplayResults() ).thenReturn( Collections.singletonList( emptyActionResult ) );

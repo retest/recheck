@@ -3,6 +3,9 @@ A detailed report will be created at '*'. You can review the details by using ou
 1 check(s) in 'de.retest.recheck.RecheckImplIT legacy spaces' found the following difference(s):
 Test 'with legacy spaces' has 9 difference(s) in 1 state(s):
 check resulted in:
+	Metadata Differences:
+		os.name: expected="Linux", actual="null"
+		os.version: expected="4.4.0-101-generic", actual="null"
 	test [test] at 'foo[1]/bar[1]':
 		foo-1: expected="bar-1", actual="bar-3"
 		foo-3: expected="bar-3", actual="bar-1"

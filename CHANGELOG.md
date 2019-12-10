@@ -38,6 +38,8 @@ Table of Contents
     * Machine name (if available).
     * Date and time.
     * Git branch and commit.
+* Display specific metadata will after test execution when printing the differences. This includes the following:
+    * Operating system name and version.
 
 ### Improvements
 
