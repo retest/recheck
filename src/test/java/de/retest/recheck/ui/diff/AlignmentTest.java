@@ -57,7 +57,7 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expComp0 ) ).isSameAs( actComp0 );
+		assertThat( alignment.getActual( expComp0 ) ).isSameAs( actComp0 );
 	}
 
 	@Test
@@ -72,7 +72,7 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expComp0 ) ).isSameAs( actComp0Comp0 );
+		assertThat( alignment.getActual( expComp0 ) ).isSameAs( actComp0Comp0 );
 	}
 
 	@Test
@@ -89,8 +89,8 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expA ) ).isSameAs( actA );
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expA ) ).isSameAs( actA );
 	}
 
 	@Test
@@ -107,9 +107,9 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expA1 ) ).isSameAs( actA );
-		assertThat( alignment.get( expA2 ) ).isNull();
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expA1 ) ).isSameAs( actA );
+		assertThat( alignment.getActual( expA2 ) ).isNull();
 	}
 
 	@Test
@@ -128,8 +128,8 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expC ) ).isSameAs( actC );
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expC ) ).isSameAs( actC );
 	}
 
 	@Test
@@ -148,9 +148,9 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expC ) ).isSameAs( actC );
-		assertThat( alignment.get( expA0 ) ).isSameAs( actA );
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expC ) ).isSameAs( actC );
+		assertThat( alignment.getActual( expA0 ) ).isSameAs( actA );
 	}
 
 	@Test
@@ -192,7 +192,7 @@ class AlignmentTest {
 		actualRoot.addChildren( actual );
 
 		final Alignment alignment = Alignment.createAlignment( root, actualRoot );
-		final Element mappedActual = alignment.get( expected );
+		final Element mappedActual = alignment.getActual( expected );
 
 		assertThat( mappedActual ).isNotEqualTo( actual );
 		assertThat( mappedActual ).isNull();

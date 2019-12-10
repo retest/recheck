@@ -199,12 +199,12 @@ public final class Alignment {
 	/**
 	 * Get the aligned actual element to an expected element.
 	 *
-	 * @param element
+	 * @param expected
 	 *            expected element
 	 * @return aligned actual element
 	 */
-	public Element get( final Element element ) {
-		return alignment.get( element );
+	public Element getActual( final Element expected ) {
+		return alignment.get( expected );
 	}
 
 	@Override
