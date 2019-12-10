@@ -1,0 +1,28 @@
+pull_request_rules:
+  - name: 'rebase when the head branch is not a release and all status checks passed'
+    conditions:
+      - head~=^(?!(release|hotfix)).*$
+      - status-success=Travis CI - Branch
+      - status-success=Travis CI - Pull Request
+      - status-success=SonarCloud Code Analysis
+      - status-success=verification/cla-signed
+    actions:
+      rebase: {}
+
+  - name: 'merge when the head branch is up-to-date, all status checks passed and one or more reviewers approved'
+    conditions:
+      - status-success=Travis CI - Branch
+      - status-success=Travis CI - Pull Request
+      - status-success=SonarCloud Code Analysis
+      - status-success=verification/cla-signed
+      - "#approved-reviews-by>=1"
+    actions:
+      merge:
+        strict: true
+        method: merge
+
+  - name: 'delete after successful merge'
+    conditions:
+      - merged
+    actions:
+      delete_head_branch: {}
