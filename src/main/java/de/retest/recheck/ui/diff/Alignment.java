@@ -67,19 +67,17 @@ public final class Alignment {
 
 	private Map<Element, Element> createAlignment( final List<Element> expectedElements,
 			final Map<Element, Element> actualElements ) {
-		final Map<Element, Match> matches = new HashMap<>();
 		final Queue<Element> elementsToAlign = toReverseQueue( expectedElements );
+		final Map<Element, Match> matches = new HashMap<>();
 		final Map<Element, Element> alignment = new HashMap<>();
 
 		while ( !elementsToAlign.isEmpty() ) {
 			// Align elements from expected with best match.
 			final Element expected = elementsToAlign.poll();
-
 			final NavigableSet<Match> bestMatches = getBestMatches( expected, actualElements );
-
 			Match bestMatch = bestMatches.pollFirst();
-			while ( bestMatch != null ) {
 
+			while ( bestMatch != null ) {
 				// If a best match has multiple alignments, delete all but overall best.
 				if ( matches.containsKey( bestMatch.element ) ) {
 					final Match previousMatch = matches.get( bestMatch.element );
@@ -87,17 +85,14 @@ public final class Alignment {
 						assert bestMatch.similarity != 1.0 : "bestMatch and previousMatch have a match of 100%? At least paths should differ! "
 								+ bestMatch.element.getIdentifyingAttributes().toFullString() + " == "
 								+ previousMatch.element.getIdentifyingAttributes().toFullString();
-
 						// Case: bestMatch is already taken for other element.
 						bestMatch = bestMatches.pollFirst();
 						continue;
-
 					} else {
 						// Case: bestMatch takes this element.
 						alignment.remove( previousMatch.element );
 						elementsToAlign.add( previousMatch.element );
 						break;
-
 					}
 				} else {
 					break;
