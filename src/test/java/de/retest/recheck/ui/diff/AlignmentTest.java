@@ -35,14 +35,14 @@ class AlignmentTest {
 	private static final class OtherComp {}
 
 	@Test
-	void toMapping_should_still_work_if_optimized() {
+	void toIdentityMapping_should_still_work_if_optimized() {
 		final Element expected = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]/Layer[1]/Layer[3]/Comp1[1]" ), Comp.class ),
 				new Attributes() );
 		final Element expectedClone = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]/Layer[1]/Layer[3]/Comp1[1]" ), Comp.class ),
 				new Attributes() );
-		final Map<Element, Element> mapping = Alignment.toMapping( Collections.singletonList( expected ) );
+		final Map<Element, Element> mapping = Alignment.toIdentityMapping( Collections.singletonList( expected ) );
 
 		final Element actual = mapping.get( expectedClone );
 
@@ -50,10 +50,10 @@ class AlignmentTest {
 	}
 
 	@Test
-	void toMapping_should_raise_exception_on_duplicates() throws Exception {
+	void toIdentityMapping_should_raise_exception_on_duplicates() throws Exception {
 		final Element e = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Comp[1]" ), Comp.class ), new Attributes() );
-		assertThatThrownBy( () -> Alignment.toMapping( Arrays.asList( e, e ) ) )
+		assertThatThrownBy( () -> Alignment.toIdentityMapping( Arrays.asList( e, e ) ) )
 				.isInstanceOf( IllegalStateException.class );
 	}
 

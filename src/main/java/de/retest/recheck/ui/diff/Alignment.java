@@ -44,7 +44,7 @@ public final class Alignment {
 		log.debug(
 				"Creating assignment of old to new elements, trying to find differences. We are comparing {} with {} elements.",
 				expectedElements.size(), actualElements.size() );
-		alignment = createAlignment( expectedElements, toMapping( actualElements ) );
+		alignment = createAlignment( expectedElements, toIdentityMapping( actualElements ) );
 		addParentAlignment();
 	}
 
@@ -158,7 +158,7 @@ public final class Alignment {
 			final List<Element> expectedParents = getParents( alignmentPair.getKey(), expectedChildParentMapping );
 			final List<Element> actualParents = getParents( alignmentPair.getValue(), actualChildParentMapping );
 			final Map<Element, Element> parentAlignment =
-					createAlignment( expectedParents, toMapping( actualParents ) );
+					createAlignment( expectedParents, toIdentityMapping( actualParents ) );
 			for ( final Map.Entry<Element, Element> parentAlignmentPair : parentAlignment.entrySet() ) {
 				final Element aligned = alignment.get( parentAlignmentPair.getKey() );
 				if ( aligned == null ) {
@@ -186,7 +186,7 @@ public final class Alignment {
 		return parents;
 	}
 
-	static Map<Element, Element> toMapping( final List<Element> actualElements ) {
+	static Map<Element, Element> toIdentityMapping( final List<Element> actualElements ) {
 		return actualElements.stream().collect( toMap( Function.identity(), Function.identity() ) );
 	}
 
