@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.Queue;
 import java.util.TreeSet;
 import java.util.function.Function;
@@ -74,7 +75,7 @@ public final class Alignment {
 			// Align elements from expected with best match.
 			final Element expected = elementsToAlign.poll();
 
-			final TreeSet<Match> bestMatches = getBestMatches( expected, actualElements );
+			final NavigableSet<Match> bestMatches = getBestMatches( expected, actualElements );
 
 			Match bestMatch = bestMatches.pollFirst();
 			while ( bestMatch != null ) {
@@ -129,7 +130,8 @@ public final class Alignment {
 		} ) );
 	}
 
-	private static TreeSet<Match> getBestMatches( final Element expected, final Map<Element, Element> actualElements ) {
+	private static NavigableSet<Match> getBestMatches( final Element expected,
+			final Map<Element, Element> actualElements ) {
 		// Try to first get the same element from actuals. This should be the standard case and, thus, cheapest.
 		if ( actualElements.containsKey( expected ) ) {
 			final Element identityResult = actualElements.get( expected );
@@ -137,7 +139,7 @@ public final class Alignment {
 			return new TreeSet<>( Collections.singleton( bestMatch ) );
 		}
 
-		final TreeSet<Match> bestMatches = new TreeSet<>();
+		final NavigableSet<Match> bestMatches = new TreeSet<>();
 
 		for ( final Element actual : actualElements.keySet() ) {
 			final double similarity = match( expected, actual );
