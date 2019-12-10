@@ -2,10 +2,12 @@ package de.retest.recheck.ui.diff;
 
 import static de.retest.recheck.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +46,13 @@ class AlignmentTest {
 		final Element actual = mapping.get( expectedClone );
 
 		assertThat( actual ).isSameAs( expected );
+	}
+
+	@Test
+	void toMapping_should_raise_exception_on_duplicates() throws Exception {
+		final Element e = Element.create( "id", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "Comp[1]" ), Comp.class ), new Attributes() );
+		assertThatThrownBy( () -> Alignment.toMapping( Arrays.asList( e, e ) ) ).isInstanceOf( RuntimeException.class );
 	}
 
 	@Test
