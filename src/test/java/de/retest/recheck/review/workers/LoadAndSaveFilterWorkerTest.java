@@ -6,9 +6,11 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNOR
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,7 +54,12 @@ class LoadAndSaveFilterWorkerTest {
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
 	void loaded_ignore_file_should_be_saved_without_changes() throws Exception {
-		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() );
+		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() ) {
+			@Override
+			protected Stream<String> getUserIgnoreFileLines( final Path userIgnoreFile ) throws IOException {
+				return Stream.empty();
+			}
+		};
 		final GlobalIgnoreApplier gia = load.load();
 		final SaveFilterWorker save = new SaveFilterWorker( gia );
 
