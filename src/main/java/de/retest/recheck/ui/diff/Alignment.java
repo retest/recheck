@@ -130,23 +130,22 @@ public final class Alignment {
 	}
 
 	private static TreeSet<Match> getBestMatches( final Element expected, final Map<Element, Element> actualElements ) {
+		// Try to first get the same element from actuals. This should be the standard case and, thus, cheapest.
+		if ( actualElements.containsKey( expected ) ) {
+			final Element identityResult = actualElements.get( expected );
+			final Match bestMatch = new Match( 1.0, identityResult );
+			return new TreeSet<>( Collections.singleton( bestMatch ) );
+		}
+
 		final TreeSet<Match> bestMatches = new TreeSet<>();
 
-		final Element identityResult = actualElements.get( expected );
-		if ( identityResult != null ) {
-			// Try to first get the same element from actuals. This should be the standard case and thus cheapest.
-			bestMatches.add( new Match( 1.0, identityResult ) );
-
-		} else {
-
-			for ( final Element element : actualElements.keySet() ) {
-				final double similarity = match( expected, element );
-				if ( similarity == 1.0 ) {
-					bestMatches.add( new Match( similarity, element ) );
-					return bestMatches;
-				}
+		for ( final Element element : actualElements.keySet() ) {
+			final double similarity = match( expected, element );
+			if ( similarity == 1.0 ) {
 				bestMatches.add( new Match( similarity, element ) );
+				return bestMatches;
 			}
+			bestMatches.add( new Match( similarity, element ) );
 		}
 
 		return bestMatches;
