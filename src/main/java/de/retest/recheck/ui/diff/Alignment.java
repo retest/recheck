@@ -141,7 +141,7 @@ public final class Alignment {
 
 			for ( final Element element : actualElements.keySet() ) {
 				final double similarity = match( expected, element );
-				if ( similarity == 1.0d ) {
+				if ( similarity == 1.0 ) {
 					result.add( new Match( similarity, element ) );
 					return result;
 				}
