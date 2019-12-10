@@ -31,6 +31,7 @@ Table of Contents
 
 ### New Features
 
+* Ignore filters can now be set globally by creating a '.retest' folder with a 'recheck.ignore' file in the user home directory.
 * Retrieve and handle metadata from the recheck adapter.
 * Retrieve metadata for the created Golden Master or SUT state that contains the following:
     * Operating system name and version.

@@ -5,7 +5,6 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNOR
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,32 +35,71 @@ public class LoadFilterWorker {
 	}
 
 	public GlobalIgnoreApplier load() throws IOException {
-		final Optional<Path> ignoreFile = getIgnoreFile();
-		ignoreFile.ifPresent( path -> log.info( "Reading ignore file from {}.", path ) );
-		final Stream<String> ignoreFileLines = Files.lines(
-				ignoreFile.orElseThrow( () -> new NoSuchFileException( "No '" + RECHECK_IGNORE + "' found." ) ) );
-		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( ignoreFileLines ) //
+		final Stream<String> allIgnoreFileLines = readIgnoreFileLines();
+
+		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( allIgnoreFileLines ) //
 				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
-		final Optional<Path> ignoreRuleFile = getIgnoreRuleFile();
-		ignoreRuleFile.ifPresent( file -> result.addWithoutCounting( new CacheFilter( new JSFilterImpl( file ) ) ) );
-
+		readIgnoreRuleFileLines( result );
 		return result;
 	}
 
-	private Optional<Path> getIgnoreFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE ) : RecheckIgnoreUtil.getIgnoreFile();
+	private Stream<String> readIgnoreFileLines() throws IOException {
+		final Optional<Path> projectIgnoreFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
+		final Path userIgnoreFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE );
+		final Stream<String> concatIgnoreFileLines =
+				Stream.concat( getIgnoreFileLines( projectIgnoreFile ), getIgnoreFileLines( userIgnoreFile ) );
+		Stream<String> allIgnoreFileLines = concatIgnoreFileLines;
+
+		if ( ignoreFilesBasePath != null ) {
+			final Path suiteIgnoreFile = RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE, ignoreFilesBasePath );
+			allIgnoreFileLines = Stream.concat( concatIgnoreFileLines, getIgnoreFileLines( suiteIgnoreFile ) );
+		}
+		return allIgnoreFileLines;
 	}
 
-	private Optional<Path> getIgnoreRuleFile() {
-		return ignoreFilesBasePath != null ? resolveAndCheckFile( RECHECK_IGNORE_JSRULES )
-				: RecheckIgnoreUtil.getIgnoreRuleFile();
+	private void readIgnoreRuleFileLines( final GlobalIgnoreApplier result ) throws IOException {
+		final Optional<Path> projectIgnoreRuleFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE_JSRULES );
+		final Path userIgnoreRuleFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE_JSRULES );
+		addIgnoreRuleFiles( projectIgnoreRuleFile, result );
+		addIgnoreRuleFiles( userIgnoreRuleFile, result );
+
+		if ( ignoreFilesBasePath != null ) {
+			final Path suiteIgnoreRuleFile =
+					RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE_JSRULES, ignoreFilesBasePath );
+			addIgnoreRuleFiles( suiteIgnoreRuleFile, result );
+		}
 	}
 
-	private Optional<Path> resolveAndCheckFile( final String ignoreFilename ) {
-		final Path resolved = ignoreFilesBasePath.resolve( ignoreFilename );
-		return Files.exists( resolved ) ? Optional.of( resolved ) : Optional.empty();
+	private Stream<String> getIgnoreFileLines( final Optional<Path> ignoreFile ) throws IOException {
+		if ( ignoreFile.isPresent() ) {
+			return getIgnoreFileLines( ignoreFile.get() );
+		}
+		log.info( "Ignoring missing ignore file." );
+		return Stream.empty();
+	}
+
+	private Stream<String> getIgnoreFileLines( final Path ignoreFile ) throws IOException {
+		if ( ignoreFile.toFile().exists() ) {
+			log.info( "Reading ignore file from '{}'.", ignoreFile );
+			return Files.lines( ignoreFile );
+		}
+		log.info( "Ignoring missing ignore file '{}'.", ignoreFile );
+		return Stream.empty();
+	}
+
+	private void addIgnoreRuleFiles( final Optional<Path> ignoreRuleFile, final GlobalIgnoreApplier result )
+			throws IOException {
+		if ( ignoreRuleFile.isPresent() ) {
+			addIgnoreRuleFiles( ignoreRuleFile.get(), result );
+		}
+	}
+
+	private void addIgnoreRuleFiles( final Path ignoreRuleFile, final GlobalIgnoreApplier result ) throws IOException {
+		if ( ignoreRuleFile.toFile().exists() ) {
+			result.addWithoutCounting( new CacheFilter( new JSFilterImpl( ignoreRuleFile ) ) );
+		}
 	}
 
 	public Counter getCounter() {
