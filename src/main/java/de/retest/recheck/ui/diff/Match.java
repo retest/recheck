@@ -4,10 +4,10 @@ import de.retest.recheck.ui.descriptors.Element;
 
 public class Match implements Comparable<Match> {
 
-	final Double similarity;
+	final double similarity;
 	final Element element;
 
-	public Match( final Double similarity, final Element element ) {
+	public Match( final double similarity, final Element element ) {
 		this.similarity = similarity;
 		this.element = element;
 	}
