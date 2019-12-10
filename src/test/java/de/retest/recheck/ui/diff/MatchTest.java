@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.TreeSet;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Path;
@@ -16,37 +15,37 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
 class MatchTest {
 
-	public static final double ONE_SIMILARITY = 1.0d / IdentifyingAttributes.PERFECT_SIMILARITY;
+	public static final double ONE_SIMILARITY = 1.0 / IdentifyingAttributes.PERFECT_SIMILARITY;
 
 	@Test
 	void test_better_comp_always_comes_out_first() {
 		final Element comp1 = getElement( comp1.class, 1 );
-		final Match match1 = Match.of( 0.9d + ONE_SIMILARITY, comp1 );
+		final Match match1 = Match.of( 0.9 + ONE_SIMILARITY, comp1 );
 
 		final Element comp2 = getElement( comp2.class, 2 );
-		final Match match2 = Match.of( 0.9d, comp2 );
+		final Match match2 = Match.of( 0.9, comp2 );
 
 		final TreeSet<Match> bestMatches = new TreeSet<>();
 		bestMatches.add( match1 );
 		bestMatches.add( match2 );
 
-		Assertions.assertThat( bestMatches.pollFirst().element ).isSameAs( comp1 );
-		Assertions.assertThat( bestMatches.pollFirst().element ).isSameAs( comp2 );
+		assertThat( bestMatches.pollFirst().element ).isSameAs( comp1 );
+		assertThat( bestMatches.pollFirst().element ).isSameAs( comp2 );
 	}
 
 	@Test
 	void same_score_doesnt_overwrite() {
 		final Element comp1 = getElement( comp2.class, 2 );
-		final Match match1 = Match.of( 0.9d, comp1 );
+		final Match match1 = Match.of( 0.9, comp1 );
 
 		final Element comp2 = getElement( comp2.class, 2 );
-		final Match match2 = Match.of( 0.9d, comp2 );
+		final Match match2 = Match.of( 0.9, comp2 );
 
 		final TreeSet<Match> bestMatches = new TreeSet<>();
 		bestMatches.add( match1 );
 		bestMatches.add( match2 );
 
-		Assertions.assertThat( bestMatches.size() ).isEqualTo( 2 );
+		assertThat( bestMatches.size() ).isEqualTo( 2 );
 	}
 
 	@Test
