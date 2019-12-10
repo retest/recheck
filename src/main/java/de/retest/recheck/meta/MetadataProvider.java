@@ -23,9 +23,6 @@ import java.util.Map;
  * <li><b>No {@code null} values are allowed.</b> Keys that map to non existent values (i.e. {@code null} should not be
  * added as this may be used as indicator for a missing key. Instead an other representation (e.g. {@code ""}) should be
  * used.</li>
- * <li><b>No duplicate keys are allowed.</b> A provider is not permitted to overwrite or alter any metadata of another
- * provider. Precautions should be taken to avoid (unintended) duplicate keys, such as a namespace for each
- * provider.</li>
  * <li><b>Only simple values shall be used.</b> While theoretically any arbitrary data may be provided, it should be
  * taken care, that each datum is as simple as possible. It should therefore be avoided to parse complex data from a
  * single datum. Instead, multiple correlated keys shall be used and then constructed as necessary by retrieving the

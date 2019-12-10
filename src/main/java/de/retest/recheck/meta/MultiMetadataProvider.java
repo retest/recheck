@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * Combines multiple {@link MetadataProvider} together into a single metadata. This may be used to combine multiple
  * smaller, specified providers together or simply collect a list of unrelated providers.
+ * 
+ * Key collisions will be resolved with the last value encountered.
  */
 @RequiredArgsConstructor( access = AccessLevel.PRIVATE )
 public final class MultiMetadataProvider implements MetadataProvider {
@@ -32,6 +34,6 @@ public final class MultiMetadataProvider implements MetadataProvider {
 				.map( MetadataProvider::retrieve ) //
 				.map( Map::entrySet ) //
 				.flatMap( Set::stream ) //
-				.collect( Collectors.toMap( Map.Entry::getKey, Map.Entry::getValue ) );
+				.collect( Collectors.toMap( Map.Entry::getKey, Map.Entry::getValue, ( left, right ) -> right ) );
 	}
 }
