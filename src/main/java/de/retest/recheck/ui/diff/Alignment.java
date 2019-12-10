@@ -220,7 +220,8 @@ public final class Alignment {
 	@Override
 	public boolean equals( final Object other ) {
 		if ( other instanceof Alignment ) {
-			return alignment.equals( ((Alignment) other).alignment );
+			final Alignment otherAlignment = (Alignment) other;
+			return alignment.equals( otherAlignment.alignment );
 		}
 		return false;
 	}
