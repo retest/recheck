@@ -127,26 +127,26 @@ public final class Alignment {
 	}
 
 	private static TreeSet<Match> getBestMatches( final Element expected, final Map<Element, Element> actualElements ) {
-		final TreeSet<Match> result = new TreeSet<>();
+		final TreeSet<Match> bestMatches = new TreeSet<>();
 
 		final Element identityResult = actualElements.get( expected );
 		if ( identityResult != null ) {
 			// Try to first get the same element from actuals. This should be the standard case and thus cheapest.
-			result.add( new Match( 1.0, identityResult ) );
+			bestMatches.add( new Match( 1.0, identityResult ) );
 
 		} else {
 
 			for ( final Element element : actualElements.keySet() ) {
 				final double similarity = match( expected, element );
 				if ( similarity == 1.0 ) {
-					result.add( new Match( similarity, element ) );
-					return result;
+					bestMatches.add( new Match( similarity, element ) );
+					return bestMatches;
 				}
-				result.add( new Match( similarity, element ) );
+				bestMatches.add( new Match( similarity, element ) );
 			}
 		}
 
-		return result;
+		return bestMatches;
 	}
 
 	private void addParentAlignment() {
@@ -174,13 +174,13 @@ public final class Alignment {
 	}
 
 	private List<Element> getParents( final Element element, final Map<Element, Element> childParentMapping ) {
-		final List<Element> result = new ArrayList<>();
+		final List<Element> parents = new ArrayList<>();
 		Element parent = childParentMapping.get( element );
 		while ( parent != null ) {
-			result.add( parent );
+			parents.add( parent );
 			parent = childParentMapping.get( parent );
 		}
-		return result;
+		return parents;
 	}
 
 	static Map<Element, Element> toMapping( final List<Element> actualElements ) {
