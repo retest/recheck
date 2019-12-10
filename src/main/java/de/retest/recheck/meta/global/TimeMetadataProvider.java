@@ -11,7 +11,7 @@ import java.util.Map;
 
 import de.retest.recheck.meta.MetadataProvider;
 
-public class TimeMetadataProvider implements MetadataProvider {
+public final class TimeMetadataProvider implements MetadataProvider {
 
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_TIME;
 	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;

@@ -6,7 +6,7 @@ import java.util.Map;
 import de.retest.recheck.meta.MetadataProvider;
 import de.retest.recheck.persistence.GitExecutor;
 
-public class GitMetadataProvider implements MetadataProvider {
+public final class GitMetadataProvider implements MetadataProvider {
 
 	public static final String VCS_GIT = "git";
 	public static final String VCS_NAME = "vcs.name";
