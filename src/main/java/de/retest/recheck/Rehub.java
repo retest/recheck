@@ -11,6 +11,10 @@ import de.retest.recheck.persistence.FileOutputFormat;
 
 public class Rehub {
 
+	private static final String REHUB_CLIENT = "marvin";
+
+	private static RetestAuthentication auth;
+
 	private Rehub() {
 
 	}
@@ -19,10 +23,9 @@ public class Rehub {
 	 * Initializes rehub to be used as persistence and, if not already authenticated, asks for login.
 	 */
 	public static void init() {
-		System.setProperty( RetestAuthentication.RESOURCE_PROPERTY, "marvin" );
+		auth = new RetestAuthentication( new RehubAuthenticationHandler(), REHUB_CLIENT );
+		auth.authenticate();
 
-		final RetestAuthentication auth = RetestAuthentication.getInstance();
-		auth.authenticate( new RehubAuthenticationHandler() );
 		System.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, FileOutputFormat.CLOUD.toString() );
 	}
 
@@ -40,6 +43,10 @@ public class Rehub {
 				Preferences.userNodeForPackage( Rehub.class ).get( CloudPersistence.RECHECK_API_KEY, null );
 
 		return tokenFromEnvironment != null ? tokenFromEnvironment : tokenFromPreferences;
+	}
+
+	public static String getAccessToken() {
+		return auth.getAccessToken();
 	}
 
 }

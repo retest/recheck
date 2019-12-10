@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.RecheckProperties;
-import de.retest.recheck.auth.RetestAuthentication;
+import de.retest.recheck.Rehub;
 import de.retest.recheck.persistence.bin.KryoPersistence;
 import de.retest.recheck.persistence.xml.XmlFolderPersistence;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -80,8 +80,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	}
 
 	private HttpResponse<String> getUploadUrl() {
-		final RetestAuthentication auth = RetestAuthentication.getInstance();
-		final String token = String.format( "Bearer %s", auth.getAccessToken() );
+		final String token = String.format( "Bearer %s", Rehub.getAccessToken() );
 
 		return Unirest.post( SERVICE_ENDPOINT ) //
 				.header( "Authorization", token )//
