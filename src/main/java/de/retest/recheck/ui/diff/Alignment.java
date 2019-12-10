@@ -119,7 +119,7 @@ public final class Alignment {
 		return alignment;
 	}
 
-	private static Stack<Element> toStack( final List<Element> expectedElements ) {
+	static Stack<Element> toStack( final List<Element> expectedElements ) {
 		final Stack<Element> elementsToAlign = new Stack<>();
 		elementsToAlign.addAll( expectedElements );
 		reverse( elementsToAlign );
