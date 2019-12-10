@@ -66,7 +66,6 @@ public final class Alignment {
 
 	private Map<Element, Element> createAlignment( final List<Element> expectedElements,
 			final Map<Element, Element> actualElements ) {
-
 		final Map<Element, Match> matches = new HashMap<>();
 		final Stack<Element> elementsToAlign = toStack( expectedElements );
 		final Map<Element, Element> alignment = new HashMap<>();
