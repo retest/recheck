@@ -11,15 +11,12 @@ import java.util.Stack;
 import java.util.TreeSet;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.ui.descriptors.Element;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public final class Alignment {
-
-	private static final Logger logger = LoggerFactory.getLogger( Alignment.class );
 
 	private static final double ELEMENT_MATCH_THRESHOLD = RecheckProperties.getInstance().elementMatchThreshold();
 
@@ -41,7 +38,7 @@ public final class Alignment {
 	private Alignment( final Element expected, final Element actual ) {
 		final List<Element> expectedElements = flattenLeafElements( expected, expectedMapOfElementTree );
 		final List<Element> actualElements = flattenLeafElements( actual, actualMapOfElementTree );
-		logger.debug(
+		log.debug(
 				"Creating assignment of old to new elements, trying to find differences. We are comparing {} with {} elements.",
 				expectedElements.size(), actualElements.size() );
 		alignment = createAlignment( expectedElements, toMapping( actualElements ) );
@@ -110,7 +107,7 @@ public final class Alignment {
 			}
 
 			if ( bestMatch.similarity < ELEMENT_MATCH_THRESHOLD ) {
-				logger.debug( "Best match {} is below threshold with {} similarity.", bestMatch.element,
+				log.debug( "Best match {} is below threshold with {} similarity.", bestMatch.element,
 						bestMatch.similarity );
 				alignment.put( expected, null );
 				continue;
