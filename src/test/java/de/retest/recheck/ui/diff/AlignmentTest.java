@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
+import java.util.Queue;
 
 import org.junit.jupiter.api.Test;
 
@@ -210,7 +210,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	void toStack_should_create_reverse_stack() throws Exception {
+	void toReverseQueue_should_create_reverse_queue() throws Exception {
 		final Element e0 = Element.create( "e0", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Element[1]" ), Comp.class ), new Attributes() );
 		final Element e1 = Element.create( "e1", mock( Element.class ),
@@ -219,7 +219,7 @@ class AlignmentTest {
 				IdentifyingAttributes.create( Path.fromString( "Element[3]" ), Comp.class ), new Attributes() );
 		final List<Element> elements = Arrays.asList( e0, e1, e2 );
 
-		final Stack<Element> stack = Alignment.toStack( elements );
+		final Queue<Element> stack = Alignment.toReverseQueue( elements );
 
 		assertThat( stack ).containsExactly( e2, e1, e0 );
 	}

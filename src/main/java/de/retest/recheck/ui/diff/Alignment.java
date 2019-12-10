@@ -1,13 +1,16 @@
 package de.retest.recheck.ui.diff;
 
-import static java.util.Collections.reverse;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
+import java.util.Queue;
 import java.util.TreeSet;
 import java.util.function.Function;
 
@@ -64,12 +67,12 @@ public final class Alignment {
 	private Map<Element, Element> createAlignment( final List<Element> expectedElements,
 			final Map<Element, Element> actualElements ) {
 		final Map<Element, Match> matches = new HashMap<>();
-		final Stack<Element> elementsToAlign = toStack( expectedElements );
+		final Queue<Element> elementsToAlign = toReverseQueue( expectedElements );
 		final Map<Element, Element> alignment = new HashMap<>();
 
 		while ( !elementsToAlign.isEmpty() ) {
 			// Align elements from expected with best match.
-			final Element expected = elementsToAlign.pop();
+			final Element expected = elementsToAlign.poll();
 
 			final TreeSet<Match> bestMatches = getBestMatches( expected, actualElements );
 
@@ -119,11 +122,11 @@ public final class Alignment {
 		return alignment;
 	}
 
-	static Stack<Element> toStack( final List<Element> expectedElements ) {
-		final Stack<Element> elementsToAlign = new Stack<>();
-		elementsToAlign.addAll( expectedElements );
-		reverse( elementsToAlign );
-		return elementsToAlign;
+	static Queue<Element> toReverseQueue( final List<Element> expectedElements ) {
+		return expectedElements.stream().collect( collectingAndThen( toCollection( LinkedList::new ), queue -> {
+			Collections.reverse( queue );
+			return queue;
+		} ) );
 	}
 
 	private static TreeSet<Match> getBestMatches( final Element expected, final Map<Element, Element> actualElements ) {
