@@ -41,8 +41,7 @@ class ActionReplayResultPrinterTest {
 
 	@BeforeEach
 	void setUp() {
-		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false,
-				Collections.emptySet() );
+		cut = new ActionReplayResultPrinter( ( identifyingAttributes, attributeKey, attributeValue ) -> false );
 	}
 
 	@Test

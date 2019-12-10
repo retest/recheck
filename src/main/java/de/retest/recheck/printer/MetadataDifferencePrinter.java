@@ -29,12 +29,6 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 			TimeMetadataProvider.OFFSET //
 	) );
 
-	private final Set<String> filter;
-
-	public MetadataDifferencePrinter() {
-		this( DIFFERENCES_TO_PRINT );
-	}
-
 	@Override
 	public String toString( final MetadataDifference difference, final String indent ) {
 		final String prefix = "Metadata Differences:";
