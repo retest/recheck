@@ -117,7 +117,7 @@ public final class Alignment {
 			}
 
 			alignment.put( expected, bestMatch.element );
-			matches.put( bestMatch.element, new Match( bestMatch.similarity, expected ) );
+			matches.put( bestMatch.element, Match.of( bestMatch.similarity, expected ) );
 		}
 		return alignment;
 	}
@@ -133,7 +133,7 @@ public final class Alignment {
 		// Try to first get the same element from actuals. This should be the standard case and, thus, cheapest.
 		if ( actualElements.containsKey( expected ) ) {
 			final Element identityResult = actualElements.get( expected );
-			final Match bestMatch = new Match( 1.0, identityResult );
+			final Match bestMatch = Match.ofEqual( identityResult );
 			return new TreeSet<>( Collections.singleton( bestMatch ) );
 		}
 
@@ -142,10 +142,10 @@ public final class Alignment {
 		for ( final Element actual : actualElements.keySet() ) {
 			final double similarity = match( expected, actual );
 			if ( similarity == 1.0 ) {
-				bestMatches.add( new Match( similarity, actual ) );
+				bestMatches.add( Match.ofEqual( actual ) );
 				return bestMatches;
 			}
-			bestMatches.add( new Match( similarity, actual ) );
+			bestMatches.add( Match.of( similarity, actual ) );
 		}
 
 		return bestMatches;
