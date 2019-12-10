@@ -16,7 +16,6 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO Move this web specific class to recheck-web
 @Getter
 @Slf4j
 public class PixelDiffFilter implements Filter {

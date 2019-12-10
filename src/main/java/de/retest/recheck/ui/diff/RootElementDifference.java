@@ -22,10 +22,6 @@ public class RootElementDifference implements Difference {
 
 	private final String title;
 
-	private final String screen;
-
-	private final int screenId;
-
 	private final int checkedUiComponentCount;
 
 	protected final ElementDifference elementDifference;
@@ -34,9 +30,9 @@ public class RootElementDifference implements Difference {
 
 	private final Screenshot actualScreenshot;
 
-	private RootElement expectedDescriptor;
+	private RootElement expectedRootElement;
 
-	private RootElement actualDescriptor;
+	private RootElement actualRootElement;
 
 	@SuppressWarnings( "unused" )
 	private RootElementDifference() {
@@ -44,8 +40,6 @@ public class RootElementDifference implements Difference {
 		super();
 		differenceId = null;
 		title = null;
-		screen = null;
-		screenId = 0;
 		elementDifference = null;
 		expectedScreenshot = null;
 		actualScreenshot = null;
@@ -55,11 +49,9 @@ public class RootElementDifference implements Difference {
 	public RootElementDifference( final ElementDifference elementDifference, final RootElement expectedDescriptor,
 			final RootElement actualDescriptor ) {
 		final RootElement instance = expectedDescriptor != null ? expectedDescriptor : actualDescriptor;
-		this.expectedDescriptor = expectedDescriptor;
-		this.actualDescriptor = actualDescriptor;
+		expectedRootElement = expectedDescriptor;
+		actualRootElement = actualDescriptor;
 		title = instance.getTitle();
-		screen = instance.getScreen();
-		screenId = instance.getScreenId();
 		differenceId = elementDifference.getIdentifier();
 		this.elementDifference = elementDifference;
 		expectedScreenshot = elementDifference.getExpectedScreenshot();
@@ -83,12 +75,28 @@ public class RootElementDifference implements Difference {
 		return result;
 	}
 
-	public RootElement getExpectedDescriptor() {
-		return expectedDescriptor;
+	public RootElement getExpectedRootElement() {
+		return expectedRootElement;
 	}
 
+	public RootElement getActualRootElement() {
+		return actualRootElement;
+	}
+
+	/**
+	 * @deprecated Use {@link #getExpectedRootElement()} instead.
+	 */
+	@Deprecated
+	public RootElement getExpectedDescriptor() {
+		return getExpectedRootElement();
+	}
+
+	/**
+	 * @deprecated Use {@link #getActualRootElement()} instead.
+	 */
+	@Deprecated
 	public RootElement getActualDescriptor() {
-		return actualDescriptor;
+		return getActualRootElement();
 	}
 
 	@Override
@@ -162,5 +170,9 @@ public class RootElementDifference implements Difference {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public RootElement getElement() {
+		return getExpectedRootElement() != null ? getExpectedRootElement() : getActualRootElement();
 	}
 }

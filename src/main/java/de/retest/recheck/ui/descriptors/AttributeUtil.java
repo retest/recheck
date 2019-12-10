@@ -36,6 +36,10 @@ public class AttributeUtil {
 		return outlineAttribute.getValue();
 	}
 
+	public static Rectangle getAbsoluteOutline( final ElementDifference difference ) {
+		return getAbsoluteOutline( difference.getIdentifyingAttributes() );
+	}
+
 	public static Rectangle getAbsoluteOutline( final IdentifyingAttributes attributes ) {
 		final OutlineAttribute outlineAttribute =
 				(OutlineAttribute) attributes.getAttribute( OutlineAttribute.ABSOLUTE_OUTLINE );
@@ -57,7 +61,7 @@ public class AttributeUtil {
 			if ( attributeDifferences != null ) {
 				for ( final AttributeDifference aDiff : attributeDifferences ) {
 					if ( aDiff.getKey().equals( type ) ) {
-						return ((Rectangle) aDiff.getActual());
+						return (Rectangle) aDiff.getActual();
 					}
 				}
 			}
