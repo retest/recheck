@@ -23,11 +23,11 @@ public final class Alignment {
 	/**
 	 * A mapping from each child element (key) to its parent (value), based on the <em>expected</em> elements.
 	 */
-	private final Map<Element, Element> expectedMapOfElementTree = new HashMap<>();
+	private final Map<Element, Element> expectedChildParentMapping = new HashMap<>();
 	/**
 	 * A mapping from each child element (key) to its parent (value), based on the <em>actual</em> elements.
 	 */
-	private final Map<Element, Element> actualMapOfElementTree = new HashMap<>();
+	private final Map<Element, Element> actualChildParentMapping = new HashMap<>();
 
 	private final Map<Element, Element> alignment;
 
@@ -36,8 +36,8 @@ public final class Alignment {
 	}
 
 	private Alignment( final Element expected, final Element actual ) {
-		final List<Element> expectedElements = flattenLeafElements( expected, expectedMapOfElementTree );
-		final List<Element> actualElements = flattenLeafElements( actual, actualMapOfElementTree );
+		final List<Element> expectedElements = flattenLeafElements( expected, expectedChildParentMapping );
+		final List<Element> actualElements = flattenLeafElements( actual, actualChildParentMapping );
 		log.debug(
 				"Creating assignment of old to new elements, trying to find differences. We are comparing {} with {} elements.",
 				expectedElements.size(), actualElements.size() );
@@ -46,15 +46,15 @@ public final class Alignment {
 	}
 
 	private static List<Element> flattenLeafElements( final Element element,
-			final Map<Element, Element> mapOfElementTree ) {
+			final Map<Element, Element> childParentMapping ) {
 		final List<Element> flattened = new ArrayList<>();
 
 		for ( final Element childElement : element.getContainedElements() ) {
-			mapOfElementTree.put( childElement, element );
+			childParentMapping.put( childElement, element );
 			if ( !childElement.hasContainedElements() ) {
 				flattened.add( childElement );
 			} else {
-				flattened.addAll( flattenLeafElements( childElement, mapOfElementTree ) );
+				flattened.addAll( flattenLeafElements( childElement, childParentMapping ) );
 			}
 		}
 
@@ -152,8 +152,8 @@ public final class Alignment {
 	private void addParentAlignment() {
 		final Map<Element, Element> alignmentCopy = new HashMap<>( alignment );
 		for ( final Map.Entry<Element, Element> alignmentPair : alignmentCopy.entrySet() ) {
-			final List<Element> expectedParents = getParents( alignmentPair.getKey(), expectedMapOfElementTree );
-			final List<Element> actualParents = getParents( alignmentPair.getValue(), actualMapOfElementTree );
+			final List<Element> expectedParents = getParents( alignmentPair.getKey(), expectedChildParentMapping );
+			final List<Element> actualParents = getParents( alignmentPair.getValue(), actualChildParentMapping );
 			final Map<Element, Element> parentAlignment =
 					createAlignment( expectedParents, toMapping( actualParents ) );
 			for ( final Map.Entry<Element, Element> parentAlignmentPair : parentAlignment.entrySet() ) {
@@ -173,12 +173,12 @@ public final class Alignment {
 		}
 	}
 
-	private List<Element> getParents( final Element element, final Map<Element, Element> treeMap ) {
+	private List<Element> getParents( final Element element, final Map<Element, Element> childParentMapping ) {
 		final List<Element> result = new ArrayList<>();
-		Element parent = treeMap.get( element );
+		Element parent = childParentMapping.get( element );
 		while ( parent != null ) {
 			result.add( parent );
-			parent = treeMap.get( parent );
+			parent = childParentMapping.get( parent );
 		}
 		return result;
 	}
