@@ -27,6 +27,10 @@ public final class Alignment {
 
 	private final Map<Element, Element> alignment;
 
+	public static Alignment createAlignment( final Element expectedComponent, final Element actualComponent ) {
+		return new Alignment( expectedComponent, actualComponent );
+	}
+
 	private Alignment( final Element expectedComponent, final Element actualComponent ) {
 		final List<Element> expectedComponents = flattenLeafElements( expectedComponent, expectedMapOfElementTree );
 		final List<Element> actualComponents = flattenLeafElements( actualComponent, actualMapOfElementTree );
@@ -35,44 +39,6 @@ public final class Alignment {
 				expectedComponents.size(), actualComponents.size() );
 		alignment = createAlignment( expectedComponents, toMapping( actualComponents ) );
 		addParentAlignment();
-	}
-
-	private void addParentAlignment() {
-		final Map<Element, Element> alignmentCopy = new HashMap<>( alignment );
-		for ( final Map.Entry<Element, Element> alignmentPair : alignmentCopy.entrySet() ) {
-			final List<Element> expectedParents = getParents( alignmentPair.getKey(), expectedMapOfElementTree );
-			final List<Element> actualParents = getParents( alignmentPair.getValue(), actualMapOfElementTree );
-			final Map<Element, Element> parentAlignment =
-					createAlignment( expectedParents, toMapping( actualParents ) );
-			for ( final Map.Entry<Element, Element> parentAlignmentPair : parentAlignment.entrySet() ) {
-				final Element aligned = alignment.get( parentAlignmentPair.getKey() );
-				if ( aligned == null ) {
-					alignment.put( parentAlignmentPair.getKey(), parentAlignmentPair.getValue() );
-					continue;
-				}
-				if ( parentAlignmentPair.getValue() == null ) {
-					continue;
-				}
-				if ( match( parentAlignmentPair.getKey(),
-						parentAlignmentPair.getValue() ) > match( parentAlignmentPair.getKey(), aligned ) ) {
-					alignment.put( parentAlignmentPair.getKey(), parentAlignmentPair.getValue() );
-				}
-			}
-		}
-	}
-
-	private List<Element> getParents( final Element element, final Map<Element, Element> treeMap ) {
-		final List<Element> result = new ArrayList<>();
-		Element parent = treeMap.get( element );
-		while ( parent != null ) {
-			result.add( parent );
-			parent = treeMap.get( parent );
-		}
-		return result;
-	}
-
-	public static Alignment createAlignment( final Element expectedComponent, final Element actualComponent ) {
-		return new Alignment( expectedComponent, actualComponent );
 	}
 
 	private static List<Element> flattenLeafElements( final Element element,
@@ -89,18 +55,6 @@ public final class Alignment {
 		}
 
 		return flattened;
-	}
-
-	static Map<Element, Element> toMapping( final List<Element> actualElements ) {
-		final Map<Element, Element> result = new LinkedHashMap<>();
-		for ( final Element element : actualElements ) {
-			final Element oldMapping = result.put( element, element );
-			if ( oldMapping != null ) {
-				throw new RuntimeException( "Elements should be unique, but those returned the same hash: " + element
-						+ " - " + oldMapping );
-			}
-		}
-		return result;
 	}
 
 	private Map<Element, Element> createAlignment( final List<Element> expectedComponents,
@@ -189,6 +143,52 @@ public final class Alignment {
 			}
 		}
 
+		return result;
+	}
+
+	private void addParentAlignment() {
+		final Map<Element, Element> alignmentCopy = new HashMap<>( alignment );
+		for ( final Map.Entry<Element, Element> alignmentPair : alignmentCopy.entrySet() ) {
+			final List<Element> expectedParents = getParents( alignmentPair.getKey(), expectedMapOfElementTree );
+			final List<Element> actualParents = getParents( alignmentPair.getValue(), actualMapOfElementTree );
+			final Map<Element, Element> parentAlignment =
+					createAlignment( expectedParents, toMapping( actualParents ) );
+			for ( final Map.Entry<Element, Element> parentAlignmentPair : parentAlignment.entrySet() ) {
+				final Element aligned = alignment.get( parentAlignmentPair.getKey() );
+				if ( aligned == null ) {
+					alignment.put( parentAlignmentPair.getKey(), parentAlignmentPair.getValue() );
+					continue;
+				}
+				if ( parentAlignmentPair.getValue() == null ) {
+					continue;
+				}
+				if ( match( parentAlignmentPair.getKey(),
+						parentAlignmentPair.getValue() ) > match( parentAlignmentPair.getKey(), aligned ) ) {
+					alignment.put( parentAlignmentPair.getKey(), parentAlignmentPair.getValue() );
+				}
+			}
+		}
+	}
+
+	private List<Element> getParents( final Element element, final Map<Element, Element> treeMap ) {
+		final List<Element> result = new ArrayList<>();
+		Element parent = treeMap.get( element );
+		while ( parent != null ) {
+			result.add( parent );
+			parent = treeMap.get( parent );
+		}
+		return result;
+	}
+
+	static Map<Element, Element> toMapping( final List<Element> actualElements ) {
+		final Map<Element, Element> result = new LinkedHashMap<>();
+		for ( final Element element : actualElements ) {
+			final Element oldMapping = result.put( element, element );
+			if ( oldMapping != null ) {
+				throw new RuntimeException( "Elements should be unique, but those returned the same hash: " + element
+						+ " - " + oldMapping );
+			}
+		}
 		return result;
 	}
 
