@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import de.retest.recheck.meta.global.GitMetadataProvider;
 import de.retest.recheck.meta.global.OSMetadataProvider;
+import de.retest.recheck.meta.global.TimeMetadataProvider;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +18,16 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
 
 	// Only print a selected amount of differences that potentially can break a test
-	private static final Set<String> DIFFERENCES_TO_PRINT = new HashSet<>( Arrays.asList( //
-			OSMetadataProvider.OS_NAME, //
-			OSMetadataProvider.OS_VERSION //
+	private static final Set<String> DIFFERENCES_TO_IGNORE = new HashSet<>( Arrays.asList( //
+			GitMetadataProvider.VCS_NAME, //
+			GitMetadataProvider.BRANCH_NAME, //
+			GitMetadataProvider.COMMIT_NAME, //
+			OSMetadataProvider.OS_ARCH, //
+			TimeMetadataProvider.DATE, //
+			TimeMetadataProvider.TIME, //
+			TimeMetadataProvider.ZONE, //
+			TimeMetadataProvider.OFFSET //
 	) );
-
-	private final Set<String> filter;
-
-	public MetadataDifferencePrinter() {
-		this( DIFFERENCES_TO_PRINT );
-	}
 
 	@Override
 	public String toString( final MetadataDifference difference, final String indent ) {
@@ -41,7 +43,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	}
 
 	private boolean shouldPrint( final MetadataElementDifference difference ) {
-		return filter.isEmpty() || DIFFERENCES_TO_PRINT.contains( difference.getKey() );
+		return !DIFFERENCES_TO_IGNORE.contains( difference.getKey() );
 	}
 
 	private String print( final MetadataElementDifference difference ) {
