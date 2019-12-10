@@ -139,13 +139,13 @@ public final class Alignment {
 
 		final TreeSet<Match> bestMatches = new TreeSet<>();
 
-		for ( final Element element : actualElements.keySet() ) {
-			final double similarity = match( expected, element );
+		for ( final Element actual : actualElements.keySet() ) {
+			final double similarity = match( expected, actual );
 			if ( similarity == 1.0 ) {
-				bestMatches.add( new Match( similarity, element ) );
+				bestMatches.add( new Match( similarity, actual ) );
 				return bestMatches;
 			}
-			bestMatches.add( new Match( similarity, element ) );
+			bestMatches.add( new Match( similarity, actual ) );
 		}
 
 		return bestMatches;
