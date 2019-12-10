@@ -34,17 +34,17 @@ public final class Alignment {
 
 	private final Map<Element, Element> alignment;
 
-	public static Alignment createAlignment( final Element expectedComponent, final Element actualComponent ) {
-		return new Alignment( expectedComponent, actualComponent );
+	public static Alignment createAlignment( final Element expected, final Element actual ) {
+		return new Alignment( expected, actual );
 	}
 
-	private Alignment( final Element expectedComponent, final Element actualComponent ) {
-		final List<Element> expectedComponents = flattenLeafElements( expectedComponent, expectedMapOfElementTree );
-		final List<Element> actualComponents = flattenLeafElements( actualComponent, actualMapOfElementTree );
+	private Alignment( final Element expected, final Element actual ) {
+		final List<Element> expectedElements = flattenLeafElements( expected, expectedMapOfElementTree );
+		final List<Element> actualElements = flattenLeafElements( actual, actualMapOfElementTree );
 		logger.debug(
-				"Creating assignment of old to new components, trying to find differences. We are comparing {} with {} components.",
-				expectedComponents.size(), actualComponents.size() );
-		alignment = createAlignment( expectedComponents, toMapping( actualComponents ) );
+				"Creating assignment of old to new elements, trying to find differences. We are comparing {} with {} elements.",
+				expectedElements.size(), actualElements.size() );
+		alignment = createAlignment( expectedElements, toMapping( actualElements ) );
 		addParentAlignment();
 	}
 
@@ -64,18 +64,18 @@ public final class Alignment {
 		return flattened;
 	}
 
-	private Map<Element, Element> createAlignment( final List<Element> expectedComponents,
-			final Map<Element, Element> actualComponents ) {
+	private Map<Element, Element> createAlignment( final List<Element> expectedElements,
+			final Map<Element, Element> actualElements ) {
 
 		final Map<Element, Match> matches = new HashMap<>();
-		final Stack<Element> componentsToAlign = toStack( expectedComponents );
+		final Stack<Element> elementsToAlign = toStack( expectedElements );
 		final Map<Element, Element> alignment = new HashMap<>();
 
-		while ( !componentsToAlign.isEmpty() ) {
-			// Align components from expected with best match.
-			final Element expected = componentsToAlign.pop();
+		while ( !elementsToAlign.isEmpty() ) {
+			// Align elements from expected with best match.
+			final Element expected = elementsToAlign.pop();
 
-			final TreeSet<Match> bestMatches = getBestMatches( expected, actualComponents );
+			final TreeSet<Match> bestMatches = getBestMatches( expected, actualElements );
 
 			Match bestMatch = bestMatches.pollFirst();
 			while ( bestMatch != null ) {
@@ -95,7 +95,7 @@ public final class Alignment {
 					} else {
 						// Case: bestMatch takes this element.
 						alignment.remove( previousMatch.element );
-						componentsToAlign.add( previousMatch.element );
+						elementsToAlign.add( previousMatch.element );
 						break;
 
 					}
@@ -124,10 +124,10 @@ public final class Alignment {
 	}
 
 	private static Stack<Element> toStack( final List<Element> expectedElements ) {
-		final Stack<Element> componentsToAlign = new Stack<>();
-		componentsToAlign.addAll( expectedElements );
-		reverse( componentsToAlign );
-		return componentsToAlign;
+		final Stack<Element> elementsToAlign = new Stack<>();
+		elementsToAlign.addAll( expectedElements );
+		reverse( elementsToAlign );
+		return elementsToAlign;
 	}
 
 	private static TreeSet<Match> getBestMatches( final Element expected, final Map<Element, Element> actualElements ) {
