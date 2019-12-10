@@ -1,14 +1,15 @@
 package de.retest.recheck.ui.diff;
 
 import static java.util.Collections.reverse;
+import static java.util.stream.Collectors.toMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.TreeSet;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -181,15 +182,7 @@ public final class Alignment {
 	}
 
 	static Map<Element, Element> toMapping( final List<Element> actualElements ) {
-		final Map<Element, Element> result = new LinkedHashMap<>();
-		for ( final Element element : actualElements ) {
-			final Element oldMapping = result.put( element, element );
-			if ( oldMapping != null ) {
-				throw new RuntimeException( "Elements should be unique, but those returned the same hash: " + element
-						+ " - " + oldMapping );
-			}
-		}
-		return result;
+		return actualElements.stream().collect( toMap( Function.identity(), Function.identity() ) );
 	}
 
 	private static double match( final Element expected, final Element bestMatch ) {

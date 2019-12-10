@@ -52,7 +52,8 @@ class AlignmentTest {
 	void toMapping_should_raise_exception_on_duplicates() throws Exception {
 		final Element e = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Comp[1]" ), Comp.class ), new Attributes() );
-		assertThatThrownBy( () -> Alignment.toMapping( Arrays.asList( e, e ) ) ).isInstanceOf( RuntimeException.class );
+		assertThatThrownBy( () -> Alignment.toMapping( Arrays.asList( e, e ) ) )
+				.isInstanceOf( IllegalStateException.class );
 	}
 
 	@Test
