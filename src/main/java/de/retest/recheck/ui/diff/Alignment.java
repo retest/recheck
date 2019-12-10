@@ -23,7 +23,13 @@ public final class Alignment {
 
 	private static final double ELEMENT_MATCH_THRESHOLD = RecheckProperties.getInstance().elementMatchThreshold();
 
+	/**
+	 * A mapping from each child element (key) to its parent (value), based on the <em>expected</em> elements.
+	 */
 	private final Map<Element, Element> expectedMapOfElementTree = new HashMap<>();
+	/**
+	 * A mapping from each child element (key) to its parent (value), based on the <em>actual</em> elements.
+	 */
 	private final Map<Element, Element> actualMapOfElementTree = new HashMap<>();
 
 	private final Map<Element, Element> alignment;
