@@ -2,6 +2,7 @@ package de.retest.recheck.meta;
 
 import java.util.Map;
 
+import de.retest.recheck.meta.global.GitMetadataProvider;
 import de.retest.recheck.meta.global.MachineMetadataProvider;
 import de.retest.recheck.meta.global.OSMetadataProvider;
 import de.retest.recheck.meta.global.TimeMetadataProvider;
@@ -18,6 +19,7 @@ import de.retest.recheck.meta.global.TimeMetadataProvider;
 final class GlobalMetadataProvider implements MetadataProvider {
 
 	private final MetadataProvider globalProvider = MultiMetadataProvider.of( //
+			new GitMetadataProvider(), //
 			new MachineMetadataProvider(), //
 			new OSMetadataProvider(), //
 			new TimeMetadataProvider() //
