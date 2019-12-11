@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
-import de.retest.recheck.ui.actions.ExceptionWrapper;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
@@ -26,14 +25,6 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 	public String toString( final ActionReplayResult difference, final String indent ) {
 		final String prefix = indent + createDescription( difference ) + "\n";
 		final String nextIndent = indent + "\t";
-		final ExceptionWrapper error = difference.getThrowableWrapper();
-		if ( error != null ) {
-			return prefix + nextIndent + error;
-		}
-		final Throwable targetNotFound = difference.getTargetNotFoundException();
-		if ( targetNotFound != null ) {
-			return prefix + nextIndent + targetNotFound;
-		}
 		if ( difference instanceof NoGoldenMasterActionReplayResult ) {
 			return prefix + nextIndent + NoGoldenMasterActionReplayResult.MSG_LONG;
 		}

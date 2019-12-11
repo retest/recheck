@@ -130,19 +130,6 @@ public class SuiteReplayResult implements Serializable {
 		return diffsCount;
 	}
 
-	public int getErrorsCount() {
-		int errorsCount = 0;
-		for ( final TestReplayResult testReplayResult : testReplayResults ) {
-			for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-				if ( actionReplayResult.getThrowableWrapper() != null
-						|| actionReplayResult.getTargetNotFoundWrapper() != null ) {
-					errorsCount++;
-				}
-			}
-		}
-		return errorsCount;
-	}
-
 	public int getCheckedUiElementsCount() {
 		int uiElementsCount = 0;
 		for ( final TestReplayResult testReplayResult : testReplayResults ) {
@@ -157,7 +144,6 @@ public class SuiteReplayResult implements Serializable {
 				+ ", Actions: " + getNumberOfActions() //
 				+ ", Checked Elements: " + getCheckedUiElementsCount() //
 				+ ", Differences: " + getDifferencesCount() //
-				+ ", Errors: " + getErrorsCount() //
 				+ ")";
 	}
 
