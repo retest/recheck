@@ -48,15 +48,24 @@ public class LoadFilterWorker {
 	private Stream<String> readIgnoreFileLines() throws IOException {
 		final Optional<Path> projectIgnoreFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
 		final Path userIgnoreFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE );
-		final Stream<String> concatIgnoreFileLines =
-				Stream.concat( getIgnoreFileLines( projectIgnoreFile ), getIgnoreFileLines( userIgnoreFile ) );
-		Stream<String> allIgnoreFileLines = concatIgnoreFileLines;
+		return Stream.concat( Stream.concat( getProjectIgnoreFileLines( projectIgnoreFile ),
+				getUserIgnoreFileLines( userIgnoreFile ) ), getSuiteIgnoreFileLines() );
+	}
 
+	protected Stream<String> getSuiteIgnoreFileLines() throws IOException {
 		if ( ignoreFilesBasePath != null ) {
 			final Path suiteIgnoreFile = RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE, ignoreFilesBasePath );
-			allIgnoreFileLines = Stream.concat( concatIgnoreFileLines, getIgnoreFileLines( suiteIgnoreFile ) );
+			return getIgnoreFileLines( suiteIgnoreFile );
 		}
-		return allIgnoreFileLines;
+		return Stream.empty();
+	}
+
+	protected Stream<String> getUserIgnoreFileLines( final Path userIgnoreFile ) throws IOException {
+		return getIgnoreFileLines( userIgnoreFile );
+	}
+
+	protected Stream<String> getProjectIgnoreFileLines( final Optional<Path> projectIgnoreFile ) throws IOException {
+		return getIgnoreFileLines( projectIgnoreFile );
 	}
 
 	private void readIgnoreRuleFileLines( final GlobalIgnoreApplier result ) throws IOException {

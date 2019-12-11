@@ -27,12 +27,12 @@ class ElementAttributeFilterLoaderTest {
 
 	@Test
 	void save_should_produce_correct_line() {
-		assertThat( cut.save( ignore ) ).isEqualTo( "matcher: retestid=abc, attribute: 123" );
+		assertThat( cut.save( ignore ) ).isEqualTo( "matcher: retestid=abc, attribute=123" );
 	}
 
 	@Test
 	void load_should_produce_correct_ignore() {
-		final String line = "matcher: retestid=abc, attribute: 123";
+		final String line = "matcher: retestid=abc, attribute=123";
 		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
 

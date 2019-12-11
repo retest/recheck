@@ -6,11 +6,9 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNOR
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +23,7 @@ import de.retest.recheck.review.ignore.io.ErrorHandlingLoader;
 import de.retest.recheck.util.junit.jupiter.SystemProperty;
 import io.github.netmikey.logunit.api.LogCapturer;
 
-class LoadAndSaveFilterWorkerTest {
+class MigrateIgnoreFileTest {
 
 	@RegisterExtension
 	LogCapturer warningAndErrorLogs = LogCapturer.create() //
@@ -33,7 +31,7 @@ class LoadAndSaveFilterWorkerTest {
 			.captureForType( FilterPreserveLineLoader.class ) //
 			.captureForType( ErrorHandlingLoader.class );
 
-	Path origIgnoreFile;
+	Path migratedIgnoreFile;
 	Path tempIgnoreFile;
 
 	@BeforeEach
@@ -44,7 +42,9 @@ class LoadAndSaveFilterWorkerTest {
 		final Path jsIgnoreFile = configFolder.resolve( RECHECK_IGNORE_JSRULES );
 		Files.createFile( jsIgnoreFile );
 
-		origIgnoreFile = Paths.get( "src/test/resources/de/retest/recheck/review/workers/" + RECHECK_IGNORE );
+		final Path origIgnoreFile =
+				Paths.get( "src/test/resources/de/retest/recheck/review/workers/legacy-recheck.ignore" );
+		migratedIgnoreFile = Paths.get( "src/test/resources/de/retest/recheck/review/workers/" + RECHECK_IGNORE );
 		tempIgnoreFile = configFolder.resolve( RECHECK_IGNORE );
 		Files.copy( origIgnoreFile, tempIgnoreFile );
 
@@ -53,19 +53,14 @@ class LoadAndSaveFilterWorkerTest {
 
 	@Test
 	@SystemProperty( key = RETEST_PROJECT_ROOT )
-	void loaded_ignore_file_should_be_saved_without_changes() throws Exception {
-		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() ) {
-			@Override
-			protected Stream<String> getUserIgnoreFileLines( final Path userIgnoreFile ) throws IOException {
-				return Stream.empty();
-			}
-		};
+	void loaded_ignore_file_should_be_migrated() throws Exception {
+		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() );
 		final GlobalIgnoreApplier gia = load.load();
 		final SaveFilterWorker save = new SaveFilterWorker( gia );
 
 		save.save();
 
-		assertThat( tempIgnoreFile ).hasSameContentAs( origIgnoreFile );
+		assertThat( tempIgnoreFile ).hasSameContentAs( migratedIgnoreFile );
 
 		assertThat( warningAndErrorLogs.size() ).isEqualTo( 3 );
 		warningAndErrorLogs.assertContains(

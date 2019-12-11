@@ -41,6 +41,6 @@ class GlobalIgnoreApplierTest {
 		cut.ignoreAttribute( element, new AttributeDifference( "myAttribute", "expected", "actual" ) );
 
 		assertThat( cut.persist().getIgnores().toString() )
-				.isEqualTo( "[matcher: retestid=myRetestId, attribute: myAttribute]" );
+				.isEqualTo( "[matcher: retestid=myRetestId, attribute=myAttribute]" );
 	}
 }

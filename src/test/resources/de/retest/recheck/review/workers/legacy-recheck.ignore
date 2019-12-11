@@ -1,16 +1,16 @@
 # Matcher
 matcher: class=some-class
 matcher: class=one two
-matcher: class=some-class, attribute=font
-matcher: class=one two, attribute-regex=.*color
+matcher: class=some-class, attribute: font
+matcher: class=one two, attribute-regex: .*color
 matcher: id=banner
-matcher: id=title, attribute=font
+matcher: id=title, attribute: font
 matcher: retestid=banner
-matcher: retestid=banner, attribute=outline
-matcher: retestid=banner, attribute-regex=.*color
+matcher: retestid=banner, attribute: outline
+matcher: retestid=banner, attribute-regex: .*color
 matcher: xpath=html[1]/div[1]/div[1]/div[2]
-matcher: xpath=/html/div/div/div[2], attribute=background-url
-matcher: type=div, attribute-regex=.*color
+matcher: xpath=/html/div/div/div[2], attribute: background-url
+matcher: type=div, attribute-regex: .*color
 
 # Attributes
 attribute=outline

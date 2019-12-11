@@ -8,7 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 class ElementAttributeFilterTest {
@@ -81,4 +84,17 @@ class ElementAttributeFilterTest {
 
 		assertThat( cut.matches( element, attributeKey ) ).isFalse();
 	}
+
+	@Test
+	void should_match_when_expression_contains_whitespace() {
+		final Element div = Element.create( "divId", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "html/div" ), "div" ),
+				new MutableAttributes().immutable() );
+
+		final ElementAttributeFilter cut = new ElementAttributeFilter.ElementAttributeFilterLoader()
+				.load( "matcher: xpath=/html/div, attribute= mySpecialAttribute " ).get();
+
+		assertThat( cut.matches( div, "mySpecialAttribute" ) ).isTrue();
+	}
+
 }
