@@ -34,7 +34,7 @@ public class RecheckDifferenceFinder {
 		this.goldenMasterPath = goldenMasterPath;
 	}
 
-	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
+	public ActionReplayResult findDifferences( final SutState expected, final SutState actual ) {
 		final List<RootElementDifference> differences =
 				finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
 		final MetadataDifference metadataDifference = metadataDifferenceFinder.findDifferences( expected, actual );
