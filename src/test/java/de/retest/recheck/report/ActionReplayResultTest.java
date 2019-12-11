@@ -116,8 +116,7 @@ class ActionReplayResultTest {
 		final ActionReplayData data = mock( ActionReplayData.class );
 		final SutState sutState = mock( SutState.class );
 		final StateDifference difference = null; // This difference should be null vs empty
-		final ActionReplayResult result =
-				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
+		final ActionReplayResult result = ActionReplayResult.createActionReplayResult( data, difference, 0L, sutState );
 
 		assertThat( result.hasDifferences() ).isFalse();
 	}
@@ -127,8 +126,7 @@ class ActionReplayResultTest {
 		final ActionReplayData data = mock( ActionReplayData.class );
 		final SutState sutState = mock( SutState.class );
 		final StateDifference difference = mock( StateDifference.class ); // This difference should be empty vs null
-		final ActionReplayResult result =
-				ActionReplayResult.createActionReplayResult( data, null, null, difference, 0L, sutState );
+		final ActionReplayResult result = ActionReplayResult.createActionReplayResult( data, difference, 0L, sutState );
 
 		assertThat( result.hasDifferences() ).isFalse();
 	}
@@ -160,7 +158,7 @@ class ActionReplayResultTest {
 	void constructor_should_throw_an_AssertionError_iff_the_ActionReplayResult_is_empty() throws Exception {
 		// Empty means no windows, no state difference, and no error (including TargetNotFoundException).
 		assertThrows( NullPointerException.class, () -> ActionReplayResult
-				.withoutDifference( ActionReplayData.of( mock( Action.class ) ), () -> null, 0L ) );
+				.createActionReplayResult( ActionReplayData.of( mock( Action.class ) ), null, 0L, null ) );
 	}
 
 	@Test
