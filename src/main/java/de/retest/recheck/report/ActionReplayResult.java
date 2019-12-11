@@ -101,17 +101,12 @@ public class ActionReplayResult implements Serializable {
 			return withDifference( data, WindowRetriever.empty(), DifferenceRetriever.of( difference ),
 					actualDuration );
 		}
-		return withoutDifference( data, WindowRetriever.of( actualState ), actualDuration );
+		return withDifference( data, WindowRetriever.of( actualState ), DifferenceRetriever.empty(), actualDuration );
 	}
 
 	public static ActionReplayResult withDifference( final ActionReplayData data, final WindowRetriever windows,
 			final DifferenceRetriever difference, final long duration ) {
 		return new ActionReplayResult( data, windows, difference, duration );
-	}
-
-	public static ActionReplayResult withoutDifference( final ActionReplayData data, final WindowRetriever windows,
-			final long duration ) {
-		return withDifference( data, windows, DifferenceRetriever.empty(), duration );
 	}
 
 	public StateDifference getStateDifference() {

@@ -158,7 +158,7 @@ class ActionReplayResultTest {
 	void constructor_should_throw_an_AssertionError_iff_the_ActionReplayResult_is_empty() throws Exception {
 		// Empty means no windows, no state difference, and no error (including TargetNotFoundException).
 		assertThrows( NullPointerException.class, () -> ActionReplayResult
-				.withoutDifference( ActionReplayData.of( mock( Action.class ) ), () -> null, 0L ) );
+				.createActionReplayResult( ActionReplayData.of( mock( Action.class ) ), null, 0L, null ) );
 	}
 
 	@Test
