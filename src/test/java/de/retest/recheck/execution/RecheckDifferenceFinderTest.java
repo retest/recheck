@@ -39,7 +39,7 @@ class RecheckDifferenceFinderTest {
 
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( null, "foo", "" );
 
-		final ActionReplayResult differences = cut.findDifferences( actual, expected );
+		final ActionReplayResult differences = cut.findDifferences( expected, actual );
 
 		assertThat( differences.hasDifferences() ).isTrue();
 		assertThat( differences.getDifferences() ).hasSize( 1 );
@@ -67,7 +67,7 @@ class RecheckDifferenceFinderTest {
 
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( null, "foo", "" );
 
-		final ActionReplayResult differences = cut.findDifferences( actual, expected );
+		final ActionReplayResult differences = cut.findDifferences( expected, actual );
 
 		assertThat( differences.hasDifferences() ).isFalse();
 		assertThat( differences.getDifferences() ).hasSize( 0 );
@@ -93,7 +93,7 @@ class RecheckDifferenceFinderTest {
 
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( null, "foo", "" );
 
-		final ActionReplayResult differences = cut.findDifferences( actual, expected );
+		final ActionReplayResult differences = cut.findDifferences( expected, actual );
 
 		assertThat( differences.hasDifferences() ).isFalse();
 		assertThat( differences.getMetadataDifference() ).isNotEmpty();

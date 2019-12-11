@@ -59,7 +59,7 @@ class ActionReplayResultTest {
 		final DefaultValueFinder dvf = Mockito.mock( DefaultValueFinder.class );
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( dvf, "foo", "" );
 
-		final ActionReplayResult differences = cut.findDifferences( actual, expected );
+		final ActionReplayResult differences = cut.findDifferences( expected, actual );
 
 		assertThat( differences.hasDifferences() ).isTrue();
 		assertThat( differences.getDifferences() ).hasSize( 1 );
@@ -98,7 +98,7 @@ class ActionReplayResultTest {
 		final DefaultValueFinder dvf = Mockito.mock( DefaultValueFinder.class );
 		final RecheckDifferenceFinder cut = new RecheckDifferenceFinder( dvf, "foo", "" );
 
-		final ActionReplayResult differences = cut.findDifferences( actual, expected );
+		final ActionReplayResult differences = cut.findDifferences( expected, actual );
 
 		final Filter filterAll = mock( Filter.class );
 		when( filterAll.matches( expectedElement ) ).thenReturn( true );

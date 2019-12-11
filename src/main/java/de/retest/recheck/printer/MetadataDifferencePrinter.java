@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.meta.global.GitMetadataProvider;
+import de.retest.recheck.meta.global.MachineMetadataProvider;
 import de.retest.recheck.meta.global.OSMetadataProvider;
 import de.retest.recheck.meta.global.TimeMetadataProvider;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
@@ -22,6 +23,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 			GitMetadataProvider.VCS_NAME, //
 			GitMetadataProvider.BRANCH_NAME, //
 			GitMetadataProvider.COMMIT_NAME, //
+			MachineMetadataProvider.MACHINE_NAME, //
 			OSMetadataProvider.OS_ARCH, //
 			TimeMetadataProvider.DATE, //
 			TimeMetadataProvider.TIME, //
