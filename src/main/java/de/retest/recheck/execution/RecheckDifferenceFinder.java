@@ -37,7 +37,7 @@ public class RecheckDifferenceFinder {
 	public ActionReplayResult findDifferences( final SutState actual, final SutState expected ) {
 		final List<RootElementDifference> differences =
 				finder.findDifferences( expected.getRootElements(), actual.getRootElements() );
-		final MetadataDifference metadataDifference = metadataDifferenceFinder.findDifferences( actual, expected );
+		final MetadataDifference metadataDifference = metadataDifferenceFinder.findDifferences( expected, actual );
 		if ( !differences.isEmpty() ) {
 			return createResult( new StateDifference( differences ), metadataDifference );
 		}
