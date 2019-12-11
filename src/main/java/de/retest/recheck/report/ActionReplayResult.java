@@ -15,14 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
-import de.retest.recheck.report.action.ErrorHolder;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.actions.Action;
 import de.retest.recheck.ui.actions.ActionExecutionResult;
 import de.retest.recheck.ui.actions.ActionState;
-import de.retest.recheck.ui.actions.ExceptionWrapper;
-import de.retest.recheck.ui.actions.TargetNotFoundException;
-import de.retest.recheck.ui.actions.TargetNotFoundWrapper;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
@@ -40,7 +36,6 @@ import lombok.Getter;
  * {@link Action} which is one of:
  *
  * <ul>
- * <li>an error if one occurred</li>
  * <li>the {@link StateDifference} if there was a difference between expected and actual state</li>
  * <li>or just the state if everything went as expected.</li>
  * </ul>
@@ -58,7 +53,6 @@ public class ActionReplayResult implements Serializable {
 	}
 
 	private static final long serialVersionUID = 2L;
-
 	private static final long NO_DURATION = 0L;
 
 	@XmlAttribute
@@ -68,11 +62,6 @@ public class ActionReplayResult implements Serializable {
 
 	@XmlElement
 	private final Element targetcomponent;
-
-	@XmlElement
-	private final ExceptionWrapper error;
-	@XmlElement
-	private final TargetNotFoundWrapper targetNotFound;
 
 	@XmlElement
 	private final StateDifference stateDifference;
@@ -95,20 +84,31 @@ public class ActionReplayResult implements Serializable {
 		description = null;
 		goldenMasterPath = null;
 		targetcomponent = null;
-		error = null;
-		targetNotFound = null;
 		stateDifference = null;
 		metadataDifference = MetadataDifference.empty();
 		windows = null;
 		executionType = null;
 	}
 
-	public static ActionReplayResult createActionReplayResult( final ActionReplayData data,
-			final ExceptionWrapper error, final TargetNotFoundException targetNotFound,
-			final StateDifference difference, final long actualDuration, final SutState actualState ) {
-		if ( error != null || targetNotFound != null ) {
-			return withError( data, ErrorHolder.of( error, targetNotFound ) );
+	protected ActionReplayResult( final ActionReplayData data, final WindowRetriever windows,
+			final DifferenceRetriever difference, final long duration, final ExecutionType executionType ) {
+		if ( windows.isNull() && difference.isNull() ) {
+			throw new NullPointerException(
+					"ActionReplayResult must not be empty! Affected action: " + data.getDescription() + "." );
 		}
+		description = data.getDescription();
+		goldenMasterPath = data.getGoldenMasterPath();
+		targetcomponent = data.getElement();
+		this.windows = windows.get();
+		stateDifference = difference.getStateDifference();
+		metadataDifference = difference.getMetadataDifference();
+		this.duration = duration;
+		this.executionType = executionType;
+	}
+
+	public static ActionReplayResult createActionReplayResult( final ActionReplayData data,
+			final StateDifference difference, final long actualDuration, final SutState actualState ) {
+
 		if ( difference != null && !difference.getRootElementDifferences().isEmpty() ) {
 			return withDifference( data, WindowRetriever.empty(), DifferenceRetriever.of( difference ),
 					actualDuration );
@@ -116,14 +116,9 @@ public class ActionReplayResult implements Serializable {
 		return withoutDifference( data, WindowRetriever.of( actualState ), actualDuration );
 	}
 
-	public static ActionReplayResult withError( final ActionReplayData data, final ErrorHolder error ) {
-		return new ActionReplayResult( data, WindowRetriever.empty(), error, DifferenceRetriever.empty(), NO_DURATION,
-				null );
-	}
-
 	public static ActionReplayResult withDifference( final ActionReplayData data, final WindowRetriever windows,
 			final DifferenceRetriever difference, final long duration ) {
-		return new ActionReplayResult( data, windows, ErrorHolder.empty(), difference, duration, null );
+		return new ActionReplayResult( data, windows, difference, duration, ExecutionType.NORMAL );
 	}
 
 	public static ActionReplayResult withoutDifference( final ActionReplayData data, final WindowRetriever windows,
@@ -133,48 +128,13 @@ public class ActionReplayResult implements Serializable {
 
 	public static ActionReplayResult insertion( final ActionState actionState ) {
 		return new ActionReplayResult( ActionReplayData.of( actionState.getAction() ),
-				WindowRetriever.of( actionState ), ErrorHolder.empty(), DifferenceRetriever.empty(),
-				actionState.getDuration(), ExecutionType.INSERTION );
+				WindowRetriever.of( actionState ), DifferenceRetriever.empty(), actionState.getDuration(),
+				ExecutionType.INSERTION );
 	}
 
 	public static ActionReplayResult deletion( final ActionState actionState ) {
 		return new ActionReplayResult( ActionReplayData.of( actionState.getAction() ),
-				WindowRetriever.of( actionState ), ErrorHolder.empty(), DifferenceRetriever.empty(), NO_DURATION,
-				ExecutionType.DELETION );
-	}
-
-	protected ActionReplayResult( final ActionReplayData data, final WindowRetriever windows, final ErrorHolder error,
-			final DifferenceRetriever difference, final long duration, final ExecutionType executionType ) {
-		if ( windows.isNull() && difference.isNull() && !error.hasError() ) {
-			throw new NullPointerException(
-					"ActionReplayResult must not be empty! Affected action: " + data.getDescription() + "." );
-		}
-		description = data.getDescription();
-		goldenMasterPath = data.getGoldenMasterPath();
-		targetcomponent = data.getElement();
-		this.windows = windows.get();
-		this.error = error.getThrowableWrapper();
-		targetNotFound = error.getTargetNotFoundWrapper();
-		stateDifference = difference.getStateDifference();
-		metadataDifference = difference.getMetadataDifference();
-		this.duration = duration;
-		this.executionType = executionType;
-	}
-
-	public Throwable getThrowable() {
-		return error == null ? null : error.getThrowable();
-	}
-
-	public ExceptionWrapper getThrowableWrapper() {
-		return error;
-	}
-
-	public Throwable getTargetNotFoundException() {
-		return targetNotFound == null ? null : targetNotFound.getTargetNotFoundException();
-	}
-
-	public TargetNotFoundWrapper getTargetNotFoundWrapper() {
-		return targetNotFound;
+				WindowRetriever.of( actionState ), DifferenceRetriever.empty(), NO_DURATION, ExecutionType.DELETION );
 	}
 
 	public StateDifference getStateDifference() {
@@ -202,9 +162,6 @@ public class ActionReplayResult implements Serializable {
 		final List<ElementDifference> differences = new ArrayList<>();
 		if ( stateDifference != null ) {
 			differences.addAll( stateDifference.getNonEmptyDifferences() );
-		}
-		if ( error != null ) {
-			// TODO what to do about this?
 		}
 		return differences;
 	}
@@ -252,12 +209,7 @@ public class ActionReplayResult implements Serializable {
 			}
 			return result;
 		}
-		// Means error != null or targetNotFound != null.
 		return 0;
-	}
-
-	public boolean hasError() {
-		return error != null || targetNotFound != null;
 	}
 
 	public boolean hasDifferences() {
@@ -274,10 +226,6 @@ public class ActionReplayResult implements Serializable {
 
 	@Override
 	public String toString() {
-		if ( hasError() ) {
-			return "ActionReplayResult('" + description + "' has an error: " + (error != null ? error : targetNotFound)
-					+ ")";
-		}
 		return "ActionReplayResult('" + description + "' resulted in " + getAllElementDifferences().size()
 				+ " differences.)";
 	}
