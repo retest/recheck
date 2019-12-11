@@ -1,6 +1,7 @@
 package de.retest.recheck.report;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -20,6 +21,7 @@ import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.actions.Action;
 import de.retest.recheck.ui.descriptors.Attributes;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -152,6 +154,13 @@ class ActionReplayResultTest {
 				WindowRetriever.empty(), DifferenceRetriever.of( new StateDifference( differences ) ), 0L );
 
 		assertThat( cut.getDifferences() ).hasSize( 21 );
+	}
+
+	@Test
+	void constructor_should_throw_an_AssertionError_iff_the_ActionReplayResult_is_empty() throws Exception {
+		// Empty means no windows, no state difference, and no error (including TargetNotFoundException).
+		assertThrows( NullPointerException.class, () -> ActionReplayResult
+				.withoutDifference( ActionReplayData.of( mock( Action.class ) ), () -> null, 0L ) );
 	}
 
 	@Test

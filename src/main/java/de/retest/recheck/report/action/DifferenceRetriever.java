@@ -12,7 +12,7 @@ public interface DifferenceRetriever {
 	MetadataDifference getMetadataDifference();
 
 	default boolean isNull() {
-		return getStateDifference() == null;
+		return getStateDifference() == null || getStateDifference().size() == 0;
 	}
 
 	static DifferenceRetriever empty() {
