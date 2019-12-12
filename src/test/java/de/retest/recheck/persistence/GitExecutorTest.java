@@ -87,6 +87,9 @@ class GitExecutorTest {
 				if ( command.equals( GitExecutor.GIT_COMMAND_COMMIT_HASH ) ) {
 					return commit;
 				}
+				if ( command.equals( GitExecutor.GIT_COMMAND_STATUS ) ) {
+					return "On branch master";
+				}
 				fail( "Should not be called with " + command );
 				throw new RuntimeException( "Should not be called with " + command );
 			}
