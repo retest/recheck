@@ -29,6 +29,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Fix `.retest/retest.properties` not being read. You can now use this file to configure recheck and its extensions.
+
 ### New Features
 
 * Ignore filters can now be set globally by creating a '.retest' folder with a 'recheck.ignore' file in the user home directory.
