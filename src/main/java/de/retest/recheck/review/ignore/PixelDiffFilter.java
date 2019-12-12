@@ -31,11 +31,11 @@ public class PixelDiffFilter implements Filter {
 	 * Indicates whether {@link #pixelDiff} is specified as double ({@code true}) or integer ({@code false}). Although
 	 * internally it is always treated as a double, this is important for serialization.
 	 */
-	private final boolean specifiedAsDouble;
+	private final String givenInput;
 	private final double pixelDiff;
 
-	public PixelDiffFilter( final boolean specifiedAsDouble, final double pixelDiff ) {
-		this.specifiedAsDouble = specifiedAsDouble;
+	public PixelDiffFilter( final String givenInput, final double pixelDiff ) {
+		this.givenInput = givenInput.endsWith( PIXEL ) ? givenInput : givenInput + PIXEL;
 		this.pixelDiff = pixelDiff;
 	}
 
@@ -99,15 +99,14 @@ public class PixelDiffFilter implements Filter {
 
 	@Override
 	public String toString() {
-		final String value = specifiedAsDouble ? Double.toString( pixelDiff ) : Integer.toString( (int) pixelDiff );
-		return String.format( PixelDiffFilterLoader.FORMAT, value );
+		return String.format( PixelDiffFilterLoader.FORMAT, givenInput );
 	}
 
 	public static class PixelDiffFilterLoader extends RegexLoader<PixelDiffFilter> {
 
 		private static final String KEY = "pixel-diff=";
 		private static final String FORMAT = KEY + "%s";
-		private static final Pattern REGEX = Pattern.compile( KEY + "(\\d+(\\.\\d+)?)" );
+		private static final Pattern REGEX = Pattern.compile( KEY + "(\\d+(\\.\\d+)?)(px)?" );
 
 		public PixelDiffFilterLoader() {
 			super( REGEX );
@@ -116,9 +115,8 @@ public class PixelDiffFilter implements Filter {
 		@Override
 		protected Optional<PixelDiffFilter> load( final MatchResult regex ) {
 			final String value = regex.group( 1 );
-			final boolean specifiedAsDouble = value.contains( "." );
 			final double pixelDiff = Double.parseDouble( value );
-			return Optional.of( new PixelDiffFilter( specifiedAsDouble, pixelDiff ) );
+			return Optional.of( new PixelDiffFilter( value, pixelDiff ) );
 		}
 	}
 }
