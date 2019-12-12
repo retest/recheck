@@ -1,18 +1,18 @@
 # Ignore file for recheck. Please do not delete, even if it is empty.
 	
-# You can ignore specific elements like so:
+# You can ignore specific elements like so (includes children):
 # matcher: type=meta
 
-# To ignore whole subtrees, use e.g. XPath:
+# Or via absolute XPath:
 # matcher: xpath=html[1]/body[1]/div[1]
 
 # To ignore attributes globally, use:
 # attribute=class
 
-# To ignore attributes e.g. of specific elements: 
+# To ignore attributes e.g. of specific elements, use (excludes children): 
 # matcher: type=img, attribute: alt
 
-# You can use regex for elements or attributes:
+# You can also use regex for elements or attributes:
 # attribute-regex=data-.*
 
 # More details and examples can be found here:

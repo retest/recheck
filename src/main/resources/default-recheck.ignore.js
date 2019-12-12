@@ -1,11 +1,11 @@
-// Here you can implement ignore rules for recheck in javascript.
+// Here you can implement ignore rules for recheck in JavaScript.
 // Please do not delete this file, even if it is empty.
 
 // You can implement either of these two functions:
 // function matches(element) {}
 // function matches(element, diff) {}
 
-// e.g. to ignore all behind an URL after '?':
+// For example, to ignore everything behind an URL after '?':
 
 //var baseUrl = /http[s]?:\/\/[\w.:\d\-]*/;
 //
