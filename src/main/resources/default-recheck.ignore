@@ -21,4 +21,4 @@
 # These are sensible defaults, delete if they don't apply:
 attribute=style
 matcher: type=input, attribute-regex: border-.*-color
-pixel-diff=5
+pixel-diff=5px
