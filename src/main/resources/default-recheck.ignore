@@ -19,7 +19,6 @@
 # https://docs.retest.de/recheck/usage/filter/
 
 # These are sensible defaults, delete if they don't apply:
-attribute=absolute-outline
 attribute=style
 matcher: type=input, attribute-regex: border-.*-color
 pixel-diff=5
