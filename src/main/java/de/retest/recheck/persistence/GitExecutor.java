@@ -12,11 +12,12 @@ public class GitExecutor {
 	protected static final String GIT_COMMAND_VERSION = "git --version";
 	protected static final String GIT_COMMAND_BRANCH_NAME = "git rev-parse --abbrev-ref HEAD";
 	protected static final String GIT_COMMAND_COMMIT_HASH = "git rev-parse HEAD";
+	protected static final String GIT_COMMAND_STATUS = "git status";
 
 	private final boolean localGit;
 
 	public GitExecutor() {
-		localGit = isGitInstalled();
+		localGit = isGitInstalled() && isGitUsed();
 	}
 
 	protected boolean isGitInstalled() {
@@ -26,6 +27,16 @@ public class GitExecutor {
 		} catch ( final Exception e ) {
 			log.debug( "`{}` resulted in exception {}, assuming no git installed.", GIT_COMMAND_VERSION,
 					e.getMessage() );
+			return false;
+		}
+	}
+
+	protected boolean isGitUsed() {
+		try {
+			final String result = executeGitCommand( GIT_COMMAND_STATUS );
+			return result != null && !result.contains( "fatal: not a git repository" );
+		} catch ( final Exception e ) {
+			log.debug( "`{}` resulted in exception {}, assuming no git used.", GIT_COMMAND_STATUS, e.getMessage() );
 			return false;
 		}
 	}
