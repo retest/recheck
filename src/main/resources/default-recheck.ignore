@@ -18,9 +18,7 @@
 # More details and examples can be found here:
 # https://docs.retest.de/recheck/usage/filter/
 
-
-# these are sensible defaults
-# delete if they don't apply
+# These are sensible defaults, delete if they don't apply:
 attribute=absolute-outline
 attribute=style
 matcher: type=input, attribute-regex: border-.*-color
