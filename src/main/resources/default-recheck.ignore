@@ -10,7 +10,7 @@
 # attribute=class
 
 # To ignore attributes e.g. of specific elements, use (excludes children): 
-# matcher: type=img, attribute: alt
+# matcher: type=img, attribute=alt
 
 # You can also use regex for elements or attributes:
 # attribute-regex=data-.*
