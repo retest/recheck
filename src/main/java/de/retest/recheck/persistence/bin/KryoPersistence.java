@@ -149,7 +149,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		return minVersion == null || minVersion <= version;
 	}
 
-	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$]+" );
+	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$\\-]+" );
 
 	protected static boolean isKnownFormat( final String writerVersion ) {
 		if ( writerVersion == null ) {
