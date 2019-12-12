@@ -1,27 +1,24 @@
 # Ignore file for recheck. Please do not delete, even if it is empty.
 	
-# You can ignore specific elements like so:
+# You can ignore specific elements like so (includes children):
 # matcher: type=meta
 
-# To ignore whole subtrees, use e.g. XPath:
-# matcher: xpath=HTML[1]/BODY[1]/DIV[1]
+# Or via absolute XPath:
+# matcher: xpath=html[1]/body[1]/div[1]
 
 # To ignore attributes globally, use:
 # attribute=class
 
-# To ignore attributes e.g. of specific elements: 
-# matcher: type=img, attribute: alt
+# To ignore attributes e.g. of specific elements, use (excludes children): 
+# matcher: type=img, attribute=alt
 
-# You can use regex for elements or attributes:
+# You can also use regex for elements or attributes:
 # attribute-regex=data-.*
 
 # More details and examples can be found here:
 # https://docs.retest.de/recheck/usage/filter/
 
-
-# these are sensible defaults
-# delete if they don't apply
-attribute=absolute-outline
+# These are sensible defaults, delete if they don't apply:
 attribute=style
 matcher: type=input, attribute-regex: border-.*-color
-pixel-diff=5
+pixel-diff=5px
