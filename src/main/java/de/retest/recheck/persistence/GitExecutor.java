@@ -18,6 +18,7 @@ public class GitExecutor {
 
 	public GitExecutor() {
 		localGit = isGitInstalled() && isGitUsed();
+		log.debug( "Looks like git is {}used", localGit ? "" : "not " );
 	}
 
 	protected boolean isGitInstalled() {
