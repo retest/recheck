@@ -132,7 +132,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			if ( version.equals( writerVersion ) ) {
 				throw e;
 			}
-			if ( isUnknownFormat( writerVersion ) ) {
+			if ( !isKnownFormat( writerVersion ) ) {
 				writerVersion = OLD_RECHECK_VERSION;
 			}
 			throw new IncompatibleReportVersionException( writerVersion, version, identifier, e );
@@ -149,14 +149,14 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 		return minVersion == null || minVersion <= version;
 	}
 
-	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$]+" );
+	private static final Pattern VERSION_CHARS = Pattern.compile( "[\\w\\.\\{\\}\\$\\-]+" );
 
-	private static boolean isUnknownFormat( final String writerVersion ) {
+	protected static boolean isKnownFormat( final String writerVersion ) {
 		if ( writerVersion == null ) {
-			return true;
+			return false;
 		}
 		final Matcher m = VERSION_CHARS.matcher( writerVersion );
-		return !m.matches();
+		return m.matches();
 	}
 
 }

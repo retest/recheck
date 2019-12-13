@@ -135,4 +135,21 @@ class KryoPersistenceTest {
 		assertThatThrownBy( () -> cut.load( Paths.get( "/non/existent/file" ).toUri() ) ) //
 				.isInstanceOf( NoSuchFileException.class );
 	}
+
+	@Test
+	void valid_version_formats_should_be_recognized() {
+		assertThat( KryoPersistence.isKnownFormat( "1.8.0-SNAPSHOT" ) ).isTrue();
+		assertThat( KryoPersistence.isKnownFormat( "1.8.4" ) ).isTrue();
+		assertThat( KryoPersistence.isKnownFormat( "1.8.0-beta.1" ) ).isTrue();
+		assertThat( KryoPersistence.isKnownFormat( "${pom.parent.version}" ) ).isTrue();
+	}
+
+	@Test
+	void invalid_version_formats_should_be_recognized() {
+		assertThat( KryoPersistence.isKnownFormat(
+				"src/test/resources/retest/recheck/de.retest.recheck.example.MyUnbreakableSeleniumTest/login.00.recheckjava.util.TreeSet" ) )
+						.isFalse();
+		assertThat( KryoPersistence.isKnownFormat( "" ) ).isFalse();
+		assertThat( KryoPersistence.isKnownFormat( null ) ).isFalse();
+	}
 }
