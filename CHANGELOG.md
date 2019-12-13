@@ -25,6 +25,21 @@ Table of Contents
 
 ### Breaking Changes
 
+### Bug Fixes
+
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+
+[1.8.0] (2019-12-13)
+--------------------
+
+### Breaking Changes
+
 * Reports before version 1.8.0 cannot be loaded anymore. Simply re-run your tests with the new recheck version to create them again.
 
 ### Bug Fixes
@@ -51,8 +66,6 @@ Table of Contents
 * Changed the definition of the ignore rules from `matcher: id=title, attribute: font` to `matcher: id=title, attribute=font` and from `matcher: id=title, attribute-regex: font-.*` to `matcher: id=title, attribute-regex=font-.*` to be more consistent. recheck will automatically migrate existing `recheck.ignore` files.
 * Change the pixel-diff filter to use the unit of measure. Existing filters will be converted to `px`.
 
---------------------------------------------------------------------------------
-
 
 [1.7.0] (2019-11-21)
 --------------------
@@ -70,9 +83,6 @@ Table of Contents
 * Change the default element identification mechanism within the `recheck.ignore` file (i.e. when using CLI or GUI) from XPath to retestId.
 * Display suite description for test report printing so that tests now can properly be identified with their parent suite.
 * Improved log messages of faulty JavaScript filters to show the file where the error actually happened.
-
-
---------------------------------------------------------------------------------
 
 
 [1.6.0] (2019-11-06)
