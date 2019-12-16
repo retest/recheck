@@ -9,9 +9,9 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import org.junit.jupiter.api.Test;
 
@@ -210,7 +210,7 @@ class AlignmentTest {
 	}
 
 	@Test
-	void toReverseQueue_should_create_reverse_queue() throws Exception {
+	void toReverseDeque_should_create_reverse_deque() throws Exception {
 		final Element e0 = Element.create( "e0", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Element[1]" ), Comp.class ), new Attributes() );
 		final Element e1 = Element.create( "e1", mock( Element.class ),
@@ -219,9 +219,9 @@ class AlignmentTest {
 				IdentifyingAttributes.create( Path.fromString( "Element[3]" ), Comp.class ), new Attributes() );
 		final List<Element> elements = Arrays.asList( e0, e1, e2 );
 
-		final Queue<Element> stack = Alignment.toReverseQueue( elements );
+		final Deque<Element> deque = Alignment.toReverseDeque( elements );
 
-		assertThat( stack ).containsExactly( e2, e1, e0 );
+		assertThat( deque ).containsExactly( e2, e1, e0 );
 	}
 
 	private static Element buildEqual( final String path, final Class<?> type, final Element... containedComponents ) {

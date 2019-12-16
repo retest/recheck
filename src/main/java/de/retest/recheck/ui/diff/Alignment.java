@@ -6,12 +6,12 @@ import static java.util.stream.Collectors.toMap;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
-import java.util.Queue;
 import java.util.TreeSet;
 import java.util.function.Function;
 
@@ -67,13 +67,13 @@ public final class Alignment {
 
 	private Map<Element, Element> createAlignment( final List<Element> expectedElements,
 			final Map<Element, Element> actualElements ) {
-		final Queue<Element> elementsToAlign = toReverseQueue( expectedElements );
+		final Deque<Element> elementsToAlign = toReverseDeque( expectedElements );
 		final Map<Element, Match> matches = new HashMap<>();
 		final Map<Element, Element> alignment = new HashMap<>();
 
 		while ( !elementsToAlign.isEmpty() ) {
 			// Align elements from expected with best match.
-			final Element expected = elementsToAlign.poll();
+			final Element expected = elementsToAlign.pollLast();
 			final NavigableSet<Match> bestMatches = getBestMatches( expected, actualElements );
 			Match bestMatch = bestMatches.pollFirst();
 
@@ -118,10 +118,10 @@ public final class Alignment {
 		return alignment;
 	}
 
-	static Queue<Element> toReverseQueue( final List<Element> expectedElements ) {
-		return expectedElements.stream().collect( collectingAndThen( toCollection( LinkedList::new ), queue -> {
-			Collections.reverse( queue );
-			return queue;
+	static Deque<Element> toReverseDeque( final List<Element> expectedElements ) {
+		return expectedElements.stream().collect( collectingAndThen( toCollection( LinkedList::new ), deque -> {
+			Collections.reverse( deque );
+			return deque;
 		} ) );
 	}
 
