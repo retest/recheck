@@ -2,11 +2,14 @@ package de.retest.recheck.ui.diff;
 
 import static de.retest.recheck.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
@@ -32,18 +35,26 @@ class AlignmentTest {
 	private static final class OtherComp {}
 
 	@Test
-	void toMapping_should_still_work_if_optimized() {
+	void toIdentityMapping_should_still_work_if_optimized() {
 		final Element expected = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]/Layer[1]/Layer[3]/Comp1[1]" ), Comp.class ),
 				new Attributes() );
 		final Element expectedClone = Element.create( "id", mock( Element.class ),
 				IdentifyingAttributes.create( Path.fromString( "Window[1]/Layer[1]/Layer[3]/Comp1[1]" ), Comp.class ),
 				new Attributes() );
-		final Map<Element, Element> mapping = Alignment.toMapping( Collections.singletonList( expected ) );
+		final Map<Element, Element> mapping = Alignment.toIdentityMapping( Collections.singletonList( expected ) );
 
 		final Element actual = mapping.get( expectedClone );
 
 		assertThat( actual ).isSameAs( expected );
+	}
+
+	@Test
+	void toIdentityMapping_should_raise_exception_on_duplicates() throws Exception {
+		final Element e = Element.create( "id", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "Comp[1]" ), Comp.class ), new Attributes() );
+		assertThatThrownBy( () -> Alignment.toIdentityMapping( Arrays.asList( e, e ) ) )
+				.isInstanceOf( IllegalStateException.class );
 	}
 
 	@Test
@@ -57,7 +68,7 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expComp0 ) ).isSameAs( actComp0 );
+		assertThat( alignment.getActual( expComp0 ) ).isSameAs( actComp0 );
 	}
 
 	@Test
@@ -72,7 +83,7 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expComp0 ) ).isSameAs( actComp0Comp0 );
+		assertThat( alignment.getActual( expComp0 ) ).isSameAs( actComp0Comp0 );
 	}
 
 	@Test
@@ -89,8 +100,8 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expA ) ).isSameAs( actA );
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expA ) ).isSameAs( actA );
 	}
 
 	@Test
@@ -107,9 +118,9 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expA1 ) ).isSameAs( actA );
-		assertThat( alignment.get( expA2 ) ).isNull();
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expA1 ) ).isSameAs( actA );
+		assertThat( alignment.getActual( expA2 ) ).isNull();
 	}
 
 	@Test
@@ -128,8 +139,8 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expC ) ).isSameAs( actC );
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expC ) ).isSameAs( actC );
 	}
 
 	@Test
@@ -148,9 +159,9 @@ class AlignmentTest {
 
 		final Alignment alignment = Alignment.createAlignment( expected, actual );
 
-		assertThat( alignment.get( expB ) ).isSameAs( actB );
-		assertThat( alignment.get( expC ) ).isSameAs( actC );
-		assertThat( alignment.get( expA0 ) ).isSameAs( actA );
+		assertThat( alignment.getActual( expB ) ).isSameAs( actB );
+		assertThat( alignment.getActual( expC ) ).isSameAs( actC );
+		assertThat( alignment.getActual( expA0 ) ).isSameAs( actA );
 	}
 
 	@Test
@@ -192,10 +203,25 @@ class AlignmentTest {
 		actualRoot.addChildren( actual );
 
 		final Alignment alignment = Alignment.createAlignment( root, actualRoot );
-		final Element mappedActual = alignment.get( expected );
+		final Element mappedActual = alignment.getActual( expected );
 
 		assertThat( mappedActual ).isNotEqualTo( actual );
 		assertThat( mappedActual ).isNull();
+	}
+
+	@Test
+	void toReverseDeque_should_create_reverse_deque() throws Exception {
+		final Element e0 = Element.create( "e0", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "Element[1]" ), Comp.class ), new Attributes() );
+		final Element e1 = Element.create( "e1", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "Element[2]" ), Comp.class ), new Attributes() );
+		final Element e2 = Element.create( "e2", mock( Element.class ),
+				IdentifyingAttributes.create( Path.fromString( "Element[3]" ), Comp.class ), new Attributes() );
+		final List<Element> elements = Arrays.asList( e0, e1, e2 );
+
+		final Deque<Element> deque = Alignment.toReverseDeque( elements );
+
+		assertThat( deque ).containsExactly( e2, e1, e0 );
 	}
 
 	private static Element buildEqual( final String path, final Class<?> type, final Element... containedComponents ) {

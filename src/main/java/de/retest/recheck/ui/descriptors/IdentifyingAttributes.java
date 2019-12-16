@@ -1,7 +1,5 @@
 package de.retest.recheck.ui.descriptors;
 
-import static de.retest.recheck.util.ObjectUtil.nextHashCode;
-
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;

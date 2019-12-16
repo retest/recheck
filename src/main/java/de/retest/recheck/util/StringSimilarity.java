@@ -1,6 +1,7 @@
 package de.retest.recheck.util;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.FuzzyScore;
@@ -83,10 +84,7 @@ public class StringSimilarity {
 	}
 
 	public static double simpleSimilarity( final String s0, final String s1 ) {
-		if ( StringUtils.equals( s0, s1 ) ) {
-			return 1.0;
-		}
-		return 0.0;
+		return Objects.equals( s0, s1 ) ? 1.0 : 0.0;
 	}
 
 	private static String removeBrackets( final String path ) {

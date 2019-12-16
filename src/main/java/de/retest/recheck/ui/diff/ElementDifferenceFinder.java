@@ -41,7 +41,7 @@ public class ElementDifferenceFinder {
 			final List<Element> remainingActual, final Alignment alignment ) {
 		final Collection<ElementDifference> result = new ArrayList<>();
 		for ( final Element childComp : expected ) {
-			final Element actualChild = alignment.get( childComp );
+			final Element actualChild = alignment.getActual( childComp );
 			final ElementDifference difference = differenceFor( childComp, actualChild, remainingActual, alignment );
 			if ( difference != null ) {
 				result.add( difference );

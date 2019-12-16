@@ -4,10 +4,18 @@ import de.retest.recheck.ui.descriptors.Element;
 
 public class Match implements Comparable<Match> {
 
-	final Double similarity;
+	final double similarity;
 	final Element element;
 
-	public Match( final Double similarity, final Element element ) {
+	public static Match of( final double similarity, final Element element ) {
+		return new Match( similarity, element );
+	}
+
+	public static Match ofEqual( final Element element ) {
+		return new Match( 1.0, element );
+	}
+
+	private Match( final double similarity, final Element element ) {
 		this.similarity = similarity;
 		this.element = element;
 	}
@@ -24,7 +32,7 @@ public class Match implements Comparable<Match> {
 
 	@Override
 	public String toString() {
-		return "Match[value='" + element + "', similarity='" + similarity + "']";
+		return "Match[similarity='" + similarity + "', element='" + element + "']";
 	}
 
 }
