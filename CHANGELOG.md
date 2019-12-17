@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* The project root is not searched for multiple times on startup of recheck.
+
 ### New Features
 
 ### Improvements
