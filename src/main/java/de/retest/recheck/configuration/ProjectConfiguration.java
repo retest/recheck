@@ -55,12 +55,14 @@ public class ProjectConfiguration {
 	}
 
 	public void ensureProjectConfigurationInitialized() {
-		final Path projectFilterFolder = findProjectConfigFolder().resolve( SearchFilterFiles.FILTER_DIR_NAME );
-		final Path projectConfigFile = findProjectConfigFolder().resolve( RETEST_PROJECT_PROPERTIES );
-		final Path projectIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE );
-		final Path projectRuleIgnoreFile = findProjectConfigFolder().resolve( RECHECK_IGNORE_JSRULES );
+		final Path projectRoot = findProjectConfigFolder();
 
-		createProjectConfigurationFolderIfNeeded( findProjectConfigFolder() );
+		final Path projectFilterFolder = projectRoot.resolve( SearchFilterFiles.FILTER_DIR_NAME );
+		final Path projectConfigFile = projectRoot.resolve( RETEST_PROJECT_PROPERTIES );
+		final Path projectIgnoreFile = projectRoot.resolve( RECHECK_IGNORE );
+		final Path projectRuleIgnoreFile = projectRoot.resolve( RECHECK_IGNORE_JSRULES );
+
+		createProjectConfigurationFolderIfNeeded( projectRoot );
 		createEmptyProjectConfigurationIfNeeded( projectConfigFile, RETEST_PROJECT_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectIgnoreFile, RECHECK_IGNORE_DEFAULTS );
 		createEmptyProjectConfigurationIfNeeded( projectRuleIgnoreFile, RECHECK_IGNORE_JSRULES_DEFAULTS );
