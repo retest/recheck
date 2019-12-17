@@ -51,11 +51,12 @@ public class WindowSuffixTransformer extends XmlTransformer {
 	}
 
 	private boolean updatePath( final XMLEvent event ) {
-		if ( isStartElementNamed( event, "attribute" ) && hasAttribute( event, "key", "path" ) ) {
+		final String tagname = "attribute";
+		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "path" ) ) {
 			isInPath = true;
 			return true;
 		}
-		if ( isInPath && isEndElementNamed( event, "attribute" ) ) {
+		if ( isInPath && isEndElementNamed( event, tagname ) ) {
 			isInPath = false;
 			return true;
 		}

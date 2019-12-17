@@ -31,8 +31,9 @@ public class Path2XPathTransformer extends XmlTransformer {
 
 	@Override
 	public void convert( final XMLEvent event, final XMLEventWriter eventWriter ) throws XMLStreamException {
+		final String tagname = "attribute";
 		// <attribute xsi:type="pathAttribute" key="path">Window/JRootPane_0/JPane_1</attribute>
-		if ( isStartElementNamed( event, "attribute" ) && hasAttribute( event, "key", "path" ) ) {
+		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "path" ) ) {
 			isInPath = true;
 		}
 
@@ -41,14 +42,14 @@ public class Path2XPathTransformer extends XmlTransformer {
 			return;
 		}
 
-		if ( isInPath && isEndElementNamed( event, "attribute" ) ) {
+		if ( isInPath && isEndElementNamed( event, tagname ) ) {
 			eventWriter.add( characters( toXPath( path ) ) );
 			isInPath = false;
 			path = "";
 		}
 
 		// <attribute xsi:type="suffixAttribute" key="suffix">1</attribute>
-		if ( isStartElementNamed( event, "attribute" ) && hasAttribute( event, "key", "suffix" ) ) {
+		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "suffix" ) ) {
 			isInSuffix = true;
 		}
 
@@ -57,7 +58,7 @@ public class Path2XPathTransformer extends XmlTransformer {
 			return;
 		}
 
-		if ( isEndElementNamed( event, "attribute" ) ) {
+		if ( isEndElementNamed( event, tagname ) ) {
 			try {
 				eventWriter.add( characters( valueOf( parseInt( suffix ) + 1 ) ) );
 			} catch ( final NumberFormatException exc ) {

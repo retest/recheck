@@ -23,8 +23,9 @@ public class PathAndType2LowerCaseTransformer extends XmlTransformer {
 
 	@Override
 	public void convert( final XMLEvent event, final XMLEventWriter eventWriter ) throws XMLStreamException {
+		final String tagname = "attribute";
 		// <attribute xsi:type="pathAttribute" key="path">Window/JRootPane_0/JPane_1</attribute>
-		if ( isStartElementNamed( event, "attribute" ) && hasAttribute( event, "key", "path" ) ) {
+		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "path" ) ) {
 			isInPath = true;
 		}
 
@@ -33,13 +34,13 @@ public class PathAndType2LowerCaseTransformer extends XmlTransformer {
 			return;
 		}
 
-		if ( isInPath && isEndElementNamed( event, "attribute" ) ) {
+		if ( isInPath && isEndElementNamed( event, tagname ) ) {
 			eventWriter.add( characters( path.toLowerCase() ) );
 			isInPath = false;
 			path = "";
 		}
 
-		if ( isStartElementNamed( event, "attribute" ) && hasAttribute( event, "key", "type" ) ) {
+		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "type" ) ) {
 			isInType = true;
 		}
 
@@ -48,7 +49,7 @@ public class PathAndType2LowerCaseTransformer extends XmlTransformer {
 			return;
 		}
 
-		if ( isInType && isEndElementNamed( event, "attribute" ) ) {
+		if ( isInType && isEndElementNamed( event, tagname ) ) {
 			eventWriter.add( characters( type.toLowerCase() ) );
 			isInType = false;
 			type = "";
