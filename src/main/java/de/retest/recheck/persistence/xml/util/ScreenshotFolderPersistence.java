@@ -74,7 +74,7 @@ public class ScreenshotFolderPersistence {
 			@Override
 			public void afterUnmarshal( final Object target, final Object parent ) {
 				if ( target instanceof Screenshot ) {
-					if ( !loadScreenshot( (Screenshot) target, parent ) ) {
+					if ( !loadScreenshot( (Screenshot) target ) ) {
 						parentsWithIncorrectScreenshots.put( parent, (Screenshot) target );
 					}
 				} else if ( parentsWithIncorrectScreenshots.containsKey( target ) ) {
@@ -91,7 +91,7 @@ public class ScreenshotFolderPersistence {
 		}
 	}
 
-	private boolean loadScreenshot( final Screenshot screenshot, final Object parent ) {
+	private boolean loadScreenshot( final Screenshot screenshot ) {
 		final File file = new File( screenshotFolder, createFileName( screenshot ) );
 
 		final byte[] binaryData = tryReadFromFile( file, new ToByteArrayReader() );
