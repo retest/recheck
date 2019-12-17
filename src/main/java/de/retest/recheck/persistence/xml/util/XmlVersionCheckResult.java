@@ -86,12 +86,9 @@ public class XmlVersionCheckResult {
 					parser.getAttributeValue( null, ReTestXmlDataContainer.DATA_TYPE_VERSION_FIELD );
 			version = Integer.parseInt( versionString );
 
-		} catch ( final IllegalStateException e ) {
-			throw new IllegalArgumentException( "Invalid XML document!", e );
-		} catch ( final NumberFormatException e ) {
+		} catch ( final IllegalStateException | NumberFormatException e ) {
 			throw new IllegalArgumentException( "Invalid XML document!", e );
 		}
-
 		return new XmlVersionCheckResult( dataType, version );
 	}
 
