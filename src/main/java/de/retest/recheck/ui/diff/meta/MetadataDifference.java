@@ -1,5 +1,6 @@
 package de.retest.recheck.ui.diff.meta;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -18,7 +19,9 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor( access = AccessLevel.PRIVATE )
-public final class MetadataDifference implements Iterable<MetadataElementDifference> {
+public final class MetadataDifference implements Iterable<MetadataElementDifference>, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Getter
 	private final Set<MetadataElementDifference> differences;
