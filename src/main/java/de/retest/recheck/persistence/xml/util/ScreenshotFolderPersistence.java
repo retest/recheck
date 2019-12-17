@@ -84,7 +84,7 @@ public class ScreenshotFolderPersistence {
 		};
 	}
 
-	private final static class ToByteArrayReader implements Reader<byte[]> {
+	private static final class ToByteArrayReader implements Reader<byte[]> {
 		@Override
 		public byte[] read( final NamedBufferedInputStream in ) throws IOException {
 			return IOUtils.toByteArray( in );
