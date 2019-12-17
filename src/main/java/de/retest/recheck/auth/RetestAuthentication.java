@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.keycloak.OAuth2Constants;
 
 import com.auth0.jwk.JwkException;
 import com.auth0.jwk.UrlJwkProvider;
@@ -218,10 +217,10 @@ public class RetestAuthentication {
 				.collect( Collectors.toMap( NameValuePair::getName, NameValuePair::getValue ) );
 
 		return KeycloakResult.builder() //
-				.code( parameters.get( OAuth2Constants.CODE ) ) //
-				.error( parameters.get( OAuth2Constants.ERROR ) ) //
+				.code( parameters.get( "code" ) ) //
+				.error( parameters.get( "error" ) ) //
 				.errorDescription( parameters.get( "error-description" ) ) //
-				.state( parameters.get( OAuth2Constants.STATE ) ) //
+				.state( parameters.get( "state" ) ) //
 				.build();
 	}
 
