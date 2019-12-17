@@ -46,7 +46,6 @@ import lombok.Getter;
 public class ActionReplayResult implements Serializable {
 
 	private static final long serialVersionUID = 2L;
-	private static final long NO_DURATION = 0L;
 
 	@XmlAttribute
 	private final String description;
@@ -189,7 +188,7 @@ public class ActionReplayResult implements Serializable {
 	}
 
 	public boolean hasWindows() {
-		return windows != null && windows.size() > 0;
+		return windows != null && !windows.isEmpty();
 	}
 
 	@Override
