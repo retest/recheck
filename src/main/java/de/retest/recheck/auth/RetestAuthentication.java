@@ -250,12 +250,11 @@ public class RetestAuthentication {
 
 				if ( result.getError() == null ) {
 					writer.println( "HTTP/1.1 302 Found" );
-					writer.println( "Location: " + deployment.getTokenUrl().replace( "/token", "/delegated" ) );
+					writer.println( "Location: " + TOKEN_URL.replace( "/token", "/delegated" ) );
 
 				} else {
 					writer.println( "HTTP/1.1 302 Found" );
-					writer.println(
-							"Location: " + deployment.getTokenUrl().replace( "/token", "/delegated?error=true" ) );
+					writer.println( "Location: " + TOKEN_URL.replace( "/token", "/delegated?error=true" ) );
 
 				}
 			} catch ( final IOException e ) {
