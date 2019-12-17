@@ -30,9 +30,7 @@ public class XmlPersistenceUtil {
 			}
 		}
 
-		@SuppressWarnings( "unchecked" )
-		final ReTestXmlDataContainer<T> result = (ReTestXmlDataContainer<T>) xml.fromXML( bin, unmarshallListener );
-		return result;
+		return xml.fromXML( bin, unmarshallListener );
 	}
 
 }
