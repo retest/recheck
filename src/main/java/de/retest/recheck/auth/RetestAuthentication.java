@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
@@ -19,12 +20,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.keycloak.OAuth2Constants;
-import org.keycloak.OAuthErrorException;
 import org.keycloak.adapters.ServerRequest.HttpFailure;
 import org.keycloak.common.VerificationException;
-import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.representations.AccessTokenResponse;
 import org.omg.CORBA.ServerRequest;
 
@@ -32,9 +32,15 @@ import com.auth0.jwk.JwkException;
 import com.auth0.jwk.UrlJwkProvider;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.json.JSONObject;
 import lombok.Cleanup;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,11 +49,13 @@ public class RetestAuthentication {
 	private static final String REALM = "customer";
 	private static final String URL = "https://sso.prod.cloud.retest.org/auth";
 	private static final String BASE_URL = URL + "/realms/" + REALM + "/protocol/openid-connect";
+	private static final String AUTH_URL = BASE_URL + "/auth";
+	private static final String TOKEN_URL = BASE_URL + "/token";
 	private static final String CERTS_URL = BASE_URL + "/certs";
 
 	private static final String KID = "cXdlj_AlGVf-TbXyauXYM2XairgNUahzgOXHAuAxAmQ";
 
-	private String accessToken;
+	private DecodedJWT accessToken;
 	private final AuthenticationHandler handler;
 	private final String client;
 	private final JWTVerifier verifier;
@@ -90,12 +98,12 @@ public class RetestAuthentication {
 			final String redirectUri = "http://localhost:" + callback.server.getLocalPort();
 			final String state = UUID.randomUUID().toString();
 
-			final KeycloakUriBuilder builder = deployment.getAuthUrl().clone() //
-					.queryParam( OAuth2Constants.RESPONSE_TYPE, OAuth2Constants.CODE ) //
-					.queryParam( OAuth2Constants.CLIENT_ID, deployment.getResourceName() ) //
-					.queryParam( OAuth2Constants.REDIRECT_URI, redirectUri ) //
-					.queryParam( OAuth2Constants.STATE, state ) //
-					.queryParam( OAuth2Constants.SCOPE, OAuth2Constants.OFFLINE_ACCESS );
+			final URIBuilder builder = new URIBuilder( AUTH_URL );
+			builder.addParameter( "response_type", "code" );
+			builder.addParameter( "client_id", client );
+			builder.addParameter( "redirect_uri", redirectUri );
+			builder.addParameter( "state", state );
+			builder.addParameter( "scope", "offline_access" );
 
 			final URI loginUri = URI.create( builder.build().toString() );
 			handler.showWebLoginUri( loginUri );
@@ -103,30 +111,51 @@ public class RetestAuthentication {
 			callback.join();
 
 			if ( !state.equals( callback.result.getState() ) ) {
-				final VerificationException reason = new VerificationException( "Invalid state" );
-				handler.loginFailed( reason );
+				handler.loginFailed( new RuntimeException() );
 			}
 
 			if ( callback.result.getError() != null ) {
-				final OAuthErrorException reason =
-						new OAuthErrorException( callback.result.getError(), callback.result.getErrorDescription() );
-				handler.loginFailed( reason );
+				handler.loginFailed( new RuntimeException() );
 			}
 
 			if ( callback.result.getErrorException() != null ) {
 				handler.loginFailed( callback.result.getErrorException() );
 			}
 
-			final AccessTokenResponse tokenResponse =
-					ServerRequest.invokeAccessCodeToToken( deployment, callback.result.getCode(), redirectUri, null );
-			accessToken = tokenResponse.getToken();
+			final TokenBundle bundle = accessCodeToToken( callback.result.getCode(), redirectUri );
+			accessToken = verifier.verify( bundle.accessToken );
 
-			handler.loginPerformed( tokenResponse.getRefreshToken() );
-		} catch ( final InterruptedException | IOException | HttpFailure e ) {
+			handler.loginPerformed( bundle.refreshToken );
+		} catch ( final InterruptedException | IOException | URISyntaxException e ) {
 			log.error( "Error during authentication", e );
 			Thread.currentThread().interrupt();
 		}
 
+	}
+
+	private TokenBundle accessCodeToToken( final String code, final String redirectUri ) {
+		final TokenBundle bundle = new TokenBundle();
+
+		final HttpResponse<JsonNode> response = Unirest.post( TOKEN_URL ) //
+				.field( "grant_type", "authorization_code" ) //
+				.field( "code", code ) //
+				.field( "client_id", client ) //
+				.field( "redirect_uri", redirectUri ) //
+				.asJson();
+
+		if ( response.isSuccess() ) {
+			final JSONObject object = response.getBody().getObject();
+			bundle.setAccessToken( object.getString( "access_token" ) );
+			bundle.setRefreshToken( object.getString( "refresh_token" ) );
+		}
+
+		return bundle;
+	}
+
+	@Data
+	private static class TokenBundle {
+		private String accessToken;
+		private String refreshToken;
 	}
 
 	public void logout() {
