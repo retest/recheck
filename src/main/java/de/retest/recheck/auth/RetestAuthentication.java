@@ -52,6 +52,7 @@ public class RetestAuthentication {
 	private static final String AUTH_URL = BASE_URL + "/auth";
 	private static final String TOKEN_URL = BASE_URL + "/token";
 	private static final String CERTS_URL = BASE_URL + "/certs";
+	private static final String LOGOUT_URL = BASE_URL + "/logout";
 
 	private static final String KID = "cXdlj_AlGVf-TbXyauXYM2XairgNUahzgOXHAuAxAmQ";
 
@@ -161,14 +162,17 @@ public class RetestAuthentication {
 	public void logout() {
 		final String offlineToken = handler.getOfflineToken();
 		if ( offlineToken != null ) {
-			try {
-				log.info( "Performing logout" );
-				ServerRequest.invokeLogout( deployment, offlineToken );
+			final HttpResponse<JsonNode> response = Unirest.post( LOGOUT_URL ) //
+					.field( "refresh_token", handler.getOfflineToken() ) //
+					.field( "client_id", client ) //
+					.asJson();
+
+			if ( response.isSuccess() ) {
 				handler.logoutPerformed();
-			} catch ( IOException | HttpFailure e ) {
-				log.error( "Error during logout", e );
-				handler.logoutFailed( e );
+			} else {
+				handler.logoutFailed( new RuntimeException( response.getStatusText() ) );
 			}
+
 		} else {
 			log.error( "No offline token provided" );
 		}
