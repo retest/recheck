@@ -44,11 +44,8 @@ public class GitExecutor {
 
 	protected String executeGitCommand( final String command ) throws IOException, InterruptedException {
 		final Process process = Runtime.getRuntime().exec( command );
-		try {
+		try ( final BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) ) ) {
 			process.waitFor();
-
-			final BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-
 			return reader.readLine();
 		} finally {
 			process.getInputStream().close();
