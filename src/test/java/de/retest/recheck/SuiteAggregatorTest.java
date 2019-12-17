@@ -13,7 +13,7 @@ class SuiteAggregatorTest {
 	void get_suite_should_return_a_new_suite_if_current_suite_is_null() throws Exception {
 		final String suiteName = "de.retest.foo";
 		final SuiteReplayResult currentSuite = SuiteAggregator.getTestInstance().getSuite( suiteName );
-		assertThat( currentSuite.getSuiteName() ).isEqualTo( suiteName );
+		assertThat( currentSuite.getName() ).isEqualTo( suiteName );
 	}
 
 	@Test
@@ -32,8 +32,8 @@ class SuiteAggregatorTest {
 		final SuiteAggregator cut = SuiteAggregator.getTestInstance();
 		final SuiteReplayResult currentSuite = cut.getSuite( suiteName );
 		final SuiteReplayResult nextSuite = cut.getSuite( nextSuiteName );
-		assertThat( currentSuite.getSuiteName() ).isEqualTo( suiteName );
-		assertThat( nextSuite.getSuiteName() ).isEqualTo( nextSuiteName );
+		assertThat( currentSuite.getName() ).isEqualTo( suiteName );
+		assertThat( nextSuite.getName() ).isEqualTo( nextSuiteName );
 	}
 
 	@Test

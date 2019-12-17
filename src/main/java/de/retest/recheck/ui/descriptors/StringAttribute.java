@@ -79,7 +79,7 @@ public class StringAttribute extends ParameterizedAttribute {
 		if ( value == null ) {
 			return value;
 		}
-		return value.replaceAll( "]]>", "]]&gt;" );
+		return value.replace( "]]>", "]]&gt;" );
 	}
 
 	@Override
