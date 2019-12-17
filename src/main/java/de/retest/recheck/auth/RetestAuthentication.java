@@ -42,12 +42,24 @@ import lombok.extern.slf4j.Slf4j;
 public class RetestAuthentication {
 
 	private static final String REALM = "customer";
-	private static final String URL = "https://sso.prod.cloud.retest.org/auth";
-	private static final String BASE_URL = URL + "/realms/" + REALM + "/protocol/openid-connect";
+	private static final String KEYCLOAK_URL = "https://sso.prod.cloud.retest.org/auth";
+	private static final String BASE_URL = KEYCLOAK_URL + "/realms/" + REALM + "/protocol/openid-connect";
 	private static final String AUTH_URL = BASE_URL + "/auth";
 	private static final String TOKEN_URL = BASE_URL + "/token";
 	private static final String CERTS_URL = BASE_URL + "/certs";
 	private static final String LOGOUT_URL = BASE_URL + "/logout";
+
+	private static final String OAUTH_ACCESS_TOKEN = "access_token";
+	private static final String OAUTH_REFRESH_TOKEN = "refresh_token";
+	private static final String OAUTH_GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
+	private static final String OAUTH_GRANT_TYPE = "grant_type";
+	private static final String OAUTH_SCOPE_OFFLINE_ACCESS = "offline_access";
+	private static final String OAUTH_SCOPE = "scope";
+	private static final String OAUTH_STATE = "state";
+	private static final String OAUTH_REDIRECT_URI = "redirect_uri";
+	private static final String OAUTH_CLIENT_ID = "client_id";
+	private static final String OAUTH_RESPONSE_TYPE_CODE = "code";
+	private static final String OAUTH_RESPONSE_TYPE = "response_type";
 
 	private static final String KID = "cXdlj_AlGVf-TbXyauXYM2XairgNUahzgOXHAuAxAmQ";
 
@@ -90,11 +102,11 @@ public class RetestAuthentication {
 			final String state = UUID.randomUUID().toString();
 
 			final URIBuilder builder = new URIBuilder( AUTH_URL );
-			builder.addParameter( "response_type", "code" );
-			builder.addParameter( "client_id", client );
-			builder.addParameter( "redirect_uri", redirectUri );
-			builder.addParameter( "state", state );
-			builder.addParameter( "scope", "offline_access" );
+			builder.addParameter( OAUTH_RESPONSE_TYPE, OAUTH_RESPONSE_TYPE_CODE );
+			builder.addParameter( OAUTH_CLIENT_ID, client );
+			builder.addParameter( OAUTH_REDIRECT_URI, redirectUri );
+			builder.addParameter( OAUTH_STATE, state );
+			builder.addParameter( OAUTH_SCOPE, OAUTH_SCOPE_OFFLINE_ACCESS );
 
 			final URI loginUri = URI.create( builder.build().toString() );
 			handler.showWebLoginUri( loginUri );
@@ -128,16 +140,16 @@ public class RetestAuthentication {
 		final TokenBundle bundle = new TokenBundle();
 
 		final HttpResponse<JsonNode> response = Unirest.post( TOKEN_URL ) //
-				.field( "grant_type", "authorization_code" ) //
-				.field( "code", code ) //
-				.field( "client_id", client ) //
-				.field( "redirect_uri", redirectUri ) //
+				.field( OAUTH_GRANT_TYPE, OAUTH_GRANT_TYPE_AUTHORIZATION_CODE ) //
+				.field( OAUTH_RESPONSE_TYPE_CODE, code ) //
+				.field( OAUTH_CLIENT_ID, client ) //
+				.field( OAUTH_REDIRECT_URI, redirectUri ) //
 				.asJson();
 
 		if ( response.isSuccess() ) {
 			final JSONObject object = response.getBody().getObject();
-			bundle.setAccessToken( object.getString( "access_token" ) );
-			bundle.setRefreshToken( object.getString( "refresh_token" ) );
+			bundle.setAccessToken( object.getString( OAUTH_ACCESS_TOKEN ) );
+			bundle.setRefreshToken( object.getString( OAUTH_REFRESH_TOKEN ) );
 		}
 
 		return bundle;
@@ -153,8 +165,8 @@ public class RetestAuthentication {
 		final String offlineToken = handler.getOfflineToken();
 		if ( offlineToken != null ) {
 			final HttpResponse<JsonNode> response = Unirest.post( LOGOUT_URL ) //
-					.field( "refresh_token", handler.getOfflineToken() ) //
-					.field( "client_id", client ) //
+					.field( OAUTH_REFRESH_TOKEN, handler.getOfflineToken() ) //
+					.field( OAUTH_CLIENT_ID, client ) //
 					.asJson();
 
 			if ( response.isSuccess() ) {
@@ -186,14 +198,14 @@ public class RetestAuthentication {
 
 	private Optional<DecodedJWT> refreshAccessToken() {
 		final HttpResponse<JsonNode> response = Unirest.post( TOKEN_URL ) //
-				.field( "grant_type", "refresh_token" ) //
-				.field( "refresh_token", handler.getOfflineToken() ) //
-				.field( "client_id", client ) //
+				.field( OAUTH_GRANT_TYPE, OAUTH_REFRESH_TOKEN ) //
+				.field( OAUTH_REFRESH_TOKEN, handler.getOfflineToken() ) //
+				.field( OAUTH_CLIENT_ID, client ) //
 				.asJson();
 
 		if ( response.isSuccess() ) {
 			final JSONObject object = response.getBody().getObject();
-			return Optional.of( verifier.verify( object.getString( "access_token" ) ) );
+			return Optional.of( verifier.verify( object.getString( OAUTH_ACCESS_TOKEN ) ) );
 		} else {
 			log.error( "Error retrieving access token: {}", response.getStatusText() );
 			return Optional.empty();
@@ -217,10 +229,10 @@ public class RetestAuthentication {
 				.collect( Collectors.toMap( NameValuePair::getName, NameValuePair::getValue ) );
 
 		return KeycloakResult.builder() //
-				.code( parameters.get( "code" ) ) //
+				.code( parameters.get( OAUTH_RESPONSE_TYPE_CODE ) ) //
 				.error( parameters.get( "error" ) ) //
 				.errorDescription( parameters.get( "error-description" ) ) //
-				.state( parameters.get( "state" ) ) //
+				.state( parameters.get( OAUTH_STATE ) ) //
 				.build();
 	}
 
@@ -257,7 +269,7 @@ public class RetestAuthentication {
 
 				}
 			} catch ( final IOException e ) {
-				log.error( "Error during communication with sso.cloud.retest.org", e );
+				log.error( "Error during communication with {}", KEYCLOAK_URL, e );
 			}
 		}
 
