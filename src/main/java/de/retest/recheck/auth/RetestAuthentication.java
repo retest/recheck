@@ -7,10 +7,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -19,14 +22,17 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.OAuthErrorException;
-import org.keycloak.adapters.KeycloakDeployment;
-import org.keycloak.adapters.KeycloakDeploymentBuilder;
-import org.keycloak.adapters.ServerRequest;
 import org.keycloak.adapters.ServerRequest.HttpFailure;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.KeycloakUriBuilder;
 import org.keycloak.representations.AccessTokenResponse;
-import org.keycloak.representations.adapters.config.AdapterConfig;
+import org.omg.CORBA.ServerRequest;
+
+import com.auth0.jwk.JwkException;
+import com.auth0.jwk.UrlJwkProvider;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.JWTVerifier;
 
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
@@ -34,24 +40,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RetestAuthentication {
 
-	private static final String AUTH_URL = "https://sso.prod.cloud.retest.org/auth";
 	private static final String REALM = "customer";
+	private static final String URL = "https://sso.prod.cloud.retest.org/auth";
+	private static final String BASE_URL = URL + "/realms/" + REALM + "/protocol/openid-connect";
+	private static final String CERTS_URL = BASE_URL + "/certs";
 
-	private final KeycloakDeployment deployment;
+	private static final String KID = "cXdlj_AlGVf-TbXyauXYM2XairgNUahzgOXHAuAxAmQ";
+
 	private String accessToken;
 	private final AuthenticationHandler handler;
+	private final String client;
+	private final JWTVerifier verifier;
 
 	public RetestAuthentication( final AuthenticationHandler handler, final String client ) {
 		this.handler = handler;
+		this.client = client;
+		verifier = getJwtVerifier();
+	}
 
-		final AdapterConfig config = new AdapterConfig();
-		config.setRealm( REALM );
-		config.setAuthServerUrl( AUTH_URL );
-		config.setSslRequired( "external" );
-		config.setResource( client );
-		config.setPublicClient( true );
-
-		deployment = KeycloakDeploymentBuilder.build( config );
+	private JWTVerifier getJwtVerifier() {
+		try {
+			final UrlJwkProvider provider = new UrlJwkProvider( URI.create( CERTS_URL ).toURL() );
+			final PublicKey publicKey = provider.get( KID ).getPublicKey();
+			return JWT.require( Algorithm.RSA256( (RSAPublicKey) publicKey, null ) ).build();
+		} catch ( final JwkException | MalformedURLException e ) {
+			throw new RuntimeException( "Error accessing keycloak JWK information", e );
+		}
 	}
 
 	public void authenticate() {
