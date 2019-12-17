@@ -8,6 +8,8 @@ import de.retest.recheck.ui.descriptors.StateAttributesAdapter;
 
 public class XmlUtil {
 
+	private XmlUtil() {}
+
 	public static String clean( final Object input ) {
 		if ( input == null ) {
 			return null;
