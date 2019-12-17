@@ -46,7 +46,7 @@ public class Rehub {
 	}
 
 	public static String getAccessToken() {
-		return auth.getAccessToken();
+		return auth.getAccessToken().getToken();
 	}
 
 }

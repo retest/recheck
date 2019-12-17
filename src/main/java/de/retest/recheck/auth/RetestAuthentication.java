@@ -1,7 +1,5 @@
 package de.retest.recheck.auth;
 
-import static org.keycloak.adapters.rotation.AdapterTokenVerifier.verifyToken;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,15 +22,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.keycloak.OAuth2Constants;
-import org.keycloak.adapters.ServerRequest.HttpFailure;
-import org.keycloak.common.VerificationException;
-import org.keycloak.representations.AccessTokenResponse;
-import org.omg.CORBA.ServerRequest;
 
 import com.auth0.jwk.JwkException;
 import com.auth0.jwk.UrlJwkProvider;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
@@ -79,12 +75,7 @@ public class RetestAuthentication {
 
 	public void authenticate() {
 		if ( handler.getOfflineToken() != null ) {
-			try {
-				refreshTokens();
-			} catch ( IOException | HttpFailure e ) {
-				log.info( "Token not recognized, initiating authentication" );
-				login();
-			}
+			refreshTokens();
 		} else {
 			log.info( "No active token found, initiating authentication" );
 			login();
@@ -178,26 +169,43 @@ public class RetestAuthentication {
 		}
 	}
 
-	public String getAccessToken() {
-		try {
+	private void refreshTokens() {
+		final Optional<DecodedJWT> refreshedToken = refreshAccessToken();
+		if ( refreshedToken.isPresent() ) {
+			accessToken = refreshedToken.get();
+		} else {
+			login();
+		}
+	}
+
+	public DecodedJWT getAccessToken() {
+		if ( !isAccessTokenValid() ) {
 			refreshTokens();
-		} catch ( IOException | HttpFailure e ) {
-			log.error( "Error refreshing token(s)", e );
 		}
 		return accessToken;
 	}
 
-	private void refreshTokens() throws IOException, HttpFailure {
-		if ( !isTokenValid() ) {
-			final AccessTokenResponse response = ServerRequest.invokeRefresh( deployment, handler.getOfflineToken() );
-			accessToken = response.getToken();
+	private Optional<DecodedJWT> refreshAccessToken() {
+		final HttpResponse<JsonNode> response = Unirest.post( TOKEN_URL ) //
+				.field( "grant_type", "refresh_token" ) //
+				.field( "refresh_token", handler.getOfflineToken() ) //
+				.field( "client_id", client ) //
+				.asJson();
+
+		if ( response.isSuccess() ) {
+			final JSONObject object = response.getBody().getObject();
+			return Optional.of( verifier.verify( object.getString( "access_token" ) ) );
+		} else {
+			log.error( "Error retrieving access token: {}", response.getStatusText() );
+			return Optional.empty();
 		}
 	}
 
-	private boolean isTokenValid() {
+	private boolean isAccessTokenValid() {
 		try {
-			return accessToken != null && verifyToken( accessToken, deployment ).isActive();
-		} catch ( final VerificationException e ) {
+			final DecodedJWT verify = verifier.verify( accessToken );
+			return accessToken != null && verify != null;
+		} catch ( final JWTVerificationException exception ) {
 			log.info( "Current token is invalid, requesting new one" );
 		}
 		return false;
