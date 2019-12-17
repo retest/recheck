@@ -15,10 +15,10 @@ public class XmlUtil {
 			return null;
 		}
 		String result = input.toString().trim();
-		result = result.replaceAll( "&", "&amp;" );
-		result = result.replaceAll( "<", "&lt;" );
-		result = result.replaceAll( ">", "&gt;" );
-		result = result.replaceAll( "\"", "'" );
+		result = result.replace( "&", "&amp;" );
+		result = result.replace( "<", "&lt;" );
+		result = result.replace( ">", "&gt;" );
+		result = result.replace( "\"", "'" );
 		return result;
 	}
 
