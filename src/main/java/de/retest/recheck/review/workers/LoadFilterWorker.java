@@ -68,7 +68,7 @@ public class LoadFilterWorker {
 		return getIgnoreFileLines( projectIgnoreFile );
 	}
 
-	private void readIgnoreRuleFileLines( final GlobalIgnoreApplier result ) throws IOException {
+	private void readIgnoreRuleFileLines( final GlobalIgnoreApplier result ) {
 		final Optional<Path> projectIgnoreRuleFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE_JSRULES );
 		final Path userIgnoreRuleFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE_JSRULES );
 		addIgnoreRuleFiles( projectIgnoreRuleFile, result );
@@ -98,14 +98,13 @@ public class LoadFilterWorker {
 		return Stream.empty();
 	}
 
-	private void addIgnoreRuleFiles( final Optional<Path> ignoreRuleFile, final GlobalIgnoreApplier result )
-			throws IOException {
+	private void addIgnoreRuleFiles( final Optional<Path> ignoreRuleFile, final GlobalIgnoreApplier result ) {
 		if ( ignoreRuleFile.isPresent() ) {
 			addIgnoreRuleFiles( ignoreRuleFile.get(), result );
 		}
 	}
 
-	private void addIgnoreRuleFiles( final Path ignoreRuleFile, final GlobalIgnoreApplier result ) throws IOException {
+	private void addIgnoreRuleFiles( final Path ignoreRuleFile, final GlobalIgnoreApplier result ) {
 		if ( ignoreRuleFile.toFile().exists() ) {
 			result.addWithoutCounting( new CacheFilter( new JSFilterImpl( ignoreRuleFile ) ) );
 		}
