@@ -60,7 +60,7 @@ public class ActionIdentifyingAttributes implements Comparable<ActionIdentifying
 		if ( this == object ) {
 			return true;
 		}
-		if ( object != null && object instanceof ActionIdentifyingAttributes ) {
+		if ( object instanceof ActionIdentifyingAttributes ) {
 			final ActionIdentifyingAttributes other = (ActionIdentifyingAttributes) object;
 			if ( identifyingAttributes.getParentPath().equals( other.identifyingAttributes.getParentPath() )
 					&& identifyingAttributes.getType().equals( other.identifyingAttributes.getType() )

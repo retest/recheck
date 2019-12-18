@@ -64,7 +64,7 @@ public abstract class AbstractAction implements Action {
 		if ( this == object ) {
 			return true;
 		}
-		if ( object != null && object instanceof AbstractAction ) {
+		if ( object instanceof AbstractAction ) {
 			final AbstractAction other = (AbstractAction) object;
 			if ( getActionIdentifyingAttributes().equals( other.getActionIdentifyingAttributes() ) ) {
 				return true;

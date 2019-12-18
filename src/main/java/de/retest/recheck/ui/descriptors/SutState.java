@@ -73,7 +73,7 @@ public class SutState extends Persistable {
 			return true;
 		}
 
-		if ( obj == null || !(obj instanceof SutState) ) {
+		if ( !(obj instanceof SutState) ) {
 			return false;
 		}
 
