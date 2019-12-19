@@ -70,20 +70,20 @@ public class IdentifyingAttributesDifference implements LeafDifference {
 
 	@Override
 	public Serializable getActual() {
-		String actualDiff = "";
+		final StringBuilder actualDiff = new StringBuilder();
 		for ( final AttributeDifference attributeDifference : attributeDifferences ) {
-			actualDiff += " " + attributeDifference.getKey() + "=" + attributeDifference.getActual();
+			actualDiff.append( " " + attributeDifference.getKey() + "=" + attributeDifference.getActual() );
 		}
-		return actualDiff.trim();
+		return actualDiff.toString().trim();
 	}
 
 	@Override
 	public Serializable getExpected() {
-		String expectedDiff = "";
+		final StringBuilder expectedDiff = new StringBuilder();
 		for ( final AttributeDifference attributeDifference : attributeDifferences ) {
-			expectedDiff += " " + attributeDifference.getKey() + "=" + attributeDifference.getExpected();
+			expectedDiff.append( " " + attributeDifference.getKey() + "=" + attributeDifference.getExpected() );
 		}
-		return expectedDiff.trim();
+		return expectedDiff.toString().trim();
 	}
 
 	@Override

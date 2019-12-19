@@ -90,10 +90,10 @@ public class StateDifference implements Difference {
 	}
 
 	private static String getSumIdentifier( final List<RootElementDifference> differences ) {
-		String result = "";
+		final StringBuilder result = new StringBuilder();
 		for ( final RootElementDifference rootElementDifference : differences ) {
-			result += " # " + rootElementDifference.getIdentifier();
+			result.append( " # " + rootElementDifference.getIdentifier() );
 		}
-		return ChecksumCalculator.getInstance().sha256( result );
+		return ChecksumCalculator.getInstance().sha256( result.toString() );
 	}
 }
