@@ -37,10 +37,6 @@ public class StateDifference implements Difference {
 		this.differences = Collections.unmodifiableList( differences );
 	}
 
-	public List<RootElementDifference> getStateDifference() {
-		return differences;
-	}
-
 	@Override
 	public String toString() {
 		return differences.toString();
