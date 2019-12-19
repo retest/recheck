@@ -94,8 +94,8 @@ public class RootElementDifferenceFinder {
 	private int getNumberOfChildComponents( final RootElement expected, final RootElement bestWindow ) {
 		final int expectedChildCount = ElementUtil.flattenChildElements( expected ).size();
 		final int bestWindowChildCount = ElementUtil.flattenChildElements( bestWindow ).size();
-		logger.debug( "Window {} contained {} components, and and best match {} contained {} components.",
-				new Object[] { expected, expectedChildCount, bestWindow, bestWindowChildCount } );
+		logger.debug( "Window {} contained {} components, and and best match {} contained {} components.", expected,
+				expectedChildCount, bestWindow, bestWindowChildCount );
 		return Math.max( expectedChildCount, bestWindowChildCount );
 	}
 
