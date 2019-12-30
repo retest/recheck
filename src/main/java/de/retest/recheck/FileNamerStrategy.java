@@ -41,7 +41,8 @@ public interface FileNamerStrategy extends NamingStrategy {
 				.findTestCaseClassNameInStack() //
 				.orElseThrow( () -> new IllegalStateException( "Couldn't identify test class in call stack.\n"
 						+ "This is needed to dynamically name the Golden Master files.\n "
-						+ "Please instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
+						+ "Note that FileNamerStrategy is deprecated.\n"
+						+ "Therefore, please instantiate RecheckImpl with RecheckOptions, and provide a corresponding NamingStrategy." ) );
 	}
 
 	/**
@@ -54,8 +55,9 @@ public interface FileNamerStrategy extends NamingStrategy {
 				.findTestCaseMethodNameInStack() //
 				.orElseThrow( () -> new IllegalStateException( "Couldn't identify test method in call stack.\n"
 						+ "This is needed to dynamically name the Golden Master files.\n"
-						+ "Please call `startTest(\"name\")`, giving an explicit name, "
-						+ "or instantiate RecheckImpl with RecheckOptions, and provide a different FileNamerStrategy." ) );
+						+ "Note that FileNamerStrategy is deprecated.\n"
+						+ "Therefore, please call `startTest(\"name\")`, giving an explicit name, "
+						+ "or instantiate RecheckImpl with RecheckOptions, and provide a corresponding NamingStrategy." ) );
 	}
 
 }
