@@ -46,7 +46,7 @@ public class ActionStateSequence implements Serializable {
 	public ActionStateSequence( final SutState initialState, final List<ActionState> actionStates, final String name,
 			final long sumDuration, final long startupDuration ) {
 		if ( initialState == null || actionStates == null ) {
-			throw new IllegalArgumentException( "initialState and actionStates cannot be null." );
+			throw new NullPointerException( "initialState and actionStates cannot be null." );
 		}
 		this.initialState = initialState;
 		this.actionStates = actionStates;

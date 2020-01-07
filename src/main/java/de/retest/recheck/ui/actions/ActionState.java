@@ -37,7 +37,7 @@ public class ActionState implements Serializable {
 
 	public ActionState( final Action action, final SutState resultingState, final long duration ) {
 		if ( action == null || resultingState == null ) {
-			throw new IllegalArgumentException( "action and resultingState should not be null." );
+			throw new NullPointerException( "action and resultingState cannot be null." );
 		}
 		this.action = action;
 		state = resultingState;
