@@ -98,7 +98,7 @@ public class SuiteReplayResult implements Serializable {
 	}
 
 	public Optional<Path> getTestSourceRoot() {
-		return Optional.of( testSourceRoot ).map( Paths::get );
+		return Optional.ofNullable( testSourceRoot ).map( Paths::get );
 	}
 
 	public long getDuration() {

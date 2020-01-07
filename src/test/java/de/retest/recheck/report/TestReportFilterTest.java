@@ -7,6 +7,7 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.CompoundFilter;
@@ -393,5 +395,18 @@ class TestReportFilterTest {
 		final ActionReplayResult filtered = cut.filter( actionReplayResult );
 
 		assertThat( filtered.getMetadataDifference() ).isEqualTo( actionReplayResult.getMetadataDifference() );
+	}
+
+	@Test
+	void filter_should_not_alter_test_source_root_from_suite( @TempDir final Path path ) {
+		final SuiteReplayResult noTestSourceRoot = mock( SuiteReplayResult.class );
+		when( noTestSourceRoot.getTestSourceRoot() ).thenReturn( Optional.empty() );
+
+		assertThat( cut.filter( noTestSourceRoot ).getTestSourceRoot() ).isEmpty();
+
+		final SuiteReplayResult testSourceRoot = mock( SuiteReplayResult.class );
+		when( testSourceRoot.getTestSourceRoot() ).thenReturn( Optional.of( path ) );
+
+		assertThat( cut.filter( testSourceRoot ).getTestSourceRoot() ).hasValue( path );
 	}
 }
