@@ -6,6 +6,7 @@ import static java.lang.String.format;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Gradle-conform file namer strategy that uses the following paths:
@@ -54,5 +55,10 @@ public class GradleProjectLayout extends SeparatePathsProjectLayout {
 			throw new IllegalArgumentException( "sourceSetName cannot be empty!" );
 		}
 		return sourceSetName;
+	}
+
+	@Override
+	public Optional<Path> getTestSourcesRoot() {
+		return Optional.of( Paths.get( "src/test/java" ) );
 	}
 }
