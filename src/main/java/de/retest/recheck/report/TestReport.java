@@ -24,7 +24,7 @@ import de.retest.recheck.ui.review.GoldenMasterSource;
 public class TestReport extends Persistable {
 
 	private static final long serialVersionUID = 1L;
-	public static final int PERSISTENCE_VERSION = 22; // Last changed for 1.8.0
+	public static final int PERSISTENCE_VERSION = 23; // Last changed for 1.9.0
 
 	@XmlElement( name = "suite" )
 	private final List<SuiteReplayResult> suiteReplayResults = new ArrayList<>();
