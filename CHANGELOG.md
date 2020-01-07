@@ -33,6 +33,8 @@ Table of Contents
 
 ### New Features
 
+* The `ProjectLayout` may now retrieve the test source root for the current project in order to allow for test healing to be applied. This is required for custom `ProjectLayouts` to be implemented, in order for this feature to work. For more information, please refer to the documentation.
+
 ### Improvements
 
 
