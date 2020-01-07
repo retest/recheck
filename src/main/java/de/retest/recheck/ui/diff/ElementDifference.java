@@ -114,11 +114,10 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	}
 
 	private static String getSumIdentifier( final Collection<ElementDifference> differences ) {
-		final StringBuilder result = new StringBuilder();
-		for ( final ElementDifference difference : differences ) {
-			result.append( "#" + difference.getIdentifier() );
-		}
-		return ChecksumCalculator.getInstance().sha256( result.toString() );
+		return differences.stream() //
+				.map( ElementDifference::getIdentifier ) //
+				.collect( Collectors.collectingAndThen( Collectors.joining( " # " ),
+						ChecksumCalculator.getInstance()::sha256 ) );
 	}
 
 	public boolean hasAttributesDifferences() {

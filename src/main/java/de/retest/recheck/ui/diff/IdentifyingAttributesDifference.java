@@ -3,6 +3,7 @@ package de.retest.recheck.ui.diff;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -70,20 +71,18 @@ public class IdentifyingAttributesDifference implements LeafDifference {
 
 	@Override
 	public Serializable getActual() {
-		final StringBuilder actualDiff = new StringBuilder();
-		for ( final AttributeDifference attributeDifference : attributeDifferences ) {
-			actualDiff.append( " " + attributeDifference.getKey() + "=" + attributeDifference.getActual() );
-		}
-		return actualDiff.toString().trim();
+		return attributeDifferences.stream() //
+				.map( attributeDifference -> attributeDifference.getKey() + "=" + attributeDifference.getActual() ) //
+				.collect( Collectors.joining( " " ) ) //
+				.toString().trim();
 	}
 
 	@Override
 	public Serializable getExpected() {
-		final StringBuilder expectedDiff = new StringBuilder();
-		for ( final AttributeDifference attributeDifference : attributeDifferences ) {
-			expectedDiff.append( " " + attributeDifference.getKey() + "=" + attributeDifference.getExpected() );
-		}
-		return expectedDiff.toString().trim();
+		return attributeDifferences.stream() //
+				.map( attributeDifference -> attributeDifference.getKey() + "=" + attributeDifference.getExpected() ) //
+				.collect( Collectors.joining( " " ) ) //
+				.toString().trim();
 	}
 
 	@Override
