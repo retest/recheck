@@ -21,6 +21,8 @@ public class Path2XPathTransformer extends XmlTransformer {
 	private boolean isInSuffix;
 	private String suffix = "";
 
+	private final String tagname = "attribute";
+
 	@Override
 	protected void reset() {
 		isInPath = false;
@@ -31,7 +33,6 @@ public class Path2XPathTransformer extends XmlTransformer {
 
 	@Override
 	public void convert( final XMLEvent event, final XMLEventWriter eventWriter ) throws XMLStreamException {
-		final String tagname = "attribute";
 		// <attribute xsi:type="pathAttribute" key="path">Window/JRootPane_0/JPane_1</attribute>
 		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "path" ) ) {
 			isInPath = true;

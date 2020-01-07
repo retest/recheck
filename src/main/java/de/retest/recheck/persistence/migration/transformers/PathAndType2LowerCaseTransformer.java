@@ -13,6 +13,8 @@ public class PathAndType2LowerCaseTransformer extends XmlTransformer {
 	private boolean isInType;
 	private String type = "";
 
+	private final String tagname = "attribute";
+
 	@Override
 	protected void reset() {
 		isInPath = false;
@@ -23,7 +25,6 @@ public class PathAndType2LowerCaseTransformer extends XmlTransformer {
 
 	@Override
 	public void convert( final XMLEvent event, final XMLEventWriter eventWriter ) throws XMLStreamException {
-		final String tagname = "attribute";
 		// <attribute xsi:type="pathAttribute" key="path">Window/JRootPane_0/JPane_1</attribute>
 		if ( isStartElementNamed( event, tagname ) && hasAttribute( event, "key", "path" ) ) {
 			isInPath = true;
