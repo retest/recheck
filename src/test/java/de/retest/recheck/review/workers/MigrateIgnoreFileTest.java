@@ -14,13 +14,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
+import org.junitpioneer.jupiter.ClearSystemProperty;
 
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.io.ErrorHandlingLoader;
-import de.retest.recheck.util.junit.jupiter.SystemProperty;
 import io.github.netmikey.logunit.api.LogCapturer;
 
 class MigrateIgnoreFileTest {
@@ -31,12 +31,13 @@ class MigrateIgnoreFileTest {
 			.captureForType( FilterPreserveLineLoader.class ) //
 			.captureForType( ErrorHandlingLoader.class );
 
+	Path configFolder;
 	Path migratedIgnoreFile;
 	Path tempIgnoreFile;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws Exception {
-		final Path configFolder = temp.resolve( RETEST_FOLDER_NAME );
+		configFolder = temp.resolve( RETEST_FOLDER_NAME );
 		Files.createDirectory( configFolder );
 
 		final Path jsIgnoreFile = configFolder.resolve( RECHECK_IGNORE_JSRULES );
@@ -48,12 +49,12 @@ class MigrateIgnoreFileTest {
 		tempIgnoreFile = configFolder.resolve( RECHECK_IGNORE );
 		Files.copy( origIgnoreFile, tempIgnoreFile );
 
-		System.setProperty( RETEST_PROJECT_ROOT, configFolder.toString() );
 	}
 
 	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
 	void loaded_ignore_file_should_be_migrated() throws Exception {
+		System.setProperty( RETEST_PROJECT_ROOT, configFolder.toString() );
 		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() );
 		final GlobalIgnoreApplier gia = load.load();
 		final SaveFilterWorker save = new SaveFilterWorker( gia );

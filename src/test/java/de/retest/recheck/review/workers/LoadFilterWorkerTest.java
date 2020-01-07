@@ -13,15 +13,15 @@ import java.nio.file.StandardOpenOption;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junitpioneer.jupiter.ClearSystemProperty;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.review.counter.NopCounter;
-import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 public class LoadFilterWorkerTest {
 
 	@Test
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void loading_without_ignore_file_should_fail( @TempDir final Path root ) throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "/root/doesn't/exist" );
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root );
@@ -29,7 +29,7 @@ public class LoadFilterWorkerTest {
 	}
 
 	@Test
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void loading_with_project_ignore_file_should_succeed( @TempDir final Path root ) throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, root.toString() );
 		final Path directory = Files.createDirectories( Paths.get( root.toString(), RETEST_FOLDER_NAME ) );
@@ -40,8 +40,8 @@ public class LoadFilterWorkerTest {
 	}
 
 	@Test
-	@SystemProperty( key = "user.home" )
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = "user.home" )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void loading_with_user_ignore_file_should_succeed( @TempDir final Path root ) throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "/root/doesn't/exist" );
 		System.setProperty( "user.home", root.toAbsolutePath().toString() );
@@ -54,7 +54,7 @@ public class LoadFilterWorkerTest {
 	}
 
 	@Test
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void loading_with_suite_ignore_file_should_succeed( @TempDir final Path root ) throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "/root/doesn't/exist" );
 		final Path directory = Files.createDirectories( Paths.get( root.toString(), "/src" ) );
@@ -66,8 +66,8 @@ public class LoadFilterWorkerTest {
 	}
 
 	@Test
-	@SystemProperty( key = "user.home" )
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = "user.home" )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void loading_with_all_ignore_files_should_contain_all_lines( @TempDir final Path root ) throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, root.toString() );
 		System.setProperty( "user.home", root.toAbsolutePath().toString() );
