@@ -48,7 +48,6 @@ public class GitExecutor {
 			process.waitFor();
 			return reader.readLine();
 		} finally {
-			process.getInputStream().close();
 			process.destroy();
 		}
 	}
