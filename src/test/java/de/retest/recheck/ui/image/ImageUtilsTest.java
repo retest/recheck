@@ -228,7 +228,6 @@ public class ImageUtilsTest {
 		final int width = 1200;
 		final int height = 3117;
 		final BufferedImage newImage = ImageUtils.mark( image, new Rectangle( 0, -4166, 77, 19 ) );
-		ImageUtils.exportScreenshot( ImageUtils.image2Screenshot( "", newImage ), new File( "result.png" ) );
 		assertThat( newImage.getWidth() ).isEqualTo( width );
 		assertThat( newImage.getHeight() ).isEqualTo( height );
 	}
