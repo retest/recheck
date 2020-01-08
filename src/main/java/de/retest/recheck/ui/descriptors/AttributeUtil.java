@@ -9,6 +9,8 @@ import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 
 public class AttributeUtil {
 
+	private AttributeUtil() {}
+
 	public static Rectangle getActualOutline( final ElementDifference difference ) {
 		final Rectangle actualRelative = getActualOutline( difference, OutlineAttribute.RELATIVE_OUTLINE );
 

@@ -36,7 +36,7 @@ public class SuiteAggregator {
 		if ( currentSuite == null ) {
 			currentSuite = createSuiteReplayResult( suiteName );
 		}
-		if ( !suiteName.equals( currentSuite.getSuiteName() ) ) {
+		if ( !suiteName.equals( currentSuite.getName() ) ) {
 			currentSuite = createSuiteReplayResult( suiteName );
 		}
 		return currentSuite;

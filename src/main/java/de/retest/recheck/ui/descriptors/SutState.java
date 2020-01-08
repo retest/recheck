@@ -73,7 +73,7 @@ public class SutState extends Persistable {
 			return true;
 		}
 
-		if ( obj == null || !(obj instanceof SutState) ) {
+		if ( !(obj instanceof SutState) ) {
 			return false;
 		}
 
@@ -83,7 +83,7 @@ public class SutState extends Persistable {
 
 	@Override
 	public String toString() {
-		return String.format( "State[descriptor=" + descriptors + "]" );
+		return String.format( "State[descriptor=%s]", descriptors );
 	}
 
 	public SutState applyChanges( final ActionChangeSet actionChangeSet ) {

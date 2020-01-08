@@ -3,6 +3,7 @@ package de.retest.recheck.ui.diff;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,10 +36,6 @@ public class StateDifference implements Difference {
 	public StateDifference( final List<RootElementDifference> differences ) {
 		differenceId = getSumIdentifier( differences );
 		this.differences = Collections.unmodifiableList( differences );
-	}
-
-	public List<RootElementDifference> getStateDifference() {
-		return differences;
 	}
 
 	@Override
@@ -90,10 +87,9 @@ public class StateDifference implements Difference {
 	}
 
 	private static String getSumIdentifier( final List<RootElementDifference> differences ) {
-		String result = "";
-		for ( final RootElementDifference rootElementDifference : differences ) {
-			result += " # " + rootElementDifference.getIdentifier();
-		}
-		return ChecksumCalculator.getInstance().sha256( result );
+		return differences.stream() //
+				.map( RootElementDifference::getIdentifier ) //
+				.collect( Collectors.collectingAndThen( Collectors.joining( " # " ),
+						ChecksumCalculator.getInstance()::sha256 ) );
 	}
 }

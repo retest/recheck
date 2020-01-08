@@ -20,6 +20,8 @@ import de.retest.recheck.ui.review.AttributeChanges;
 
 public class Actions {
 
+	private Actions() {}
+
 	private static final Logger logger = LoggerFactory.getLogger( Actions.class );
 
 	public static ActionChangeSet createParameterValueChangeSet( final Action action,

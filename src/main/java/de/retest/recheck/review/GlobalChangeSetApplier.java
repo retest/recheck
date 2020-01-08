@@ -10,8 +10,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import de.retest.recheck.report.ActionReplayResult;
-import de.retest.recheck.report.SuiteReplayResult;
-import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.counter.NopCounter;
@@ -51,17 +49,18 @@ public class GlobalChangeSetApplier {
 	private final Multimap<IdentifyingAttributes, ActionReplayResult> deletedDiffsLookupMap;
 
 	private void fillReplayResultLookupMaps( final TestReport testReport ) {
-		for ( final SuiteReplayResult suiteReplayResult : testReport.getSuiteReplayResults() ) {
-			for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
-				for ( final ActionReplayResult actionReplayResult : testReplayResult.getActionReplayResults() ) {
-					for ( final ElementDifference elementDiff : actionReplayResult.getAllElementDifferences() ) {
-						if ( elementDiff.isInsertionOrDeletion() ) {
-							fillInsertedDeletedDifferencesLookupMaps( actionReplayResult, elementDiff );
-						} else {
-							fillAttributeDifferencesLookupMap( actionReplayResult, elementDiff );
-						}
-					}
-				}
+		testReport.getSuiteReplayResults().stream() //
+				.flatMap( suiteReplayResult -> suiteReplayResult.getTestReplayResults().stream() ) //
+				.flatMap( testReplayResult -> testReplayResult.getActionReplayResults().stream() ) //
+				.forEach( this::fillReplayResultLookupMaps );
+	}
+
+	private void fillReplayResultLookupMaps( final ActionReplayResult actionReplayResult ) {
+		for ( final ElementDifference elementDiff : actionReplayResult.getAllElementDifferences() ) {
+			if ( elementDiff.isInsertionOrDeletion() ) {
+				fillInsertedDeletedDifferencesLookupMaps( actionReplayResult, elementDiff );
+			} else {
+				fillAttributeDifferencesLookupMap( actionReplayResult, elementDiff );
 			}
 		}
 	}

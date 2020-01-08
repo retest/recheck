@@ -64,7 +64,7 @@ public abstract class AbstractAction implements Action {
 		if ( this == object ) {
 			return true;
 		}
-		if ( object != null && object instanceof AbstractAction ) {
+		if ( object instanceof AbstractAction ) {
 			final AbstractAction other = (AbstractAction) object;
 			if ( getActionIdentifyingAttributes().equals( other.getActionIdentifyingAttributes() ) ) {
 				return true;
@@ -104,9 +104,7 @@ public abstract class AbstractAction implements Action {
 		// This gives us a new state in which
 		// entering random text in the text field is unexplored
 		// Thus we do it again (loop forever)
-		final ActionIdentifyingAttributes result =
-				new ActionIdentifyingAttributes( element.getIdentifyingAttributes(), getClass().getName() );
-		return result;
+		return new ActionIdentifyingAttributes( element.getIdentifyingAttributes(), getClass().getName() );
 	}
 
 	@Override

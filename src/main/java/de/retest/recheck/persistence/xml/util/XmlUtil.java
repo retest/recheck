@@ -8,15 +8,17 @@ import de.retest.recheck.ui.descriptors.StateAttributesAdapter;
 
 public class XmlUtil {
 
+	private XmlUtil() {}
+
 	public static String clean( final Object input ) {
 		if ( input == null ) {
 			return null;
 		}
 		String result = input.toString().trim();
-		result = result.replaceAll( "&", "&amp;" );
-		result = result.replaceAll( "<", "&lt;" );
-		result = result.replaceAll( ">", "&gt;" );
-		result = result.replaceAll( "\"", "'" );
+		result = result.replace( "&", "&amp;" );
+		result = result.replace( "<", "&lt;" );
+		result = result.replace( ">", "&gt;" );
+		result = result.replace( "\"", "'" );
 		return result;
 	}
 

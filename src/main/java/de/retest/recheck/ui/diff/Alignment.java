@@ -87,7 +87,6 @@ public final class Alignment {
 								+ previousMatch.element.getIdentifyingAttributes().toFullString();
 						// Case: bestMatch is already taken for other element.
 						bestMatch = bestMatches.pollFirst();
-						continue;
 					} else {
 						// Case: bestMatch takes this element.
 						alignment.remove( previousMatch.element );

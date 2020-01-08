@@ -74,7 +74,7 @@ public class ScreenshotFolderPersistence {
 			@Override
 			public void afterUnmarshal( final Object target, final Object parent ) {
 				if ( target instanceof Screenshot ) {
-					if ( !loadScreenshot( (Screenshot) target, parent ) ) {
+					if ( !loadScreenshot( (Screenshot) target ) ) {
 						parentsWithIncorrectScreenshots.put( parent, (Screenshot) target );
 					}
 				} else if ( parentsWithIncorrectScreenshots.containsKey( target ) ) {
@@ -84,14 +84,14 @@ public class ScreenshotFolderPersistence {
 		};
 	}
 
-	private final static class ToByteArrayReader implements Reader<byte[]> {
+	private static final class ToByteArrayReader implements Reader<byte[]> {
 		@Override
 		public byte[] read( final NamedBufferedInputStream in ) throws IOException {
 			return IOUtils.toByteArray( in );
 		}
 	}
 
-	private boolean loadScreenshot( final Screenshot screenshot, final Object parent ) {
+	private boolean loadScreenshot( final Screenshot screenshot ) {
 		final File file = new File( screenshotFolder, createFileName( screenshot ) );
 
 		final byte[] binaryData = tryReadFromFile( file, new ToByteArrayReader() );

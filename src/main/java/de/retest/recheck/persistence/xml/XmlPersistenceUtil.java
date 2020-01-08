@@ -11,6 +11,8 @@ import de.retest.recheck.util.NamedBufferedInputStream;
 
 public class XmlPersistenceUtil {
 
+	private XmlPersistenceUtil() {}
+
 	static <T extends Persistable> ReTestXmlDataContainer<T> migrateAndRead( final XmlTransformer xml,
 			final NamedBufferedInputStream inputStream, final Listener unmarshallListener ) throws IOException {
 		NamedBufferedInputStream bin = inputStream;
@@ -28,9 +30,7 @@ public class XmlPersistenceUtil {
 			}
 		}
 
-		@SuppressWarnings( "unchecked" )
-		final ReTestXmlDataContainer<T> result = (ReTestXmlDataContainer<T>) xml.fromXML( bin, unmarshallListener );
-		return result;
+		return xml.fromXML( bin, unmarshallListener );
 	}
 
 }

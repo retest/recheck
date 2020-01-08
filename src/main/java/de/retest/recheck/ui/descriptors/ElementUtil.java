@@ -5,6 +5,8 @@ import java.util.List;
 
 public class ElementUtil {
 
+	private ElementUtil() {}
+
 	public static List<Element> flattenAllElements( final List<Element> elements ) {
 		final List<Element> flattened = new ArrayList<>();
 

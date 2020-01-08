@@ -50,7 +50,7 @@ public class JSFilterImpl implements Filter {
 			logger.info( "Reading JS filter rules file from {}.", filterFilePath );
 			return Files.newBufferedReader( filterFilePath, StandardCharsets.UTF_8 );
 		} catch ( final NoSuchFileException e ) {
-			logger.warn( "No JS filter file found at '{}': ", filterFilePath, e.getMessage() );
+			logger.warn( "No JS filter file found at '{}': {}", filterFilePath, e.getMessage() );
 		} catch ( final Exception e ) {
 			logger.error( "Error opening JS file from '{}': ", filterFilePath, e );
 		}

@@ -65,7 +65,7 @@ public class LazyScreenshotZipPersistence {
 				logger.error( "Error writing entry {} to zip file: {}.", screenshot, e.getMessage() );
 			}
 		} else {
-			logger.warn( "Found screenshot without data! " + screenshot );
+			logger.warn( "Found screenshot without data! {}", screenshot );
 		}
 	}
 

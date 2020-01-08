@@ -78,10 +78,6 @@ public class SuiteReplayResult implements Serializable {
 		return suiteNr;
 	}
 
-	public String getSuiteName() {
-		return name;
-	}
-
 	public long getDuration() {
 		return suiteDuration;
 	}
@@ -140,7 +136,7 @@ public class SuiteReplayResult implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SuiteReplayResult('" + getSuiteName() + "'" //
+		return "SuiteReplayResult('" + getName() + "'" //
 				+ ", Actions: " + getNumberOfActions() //
 				+ ", Checked Elements: " + getCheckedUiElementsCount() //
 				+ ", Differences: " + getDifferencesCount() //

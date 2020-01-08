@@ -32,7 +32,7 @@ public class CreateChangesetForAllDifferencesFlow {
 	private void create() {
 		for ( final SuiteReplayResult suite : testReport.getSuiteReplayResults() ) {
 			final SuiteChangeSet suiteChangeSet =
-					reviewResult.createSuiteChangeSet( suite.getSuiteName(), suite.getSuiteUuid() );
+					reviewResult.createSuiteChangeSet( suite.getName(), suite.getSuiteUuid() );
 			for ( final TestReplayResult test : suite.getTestReplayResults() ) {
 				final TestChangeSet testChangeSet = suiteChangeSet.createTestChangeSet();
 				boolean first = true;
