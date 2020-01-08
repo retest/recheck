@@ -16,13 +16,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
+import org.junitpioneer.jupiter.ClearSystemProperty;
 
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.io.ErrorHandlingLoader;
-import de.retest.recheck.util.junit.jupiter.SystemProperty;
 import io.github.netmikey.logunit.api.LogCapturer;
 
 class LoadAndSaveFilterWorkerTest {
@@ -33,12 +33,13 @@ class LoadAndSaveFilterWorkerTest {
 			.captureForType( FilterPreserveLineLoader.class ) //
 			.captureForType( ErrorHandlingLoader.class );
 
+	Path configFolder;
 	Path origIgnoreFile;
 	Path tempIgnoreFile;
 
 	@BeforeEach
 	void setUp( @TempDir final Path temp ) throws Exception {
-		final Path configFolder = temp.resolve( RETEST_FOLDER_NAME );
+		configFolder = temp.resolve( RETEST_FOLDER_NAME );
 		Files.createDirectory( configFolder );
 
 		final Path jsIgnoreFile = configFolder.resolve( RECHECK_IGNORE_JSRULES );
@@ -48,12 +49,12 @@ class LoadAndSaveFilterWorkerTest {
 		tempIgnoreFile = configFolder.resolve( RECHECK_IGNORE );
 		Files.copy( origIgnoreFile, tempIgnoreFile );
 
-		System.setProperty( RETEST_PROJECT_ROOT, configFolder.toString() );
 	}
 
 	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
 	void loaded_ignore_file_should_be_saved_without_changes() throws Exception {
+		System.setProperty( RETEST_PROJECT_ROOT, configFolder.toString() );
 		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() ) {
 			@Override
 			protected Stream<String> getUserIgnoreFileLines( final Path userIgnoreFile ) throws IOException {

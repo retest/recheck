@@ -16,9 +16,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junitpioneer.jupiter.ClearSystemProperty;
 
 import de.retest.recheck.RecheckProperties;
-import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class SearchFilterFilesTest {
 
@@ -44,7 +44,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
 	void getProjectFilterFiles_should_get_all_project_filters() throws IOException {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 		final Path someFilter = filterFolder.resolve( "some.filter" );
@@ -61,7 +61,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
 	void filter_mapping_should_prefer_project_over_default_filters() throws Exception {
 		final String posFilterFileName = "positioning.filter";
 
@@ -84,8 +84,8 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
-	@SystemProperty( key = "user.home" )
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = "user.home" )
 	void filter_mapping_should_prefer_project_over_user_filters( @TempDir final Path temp ) throws Exception {
 		final String posFilterFileName = "positioning.filter";
 		final String posFilterInFolder = ".retest/filter/" + posFilterFileName;
@@ -108,7 +108,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	@SystemProperty( key = "user.home" )
+	@ClearSystemProperty( key = "user.home" )
 	void filter_mapping_should_prefer_user_over_default_filters( @TempDir final Path temp ) throws Exception {
 		final String posFilterFileName = "positioning.filter";
 		final String posFilterInFolder = ".retest/filter/" + posFilterFileName;
@@ -123,7 +123,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Test
-	@SystemProperty( key = RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
 	void getFilterByName_should_return_user_filter_with_given_name_over_default_filter() throws IOException {
 		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
 		final Path positioningFilter = filterFolder.resolve( "content.filter" );

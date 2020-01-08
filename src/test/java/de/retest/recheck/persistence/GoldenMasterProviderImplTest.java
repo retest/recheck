@@ -11,9 +11,9 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junitpioneer.jupiter.ClearSystemProperty;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
-import de.retest.recheck.util.junit.jupiter.SystemProperty;
 
 class GoldenMasterProviderImplTest {
 
@@ -33,7 +33,7 @@ class GoldenMasterProviderImplTest {
 	}
 
 	@Test
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void non_existing_file_should_throw_error( @TempDir final Path tempFolder ) {
 		final File nonExistingFile = tempFolder.resolve( NON_EXISTING_FILE ).toFile();
 
@@ -44,7 +44,7 @@ class GoldenMasterProviderImplTest {
 	}
 
 	@Test
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void existing_file_outside_project_root_should_throw_error( @TempDir final Path tempFolder ) throws IOException {
 		final File existingFile = tempFolder.resolve( EXISTING_FILE ).toFile();
 		existingFile.createNewFile();
@@ -56,7 +56,7 @@ class GoldenMasterProviderImplTest {
 	}
 
 	@Test
-	@SystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 	void existing_file_in_project_root_should_be_ok( @TempDir final Path tempFolder ) throws Exception {
 		final File existingFile = tempFolder.resolve( EXISTING_FILE ).toFile();
 		existingFile.createNewFile();
