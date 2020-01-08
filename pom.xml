@@ -279,7 +279,7 @@
 		<dependency>
 			<groupId>org.junit-pioneer</groupId>
 			<artifactId>junit-pioneer</artifactId>
-			<version>0.5.0</version>
+			<version>0.5.1</version>
 			<scope>test</scope>
 		</dependency>
 
