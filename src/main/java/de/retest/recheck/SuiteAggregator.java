@@ -1,5 +1,6 @@
 package de.retest.recheck;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import de.retest.recheck.report.SuiteReplayResult;
@@ -33,21 +34,25 @@ public class SuiteAggregator {
 	}
 
 	public SuiteReplayResult getSuite( final String suiteName ) {
+		return getSuite( suiteName, null );
+	}
+
+	public SuiteReplayResult getSuite( final String suiteName, final Path testSourceRoot ) {
 		if ( currentSuite == null ) {
-			currentSuite = createSuiteReplayResult( suiteName );
+			currentSuite = createSuiteReplayResult( suiteName, testSourceRoot );
 		}
 		if ( !suiteName.equals( currentSuite.getName() ) ) {
-			currentSuite = createSuiteReplayResult( suiteName );
+			currentSuite = createSuiteReplayResult( suiteName, testSourceRoot );
 		}
 		return currentSuite;
 	}
 
-	private SuiteReplayResult createSuiteReplayResult( final String suiteName ) {
+	private SuiteReplayResult createSuiteReplayResult( final String suiteName, final Path testSourceRoot ) {
 		final GroundState groundState = new GroundState();
 		final ExecutableSuite execSuite = new ExecutableSuite( groundState, 0, new ArrayList<>() );
 		execSuite.setName( suiteName );
 		final SuiteReplayResult suiteReplayResult =
-				new SuiteReplayResult( suiteName, 0, groundState, execSuite.getUuid(), groundState );
+				new SuiteReplayResult( suiteName, testSourceRoot, 0, groundState, execSuite.getUuid(), groundState );
 		aggregatedTestReport.addSuite( suiteReplayResult );
 		return suiteReplayResult;
 	}

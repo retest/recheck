@@ -2,7 +2,10 @@ package de.retest.recheck;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.nio.file.Path;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
@@ -47,5 +50,23 @@ class SuiteAggregatorTest {
 		final TestReport aggregatedTestReport = cut.getAggregatedTestReport();
 
 		assertThat( aggregatedTestReport.getSuiteReplayResults() ).containsExactly( currentSuite, nextSuite );
+	}
+
+	@Test
+	void getSuite_with_test_source_root_should_properly_return_path( @TempDir final Path path ) {
+		final SuiteAggregator cut = SuiteAggregator.getTestInstance();
+
+		final SuiteReplayResult suite = cut.getSuite( "foo", path );
+
+		assertThat( suite.getTestSourceRoot() ).hasValue( path );
+	}
+
+	@Test
+	void getSuite_without_test_source_root_should_properly_return_empty() {
+		final SuiteAggregator cut = SuiteAggregator.getTestInstance();
+
+		final SuiteReplayResult suite = cut.getSuite( "foo" );
+
+		assertThat( suite.getTestSourceRoot() ).isEmpty();
 	}
 }

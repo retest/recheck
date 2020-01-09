@@ -1,12 +1,35 @@
 package de.retest.recheck.persistence;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * Provides file paths for both Golden Masters and test reports. There exist implementations for Maven and Gradle. If
  * these do not fit your need or your layout deviates from standard, you need to implement this class.
  */
 public interface ProjectLayout {
+
+	/**
+	 * Gets the path to the test sources root, relatively to the project root. In general this is the folder where your
+	 * test classes reside.
+	 * 
+	 * <pre>
+	 * ${PROJECT_ROOT}
+	 * +- src/test/java
+	 *    +- com.example.Test.java
+	 * </pre>
+	 * 
+	 * The above example should return <code>Optional.of(Paths.get("src/test/java")</code>.
+	 * 
+	 * @return The relative path to the test classes as {@link Optional} or empty, if test healing is not supported for
+	 *         some reason.
+	 * 
+	 * @implSpec For compatibility, the default method returns {@link Optional#empty()}, indicating that test healing is
+	 *           not possible.
+	 */
+	default Optional<Path> getTestSourcesRoot() {
+		return Optional.empty();
+	}
 
 	/**
 	 * Gets the base-folder of the suite where the tests are stored in. Useful to store additional data, like a

@@ -71,7 +71,8 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		this.options = options;
 		suiteName = options.getNamingStrategy().getSuiteName();
-		suite = SuiteAggregator.getInstance().getSuite( suiteName );
+		suite = SuiteAggregator.getInstance().getSuite( suiteName,
+				options.getProjectLayout().getTestSourcesRoot().orElse( null ) );
 
 		if ( isRehubEnabled( options ) ) {
 			try {

@@ -39,8 +39,9 @@ public class TestReportFilter {
 
 	public SuiteReplayResult filter( final SuiteReplayResult suiteReplayResult ) {
 		final SuiteReplayResult newSuiteReplayResult = new SuiteReplayResult( suiteReplayResult.getName(),
-				suiteReplayResult.getSuiteNr(), suiteReplayResult.getExecSuiteSutVersion(),
-				suiteReplayResult.getSuiteUuid(), suiteReplayResult.getReplaySutVersion() );
+				suiteReplayResult.getTestSourceRoot().orElse( null ), suiteReplayResult.getSuiteNr(),
+				suiteReplayResult.getExecSuiteSutVersion(), suiteReplayResult.getSuiteUuid(),
+				suiteReplayResult.getReplaySutVersion() );
 		for ( final TestReplayResult testReplayResult : suiteReplayResult.getTestReplayResults() ) {
 			newSuiteReplayResult.addTest( filter( testReplayResult ) );
 		}

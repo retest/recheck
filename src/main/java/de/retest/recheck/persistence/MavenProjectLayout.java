@@ -2,7 +2,9 @@ package de.retest.recheck.persistence;
 
 import static de.retest.recheck.RecheckProperties.RECHECK_FOLDER_NAME;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 /**
  * Maven-conform file namer that uses the following paths:
@@ -21,4 +23,8 @@ public class MavenProjectLayout extends SeparatePathsProjectLayout {
 				Paths.get( DEFAULT_RETEST_TESTREPORTS_PATH, RECHECK_FOLDER_NAME ) );
 	}
 
+	@Override
+	public Optional<Path> getTestSourcesRoot() {
+		return Optional.of( Paths.get( "src/test/java" ) );
+	}
 }

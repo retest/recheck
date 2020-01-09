@@ -25,11 +25,15 @@ Table of Contents
 
 ### Breaking Changes
 
+* Reports before version 1.9.0 cannot be loaded anymore. Simply re-run your tests with the new recheck version to create them again.
+
 ### Bug Fixes
 
 * The project root is not searched for multiple times on startup of recheck.
 
 ### New Features
+
+* The `ProjectLayout` may now retrieve the test source root for the current project in order to allow for test healing to be applied. This is required for custom `ProjectLayouts` to be implemented, in order for this feature to work. For more information, please refer to the documentation.
 
 ### Improvements
 

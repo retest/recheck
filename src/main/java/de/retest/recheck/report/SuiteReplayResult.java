@@ -3,9 +3,12 @@ package de.retest.recheck.report;
 import static de.retest.recheck.persistence.xml.util.XmlUtil.clean;
 
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,12 +22,15 @@ import de.retest.recheck.ui.descriptors.GroundState;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class SuiteReplayResult implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( SuiteReplayResult.class );
 
 	@XmlAttribute
 	private final String name;
+
+	@XmlAttribute
+	private final String testSourceRoot;
 
 	@XmlAttribute
 	private final String suiteUuid;
@@ -48,6 +54,7 @@ public class SuiteReplayResult implements Serializable {
 	private SuiteReplayResult() {
 		// for JAXB
 		suiteNr = 0;
+		testSourceRoot = null;
 		name = null;
 		execSuiteSutVersion = null;
 		replaySutVersion = null;
@@ -56,7 +63,19 @@ public class SuiteReplayResult implements Serializable {
 
 	public SuiteReplayResult( final String name, final int suiteNr, final GroundState execSuiteSutVersion,
 			final String suiteUuid, final GroundState replaySutVersion ) {
+		this( name, (String) null, suiteNr, execSuiteSutVersion, suiteUuid, replaySutVersion );
+	}
+
+	public SuiteReplayResult( final String name, final Path testSourceRoot, final int suiteNr,
+			final GroundState execSuiteSutVersion, final String suiteUuid, final GroundState replaySutVersion ) {
+		this( name, testSourceRoot != null ? testSourceRoot.toString() : null, suiteNr, execSuiteSutVersion, suiteUuid,
+				replaySutVersion );
+	}
+
+	private SuiteReplayResult( final String name, final String testSourceRoot, final int suiteNr,
+			final GroundState execSuiteSutVersion, final String suiteUuid, final GroundState replaySutVersion ) {
 		this.name = name == null ? "Suite no. " + suiteNr : clean( name );
+		this.testSourceRoot = testSourceRoot;
 		if ( name == null ) {
 			logger.info( "No suite name given, using {}.", this.name );
 		}
@@ -76,6 +95,10 @@ public class SuiteReplayResult implements Serializable {
 
 	public int getSuiteNr() {
 		return suiteNr;
+	}
+
+	public Optional<Path> getTestSourceRoot() {
+		return Optional.ofNullable( testSourceRoot ).map( Paths::get );
 	}
 
 	public long getDuration() {

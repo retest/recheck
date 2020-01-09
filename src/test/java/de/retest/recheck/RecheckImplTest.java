@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -139,6 +140,18 @@ public class RecheckImplTest {
 		mockStatic( Rehub.class );
 		doThrow( new HeadlessException() ).when( Rehub.class, method( Rehub.class, "init" ) ).withNoArguments();
 		assertThatThrownBy( () -> new RecheckImpl( opts ) ).isExactlyInstanceOf( AssertionError.class );
+	}
+
+	@org.junit.jupiter.api.Test
+	public void constructor_should_invoke_project_layout_test_source_root( @TempDir final Path path ) {
+		final ProjectLayout layout = mock( ProjectLayout.class );
+		when( layout.getSuiteFolder( any() ) ).thenReturn( path );
+
+		final RecheckImpl cut = new RecheckImpl( RecheckOptions.builder() //
+				.projectLayout( layout ) //
+				.build() );
+
+		verify( layout ).getTestSourcesRoot();
 	}
 
 	private static class DummyStringRecheckAdapter implements RecheckAdapter {
