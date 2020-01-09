@@ -35,8 +35,8 @@ public class SaveFilterWorker {
 				.filter( filter -> !(filter instanceof JSFilterImpl) );
 		final Stream<String> save = Loaders.filter().save( filters );
 
-		try ( final PrintStream writer = new PrintStream( Files.newOutputStream(
-				ignoreFile.orElseThrow( () -> new IllegalArgumentException( "No recheck.ignore found." ) ) ) ) ) {
+		try ( final PrintStream writer = new PrintStream( Files
+				.newOutputStream( ignoreFile.orElse( RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE ) ) ) ) ) {
 			save.forEach( writer::println );
 		}
 	}
