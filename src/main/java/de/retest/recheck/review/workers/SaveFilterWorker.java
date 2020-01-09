@@ -2,9 +2,10 @@ package de.retest.recheck.review.workers;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -26,8 +27,13 @@ public class SaveFilterWorker {
 	}
 
 	public void save() throws IOException {
-		final Optional<Path> ignoreFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
+		final Optional<Path> ignorePath = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
+
+		final File ignoreFile = ignorePath.orElse( RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE ) ).toFile();
+		if ( !ignoreFile.exists() ) {
+			ignoreFile.getParentFile().mkdirs();
+		}
 
 		// Filter JSFilter because that would create unnecessary file content.
 		final Stream<Filter> filters = persist.getIgnores().stream() //
@@ -35,8 +41,7 @@ public class SaveFilterWorker {
 				.filter( filter -> !(filter instanceof JSFilterImpl) );
 		final Stream<String> save = Loaders.filter().save( filters );
 
-		try ( final PrintStream writer = new PrintStream( Files
-				.newOutputStream( ignoreFile.orElse( RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE ) ) ) ) ) {
+		try ( final PrintStream writer = new PrintStream( new FileOutputStream( ignoreFile ) ) ) {
 			save.forEach( writer::println );
 		}
 	}
