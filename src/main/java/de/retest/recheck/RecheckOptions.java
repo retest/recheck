@@ -8,7 +8,7 @@ import java.util.List;
 
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.persistence.ClassAndMethodBasedNamingStrategy;
 import de.retest.recheck.persistence.ClassAndMethodBasedShortNamingStrategy;
 import de.retest.recheck.persistence.ExplicitMutableNamingStrategy;
@@ -281,7 +281,7 @@ public class RecheckOptions {
 				return filter;
 			}
 			return new CompoundFilter( filter, //
-					RecheckIgnoreUtil.loadRecheckIgnore( getSuitePath( suiteName ) ) );
+					RecheckIgnoreLocator.loadRecheckIgnore( getSuitePath( suiteName ) ) );
 		}
 
 		File getSuitePath( final String suiteName ) {

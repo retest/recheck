@@ -1,7 +1,5 @@
 package de.retest.recheck.review.workers;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +11,7 @@ import java.util.stream.Stream;
 import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
-import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.ignore.io.Loaders;
@@ -21,16 +19,22 @@ import de.retest.recheck.review.ignore.io.Loaders;
 public class SaveFilterWorker {
 
 	private final GlobalIgnoreApplier applier;
+	private final RecheckIgnoreLocator locator;
 
 	public SaveFilterWorker( final GlobalIgnoreApplier applier ) {
+		this( applier, new RecheckIgnoreLocator() );
+	}
+
+	protected SaveFilterWorker( final GlobalIgnoreApplier applier, final RecheckIgnoreLocator locator ) {
 		this.applier = applier;
+		this.locator = locator;
 	}
 
 	public void save() throws IOException {
-		final Optional<Path> ignorePath = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
+		final Optional<Path> ignorePath = locator.getProjectIgnoreFile();
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
-		final File ignoreFile = ignorePath.orElse( RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE ) ).toFile();
+		final File ignoreFile = ignorePath.orElse( locator.getUserIgnoreFile() ).toFile();
 		if ( !ignoreFile.exists() ) {
 			ignoreFile.getParentFile().mkdirs();
 		}

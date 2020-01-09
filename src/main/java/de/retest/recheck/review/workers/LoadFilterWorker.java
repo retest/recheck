@@ -1,6 +1,5 @@
 package de.retest.recheck.review.workers;
 
-import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.JSFilterImpl;
-import de.retest.recheck.ignore.RecheckIgnoreUtil;
+import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.counter.Counter;
@@ -24,6 +23,8 @@ public class LoadFilterWorker {
 
 	private final Counter counter;
 	private final Path ignoreFilesBasePath;
+	private final RecheckIgnoreLocator locator = new RecheckIgnoreLocator();
+	private final RecheckIgnoreLocator jsIgnoreLocator = new RecheckIgnoreLocator( RECHECK_IGNORE_JSRULES );
 
 	public LoadFilterWorker( final Counter counter ) {
 		this( counter, null );
@@ -46,15 +47,15 @@ public class LoadFilterWorker {
 	}
 
 	private Stream<String> readIgnoreFileLines() throws IOException {
-		final Optional<Path> projectIgnoreFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE );
-		final Path userIgnoreFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE );
+		final Optional<Path> projectIgnoreFile = locator.getProjectIgnoreFile();
+		final Path userIgnoreFile = locator.getUserIgnoreFile();
 		return Stream.concat( Stream.concat( getProjectIgnoreFileLines( projectIgnoreFile ),
 				getUserIgnoreFileLines( userIgnoreFile ) ), getSuiteIgnoreFileLines() );
 	}
 
 	protected Stream<String> getSuiteIgnoreFileLines() throws IOException {
 		if ( ignoreFilesBasePath != null ) {
-			final Path suiteIgnoreFile = RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE, ignoreFilesBasePath );
+			final Path suiteIgnoreFile = locator.getSuiteIgnoreFile( ignoreFilesBasePath );
 			return getIgnoreFileLines( suiteIgnoreFile );
 		}
 		return Stream.empty();
@@ -69,14 +70,13 @@ public class LoadFilterWorker {
 	}
 
 	private void readIgnoreRuleFileLines( final GlobalIgnoreApplier result ) {
-		final Optional<Path> projectIgnoreRuleFile = RecheckIgnoreUtil.getProjectIgnoreFile( RECHECK_IGNORE_JSRULES );
-		final Path userIgnoreRuleFile = RecheckIgnoreUtil.getUserIgnoreFile( RECHECK_IGNORE_JSRULES );
+		final Optional<Path> projectIgnoreRuleFile = jsIgnoreLocator.getProjectIgnoreFile();
+		final Path userIgnoreRuleFile = jsIgnoreLocator.getUserIgnoreFile();
 		addIgnoreRuleFiles( projectIgnoreRuleFile, result );
 		addIgnoreRuleFiles( userIgnoreRuleFile, result );
 
 		if ( ignoreFilesBasePath != null ) {
-			final Path suiteIgnoreRuleFile =
-					RecheckIgnoreUtil.getSuiteIgnoreFile( RECHECK_IGNORE_JSRULES, ignoreFilesBasePath );
+			final Path suiteIgnoreRuleFile = jsIgnoreLocator.getSuiteIgnoreFile( ignoreFilesBasePath );
 			addIgnoreRuleFiles( suiteIgnoreRuleFile, result );
 		}
 	}
