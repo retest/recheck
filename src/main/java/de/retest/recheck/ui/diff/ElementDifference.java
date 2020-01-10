@@ -30,7 +30,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 
 	protected final LeafDifference identifyingAttributesDifference;
 
-	protected Collection<ElementDifference> childDifferences = new ArrayList<>();
+	protected List<ElementDifference> childDifferences = new ArrayList<>();
 
 	protected final Screenshot expectedScreenshot;
 
@@ -47,6 +47,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		this.expectedScreenshot = expectedScreenshot;
 		this.actualScreenshot = actualScreenshot;
 		this.childDifferences.addAll( childDifferences );
+		Collections.sort( this.childDifferences );
 	}
 
 	public Screenshot mark( final Screenshot screenshot ) {
@@ -75,8 +76,8 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		return result;
 	}
 
-	public Collection<ElementDifference> getChildDifferences() {
-		return Collections.unmodifiableCollection( childDifferences );
+	public List<ElementDifference> getChildDifferences() {
+		return Collections.unmodifiableList( childDifferences );
 	}
 
 	public List<Difference> getImmediateDifferences() {
