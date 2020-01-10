@@ -1,5 +1,6 @@
 package de.retest.recheck.ui.diff;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,8 +14,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.Environment;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.image.Screenshot;
 
 class ElementDifferenceTest {
@@ -378,5 +381,28 @@ class ElementDifferenceTest {
 
 		assertThat( cut.compareTo( cut ) ).isEqualTo( 0 );
 		assertThat( cut.compareTo( otherCut ) ).isEqualTo( 1 );
+	}
+
+	@Test
+	void child_differences_should_be_sorted() {
+		final List<ElementDifference> childDifferences = new ArrayList<>();
+		final ElementDifference div2 = new ElementDifference(
+				Element.create( "div2", mock( Element.class ),
+						IdentifyingAttributes.create( Path.fromString( "html[1]/div[2]" ), "div" ),
+						new MutableAttributes().immutable() ),
+				mock( AttributesDifference.class ), null, null, null, emptyList() );
+		childDifferences.add( div2 );
+		final ElementDifference div1 = new ElementDifference(
+				Element.create( "div1", mock( Element.class ),
+						IdentifyingAttributes.create( Path.fromString( "html[1]/div[1]" ), "div" ),
+						new MutableAttributes().immutable() ),
+				mock( AttributesDifference.class ), null, null, null, emptyList() );
+		childDifferences.add( div1 );
+
+		final ElementDifference cut = new ElementDifference( mock( Element.class ), mock( AttributesDifference.class ),
+				mock( IdentifyingAttributesDifference.class ), null, null, childDifferences );
+
+		assertThat( cut.getChildDifferences().get( 0 ) ).isEqualTo( div1 );
+		assertThat( cut.getChildDifferences().get( 1 ) ).isEqualTo( div2 );
 	}
 }
