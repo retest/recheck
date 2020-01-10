@@ -72,7 +72,7 @@ class TestReportFilterTest {
 		filterMe = new AttributeDifference( keyToFilter, null, null );
 		notFilterMe = new AttributeDifference( keyNotToFilter, null, null );
 
-		element = mock( Element.class );
+		element = mock( Element.class, RETURNS_DEEP_STUBS );
 
 		identAttributes = mock( IdentifyingAttributes.class );
 
