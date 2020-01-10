@@ -236,7 +236,6 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	}
 
 	// For JAXB
-
 	protected ElementDifference() {
 		attributesDifference = null;
 		identifyingAttributesDifference = null;
