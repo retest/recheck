@@ -19,7 +19,7 @@ import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
-import de.retest.recheck.util.StreamUtil;
+import de.retest.recheck.util.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -84,7 +84,7 @@ public class TestReportFilter {
 	List<RootElementDifference> filter( final List<RootElementDifference> rootElementDiffs ) {
 		return rootElementDiffs.stream() //
 				.map( this::filter ) //
-				.flatMap( StreamUtil::optionalToStream ) //
+				.flatMap( OptionalUtil::stream ) //
 				.collect( toList() );
 	}
 
@@ -149,7 +149,7 @@ public class TestReportFilter {
 	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
 		return elementDiffs.stream() //
 				.map( this::filter ) //
-				.flatMap( StreamUtil::optionalToStream ) //
+				.flatMap( OptionalUtil::stream ) //
 				.collect( toList() );
 	}
 }

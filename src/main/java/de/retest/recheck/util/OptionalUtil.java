@@ -3,11 +3,11 @@ package de.retest.recheck.util;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class StreamUtil {
+public class OptionalUtil {
 
-	private StreamUtil() {}
+	private OptionalUtil() {}
 
-	public static <T> Stream<T> optionalToStream( final Optional<T> o ) {
+	public static <T> Stream<T> stream( final Optional<T> o ) {
 		return o.map( Stream::of ).orElseGet( Stream::empty );
 	}
 

@@ -3,7 +3,7 @@ package de.retest.recheck.review.ignore.io;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import de.retest.recheck.util.StreamUtil;
+import de.retest.recheck.util.OptionalUtil;
 
 public interface Loader<T> {
 
@@ -11,7 +11,7 @@ public interface Loader<T> {
 
 	default Stream<T> load( final Stream<String> lines ) {
 		return lines.map( this::load ) //
-				.flatMap( StreamUtil::optionalToStream );
+				.flatMap( OptionalUtil::stream );
 	}
 
 	String save( T ignore );
