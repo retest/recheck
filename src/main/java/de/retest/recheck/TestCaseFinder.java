@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import de.retest.recheck.util.StreamUtil;
+import de.retest.recheck.util.OptionalUtil;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
@@ -116,7 +116,7 @@ public class TestCaseFinder {
 	public Optional<String> findTestCaseClassInStack() {
 		return Thread.getAllStackTraces().values().stream() //
 				.map( this::findTestCaseClassInStack ) //
-				.flatMap( StreamUtil::optionalToStream ) //
+				.flatMap( OptionalUtil::stream ) //
 				.findFirst();
 	}
 
