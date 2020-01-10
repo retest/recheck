@@ -2,6 +2,7 @@ package de.retest.recheck.ui.diff;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -115,11 +116,11 @@ class ElementDifferenceTest {
 		final IdentifyingAttributesDifference idDifference = mock( IdentifyingAttributesDifference.class );
 		when( idDifference.getAttributeDifferences() ).thenReturn( Collections.nCopies( 3, difference ) );
 
-		final ElementDifference childDifference = new ElementDifference( mock( Element.class ), attributesDifference,
-				idDifference, null, null, Collections.emptyList() );
+		final ElementDifference childDifference = new ElementDifference( mock( Element.class, RETURNS_DEEP_STUBS ),
+				attributesDifference, idDifference, null, null, Collections.emptyList() );
 
-		final ElementDifference cut = new ElementDifference( mock( Element.class ), null, null, null, null,
-				Collections.nCopies( 5, childDifference ) );
+		final ElementDifference cut = new ElementDifference( mock( Element.class, RETURNS_DEEP_STUBS ), null, null,
+				null, null, Collections.nCopies( 5, childDifference ) );
 
 		assertThat( cut.getAttributeDifferences() ).isEmpty();
 	}
@@ -232,7 +233,8 @@ class ElementDifferenceTest {
 
 		final ElementDifference cut1 = new ElementDifference( element, null, null, null, null, childDifferences );
 		final ElementDifference cut2 = new ElementDifference( element, attributes, null, null, null, childDifferences );
-		final ElementDifference cut3 = new ElementDifference( element, null, identifying, null, null, childDifferences );
+		final ElementDifference cut3 =
+				new ElementDifference( element, null, identifying, null, null, childDifferences );
 		final ElementDifference cut4 =
 				new ElementDifference( element, attributes, identifying, null, null, childDifferences );
 		final ElementDifference cut5 = new ElementDifference( element, null, insertion, null, null, childDifferences );
@@ -286,7 +288,7 @@ class ElementDifferenceTest {
 
 	@Test
 	void size_counts_all_child_differences() throws Exception {
-		final Element element = mock( Element.class );
+		final Element element = mock( Element.class, RETURNS_DEEP_STUBS );
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
 		final AttributesDifference attributesDifference = mock( AttributesDifference.class );
@@ -295,8 +297,8 @@ class ElementDifferenceTest {
 		final IdentifyingAttributesDifference idDifference = mock( IdentifyingAttributesDifference.class );
 		when( idDifference.getAttributeDifferences() ).thenReturn( Collections.nCopies( 3, difference ) );
 
-		final ElementDifference childDifference = new ElementDifference( mock( Element.class ), attributesDifference,
-				idDifference, null, null, Collections.emptyList() );
+		final ElementDifference childDifference = new ElementDifference( mock( Element.class, RETURNS_DEEP_STUBS ),
+				attributesDifference, idDifference, null, null, Collections.emptyList() );
 
 		final ElementDifference cut =
 				new ElementDifference( element, null, null, null, null, Collections.nCopies( 5, childDifference ) );
