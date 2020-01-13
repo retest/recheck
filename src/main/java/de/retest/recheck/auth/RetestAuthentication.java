@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -113,27 +114,35 @@ public class RetestAuthentication {
 
 			callback.join();
 
-			if ( !state.equals( callback.result.getState() ) ) {
-				handler.loginFailed( new RuntimeException() );
+			if ( loginSuccessful( state, callback.result ) ) {
+				final TokenBundle bundle = accessCodeToToken( callback.result.getCode(), redirectUri );
+				accessToken = verifier.verify( bundle.accessToken );
+				handler.loginPerformed( bundle.refreshToken );
+			} else {
+				handler.loginFailed( retrieveError( callback.result ) );
 			}
 
-			if ( callback.result.getError() != null ) {
-				handler.loginFailed( new RuntimeException() );
-			}
-
-			if ( callback.result.getErrorException() != null ) {
-				handler.loginFailed( callback.result.getErrorException() );
-			}
-
-			final TokenBundle bundle = accessCodeToToken( callback.result.getCode(), redirectUri );
-			accessToken = verifier.verify( bundle.accessToken );
-
-			handler.loginPerformed( bundle.refreshToken );
 		} catch ( final InterruptedException | IOException | URISyntaxException e ) {
 			log.error( "Error during authentication", e );
 			Thread.currentThread().interrupt();
 		}
 
+	}
+
+	private Throwable retrieveError( final KeycloakResult result ) {
+		final IOException exception = result.getErrorException();
+		final String error = result.getError();
+		if ( exception != null ) {
+			return exception;
+		}
+		if ( !StringUtils.isEmpty( error ) ) {
+			return new RuntimeException( error );
+		}
+		return new RuntimeException( "Error during login" );
+	}
+
+	private boolean loginSuccessful( final String state, final KeycloakResult result ) {
+		return state.equals( result.getState() ) && result.getError() == null && result.getErrorException() == null;
 	}
 
 	private TokenBundle accessCodeToToken( final String code, final String redirectUri ) {
