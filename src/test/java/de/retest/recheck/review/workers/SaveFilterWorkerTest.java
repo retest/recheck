@@ -34,13 +34,15 @@ class SaveFilterWorkerTest {
 	}
 
 	@Test
-	void not_existend_project_folder_should_be_created_upon_save() throws IOException {
-		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
+	void not_existent_project_folder_should_be_created_upon_save() throws IOException {
+		final RecheckIgnoreLocator locateNonExistentProjectFolder = new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
 				return Optional.of( base.resolve( ".retest/recheck.ignore" ) );
 			}
-		} );
+		};
+
+		final SaveFilterWorker cut = new SaveFilterWorker( applier, locateNonExistentProjectFolder );
 
 		cut.save();
 
@@ -49,7 +51,7 @@ class SaveFilterWorkerTest {
 
 	@Test
 	void if_not_in_project_context_should_use_user_home() throws IOException {
-		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
+		final RecheckIgnoreLocator locateUserHome = new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
 				return Optional.empty();
@@ -59,7 +61,9 @@ class SaveFilterWorkerTest {
 			public Path getUserIgnoreFile() {
 				return base.resolve( "recheck.ignore" );
 			}
-		} );
+		};
+
+		final SaveFilterWorker cut = new SaveFilterWorker( applier, locateUserHome );
 
 		cut.save();
 
@@ -67,8 +71,8 @@ class SaveFilterWorkerTest {
 	}
 
 	@Test
-	void not_existend_user_home_should_be_created_upon_save() throws IOException {
-		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
+	void not_existent_user_home_should_be_created_upon_save() throws IOException {
+		final RecheckIgnoreLocator locateNonExistentUserHome = new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
 				return Optional.empty();
@@ -78,7 +82,8 @@ class SaveFilterWorkerTest {
 			public Path getUserIgnoreFile() {
 				return base.resolve( ".retest/recheck.ignore" );
 			}
-		} );
+		};
+		final SaveFilterWorker cut = new SaveFilterWorker( applier, locateNonExistentUserHome );
 
 		cut.save();
 
