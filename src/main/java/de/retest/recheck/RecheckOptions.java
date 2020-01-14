@@ -2,7 +2,7 @@ package de.retest.recheck;
 
 import static de.retest.recheck.ignore.SearchFilterFiles.getFilterByName;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -284,12 +284,12 @@ public class RecheckOptions {
 					RecheckIgnoreLocator.loadRecheckIgnore( getSuitePath( suiteName ) ) );
 		}
 
-		File getSuitePath( final String suiteName ) {
+		Path getSuitePath( final String suiteName ) {
 			if ( fileNamerStrategy != null ) {
 				final FileNamer fileNamer = fileNamerStrategy.createFileNamer( suiteName );
-				return fileNamer.getFile( RecheckProperties.GOLDEN_MASTER_FILE_EXTENSION );
+				return fileNamer.getFile( RecheckProperties.GOLDEN_MASTER_FILE_EXTENSION ).toPath();
 			}
-			return projectLayout.getSuiteFolder( suiteName ).toFile();
+			return projectLayout.getSuiteFolder( suiteName );
 		}
 
 	}

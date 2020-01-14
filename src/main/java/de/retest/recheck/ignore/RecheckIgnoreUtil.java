@@ -44,6 +44,6 @@ public class RecheckIgnoreUtil {
 	 */
 	@Deprecated
 	public static GlobalIgnoreApplier loadRecheckIgnore( final File suiteIgnorePath ) {
-		return RecheckIgnoreLocator.loadRecheckIgnore( suiteIgnorePath );
+		return RecheckIgnoreLocator.loadRecheckIgnore( suiteIgnorePath.toPath() );
 	}
 }

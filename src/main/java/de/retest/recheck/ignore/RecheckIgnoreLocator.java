@@ -42,8 +42,8 @@ public class RecheckIgnoreLocator {
 		return basePath.resolve( filename );
 	}
 
-	public static GlobalIgnoreApplier loadRecheckIgnore( final File suiteIgnorePath ) {
-		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(), suiteIgnorePath.toPath() ) );
+	public static GlobalIgnoreApplier loadRecheckIgnore( final Path suiteIgnorePath ) {
+		return loadRecheckSuiteIgnore( new LoadFilterWorker( NopCounter.getInstance(), suiteIgnorePath ) );
 	}
 
 	private static GlobalIgnoreApplier loadRecheckSuiteIgnore( final LoadFilterWorker loadFilterWorker ) {
