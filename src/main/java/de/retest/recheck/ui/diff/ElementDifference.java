@@ -54,11 +54,9 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 			return null;
 		}
 		final List<Rectangle> marks = new ArrayList<>();
-		if ( childDifferences != null ) {
-			for ( final Difference childDifference : childDifferences ) {
-				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
-				}
+		for ( final Difference childDifference : childDifferences ) {
+			for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
+				marks.add( AttributeUtil.getAbsoluteOutline( compDiff.getIdentifyingAttributes() ) );
 			}
 		}
 		return image2Screenshot( screenshot.getPersistenceId(),
