@@ -30,7 +30,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 
 	protected final LeafDifference identifyingAttributesDifference;
 
-	protected List<ElementDifference> childDifferences = new ArrayList<>();
+	protected final List<ElementDifference> childDifferences = new ArrayList<>();
 
 	protected final Screenshot expectedScreenshot;
 
@@ -250,7 +250,8 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 				&& attributesDifference == null ) {
 			final List<ElementDifference> childDifferences = getClippedNonEmptyChildren();
 			childDifferences.remove( this );
-			this.childDifferences = childDifferences;
+			this.childDifferences.clear();
+			this.childDifferences.addAll( childDifferences );
 		}
 	}
 
