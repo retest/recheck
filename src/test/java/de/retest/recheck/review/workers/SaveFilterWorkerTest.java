@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.GlobalIgnoreApplier;
@@ -21,8 +20,8 @@ import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLi
 
 class SaveFilterWorkerTest {
 
-	@Rule
-	final TemporaryFolder folder = new TemporaryFolder();
+	@TempDir
+	Path base;
 
 	static GlobalIgnoreApplier applier;
 
@@ -36,9 +35,6 @@ class SaveFilterWorkerTest {
 
 	@Test
 	void not_existend_project_folder_should_be_created_upon_save() throws IOException {
-		folder.create();
-		final Path base = folder.getRoot().toPath();
-
 		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
@@ -53,9 +49,6 @@ class SaveFilterWorkerTest {
 
 	@Test
 	void use_user_home_if_not_in_project_context() throws IOException {
-		folder.create();
-		final Path base = folder.getRoot().toPath();
-
 		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
@@ -75,9 +68,6 @@ class SaveFilterWorkerTest {
 
 	@Test
 	void not_existend_user_home_should_be_created_upon_save() throws IOException {
-		folder.create();
-		final Path base = folder.getRoot().toPath();
-
 		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
