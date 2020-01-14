@@ -44,11 +44,11 @@ class SaveFilterWorkerTest {
 
 		cut.save();
 
-		assertThat( base.resolve( ".retest" ).toFile() ).exists();
+		assertThat( base.resolve( ".retest" ) ).exists();
 	}
 
 	@Test
-	void use_user_home_if_not_in_project_context() throws IOException {
+	void if_not_in_project_context_should_use_user_home() throws IOException {
 		final SaveFilterWorker cut = new SaveFilterWorker( applier, new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
@@ -63,7 +63,7 @@ class SaveFilterWorkerTest {
 
 		cut.save();
 
-		assertThat( base.resolve( "recheck.ignore" ).toFile() ).hasContent( "# Comment" );
+		assertThat( base.resolve( "recheck.ignore" ) ).hasContent( "# Comment" );
 	}
 
 	@Test
@@ -82,6 +82,6 @@ class SaveFilterWorkerTest {
 
 		cut.save();
 
-		assertThat( base.resolve( ".retest" ).toFile() ).exists();
+		assertThat( base.resolve( ".retest" ) ).exists();
 	}
 }
