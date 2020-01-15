@@ -36,6 +36,12 @@ public class Rehub {
 		auth.authenticate();
 	}
 
+	public static void logout() {
+		if ( auth != null ) {
+			auth.logout();
+		}
+	}
+
 	/**
 	 * Returns the given recheck API key for rehub.
 	 *
