@@ -18,14 +18,22 @@ public class Rehub {
 	}
 
 	/**
-	 * Initializes rehub to be used as persistence and, if not already authenticated, asks for login.
+	 * Initializes rehub authentication and the cloud persistence.
 	 */
 	public static void init() {
 		handler = new RehubAuthenticationHandler();
 		auth = new RetestAuthentication( handler, REHUB_CLIENT );
-		auth.authenticate();
-
 		System.setProperty( FILE_OUTPUT_FORMAT_PROPERTY_KEY, FileOutputFormat.CLOUD.toString() );
+	}
+
+	/**
+	 * Initializes rehub (if needed) and perform login (if needed).
+	 */
+	public static void authenticate() {
+		if ( auth == null ) {
+			init();
+		}
+		auth.authenticate();
 	}
 
 	/**
