@@ -41,7 +41,7 @@ public class ScreenshotFolderPersistence {
 	}
 
 	protected static String createFileName( final Screenshot screenshot ) {
-		return screenshot.getPersistenceId() + "." + screenshot.getType().getFileExtension();
+		return new File(screenshot.getPersistenceId()).getName() + "." + screenshot.getType().getFileExtension();
 	}
 
 	public Marshaller.Listener getMarshallListener() {
