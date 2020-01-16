@@ -291,6 +291,12 @@ class LazyScreenshotZipPersistenceTest {
 		assertThat( parent.getLeft() ).isNull();
 	}
 
+	@Test
+	void screenshot_zippath_should_be_sanitized() {
+		Screenshot screenshot = new Screenshot( "../../testimage", new byte[] { 0 }, ImageType.PNG );
+		assertThat( LazyScreenshotZipPersistence.createFilePath( screenshot ) ).isEqualTo( "screenshot/testimage.png" );
+	}
+
 	File getTmpZipfile() throws IOException {
 		return tempDir.resolve( "tmptestzip" ).toFile();
 	}
