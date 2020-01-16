@@ -80,6 +80,12 @@ class ScreenshotFolderPersistenceTest {
 		assertThat( ScreenshotFolderPersistence.createFileName( filledScreenshot ) ).isEqualTo( "testimage.png" );
 	}
 
+	@Test
+	void screenshot_filename_should_not_contain_path() {
+		Screenshot screenshot = new Screenshot( "../../testimage", filledImageBytes, ImageType.PNG );
+		assertThat( ScreenshotFolderPersistence.createFileName( screenshot ) ).isEqualTo( "testimage.png" );
+	}
+
 	// TODO what if screenshot folder is a file?
 	// TODO what if screenshot folder is not write able?
 
