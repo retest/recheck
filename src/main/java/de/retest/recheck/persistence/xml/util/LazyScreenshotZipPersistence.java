@@ -3,6 +3,7 @@ package de.retest.recheck.persistence.xml.util;
 import static de.retest.recheck.RecheckProperties.SCREENSHOT_FOLDER_NAME;
 import static de.retest.recheck.RecheckProperties.ZIP_FOLDER_SEPARATOR;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -97,8 +98,8 @@ public class LazyScreenshotZipPersistence {
 		}
 	}
 
-	private String createFilePath( final Screenshot screenshot ) {
-		return SCREENSHOT_FOLDER_NAME + ZIP_FOLDER_SEPARATOR + screenshot.getPersistenceId() + "."
+	protected static String createFilePath( final Screenshot screenshot ) {
+		return SCREENSHOT_FOLDER_NAME + ZIP_FOLDER_SEPARATOR + new File( screenshot.getPersistenceId() ).getName() + "."
 				+ screenshot.getType().getFileExtension();
 	}
 
