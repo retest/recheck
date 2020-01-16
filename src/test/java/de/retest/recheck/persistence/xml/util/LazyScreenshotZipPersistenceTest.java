@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
@@ -19,6 +20,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.image.Screenshot;
@@ -27,6 +29,9 @@ import de.retest.recheck.util.FileUtil.Writer;
 import de.retest.recheck.util.FileUtil.ZipReader;
 
 class LazyScreenshotZipPersistenceTest {
+
+	@TempDir
+	Path tempDir;
 
 	LazyScreenshotZipPersistence screenshotPersistence;
 
@@ -287,7 +292,7 @@ class LazyScreenshotZipPersistenceTest {
 	}
 
 	File getTmpZipfile() throws IOException {
-		return File.createTempFile( "tmptestzip", Long.toString( System.currentTimeMillis() ) );
+		return tempDir.resolve( "tmptestzip" ).toFile();
 	}
 
 }
