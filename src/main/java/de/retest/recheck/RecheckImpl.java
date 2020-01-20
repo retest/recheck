@@ -76,7 +76,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 
 		if ( isRehubEnabled( options ) ) {
 			try {
-				Rehub.init();
+				Rehub.authenticate();
 			} catch ( final HeadlessException e ) {
 				throw new AssertionError( "Please set a valid recheck API key within the environment, using '"
 						+ CloudPersistence.RECHECK_API_KEY + "'." );

@@ -35,7 +35,11 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 
 	@Override
 	public String getOfflineToken() {
-		return Rehub.getRecheckApiKey();
+		final String tokenFromEnvironment = System.getenv( CloudPersistence.RECHECK_API_KEY );
+		final String tokenFromPreferences =
+				Preferences.userNodeForPackage( Rehub.class ).get( CloudPersistence.RECHECK_API_KEY, null );
+
+		return tokenFromEnvironment != null ? tokenFromEnvironment : tokenFromPreferences;
 	}
 
 	@Override

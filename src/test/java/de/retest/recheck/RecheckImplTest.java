@@ -138,7 +138,7 @@ public class RecheckImplTest {
 				.enableReportUpload() //
 				.build();
 		mockStatic( Rehub.class );
-		doThrow( new HeadlessException() ).when( Rehub.class, method( Rehub.class, "init" ) ).withNoArguments();
+		doThrow( new HeadlessException() ).when( Rehub.class, method( Rehub.class, "authenticate" ) ).withNoArguments();
 		assertThatThrownBy( () -> new RecheckImpl( opts ) ).isExactlyInstanceOf( AssertionError.class );
 	}
 
