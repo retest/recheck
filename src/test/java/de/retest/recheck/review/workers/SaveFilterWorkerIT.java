@@ -18,7 +18,7 @@ import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
 
-class SaveFilterWorkerTest {
+class SaveFilterWorkerIT {
 
 	@TempDir
 	Path base;
