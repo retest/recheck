@@ -1,5 +1,7 @@
 package de.retest.recheck.persistence;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,7 +47,7 @@ public class GitExecutor {
 	protected String executeGitCommand( final String command ) throws IOException, InterruptedException {
 		final Process process = Runtime.getRuntime().exec( command );
 		try ( final BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) ) ) {
-			process.waitFor();
+			process.waitFor( 500, MILLISECONDS );
 			return reader.readLine();
 		} finally {
 			process.destroy();
