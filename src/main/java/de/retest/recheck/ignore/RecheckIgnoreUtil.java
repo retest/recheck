@@ -40,7 +40,7 @@ public class RecheckIgnoreUtil {
 	}
 
 	/**
-	 * @deprecated Use {@link RecheckIgnoreLocator#loadRecheckIgnore(File)} instead.
+	 * @deprecated Use {@link RecheckIgnoreLocator#loadRecheckIgnore(Path)} instead.
 	 */
 	@Deprecated
 	public static GlobalIgnoreApplier loadRecheckIgnore( final File suiteIgnorePath ) {
