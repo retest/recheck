@@ -30,6 +30,7 @@ Table of Contents
 ### Bug Fixes
 
 * The project root is not searched for multiple times on startup of recheck.
+* Add timeout in case it takes too long to detect the current Git branch.
 
 ### New Features
 
