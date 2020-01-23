@@ -8,7 +8,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.logging.LogUtil;
 import de.retest.recheck.persistence.xml.util.XmlVersionCheckResult;
 import de.retest.recheck.util.NamedBufferedInputStream;
 import de.retest.recheck.util.ThreadUtil;
@@ -28,13 +27,13 @@ public class XmlMigrator {
 		if ( migrator != null ) {
 			if ( !ThreadUtil.stackTraceContainsClass( "de.retest.migration.TestMigrator" )
 					&& !ThreadUtil.stackTraceContainsClass( "de.retest.TestMigrator" ) ) {
-				logger.warn( LogUtil.LOG_SEPARATOR );
+				logger.warn( "********************************************************************************" );
 				logger.warn( "ReTest detected an old version of the file '{}'.", bin.getName() );
 				logger.warn(
 						"ReTest migrates the file now, but will discard the results to avoid VCS file conflicts." );
 				logger.warn(
 						"It is very recommended to locally convert the file and commit it to speed up execution!" );
-				logger.warn( LogUtil.LOG_SEPARATOR );
+				logger.warn( "********************************************************************************" );
 			}
 
 			logger.info( "Migrating file '{}' from version {} to version {}. This may take a while.", bin.getName(),
