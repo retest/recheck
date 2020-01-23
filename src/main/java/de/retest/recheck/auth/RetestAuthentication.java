@@ -214,11 +214,15 @@ public class RetestAuthentication {
 
 		if ( response.isSuccess() ) {
 			final JSONObject object = response.getBody().getObject();
-			return Optional.of( verifier.verify( object.getString( OAUTH_ACCESS_TOKEN ) ) );
-		} else {
-			log.error( "Error retrieving access token: {}", response.getStatusText() );
-			return Optional.empty();
+			try {
+				return Optional.of( verifier.verify( object.getString( OAUTH_ACCESS_TOKEN ) ) );
+			} catch ( final Exception e ) {
+				log.error( "Error verifying access token: {}", e.getMessage() );
+				log.debug( "Details: ", e );
+			}
 		}
+		log.error( "Error retrieving access token: {}", response.getStatusText() );
+		return Optional.empty();
 	}
 
 	private boolean isAccessTokenValid() {
