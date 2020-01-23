@@ -79,7 +79,7 @@ public class RetestAuthentication {
 		try {
 			final UrlJwkProvider provider = new UrlJwkProvider( URI.create( CERTS_URL ).toURL() );
 			final PublicKey publicKey = provider.get( PUBLIC_KEY_ID ).getPublicKey();
-			return JWT.require( Algorithm.RSA256( (RSAPublicKey) publicKey, null ) ).build();
+			return JWT.require( Algorithm.RSA256( (RSAPublicKey) publicKey, null ) ).acceptLeeway( 3 ).build();
 		} catch ( final JwkException | MalformedURLException e ) {
 			throw new RuntimeException( "Error accessing keycloak JWK information", e );
 		}
