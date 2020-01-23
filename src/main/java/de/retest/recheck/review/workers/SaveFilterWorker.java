@@ -42,7 +42,7 @@ public class SaveFilterWorker {
 		final Stream<String> save = Loaders.filter().save( filters );
 
 		final File ignoreFile = ignorePath.orElse( locator.getUserIgnoreFile() ).toFile();
-		try ( final PrintStream writer = new PrintStream( FileUtils.openOutputStream( ignoreFile ) ) ) {
+		try ( final PrintStream writer = new PrintStream( FileUtils.openOutputStream( ignoreFile, false ) ) ) {
 			save.forEach( writer::println );
 		}
 	}
