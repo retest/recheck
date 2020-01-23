@@ -39,6 +39,7 @@ Table of Contents
 ### Improvements
 
 * In case there is no project specific ignore, fall back to the recheck.ignore file in the home directory for applied changes.
+* Remove compile level dependency on logback.
 
 
 --------------------------------------------------------------------------------
