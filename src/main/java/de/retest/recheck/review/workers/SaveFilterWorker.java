@@ -1,13 +1,11 @@
 package de.retest.recheck.review.workers;
 
-import java.io.File;
+import static java.nio.file.Files.write;
+
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import org.apache.commons.io.FileUtils;
 
 import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.Filter;
@@ -41,10 +39,7 @@ public class SaveFilterWorker {
 				.filter( filter -> !(filter instanceof JSFilterImpl) );
 		final Stream<String> save = Loaders.filter().save( filters );
 
-		final File ignoreFile = ignorePath.orElse( locator.getUserIgnoreFile() ).toFile();
-		try ( final PrintStream writer = new PrintStream( FileUtils.openOutputStream( ignoreFile ) ) ) {
-			save.forEach( writer::println );
-		}
+		write( ignorePath.orElse( locator.getUserIgnoreFile() ), (Iterable<String>) save::iterator );
 	}
 
 	private Filter extractCachedFilter( final Filter filter ) {
