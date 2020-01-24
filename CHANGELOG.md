@@ -40,6 +40,7 @@ Table of Contents
 
 * In case there is no project specific ignore, fall back to the recheck.ignore file in the home directory for applied changes.
 * Remove compile level dependency on logback.
+* When updating Golden Masters, now the name of the file is returned, not the name of the Golden Master.
 
 
 --------------------------------------------------------------------------------
