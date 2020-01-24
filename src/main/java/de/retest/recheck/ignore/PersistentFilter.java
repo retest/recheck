@@ -22,6 +22,6 @@ public class PersistentFilter implements Filter {
 	private final Filter filter;
 
 	public static List<Filter> unwrap( final List<Filter> input ) {
-		return input.stream().map( f -> ((PersistentFilter) f).getFilter() ).collect( Collectors.toList() );
+		return input.stream().map( f -> f instanceof PersistentFilter ? ((PersistentFilter) f).getFilter() : f ).collect( Collectors.toList() );
 	}
 }
