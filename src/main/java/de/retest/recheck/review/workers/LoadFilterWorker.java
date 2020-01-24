@@ -38,8 +38,8 @@ public class LoadFilterWorker {
 	public GlobalIgnoreApplier load() throws IOException {
 		final Stream<String> allIgnoreFileLines = readIgnoreFileLines();
 
-		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( allIgnoreFileLines ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
+		final PersistableGlobalIgnoreApplier ignoreApplier =
+				new PersistableGlobalIgnoreApplier( allIgnoreFileLines.collect( Collectors.toList() ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
 		readIgnoreRuleFileLines( result );

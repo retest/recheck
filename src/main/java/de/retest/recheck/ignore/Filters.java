@@ -28,7 +28,6 @@ public class Filters {
 	}
 
 	public static Filter parse( final Stream<String> lines ) {
-		return Loaders.filter().load( lines ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(), CompoundFilter::new ) );
+		return new CompoundFilter( Loaders.filter().load( lines ).collect( Collectors.toList() ) );
 	}
 }
