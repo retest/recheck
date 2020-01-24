@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
 import org.junitpioneer.jupiter.ClearSystemProperty;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.counter.NopCounter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
@@ -57,7 +58,7 @@ class LoadAndSaveFilterWorkerTest {
 		System.setProperty( RETEST_PROJECT_ROOT, configFolder.toString() );
 		final LoadFilterWorker load = new LoadFilterWorker( NopCounter.getInstance() ) {
 			@Override
-			protected Stream<String> getUserIgnoreFileLines( final Path userIgnoreFile ) throws IOException {
+			protected Stream<Filter> getUserIgnoreFileFilters( final Path userIgnoreFile ) throws IOException {
 				return Stream.empty();
 			}
 		};

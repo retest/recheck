@@ -1,11 +1,14 @@
 package de.retest.recheck.review;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.PersistentFilter;
+import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeFilter;
 import de.retest.recheck.review.ignore.ElementFilter;
@@ -17,6 +20,7 @@ public class GlobalIgnoreApplier implements Filter {
 
 	private final Counter counter;
 	private final List<Filter> filtered = new ArrayList<>();
+	private final RecheckIgnoreLocator locator = new RecheckIgnoreLocator();
 
 	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filtered ) {
 		this.counter = counter;
@@ -58,7 +62,9 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	private void add( final Filter filter ) {
-		filtered.add( filter );
+		// TODO Receive target path from GUI
+		final Path ignorePath = locator.getProjectIgnoreFile().orElse( locator.getUserIgnoreFile() );
+		filtered.add( new PersistentFilter( ignorePath, filter ) );
 		counter.add();
 	}
 

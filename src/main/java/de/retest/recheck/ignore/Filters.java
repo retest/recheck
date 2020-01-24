@@ -15,7 +15,7 @@ public class Filters {
 
 	public static Filter load( final Path path ) throws IOException {
 		try ( final Stream<String> filterFileLines = Files.lines( path ) ) {
-			return parse( filterFileLines );
+			return parse( path, filterFileLines );
 		}
 	}
 
@@ -29,5 +29,9 @@ public class Filters {
 
 	public static Filter parse( final Stream<String> lines ) {
 		return new CompoundFilter( Loaders.filter().load( lines ).collect( Collectors.toList() ) );
+	}
+
+	public static Filter parse( final Path path, final Stream<String> lines ) {
+		return new CompoundFilter( Loaders.filter().load( path, lines ).collect( Collectors.toList() ) );
 	}
 }

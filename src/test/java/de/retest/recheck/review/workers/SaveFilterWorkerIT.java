@@ -7,13 +7,11 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import de.retest.recheck.ignore.RecheckIgnoreLocator;
+import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
@@ -23,26 +21,19 @@ class SaveFilterWorkerIT {
 	@TempDir
 	Path base;
 
-	static GlobalIgnoreApplier applier;
-
-	@BeforeAll
-	static void setup() {
+	static GlobalIgnoreApplier createApplier( final Path path ) {
 		final PersistableGlobalIgnoreApplier persist = mock( PersistableGlobalIgnoreApplier.class );
-		applier = mock( GlobalIgnoreApplier.class );
+		final GlobalIgnoreApplier applier = mock( GlobalIgnoreApplier.class );
 		when( applier.persist() ).thenReturn( persist );
-		when( persist.getIgnores() ).thenReturn( singletonList( new FilterPreserveLine( "# Comment" ) ) );
+		when( persist.getIgnores() )
+				.thenReturn( singletonList( new PersistentFilter( path, new FilterPreserveLine( "# Comment" ) ) ) );
+		return applier;
 	}
 
 	@Test
-	void not_existent_project_folder_should_be_created_upon_save() throws IOException {
-		final RecheckIgnoreLocator locateNonExistentProjectFolder = new RecheckIgnoreLocator() {
-			@Override
-			public Optional<Path> getProjectIgnoreFile() {
-				return Optional.of( base.resolve( ".retest/recheck.ignore" ) );
-			}
-		};
-
-		final SaveFilterWorker cut = new SaveFilterWorker( applier, locateNonExistentProjectFolder );
+	void not_existent_parent_folder_should_be_created_upon_save() throws IOException {
+		final Path nonExistentProjectFolder = base.resolve( ".retest/recheck.ignore" );
+		final SaveFilterWorker cut = new SaveFilterWorker( createApplier( nonExistentProjectFolder ) );
 
 		cut.save();
 
@@ -50,43 +41,13 @@ class SaveFilterWorkerIT {
 	}
 
 	@Test
-	void if_not_in_project_context_should_use_user_home() throws IOException {
-		final RecheckIgnoreLocator locateUserHome = new RecheckIgnoreLocator() {
-			@Override
-			public Optional<Path> getProjectIgnoreFile() {
-				return Optional.empty();
-			}
-
-			@Override
-			public Path getUserIgnoreFile() {
-				return base.resolve( "recheck.ignore" );
-			}
-		};
-
-		final SaveFilterWorker cut = new SaveFilterWorker( applier, locateUserHome );
+	void persistence_should_use_given_path() throws IOException {
+		final Path irregularFile = base.resolve( "somethingelse" );
+		final SaveFilterWorker cut = new SaveFilterWorker( createApplier( irregularFile ) );
 
 		cut.save();
 
-		assertThat( base.resolve( "recheck.ignore" ) ).hasContent( "# Comment" );
-	}
-
-	@Test
-	void not_existent_user_home_should_be_created_upon_save() throws IOException {
-		final RecheckIgnoreLocator locateNonExistentUserHome = new RecheckIgnoreLocator() {
-			@Override
-			public Optional<Path> getProjectIgnoreFile() {
-				return Optional.empty();
-			}
-
-			@Override
-			public Path getUserIgnoreFile() {
-				return base.resolve( ".retest/recheck.ignore" );
-			}
-		};
-		final SaveFilterWorker cut = new SaveFilterWorker( applier, locateNonExistentUserHome );
-
-		cut.save();
-
-		assertThat( base.resolve( ".retest" ) ).exists();
+		assertThat( irregularFile ).exists();
+		assertThat( irregularFile.toFile() ).hasContent( "# Comment" );
 	}
 }
