@@ -1,6 +1,8 @@
 package de.retest.recheck.ignore;
 
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,4 +21,7 @@ public class PersistentFilter implements Filter {
 	@Getter
 	private final Filter filter;
 
+	public static List<Filter> unwrap( final List<Filter> input ) {
+		return input.stream().map( f -> ((PersistentFilter) f).getFilter() ).collect( Collectors.toList() );
+	}
 }

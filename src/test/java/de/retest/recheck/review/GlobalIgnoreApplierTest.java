@@ -1,5 +1,6 @@
 package de.retest.recheck.review;
 
+import static de.retest.recheck.ignore.PersistentFilter.unwrap;
 import static de.retest.recheck.review.counter.NopCounter.getInstance;
 import static de.retest.recheck.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,8 +15,7 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 
 class GlobalIgnoreApplierTest {
 
-	private static class some {
-	}
+	private static class some {}
 
 	@Test
 	void ignoreElement_should_add_filter() {
@@ -27,7 +27,7 @@ class GlobalIgnoreApplierTest {
 
 		cut.ignoreElement( element );
 
-		assertThat( cut.persist().getIgnores().toString() ).isEqualTo( "[matcher: retestid=myRetestId]" );
+		assertThat( unwrap( cut.persist().getIgnores() ).toString() ).isEqualTo( "[matcher: retestid=myRetestId]" );
 	}
 
 	@Test
@@ -40,7 +40,7 @@ class GlobalIgnoreApplierTest {
 
 		cut.ignoreAttribute( element, new AttributeDifference( "myAttribute", "expected", "actual" ) );
 
-		assertThat( cut.persist().getIgnores().toString() )
+		assertThat( unwrap( cut.persist().getIgnores() ).toString() )
 				.isEqualTo( "[matcher: retestid=myRetestId, attribute=myAttribute]" );
 	}
 }
