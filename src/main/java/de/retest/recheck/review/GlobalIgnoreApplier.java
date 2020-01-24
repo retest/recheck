@@ -20,11 +20,17 @@ public class GlobalIgnoreApplier implements Filter {
 
 	private final Counter counter;
 	private final List<Filter> filtered = new ArrayList<>();
-	private final RecheckIgnoreLocator locator = new RecheckIgnoreLocator();
+	private final RecheckIgnoreLocator locator;
 
 	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filtered ) {
+		this( counter, filtered, new RecheckIgnoreLocator() );
+	}
+
+	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filtered,
+			final RecheckIgnoreLocator locator ) {
 		this.counter = counter;
 		this.filtered.addAll( filtered );
+		this.locator = locator;
 	}
 
 	public static GlobalIgnoreApplier create( final Counter counter ) {
@@ -33,6 +39,11 @@ public class GlobalIgnoreApplier implements Filter {
 
 	public static GlobalIgnoreApplier create( final Counter counter, final PersistableGlobalIgnoreApplier applier ) {
 		return new GlobalIgnoreApplier( counter, applier.getIgnores() );
+	}
+
+	// Just for testing
+	protected static GlobalIgnoreApplier create( final Counter counter, final RecheckIgnoreLocator locator ) {
+		return new GlobalIgnoreApplier( counter, Collections.emptyList(), locator );
 	}
 
 	@Override

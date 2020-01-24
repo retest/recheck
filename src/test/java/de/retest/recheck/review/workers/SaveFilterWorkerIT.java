@@ -7,10 +7,13 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
@@ -21,13 +24,16 @@ class SaveFilterWorkerIT {
 	@TempDir
 	Path base;
 
-	static GlobalIgnoreApplier createApplier( final Path path ) {
+	static GlobalIgnoreApplier createApplier( final List<Filter> filter ) {
 		final PersistableGlobalIgnoreApplier persist = mock( PersistableGlobalIgnoreApplier.class );
 		final GlobalIgnoreApplier applier = mock( GlobalIgnoreApplier.class );
 		when( applier.persist() ).thenReturn( persist );
-		when( persist.getIgnores() )
-				.thenReturn( singletonList( new PersistentFilter( path, new FilterPreserveLine( "# Comment" ) ) ) );
+		when( persist.getIgnores() ).thenReturn( filter );
 		return applier;
+	}
+
+	static GlobalIgnoreApplier createApplier( final Path path ) {
+		return createApplier( singletonList( new PersistentFilter( path, new FilterPreserveLine( "# Comment" ) ) ) );
 	}
 
 	@Test
@@ -49,5 +55,28 @@ class SaveFilterWorkerIT {
 
 		assertThat( irregularFile ).exists();
 		assertThat( irregularFile.toFile() ).hasContent( "# Comment" );
+	}
+
+	@Test
+	void multiple_different_files_should_be_resolved_correctly() throws IOException {
+		final Path file1 = base.resolve( "file1" );
+		final Path file2 = base.resolve( "file2" );
+		final Path file3 = base.resolve( "file3" );
+
+		final List<Filter> filter = new ArrayList<>();
+		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# A" ) ) );
+		filter.add( new PersistentFilter( file2, new FilterPreserveLine( "# B" ) ) );
+		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# C" ) ) );
+		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# D" ) ) );
+		filter.add( new PersistentFilter( file3, new FilterPreserveLine( "# E" ) ) );
+		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# C" ) ) );
+
+		final SaveFilterWorker cut = new SaveFilterWorker( createApplier( filter ) );
+
+		cut.save();
+
+		assertThat( file1.toFile() ).hasContent( "# A\n# C\n# D\n# C" );
+		assertThat( file2.toFile() ).hasContent( "# B" );
+		assertThat( file3.toFile() ).hasContent( "# E" );
 	}
 }
