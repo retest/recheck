@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,9 +49,20 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 
 	private static final long serialVersionUID = 1L;
 
+	private static final List<String> ATTRIBUTE_SORT_ORDER = Arrays.asList( //
+			"path", //
+			"suffix", //
+			"id", //
+			"name", //
+			"text" //
+	);
+
+	private static final Comparator<String> ATTRIBUTE_COMPARATOR =
+			Comparator.comparing( Comparator.comparingInt( ATTRIBUTE_SORT_ORDER::indexOf ) ).thenComparing( keys );
+
 	@XmlElement
 	@XmlJavaTypeAdapter( AttributesAdapter.class )
-	private final SortedMap<String, Attribute> attributes = new TreeMap<>();
+	private final SortedMap<String, Attribute> attributes = new TreeMap<>( ATTRIBUTE_COMPARATOR );
 
 	private transient String parentPathCache;
 
