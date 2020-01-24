@@ -1,11 +1,8 @@
 package de.retest.recheck.review.ignore.io;
 
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.util.OptionalUtil;
 
 public interface Loader<T> {
@@ -15,10 +12,6 @@ public interface Loader<T> {
 	default Stream<T> load( final Stream<String> lines ) {
 		return lines.map( this::load ) //
 				.flatMap( OptionalUtil::stream );
-	}
-
-	default Stream<PersistentFilter> load( final Path path, final Stream<String> lines ) {
-		return load( lines ).map( f -> new PersistentFilter( path, (Filter) f ) );
 	}
 
 	String save( T ignore );

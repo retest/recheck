@@ -1,6 +1,7 @@
 package de.retest.recheck.review.workers;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
+import static de.retest.recheck.ignore.PersistentFilter.wrap;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -94,7 +95,7 @@ public class LoadFilterWorker {
 	private Stream<? extends Filter> getIgnoreFileFilters( final Path ignoreFile ) throws IOException {
 		if ( ignoreFile.toFile().exists() ) {
 			log.info( "Reading ignore file from '{}'.", ignoreFile );
-			return Loaders.filter().load( ignoreFile, Files.lines( ignoreFile ) );
+			return wrap( ignoreFile, Loaders.filter().load( Files.lines( ignoreFile ) ) );
 		}
 		log.info( "Ignoring missing ignore file '{}'.", ignoreFile );
 		return Stream.empty();

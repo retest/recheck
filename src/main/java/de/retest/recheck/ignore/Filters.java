@@ -1,5 +1,7 @@
 package de.retest.recheck.ignore;
 
+import static de.retest.recheck.ignore.PersistentFilter.wrap;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,6 +34,6 @@ public class Filters {
 	}
 
 	public static Filter parse( final Path path, final Stream<String> lines ) {
-		return new CompoundFilter( Loaders.filter().load( path, lines ).collect( Collectors.toList() ) );
+		return new CompoundFilter( wrap( path, Loaders.filter().load( lines ) ).collect( Collectors.toList() ) );
 	}
 }
