@@ -73,7 +73,7 @@ public class ApplyChangesToStatesFlow {
 				return Collections.emptyList();
 			}
 			goldenMasterProvider.saveGoldenMaster( file, newState );
-			return Collections.singletonList( actionChangeSet.getDescription() );
+			return Collections.singletonList( file.getName() );
 		} catch ( final NoGoldenMasterFoundException e ) {
 			missingGoldenMastersFilenames.addAll( e.getFilenames() );
 			return Collections.emptyList();
