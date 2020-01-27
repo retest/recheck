@@ -1,53 +1,58 @@
 package de.retest.recheck.review.workers;
 
-import java.io.File;
+import static java.nio.file.Files.createDirectories;
+import static java.nio.file.Files.write;
+
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.io.FileUtils;
-
 import de.retest.recheck.ignore.CacheFilter;
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
-import de.retest.recheck.ignore.RecheckIgnoreLocator;
+import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
 import de.retest.recheck.review.ignore.io.Loaders;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SaveFilterWorker {
 
 	private final GlobalIgnoreApplier applier;
-	private final RecheckIgnoreLocator locator;
 
 	public SaveFilterWorker( final GlobalIgnoreApplier applier ) {
-		this( applier, new RecheckIgnoreLocator() );
-	}
-
-	protected SaveFilterWorker( final GlobalIgnoreApplier applier, final RecheckIgnoreLocator locator ) {
 		this.applier = applier;
-		this.locator = locator;
 	}
 
 	public void save() throws IOException {
-		final Optional<Path> ignorePath = locator.getProjectIgnoreFile();
 		final PersistableGlobalIgnoreApplier persist = applier.persist();
 
 		// Filter JSFilter because that would create unnecessary file content.
-		final Stream<Filter> filters = persist.getIgnores().stream() //
+		final Stream<PersistentFilter> filters = persist.getIgnores().stream() //
 				.map( this::extractCachedFilter ) //
-				.filter( filter -> !(filter instanceof JSFilterImpl) );
-		final Stream<String> save = Loaders.filter().save( filters );
+				.filter( f -> !(f.getFilter() instanceof JSFilterImpl) );
 
-		final File ignoreFile = ignorePath.orElse( locator.getUserIgnoreFile() ).toFile();
-		try ( final PrintStream writer = new PrintStream( FileUtils.openOutputStream( ignoreFile ) ) ) {
-			save.forEach( writer::println );
+		final Map<Path, List<PersistentFilter>> mapped =
+				filters.collect( Collectors.groupingBy( PersistentFilter::getPath ) );
+
+		for ( final Map.Entry<Path, List<PersistentFilter>> line : mapped.entrySet() ) {
+			final List<String> save = line.getValue().stream() //
+					.map( f -> Loaders.filter().save( f.getFilter() ) ) //
+					.collect( Collectors.toList() );
+			final Path target = line.getKey();
+			log.info( "Writing filters to file {}.", target );
+			createDirectories( target.getParent() );
+			write( target, save );
 		}
 	}
 
-	private Filter extractCachedFilter( final Filter filter ) {
-		return filter instanceof CacheFilter ? ((CacheFilter) filter).getBase() : filter;
+	private PersistentFilter extractCachedFilter( final PersistentFilter filter ) {
+		if ( filter.getFilter() instanceof CacheFilter ) {
+			return new PersistentFilter( filter.getPath(), ((CacheFilter) filter.getFilter()).getBase() );
+		}
+		return filter;
 	}
 }

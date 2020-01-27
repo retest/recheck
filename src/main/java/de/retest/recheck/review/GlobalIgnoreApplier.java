@@ -1,11 +1,14 @@
 package de.retest.recheck.review;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.PersistentFilter;
+import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.counter.Counter;
 import de.retest.recheck.review.ignore.ElementAttributeFilter;
 import de.retest.recheck.review.ignore.ElementFilter;
@@ -16,11 +19,18 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 public class GlobalIgnoreApplier implements Filter {
 
 	private final Counter counter;
-	private final List<Filter> filtered = new ArrayList<>();
+	private final List<PersistentFilter> filtered = new ArrayList<>();
+	private final RecheckIgnoreLocator locator;
 
-	private GlobalIgnoreApplier( final Counter counter, final List<Filter> filtered ) {
+	private GlobalIgnoreApplier( final Counter counter, final List<PersistentFilter> filtered ) {
+		this( counter, filtered, new RecheckIgnoreLocator() );
+	}
+
+	private GlobalIgnoreApplier( final Counter counter, final List<PersistentFilter> filtered,
+			final RecheckIgnoreLocator locator ) {
 		this.counter = counter;
 		this.filtered.addAll( filtered );
+		this.locator = locator;
 	}
 
 	public static GlobalIgnoreApplier create( final Counter counter ) {
@@ -29,6 +39,11 @@ public class GlobalIgnoreApplier implements Filter {
 
 	public static GlobalIgnoreApplier create( final Counter counter, final PersistableGlobalIgnoreApplier applier ) {
 		return new GlobalIgnoreApplier( counter, applier.getIgnores() );
+	}
+
+	// Just for testing
+	static GlobalIgnoreApplier create( final Counter counter, final RecheckIgnoreLocator locator ) {
+		return new GlobalIgnoreApplier( counter, Collections.emptyList(), locator );
 	}
 
 	@Override
@@ -58,11 +73,13 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	private void add( final Filter filter ) {
-		filtered.add( filter );
+		// TODO Receive target path from GUI
+		final Path ignorePath = locator.getProjectIgnoreFile().orElse( locator.getUserIgnoreFile() );
+		filtered.add( new PersistentFilter( ignorePath, filter ) );
 		counter.add();
 	}
 
-	public void addWithoutCounting( final Filter filter ) {
+	public void addWithoutCounting( final PersistentFilter filter ) {
 		filtered.add( filter );
 	}
 
@@ -81,13 +98,13 @@ public class GlobalIgnoreApplier implements Filter {
 
 	public static class PersistableGlobalIgnoreApplier {
 
-		private final List<Filter> filters;
+		private final List<PersistentFilter> filters;
 
-		public PersistableGlobalIgnoreApplier( final List<Filter> filters ) {
+		public PersistableGlobalIgnoreApplier( final List<PersistentFilter> filters ) {
 			this.filters = new ArrayList<>( filters );
 		}
 
-		public List<Filter> getIgnores() {
+		public List<PersistentFilter> getIgnores() {
 			return filters;
 		}
 	}

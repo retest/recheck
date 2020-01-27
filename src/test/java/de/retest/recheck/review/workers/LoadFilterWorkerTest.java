@@ -2,6 +2,7 @@ package de.retest.recheck.review.workers;
 
 import static de.retest.recheck.RecheckProperties.RETEST_FOLDER_NAME;
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE;
+import static de.retest.recheck.ignore.PersistentFilter.unwrap;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
@@ -22,8 +23,10 @@ public class LoadFilterWorkerTest {
 
 	@Test
 	@ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
+	@ClearSystemProperty( key = "user.home" )
 	void loading_without_ignore_file_should_fail( @TempDir final Path root ) throws Exception {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, "/root/doesn't/exist" );
+		System.setProperty( "user.home", root.toAbsolutePath().toString() );
 		final LoadFilterWorker worker = new LoadFilterWorker( NopCounter.getInstance(), root );
 		assertThat( worker.load().persist().getIgnores() ).isEmpty();
 	}
@@ -81,7 +84,7 @@ public class LoadFilterWorkerTest {
 		givenFileWithLines( suiteIgnoreFile.toFile(), "#" );
 		final LoadFilterWorker worker =
 				new LoadFilterWorker( NopCounter.getInstance(), Paths.get( root.toString(), "/src" ) );
-		assertThat( worker.load().persist().getIgnores().toString() ).contains( "#, #, #" );
+		assertThat( unwrap( worker.load().persist().getIgnores() ).toString() ).contains( "#, #, #" );
 	}
 
 	private static void givenFileWithLines( final File file, final String lines ) throws IOException {

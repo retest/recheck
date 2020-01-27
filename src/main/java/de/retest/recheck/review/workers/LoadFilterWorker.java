@@ -1,6 +1,7 @@
 package de.retest.recheck.review.workers;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.RECHECK_IGNORE_JSRULES;
+import static de.retest.recheck.ignore.PersistentFilter.wrap;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.JSFilterImpl;
+import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
@@ -36,40 +38,41 @@ public class LoadFilterWorker {
 	}
 
 	public GlobalIgnoreApplier load() throws IOException {
-		final Stream<String> allIgnoreFileLines = readIgnoreFileLines();
+		final Stream<PersistentFilter> allIgnoreFileLines = readIgnoreFileFilters();
 
-		final PersistableGlobalIgnoreApplier ignoreApplier = Loaders.filter().load( allIgnoreFileLines ) //
-				.collect( Collectors.collectingAndThen( Collectors.toList(), PersistableGlobalIgnoreApplier::new ) );
+		final PersistableGlobalIgnoreApplier ignoreApplier =
+				new PersistableGlobalIgnoreApplier( allIgnoreFileLines.collect( Collectors.toList() ) );
 		final GlobalIgnoreApplier result = GlobalIgnoreApplier.create( counter, ignoreApplier );
 
-		readIgnoreRuleFileLines( result );
+		readIgnoreRuleFileFilters( result );
 		return result;
 	}
 
-	private Stream<String> readIgnoreFileLines() throws IOException {
+	private Stream<PersistentFilter> readIgnoreFileFilters() throws IOException {
 		final Optional<Path> projectIgnoreFile = locator.getProjectIgnoreFile();
 		final Path userIgnoreFile = locator.getUserIgnoreFile();
-		return Stream.concat( Stream.concat( getProjectIgnoreFileLines( projectIgnoreFile ),
-				getUserIgnoreFileLines( userIgnoreFile ) ), getSuiteIgnoreFileLines() );
+		return Stream.concat( Stream.concat( getProjectIgnoreFileFilters( projectIgnoreFile ),
+				getUserIgnoreFileFilters( userIgnoreFile ) ), getSuiteIgnoreFileFilters() );
 	}
 
-	protected Stream<String> getSuiteIgnoreFileLines() throws IOException {
+	protected Stream<PersistentFilter> getSuiteIgnoreFileFilters() throws IOException {
 		if ( ignoreFilesBasePath != null ) {
 			final Path suiteIgnoreFile = locator.getSuiteIgnoreFile( ignoreFilesBasePath );
-			return getIgnoreFileLines( suiteIgnoreFile );
+			return getIgnoreFileFilters( suiteIgnoreFile );
 		}
 		return Stream.empty();
 	}
 
-	protected Stream<String> getUserIgnoreFileLines( final Path userIgnoreFile ) throws IOException {
-		return getIgnoreFileLines( userIgnoreFile );
+	protected Stream<PersistentFilter> getUserIgnoreFileFilters( final Path userIgnoreFile ) throws IOException {
+		return getIgnoreFileFilters( userIgnoreFile );
 	}
 
-	protected Stream<String> getProjectIgnoreFileLines( final Optional<Path> projectIgnoreFile ) throws IOException {
-		return getIgnoreFileLines( projectIgnoreFile );
+	protected Stream<PersistentFilter> getProjectIgnoreFileFilters( final Optional<Path> projectIgnoreFile )
+			throws IOException {
+		return getIgnoreFileFilters( projectIgnoreFile );
 	}
 
-	private void readIgnoreRuleFileLines( final GlobalIgnoreApplier result ) {
+	private void readIgnoreRuleFileFilters( final GlobalIgnoreApplier result ) {
 		final Optional<Path> projectIgnoreRuleFile = jsIgnoreLocator.getProjectIgnoreFile();
 		final Path userIgnoreRuleFile = jsIgnoreLocator.getUserIgnoreFile();
 		addIgnoreRuleFiles( projectIgnoreRuleFile, result );
@@ -81,18 +84,18 @@ public class LoadFilterWorker {
 		}
 	}
 
-	private Stream<String> getIgnoreFileLines( final Optional<Path> ignoreFile ) throws IOException {
+	private Stream<PersistentFilter> getIgnoreFileFilters( final Optional<Path> ignoreFile ) throws IOException {
 		if ( ignoreFile.isPresent() ) {
-			return getIgnoreFileLines( ignoreFile.get() );
+			return getIgnoreFileFilters( ignoreFile.get() );
 		}
 		log.info( "Ignoring missing ignore file." );
 		return Stream.empty();
 	}
 
-	private Stream<String> getIgnoreFileLines( final Path ignoreFile ) throws IOException {
+	private Stream<PersistentFilter> getIgnoreFileFilters( final Path ignoreFile ) throws IOException {
 		if ( ignoreFile.toFile().exists() ) {
 			log.info( "Reading ignore file from '{}'.", ignoreFile );
-			return Files.lines( ignoreFile );
+			return wrap( ignoreFile, Loaders.filter().load( Files.lines( ignoreFile ) ) );
 		}
 		log.info( "Ignoring missing ignore file '{}'.", ignoreFile );
 		return Stream.empty();
@@ -106,7 +109,8 @@ public class LoadFilterWorker {
 
 	private void addIgnoreRuleFiles( final Path ignoreRuleFile, final GlobalIgnoreApplier result ) {
 		if ( ignoreRuleFile.toFile().exists() ) {
-			result.addWithoutCounting( new CacheFilter( new JSFilterImpl( ignoreRuleFile ) ) );
+			result.addWithoutCounting(
+					new PersistentFilter( ignoreRuleFile, new CacheFilter( new JSFilterImpl( ignoreRuleFile ) ) ) );
 		}
 	}
 

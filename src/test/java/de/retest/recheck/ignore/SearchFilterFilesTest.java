@@ -1,6 +1,7 @@
 package de.retest.recheck.ignore;
 
 import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJECT_ROOT;
+import static de.retest.recheck.ignore.PersistentFilter.unwrap;
 import static java.nio.file.Files.write;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -103,8 +104,8 @@ class SearchFilterFilesTest {
 		write( userPosFilterPath, "#userFilter".getBytes() );
 
 		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
-		final Filter filter = mapping.get( posFilterFileName );
-		assertThat( filter ).hasToString( "CompoundFilter(filters=[#projectFilter])" );
+		final Filter filter = ((CompoundFilter) mapping.get( posFilterFileName )).getFilters().get( 0 );
+		assertThat( ((PersistentFilter) filter).getFilter() ).hasToString( "#projectFilter" );
 	}
 
 	@Test
@@ -118,8 +119,8 @@ class SearchFilterFilesTest {
 		write( userPosFilterPath, "#userFilter".getBytes() );
 
 		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
-		final Filter filter = mapping.get( posFilterFileName );
-		assertThat( filter ).hasToString( "CompoundFilter(filters=[#userFilter])" );
+		final CompoundFilter filter = (CompoundFilter) mapping.get( posFilterFileName );
+		assertThat( unwrap( filter.getFilters() ) ).hasToString( "[#userFilter]" );
 	}
 
 	@Test
@@ -137,8 +138,8 @@ class SearchFilterFilesTest {
 	@Test
 	void getFilterByName_should_return_default_filter_with_given_name() {
 		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
+		final List<Filter> list = unwrap( ((CompoundFilter) result).getFilters() );
 		assertThat( result ).isNotNull();
-		assertThat( result.toString() )
-				.startsWith( "CompoundFilter(filters=[# Filter file for recheck that will filter content" );
+		assertThat( list.toString() ).startsWith( "[# Filter file for recheck that will filter content" );
 	}
 }
