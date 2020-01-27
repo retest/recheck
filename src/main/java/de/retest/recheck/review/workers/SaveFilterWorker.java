@@ -39,11 +39,11 @@ public class SaveFilterWorker {
 		final Map<Path, List<PersistentFilter>> mapped =
 				filters.collect( Collectors.groupingBy( PersistentFilter::getPath ) );
 
-		for ( final Map.Entry<Path, List<PersistentFilter>> entry : mapped.entrySet() ) {
-			final List<String> save = entry.getValue().stream() //
+		for ( final Map.Entry<Path, List<PersistentFilter>> line : mapped.entrySet() ) {
+			final List<String> save = line.getValue().stream() //
 					.map( f -> Loaders.filter().save( f.getFilter() ) ) //
 					.collect( Collectors.toList() );
-			final Path target = entry.getKey();
+			final Path target = line.getKey();
 			log.info( "Writing filters to file {}.", target );
 			createDirectories( target.getParent() );
 			write( target, save );

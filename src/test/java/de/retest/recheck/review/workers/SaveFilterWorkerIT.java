@@ -13,7 +13,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
@@ -24,7 +23,7 @@ class SaveFilterWorkerIT {
 	@TempDir
 	Path base;
 
-	static GlobalIgnoreApplier createApplier( final List<Filter> filter ) {
+	static GlobalIgnoreApplier createApplier( final List<PersistentFilter> filter ) {
 		final PersistableGlobalIgnoreApplier persist = mock( PersistableGlobalIgnoreApplier.class );
 		final GlobalIgnoreApplier applier = mock( GlobalIgnoreApplier.class );
 		when( applier.persist() ).thenReturn( persist );
@@ -63,7 +62,7 @@ class SaveFilterWorkerIT {
 		final Path file2 = base.resolve( "file2" );
 		final Path file3 = base.resolve( "file3" );
 
-		final List<Filter> filter = new ArrayList<>();
+		final List<PersistentFilter> filter = new ArrayList<>();
 		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# A" ) ) );
 		filter.add( new PersistentFilter( file2, new FilterPreserveLine( "# B" ) ) );
 		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# C" ) ) );
@@ -75,8 +74,8 @@ class SaveFilterWorkerIT {
 
 		cut.save();
 
-		assertThat( file1.toFile() ).hasContent( "# A\n# C\n# D\n# C" );
-		assertThat( file2.toFile() ).hasContent( "# B" );
-		assertThat( file3.toFile() ).hasContent( "# E" );
+		assertThat( file1 ).hasContent( "# A\n# C\n# D\n# C" );
+		assertThat( file2 ).hasContent( "# B" );
+		assertThat( file3 ).hasContent( "# E" );
 	}
 }

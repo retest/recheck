@@ -52,10 +52,11 @@ class GlobalIgnoreApplierTest {
 
 	@Test
 	void project_should_be_preferred_over_userhome() {
+		final Path projectIgnore = base.resolve( "project/recheck.ignore" );
 		final RecheckIgnoreLocator locateNonExistentUserHome = new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
-				return Optional.of( base.resolve( "project/recheck.ignore" ) );
+				return Optional.of( projectIgnore );
 			}
 
 			@Override
@@ -67,11 +68,12 @@ class GlobalIgnoreApplierTest {
 
 		cut.ignoreElement( createFake() );
 
-		assertThat( cut.persist().getIgnores().toString() ).contains( "project" );
+		assertThat( cut.persist().getIgnores().get( 0 ).getPath() ).isEqualTo( projectIgnore );
 	}
 
 	@Test
 	void if_not_in_project_context_should_use_user_home() {
+		final Path userhomeIgnore = base.resolve( "userhome/recheck.ignore" );
 		final RecheckIgnoreLocator locateUserHome = new RecheckIgnoreLocator() {
 			@Override
 			public Optional<Path> getProjectIgnoreFile() {
@@ -80,7 +82,7 @@ class GlobalIgnoreApplierTest {
 
 			@Override
 			public Path getUserIgnoreFile() {
-				return base.resolve( "userhome/recheck.ignore" );
+				return userhomeIgnore;
 			}
 		};
 
@@ -88,6 +90,6 @@ class GlobalIgnoreApplierTest {
 
 		cut.ignoreElement( createFake() );
 
-		assertThat( cut.persist().getIgnores().toString() ).contains( "userhome" );
+		assertThat( cut.persist().getIgnores().get( 0 ).getPath() ).isEqualTo( userhomeIgnore );
 	}
 }
