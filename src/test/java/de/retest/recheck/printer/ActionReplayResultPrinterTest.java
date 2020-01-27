@@ -131,11 +131,11 @@ class ActionReplayResultPrinterTest {
 		when( actionResult.hasDifferences() ).thenReturn( true );
 		when( actionResult.getMetadataDifference() ).thenReturn( metadataDifference );
 
-		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" // 
+		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
-				+ "\t\ta: expected=\"b\", actual=\"c\"\n" // 
+				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
 				+ "\t\tb: expected=\"c\", actual=\"d\"\n" //
-				+ "\tIdentifying at 'path/to/element':\n" // 
+				+ "\tIdentifying at 'path/to/element':\n" //
 				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
 	}
 
@@ -173,15 +173,15 @@ class ActionReplayResultPrinterTest {
 		final List<ElementDifference> empty = Collections.emptyList();
 
 		final ElementDifference differences = change( "html[1]/body[1]", //
-				delete( "html[1]/body[1]/div[1]", // 
-						delete( "html[1]/body[1]/div[1]/div[1]", // 
-								delete( "html[1]/body[1]/div[1]/div[1]/div[1]" ), // 
+				delete( "html[1]/body[1]/div[1]", //
+						delete( "html[1]/body[1]/div[1]/div[1]", //
+								delete( "html[1]/body[1]/div[1]/div[1]/div[1]" ), //
 								delete( "html[1]/body[1]/div[1]/div[1]/div[2]" ) //
 						), //
 						delete( "html[1]/body[1]/div[1]/div[2]" ) //
 				), //
-				change( "html[1]/body[1]/div[2]", // 
-						delete( "html[1]/body[1]/div[2]/div[1]", // 
+				change( "html[1]/body[1]/div[2]", //
+						delete( "html[1]/body[1]/div[2]/div[1]", //
 								delete( "html[1]/body[1]/div[2]/div[1]/div[1]" ), //
 								delete( "html[1]/body[1]/div[2]/div[1]/div[2]" ) //
 						) ), //
@@ -210,7 +210,7 @@ class ActionReplayResultPrinterTest {
 	private ElementDifference change( final String path, final ElementDifference... childDifferences ) {
 		final Element element = element( path );
 
-		final AttributesDifference attributes = new AttributesDifference( Arrays.asList( // 
+		final AttributesDifference attributes = new AttributesDifference( Arrays.asList( //
 				new AttributeDifference( "foo-1", "bar-1", "bar1" ), //
 				new AttributeDifference( "foo-2", "bar-2", "bar2" ), //
 				new AttributeDifference( "foo-3", "bar-3", "bar3" ) //
