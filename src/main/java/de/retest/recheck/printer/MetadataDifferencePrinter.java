@@ -17,7 +17,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
 
 	// Only print a selected amount of differences that potentially can break a test
-	private static final Set<String> DIFFERENCES_TO_IGNORE = new HashSet<>( Arrays.asList( //
+	private static final Set<String> differencesToIgnore = new HashSet<>( Arrays.asList( //
 			GitMetadataProvider.VCS_NAME, //
 			GitMetadataProvider.BRANCH_NAME, //
 			GitMetadataProvider.COMMIT_NAME, //
@@ -43,7 +43,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	}
 
 	private boolean shouldPrint( final MetadataElementDifference difference ) {
-		return !DIFFERENCES_TO_IGNORE.contains( difference.getKey() );
+		return !differencesToIgnore.contains( difference.getKey() );
 	}
 
 	private String print( final MetadataElementDifference difference ) {
