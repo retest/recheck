@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.ignore.CacheFilter;
-import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
@@ -33,8 +33,7 @@ public class SaveFilterWorker {
 		// Filter JSFilter because that would create unnecessary file content.
 		final Stream<PersistentFilter> filters = persist.getIgnores().stream() //
 				.map( this::extractCachedFilter ) //
-				.filter( filter -> (filter instanceof PersistentFilter) ) //
-				.map( f -> (PersistentFilter) f );
+				.filter( f -> !(f.getFilter() instanceof JSFilterImpl) );
 
 		final Map<Path, List<PersistentFilter>> mapped =
 				filters.collect( Collectors.groupingBy( PersistentFilter::getPath ) );
@@ -50,7 +49,10 @@ public class SaveFilterWorker {
 		}
 	}
 
-	private Filter extractCachedFilter( final Filter filter ) {
-		return filter instanceof CacheFilter ? ((CacheFilter) filter).getBase() : filter;
+	private PersistentFilter extractCachedFilter( final PersistentFilter filter ) {
+		if ( filter.getFilter() instanceof CacheFilter ) {
+			return new PersistentFilter( filter.getPath(), ((CacheFilter) filter.getFilter()).getBase() );
+		}
+		return filter;
 	}
 }

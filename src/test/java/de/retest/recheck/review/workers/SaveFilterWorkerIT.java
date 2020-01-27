@@ -12,7 +12,10 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.mockito.Mockito;
 
+import de.retest.recheck.ignore.CacheFilter;
+import de.retest.recheck.ignore.JSFilterImpl;
 import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.review.GlobalIgnoreApplier;
 import de.retest.recheck.review.GlobalIgnoreApplier.PersistableGlobalIgnoreApplier;
@@ -61,6 +64,7 @@ class SaveFilterWorkerIT {
 		final Path file1 = base.resolve( "file1" );
 		final Path file2 = base.resolve( "file2" );
 		final Path file3 = base.resolve( "file3" );
+		final Path jsFile = base.resolve( "jsFile" );
 
 		final List<PersistentFilter> filter = new ArrayList<>();
 		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# A" ) ) );
@@ -69,6 +73,7 @@ class SaveFilterWorkerIT {
 		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# D" ) ) );
 		filter.add( new PersistentFilter( file3, new FilterPreserveLine( "# E" ) ) );
 		filter.add( new PersistentFilter( file1, new FilterPreserveLine( "# C" ) ) );
+		filter.add( new PersistentFilter( jsFile, new CacheFilter( Mockito.mock( JSFilterImpl.class ) ) ) );
 
 		final SaveFilterWorker cut = new SaveFilterWorker( createApplier( filter ) );
 
@@ -77,5 +82,7 @@ class SaveFilterWorkerIT {
 		assertThat( file1 ).hasContent( "# A\n# C\n# D\n# C" );
 		assertThat( file2 ).hasContent( "# B" );
 		assertThat( file3 ).hasContent( "# E" );
+
+		assertThat( jsFile ).doesNotExist();
 	}
 }
