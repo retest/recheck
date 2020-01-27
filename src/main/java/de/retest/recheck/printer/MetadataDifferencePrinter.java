@@ -11,9 +11,7 @@ import de.retest.recheck.meta.global.OSMetadataProvider;
 import de.retest.recheck.meta.global.TimeMetadataProvider;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 
 	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
