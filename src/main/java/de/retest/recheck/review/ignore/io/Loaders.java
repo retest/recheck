@@ -21,6 +21,7 @@ import de.retest.recheck.review.ignore.ElementFilter;
 import de.retest.recheck.review.ignore.ElementFilter.ElementFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
+import de.retest.recheck.review.ignore.ImportedExternalFilter;
 import de.retest.recheck.review.ignore.JSFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
@@ -42,7 +43,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class Loaders {
 
-	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
+	private static final Loader<Filter> filter = new InheritanceLoader<Filter>( Arrays.asList( //
 			Pair.of( ElementAttributeFilter.class, new ElementAttributeFilterLoader() ), //
 			Pair.of( ElementAttributeFilter.class, new LegacyElementAttributeFilterLoader() ), //
 			Pair.of( ElementAttributeRegexFilter.class, new ElementAttributeRegexFilterLoader() ), //
@@ -52,6 +53,7 @@ public class Loaders {
 			Pair.of( ElementFilter.class, new ElementFilterLoader() ), //
 			Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
 			Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ), //
+			Pair.of( ImportedExternalFilter.class, new ImportExternalFilterLoader() ), //
 			Pair.of( CacheFilter.class, new CacheFilter.FilterLoader() ), //
 			Pair.of( JSFilterImpl.class, new JSFilterLoader() ), //
 
