@@ -23,19 +23,23 @@ public final class MetadataDifference implements Iterable<MetadataElementDiffere
 
 	private static final long serialVersionUID = 1L;
 
+	private static final MetadataDifference EMPTY = new MetadataDifference();
+
 	@Getter
 	private final Set<MetadataElementDifference> differences;
 
-	// For JAXB
 	private MetadataDifference() {
 		this( Collections.emptySet() );
 	}
 
 	public static MetadataDifference empty() {
-		return new MetadataDifference( Collections.emptySet() );
+		return EMPTY;
 	}
 
 	public static MetadataDifference of( final Set<MetadataElementDifference> differences ) {
+		if ( differences.isEmpty() ) {
+			return empty();
+		}
 		final Set<MetadataElementDifference> unique =
 				new TreeSet<>( Comparator.comparing( MetadataElementDifference::getKey ) );
 		unique.addAll( differences );
