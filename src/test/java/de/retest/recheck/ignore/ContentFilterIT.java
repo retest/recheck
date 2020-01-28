@@ -1,7 +1,6 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 import java.nio.file.Paths;
 
@@ -11,6 +10,7 @@ import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.MutableAttributes;
+import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 class ContentFilterIT {
@@ -19,7 +19,9 @@ class ContentFilterIT {
 	void should_filter_img_src_and_alt_diffs() throws Exception {
 		final Filter filter = FilterLoader.load( Paths.get( "src/main/resources/filter/web/content.filter" ) ).load();
 
-		final Element element = Element.create( "retestId", mock( Element.class ),
+		final Element element = Element.create( "retestId",
+				new RootElement( "html", IdentifyingAttributes.create( Path.fromString( "/html[1]" ), "html" ),
+						new MutableAttributes().immutable(), null, "screen", -1, "title" ),
 				IdentifyingAttributes.create( Path.fromString( "/html[1]/img[1]" ), "img" ),
 				new MutableAttributes().immutable() );
 		final AttributeDifference srcDiff =
@@ -37,7 +39,9 @@ class ContentFilterIT {
 	void should_filter_text_diffs() throws Exception {
 		final Filter filter = FilterLoader.load( Paths.get( "src/main/resources/filter/web/content.filter" ) ).load();
 
-		final Element element = Element.create( "retestId", mock( Element.class ),
+		final Element element = Element.create( "retestId",
+				new RootElement( "html", IdentifyingAttributes.create( Path.fromString( "/html[1]" ), "html" ),
+						new MutableAttributes().immutable(), null, "screen", -1, "title" ),
 				IdentifyingAttributes.create( Path.fromString( "/html[1]/p[1]" ), "p" ),
 				new MutableAttributes().immutable() );
 		final AttributeDifference textDiff = new AttributeDifference( "text", "An ancient text.", "A hip new text." );
