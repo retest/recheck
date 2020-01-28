@@ -240,6 +240,17 @@ public class IdentifyingAttributesTest {
 		return Collections.singleton( new AttributeDifference( key, expected, actual ) );
 	}
 
+	@Test
+	public void sort_order_should_be_determined() {
+		final IdentifyingAttributes o1 =
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class );
+		final IdentifyingAttributes o2 =
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[2]" ), component.class );
+
+		assertThat( o1.compareTo( o2 ) ).isLessThan( 0 );
+		assertThat( o2.compareTo( o1 ) ).isGreaterThan( 0 );
+	}
+
 	private static class component {}
 
 	private static class otherComponent {}
