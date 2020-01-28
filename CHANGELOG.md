@@ -31,6 +31,7 @@ Table of Contents
 
 * The project root is not searched for multiple times on startup of recheck.
 * Add timeout in case it takes too long to detect the current Git branch.
+* Don't print metadata prefix if the all given metadata differences are ignored.
 
 ### New Features
 

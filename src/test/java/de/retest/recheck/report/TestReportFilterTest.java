@@ -338,9 +338,10 @@ class TestReportFilterTest {
 	}
 
 	@Test
-	void action_replay_result_should_not_throw_if_null() {
+	void action_replay_result_should_not_throw_if_difference_is_null() {
 		final ActionReplayResult result = mock( ActionReplayResult.class );
 		when( result.getStateDifference() ).thenReturn( null ); // Just to make sure that this is the cause
+		when( result.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 		final TestReportFilter cut = new TestReportFilter( mock( Filter.class ) );
 		assertThatCode( () -> cut.filter( result ) ).doesNotThrowAnyException();
 	}
