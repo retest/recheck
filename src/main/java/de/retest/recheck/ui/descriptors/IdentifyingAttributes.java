@@ -51,14 +51,28 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 
 	private static final List<String> ATTRIBUTE_SORT_ORDER = Arrays.asList( //
 			"path", //
-			"suffix", //
+			"type", //
+			"text", //
 			"id", //
-			"name", //
-			"text" //
+			"name" //
 	);
 
-	private static final Comparator<String> ATTRIBUTE_COMPARATOR =
-			Comparator.comparing( Comparator.comparingInt( ATTRIBUTE_SORT_ORDER::indexOf ) ).thenComparing( keys );
+	private static final Comparator<String> ATTRIBUTE_COMPARATOR = new Comparator<String>() {
+		@Override
+		public int compare( final String key1, final String key2 ) {
+			final int order1 = ATTRIBUTE_SORT_ORDER.indexOf( key1 );
+			final int order2 = ATTRIBUTE_SORT_ORDER.indexOf( key2 );
+			if ( order1 == -1 ) {
+				if ( order2 == -1 ) {
+					// both keys unknown
+					return key1.compareTo( key2 );
+				}
+				// unknown first key, prefer second
+				return 1;
+			}
+			return order1 - order2;
+		}
+	};
 
 	@XmlElement
 	@XmlJavaTypeAdapter( AttributesAdapter.class )
