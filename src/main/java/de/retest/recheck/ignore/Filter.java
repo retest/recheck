@@ -68,7 +68,7 @@ public interface Filter {
 		return matches( element, attributeDifference.getKey() );
 	}
 
-	public static final Filter FILTER_NOTHING = new Filter() {
+	public static final Filter NEVER_MATCH = new Filter() {
 
 		@Override
 		public boolean matches( final Element element ) {
@@ -78,6 +78,26 @@ public interface Filter {
 		@Override
 		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 			return false;
+		}
+	};
+
+	/**
+	 * Use {@link #NEVER_MATCH} instead.
+	 */
+	// TODO Remove for a 2.0 release
+	@Deprecated
+	public static final Filter FILTER_NOTHING = NEVER_MATCH;
+
+	public static final Filter ALWAYS_MATCH = new Filter() {
+
+		@Override
+		public boolean matches( final Element element ) {
+			return true;
+		}
+
+		@Override
+		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
+			return true;
 		}
 	};
 }
