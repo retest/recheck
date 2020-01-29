@@ -29,6 +29,9 @@ public class ImportExternalFilterLoader extends RegexLoader<ImportedExternalFilt
 		} catch ( final Exception e ) {
 			log.error( "Exception loading referenced filter '{}'.", reference );
 			return Optional.empty();
+		} catch ( final StackOverflowError e ) {
+			log.error( "Encountered an infinite loop when loading cascading filters, e.g. see '{}'.", reference );
+			return Optional.empty();
 		}
 	}
 }

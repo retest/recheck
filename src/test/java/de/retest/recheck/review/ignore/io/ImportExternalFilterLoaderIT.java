@@ -84,6 +84,21 @@ class ImportExternalFilterLoaderIT {
 		assertThat( filter.getReferenced().toString() ).contains( fileContents );
 	}
 
+	@Test
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
+	void infinite_recursion_should_be_broken() throws Exception {
+		final Path projectRoot = temp.resolve( "project" );
+		System.setProperty( RETEST_PROJECT_ROOT, projectRoot.toString() );
+
+		final String reference = "my-filter.filter";
+		final String importLine = IMPORT_STATEMENT + reference;
+		final String fileContents = importLine;
+		prepareFiles( projectRoot, reference, fileContents );
+
+		final ImportExternalFilterLoader importer = new ImportExternalFilterLoader();
+		final ImportedExternalFilter filter = importer.load( importLine ).get();
+	}
+
 	void prepareFiles( final Path root, final String reference, final String fileContents ) throws IOException {
 		final Path tmp = root.resolve( Paths.get( RETEST_FOLDER_NAME, FILTER_DIR_NAME, reference ) );
 		Files.createDirectories( tmp.getParent() );
