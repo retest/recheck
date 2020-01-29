@@ -50,9 +50,7 @@ class ImportExternalFilterLoaderIT {
 
 		final String reference = "my-filter.filter";
 		final String fileContents = "# This is another comment";
-		final Path tmp = projectRoot.resolve( Paths.get( RETEST_FOLDER_NAME, FILTER_DIR_NAME, reference ) );
-		Files.createDirectories( tmp.getParent() );
-		Files.write( tmp, fileContents.getBytes() );
+		prepareFiles( projectRoot, reference, fileContents );
 
 		final String importLine = IMPORT_STATEMENT + reference;
 		final ImportExternalFilterLoader importer = new ImportExternalFilterLoader();
@@ -73,9 +71,7 @@ class ImportExternalFilterLoaderIT {
 
 		final String reference = "my-filter.filter";
 		final String fileContents = "# This is a comment";
-		final Path tmp = userRoot.resolve( Paths.get( RETEST_FOLDER_NAME, FILTER_DIR_NAME, reference ) );
-		Files.createDirectories( tmp.getParent() );
-		Files.write( tmp, fileContents.getBytes() );
+		prepareFiles( userRoot, reference, fileContents );
 
 		final String importLine = IMPORT_STATEMENT + reference;
 		final ImportExternalFilterLoader importer = new ImportExternalFilterLoader();
@@ -86,6 +82,12 @@ class ImportExternalFilterLoaderIT {
 
 		assertThat( filter.getReference() ).isEqualTo( reference );
 		assertThat( filter.getReferenced().toString() ).contains( fileContents );
+	}
+
+	void prepareFiles( final Path root, final String reference, final String fileContents ) throws IOException {
+		final Path tmp = root.resolve( Paths.get( RETEST_FOLDER_NAME, FILTER_DIR_NAME, reference ) );
+		Files.createDirectories( tmp.getParent() );
+		Files.write( tmp, fileContents.getBytes() );
 	}
 
 	@Test
