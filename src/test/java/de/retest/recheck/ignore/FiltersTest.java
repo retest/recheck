@@ -22,12 +22,12 @@ class FiltersTest {
 
 	@Test
 	void parse_with_single_line_should_work() {
-		check( Filters.parse( "matcher: id=foo, attribute: font" ) );
+		check( Filters.parse( "matcher: id=foo, attribute=font" ) );
 	}
 
 	@Test
 	void parse_with_stream_should_work() {
-		check( Filters.parse( Stream.of( "matcher: id=foo, attribute: font" ) ) );
+		check( Filters.parse( Stream.of( "matcher: id=foo, attribute=font" ) ) );
 	}
 
 	private void check( final Filter filter ) {
