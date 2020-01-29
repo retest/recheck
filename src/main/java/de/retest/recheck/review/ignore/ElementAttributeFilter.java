@@ -13,11 +13,11 @@ import de.retest.recheck.ui.descriptors.Element;
 public class ElementAttributeFilter implements Filter {
 
 	private final Matcher<Element> matcher;
-	private final String key;
+	private final String attribute;
 
-	public ElementAttributeFilter( final Matcher<Element> matcher, final String key ) {
+	public ElementAttributeFilter( final Matcher<Element> matcher, final String attribute ) {
 		this.matcher = matcher;
-		this.key = key;
+		this.attribute = attribute;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class ElementAttributeFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final String attributeKey ) {
-		if ( matcher.test( element ) && key.equals( attributeKey ) ) {
+		if ( matcher.test( element ) && attribute.equals( attributeKey ) ) {
 			return true;
 		}
 		final Element parent = element.getParent();
@@ -36,16 +36,16 @@ public class ElementAttributeFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( ElementAttributeFilterLoader.FORMAT, matcher.toString(), key );
+		return String.format( ElementAttributeFilterLoader.FORMAT, matcher.toString(), attribute );
 	}
 
 	public static class ElementAttributeFilterLoader extends RegexLoader<ElementAttributeFilter> {
 
 		static final String MATCHER = "matcher: ";
-		static final String KEY = "attribute=";
+		static final String ATTRIBUTE = "attribute=";
 
-		private static final String FORMAT = MATCHER + "%s, " + KEY + "%s";
-		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + KEY + "(.+)" );
+		private static final String FORMAT = MATCHER + "%s, " + ATTRIBUTE + "%s";
+		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+), " + ATTRIBUTE + "(.+)" );
 
 		public ElementAttributeFilterLoader() {
 			super( REGEX );
@@ -54,9 +54,9 @@ public class ElementAttributeFilter implements Filter {
 		@Override
 		protected Optional<ElementAttributeFilter> load( final MatchResult regex ) {
 			final String matcher = regex.group( 1 );
-			final String key = regex.group( 2 ).trim();
+			final String attribute = regex.group( 2 ).trim();
 			return Loaders.elementMatcher().load( matcher ) //
-					.map( match -> new ElementAttributeFilter( match, key ) );
+					.map( match -> new ElementAttributeFilter( match, attribute ) );
 		}
 	}
 
