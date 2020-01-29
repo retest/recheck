@@ -5,6 +5,7 @@ import static de.retest.recheck.configuration.ProjectConfiguration.RETEST_PROJEC
 import static de.retest.recheck.ignore.SearchFilterFiles.FILTER_DIR_NAME;
 import static de.retest.recheck.review.ignore.io.ImportExternalFilterLoader.IMPORT_STATEMENT;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -96,7 +97,7 @@ class ImportExternalFilterLoaderIT {
 		prepareFiles( projectRoot, reference, fileContents );
 
 		final ImportExternalFilterLoader importer = new ImportExternalFilterLoader();
-		final ImportedExternalFilter filter = importer.load( importLine ).get();
+		assertThatCode( () -> importer.load( importLine ) ).doesNotThrowAnyException();
 	}
 
 	void prepareFiles( final Path root, final String reference, final String fileContents ) throws IOException {
