@@ -25,12 +25,28 @@ Table of Contents
 
 ### Breaking Changes
 
+### Bug Fixes
+
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+
+[1.9.0] (2020-01-29)
+--------------------
+
+### Breaking Changes
+
 * Reports before version 1.9.0 cannot be loaded anymore. Simply re-run your tests with the new recheck version to create them again.
 
 ### Bug Fixes
 
 * The project root is not searched for multiple times on startup of recheck.
 * Add timeout in case it takes too long to detect the current Git branch.
+* Don't print metadata prefix if the all given metadata differences are ignored.
 
 ### New Features
 
@@ -42,9 +58,6 @@ Table of Contents
 * In case there is no project specific ignore, fall back to the recheck.ignore file in the home directory for applied changes.
 * Remove compile level dependency on logback.
 * When updating Golden Masters, now the name of the file is returned, not the name of the Golden Master.
-
-
---------------------------------------------------------------------------------
 
 
 [1.8.0] (2019-12-13)

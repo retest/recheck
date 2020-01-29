@@ -19,11 +19,14 @@ import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
 import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
+import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.util.OptionalUtil;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class TestReportFilter {
+
+	private final MetadataDifferenceFilter metadataDiffFilter = new MetadataDifferenceFilter();
 
 	private final Filter filter;
 
@@ -65,10 +68,12 @@ public class TestReportFilter {
 		final ActionReplayData data = ActionReplayData.withTarget( actionReplayResult.getDescription(),
 				actionReplayResult.getTargetComponent(), actionReplayResult.getGoldenMasterPath() );
 		final StateDifference newStateDiff = filter( actionReplayResult.getStateDifference() );
+		final MetadataDifference newMetadataDiff =
+				metadataDiffFilter.filter( actionReplayResult.getMetadataDifference() );
 		final long actualDuration = actionReplayResult.getDuration();
 
 		return ActionReplayResult.withDifference( data, actionReplayResult::getWindows,
-				DifferenceRetriever.of( newStateDiff, actionReplayResult.getMetadataDifference() ), actualDuration );
+				DifferenceRetriever.of( newStateDiff, newMetadataDiff ), actualDuration );
 	}
 
 	// Filter classes from de.retest.recheck.ui.diff.
