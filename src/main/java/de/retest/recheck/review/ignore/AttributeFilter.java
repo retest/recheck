@@ -56,7 +56,7 @@ public class AttributeFilter implements Filter {
 				log.warn( "'{}' contains '{}'. For regular expressions, please use '{}'.", actualLine, POSSIBLE_REGEX,
 						suggestedLine );
 			}
-			return Optional.of( new AttributeFilter( attribute ) );
+			return Optional.of( new AttributeFilter( attribute.trim() ) );
 		}
 	}
 }
