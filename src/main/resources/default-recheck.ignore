@@ -15,6 +15,9 @@
 # You can also use regex for elements or attributes:
 # attribute-regex=data-.*
 
+# You can import other filters to quickly achieve what you want:
+# import: positioning.filter
+
 # More details and examples can be found here:
 # https://docs.retest.de/recheck/usage/filter/
 
