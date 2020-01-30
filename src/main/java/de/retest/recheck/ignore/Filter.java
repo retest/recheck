@@ -5,7 +5,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 /**
- * General interface to filter changes during Diffing
+ * General interface to filter changes during Diffing.
  *
  * The Filter does not define positive or negative filtering, i.e. wether only matching elements are shown or only
  * elements that do not match.
@@ -68,16 +68,28 @@ public interface Filter {
 		return matches( element, attributeDifference.getKey() );
 	}
 
-	public static final Filter FILTER_NOTHING = new Filter() {
+	public static final Filter NEVER_MATCH = new Filter() {
 
 		@Override
 		public boolean matches( final Element element ) {
 			return false;
 		}
 
+	};
+
+	/**
+	 * Use {@link #NEVER_MATCH} instead.
+	 */
+	// TODO Remove for a 2.0 release
+	@Deprecated
+	public static final Filter FILTER_NOTHING = NEVER_MATCH;
+
+	public static final Filter ALWAYS_MATCH = new Filter() {
+
 		@Override
-		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-			return false;
+		public boolean matches( final Element element ) {
+			return true;
 		}
+
 	};
 }

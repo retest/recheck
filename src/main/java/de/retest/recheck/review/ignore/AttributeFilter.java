@@ -47,6 +47,11 @@ public class AttributeFilter implements Filter {
 			super( REGEX );
 		}
 
+		// Only needed for LegacyAttributeFilterLoader
+		protected AttributeFilterLoader( final Pattern regex ) {
+			super( regex );
+		}
+
 		@Override
 		protected Optional<AttributeFilter> load( final MatchResult regex ) {
 			final String attribute = regex.group( 1 );
@@ -56,7 +61,15 @@ public class AttributeFilter implements Filter {
 				log.warn( "'{}' contains '{}'. For regular expressions, please use '{}'.", actualLine, POSSIBLE_REGEX,
 						suggestedLine );
 			}
-			return Optional.of( new AttributeFilter( attribute ) );
+			return Optional.of( new AttributeFilter( attribute.trim() ) );
+		}
+	}
+
+	// TODO Remove again after it was sufficiently long in the project
+	// for all .filter and recheck.ignore files to be migrated
+	public static class LegacyAttributeFilterLoader extends AttributeFilterLoader {
+		public LegacyAttributeFilterLoader() {
+			super( Pattern.compile( "attribute: (.+)" ) );
 		}
 	}
 }

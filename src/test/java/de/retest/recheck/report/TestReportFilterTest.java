@@ -24,7 +24,7 @@ import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
-import de.retest.recheck.review.ignore.ElementFilter;
+import de.retest.recheck.review.ignore.MatcherFilter;
 import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.GroundState;
@@ -161,7 +161,7 @@ class TestReportFilterTest {
 		assertThat( new TestReportFilter( filter ).filter( insertedDiff ) ).hasValue( insertedDiff );
 		assertThat( new TestReportFilter( filter ).filter( deletedDiff ) ).hasValue( deletedDiff );
 
-		final Filter elementFilter = new ElementFilter( e -> e == element );
+		final Filter elementFilter = new MatcherFilter( e -> e == element );
 
 		assertThat( new TestReportFilter( elementFilter ).filter( insertedDiff ) ).isEmpty();
 		assertThat( new TestReportFilter( elementFilter ).filter( deletedDiff ) ).isEmpty();
@@ -222,8 +222,8 @@ class TestReportFilterTest {
 		final ElementDifference parentWithoutOwnDiffs =
 				new ElementDifference( parent, null, null, null, null, Collections.singletonList( childWithOwnDiffs ) );
 
-		final Filter childFilter = new ElementFilter( e -> e == child );
-		final Filter parentFilter = new ElementFilter( e -> e == parent );
+		final Filter childFilter = new MatcherFilter( e -> e == child );
+		final Filter parentFilter = new MatcherFilter( e -> e == parent );
 
 		assertThat( new TestReportFilter( childFilter ).filter( childWithOwnDiffs ) ).isEmpty();
 		assertThat( new TestReportFilter( parentFilter ).filter( childWithOwnDiffs ) ).isNotEmpty();
@@ -254,7 +254,7 @@ class TestReportFilterTest {
 		when( deletedChild.getParent() ).thenReturn( parent );
 		when( insertedChild.getParent() ).thenReturn( parent );
 
-		final Filter parentXPathFilter = new ElementFilter( new ElementXPathMatcher( parent ) );
+		final Filter parentXPathFilter = new MatcherFilter( new ElementXPathMatcher( parent ) );
 
 		assertThat( parentXPathFilter.matches( parent ) ).isTrue();
 		assertThat( parentXPathFilter.matches( deletedChild ) ).isTrue();

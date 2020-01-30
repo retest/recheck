@@ -42,10 +42,23 @@ public class AttributeRegexFilter implements Filter {
 			super( REGEX );
 		}
 
+		// Only needed for LegacyAttributeRegexFilterLoader
+		protected AttributeRegexFilterLoader( final Pattern regex ) {
+			super( regex );
+		}
+
 		@Override
 		protected Optional<AttributeRegexFilter> load( final MatchResult regex ) {
 			final String attributeRegex = regex.group( 1 );
 			return Optional.of( new AttributeRegexFilter( attributeRegex ) );
+		}
+	}
+
+	// TODO Remove again after it was sufficiently long in the project
+	// for all .filter and recheck.ignore files to be migrated
+	public static class LegacyAttributeRegexFilterLoader extends AttributeRegexFilterLoader {
+		public LegacyAttributeRegexFilterLoader() {
+			super( Pattern.compile( "attribute-regex: (.+)" ) );
 		}
 	}
 }

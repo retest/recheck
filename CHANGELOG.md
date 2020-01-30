@@ -33,6 +33,8 @@ Table of Contents
 
 ### Improvements
 
+* Internal partial redesign of the Filter loading mechanism, that should not have any outside effects.
+
 
 --------------------------------------------------------------------------------
 

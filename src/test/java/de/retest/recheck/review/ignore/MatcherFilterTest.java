@@ -7,20 +7,25 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
+import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
+import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class ElementFilterTest {
+class MatcherFilterTest {
 
-	ElementFilter cut;
+	MatcherFilter cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 		final ElementRetestIdMatcher matcher = new ElementRetestIdMatcher( element );
-		cut = new ElementFilter( matcher );
+		cut = new MatcherFilter( matcher );
 	}
 
 	@Test
@@ -119,5 +124,19 @@ class ElementFilterTest {
 		final AttributeDifference difference = mock( AttributeDifference.class );
 
 		assertThat( cut.matches( childElement, difference ) ).isTrue();
+	}
+
+	@Test
+	void should_match_when_expression_contains_whitespace() {
+		final Element div = Element.create( "divId",
+				new RootElement( "retestId", IdentifyingAttributes.create( Path.fromString( "html" ), "html" ),
+						new MutableAttributes().immutable(), null, "screen", -1, "title" ),
+				IdentifyingAttributes.create( Path.fromString( "html/div" ), "div" ),
+				new MutableAttributes().immutable() );
+
+		final Filter cut = new MatcherFilter.MatcherFilterLoader()
+				.load( "matcher: xpath=/html/div, attribute= mySpecialAttribute " ).get();
+
+		assertThat( cut.matches( div, "mySpecialAttribute" ) ).isTrue();
 	}
 }

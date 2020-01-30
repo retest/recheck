@@ -6,12 +6,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+import de.retest.recheck.ignore.AllMatchFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.ignore.RecheckIgnoreLocator;
 import de.retest.recheck.review.counter.Counter;
-import de.retest.recheck.review.ignore.ElementAttributeFilter;
-import de.retest.recheck.review.ignore.ElementFilter;
+import de.retest.recheck.review.ignore.AttributeFilter;
+import de.retest.recheck.review.ignore.MatcherFilter;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -52,7 +53,8 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void ignoreAttribute( final Element element, final AttributeDifference difference ) {
-		add( new ElementAttributeFilter( new ElementRetestIdMatcher( element ), difference.getKey() ) );
+		add( new AllMatchFilter( new MatcherFilter( new ElementRetestIdMatcher( element ) ),
+				new AttributeFilter( difference.getKey() ) ) );
 	}
 
 	public void unignoreAttribute( final Element element, final AttributeDifference difference ) {
@@ -65,7 +67,7 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	public void ignoreElement( final Element element ) {
-		add( new ElementFilter( new ElementRetestIdMatcher( element ) ) );
+		add( new MatcherFilter( new ElementRetestIdMatcher( element ) ) );
 	}
 
 	public void unignoreElement( final Element element ) {

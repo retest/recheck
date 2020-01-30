@@ -1,1 +1,1 @@
-matcher: id=foo, attribute: font
+matcher: id=foo, attribute=font

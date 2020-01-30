@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import de.retest.recheck.ignore.AllMatchFilter;
+import de.retest.recheck.ignore.AllMatchFilter.AllMatchFilterLoader;
 import de.retest.recheck.ignore.CacheFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.JSFilterImpl;
@@ -11,18 +13,12 @@ import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
 import de.retest.recheck.review.ignore.AttributeRegexFilter;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
-import de.retest.recheck.review.ignore.ElementAttributeFilter;
-import de.retest.recheck.review.ignore.ElementAttributeFilter.ElementAttributeFilterLoader;
-import de.retest.recheck.review.ignore.ElementAttributeFilter.LegacyElementAttributeFilterLoader;
-import de.retest.recheck.review.ignore.ElementAttributeRegexFilter;
-import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.ElementAttributeRegexFilterLoader;
-import de.retest.recheck.review.ignore.ElementAttributeRegexFilter.LegacyElementAttributeRegexFilterLoader;
-import de.retest.recheck.review.ignore.ElementFilter;
-import de.retest.recheck.review.ignore.ElementFilter.ElementFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
 import de.retest.recheck.review.ignore.ImportedExternalFilter;
 import de.retest.recheck.review.ignore.JSFilterLoader;
+import de.retest.recheck.review.ignore.MatcherFilter;
+import de.retest.recheck.review.ignore.MatcherFilter.MatcherFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.matcher.ElementClassMatcher;
@@ -43,22 +39,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class Loaders {
 
-	private static final Loader<Filter> filter = new InheritanceLoader<Filter>( Arrays.asList( //
-			Pair.of( ElementAttributeFilter.class, new ElementAttributeFilterLoader() ), //
-			Pair.of( ElementAttributeFilter.class, new LegacyElementAttributeFilterLoader() ), //
-			Pair.of( ElementAttributeRegexFilter.class, new ElementAttributeRegexFilterLoader() ), //
-			Pair.of( ElementAttributeRegexFilter.class, new LegacyElementAttributeRegexFilterLoader() ), //
+	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
+			Pair.of( MatcherFilter.class, new MatcherFilterLoader() ), //
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
-			Pair.of( ElementFilter.class, new ElementFilterLoader() ), //
 			Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
 			Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ), //
 			Pair.of( ImportedExternalFilter.class, new ImportExternalFilterLoader() ), //
+			Pair.of( AllMatchFilter.class, new AllMatchFilterLoader() ), //
 			Pair.of( CacheFilter.class, new CacheFilter.FilterLoader() ), //
 			Pair.of( JSFilterImpl.class, new JSFilterLoader() ), //
 
 			// This is error handling and should always be last
-			Pair.of( Filter.class, new ErrorHandlingLoader() ) // 
+			Pair.of( Filter.class, new ErrorHandlingLoader() ) //
 	) );
 
 	public static Loader<Filter> filter() {

@@ -9,6 +9,10 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * A compound filter consists of multiple filters that are combined into one via an OR. So the compound filter returns
+ * true if _any_ of its filters return true.
+ */
 @ToString
 public class CompoundFilter implements Filter {
 
