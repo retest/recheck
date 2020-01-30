@@ -44,7 +44,7 @@ public class AttributeFilter implements Filter {
 	@Slf4j
 	public static class AttributeFilterLoader extends RegexLoader<Filter> {
 
-		private static final Loader<Filter> chainableFilter = new InheritanceLoader<>( Arrays.asList( //
+		public static final Loader<Filter> chainableFilter = new InheritanceLoader<>( Arrays.asList( //
 				Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ) //
 		) );
 
