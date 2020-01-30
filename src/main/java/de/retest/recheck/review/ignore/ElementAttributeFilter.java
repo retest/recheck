@@ -27,7 +27,11 @@ public class ElementAttributeFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final String attributeKey ) {
-		return matcher.test( element ) && key.equals( attributeKey );
+		if ( matcher.test( element ) && key.equals( attributeKey ) ) {
+			return true;
+		}
+		final Element parent = element.getParent();
+		return parent != null && matches( parent, attributeKey );
 	}
 
 	@Override

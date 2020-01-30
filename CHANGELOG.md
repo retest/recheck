@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* When defining an ignore rule with element and attribute, this rule is now applied to the whole _subtree_, i.e. all child elements of the specified element. We found that this is more intuitive and straightforward and more often what people would expect. Also, it is more in line with the current behavior when just ignoring an element (which also ignores all of its child elements).
+
 ### New Features
 
 ### Improvements

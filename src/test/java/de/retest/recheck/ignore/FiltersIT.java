@@ -44,18 +44,18 @@ class FiltersIT {
 	}
 
 	@Test
-	void matches_should_not_work_for_children_when_searching_attribute() {
+	void matches_should_work_for_children_when_searching_attribute() {
 		final Filter filter = Filters.parse( "matcher: type=input, attribute: outline" );
 		assertThat( filter.matches( element, attributeDifference ) ).isTrue();
-		assertThat( filter.matches( childElement, attributeDifference ) ).isFalse();
+		assertThat( filter.matches( childElement, attributeDifference ) ).isTrue();
 		assertThat( filter.matches( childElement ) ).isFalse();
 	}
 
 	@Test
-	void matches_should_not_work_for_children_when_searching_regex() {
+	void matches_should_work_for_children_when_searching_regex() {
 		final Filter filter = Filters.parse( "matcher: type=input, attribute-regex: .*" );
 		assertThat( filter.matches( element, attributeDifference ) ).isTrue();
-		assertThat( filter.matches( childElement, attributeDifference ) ).isFalse();
+		assertThat( filter.matches( childElement, attributeDifference ) ).isTrue();
 		assertThat( filter.matches( childElement ) ).isFalse();
 	}
 }

@@ -27,7 +27,11 @@ public class ElementAttributeRegexFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final String attributeKey ) {
-		return matcher.test( element ) && attributePattern.matcher( attributeKey ).matches();
+		if ( matcher.test( element ) && attributePattern.matcher( attributeKey ).matches() ) {
+			return true;
+		}
+		final Element parent = element.getParent();
+		return parent != null && matches( parent, attributeKey );
 	}
 
 	@Override
