@@ -16,7 +16,7 @@ public class ElementIdMatcher implements Matcher<Element> {
 				? element.getIdentifyingAttributes().get( "id" ).toString() : "" );
 	}
 
-	private ElementIdMatcher( final String id ) {
+	public ElementIdMatcher( final String id ) {
 		this.id = id;
 	}
 

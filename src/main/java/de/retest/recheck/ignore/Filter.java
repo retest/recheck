@@ -5,7 +5,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 /**
- * General interface to filter changes during Diffing
+ * General interface to filter changes during Diffing.
  *
  * The Filter does not define positive or negative filtering, i.e. wether only matching elements are shown or only
  * elements that do not match.
@@ -75,10 +75,6 @@ public interface Filter {
 			return false;
 		}
 
-		@Override
-		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-			return false;
-		}
 	};
 
 	/**
@@ -95,9 +91,5 @@ public interface Filter {
 			return true;
 		}
 
-		@Override
-		public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
-			return true;
-		}
 	};
 }

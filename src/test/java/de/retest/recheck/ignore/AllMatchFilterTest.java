@@ -1,29 +1,30 @@
-package de.retest.recheck.review.ignore;
+package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.review.ignore.AttributeFilter;
+import de.retest.recheck.review.ignore.MatcherFilter;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
-import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class ElementAttributeFilterTest {
+class AllMatchFilterTest {
 
-	ElementAttributeFilter cut;
+	Filter cut;
 
 	@BeforeEach
 	void setUp() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
-		cut = new ElementAttributeFilter( new ElementRetestIdMatcher( element ), "123" );
+		cut = new AllMatchFilter( new MatcherFilter( new ElementRetestIdMatcher( element ) ),
+				new AttributeFilter( "123" ) );
 	}
 
 	@Test
@@ -86,15 +87,8 @@ class ElementAttributeFilterTest {
 	}
 
 	@Test
-	void should_match_when_expression_contains_whitespace() {
-		final Element div = Element.create( "divId", mock( Element.class ),
-				IdentifyingAttributes.create( Path.fromString( "html/div" ), "div" ),
-				new MutableAttributes().immutable() );
-
-		final ElementAttributeFilter cut = new ElementAttributeFilter.ElementAttributeFilterLoader()
-				.load( "matcher: xpath=/html/div, attribute= mySpecialAttribute " ).get();
-
-		assertThat( cut.matches( div, "mySpecialAttribute" ) ).isTrue();
+	void no_filters_given_should_throw_exception() {
+		assertThatThrownBy( () -> new AllMatchFilter() ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 }
