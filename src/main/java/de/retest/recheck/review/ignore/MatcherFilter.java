@@ -78,19 +78,12 @@ public class MatcherFilter implements Filter {
 
 		@Override
 		protected Optional<Filter> load( final MatchResult regex ) {
-			String match = regex.group( 1 );
-			if ( !match.contains( "," ) ) {
-				return Loaders.elementMatcher().load( match ) //
-						.map( matcher -> new MatcherFilter( matcher ) );
-			}
-			final String remainder = match.substring( match.indexOf( ',' ) + 1 ).trim();
-			match = match.substring( 0, match.indexOf( ',' ) );
 			// TODO Either no optional as return or no exception below
-			final Filter chained = chainableFilter.load( remainder ). //
-					orElseThrow( () -> new IllegalArgumentException(
-							"Couldn't find a filter for the expression '" + remainder + "'." ) );
-			return Loaders.elementMatcher().load( match ) //
-					.map( matcher -> new AllMatchFilter( new MatcherFilter( matcher ), chained ) );
+			return ChainableFilterLoaderUtil.load( regex,
+					match -> new MatcherFilter( Loaders.elementMatcher().load( match )
+							.orElseThrow( () -> new IllegalArgumentException(
+									"Couldn't find a filter for the expression '" + match + "'." ) ) ),
+					chainableFilter );
 		}
 	}
 }
