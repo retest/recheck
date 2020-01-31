@@ -73,7 +73,7 @@ public class AttributeFilter implements Filter {
 
 		@Override
 		protected Optional<Filter> load( final MatchResult regex ) {
-			return ChainableFilterLoaderUtil.load( regex, match -> loadSimpleAttributeFilter( match ) );
+			return ChainableFilterLoaderUtil.load( regex, this::loadSimpleAttributeFilter );
 		}
 
 		private AttributeFilter loadSimpleAttributeFilter( final String attribute ) {
