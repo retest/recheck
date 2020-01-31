@@ -32,6 +32,7 @@ Table of Contents
 ### New Features
 
 * You can now specify that e.g. the pixel-diff filter should only apply to a specific subtree of the given elements, or to only a specific attribute. For more details, see the [docs](https://docs.retest.de).
+* You can now specify that a specific value-pattern should be filtered, either globally, for specific elements or specific attributes. This allows to ignore a date, but ensure that it is actually a valid date.
 
 ### Improvements
 

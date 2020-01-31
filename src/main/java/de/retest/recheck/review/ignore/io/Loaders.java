@@ -21,6 +21,8 @@ import de.retest.recheck.review.ignore.MatcherFilter;
 import de.retest.recheck.review.ignore.MatcherFilter.MatcherFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
+import de.retest.recheck.review.ignore.ValuePatternFilter;
+import de.retest.recheck.review.ignore.ValuePatternFilter.ValuePatternFilterLoader;
 import de.retest.recheck.review.ignore.matcher.ElementClassMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementClassMatcher.ElementClassMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
@@ -44,6 +46,7 @@ public class Loaders {
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
 			Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
+			Pair.of( ValuePatternFilter.class, new ValuePatternFilterLoader() ), //
 			Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ), //
 			Pair.of( ImportedExternalFilter.class, new ImportExternalFilterLoader() ), //
 			Pair.of( AllMatchFilter.class, new AllMatchFilterLoader() ), //
