@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import de.retest.recheck.ignore.AllMatchFilter;
 import de.retest.recheck.ignore.AllMatchFilter.AllMatchFilterLoader;
 import de.retest.recheck.ignore.Filter;
-import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 
@@ -60,17 +59,7 @@ public class AttributeRegexFilter implements Filter {
 
 		@Override
 		protected Optional<Filter> load( final MatchResult regex ) {
-			String match = regex.group( 1 );
-			if ( !match.contains( "," ) ) {
-				return Optional.of( new AttributeRegexFilter( match ) );
-			}
-			final String remainder = match.substring( match.indexOf( ',' ) + 1 ).trim();
-			match = match.substring( 0, match.indexOf( ',' ) );
-			// TODO Either no optional as return or no exception below
-			final Filter chained = AttributeFilterLoader.chainableFilter.load( remainder ). //
-					orElseThrow( () -> new IllegalArgumentException(
-							"Couldn't find a filter for the expression '" + remainder + "'." ) );
-			return Optional.of( new AllMatchFilter( new AttributeRegexFilter( match ), chained ) );
+			return ChainableFilterLoaderUtil.load( regex, match -> new AttributeRegexFilter( match ) );
 		}
 	}
 

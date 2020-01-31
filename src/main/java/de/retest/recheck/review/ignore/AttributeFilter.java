@@ -73,17 +73,7 @@ public class AttributeFilter implements Filter {
 
 		@Override
 		protected Optional<Filter> load( final MatchResult regex ) {
-			String match = regex.group( 1 );
-			if ( !match.contains( "," ) ) {
-				return Optional.of( loadSimpleAttributeFilter( match ) );
-			}
-			final String remainder = match.substring( match.indexOf( ',' ) + 1 ).trim();
-			match = match.substring( 0, match.indexOf( ',' ) );
-			// TODO Either no optional as return or no exception below
-			final Filter chained = chainableFilter.load( remainder ). //
-					orElseThrow( () -> new IllegalArgumentException(
-							"Couldn't find a filter for the expression '" + remainder + "'." ) );
-			return Optional.of( new AllMatchFilter( loadSimpleAttributeFilter( match ), chained ) );
+			return ChainableFilterLoaderUtil.load( regex, match -> loadSimpleAttributeFilter( match ) );
 		}
 
 		private AttributeFilter loadSimpleAttributeFilter( final String attribute ) {
