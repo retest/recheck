@@ -31,9 +31,9 @@ Table of Contents
 
 ### New Features
 
-### Improvements
+* You can now specify that e.g. the pixel-diff filter should only apply to a specific subtree of the given elements, or to only a specific attribute. For more details, see the [docs](https://docs.retest.de).
 
-* Internal partial redesign of the Filter loading mechanism, that should not have any outside effects.
+### Improvements
 
 
 --------------------------------------------------------------------------------

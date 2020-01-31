@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
+import de.retest.recheck.ignore.AllMatchFilter;
+import de.retest.recheck.ignore.AllMatchFilter.AllMatchFilterLoader;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
@@ -31,7 +33,7 @@ public class AttributeRegexFilter implements Filter {
 		return String.format( AttributeRegexFilterLoader.FORMAT, attributePattern.toString() );
 	}
 
-	public static class AttributeRegexFilterLoader extends RegexLoader<AttributeRegexFilter> {
+	public static class AttributeRegexFilterLoader extends RegexLoader<Filter> {
 
 		static final String KEY = "attribute-regex=";
 
@@ -48,9 +50,16 @@ public class AttributeRegexFilter implements Filter {
 		}
 
 		@Override
-		protected Optional<AttributeRegexFilter> load( final MatchResult regex ) {
-			final String attributeRegex = regex.group( 1 );
-			return Optional.of( new AttributeRegexFilter( attributeRegex ) );
+		public String save( final Filter ignore ) {
+			if ( ignore instanceof AllMatchFilter ) {
+				return new AllMatchFilterLoader().save( (AllMatchFilter) ignore );
+			}
+			return super.save( ignore );
+		}
+
+		@Override
+		protected Optional<Filter> load( final MatchResult regex ) {
+			return ChainableFilterLoaderUtil.load( regex, match -> new AttributeRegexFilter( match ) );
 		}
 	}
 
