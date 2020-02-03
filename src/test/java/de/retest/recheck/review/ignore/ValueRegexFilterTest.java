@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
-class ValuePatternFilterTest {
+class ValueRegexFilterTest {
 
-	final ValuePatternFilter dateFilter = new ValuePatternFilter( "\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d" );
-	final ValuePatternFilter buildNrFilter = new ValuePatternFilter( "\\d{4}" );
-	final ValuePatternFilter yesNoFilter = new ValuePatternFilter( "(yes|no|perhaps)" );
+	final ValueRegexFilter dateFilter = new ValueRegexFilter( "\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d" );
+	final ValueRegexFilter buildNrFilter = new ValueRegexFilter( "\\d{4}" );
+	final ValueRegexFilter yesNoFilter = new ValueRegexFilter( "(yes|no|perhaps)" );
 
 	@Test
 	void should_filter_matching_values() {

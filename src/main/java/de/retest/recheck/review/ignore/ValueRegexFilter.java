@@ -13,11 +13,11 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.Getter;
 
 @Getter
-public class ValuePatternFilter implements Filter {
+public class ValueRegexFilter implements Filter {
 
 	private final Pattern pattern;
 
-	public ValuePatternFilter( final String regex ) {
+	public ValueRegexFilter( final String regex ) {
 		pattern = Pattern.compile( regex );
 	}
 
@@ -41,23 +41,23 @@ public class ValuePatternFilter implements Filter {
 
 	@Override
 	public String toString() {
-		return String.format( ValuePatternFilterLoader.FORMAT, pattern );
+		return String.format( ValueRegexFilterLoader.FORMAT, pattern );
 	}
 
-	public static class ValuePatternFilterLoader extends RegexLoader<ValuePatternFilter> {
+	public static class ValueRegexFilterLoader extends RegexLoader<ValueRegexFilter> {
 
-		private static final String KEY = "value-pattern=";
+		private static final String KEY = "value-regex=";
 		private static final String FORMAT = KEY + "%s";
 		private static final Pattern REGEX = Pattern.compile( KEY + "(.+)" );
 
-		public ValuePatternFilterLoader() {
+		public ValueRegexFilterLoader() {
 			super( REGEX );
 		}
 
 		@Override
-		protected Optional<ValuePatternFilter> load( final MatchResult regex ) {
+		protected Optional<ValueRegexFilter> load( final MatchResult regex ) {
 			final String value = regex.group( 1 );
-			return Optional.of( new ValuePatternFilter( value ) );
+			return Optional.of( new ValueRegexFilter( value ) );
 		}
 	}
 }
