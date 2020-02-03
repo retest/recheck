@@ -36,11 +36,7 @@ public class ValuePatternFilter implements Filter {
 
 		final Matcher matcher = pattern.matcher( (String) actual );
 
-		if ( matcher.matches() ) {
-			return true;
-		}
-
-		return false;
+		return matcher.matches();
 	}
 
 	@Override
