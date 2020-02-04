@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class Loaders {
 
-	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
+	private static final Loader<Filter> filter = new InheritanceLoader<Filter>( Arrays.asList( //
 			Pair.of( MatcherFilter.class, new MatcherFilterLoader() ), //
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
