@@ -31,7 +31,7 @@ public class ElementClassMatcher implements Matcher<Element> {
 		if ( classValues.isEmpty() ) {
 			return false;
 		}
-		return this.classValues.containsAll( classValues );
+		return classValues.containsAll( this.classValues );
 	}
 
 	@Override
