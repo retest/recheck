@@ -15,28 +15,28 @@ public class ElementClassMatcher implements Matcher<Element> {
 
 	public static final String CLASS_KEY = "class";
 
-	private final List<String> classValues;
+	private final List<String> classes;
 
 	public ElementClassMatcher( final Element element ) {
 		this( toClassValuesList( toClassValueString( element ) ) );
 	}
 
 	private ElementClassMatcher( final List<String> classValues ) {
-		this.classValues = classValues;
+		classes = classValues;
 	}
 
 	@Override
 	public boolean test( final Element element ) {
-		final List<String> classValues = toClassValuesList( toClassValueString( element ) );
-		if ( classValues.isEmpty() ) {
+		final List<String> elementClasses = toClassValuesList( toClassValueString( element ) );
+		if ( classes.isEmpty() ) {
 			return false;
 		}
-		return this.classValues.containsAll( classValues );
+		return elementClasses.containsAll( classes );
 	}
 
 	@Override
 	public String toString() {
-		final String classValueString = classValues.stream().collect( Collectors.joining( " " ) );
+		final String classValueString = classes.stream().collect( Collectors.joining( " " ) );
 		return String.format( ElementClassMatcherLoader.FORMAT, classValueString );
 	}
 
