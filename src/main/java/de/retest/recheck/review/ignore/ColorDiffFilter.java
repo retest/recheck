@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ColorDiffFilter implements Filter {
 
 	private static final Pattern RGB = Pattern.compile( "rgb\\((\\d+),\\s?(\\d+),\\s?(\\d+)(,\\s?(\\d+))?\\)" );
-	private static final double MAX_DISTANCE = 255;
+	private static final double MAX_DISTANCE = 255.0;
 
 	private final String givenInput;
 	private final double colorDiff;
