@@ -35,6 +35,7 @@ Table of Contents
 * You can now specify that e.g. the pixel-diff filter should only apply to a specific subtree of the given elements, or to only a specific attribute. For more details, see the [docs](https://docs.retest.de).
 * You can now specify that a specific value-regex should be filtered, either globally, for specific elements or specific attributes. This allows to e.g. ignore a date, but still ensure that it is actually a valid date.
 * You can now specify to ignore a percentage color-diff, much like a pixel-diff. This allows to ignore, e.g. minor color changes or changes where opacity value is added or missing. Can be added globally, per element or attribute or combination thereof.
+* Add the option to filter elements based on whether they are inserted, deleted or changed.
 
 ### Improvements
 
