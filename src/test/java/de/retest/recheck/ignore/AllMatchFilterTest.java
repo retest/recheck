@@ -28,7 +28,7 @@ class AllMatchFilterTest {
 	}
 
 	@Test
-	void matches_should_always_return_false() {
+	void not_matching_all_should_return_false() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -36,7 +36,7 @@ class AllMatchFilterTest {
 	}
 
 	@Test
-	void matches_should_return_true() {
+	void matching_all_should_return_true() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -47,7 +47,7 @@ class AllMatchFilterTest {
 	}
 
 	@Test
-	void matches_should_return_false_when_key_does_not_match() {
+	void should_return_false_when_key_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "abc" );
 
@@ -58,7 +58,7 @@ class AllMatchFilterTest {
 	}
 
 	@Test
-	void matches_should_return_false_when_element_does_not_match() {
+	void should_return_false_when_element_does_not_match() {
 		final Element element = mock( Element.class );
 		when( element.getRetestId() ).thenReturn( "ABC" );
 
@@ -84,6 +84,21 @@ class AllMatchFilterTest {
 		final String attributeKey = "234";
 
 		assertThat( cut.matches( element, attributeKey ) ).isFalse();
+	}
+
+	@Test
+	void should_match_if_parent_matches() {
+		final Element parent = mock( Element.class );
+		when( parent.getRetestId() ).thenReturn( "abc" );
+		final Element element = mock( Element.class );
+		when( element.getParent() ).thenReturn( parent );
+		when( element.getRetestId() ).thenReturn( "some other" );
+
+		final AttributeDifference difference = mock( AttributeDifference.class );
+		when( difference.getKey() ).thenReturn( "123" );
+
+		assertThat( cut.matches( parent, difference ) ).isTrue();
+		assertThat( cut.matches( element, difference ) ).isTrue();
 	}
 
 	@Test
