@@ -59,16 +59,13 @@ public class ColorDiffFilter implements Filter {
 	 * 100% change in the perceived color.
 	 */
 	static double calculateColorDistance( final Color expected, final Color actual ) {
-		final double r1 = expected.getRed();
-		final double r2 = actual.getRed();
-		final double g1 = expected.getGreen();
-		final double g2 = actual.getGreen();
-		final double b1 = expected.getBlue();
-		final double b2 = actual.getBlue();
-		final double a1 = expected.getAlpha();
-		final double a2 = actual.getAlpha();
+		final double redDiff = abs( expected.getRed() - actual.getRed() );
+		final double greenDiff = abs( expected.getGreen() - actual.getGreen() );
+		final double blueDiff = abs( expected.getBlue() - actual.getBlue() );
+		final double alphaDiff = abs( expected.getAlpha() - actual.getAlpha() );
 
-		final double distance = min( abs( r1 - r2 ) + abs( g1 - g2 ) + abs( b1 - b2 ) + abs( a1 - a2 ), 255 );
+		// min so we don't exceed max_distance
+		final double distance = min( redDiff + greenDiff + blueDiff + alphaDiff, 255 );
 		return distance / MAX_DISTANCE;
 	}
 
@@ -85,15 +82,15 @@ public class ColorDiffFilter implements Filter {
 			return null;
 		}
 		try {
-			final String r = matcher.group( 1 );
-			final String g = matcher.group( 2 );
-			final String b = matcher.group( 3 );
-			final String a = matcher.group( 5 );
-			if ( a != null ) {
-				return new Color( round( parseFloat( r ) ), round( parseFloat( g ) ), round( parseFloat( b ) ),
-						round( parseFloat( a ) ) );
+			final String red = matcher.group( 1 );
+			final String green = matcher.group( 2 );
+			final String blue = matcher.group( 3 );
+			final String alpha = matcher.group( 5 );
+			if ( alpha != null ) {
+				return new Color( round( parseFloat( red ) ), round( parseFloat( green ) ), round( parseFloat( blue ) ),
+						round( parseFloat( alpha ) ) );
 			}
-			return new Color( round( parseFloat( r ) ), round( parseFloat( g ) ), round( parseFloat( b ) ) );
+			return new Color( round( parseFloat( red ) ), round( parseFloat( green ) ), round( parseFloat( blue ) ) );
 		} catch ( final Exception e ) {
 			log.debug( "Error parsing input {} to color: ", input, e );
 			return null;
