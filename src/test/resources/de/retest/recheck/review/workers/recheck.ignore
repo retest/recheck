@@ -21,6 +21,12 @@ attribute-regex= .*
 pixel-diff=5px
 pixel-diff=5.0px
 
+# Or ignore concrete values, but ensure they follow a specific pattern
+value-regex=\d\d\.\d\d\.\d\d\d\d
+attribute=text, value-regex=\d\d\.\d\d\.\d\d\d\d
+matcher: id=date-field, value-regex=\d\d\.\d\d\.\d\d\d\d
+matcher: id=date-field, attribute=text, value-regex=\d\d\.\d\d\.\d\d\d\d
+
 # Whitespace
  
 # Tab
