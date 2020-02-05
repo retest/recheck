@@ -51,17 +51,16 @@ class ElementClassMatcherTest {
 
 	@Test
 	void should_match_multiple_equal_class_values() throws Exception {
-		final Element oneTwoOnone = mockElementWithClassValue( "one two" );
-
-		final ElementClassMatcher cut = new ElementClassMatcher( oneTwoOnone );
-
-		final Element one = mockElementWithClassValue( "oneone" );
-		final Element two = mockElementWithClassValue( "two" );
 		final Element oneTwo = mockElementWithClassValue( "one two" );
-		final Element twoOne = mockElementWithClassValue( "boo two one" );
 
-		assertThat( cut ).accepts( oneTwo, twoOne );
-		assertThat( cut ).rejects( one, two );
+		final ElementClassMatcher cut = new ElementClassMatcher( oneTwo );
+
+		final Element oneOne = mockElementWithClassValue( "oneone" );
+		final Element two = mockElementWithClassValue( "two" );
+		final Element booTwoOne = mockElementWithClassValue( "boo two one" );
+
+		assertThat( cut ).accepts( oneTwo, booTwoOne );
+		assertThat( cut ).rejects( oneOne, two );
 	}
 
 	@Test
