@@ -38,6 +38,8 @@ Table of Contents
 
 ### Improvements
 
+* File names in log output should now always be in single quotes, making it easier to distinguish and select them.
+
 
 --------------------------------------------------------------------------------
 
