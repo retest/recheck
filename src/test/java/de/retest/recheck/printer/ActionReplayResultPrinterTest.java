@@ -94,6 +94,7 @@ class ActionReplayResultPrinterTest {
 
 		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
+				+ "\t  Please note that these differences do not affect the result and are not included in the difference count.\n" //
 				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
 				+ "\t\tb: expected=\"c\", actual=\"d\"" );
 	}
@@ -133,6 +134,7 @@ class ActionReplayResultPrinterTest {
 
 		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
+				+ "\t  Please note that these differences do not affect the result and are not included in the difference count.\n" //
 				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
 				+ "\t\tb: expected=\"c\", actual=\"d\"\n" //
 				+ "\tIdentifying at 'path/to/element':\n" //
