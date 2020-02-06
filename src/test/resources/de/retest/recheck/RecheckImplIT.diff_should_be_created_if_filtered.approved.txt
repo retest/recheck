@@ -4,6 +4,7 @@ A detailed report will be created at '*'. You can review the details by using ou
 Test 'filter' has 4 difference(s) in 1 state(s):
 check resulted in:
 	Metadata Differences:
+	  Please note that these differences do not affect the result and are not included in the difference count.
 		os.name: expected="null", actual="Linux"
 		os.version: expected="null", actual="4.4.0-101-generic"
 	test [test] at 'foo[1]/bar[1]':
