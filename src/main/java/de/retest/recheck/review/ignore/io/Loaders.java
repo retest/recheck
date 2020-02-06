@@ -13,6 +13,8 @@ import de.retest.recheck.review.ignore.AttributeFilter;
 import de.retest.recheck.review.ignore.AttributeFilter.AttributeFilterLoader;
 import de.retest.recheck.review.ignore.AttributeRegexFilter;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
+import de.retest.recheck.review.ignore.ColorDiffFilter;
+import de.retest.recheck.review.ignore.ColorDiffFilter.ColorDiffFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
 import de.retest.recheck.review.ignore.ImportedExternalFilter;
@@ -41,12 +43,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class Loaders {
 
-	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
+	private static final Loader<Filter> filter = new InheritanceLoader<Filter>( Arrays.asList( //
 			Pair.of( MatcherFilter.class, new MatcherFilterLoader() ), //
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
 			Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
 			Pair.of( ValueRegexFilter.class, new ValueRegexFilterLoader() ), //
+			Pair.of( ColorDiffFilter.class, new ColorDiffFilterLoader() ), //
 			Pair.of( FilterPreserveLine.class, new FilterPreserveLineLoader() ), //
 			Pair.of( ImportedExternalFilter.class, new ImportExternalFilterLoader() ), //
 			Pair.of( AllMatchFilter.class, new AllMatchFilterLoader() ), //

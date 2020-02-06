@@ -9,6 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.ignore.AllMatchFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.review.ignore.ColorDiffFilter.ColorDiffFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.ValueRegexFilter.ValueRegexFilterLoader;
 import de.retest.recheck.review.ignore.io.InheritanceLoader;
@@ -18,7 +19,8 @@ class ChainableFilterLoaderUtil {
 
 	private static final Loader<Filter> chainableFilter = new InheritanceLoader<>( Arrays.asList( //
 			Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
-			Pair.of( ValueRegexFilter.class, new ValueRegexFilterLoader() ) //
+			Pair.of( ValueRegexFilter.class, new ValueRegexFilterLoader() ), //
+			Pair.of( ColorDiffFilter.class, new ColorDiffFilterLoader() ) //
 	) );
 
 	public static Optional<Filter> load( final MatchResult regex, final Function<String, Filter> simpleFilterLoader ) {
