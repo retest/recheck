@@ -12,7 +12,9 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	@Override
 	public String toString( final MetadataDifference difference, final String indent ) {
 		final String prefix = "Metadata Differences:";
-		return indent + prefix + printDifferences( difference, indent + "\t" );
+		final String note =
+				"\n\t  Please note that these differences do not affect the result and are not included in the difference count.";
+		return indent + prefix + note + printDifferences( difference, indent + "\t" );
 	}
 
 	private String printDifferences( final MetadataDifference difference, final String indent ) {
