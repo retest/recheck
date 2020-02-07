@@ -43,7 +43,7 @@ public class SaveFilterWorker {
 					.map( f -> Loaders.filter().save( f.getFilter() ) ) //
 					.collect( Collectors.toList() );
 			final Path target = line.getKey();
-			log.info( "Writing filters to file {}.", target );
+			log.info( "Writing filters to file '{}'.", target );
 			createDirectories( target.getParent() );
 			write( target, save );
 		}

@@ -96,7 +96,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 			save( newOutputStream( path ), element );
 			log.debug( "Done writing {} to {}", element, identifier );
 		} catch ( final Throwable t ) {
-			log.error( "Error writing to file {}. Deleting what has been written to not leave corrupt file behind...",
+			log.error( "Error writing to file '{}'. Deleting what has been written to not leave corrupt file behind...",
 					identifier, t );
 			FileUtils.deleteQuietly( file );
 			throw t;
