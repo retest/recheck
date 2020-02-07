@@ -45,7 +45,7 @@ public class FileUtil {
 			}
 		} catch ( final IOException exc ) {
 			final String result = file.getAbsolutePath();
-			logger.error( "Exception getting canonical path for file {}.", result, exc );
+			logger.error( "Exception getting canonical path for file '{}'.", result, exc );
 			return result;
 		}
 	}
@@ -56,7 +56,7 @@ public class FileUtil {
 				return file.getCanonicalFile();
 			}
 		} catch ( final IOException exc ) {
-			logger.error( "Exception getting canonical file for file {}.", file.getPath(), exc );
+			logger.error( "Exception getting canonical file for file '{}'.", file.getPath(), exc );
 		}
 		return file;
 	}
@@ -146,7 +146,7 @@ public class FileUtil {
 		try {
 			result.getCanonicalFile().getParentFile().mkdirs();
 		} catch ( final IOException exc ) {
-			logger.error( "Exception creating parent folder of file {}.", result, exc );
+			logger.error( "Exception creating parent folder of file '{}'.", result, exc );
 			throw new ReTestSaveException( result.getAbsoluteFile().toURI(), "Exception creating parent folder.", exc );
 		}
 	}
@@ -282,7 +282,7 @@ public class FileUtil {
 				try {
 					in.close();
 				} catch ( final IOException e ) {
-					logger.error( "Exception closing input stream for zip file {}.", file, e );
+					logger.error( "Exception closing input stream for zip file '{}'.", file, e );
 				}
 			}
 		}
@@ -298,7 +298,7 @@ public class FileUtil {
 			in = new ZipFile( file );
 			return reader.read( in );
 		} catch ( final IllegalArgumentException exc ) {
-			logger.warn( "Error reading from file with wrong XML-version: {}", canonicalPathQuietly( file ), exc );
+			logger.warn( "Error reading from file with wrong XML-version: '{}'", canonicalPathQuietly( file ), exc );
 			throw exc;
 		} catch ( final Exception e ) {
 			logger.warn( "Error reading from file '{}', ignoring: ", canonicalPathQuietly( file ), e );
@@ -308,7 +308,7 @@ public class FileUtil {
 				try {
 					in.close();
 				} catch ( final IOException e ) {
-					logger.error( "Exception closing input stream for file {}.", file, e );
+					logger.error( "Exception closing input stream for file '{}'.", file, e );
 				}
 			}
 		}

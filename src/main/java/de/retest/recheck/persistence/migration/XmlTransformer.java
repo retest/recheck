@@ -41,7 +41,7 @@ public abstract class XmlTransformer {
 			// Since these files can become pretty big, storing them in memory might lead to OutOfMemoryErrors.
 			final File tmpFile = File.createTempFile( "retest-migration-", ".xml.lz4" );
 			tmpFile.deleteOnExit();
-			logger.debug( "Creating temporary file {} for XML migration. File will be deleted upon exit.",
+			logger.debug( "Creating temporary file '{}' for XML migration. File will be deleted upon exit.",
 					canonicalPathQuietly( tmpFile ) );
 
 			convertAndWriteToFile( inputStream, tmpFile );

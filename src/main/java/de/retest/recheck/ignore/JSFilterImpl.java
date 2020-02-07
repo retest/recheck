@@ -47,7 +47,7 @@ public class JSFilterImpl implements Filter {
 
 	Reader readScriptFile( final Path filterFilePath ) {
 		try {
-			logger.info( "Reading JS filter rules file from {}.", filterFilePath );
+			logger.info( "Reading JS filter rules file from '{}'.", filterFilePath );
 			return Files.newBufferedReader( filterFilePath, StandardCharsets.UTF_8 );
 		} catch ( final NoSuchFileException e ) {
 			logger.warn( "No JS filter file found at '{}': {}", filterFilePath, e.getMessage() );
@@ -77,22 +77,22 @@ public class JSFilterImpl implements Filter {
 		try {
 			final Object callResult = inv.invokeFunction( functionName, args );
 			if ( callResult == null ) {
-				logger.warn( "{} returned 'null' instead of a boolean value in file {}. Interpreting that as 'false'.",
+				logger.warn( "{} returned 'null' instead of a boolean value in file '{}'. Interpreting that as 'false'.",
 						filePath, functionName );
 				return false;
 			}
 			if ( !(callResult instanceof Boolean) ) {
-				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean in file {}.", callResult,
+				logger.error( "'{}' of {} cannot be cast to java.lang.Boolean in file '{}'.", callResult,
 						callResult.getClass(), filePath );
 				return false;
 			}
 			return (boolean) callResult;
 		} catch ( final ScriptException e ) {
-			logger.error( "JS '{}' method caused an exception: {} in file {}.", functionName, e.getMessage(),
+			logger.error( "JS '{}' method caused an exception: {} in file '{}'.", functionName, e.getMessage(),
 					filePath );
 		} catch ( final NoSuchMethodException e ) {
 			if ( !functionName.startsWith( "shouldIgnore" ) && !noMethodWarningPrinted ) {
-				logger.warn( "Specified JS filter file {} has no '{}' function.", filePath, functionName );
+				logger.warn( "Specified JS filter file '{}' has no '{}' function.", filePath, functionName );
 				noMethodWarningPrinted = true;
 			}
 		}
