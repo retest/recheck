@@ -1,16 +1,34 @@
 pull_request_rules:
-  - name: 'rebase when the head branch is not a release and all status checks passed'
+  - name: 'rebase unreviewed non-release PRs'
     conditions:
       - head~=^(?!(release|hotfix)).*$
       - status-success=Travis CI - Branch
       - status-success=Travis CI - Pull Request
       - status-success=SonarCloud Code Analysis
       - status-success=verification/cla-signed
+      - "#approved-reviews-by<=0"
+      - "#changes-requested-reviews-by<=0"
     actions:
       rebase: {}
 
-  - name: 'merge when the head branch is up-to-date, all status checks passed, one or more reviewers approved and no changes requested'
+  - name: 'merge non-release PRs with strict rebase'
     conditions:
+      - head~=^(?!(release|hotfix)).*$
+      - status-success=Travis CI - Branch
+      - status-success=Travis CI - Pull Request
+      - status-success=SonarCloud Code Analysis
+      - status-success=verification/cla-signed
+      - "#approved-reviews-by>=1"
+      - "#changes-requested-reviews-by<=0"
+    actions:
+      merge:
+        strict: true
+        strict_method: rebase
+        method: merge
+
+  - name: 'merge release PRs with strict merge'
+    conditions:
+      - head~=^(release|hotfix).*$
       - status-success=Travis CI - Branch
       - status-success=Travis CI - Pull Request
       - status-success=SonarCloud Code Analysis
@@ -22,7 +40,7 @@ pull_request_rules:
         strict: true
         method: merge
 
-  - name: 'delete after successful merge'
+  - name: 'delete PR branches after merge'
     conditions:
       - merged
     actions:
