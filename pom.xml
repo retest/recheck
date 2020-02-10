@@ -66,6 +66,7 @@
 		<junit.jupiter.version>5.6.0</junit.jupiter.version>
 		<logback.version>1.2.3</logback.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
+		<eclipse.persistence.version>2.5.2</eclipse.persistence.version>
 	</properties>
 
 	<scm>
@@ -170,14 +171,14 @@
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
 			<!-- later versions cause JAXBExceptions -->
-			<version>2.5.2</version>
+			<version>${eclipse.persistence.version}</version>
 		</dependency>
 
 		<!-- otherwise used transitively via eclipse moxy -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.core</artifactId>
-			<version>2.5.2</version>
+			<version>${eclipse.persistence.version}</version>
 		</dependency>
 
 		<!-- required by eclipse moxy -->
