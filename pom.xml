@@ -112,12 +112,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.core</artifactId>
-			<version>2.5.2</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.esotericsoftware</groupId>
 			<artifactId>kryo</artifactId>
 			<version>4.0.2</version>
@@ -167,6 +161,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.aeonbits.owner</groupId>
+			<artifactId>owner-java8</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
 			<!-- later versions cause JAXBExceptions -->
@@ -174,9 +174,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.aeonbits.owner</groupId>
-			<artifactId>owner-java8</artifactId>
-			<version>1.0.10</version>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.core</artifactId>
+			<version>2.5.2</version>
 		</dependency>
 
 		<!-- required by eclipse moxy -->
