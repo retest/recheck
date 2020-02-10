@@ -173,6 +173,7 @@
 			<version>2.5.2</version>
 		</dependency>
 
+		<!-- otherwise used transitively via eclipse moxy -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.core</artifactId>
