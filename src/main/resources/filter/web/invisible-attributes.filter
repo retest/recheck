@@ -1,24 +1,26 @@
 # Filter file for recheck with invisible and mostly irrelevant attributes 
 
-attribute=path
-attribute=id
+attribute=cd_frame_id_
 # Class can be ignored, because we track individual CSS attributes
 attribute=class
-attribute=name
-attribute=style
-attribute=ping
-attribute-regex=data-.*
-attribute=jsdata
+attribute=id
 attribute=jsaction
-attribute=cd_frame_id_
-attribute=transform
-attribute=tabindex
+attribute=jsdata
 attribute=lang
-attribute=xml:lang
-attribute=target
+attribute=name
+attribute=path
+attribute=ping
 attribute=rel
-attribute=xmlns
+attribute=style
+attribute=tabindex
+attribute=target
+attribute=transform
 attribute=user-select
+attribute=xml:lang
+attribute=xmlns
+
+attribute-regex=data-.*
+
 matcher: type=a, attribute: href
 matcher: type=img, attribute: alt
 matcher: type=img, attribute: title
@@ -68,8 +70,8 @@ attribute=onmousedown
 attribute=onmouseenter
 attribute=onmouseleave
 attribute=onmousemove
-attribute=onmouseover
 attribute=onmouseout
+attribute=onmouseover
 attribute=onmouseup
 attribute=onmousewheel
 attribute=onoffline
@@ -84,8 +86,8 @@ attribute=onplaying
 attribute=onpopstate
 attribute=onprogress
 attribute=onratechange
-attribute=onresize
 attribute=onreset
+attribute=onresize
 attribute=onscroll
 attribute=onsearch
 attribute=onseeked
