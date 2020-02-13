@@ -18,6 +18,7 @@ attribute=xml:lang
 attribute=target
 attribute=rel
 attribute=xmlns
+attribute=user-select
 matcher: type=a, attribute: href
 matcher: type=img, attribute: alt
 matcher: type=img, attribute: title
