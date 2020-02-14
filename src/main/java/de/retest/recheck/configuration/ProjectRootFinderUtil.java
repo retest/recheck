@@ -7,6 +7,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import de.retest.recheck.util.OptionalUtil;
+
 public class ProjectRootFinderUtil {
 
 	private static final Set<ProjectRootFinder> projectRootFinder = Sets.newHashSet( new PathBasedProjectRootFinder() );
@@ -21,8 +23,7 @@ public class ProjectRootFinderUtil {
 	public static Optional<Path> getProjectRoot( final Path basePath ) {
 		return projectRootFinder.stream() //
 				.map( finder -> finder.findProjectRoot( basePath ) ) //
-				.filter( Optional::isPresent ) //
-				.map( Optional::get ) //
+				.flatMap( OptionalUtil::stream ) //
 				.findAny();
 	}
 
