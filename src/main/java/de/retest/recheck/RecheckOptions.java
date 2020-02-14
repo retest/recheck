@@ -24,7 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
- * This class configures the behavior of {@link Recheck} and their implementations.
+ * This class configures the behavior of {@link Recheck} and its implementations.
  */
 @AllArgsConstructor( access = AccessLevel.PROTECTED )
 public class RecheckOptions {
