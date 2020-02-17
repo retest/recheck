@@ -146,7 +146,7 @@
 		<dependency>
 			<groupId>com.konghq</groupId>
 			<artifactId>unirest-java</artifactId>
-			<version>3.4.03</version>
+			<version>3.5.00</version>
 		</dependency>
 
 		<dependency>
