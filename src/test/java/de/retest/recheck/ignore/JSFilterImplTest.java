@@ -73,9 +73,9 @@ class JSFilterImplTest {
 				return new StringReader( "function matches(element, changetype) { return changetype == 'inserted'; }" );
 			}
 		};
-		assertThat( cut.matches( mock( Element.class ), ChangeType.Inserted ) ).isTrue();
-		assertThat( cut.matches( mock( Element.class ), ChangeType.Deleted ) ).isFalse();
-		assertThat( cut.matches( mock( Element.class ), ChangeType.Changed ) ).isFalse();
+		assertThat( cut.matches( mock( Element.class ), ChangeType.INSERTED ) ).isTrue();
+		assertThat( cut.matches( mock( Element.class ), ChangeType.DELETED ) ).isFalse();
+		assertThat( cut.matches( mock( Element.class ), ChangeType.CHANGED ) ).isFalse();
 	}
 
 	@Test

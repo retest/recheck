@@ -20,7 +20,7 @@ public class InsertedFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final ChangeType changeType ) {
-		return changeType == ChangeType.Inserted;
+		return changeType == ChangeType.INSERTED;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class InsertedFilter implements Filter {
 
 	public static class InsertedFilterLoader extends RegexLoader<InsertedFilter> {
 
-		private static final String KEY = "inserted";
+		private static final String KEY = "change=inserted";
 		private static final Pattern REGEX = Pattern.compile( KEY );
 
 		public InsertedFilterLoader() {

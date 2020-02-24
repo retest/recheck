@@ -20,7 +20,7 @@ public class DeletedFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final ChangeType changeType ) {
-		return changeType == ChangeType.Deleted;
+		return changeType == ChangeType.DELETED;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class DeletedFilter implements Filter {
 
 	public static class DeletedFilterLoader extends RegexLoader<DeletedFilter> {
 
-		private static final String KEY = "deleted";
+		private static final String KEY = "change=deleted";
 		private static final Pattern REGEX = Pattern.compile( KEY );
 
 		public DeletedFilterLoader() {

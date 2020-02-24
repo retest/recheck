@@ -18,10 +18,10 @@ import de.retest.recheck.ui.diff.AttributeDifference;
  */
 public interface Filter {
 
-	public static enum ChangeType {
-		Inserted,
-		Deleted,
-		Changed;
+	public enum ChangeType {
+		INSERTED,
+		DELETED,
+		CHANGED;
 	}
 
 	/**
