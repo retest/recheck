@@ -83,7 +83,7 @@ public class SutState extends Persistable {
 
 	@Override
 	public String toString() {
-		return String.format( "State[descriptor=%s]", descriptors );
+		return "State" + descriptors;
 	}
 
 	public SutState applyChanges( final ActionChangeSet actionChangeSet ) {
