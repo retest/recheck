@@ -64,7 +64,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		}
 	}
 
-	public static Collection<Attribute> createList( final Path path, String type ) {
+	public static List<Attribute> createList( final Path path, String type ) {
 		if ( type == null ) {
 			throw new NullPointerException( "Type must not be null." );
 		}
