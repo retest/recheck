@@ -24,6 +24,7 @@ import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.AttributeFilter;
+import de.retest.recheck.review.ignore.DeletedFilter;
 import de.retest.recheck.review.ignore.MatcherFilter;
 import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
 import de.retest.recheck.ui.descriptors.Element;
@@ -165,6 +166,11 @@ class TestReportFilterTest {
 
 		assertThat( new TestReportFilter( elementFilter ).filter( insertedDiff ) ).isEmpty();
 		assertThat( new TestReportFilter( elementFilter ).filter( deletedDiff ) ).isEmpty();
+
+		final Filter deletedFilter = new DeletedFilter();
+
+		assertThat( new TestReportFilter( deletedFilter ).filter( insertedDiff ) ).hasValue( insertedDiff );
+		assertThat( new TestReportFilter( deletedFilter ).filter( deletedDiff ) ).isEmpty();
 	}
 
 	@Test
