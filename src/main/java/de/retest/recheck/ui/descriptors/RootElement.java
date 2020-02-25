@@ -83,4 +83,12 @@ public class RootElement extends Element {
 		rootElement.addChildren( newContainedElements );
 		return rootElement;
 	}
+
+	@Override
+	public String toString() {
+		if (title != null) {
+			return title;
+		}
+		return super.toString();
+	}
 }
