@@ -306,7 +306,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	@Override
 	public String toString() {
-		return identifyingAttributes.toString();
+		return retestId;
 	}
 
 	public RootElement getRootElement() {

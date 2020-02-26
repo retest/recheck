@@ -1,5 +1,5 @@
-[RootElementDifferenceFinderTest$Window:
+[Window[1]:
  at: Window[1]:
-	[expected=RootElementDifferenceFinderTest$Window, actual=null], RootElementDifferenceFinderTest$OtherWindow:
+	[expected=Window[1], actual=null], Window[1]:
  at: Window[1]:
-	[expected=null, actual=RootElementDifferenceFinderTest$OtherWindow]]
+	[expected=null, actual=Window[1]]]

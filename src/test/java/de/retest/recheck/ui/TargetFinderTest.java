@@ -67,7 +67,7 @@ public class TargetFinderTest {
 				TargetFinder.findTargetComponent( action, new ArrayList<>(), null );
 
 		assertThat( result.left.toString() ).isEqualTo(
-				"de.retest.recheck.ui.actions.TargetNotFoundException: Action action: Could not resolve component TargetFinderTest$Comp! No best match found!" );
+				"de.retest.recheck.ui.actions.TargetNotFoundException: Action action: Could not resolve component root[1]/TargetFinderTest$Comp[1]! No best match found!" );
 
 		verify( targetFinderLogger ).error( "Could not find component {} in {} window(s): ",
 				"root[1] # de.retest.recheck.ui.TargetFinderTest$Comp # 1", 0 );
@@ -83,7 +83,7 @@ public class TargetFinderTest {
 				TargetFinder.findTargetComponent( action, Collections.singletonList( window ), null );
 
 		assertThat( result.left.toString() ).isEqualTo(
-				"de.retest.recheck.ui.actions.TargetNotFoundException: Action action: Could not resolve component TargetFinderTest$Comp! No best match found!" );
+				"de.retest.recheck.ui.actions.TargetNotFoundException: Action action: Could not resolve component root[1]/TargetFinderTest$Comp[1]! No best match found!" );
 
 		verify( targetFinderLogger ).error( "Could not find component {} in {} window(s): ",
 				"root[1] # de.retest.recheck.ui.TargetFinderTest$Comp # 1", 1 );
@@ -116,7 +116,7 @@ public class TargetFinderTest {
 
 		assertThat( result.left ).isNotNull();
 		assertThat( result.left.toString() ).isEqualTo(
-				"de.retest.recheck.ui.actions.TargetNotFoundException: Action action: Could not resolve component TargetFinderTest$Comp! No best match found!" );
+				"de.retest.recheck.ui.actions.TargetNotFoundException: Action action: Could not resolve component root[1]/TargetFinderTest$Comp[1]! No best match found!" );
 
 		verify( targetFinderLogger ).error( "Could not find component {} in {} window(s): ",
 				"root[1] # de.retest.recheck.ui.TargetFinderTest$Comp # 1", 1 );

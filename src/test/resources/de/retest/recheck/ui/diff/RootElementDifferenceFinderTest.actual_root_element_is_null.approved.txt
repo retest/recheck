@@ -1,1 +1,1 @@
-WindowIdentifyingAttributesDifference [expected=RootElementDifferenceFinderTest$Window, actual=null]
+WindowIdentifyingAttributesDifference [expected=Window[1], actual=null]

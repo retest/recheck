@@ -1,1 +1,1 @@
-[WindowIdentifyingAttributesDifference [expected=RootElementDifferenceFinderTest$Window, actual=null], WindowIdentifyingAttributesDifference [expected=null, actual=JDialog]]
+[WindowIdentifyingAttributesDifference [expected=Window[1], actual=null], WindowIdentifyingAttributesDifference [expected=null, actual=Other[1]]]

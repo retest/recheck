@@ -38,12 +38,11 @@ public class ElementTest {
 	}
 
 	@Test
-	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
+	public void toString_returns_retestId() throws Exception {
 		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
 				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
-		assertThat( Element.create( "asdef", rootElement, compIdentAttributes, new Attributes() ).toString() )
-				.isEqualTo( compIdentAttributes.toString() );
-		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
+		Element element = Element.create( "asdef", rootElement, compIdentAttributes, new Attributes() );
+		assertThat( element.toString() ).isEqualTo( "asdef" );
 	}
 
 	@Test

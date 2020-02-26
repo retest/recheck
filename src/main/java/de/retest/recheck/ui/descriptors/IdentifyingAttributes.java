@@ -184,7 +184,6 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	@Override
 	public String toString() {
 		final String type = getType();
-		final String text = get( "text" );
 		if ( type == null ) {
 			return "";
 		}
@@ -192,10 +191,19 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		if ( type.lastIndexOf( '.' ) > -1 ) {
 			result = type.substring( type.lastIndexOf( '.' ) + 1, type.length() );
 		}
+		final String text = get( "text" );
 		if ( text != null ) {
-			result += " [" + text + "]";
+			return result + " [" + text + "]";
 		}
-		return result;
+		final String id = get( "id" );
+		if ( id != null ) {
+			return result + " [" + id + "]";
+		}
+		final String name = get( "name" );
+		if ( name != null ) {
+			return result + " [" + name + "]";
+		}
+		return getPath();
 	}
 
 	public String getSuffix() {
