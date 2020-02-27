@@ -15,8 +15,6 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 
 	private static final String IS_DEFAULT = "(default or absent)";
 
-	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
-
 	private static final String WARNING_FILENAME_LINE_FORMAT = ", breaks=\"%s\"";
 
 	private final IdentifyingAttributes attributes;
@@ -25,46 +23,52 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	@Override
 	public String toString( final AttributeDifference difference, final String indent ) {
 		if ( difference.hasElementIdentificationWarning() ) {
-			return indent + format( difference ) + printWarning( difference );
+			return indent + format( difference, indent ) + printWarning( difference );
 		}
-		return indent + format( difference );
+		return indent + format( difference, indent );
 	}
 
-	private String format( final AttributeDifference difference ) {
+	private String format( final AttributeDifference difference, final String indent ) {
 		if ( isExpectedDefault( difference ) ) { // The attribute changed from default to a non-default
-			return printExpectedDefaultDifference( difference );
+			return printExpectedDefaultDifference( difference, indent );
 		}
 		if ( isActualDefault( difference ) ) { // The attribute changed back to default
-			return printActualDefaultDifference( difference );
+			return printActualDefaultDifference( difference, indent );
 		}
-		return printBothDifferences( difference );
+		return printBothDifferences( difference, indent );
 	}
 
 	private boolean isActualDefault( final AttributeDifference difference ) {
 		return defaultProvider.isDefaultValue( attributes, difference.getKey(), difference.getActual() );
 	}
 
-	private String printActualDefaultDifference( final AttributeDifference difference ) {
+	private String printActualDefaultDifference( final AttributeDifference difference, final String indent ) {
 		final String key = difference.getKey();
 		final Serializable expected = difference.getExpected();
-		return String.format( KEY_EXPECTED_ACTUAL_FORMAT, key, expected, IS_DEFAULT );
+		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
+
+		return String.format( keyExpectedActualFormat, key, expected, IS_DEFAULT );
 	}
 
 	private boolean isExpectedDefault( final AttributeDifference difference ) {
 		return difference.getExpected() == null; // We do not save defaults, thus this is null
 	}
 
-	private String printExpectedDefaultDifference( final AttributeDifference difference ) {
+	private String printExpectedDefaultDifference( final AttributeDifference difference, final String indent ) {
 		final String key = difference.getKey();
 		final Serializable actual = difference.getActual();
-		return String.format( KEY_EXPECTED_ACTUAL_FORMAT, key, IS_DEFAULT, actual );
+		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
+
+		return String.format( keyExpectedActualFormat, key, IS_DEFAULT, actual );
 	}
 
-	private String printBothDifferences( final AttributeDifference difference ) {
+	private String printBothDifferences( final AttributeDifference difference, final String indent ) {
 		final String key = difference.getKey();
 		final Serializable expected = difference.getExpected();
 		final Serializable actual = difference.getActual();
-		return String.format( KEY_EXPECTED_ACTUAL_FORMAT, key, expected, actual );
+		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
+
+		return String.format( keyExpectedActualFormat, key, expected, actual );
 	}
 
 	private String printWarning( final AttributeDifference difference ) {
@@ -76,5 +80,11 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 
 	private String formatWarning( final ElementIdentificationWarning warning ) {
 		return warning.getTestFileName() + ":" + warning.getTestLineNumber();
+	}
+
+	private String getKeyExpectedActualFormat( final String indent ) {
+		final String expectedItemIndent = indent + "  ";
+		final String actualItemIndent = indent + "    "; // tab leads to wrong indent on console
+		return "%s:\n" + expectedItemIndent + "expected=\"%s\",\n" + actualItemIndent + "actual=\"%s\"";
 	}
 }
