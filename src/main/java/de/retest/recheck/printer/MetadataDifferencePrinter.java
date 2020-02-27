@@ -7,24 +7,31 @@ import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 
 public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 
-	private static final String KEY_EXPECTED_ACTUAL_FORMAT = "%s: expected=\"%s\", actual=\"%s\"";
-
 	@Override
 	public String toString( final MetadataDifference difference, final String indent ) {
-		final String prefix = "Metadata Differences:";
+		final String prefix = "Metadata Differences:\n";
 		final String note =
-				"\n\t  Please note that these differences do not affect the result and are not included in the difference count.";
-		return indent + prefix + note + printDifferences( difference, indent + "\t" );
+				"Please note that these differences do not affect the result and are not included in the difference count.";
+		final String noteIndent = indent + "  ";
+		final String differenceIndent = indent + "\t";
+		return indent + prefix + noteIndent + note + printDifferences( difference, differenceIndent );
 	}
 
 	private String printDifferences( final MetadataDifference difference, final String indent ) {
 		return difference.getDifferences().stream() //
-				.map( this::print ) //
+				.map( d -> print( d, indent ) ) //
 				.collect( Collectors.joining( "\n" + indent, "\n" + indent, "" ) );
 	}
 
-	private String print( final MetadataElementDifference difference ) {
-		return String.format( KEY_EXPECTED_ACTUAL_FORMAT, difference.getKey(), difference.getExpected(),
+	private String print( final MetadataElementDifference difference, final String indent ) {
+		final String expectedItemIndent = indent + "  ";
+		final String actualItemIndent = indent + "    "; // tab leads to wrong indent on console
+
+		final String keyExpectedActualFormat =
+				"%s:\n" + expectedItemIndent + "expected=\"%s\",\n" + actualItemIndent + "actual=\"%s\"";
+
+		return String.format( keyExpectedActualFormat, difference.getKey(), difference.getExpected(),
 				difference.getActual() );
 	}
+
 }

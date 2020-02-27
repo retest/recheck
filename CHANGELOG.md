@@ -39,6 +39,7 @@ Table of Contents
 ### Improvements
 
 * File names in log output should now always be in single quotes, making it easier to distinguish and select them.
+* Printer layout is improved (in `MetadataDifferencePrinter` and `AttributeDifferencePrinter`). Differences will now be printed per line and aligned for easier comparison.
 
 
 --------------------------------------------------------------------------------

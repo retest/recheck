@@ -74,7 +74,9 @@ class ActionReplayResultPrinterTest {
 
 		assertThat( string ).isEqualTo( "foo resulted in:\n" //
 				+ "\tIdentifying at 'path/to/element':\n" //
-				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
+				+ "\t\tkey:" //
+				+ "\n\t\t  expected=\"expected\"," //
+				+ "\n\t\t    actual=\"actual\"" );
 	}
 
 	@Test
@@ -95,8 +97,12 @@ class ActionReplayResultPrinterTest {
 		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
 				+ "\t  Please note that these differences do not affect the result and are not included in the difference count.\n" //
-				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
-				+ "\t\tb: expected=\"c\", actual=\"d\"" );
+				+ "\t\ta:" //
+				+ "\n\t\t  expected=\"b\"," // 
+				+ "\n\t\t    actual=\"c\"\n" //
+				+ "\t\tb:" //
+				+ "\n\t\t  expected=\"c\"," //
+				+ "\n\t\t    actual=\"d\"" );
 	}
 
 	@Test
@@ -135,10 +141,16 @@ class ActionReplayResultPrinterTest {
 		assertThat( cut.toString( actionResult ) ).isEqualTo( "foo resulted in:\n" //
 				+ "\tMetadata Differences:\n" //
 				+ "\t  Please note that these differences do not affect the result and are not included in the difference count.\n" //
-				+ "\t\ta: expected=\"b\", actual=\"c\"\n" //
-				+ "\t\tb: expected=\"c\", actual=\"d\"\n" //
+				+ "\t\ta:" //
+				+ "\n\t\t  expected=\"b\"," //
+				+ "\n\t\t    actual=\"c\"\n" //
+				+ "\t\tb:" //
+				+ "\n\t\t  expected=\"c\"," //
+				+ "\n\t\t    actual=\"d\"\n" //
 				+ "\tIdentifying at 'path/to/element':\n" //
-				+ "\t\tkey: expected=\"expected\", actual=\"actual\"" );
+				+ "\t\tkey:" //
+				+ "\n\t\t  expected=\"expected\"," //
+				+ "\n\t\t    actual=\"actual\"" );
 	}
 
 	@Test
