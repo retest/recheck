@@ -148,13 +148,13 @@ public class TestReportFilter {
 
 	Optional<InsertedDeletedElementDifference> filter( final InsertedDeletedElementDifference insertedDeletedDiff ) {
 		if ( insertedDeletedDiff.isInserted() ) {
-			return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) || //
-					filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.INSERTED ) //
+			return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) //
+					|| filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.INSERTED ) //
 					? Optional.empty() //
 					: Optional.of( insertedDeletedDiff );
 		}
-		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) || //
-				filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.DELETED ) //
+		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) //
+				|| filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.DELETED ) //
 				? Optional.empty() //
 				: Optional.of( insertedDeletedDiff );
 	}
