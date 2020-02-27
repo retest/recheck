@@ -1,10 +1,10 @@
 package de.retest.recheck.review.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import de.retest.recheck.ignore.AllMatchFilter;
 import de.retest.recheck.ignore.Filter;
@@ -18,14 +18,14 @@ class DeletedFilterTest {
 	@Test
 	void should_filter_deleted_elements() {
 		DeletedFilter cut = new DeletedFilter();
-		Element element = Mockito.mock( Element.class );
+		Element element = mock( Element.class );
 		assertThat( cut.matches( element, ChangeType.DELETED ) ).isTrue();
 	}
 
 	@Test
 	void should_not_filter_nondeleted_elements() {
 		DeletedFilter cut = new DeletedFilter();
-		Element element = Mockito.mock( Element.class );
+		Element element = mock( Element.class );
 		assertThat( cut.matches( element ) ).isFalse();
 		assertThat( cut.matches( element, ChangeType.INSERTED ) ).isFalse();
 		assertThat( cut.matches( element, ChangeType.CHANGED ) ).isFalse();
@@ -47,12 +47,12 @@ class DeletedFilterTest {
 		Filter filter = Loaders.filter().load( "matcher: retestid=myId, change=deleted" ).get();
 		assertThat( filter ).isInstanceOf( AllMatchFilter.class );
 
-		Element matching = Mockito.mock( Element.class );
+		Element matching = mock( Element.class );
 		when( matching.getRetestId() ).thenReturn( "myId" );
 
 		assertThat( filter.matches( matching, ChangeType.DELETED ) ).isTrue();
 
-		Element nonMatching = Mockito.mock( Element.class );
+		Element nonMatching = mock( Element.class );
 		when( nonMatching.getRetestId() ).thenReturn( "otherId" );
 
 		assertThat( filter.matches( nonMatching, ChangeType.DELETED ) ).isFalse();
