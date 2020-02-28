@@ -15,9 +15,13 @@ import de.retest.recheck.review.ignore.AttributeRegexFilter;
 import de.retest.recheck.review.ignore.AttributeRegexFilter.AttributeRegexFilterLoader;
 import de.retest.recheck.review.ignore.ColorDiffFilter;
 import de.retest.recheck.review.ignore.ColorDiffFilter.ColorDiffFilterLoader;
+import de.retest.recheck.review.ignore.DeletedFilter;
+import de.retest.recheck.review.ignore.DeletedFilter.DeletedFilterLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader;
 import de.retest.recheck.review.ignore.FilterPreserveLineLoader.FilterPreserveLine;
 import de.retest.recheck.review.ignore.ImportedExternalFilter;
+import de.retest.recheck.review.ignore.InsertedFilter;
+import de.retest.recheck.review.ignore.InsertedFilter.InsertedFilterLoader;
 import de.retest.recheck.review.ignore.JSFilterLoader;
 import de.retest.recheck.review.ignore.MatcherFilter;
 import de.retest.recheck.review.ignore.MatcherFilter.MatcherFilterLoader;
@@ -43,7 +47,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor( access = AccessLevel.PRIVATE )
 public class Loaders {
 
-	private static final Loader<Filter> filter = new InheritanceLoader<Filter>( Arrays.asList( //
+	private static final Loader<Filter> filter = new InheritanceLoader<>( Arrays.asList( //
 			Pair.of( MatcherFilter.class, new MatcherFilterLoader() ), //
 			Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 			Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
@@ -55,6 +59,8 @@ public class Loaders {
 			Pair.of( AllMatchFilter.class, new AllMatchFilterLoader() ), //
 			Pair.of( CacheFilter.class, new CacheFilter.FilterLoader() ), //
 			Pair.of( JSFilterImpl.class, new JSFilterLoader() ), //
+			Pair.of( InsertedFilter.class, new InsertedFilterLoader() ), //
+			Pair.of( DeletedFilter.class, new DeletedFilterLoader() ), //
 
 			// This is error handling and should always be last
 			Pair.of( Filter.class, new ErrorHandlingLoader() ) //

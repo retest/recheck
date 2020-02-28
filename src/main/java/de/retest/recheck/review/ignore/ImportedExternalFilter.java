@@ -21,6 +21,11 @@ public class ImportedExternalFilter implements Filter {
 	}
 
 	@Override
+	public boolean matches( final Element element, final ChangeType change ) {
+		return loaded.matches( element, change );
+	}
+
+	@Override
 	public boolean matches( final Element element, final String attributeKey ) {
 		return loaded.matches( element, attributeKey );
 	}

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.Filter.ChangeType;
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.ui.descriptors.Element;
@@ -146,7 +147,14 @@ public class TestReportFilter {
 	}
 
 	Optional<InsertedDeletedElementDifference> filter( final InsertedDeletedElementDifference insertedDeletedDiff ) {
-		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement() ) //
+		if ( insertedDeletedDiff.isInserted() ) {
+			return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) //
+					|| filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.INSERTED ) //
+					? Optional.empty() //
+					: Optional.of( insertedDeletedDiff );
+		}
+		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) //
+				|| filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.DELETED ) //
 				? Optional.empty() //
 				: Optional.of( insertedDeletedDiff );
 	}

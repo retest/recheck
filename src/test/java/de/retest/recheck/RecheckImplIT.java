@@ -40,6 +40,11 @@ class RecheckImplIT {
 	}
 
 	@Test
+	void diff_should_be_created_with_deleted_filtered() {
+		execute( "filter-deleted", withIgnore( Filters.parse( "change=deleted" ) ) );
+	}
+
+	@Test
 	void diff_should_handle_legacy_spaces_accordingly() {
 		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
 		doReturn( RecheckImplIT.class.getName() + " legacy spaces" ).when( fileNamerStrategy ).getTestClassName();

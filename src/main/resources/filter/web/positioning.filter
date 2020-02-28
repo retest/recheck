@@ -25,3 +25,6 @@ attribute=padding-bottom
 attribute=padding-left
 
 attribute=z-index
+
+matcher: type=br, change=inserted
+matcher: type=br, change=deleted

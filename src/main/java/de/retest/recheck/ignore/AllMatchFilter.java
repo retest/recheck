@@ -41,6 +41,11 @@ public class AllMatchFilter implements Filter {
 	}
 
 	@Override
+	public boolean matches( final Element element, final ChangeType change ) {
+		return filters.stream().allMatch( f -> f.matches( element, change ) );
+	}
+
+	@Override
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		return filters.stream().allMatch( f -> f.matches( element, attributeDifference ) );
 	}

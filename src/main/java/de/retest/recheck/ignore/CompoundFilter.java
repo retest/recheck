@@ -42,6 +42,11 @@ public class CompoundFilter implements Filter {
 	}
 
 	@Override
+	public boolean matches( final Element element, final ChangeType change ) {
+		return filters.stream().anyMatch( f -> f.matches( element, change ) );
+	}
+
+	@Override
 	public boolean matches( final Element element, final AttributeDifference attributeDifference ) {
 		for ( final Filter filter : filters ) {
 			if ( filter.matches( element, attributeDifference ) ) {

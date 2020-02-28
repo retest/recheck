@@ -66,6 +66,11 @@ public class GlobalIgnoreApplier implements Filter {
 		return any( filter -> filter.matches( element ) );
 	}
 
+	@Override
+	public boolean matches( final Element element, final ChangeType change ) {
+		return any( filter -> filter.matches( element, change ) );
+	}
+
 	public void ignoreElement( final Element element ) {
 		add( new MatcherFilter( new ElementRetestIdMatcher( element ) ) );
 	}

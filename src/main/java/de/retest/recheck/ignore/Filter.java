@@ -18,6 +18,12 @@ import de.retest.recheck.ui.diff.AttributeDifference;
  */
 public interface Filter {
 
+	public enum ChangeType {
+		INSERTED,
+		DELETED,
+		CHANGED;
+	}
+
 	/**
 	 * Returns <code>true</code> if the element <em>and all of its child elements</em>, so essentially the whole subtree
 	 * this element is the root of, should be completely filtered (all attributes of all elements, whether elements are
@@ -28,6 +34,24 @@ public interface Filter {
 	 * @return <code>true</code> if the given element should be completely filtered.
 	 */
 	boolean matches( final Element element );
+
+	/**
+	 * Returns <code>true</code> if the element <em>and all of its child elements</em>, so essentially the whole subtree
+	 * this element is the root of, should be completely filtered (all attributes of all elements, whether elements are
+	 * added or removed).
+	 *
+	 * If {@link #matches(Element)} returns <code>true</code>, this method must always return <code>true</code>. Can
+	 * return any value only if {@link #matches(Element)} returns <code>false</code>.
+	 *
+	 * @param element
+	 *            The element in question.
+	 * @param change
+	 *            The type of the change (see {@link ChangeType}).
+	 * @return <code>true</code> if the given element should be completely filtered.
+	 */
+	default boolean matches( final Element element, final ChangeType change ) {
+		return matches( element );
+	}
 
 	/**
 	 * Returns <code>true</code> if the given attribute as specified by the attribute-key should be filtered for the
