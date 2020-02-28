@@ -17,11 +17,11 @@ abstract class AbstractFirstNonNullRetestIdProvider implements RetestIdProvider 
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "Identifying attributes must not be null." );
 		}
-		final String htmlId = normalizeAndCut( identifyingAttributes.get( "id" ) );
 		final String text = normalizeAndCut( identifyingAttributes.get( "text" ) );
+		final String htmlId = normalizeAndCut( identifyingAttributes.get( "id" ) );
 		final String name = normalizeAndCut( identifyingAttributes.get( "name" ) );
 		final String type = normalizeAndCut( cutTypeQualifier( identifyingAttributes.get( "type" ) ) );
-		final String id = returnFirstNonBlank( htmlId, text, name, type, randomUUID().toString() );
+		final String id = returnFirstNonBlank( text, htmlId, name, type, randomUUID().toString() );
 		return makeUnique( id );
 	}
 
