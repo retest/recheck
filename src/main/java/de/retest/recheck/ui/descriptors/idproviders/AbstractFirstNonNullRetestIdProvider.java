@@ -19,8 +19,9 @@ abstract class AbstractFirstNonNullRetestIdProvider implements RetestIdProvider 
 		}
 		final String htmlId = normalizeAndCut( identifyingAttributes.get( "id" ) );
 		final String text = normalizeAndCut( identifyingAttributes.get( "text" ) );
+		final String name = normalizeAndCut( identifyingAttributes.get( "name" ) );
 		final String type = normalizeAndCut( cutTypeQualifier( identifyingAttributes.get( "type" ) ) );
-		final String id = returnFirstNonBlank( htmlId, text, type, randomUUID().toString() );
+		final String id = returnFirstNonBlank( htmlId, text, name, type, randomUUID().toString() );
 		return makeUnique( id );
 	}
 
