@@ -41,6 +41,28 @@ class DefaultRetestIdProviderTest {
 	}
 
 	@Test
+	void should_prefer_text_over_id_over_name_over_type() {
+		IdentifyingAttributes ident = mock( IdentifyingAttributes.class );
+		when( ident.get( "text" ) ).thenReturn( "My Text" );
+		when( ident.get( "id" ) ).thenReturn( "My ID" );
+		when( ident.get( "name" ) ).thenReturn( "My Name" );
+		when( ident.get( "type" ) ).thenReturn( "My Type" );
+		assertThat( cut.getRetestId( ident ) ).isEqualTo( "my_text" );
+
+		when( ident.get( "text" ) ).thenReturn( null );
+		assertThat( cut.getRetestId( ident ) ).isEqualTo( "my_id" );
+
+		when( ident.get( "id" ) ).thenReturn( null );
+		assertThat( cut.getRetestId( ident ) ).isEqualTo( "my_name" );
+
+		when( ident.get( "name" ) ).thenReturn( null );
+		assertThat( cut.getRetestId( ident ) ).isEqualTo( "my_type" );
+
+		when( ident.get( "name" ) ).thenReturn( null );
+		assertThat( cut.getRetestId( ident ) ).isNotNull();
+	}
+
+	@Test
 	void too_long_words_should_be_cut() {
 		// but also for single words
 		final IdentifyingAttributes ident = createIdentAttributes( "supercalifragilisticexpialidocious" );
