@@ -37,6 +37,7 @@ class DefaultRetestIdProviderTest {
 
 		// and cut should still be unique!
 		assertThat( retestId ).isNotEqualTo( cut.getRetestId( ident ) );
+		assertThat( retestId ).isEqualTo( "this_is_some" );
 	}
 
 	@Test
