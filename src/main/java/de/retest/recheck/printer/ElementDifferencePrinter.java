@@ -21,7 +21,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private String createDescription( final ElementDifference difference ) {
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
-		return attributes + " at '" + attributes.getPath() + "':";
+		return attributes.getType() + " (" + difference.getElement() + ") at '" + attributes.getPath() + "':";
 	}
 
 	private String createDifferences( final ElementDifference difference, final String indent ) {
