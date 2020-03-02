@@ -4,7 +4,7 @@
 
 	<groupId>de.retest</groupId>
 	<artifactId>recheck</artifactId>
-	<version>1.10.0-SNAPSHOT</version>
+	<version>1.10.0-beta.2</version>
 	<packaging>jar</packaging>
 
 	<name>recheck</name>
@@ -73,7 +73,7 @@
 		<url>https://github.com/retest/recheck/</url>
 		<connection>scm:git:git@github.com:retest/recheck.git</connection>
 		<developerConnection>scm:git:git@github.com:retest/recheck.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v1.10.0-beta.2</tag>
 	</scm>
 
 	<distributionManagement>
