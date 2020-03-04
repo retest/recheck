@@ -84,6 +84,6 @@ public class SutStateFilter {
 	}
 
 	private boolean filterNothing() {
-		return filter == Filter.FILTER_NOTHING;
+		return filter == Filter.NEVER_MATCH;
 	}
 }
