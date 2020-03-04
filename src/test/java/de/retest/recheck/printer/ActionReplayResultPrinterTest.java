@@ -20,7 +20,7 @@ import de.retest.recheck.report.action.WindowRetriever;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.PathAttribute;
+import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -45,8 +45,8 @@ class ActionReplayResultPrinterTest {
 	@Test
 	void toString_should_print_state_differences_if_no_meta_differences() {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.toString() ).thenReturn( "Identifying" );
 		when( identifyingAttributes.getPath() ).thenReturn( "path/to/element" );
+		when( identifyingAttributes.getType() ).thenReturn( "element" );
 
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "key" );
@@ -57,6 +57,9 @@ class ActionReplayResultPrinterTest {
 		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 		when( rootDifference.hasAnyDifference() ).thenReturn( true );
 		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+		Element element = mock( Element.class );
+		when( element.toString() ).thenReturn( "retestId" );
+		when( rootDifference.getElement() ).thenReturn( element );
 
 		final RootElementDifference root = mock( RootElementDifference.class );
 		when( root.getElementDifference() ).thenReturn( rootDifference );
@@ -73,7 +76,7 @@ class ActionReplayResultPrinterTest {
 		final String string = cut.toString( result );
 
 		assertThat( string ).isEqualTo( "foo resulted in:\n" //
-				+ "\tIdentifying at 'path/to/element':\n" //
+				+ "\telement (retestId) at 'path/to/element':\n" //
 				+ "\t\tkey:" //
 				+ "\n\t\t  expected=\"expected\"," //
 				+ "\n\t\t    actual=\"actual\"" );
@@ -108,8 +111,8 @@ class ActionReplayResultPrinterTest {
 	@Test
 	void toString_should_print_meta_before_state_differences() throws Exception {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.toString() ).thenReturn( "Identifying" );
 		when( identifyingAttributes.getPath() ).thenReturn( "path/to/element" );
+		when( identifyingAttributes.getType() ).thenReturn( "element" );
 
 		final AttributeDifference attributeDifference = mock( AttributeDifference.class );
 		when( attributeDifference.getKey() ).thenReturn( "key" );
@@ -120,6 +123,10 @@ class ActionReplayResultPrinterTest {
 		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 		when( rootDifference.hasAnyDifference() ).thenReturn( true );
 		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
+		Element element = mock( Element.class );
+		when( element.toString() ).thenReturn( "retestId" );
+		when( rootDifference.getElement() ).thenReturn( element );
+
 
 		final RootElementDifference root = mock( RootElementDifference.class );
 		when( root.getElementDifference() ).thenReturn( rootDifference );
@@ -147,7 +154,7 @@ class ActionReplayResultPrinterTest {
 				+ "\t\tb:" //
 				+ "\n\t\t  expected=\"c\"," //
 				+ "\n\t\t    actual=\"d\"\n" //
-				+ "\tIdentifying at 'path/to/element':\n" //
+				+ "\telement (retestId) at 'path/to/element':\n" //
 				+ "\t\tkey:" //
 				+ "\n\t\t  expected=\"expected\"," //
 				+ "\n\t\t    actual=\"actual\"" );
@@ -235,14 +242,8 @@ class ActionReplayResultPrinterTest {
 
 	private Element element( final String pathAsString ) {
 		final Path path = Path.fromString( pathAsString );
-		final PathAttribute pathAttribute = new PathAttribute( path );
-
-		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.getPath() ).thenReturn( path.toString() );
-		when( identifyingAttributes.toString() ).thenReturn( path.getElement().toString() );
-
-		final Element element = mock( Element.class );
-		when( element.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
-		return element;
+		final IdentifyingAttributes identifyingAttributes = IdentifyingAttributes.create( path, "type" );
+		return Element.create( "retestId", mock( Element.class ), identifyingAttributes,
+				new MutableAttributes().immutable() );
 	}
 }

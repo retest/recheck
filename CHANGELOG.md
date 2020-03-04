@@ -27,6 +27,19 @@ Table of Contents
 
 ### Bug Fixes
 
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+
+[1.10.0] (2020-03-04)
+---------------------
+
+### Bug Fixes
+
 * When defining an ignore rule with element and attribute, this rule is now applied to the whole _subtree_, i.e. all child elements of the specified element. We found that this is more intuitive and straightforward and more often what people would expect. Also, it is more in line with the current behavior when just ignoring an element (which also ignores all of its child elements).
 * Fixed a bug where, when filtering for classes, the given classes had to contain _all_ of the elements classes, not the other way around. 
 
@@ -41,9 +54,7 @@ Table of Contents
 
 * File names in log output should now always be in single quotes, making it easier to distinguish and select them.
 * Printer layout is improved (in `MetadataDifferencePrinter` and `AttributeDifferencePrinter`). Differences will now be printed per line and aligned for easier comparison.
-
-
---------------------------------------------------------------------------------
+* Prefer the text over the ID in the default recheckId provider, because the ID is often generated, the text never is.
 
 
 [1.9.0] (2020-01-29)
