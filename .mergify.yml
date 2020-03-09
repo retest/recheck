@@ -2,8 +2,8 @@ pull_request_rules:
   - name: 'rebase unreviewed non-release PRs'
     conditions:
       - head~=^(?!(release|hotfix)).*$
-      - "#approved-reviews-by<=0"
-      - "#changes-requested-reviews-by<=0"
+      - "#approved-reviews-by=0"
+      - "#changes-requested-reviews-by=0"
     actions:
       rebase: {}
 
@@ -11,7 +11,7 @@ pull_request_rules:
     conditions:
       - head~=^(?!(release|hotfix)).*$
       - "#approved-reviews-by>=1"
-      - "#changes-requested-reviews-by<=0"
+      - "#changes-requested-reviews-by=0"
     actions:
       merge:
         strict: true
@@ -22,7 +22,7 @@ pull_request_rules:
     conditions:
       - head~=^(release|hotfix).*$
       - "#approved-reviews-by>=1"
-      - "#changes-requested-reviews-by<=0"
+      - "#changes-requested-reviews-by=0"
     actions:
       merge:
         strict: true
