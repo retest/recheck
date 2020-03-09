@@ -2,10 +2,6 @@ pull_request_rules:
   - name: 'rebase unreviewed non-release PRs'
     conditions:
       - head~=^(?!(release|hotfix)).*$
-      - status-success=Travis CI - Branch
-      - status-success=Travis CI - Pull Request
-      - status-success=SonarCloud Code Analysis
-      - status-success=verification/cla-signed
       - "#approved-reviews-by<=0"
       - "#changes-requested-reviews-by<=0"
     actions:
@@ -14,10 +10,6 @@ pull_request_rules:
   - name: 'merge non-release PRs with strict rebase'
     conditions:
       - head~=^(?!(release|hotfix)).*$
-      - status-success=Travis CI - Branch
-      - status-success=Travis CI - Pull Request
-      - status-success=SonarCloud Code Analysis
-      - status-success=verification/cla-signed
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by<=0"
     actions:
@@ -29,10 +21,6 @@ pull_request_rules:
   - name: 'merge release PRs with strict merge'
     conditions:
       - head~=^(release|hotfix).*$
-      - status-success=Travis CI - Branch
-      - status-success=Travis CI - Pull Request
-      - status-success=SonarCloud Code Analysis
-      - status-success=verification/cla-signed
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by<=0"
     actions:
