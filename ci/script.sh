@@ -12,7 +12,7 @@ mvn ${MVN_ARGS} clean package -DskipTests
 wget --quiet https://github.com/sormuras/bach/raw/master/install-jdk.sh && . ./install-jdk.sh -F 13
 
 if [ ${TRAVIS_SECURE_ENV_VARS} = "true" ]; then
-    mvn ${MVN_ARGS} org.jacoco:jacoco-maven-plugin:prepare-agent test verify sonar:sonar
+    mvn ${MVN_ARGS} verify sonar:sonar -Pcoverage
 else
-    mvn ${MVN_ARGS} org.jacoco:jacoco-maven-plugin:prepare-agent test verify
+    mvn ${MVN_ARGS} verify
 fi
