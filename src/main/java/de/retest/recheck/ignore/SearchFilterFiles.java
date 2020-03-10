@@ -158,8 +158,8 @@ public class SearchFilterFiles {
 	}
 
 	public static Filter getFilterByName( final String name ) {
-		final Filter filter = toFileNameFilterMapping().get( name );
-		if ( filter == null ) {
+		final FilterLoader loader = toFileLoaderMapping().get( name );
+		if ( loader == null ) {
 			throw ProjectConfiguration.getInstance().getProjectConfigFolder() //
 					.map( path -> path.resolve( FILTER_DIR_NAME ) ) //
 					.map( Path::toAbsolutePath ) //
@@ -167,6 +167,6 @@ public class SearchFilterFiles {
 					.map( s -> new FilterNotFoundException( name, s ) )
 					.orElseGet( () -> new FilterNotFoundException( name ) );
 		}
-		return filter;
+		return loadSilently( loader, name );
 	}
 }
