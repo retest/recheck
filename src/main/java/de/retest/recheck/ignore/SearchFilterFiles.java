@@ -122,23 +122,34 @@ public class SearchFilterFiles {
 	 */
 	public static Map<String, Filter> toFileNameFilterMapping() {
 		// Concat from specific to generic.
+		return toFileLoaderMapping().entrySet().stream() //
+				.map( entry -> {
+					final String name = entry.getKey();
+					final FilterLoader loader = entry.getValue();
+					return Pair.of( name, loadSilently( loader, name ) );
+				} ) //
+				.collect( Collectors.toMap( Pair::getLeft, Pair::getRight ) );
+	}
+
+	private static Map<String, FilterLoader> toFileLoaderMapping() {
 		return Stream.of( getProjectFilterFiles(), getUserFilterFiles(), getDefaultFilterFiles() )
 				.flatMap( List::stream ) //
 				.collect( Collectors.toMap(
 						// Use the file name as key.
 						Pair::getLeft,
 						// Use the loaded filter as value.
-						pair -> {
-							final FilterLoader loader = pair.getRight();
-							try {
-								return loader.load();
-							} catch ( final IOException e ) {
-								log.error( "Could not load filter for name '{}'.", pair.getLeft(), e );
-								return Filter.FILTER_NOTHING;
-							}
-						},
+						Pair::getRight,
 						// Prefer specific over generic filters (due to concat order).
-						( specificFilter, genericFilter ) -> specificFilter ) );
+						( specificFilterLoader, genericFilterLoader ) -> specificFilterLoader ) );
+	}
+
+	private static Filter loadSilently( final FilterLoader loader, final String name ) {
+		try {
+			return loader.load();
+		} catch ( final IOException e ) {
+			log.error( "Could not load filter for name '{}'.", name, e );
+			return Filter.NEVER_MATCH;
+		}
 	}
 
 	private static String getFileName( final Path path ) {
