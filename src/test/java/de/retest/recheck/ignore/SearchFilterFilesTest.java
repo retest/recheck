@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -133,6 +134,25 @@ class SearchFilterFilesTest {
 		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
 		assertThat( result ).isNotNull();
 		assertThat( result.toString() ).isEqualTo( "CompoundFilter(filters=[])" );
+	}
+
+	@Test
+	@ClearSystemProperty( key = RETEST_PROJECT_ROOT )
+	void getFilterByName_should_only_load_searched_filter() throws IOException {
+		System.setProperty( RETEST_PROJECT_ROOT, filterFolder.toString() );
+
+		// Create infinite filter loop which will cause infinite loop if loaded
+		final Path foo = filterFolder.resolve( "foo.filter" );
+		Files.write( foo, Collections.singleton( "import: bar.filter" ) );
+		final Path bar = filterFolder.resolve( "bar.filter" );
+		Files.write( bar, Collections.singleton( "import: foo.filter" ) );
+
+		final Path positioningFilter = filterFolder.resolve( "content.filter" );
+		Files.createFile( positioningFilter );
+
+		final Filter result = SearchFilterFiles.getFilterByName( "content.filter" );
+		assertThat( result ).isInstanceOfSatisfying( CompoundFilter.class,
+				compound -> assertThat( compound.getFilters() ).isEmpty() );
 	}
 
 	@Test
