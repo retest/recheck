@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RetestAuthentication {
 
 	private static final String REALM = "customer";
-	private static final String KEYCLOAK_URL = "https://sso.prod.cloud.retest.org/auth";
+	private static final String KEYCLOAK_URL = "https://login.retest.de/auth";
 	private static final String BASE_URL = KEYCLOAK_URL + "/realms/" + REALM + "/protocol/openid-connect";
 	private static final String AUTH_URL = BASE_URL + "/auth";
 	private static final String TOKEN_URL = BASE_URL + "/token";
