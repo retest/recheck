@@ -35,6 +35,14 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
+[1.10.1] (2020-03-10)
+---------------------
+
+### Bug Fixes
+
+* Fix that using the import filter statement `import: ${name}` caused an infinite loop, although the filter specified had no cyclic dependencies.
+
+
 [1.10.0] (2020-03-04)
 ---------------------
 
