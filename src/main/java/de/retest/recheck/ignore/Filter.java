@@ -92,14 +92,15 @@ public interface Filter {
 		return matches( element, attributeDifference.getKey() );
 	}
 
-	public static final Filter NEVER_MATCH = new Filter() {
+	/**
+	 * A special {@link Filter} that never matches.
+	 */
+	Filter NEVER_MATCH = element -> false;
 
-		@Override
-		public boolean matches( final Element element ) {
-			return false;
-		}
-
-	};
+	/**
+	 * A special {@link Filter} that always matches.
+	 */
+	Filter ALWAYS_MATCH = element -> true;
 
 	/**
 	 * Use {@link #NEVER_MATCH} instead.
@@ -108,12 +109,4 @@ public interface Filter {
 	@Deprecated
 	public static final Filter FILTER_NOTHING = NEVER_MATCH;
 
-	public static final Filter ALWAYS_MATCH = new Filter() {
-
-		@Override
-		public boolean matches( final Element element ) {
-			return true;
-		}
-
-	};
 }
