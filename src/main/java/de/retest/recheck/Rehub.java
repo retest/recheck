@@ -8,7 +8,7 @@ import de.retest.recheck.persistence.FileOutputFormat;
 
 public class Rehub {
 
-	private static final String REHUB_CLIENT = "marvin";
+	private static final String REHUB_CLIENT = "rehub";
 
 	private static RehubAuthenticationHandler handler;
 	private static RetestAuthentication auth;
