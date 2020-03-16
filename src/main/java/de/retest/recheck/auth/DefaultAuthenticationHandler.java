@@ -36,7 +36,7 @@ public class DefaultAuthenticationHandler implements AuthenticationHandler {
 
 	@Override
 	public void logoutFailed( final Throwable reason ) {
-		logger.error( "Logout failed: {}", reason );
+		logger.error( "Logout failed:", reason );
 	}
 
 }

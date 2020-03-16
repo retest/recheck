@@ -50,7 +50,7 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 
 	@Override
 	public void logoutFailed( final Throwable reason ) {
-		log.error( "Logout failed: {}", reason );
+		log.error( "Logout failed:", reason );
 	}
 
 }
