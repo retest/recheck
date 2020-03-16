@@ -14,7 +14,7 @@ public class OptionalUtil {
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> Optional<T> or​( final Optional<? extends T> o,
+	public static <T> Optional<T> or( final Optional<? extends T> o,
 			final Supplier<? extends Optional<? extends T>> s ) {
 		return (Optional<T>) (o.isPresent() ? o : s.get());
 	}
