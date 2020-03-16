@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Fix authentication not working because service URL has been changed to a more human readable format.
+
 ### New Features
 
 ### Improvements
