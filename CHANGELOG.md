@@ -35,6 +35,14 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
+[1.10.2] (2020-03-16)
+---------------------
+
+### Bug Fixes
+
+* Fix authentication not working because service URL has been changed to a more human readable format.
+
+
 [1.10.1] (2020-03-10)
 ---------------------
 
