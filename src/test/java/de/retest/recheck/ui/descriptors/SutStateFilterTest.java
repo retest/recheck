@@ -39,7 +39,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_attributes_with_filter_nothing() {
-			final Filter noFilter = Filter.FILTER_NOTHING;
+			final Filter noFilter = Filter.NEVER_MATCH;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final Attributes newState = cut.filter( element, attributes );
 
@@ -91,7 +91,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_identifying_attributes_with_filter_nothing() {
-			final Filter filter = Filter.FILTER_NOTHING;
+			final Filter filter = Filter.NEVER_MATCH;
 			final SutStateFilter cut = new SutStateFilter( filter );
 			final IdentifyingAttributes filteredIdentifyingAttributes = cut.filter( element, identifyingAttributes );
 
@@ -188,7 +188,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_root_element_with_filter_nothing() {
-			final Filter noFilter = Filter.FILTER_NOTHING;
+			final Filter noFilter = Filter.NEVER_MATCH;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final Element filteredRootElement = cut.filter( rootElement );
 
@@ -249,7 +249,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_sut_state_with_filter_nothing() {
-			final Filter noFilter = Filter.FILTER_NOTHING;
+			final Filter noFilter = Filter.NEVER_MATCH;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final SutState filteredSutState = cut.filter( sutState );
 

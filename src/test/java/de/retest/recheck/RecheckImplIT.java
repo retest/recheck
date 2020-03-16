@@ -31,7 +31,7 @@ class RecheckImplIT {
 
 	@Test
 	void diff_should_be_created_accordingly() {
-		execute( "no-filter", withIgnore( Filter.FILTER_NOTHING ) );
+		execute( "no-filter", withIgnore( Filter.NEVER_MATCH ) );
 	}
 
 	@Test

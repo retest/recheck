@@ -32,12 +32,12 @@ class OptionalUtilTest {
 
 	@Test
 	void or_should_return_given_optional_if_present() throws Exception {
-		assertThat( OptionalUtil.or​( present, () -> absent ) ).isEqualTo( present );
+		assertThat( OptionalUtil.or( present, () -> absent ) ).isEqualTo( present );
 	}
 
 	@Test
 	void or_should_return_use_supplier_if_absent() throws Exception {
-		assertThat( OptionalUtil.or​( absent, () -> present ) ).isEqualTo( present );
+		assertThat( OptionalUtil.or( absent, () -> present ) ).isEqualTo( present );
 	}
 
 }

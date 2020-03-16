@@ -215,12 +215,12 @@ public class RecheckOptions {
 		}
 
 		/**
-		 * Use to use not ignore anything.
+		 * Disable filtering by using the special filter {@link Filter#NEVER_MATCH}.
 		 *
 		 * @return self
 		 */
 		public RecheckOptionsBuilder ignoreNothing() {
-			ignoreFilter = Filter.FILTER_NOTHING;
+			ignoreFilter = Filter.NEVER_MATCH;
 			return this;
 		}
 

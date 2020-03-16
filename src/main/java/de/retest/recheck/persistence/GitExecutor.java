@@ -55,24 +55,17 @@ public class GitExecutor {
 	}
 
 	public String getCurrentBranch() {
-		if ( localGit ) {
-			try {
-				final String result = executeGitCommand( GIT_COMMAND_BRANCH_NAME );
-				if ( result.contains( " " ) ) {
-					return null;
-				}
-				return result;
-			} catch ( final Exception e ) {
-				log.error( "Exception retrieving Git branch.", e );
-			}
-		}
-		return null;
+		return executeCommand( GIT_COMMAND_BRANCH_NAME );
 	}
 
 	public String getCurrentCommit() {
+		return executeCommand( GIT_COMMAND_COMMIT_HASH );
+	}
+
+	private String executeCommand( final String gitCommand ) {
 		if ( localGit ) {
 			try {
-				final String result = executeGitCommand( GIT_COMMAND_COMMIT_HASH );
+				final String result = executeGitCommand( gitCommand );
 				if ( result.contains( " " ) ) {
 					return null;
 				}
