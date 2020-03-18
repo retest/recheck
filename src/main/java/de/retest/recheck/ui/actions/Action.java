@@ -32,8 +32,6 @@ public interface Action extends Serializable, Comparable<Action> {
 
 	Element getTargetElement();
 
-	ActionIdentifyingAttributes getActionIdentifyingAttributes();
-
 	@Override
 	int hashCode();
 
