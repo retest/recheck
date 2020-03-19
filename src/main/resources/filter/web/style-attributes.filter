@@ -181,3 +181,16 @@ attribute=kind
 attribute=label
 attribute=type
 attribute=style
+
+# Ignore svg attributes
+matcher: type=svg, attribute=stroke
+matcher: type=svg, attribute=stroke-width
+matcher: type=svg, attribute=stroke-linecap
+matcher: type=svg, attribute=stroke-dasharray
+matcher: type=svg, attribute=fill
+
+# Ignore svg elements
+matcher: type=filter
+matcher: type=linearGradient
+matcher: type=radialGradient
+
