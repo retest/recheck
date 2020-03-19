@@ -1,8 +1,11 @@
 # Filter file for recheck with invisible and mostly irrelevant attributes 
 
+# Ignore aria attributes
+attribute-regex=aria.*
 attribute=cd_frame_id_
 # Class can be ignored, because we track individual CSS attributes
 attribute=class
+attribute=dir
 attribute=id
 attribute=jsaction
 attribute=jsdata
@@ -11,8 +14,9 @@ attribute=name
 attribute=path
 attribute=ping
 attribute=rel
+attribute=role
 attribute=style
-attribute=tabindex
+attribute=tab-index
 attribute=target
 attribute=transform
 attribute=user-select
@@ -23,6 +27,7 @@ attribute-regex=data-.*
 
 matcher: type=a, attribute: href
 matcher: type=img, attribute: alt
+matcher: type=img, attribute=draggable
 matcher: type=img, attribute: title
 matcher: type=meta
 

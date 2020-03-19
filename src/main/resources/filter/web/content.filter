@@ -1,6 +1,13 @@
 # Filter file for recheck that will filter content
 
 attribute=text
+attribute=title
 matcher: type=img, attribute: src
 matcher: type=img, attribute: alt
 matcher: type=input, attribute: placeholder
+
+# Ignore time
+matcher: type=time, attribute=datetime
+
+# Ignore svgs
+matcher: type=svg
