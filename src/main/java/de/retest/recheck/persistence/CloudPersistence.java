@@ -34,7 +34,17 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		kryoPersistence.save( identifier, element );
 
 		if ( isAggregatedReport( identifier ) && element instanceof TestReport ) {
-			saveToCloud( identifier, (TestReport) element );
+			try {
+				saveToCloud( identifier, (TestReport) element );
+			} catch ( final Exception e ) {
+				if ( ((TestReport) element).containsChanges() ) {
+					log.error( "The upload of the test report failed. The test report contains changes." );
+					throw e;
+				} else {
+					log.warn(
+							"The upload of the test report failed. The test report does not contain any changes (excluding metadata differences)." );
+				}
+			}
 		}
 	}
 
