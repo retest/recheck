@@ -25,6 +25,8 @@ Table of Contents
 
 ### Breaking Changes
 
+* Removed the now obsolete `RandomSuffixRetestIdProvider` class.
+
 ### Bug Fixes
 
 ### New Features
