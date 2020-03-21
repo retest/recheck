@@ -6,7 +6,9 @@ import java.util.List;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class AttributeUtil {
 
 	private AttributeUtil() {}
@@ -52,6 +54,10 @@ public class AttributeUtil {
 	}
 
 	private static Rectangle getActualOutline( final ElementDifference difference, final String type ) {
+		if (!(difference.getIdentifyingAttributesDifference() instanceof IdentifyingAttributesDifference)) {
+			log.error( "getIdentifyingAttributesDifference should return an IdentifyingAttributesDifference!" );
+			return difference.getElement().getIdentifyingAttributes().getOutlineRectangle();
+		}
 		final IdentifyingAttributesDifference identifyingAttributesDifference =
 				(IdentifyingAttributesDifference) difference.getIdentifyingAttributesDifference();
 
