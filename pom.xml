@@ -63,7 +63,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<junit.jupiter.version>5.6.0</junit.jupiter.version>
+		<junit.jupiter.version>5.6.1</junit.jupiter.version>
 		<logback.version>1.2.3</logback.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<eclipse.persistence.version>2.5.2</eclipse.persistence.version>
