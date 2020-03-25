@@ -53,7 +53,7 @@ public class AttributeUtil {
 		return outlineAttribute.getValue();
 	}
 
-	protected static Rectangle getActualOutline( final ElementDifference difference, final String type ) {
+	static Rectangle getActualOutline( final ElementDifference difference, final String type ) {
 		if ( !(difference.getIdentifyingAttributesDifference() instanceof IdentifyingAttributesDifference) ) {
 			log.error( "getIdentifyingAttributesDifference should return an IdentifyingAttributesDifference!" );
 			return difference.getElement().getIdentifyingAttributes().getOutlineRectangle();
