@@ -7,6 +7,15 @@ attribute=bottom
 attribute=right
 attribute=left
 
+attribute=width
+attribute=height
+attribute=min-width
+attribute=min-height
+attribute=max-width
+attribute=max-height
+
+attribute=vertical-align
+
 attribute=clip
 
 attribute=margin-top
