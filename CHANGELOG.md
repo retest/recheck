@@ -29,6 +29,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Fixed a java.lang.ClassCastException: de.retest.recheck.ui.diff.InsertedDeletedElementDifference cannot be cast to de.retest.recheck.ui.diff.IdentifyingAttributesDifference.
+
 ### New Features
 
 ### Improvements
