@@ -1,7 +1,10 @@
 package de.retest.recheck.ui.descriptors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.awt.Rectangle;
 import java.util.Collections;
@@ -13,6 +16,7 @@ import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinder;
+import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 
 class AttributeUtilTest {
 	private static final Rectangle EXPECTED = new Rectangle( 200, 100 );
@@ -88,5 +92,13 @@ class AttributeUtilTest {
 				null, null, Collections.singletonList( null ) );
 
 		assertThat( AttributeUtil.getActualAbsoluteOutline( difference ) ).isEqualTo( EXPECTED );
+	}
+
+	@Test
+	void getActualOutline_should_be_robust() {
+		final ElementDifference difference = mock( ElementDifference.class, RETURNS_DEEP_STUBS );
+		when( difference.getIdentifyingAttributesDifference() )
+				.thenReturn( mock( InsertedDeletedElementDifference.class, RETURNS_DEEP_STUBS ) );
+		assertThatCode( () -> AttributeUtil.getActualOutline( difference, "type" ) ).doesNotThrowAnyException();
 	}
 }
