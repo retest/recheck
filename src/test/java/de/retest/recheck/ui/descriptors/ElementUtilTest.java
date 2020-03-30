@@ -16,7 +16,7 @@ import de.retest.recheck.ui.Path;
 class ElementUtilTest {
 
 	@Test
-	void unequal_paths_should_be_unequal() throws Exception {
+	void test_path_equality() throws Exception {
 		final Element element0 = mock( Element.class, RETURNS_DEEP_STUBS );
 		when( element0.getIdentifyingAttributes().getPathTyped() ).thenReturn( Path.fromString( "/some/path" ) );
 
