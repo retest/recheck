@@ -10,9 +10,6 @@ import java.util.List;
 import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.descriptors.ElementUtil;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 
 public class ElementUtilTest {
 
