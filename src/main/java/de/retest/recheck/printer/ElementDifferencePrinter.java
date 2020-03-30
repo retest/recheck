@@ -3,6 +3,7 @@ package de.retest.recheck.printer;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.HighlightType;
 import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -32,7 +33,10 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private String createDescription( final ElementDifference difference ) {
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
-		return attributes.getType() + " (" + difference.getElement() + ") at '" + attributes.getPath() + "':";
+		final String type = highlighter.highlight( attributes.getType(), HighlightType.TYPE );
+		final String path = highlighter.highlight( attributes.getPath(), HighlightType.PATH );
+		final String element = highlighter.highlight( difference.getElementToString(), HighlightType.ELEMENT );
+		return type + " (" + element + ") " + "at '" + path + "':";
 	}
 
 	private String createDifferences( final ElementDifference difference, final String indent ) {
