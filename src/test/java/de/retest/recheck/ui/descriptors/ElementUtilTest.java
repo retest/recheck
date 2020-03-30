@@ -29,6 +29,19 @@ class ElementUtilTest {
 	}
 
 	@Test
+	void test_retest_id_equality() throws Exception {
+		final Element element0 = mock( Element.class, RETURNS_DEEP_STUBS );
+		when( element0.getRetestId() ).thenReturn( "some-retest-id" );
+
+		assertThat( ElementUtil.retestIdEquals( element0, element0 ) ).isTrue();
+
+		final Element element1 = mock( Element.class, RETURNS_DEEP_STUBS );
+		when( element1.getRetestId() ).thenReturn( "some-other-retest-id" );
+
+		assertThat( ElementUtil.retestIdEquals( element0, element1 ) ).isFalse();
+	}
+
+	@Test
 	void child_elements_should_be_flattened_in_order() throws Exception {
 		final Element grandchild = mock( Element.class );
 		final Element child0 = mock( Element.class );

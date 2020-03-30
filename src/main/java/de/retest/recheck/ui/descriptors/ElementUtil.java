@@ -33,4 +33,8 @@ public class ElementUtil {
 		return element0.getIdentifyingAttributes().getPathTyped()
 				.equals( element1.getIdentifyingAttributes().getPathTyped() );
 	}
+
+	public static boolean retestIdEquals( final Element element0, final Element element1 ) {
+		return element0.getRetestId().equals( element1.getRetestId() );
+	}
 }
