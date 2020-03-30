@@ -1,11 +1,11 @@
 package de.retest.recheck.printer;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.printer.highlighting.DefaultHighlighter;
 import de.retest.recheck.printer.highlighting.Highlighter;
+import de.retest.recheck.printer.highlighting.HighlightType;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -19,7 +19,6 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 
 	private final IdentifyingAttributes attributes;
 	private final DefaultValueFinder defaultProvider;
-
 	private final Highlighter highlighter;
 
 	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder defaultProvider ) {
@@ -58,8 +57,8 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	}
 
 	private String printActualDefaultDifference( final AttributeDifference difference, final String indent ) {
-		final String key = difference.getKey();
-		final Serializable expected = difference.getExpected();
+		final String key = highlighter.highlight( difference.getKey(), HighlightType.KEY );
+		final String expected = highlighter.highlight( difference.getExpectedToString(), HighlightType.VALUE_EXPECTED );
 		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
 
 		return String.format( keyExpectedActualFormat, key, expected, IS_DEFAULT );
@@ -70,17 +69,17 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	}
 
 	private String printExpectedDefaultDifference( final AttributeDifference difference, final String indent ) {
-		final String key = difference.getKey();
-		final Serializable actual = difference.getActual();
+		final String key = highlighter.highlight( difference.getKey(), HighlightType.KEY );
+		final String actual = highlighter.highlight( difference.getActualToString(), HighlightType.VALUE_ACTUAL );
 		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
 
 		return String.format( keyExpectedActualFormat, key, IS_DEFAULT, actual );
 	}
 
 	private String printBothDifferences( final AttributeDifference difference, final String indent ) {
-		final String key = difference.getKey();
-		final Serializable expected = difference.getExpected();
-		final Serializable actual = difference.getActual();
+		final String key = highlighter.highlight( difference.getKey(), HighlightType.KEY );
+		final String expected = highlighter.highlight( difference.getExpectedToString(), HighlightType.VALUE_EXPECTED );
+		final String actual = highlighter.highlight( difference.getActualToString(), HighlightType.VALUE_ACTUAL );
 		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
 
 		return String.format( keyExpectedActualFormat, key, expected, actual );
@@ -100,6 +99,9 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	private String getKeyExpectedActualFormat( final String indent ) {
 		final String expectedItemIndent = indent + "  ";
 		final String actualItemIndent = indent + "    "; // tab leads to wrong indent on console
-		return "%s:\n" + expectedItemIndent + "expected=\"%s\",\n" + actualItemIndent + "actual=\"%s\"";
+		final String expected = highlighter.highlight( "expected", HighlightType.EXPECTED );
+		final String actual = highlighter.highlight( "actual", HighlightType.ACTUAL );
+		return "%s:\n" + expectedItemIndent + expected + "=\"%s\",\n" + actualItemIndent + actual + "=\"%s\"";
 	}
+
 }
