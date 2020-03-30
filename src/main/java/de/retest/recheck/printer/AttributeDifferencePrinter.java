@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementIdentificationWarning;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class AttributeDifferencePrinter implements Printer<AttributeDifference> {
 
 	private static final String IS_DEFAULT = "(default or absent)";
@@ -19,6 +19,21 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 
 	private final IdentifyingAttributes attributes;
 	private final DefaultValueFinder defaultProvider;
+
+	private final Highlighter highlighter;
+
+	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder defaultProvider ) {
+		this.attributes = attributes;
+		this.defaultProvider = defaultProvider;
+		highlighter = new DefaultHighlighter();
+	}
+
+	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder defaultProvider,
+			final Highlighter highlighter ) {
+		this.attributes = attributes;
+		this.defaultProvider = defaultProvider;
+		this.highlighter = highlighter;
+	}
 
 	@Override
 	public String toString( final AttributeDifference difference, final String indent ) {

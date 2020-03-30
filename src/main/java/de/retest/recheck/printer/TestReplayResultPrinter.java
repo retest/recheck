@@ -2,15 +2,26 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
+import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private final DefaultValueFinderProvider provider;
+	private final Highlighter highlighter;
+
+	public TestReplayResultPrinter( final DefaultValueFinderProvider provider ) {
+		this.provider = provider;
+		highlighter = new DefaultHighlighter();
+	}
+
+	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final Highlighter highlighter ) {
+		this.provider = provider;
+		this.highlighter = highlighter;
+	}
 
 	@Override
 	public String toString( final TestReplayResult difference, final String indent ) {
@@ -38,7 +49,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 
 	private String formatAction( final ActionReplayResult result, final String indent ) {
 		final DefaultValueFinder finder = provider.findForAction( result.getDescription() );
-		final ActionReplayResultPrinter printer = new ActionReplayResultPrinter( finder );
+		final ActionReplayResultPrinter printer = new ActionReplayResultPrinter( finder, highlighter );
 		return printer.toString( result, indent );
 	}
 }

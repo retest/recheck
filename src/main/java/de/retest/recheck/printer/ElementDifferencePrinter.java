@@ -2,17 +2,28 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
+import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.diff.LeafDifference;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public class ElementDifferencePrinter implements Printer<ElementDifference> {
 
 	private final DefaultValueFinder finder;
+	private final Highlighter highlighter;
+
+	public ElementDifferencePrinter( final DefaultValueFinder finder ) {
+		this.finder = finder;
+		highlighter = new DefaultHighlighter();
+	}
+
+	public ElementDifferencePrinter( final DefaultValueFinder finder, final Highlighter highlighter ) {
+		this.finder = finder;
+		this.highlighter = highlighter;
+	}
 
 	@Override
 	public String toString( final ElementDifference difference, final String indent ) {
@@ -31,7 +42,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 			return printer.toString( (InsertedDeletedElementDifference) identifyingAttributesDifference, indent );
 		}
 		final IdentifyingAttributes attributes = difference.getIdentifyingAttributes();
-		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder );
+		final AttributeDifferencePrinter delegate = new AttributeDifferencePrinter( attributes, finder, highlighter );
 		return difference.getAttributeDifferences().stream() //
 				.map( d -> delegate.toString( d, indent ) ) //
 				.collect( Collectors.joining( "\n" ) );

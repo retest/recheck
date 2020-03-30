@@ -2,14 +2,23 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
+import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.report.SuiteReplayResult;
 
 public class SuiteReplayResultPrinter implements Printer<SuiteReplayResult> {
 
 	private final TestReplayResultPrinter delegate;
+	private final Highlighter highlighter;
 
 	public SuiteReplayResultPrinter( final DefaultValueFinderProvider provider ) {
 		delegate = new TestReplayResultPrinter( provider );
+		highlighter = new DefaultHighlighter();
+	}
+
+	public SuiteReplayResultPrinter( final DefaultValueFinderProvider provider, final Highlighter highlighter ) {
+		delegate = new TestReplayResultPrinter( provider, highlighter );
+		this.highlighter = highlighter;
 	}
 
 	@Override
