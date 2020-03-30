@@ -7,7 +7,7 @@ public class ElementUtil {
 
 	private ElementUtil() {}
 
-	public static List<Element> flattenAllElements( final List<Element> elements ) {
+	public static List<Element> flattenAllElements( final List<? extends Element> elements ) {
 		final List<Element> flattened = new ArrayList<>();
 
 		for ( final Element element : elements ) {
