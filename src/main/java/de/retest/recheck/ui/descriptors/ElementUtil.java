@@ -7,7 +7,7 @@ public class ElementUtil {
 
 	private ElementUtil() {}
 
-	public static List<Element> flattenAllElements( final List<Element> elements ) {
+	public static List<Element> flattenAllElements( final List<? extends Element> elements ) {
 		final List<Element> flattened = new ArrayList<>();
 
 		for ( final Element element : elements ) {
@@ -32,5 +32,9 @@ public class ElementUtil {
 	public static boolean pathEquals( final Element element0, final Element element1 ) {
 		return element0.getIdentifyingAttributes().getPathTyped()
 				.equals( element1.getIdentifyingAttributes().getPathTyped() );
+	}
+
+	public static boolean retestIdEquals( final Element element0, final Element element1 ) {
+		return element0.getRetestId().equals( element1.getRetestId() );
 	}
 }
