@@ -95,11 +95,11 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 	}
 
 	public String getExpectedToString() {
-		return Objects.toString( expected, "" );
+		return Objects.toString( expected );
 	}
 
 	public String getActualToString() {
-		return Objects.toString( actual, "" );
+		return Objects.toString( actual );
 	}
 
 	public String identifier() {
