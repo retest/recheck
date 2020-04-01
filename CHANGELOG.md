@@ -33,6 +33,8 @@ Table of Contents
 
 ### New Features
 
+* The Highlighter interface enables to define custom highlighting for certain keywords defined in the printers intended for the console output (e.g. using Recheck.cli).
+
 ### Improvements
 
 
