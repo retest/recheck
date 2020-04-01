@@ -52,14 +52,14 @@ class ActionReplayResultPrinterTest {
 		when( attributeDifference.getKey() ).thenReturn( "key" );
 		when( attributeDifference.getActual() ).thenReturn( "actual" );
 		when( attributeDifference.getExpected() ).thenReturn( "expected" );
+		when( attributeDifference.getActualToString() ).thenReturn( "actual" );
+		when( attributeDifference.getExpectedToString() ).thenReturn( "expected" );
 
 		final ElementDifference rootDifference = mock( ElementDifference.class );
 		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 		when( rootDifference.hasAnyDifference() ).thenReturn( true );
 		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
-		Element element = mock( Element.class );
-		when( element.toString() ).thenReturn( "retestId" );
-		when( rootDifference.getElement() ).thenReturn( element );
+		when( rootDifference.getElementToString() ).thenReturn( "retestId" );
 
 		final RootElementDifference root = mock( RootElementDifference.class );
 		when( root.getElementDifference() ).thenReturn( rootDifference );
@@ -118,15 +118,14 @@ class ActionReplayResultPrinterTest {
 		when( attributeDifference.getKey() ).thenReturn( "key" );
 		when( attributeDifference.getActual() ).thenReturn( "actual" );
 		when( attributeDifference.getExpected() ).thenReturn( "expected" );
+		when( attributeDifference.getActualToString() ).thenReturn( "actual" );
+		when( attributeDifference.getExpectedToString() ).thenReturn( "expected" );
 
 		final ElementDifference rootDifference = mock( ElementDifference.class );
 		when( rootDifference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
 		when( rootDifference.hasAnyDifference() ).thenReturn( true );
 		when( rootDifference.getAttributeDifferences() ).thenReturn( Collections.singletonList( attributeDifference ) );
-		Element element = mock( Element.class );
-		when( element.toString() ).thenReturn( "retestId" );
-		when( rootDifference.getElement() ).thenReturn( element );
-
+		when( rootDifference.getElementToString() ).thenReturn( "retestId" );
 
 		final RootElementDifference root = mock( RootElementDifference.class );
 		when( root.getElementDifference() ).thenReturn( rootDifference );
