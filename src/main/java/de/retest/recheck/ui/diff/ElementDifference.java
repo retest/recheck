@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
@@ -293,5 +294,9 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 
 	public Element getElement() {
 		return element;
+	}
+
+	public String getElementToString() {
+		return Objects.toString( element );
 	}
 }
