@@ -4,6 +4,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import de.retest.recheck.NoGoldenMasterActionReplayResult;
+import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.diff.ElementDifference;
@@ -17,8 +19,13 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 	private final MetadataDifferencePrinter metadataDifferencePrinter;
 
 	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder ) {
-		printer = new ElementDifferencePrinter( defaultValueFinder );
+		printer = new ElementDifferencePrinter( defaultValueFinder, new DefaultHighlighter() );
 		metadataDifferencePrinter = new MetadataDifferencePrinter();
+	}
+
+	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final Highlighter highlighter ) {
+		printer = new ElementDifferencePrinter( defaultValueFinder, highlighter );
+		metadataDifferencePrinter = new MetadataDifferencePrinter( highlighter );
 	}
 
 	@Override

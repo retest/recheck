@@ -2,6 +2,7 @@ package de.retest.recheck.printer;
 
 import java.util.stream.Collectors;
 
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.report.TestReport;
 
 public class TestReportPrinter implements Printer<TestReport> {
@@ -10,6 +11,10 @@ public class TestReportPrinter implements Printer<TestReport> {
 
 	public TestReportPrinter( final DefaultValueFinderProvider provider ) {
 		this( new SuiteReplayResultPrinter( provider ) );
+	}
+
+	public TestReportPrinter( final DefaultValueFinderProvider provider, final Highlighter highlighter ) {
+		this( new SuiteReplayResultPrinter( provider, highlighter ) );
 	}
 
 	public TestReportPrinter( final SuiteReplayResultPrinter delegate ) {
