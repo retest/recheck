@@ -3,6 +3,7 @@ package de.retest.recheck.printer;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.printer.highlighting.DefaultHighlighter;
+import de.retest.recheck.printer.highlighting.HighlightType;
 import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReplayResult;
@@ -29,7 +30,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	}
 
 	private String createDescription( final TestReplayResult result ) {
-		final String name = result.getName();
+		final String name = highlighter.highlight( result.getName(), HighlightType.TESTREPLAYRESULT_NAME );
 		final int differences = result.getDifferences().size();
 		final int states = result.getActionReplayResults().size();
 		return String.format( "Test '%s' has %d difference(s) in %d state(s):", name, differences, states );
