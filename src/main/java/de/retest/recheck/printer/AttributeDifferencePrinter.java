@@ -21,10 +21,9 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	private final DefaultValueFinder defaultProvider;
 	private final Highlighter highlighter;
 
-	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder defaultProvider ) {
-		this.attributes = attributes;
-		this.defaultProvider = defaultProvider;
-		highlighter = new DefaultHighlighter();
+	public AttributeDifferencePrinter( final IdentifyingAttributes attributes,
+			final DefaultValueFinder defaultProvider ) {
+		this( attributes, defaultProvider, new DefaultHighlighter() );
 	}
 
 	public AttributeDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder defaultProvider,

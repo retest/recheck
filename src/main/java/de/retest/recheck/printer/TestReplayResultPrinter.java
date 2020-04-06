@@ -15,8 +15,7 @@ public class TestReplayResultPrinter implements Printer<TestReplayResult> {
 	private final Highlighter highlighter;
 
 	public TestReplayResultPrinter( final DefaultValueFinderProvider provider ) {
-		this.provider = provider;
-		highlighter = new DefaultHighlighter();
+		this( provider, new DefaultHighlighter() );
 	}
 
 	public TestReplayResultPrinter( final DefaultValueFinderProvider provider, final Highlighter highlighter ) {

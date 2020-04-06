@@ -17,8 +17,7 @@ public class ElementDifferencePrinter implements Printer<ElementDifference> {
 	private final Highlighter highlighter;
 
 	public ElementDifferencePrinter( final DefaultValueFinder finder ) {
-		this.finder = finder;
-		highlighter = new DefaultHighlighter();
+		this( finder, new DefaultHighlighter() );
 	}
 
 	public ElementDifferencePrinter( final DefaultValueFinder finder, final Highlighter highlighter ) {

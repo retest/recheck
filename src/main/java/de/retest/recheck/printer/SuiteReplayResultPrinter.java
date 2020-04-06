@@ -13,8 +13,7 @@ public class SuiteReplayResultPrinter implements Printer<SuiteReplayResult> {
 	private final Highlighter highlighter;
 
 	public SuiteReplayResultPrinter( final DefaultValueFinderProvider provider ) {
-		delegate = new TestReplayResultPrinter( provider );
-		highlighter = new DefaultHighlighter();
+		this( provider, new DefaultHighlighter() );
 	}
 
 	public SuiteReplayResultPrinter( final DefaultValueFinderProvider provider, final Highlighter highlighter ) {

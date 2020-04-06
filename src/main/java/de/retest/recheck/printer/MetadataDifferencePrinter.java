@@ -13,7 +13,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	private final Highlighter highlighter;
 
 	public MetadataDifferencePrinter() {
-		highlighter = new DefaultHighlighter();
+		this( new DefaultHighlighter() );
 	}
 
 	public MetadataDifferencePrinter( final Highlighter highlighter ) {
