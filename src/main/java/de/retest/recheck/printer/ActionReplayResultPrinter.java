@@ -19,8 +19,7 @@ public class ActionReplayResultPrinter implements Printer<ActionReplayResult> {
 	private final MetadataDifferencePrinter metadataDifferencePrinter;
 
 	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder ) {
-		printer = new ElementDifferencePrinter( defaultValueFinder, new DefaultHighlighter() );
-		metadataDifferencePrinter = new MetadataDifferencePrinter();
+		this( defaultValueFinder, new DefaultHighlighter() );
 	}
 
 	public ActionReplayResultPrinter( final DefaultValueFinder defaultValueFinder, final Highlighter highlighter ) {

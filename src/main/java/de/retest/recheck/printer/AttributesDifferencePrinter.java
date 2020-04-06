@@ -13,7 +13,7 @@ public class AttributesDifferencePrinter implements Printer<AttributesDifference
 	private final AttributeDifferencePrinter delegate;
 
 	public AttributesDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder finder ) {
-		delegate = new AttributeDifferencePrinter( attributes, finder, new DefaultHighlighter() );
+		this( attributes, finder, new DefaultHighlighter() );
 	}
 
 	public AttributesDifferencePrinter( final IdentifyingAttributes attributes, final DefaultValueFinder finder,
