@@ -35,6 +35,8 @@ import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher.ElementIdMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementRetestIdMatcher.ElementRetestIdMatcherLoader;
+import de.retest.recheck.review.ignore.matcher.ElementTextMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementTextMatcher.ElementTextMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementTypeMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementTypeMatcher.ElementTypeMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementXPathMatcher;
@@ -75,7 +77,8 @@ public class Loaders {
 			Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ), //
 			Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ), //
 			Pair.of( ElementXPathMatcher.class, new ElementXpathMatcherLoader() ), //
-			Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ) //
+			Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ), //
+			Pair.of( ElementTextMatcher.class, new ElementTextMatcherLoader() ) //
 	) );
 
 	public static Loader<Matcher<Element>> elementMatcher() {
