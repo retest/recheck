@@ -70,9 +70,9 @@ class MatcherFilterLoaderTest {
 	}
 
 	@Test
-	void load_with_invalid_matcher_should_not_load_parent() throws Exception {
+	void load_with_generic_matcher_should_load_correctly() {
 		final String line = "matcher: foo=bar";
-		assertThat( cut.load( line ) ).isNotPresent();
+		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
 	}
 
 	@Test
@@ -89,8 +89,15 @@ class MatcherFilterLoaderTest {
 	}
 
 	@Test
-	void load_chained_with_invalid_matcher_should_not_load_parent() throws Exception {
-		final String line = "matcher: foo=bar, attribute: 123";
+	void load_chained_with_generic_matcher_should_produce_correct_ignore() {
+		final String line = "matcher: foo=bar, attribute=123";
+		assertThat( cut.load( line ).map( cut::save ) ).hasValue( line );
+	}
+
+	@Test
+	void load_with_invalid_matcher_should_not_load_parent() throws Exception {
+		final String line = "matcher: foo:bar";
 		assertThat( cut.load( line ) ).isNotPresent();
 	}
+
 }
