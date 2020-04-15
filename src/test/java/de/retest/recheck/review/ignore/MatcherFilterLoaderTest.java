@@ -95,7 +95,7 @@ class MatcherFilterLoaderTest {
 	}
 
 	@Test
-	void load_with_invalid_matcher_should_not_load_parent() throws Exception {
+	void load_with_invalid_matcher_should_not_load_parent() {
 		final String line = "matcher: foo:bar";
 		assertThat( cut.load( line ) ).isNotPresent();
 	}
