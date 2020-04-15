@@ -34,6 +34,7 @@ Table of Contents
 ### New Features
 
 * The Highlighter interface enables to define custom highlighting for certain keywords defined in the printers intended for the console output (e.g. using Recheck.cli).
+* Add ignore rule that allows to ignore elements based on any of their attributes. E.g. for text it works like so: `matcher: text=Sign In`.
 
 ### Improvements
 

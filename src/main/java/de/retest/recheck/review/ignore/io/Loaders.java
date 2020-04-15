@@ -29,6 +29,8 @@ import de.retest.recheck.review.ignore.PixelDiffFilter;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.ValueRegexFilter;
 import de.retest.recheck.review.ignore.ValueRegexFilter.ValueRegexFilterLoader;
+import de.retest.recheck.review.ignore.matcher.ElementByAttributeMatcher;
+import de.retest.recheck.review.ignore.matcher.ElementByAttributeMatcher.ElementByAttributeMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementClassMatcher;
 import de.retest.recheck.review.ignore.matcher.ElementClassMatcher.ElementClassMatcherLoader;
 import de.retest.recheck.review.ignore.matcher.ElementIdMatcher;
@@ -75,7 +77,8 @@ public class Loaders {
 			Pair.of( ElementIdMatcher.class, new ElementIdMatcherLoader() ), //
 			Pair.of( ElementRetestIdMatcher.class, new ElementRetestIdMatcherLoader() ), //
 			Pair.of( ElementXPathMatcher.class, new ElementXpathMatcherLoader() ), //
-			Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ) //
+			Pair.of( ElementTypeMatcher.class, new ElementTypeMatcherLoader() ), //
+			Pair.of( ElementByAttributeMatcher.class, new ElementByAttributeMatcherLoader() ) //
 	) );
 
 	public static Loader<Matcher<Element>> elementMatcher() {
