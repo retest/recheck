@@ -24,6 +24,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URLEncodedUtils;
 
 import com.auth0.jwk.JwkException;
+import com.auth0.jwk.SigningKeyNotFoundException;
 import com.auth0.jwk.UrlJwkProvider;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -80,6 +81,11 @@ public class RetestAuthentication {
 			final UrlJwkProvider provider = new UrlJwkProvider( URI.create( CERTS_URL ).toURL() );
 			final PublicKey publicKey = provider.get( PUBLIC_KEY_ID ).getPublicKey();
 			return JWT.require( Algorithm.RSA256( (RSAPublicKey) publicKey, null ) ).acceptLeeway( 3 ).build();
+		} catch ( final SigningKeyNotFoundException e ) {
+			final RuntimeException offline = new UnableToAuthenticateOfflineException( e );
+			log.error( "Exception retrieving signing key: ", offline );
+			handler.loginFailed( offline );
+			throw offline;
 		} catch ( final JwkException | MalformedURLException e ) {
 			throw new RuntimeException( "Error accessing keycloak JWK information", e );
 		}
