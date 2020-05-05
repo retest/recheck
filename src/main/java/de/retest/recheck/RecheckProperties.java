@@ -85,6 +85,12 @@ public interface RecheckProperties extends Reloadable {
 	@DefaultValue( "false" )
 	boolean rehubReportUploadEnabled();
 
+	String REHUB_REPORT_UPLOAD_ATTEMPTS = "de.retest.recheck.rehub.upload.attempts";
+
+	@Key( REHUB_REPORT_UPLOAD_ATTEMPTS )
+	@DefaultValue( "3" )
+	int rehubReportUploadAttempts();
+
 	String FILE_OUTPUT_FORMAT_PROPERTY_KEY = "de.retest.output.Format";
 
 	@Key( FILE_OUTPUT_FORMAT_PROPERTY_KEY )
