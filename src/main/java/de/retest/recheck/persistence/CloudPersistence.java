@@ -34,15 +34,18 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		kryoPersistence.save( identifier, element );
 
 		if ( isAggregatedReport( identifier ) && element instanceof TestReport ) {
+			final TestReport report = (TestReport) element;
 			try {
-				saveToCloud( identifier, (TestReport) element );
-			} catch ( final Exception e ) {
-				if ( ((TestReport) element).containsChanges() ) {
-					log.error( "The upload of the test report failed. The test report contains changes." );
-					throw e;
-				} else {
+				saveToCloud( report, Files.readAllBytes( Paths.get( identifier ) ) );
+			} catch ( final IOException e ) {
+				if ( !report.containsChanges() ) {
 					log.warn(
-							"The upload of the test report failed. The test report does not contain any changes (excluding metadata differences)." );
+							"Could not read report '{}' for upload. Ignoring exception because the report does not have any differences.",
+							identifier, e );
+				} else {
+					log.error( "Could not read report '{}' for upload. Rethrowing because report has differences.",
+							identifier, e );
+					throw e;
 				}
 			}
 		}
@@ -58,11 +61,11 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 				.collect( Collectors.toList() );
 	}
 
-	private void saveToCloud( final URI identifier, final TestReport report ) throws IOException {
+	private void saveToCloud( final TestReport report, final byte[] data ) {
 		final HttpResponse<String> uploadUrlResponse = getUploadUrl();
 
 		final ReportUploadMetadata metadata = ReportUploadMetadata.builder() //
-				.location( identifier ) //
+				.data( data ) //
 				.uploadUrl( uploadUrlResponse.getBody() ) //
 				.testClasses( getTestClasses( report ) ) //
 				.build();
@@ -72,7 +75,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private void uploadReport( final ReportUploadMetadata metadata ) throws IOException {
+	private void uploadReport( final ReportUploadMetadata metadata ) {
 		final String reportName = metadata.getTestClasses() //
 				.stream() //
 				.collect( Collectors.joining( ", " ) );
@@ -80,7 +83,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 
 		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
 				.header( "x-amz-meta-report-name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
-				.body( Files.readAllBytes( Paths.get( metadata.getLocation() ) ) ) //
+				.body( metadata.getData() ) //
 				.asEmpty();
 
 		if ( uploadResponse.isSuccess() ) {
