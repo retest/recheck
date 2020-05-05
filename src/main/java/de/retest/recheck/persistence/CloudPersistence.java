@@ -18,6 +18,7 @@ import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -63,15 +64,36 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 
 	private void saveToCloud( final TestReport report, final byte[] data ) {
 		final HttpResponse<String> uploadUrlResponse = getUploadUrl();
-
-		final ReportUploadMetadata metadata = ReportUploadMetadata.builder() //
-				.reportName( String.join( ", ", getTestClasses( report ) ) ) //
-				.data( data ) //
-				.uploadUrl( uploadUrlResponse.getBody() ) //
-				.build();
-
 		if ( uploadUrlResponse.isSuccess() ) {
-			uploadReport( metadata );
+			final ReportUploadMetadata metadata = ReportUploadMetadata.builder() //
+					.reportName( String.join( ", ", getTestClasses( report ) ) ) //
+					.data( data ) //
+					.uploadUrl( uploadUrlResponse.getBody() ) //
+					.build();
+			final boolean hasChanges = report.containsChanges();
+
+			final int maxAttempts = RecheckProperties.getInstance().rehubReportUploadAttempts();
+			for ( int remainingAttempts = maxAttempts - 1; remainingAttempts >= 0; remainingAttempts-- ) {
+				try {
+					uploadReport( metadata );
+					break; // Successful, abort retry
+				} catch ( final UnirestException e ) {
+					if ( !hasChanges ) {
+						log.warn(
+								"Failed to upload report. Ignoring exception because the report does not have any differences.",
+								e );
+						break;
+					}
+					if ( remainingAttempts == 0 ) {
+						log.error(
+								"Failed to upload report. Aborting, because maximum retries have been reached. If this happens often, consider increasing the property '{}={}'.",
+								RecheckProperties.REHUB_REPORT_UPLOAD_ATTEMPTS, maxAttempts, e );
+						throw e;
+					} else {
+						log.warn( "Failed to upload report. Retrying another {} times.", remainingAttempts, e );
+					}
+				}
+			}
 		}
 	}
 
