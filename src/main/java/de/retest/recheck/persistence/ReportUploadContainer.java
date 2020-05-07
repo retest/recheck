@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ReportUploadMetadata {
+public class ReportUploadContainer {
 
 	private final String reportName;
 	private final byte[] data;

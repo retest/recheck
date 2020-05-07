@@ -65,7 +65,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	private void saveToCloud( final TestReport report, final byte[] data ) {
 		final HttpResponse<String> uploadUrlResponse = getUploadUrl();
 		if ( uploadUrlResponse.isSuccess() ) {
-			final ReportUploadMetadata metadata = ReportUploadMetadata.builder() //
+			final ReportUploadContainer metadata = ReportUploadContainer.builder() //
 					.reportName( String.join( ", ", getTestClasses( report ) ) ) //
 					.data( data ) //
 					.uploadUrl( uploadUrlResponse.getBody() ) //
@@ -97,7 +97,7 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private void uploadReport( final ReportUploadMetadata metadata ) {
+	private void uploadReport( final ReportUploadContainer metadata ) {
 		final long start = System.currentTimeMillis();
 		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
 				.header( "x-amz-meta-report-name", abbreviate( metadata.getReportName(), MAX_REPORT_NAME_LENGTH ) ) //
