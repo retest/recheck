@@ -66,7 +66,7 @@
 		<junit.jupiter.version>5.6.2</junit.jupiter.version>
 		<logback.version>1.2.3</logback.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
-		<eclipse.persistence.version>2.5.2</eclipse.persistence.version>
+		<eclipse.persistence.version>2.7.7</eclipse.persistence.version>
 	</properties>
 
 	<scm>
