@@ -44,8 +44,11 @@ public class GlobalChangeSetApplier {
 
 	// Replay result lookup maps.
 
+	@Getter( AccessLevel.PACKAGE )
 	private final Multimap<ImmutablePair<IdentifyingAttributes, AttributeDifference>, ActionReplayResult> attributeDiffsLookupMap;
+	@Getter( AccessLevel.PACKAGE )
 	private final Multimap<Element, ActionReplayResult> insertedDiffsLookupMap;
+	@Getter( AccessLevel.PACKAGE )
 	private final Multimap<IdentifyingAttributes, ActionReplayResult> deletedDiffsLookupMap;
 
 	private void fillReplayResultLookupMaps( final TestReport testReport ) {
