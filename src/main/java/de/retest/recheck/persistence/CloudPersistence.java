@@ -18,6 +18,7 @@ import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -34,15 +35,18 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		kryoPersistence.save( identifier, element );
 
 		if ( isAggregatedReport( identifier ) && element instanceof TestReport ) {
+			final TestReport report = (TestReport) element;
 			try {
-				saveToCloud( identifier, (TestReport) element );
-			} catch ( final Exception e ) {
-				if ( ((TestReport) element).containsChanges() ) {
-					log.error( "The upload of the test report failed. The test report contains changes." );
-					throw e;
-				} else {
+				saveToCloud( report, Files.readAllBytes( Paths.get( identifier ) ) );
+			} catch ( final IOException e ) {
+				if ( !report.containsChanges() ) {
 					log.warn(
-							"The upload of the test report failed. The test report does not contain any changes (excluding metadata differences)." );
+							"Could not read report '{}' for upload. Ignoring exception because the report does not have any differences.",
+							identifier, e );
+				} else {
+					log.error( "Could not read report '{}' for upload. Rethrowing because report has differences.",
+							identifier, e );
+					throw e;
 				}
 			}
 		}
@@ -58,29 +62,46 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 				.collect( Collectors.toList() );
 	}
 
-	private void saveToCloud( final URI identifier, final TestReport report ) throws IOException {
+	private void saveToCloud( final TestReport report, final byte[] data ) {
 		final HttpResponse<String> uploadUrlResponse = getUploadUrl();
-
-		final ReportUploadMetadata metadata = ReportUploadMetadata.builder() //
-				.location( identifier ) //
-				.uploadUrl( uploadUrlResponse.getBody() ) //
-				.testClasses( getTestClasses( report ) ) //
-				.build();
-
 		if ( uploadUrlResponse.isSuccess() ) {
-			uploadReport( metadata );
+			final ReportUploadContainer metadata = ReportUploadContainer.builder() //
+					.reportName( String.join( ", ", getTestClasses( report ) ) ) //
+					.data( data ) //
+					.uploadUrl( uploadUrlResponse.getBody() ) //
+					.build();
+			final boolean hasChanges = report.containsChanges();
+
+			final int maxAttempts = RecheckProperties.getInstance().rehubReportUploadAttempts();
+			for ( int remainingAttempts = maxAttempts - 1; remainingAttempts >= 0; remainingAttempts-- ) {
+				try {
+					uploadReport( metadata );
+					break; // Successful, abort retry
+				} catch ( final UnirestException e ) {
+					if ( !hasChanges ) {
+						log.warn(
+								"Failed to upload report. Ignoring exception because the report does not have any differences.",
+								e );
+						break;
+					}
+					if ( remainingAttempts == 0 ) {
+						log.error(
+								"Failed to upload report. Aborting, because maximum retries have been reached. If this happens often, consider increasing the property '{}={}'.",
+								RecheckProperties.REHUB_REPORT_UPLOAD_ATTEMPTS, maxAttempts, e );
+						throw e;
+					} else {
+						log.warn( "Failed to upload report. Retrying another {} times.", remainingAttempts, e );
+					}
+				}
+			}
 		}
 	}
 
-	private void uploadReport( final ReportUploadMetadata metadata ) throws IOException {
-		final String reportName = metadata.getTestClasses() //
-				.stream() //
-				.collect( Collectors.joining( ", " ) );
+	private void uploadReport( final ReportUploadContainer metadata ) {
 		final long start = System.currentTimeMillis();
-
 		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
-				.header( "x-amz-meta-report-name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
-				.body( Files.readAllBytes( Paths.get( metadata.getLocation() ) ) ) //
+				.header( "x-amz-meta-report-name", abbreviate( metadata.getReportName(), MAX_REPORT_NAME_LENGTH ) ) //
+				.body( metadata.getData() ) //
 				.asEmpty();
 
 		if ( uploadResponse.isSuccess() ) {

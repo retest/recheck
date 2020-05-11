@@ -39,6 +39,7 @@ Table of Contents
 
 ### Improvements
 
+* Introduce property `de.retest.recheck.rehub.upload.attempts=3` to retry report uploads to rehub if they fail (e.g. due to unstable connections). This will reduce failing tests if the upload fails.
 
 --------------------------------------------------------------------------------
 
