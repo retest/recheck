@@ -19,6 +19,13 @@ public class SuiteAggregator {
 		return instance;
 	}
 
+	/**
+	 * Must only be called from a test
+	 */
+	public static void reset() {
+		instance = null;
+	}
+
 	static SuiteAggregator getTestInstance() {
 		return new SuiteAggregator();
 	}
