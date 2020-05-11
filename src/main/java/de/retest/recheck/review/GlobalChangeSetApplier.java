@@ -19,6 +19,8 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 public class GlobalChangeSetApplier {
 
@@ -44,9 +46,12 @@ public class GlobalChangeSetApplier {
 
 	// Replay result lookup maps.
 
-	private final Multimap<ImmutablePair<IdentifyingAttributes, AttributeDifference>, ActionReplayResult> attributeDiffsLookupMap;
-	private final Multimap<Element, ActionReplayResult> insertedDiffsLookupMap;
-	private final Multimap<IdentifyingAttributes, ActionReplayResult> deletedDiffsLookupMap;
+	@Getter( AccessLevel.PACKAGE )
+	private final Multimap<ImmutablePair<String, String>, ActionReplayResult> attributeDiffsLookupMap;
+	@Getter( AccessLevel.PACKAGE )
+	private final Multimap<String, ActionReplayResult> insertedDiffsLookupMap;
+	@Getter( AccessLevel.PACKAGE )
+	private final Multimap<String, ActionReplayResult> deletedDiffsLookupMap;
 
 	private void fillReplayResultLookupMaps( final TestReport testReport ) {
 		testReport.getSuiteReplayResults().stream() //
@@ -70,9 +75,9 @@ public class GlobalChangeSetApplier {
 		final InsertedDeletedElementDifference insertedDeletedElementDiff =
 				(InsertedDeletedElementDifference) elementDiff.getIdentifyingAttributesDifference();
 		if ( insertedDeletedElementDiff.isInserted() ) {
-			insertedDiffsLookupMap.put( insertedDeletedElementDiff.getActual(), actionReplayResult );
+			insertedDiffsLookupMap.put( identifier( insertedDeletedElementDiff.getActual() ), actionReplayResult );
 		} else {
-			deletedDiffsLookupMap.put( elementDiff.getIdentifyingAttributes(), actionReplayResult );
+			deletedDiffsLookupMap.put( identifier( elementDiff.getIdentifyingAttributes() ), actionReplayResult );
 		}
 	}
 
@@ -80,14 +85,16 @@ public class GlobalChangeSetApplier {
 			final ElementDifference elementDiff ) {
 		final IdentifyingAttributes identifyingAttributes = elementDiff.getIdentifyingAttributes();
 		for ( final AttributeDifference attributeDifference : elementDiff.getAttributeDifferences() ) {
-			attributeDiffsLookupMap.put( ImmutablePair.of( identifyingAttributes, attributeDifference ),
+			attributeDiffsLookupMap.put(
+					ImmutablePair.of( identifier( identifyingAttributes ), identifier( attributeDifference ) ),
 					actionReplayResult );
 		}
 	}
 
 	private Collection<ActionReplayResult> findAllActionResultsWithEqualDifferences(
 			final IdentifyingAttributes identifyingAttributes, final AttributeDifference attributeDifference ) {
-		return attributeDiffsLookupMap.get( ImmutablePair.of( identifyingAttributes, attributeDifference ) );
+		return attributeDiffsLookupMap
+				.get( ImmutablePair.of( identifier( identifyingAttributes ), identifier( attributeDifference ) ) );
 	}
 
 	private ActionChangeSet findCorrespondingActionChangeSet( final ActionReplayResult actionReplayResult ) {
@@ -152,31 +159,42 @@ public class GlobalChangeSetApplier {
 	// Add/remove inserted/deleted differences.
 
 	public void addChangeSetForAllEqualInsertedChanges( final Element inserted ) {
-		for ( final ActionReplayResult replayResult : insertedDiffsLookupMap.get( inserted ) ) {
+		for ( final ActionReplayResult replayResult : insertedDiffsLookupMap.get( identifier( inserted ) ) ) {
 			findCorrespondingActionChangeSet( replayResult ).addInsertChange( inserted );
 		}
 		counter.add();
 	}
 
 	public void addChangeSetForAllEqualDeletedChanges( final IdentifyingAttributes deleted ) {
-		for ( final ActionReplayResult replayResult : deletedDiffsLookupMap.get( deleted ) ) {
+		for ( final ActionReplayResult replayResult : deletedDiffsLookupMap.get( identifier( deleted ) ) ) {
 			findCorrespondingActionChangeSet( replayResult ).addDeletedChange( deleted );
 		}
 		counter.add();
 	}
 
 	public void removeChangeSetForAllEqualInsertedChanges( final Element inserted ) {
-		for ( final ActionReplayResult replayResult : insertedDiffsLookupMap.get( inserted ) ) {
+		for ( final ActionReplayResult replayResult : insertedDiffsLookupMap.get( identifier( inserted ) ) ) {
 			findCorrespondingActionChangeSet( replayResult ).removeInsertChange( inserted );
 		}
 		counter.remove();
 	}
 
 	public void removeChangeSetForAllEqualDeletedChanges( final IdentifyingAttributes deleted ) {
-		for ( final ActionReplayResult replayResult : deletedDiffsLookupMap.get( deleted ) ) {
+		for ( final ActionReplayResult replayResult : deletedDiffsLookupMap.get( identifier( deleted ) ) ) {
 			findCorrespondingActionChangeSet( replayResult ).removeDeletedChange( deleted );
 		}
 		counter.remove();
 	}
 
+	private String identifier( final Element element ) {
+		return identifier( element.getIdentifyingAttributes() );
+	}
+
+	private String identifier( final IdentifyingAttributes attributes ) {
+		return attributes.identifier();
+	}
+
+	private String identifier( final AttributeDifference difference ) {
+		return difference.identifier();
+	}
 }
