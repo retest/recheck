@@ -25,23 +25,36 @@ Table of Contents
 
 ### Breaking Changes
 
+### Bug Fixes
+
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+
+[1.11.0] (2020-05-15)
+---------------------
+
+### Breaking Changes
+
 * Removed the now obsolete `RandomSuffixRetestIdProvider` class.
 
 ### Bug Fixes
 
-* Fixed a java.lang.ClassCastException: de.retest.recheck.ui.diff.InsertedDeletedElementDifference cannot be cast to de.retest.recheck.ui.diff.IdentifyingAttributesDifference.
+* Fix `java.lang.ClassCastException`: `de.retest.recheck.ui.diff.InsertedDeletedElementDifference` cannot be cast to `de.retest.recheck.ui.diff.IdentifyingAttributesDifference`.
 * Fix similar differences between checks not being accepted together, bringing back 1-click-maintenance.
 
 ### New Features
 
-* The Highlighter interface enables to define custom highlighting for certain keywords defined in the printers intended for the console output (e.g. using Recheck.cli).
+* The `Highlighter` interface enables to define custom highlighting for certain keywords defined in the printers intended for the console output (e.g. using ***recheck.cli***).
 * Add ignore rule that allows to ignore elements based on any of their attributes. E.g. for text it works like so: `matcher: text=Sign In`.
 
 ### Improvements
 
-* Introduce property `de.retest.recheck.rehub.upload.attempts=3` to retry report uploads to rehub if they fail (e.g. due to unstable connections). This will reduce failing tests if the upload fails.
-
---------------------------------------------------------------------------------
+* Introduce property `de.retest.recheck.rehub.upload.attempts=3` to retry report uploads to ***rehub*** if they fail (e.g. due to unstable connections). This will reduce failing tests if the upload fails.
 
 
 [1.10.2] (2020-03-16)
