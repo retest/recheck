@@ -21,6 +21,9 @@
 # More details and examples can be found here:
 # https://docs.retest.de/recheck/usage/filter/
 
+# Ignore metadata differences
+import: metadata.filter
+
 # These are sensible defaults, delete if they don't apply:
 attribute=style
 matcher: type=input, attribute-regex=border-.*-color

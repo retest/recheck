@@ -42,9 +42,8 @@ class SearchFilterFilesTest {
 		final List<String> actualFilterFileNames = defaultFilterFiles.stream() //
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
-		final List<String> expectedFilterFileNames = Arrays.asList( "positioning.filter", "style-attributes.filter",
-				"invisible-attributes.filter", "content.filter" );
-		assertThat( actualFilterFileNames ).isEqualTo( expectedFilterFileNames );
+		assertThat( actualFilterFileNames ).containsExactlyInAnyOrder( "content.filter", "invisible-attributes.filter",
+				"positioning.filter", "style-attributes.filter", "metadata.filter" );
 	}
 
 	@Test

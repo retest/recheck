@@ -37,7 +37,9 @@ public class SearchFilterFiles {
 			FilterResource.prefix( WEB_CATEGORY, "content.filter" ), //
 			FilterResource.prefix( WEB_CATEGORY, "invisible-attributes.filter" ), //
 			FilterResource.prefix( WEB_CATEGORY, "positioning.filter" ), //
-			FilterResource.prefix( WEB_CATEGORY, "style-attributes.filter" ) //
+			FilterResource.prefix( WEB_CATEGORY, "style-attributes.filter" ), //
+
+			FilterResource.absolute( "metadata.filter" ) //
 	) //
 			.map( FilterResource::loader ) //
 			.collect( Collectors.toList() );
