@@ -1,7 +1,9 @@
 package de.retest.recheck.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
@@ -19,5 +21,12 @@ class FilterLoaderTest {
 		final Element element = null;
 		final String attributeKey = null;
 		assertThat( filter.matches( element, attributeKey ) ).isTrue();
+	}
+
+	@Test
+	void loadResource_should_properly_throw_descriptive_exception_if_resource_not_present() {
+		final FilterLoader cut = FilterLoader.loadResource( "/not-present-file.file" );
+
+		assertThatThrownBy( cut::load ).isInstanceOf( NoSuchFileException.class );
 	}
 }

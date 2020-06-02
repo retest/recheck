@@ -3,11 +3,6 @@ package de.retest.recheck.ignore;
 import static de.retest.recheck.RecheckProperties.RETEST_FOLDER_NAME;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -16,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -43,36 +37,13 @@ public class SearchFilterFiles {
 	 */
 	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
 		return defaultWebFilter.stream() //
-				.map( SearchFilterFiles::getWebFilterResource ) //
-				.filter( Objects::nonNull ) //
-				.map( SearchFilterFiles::loadFilterFromUrl ) //
-				.filter( Objects::nonNull ) //
+				.map( SearchFilterFiles::loadFilterFromResource ) //
 				.collect( Collectors.toList() );
 	}
 
-	private static URL getWebFilterResource( final String webFilterName ) {
-		final String webFilterResource = "/" + WEB_FILTER_DIR_PATH + "/" + webFilterName;
-		return SearchFilterFiles.class.getResource( webFilterResource );
-	}
-
-	private static Pair<String, FilterLoader> loadFilterFromUrl( final URL url ) {
-		final URI uri = URI.create( url.toExternalForm() );
-		try {
-			final Path path = Paths.get( uri );
-			return Pair.of( getFileName( path ), FilterLoader.load( path ) );
-		} catch ( final FileSystemNotFoundException e ) {
-			return createFileSystemAndLoadFilter( uri );
-		}
-	}
-
-	private static Pair<String, FilterLoader> createFileSystemAndLoadFilter( final URI uri ) {
-		try ( final FileSystem fs = FileSystems.newFileSystem( uri, Collections.emptyMap() ) ) {
-			final Path path = fs.provider().getPath( uri );
-			return Pair.of( getFileName( path ), FilterLoader.provide( path ) );
-		} catch ( final IOException e ) {
-			log.error( "Could not load filter at '{}'", uri, e );
-			return null;
-		}
+	private static Pair<String, FilterLoader> loadFilterFromResource( final String resource ) {
+		final String resolvedResource = "/" + WEB_FILTER_DIR_PATH + "/" + resource;
+		return Pair.of( resource, FilterLoader.loadResource( resolvedResource ) );
 	}
 
 	/**
