@@ -29,6 +29,8 @@ Table of Contents
 
 ### New Features
 
+* Metadata differences are now filterable via the recheck.ignore.
+
 ### Improvements
 
 
