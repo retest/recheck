@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,8 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
+import lombok.Getter;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,26 +26,23 @@ public class SearchFilterFiles {
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
 	public static final String FILTER_DIR_NAME = "filter";
-	public static final String WEB_FILTER_DIR_PATH = FILTER_DIR_NAME + "/web";
 
-	private static final List<String> defaultWebFilter = Arrays.asList( "positioning.filter", "style-attributes.filter",
-			"invisible-attributes.filter", "content.filter" );
-
-	private SearchFilterFiles() {}
+	private static final String WEB_CATEGORY = "web";
 
 	/**
 	 * @return The default filter files from the JAR.
 	 */
-	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
-		return defaultWebFilter.stream() //
-				.map( SearchFilterFiles::loadFilterFromResource ) //
-				.collect( Collectors.toList() );
-	}
+	@Getter( lazy = true )
+	private static final List<Pair<String, FilterLoader>> defaultFilterFiles = Stream.of( //
+			FilterResource.prefix( WEB_CATEGORY, "content.filter" ), //
+			FilterResource.prefix( WEB_CATEGORY, "invisible-attributes.filter" ), //
+			FilterResource.prefix( WEB_CATEGORY, "positioning.filter" ), //
+			FilterResource.prefix( WEB_CATEGORY, "style-attributes.filter" ) //
+	) //
+			.map( FilterResource::loader ) //
+			.collect( Collectors.toList() );
 
-	private static Pair<String, FilterLoader> loadFilterFromResource( final String resource ) {
-		final String resolvedResource = "/" + WEB_FILTER_DIR_PATH + "/" + resource;
-		return Pair.of( resource, FilterLoader.loadResource( resolvedResource ) );
-	}
+	private SearchFilterFiles() {}
 
 	/**
 	 * @return The project filter files from the filter folder.
@@ -139,5 +137,24 @@ public class SearchFilterFiles {
 					.orElseGet( () -> new FilterNotFoundException( name ) );
 		}
 		return loadSilently( loader, name );
+	}
+
+	@Value( staticConstructor = "of" )
+	static class FilterResource {
+
+		private final String name;
+		private final String path;
+
+		static FilterResource absolute( final String path ) {
+			return of( path, "/" + String.join( "/", FILTER_DIR_NAME, path ) );
+		}
+
+		static FilterResource prefix( final String category, final String path ) {
+			return of( path, "/" + String.join( "/", FILTER_DIR_NAME, category, path ) );
+		}
+
+		public Pair<String, FilterLoader> loader() {
+			return Pair.of( name, FilterLoader.loadResource( path ) );
+		}
 	}
 }
