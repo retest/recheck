@@ -27,7 +27,11 @@ Table of Contents
 
 ### Bug Fixes
 
+* Fix a rare `java.nio.file.FileSystemAlreadyExistsException` when accessing filters concurrently.
+
 ### New Features
+
+* Metadata differences are now filterable via the recheck.ignore. A new `metadata.filter` has been added which can be imported with `import: metadata.filter` in `recheck.ignore`.
 
 ### Improvements
 

@@ -70,7 +70,7 @@ public class TestReportFilter {
 				actionReplayResult.getTargetComponent(), actionReplayResult.getGoldenMasterPath() );
 		final StateDifference newStateDiff = filter( actionReplayResult.getStateDifference() );
 		final MetadataDifference newMetadataDiff =
-				metadataDiffFilter.filter( actionReplayResult.getMetadataDifference() );
+				metadataDiffFilter.filter( actionReplayResult.getMetadataDifference(), filter );
 		final long actualDuration = actionReplayResult.getDuration();
 
 		return ActionReplayResult.withDifference( data, actionReplayResult::getWindows,
@@ -148,15 +148,15 @@ public class TestReportFilter {
 
 	Optional<InsertedDeletedElementDifference> filter( final InsertedDeletedElementDifference insertedDeletedDiff ) {
 		if ( insertedDeletedDiff.isInserted() ) {
-			return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) //
+			return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement() ) //
 					|| filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.INSERTED ) //
-					? Optional.empty() //
-					: Optional.of( insertedDeletedDiff );
+							? Optional.empty() //
+							: Optional.of( insertedDeletedDiff );
 		}
-		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement()) //
+		return filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement() ) //
 				|| filter.matches( insertedDeletedDiff.getInsertedOrDeletedElement(), ChangeType.DELETED ) //
-				? Optional.empty() //
-				: Optional.of( insertedDeletedDiff );
+						? Optional.empty() //
+						: Optional.of( insertedDeletedDiff );
 	}
 
 	Collection<ElementDifference> filter( final Collection<ElementDifference> elementDiffs ) {
