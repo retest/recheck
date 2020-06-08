@@ -5,11 +5,11 @@ import static de.retest.recheck.util.ObjectUtil.isNullOrEmptyString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -103,7 +103,7 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 	}
 
 	public String identifier() {
-		final String contents = Arrays.asList( actual, expected ).stream() //
+		final String contents = Stream.of( key, actual, expected ) //
 				.filter( Objects::nonNull ) //
 				.map( Object::toString ) //
 				.collect( Collectors.joining( " # " ) );

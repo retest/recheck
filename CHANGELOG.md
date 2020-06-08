@@ -28,6 +28,7 @@ Table of Contents
 ### Bug Fixes
 
 * Fix a rare `java.nio.file.FileSystemAlreadyExistsException` when accessing filters concurrently.
+* Fix 1-click-maintenance not respecting the key of the `AttributeDifference`. 
 
 ### New Features
 
