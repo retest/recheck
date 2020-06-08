@@ -1,5 +1,5 @@
-<attributesDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" differenceId="7eec93af28496e7aa8f2ff4d3557542698725b8b8bf26da1d8298d4d3ecc9e7d">
-	<differences key="key" attributeDifferenceId="bbf83e3a0a45262ce65be4dc05194f7abe74c78225544b7e0f036ea11f388d59">
+<attributesDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" differenceId="988581eba110215ce99340510d18e214c4474beb44cb739cd14324093eeb6e4f">
+	<differences key="key" attributeDifferenceId="065e2ae33427f26a29d2e93f4675ce7c0fe116b19249c886c358ff8b1c8c89a0">
 		<expected xsi:type="xsd:string">value1</expected>
 		<actual xsi:type="xsd:string">value2</actual>
 	</differences>
