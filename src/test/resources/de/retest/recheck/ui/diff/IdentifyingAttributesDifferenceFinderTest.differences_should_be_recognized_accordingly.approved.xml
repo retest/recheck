@@ -1,12 +1,12 @@
-<identifyingAttributesDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" differenceId="4a4744180ebcb6a912e30679732aff30b2f906ea14b22edeef8e2428cba9f0d3">
+<identifyingAttributesDifference xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" differenceId="43ab3522694564cacc88f603a606de03f4e2b46d2e579472b99c948f27657155">
 	<attribute key="path" xsi:type="pathAttribute">parentPath[1]/type[1]</attribute>
 	<attribute key="suffix" xsi:type="suffixAttribute">1</attribute>
 	<attribute key="type" xsi:type="stringAttribute">de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$Type</attribute>
-	<attributeDifference key="path" attributeDifferenceId="99e2e6b492e99075f2ad0c022a1dfaed7bd99a98695eb612f4703a82ab1e23cf">
+	<attributeDifference key="path" attributeDifferenceId="91947ac8f3bc91b8f0874b920aadf413a986f9ab21063e7d46993ba239488b52">
 		<expected xsi:type="xsd:string">parentPath[1]/type[1]</expected>
 		<actual xsi:type="xsd:string">anotherParentPath[1]/anotherType[1]</actual>
 	</attributeDifference>
-	<attributeDifference key="type" attributeDifferenceId="886ce09093615d835af906ee8516f5623bf1a15f2cf7e9f4f7bd5a7688eccf58">
+	<attributeDifference key="type" attributeDifferenceId="0f50f4015324077de9c37ccffbb5a339559c546ec3f244a43e40ab2f5c804697">
 		<expected xsi:type="xsd:string">de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$Type</expected>
 		<actual xsi:type="xsd:string">de.retest.recheck.ui.diff.IdentifyingAttributesDifferenceFinderTest$AnotherType</actual>
 	</attributeDifference>

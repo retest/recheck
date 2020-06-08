@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Fix 1-click-maintenance not respecting the key of the `AttributeDifference`. 
+
 ### New Features
 
 ### Improvements
