@@ -27,6 +27,16 @@ class AttributeDifferenceTest {
 	}
 
 	@Test
+	void identifier_should_respect_key() {
+		final AttributeDifference bottom =
+				new AttributeDifference( "border-bottom-color", "rgba(0, 0, 0, 0.26)", "rgba(0, 0, 0, 0.32)" );
+		final AttributeDifference top =
+				new AttributeDifference( "border-top-color", "rgba(0, 0, 0, 0.26)", "rgba(0, 0, 0, 0.32)" );
+
+		assertThat( bottom.identifier() ).isNotEqualTo( top.identifier() );
+	}
+
+	@Test
 	void compare_to_same_object_is_zero() throws Exception {
 		final AttributeDifference cut = new AttributeDifference();
 		assertThat( cut.compareTo( cut ) ).isEqualTo( 0 );
