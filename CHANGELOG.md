@@ -40,6 +40,14 @@ Table of Contents
 --------------------------------------------------------------------------------
 
 
+[1.11.1] (2020-06-10)
+---------------------
+
+### Bug Fixes
+
+* Fix 1-click-maintenance not respecting the key of the `AttributeDifference`. 
+
+
 [1.11.0] (2020-05-15)
 ---------------------
 
