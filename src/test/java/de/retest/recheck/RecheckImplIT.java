@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.Filters;
 import de.retest.recheck.ui.DefaultValueFinder;
@@ -28,6 +29,8 @@ class RecheckImplIT {
 
 	static final String MESSAGE_START_PATTERN = "A detailed report will be created at '.*'";
 	static final String MESSAGE_START_REPLACE = "A detailed report will be created at '*'";
+
+	static final Filter METADATA_FILTER = Filters.parse( "import: metadata.filter" );
 
 	@Test
 	void diff_should_be_created_accordingly() {
@@ -63,7 +66,7 @@ class RecheckImplIT {
 
 	private RecheckOptions withIgnore( final Filter ignore ) {
 		return RecheckOptions.builder() //
-				.setIgnore( ignore ) //
+				.setIgnore( new CompoundFilter( ignore, METADATA_FILTER ) ) // Ignore all (even metadata)
 				.build();
 	}
 

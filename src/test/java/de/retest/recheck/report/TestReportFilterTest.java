@@ -103,8 +103,7 @@ class TestReportFilterTest {
 		stateDiff = new StateDifference( rootElementDiffs );
 
 		actionReplayResult = mock( ActionReplayResult.class );
-		when( actionReplayResult.getMetadataDifference() ).thenReturn(
-				MetadataDifference.of( Collections.singleton( new MetadataElementDifference( "a", "b", "c" ) ) ) );
+		when( actionReplayResult.getMetadataDifference() ).thenReturn( MetadataDifference.empty() );
 		when( actionReplayResult.getStateDifference() ).thenReturn( stateDiff );
 
 		testReplayResult = new TestReplayResult( "test", 1 );
@@ -398,10 +397,27 @@ class TestReportFilterTest {
 	}
 
 	@Test
-	void filter_should_not_destroy_metadata() throws Exception {
+	void filter_should_not_touch_metadata_if_no_filter_matches() {
+		// the attribute 'meta-a' is NOT filtered
+		final MetadataElementDifference difference = new MetadataElementDifference( "meta-a", "b", "c" );
+		when( actionReplayResult.getMetadataDifference() )
+				.thenReturn( MetadataDifference.of( Collections.singleton( difference ) ) );
+
 		final ActionReplayResult filtered = cut.filter( actionReplayResult );
 
 		assertThat( filtered.getMetadataDifference() ).isEqualTo( actionReplayResult.getMetadataDifference() );
+	}
+
+	@Test
+	void filter_should_recreate_metadata_if_filter_matches() {
+		// the attribute 'a' is filtered
+		final MetadataElementDifference difference = new MetadataElementDifference( "a", "b", "c" );
+		when( actionReplayResult.getMetadataDifference() )
+				.thenReturn( MetadataDifference.of( Collections.singleton( difference ) ) );
+
+		final ActionReplayResult filtered = cut.filter( actionReplayResult );
+
+		assertThat( filtered.getMetadataDifference() ).isEmpty();
 	}
 
 	@Test

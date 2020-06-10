@@ -3,26 +3,21 @@ package de.retest.recheck.ignore;
 import static de.retest.recheck.RecheckProperties.RETEST_FOLDER_NAME;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
 import de.retest.recheck.configuration.ProjectConfiguration;
+import lombok.Getter;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,49 +26,25 @@ public class SearchFilterFiles {
 	public static final String FILTER_EXTENSION = ".filter";
 	public static final String FILTER_JS_EXTENSION = ".filter.js";
 	public static final String FILTER_DIR_NAME = "filter";
-	public static final String WEB_FILTER_DIR_PATH = FILTER_DIR_NAME + "/web";
 
-	private static final List<String> defaultWebFilter = Arrays.asList( "positioning.filter", "style-attributes.filter",
-			"invisible-attributes.filter", "content.filter" );
-
-	private SearchFilterFiles() {}
+	private static final String WEB_CATEGORY = "web";
 
 	/**
 	 * @return The default filter files from the JAR.
 	 */
-	public static List<Pair<String, FilterLoader>> getDefaultFilterFiles() {
-		return defaultWebFilter.stream() //
-				.map( SearchFilterFiles::getWebFilterResource ) //
-				.filter( Objects::nonNull ) //
-				.map( SearchFilterFiles::loadFilterFromUrl ) //
-				.filter( Objects::nonNull ) //
-				.collect( Collectors.toList() );
-	}
+	@Getter( lazy = true )
+	private static final List<Pair<String, FilterLoader>> defaultFilterFiles = Stream.of( //
+			FilterResource.prefix( WEB_CATEGORY, "content.filter" ), //
+			FilterResource.prefix( WEB_CATEGORY, "invisible-attributes.filter" ), //
+			FilterResource.prefix( WEB_CATEGORY, "positioning.filter" ), //
+			FilterResource.prefix( WEB_CATEGORY, "style-attributes.filter" ), //
 
-	private static URL getWebFilterResource( final String webFilterName ) {
-		final String webFilterResource = "/" + WEB_FILTER_DIR_PATH + "/" + webFilterName;
-		return SearchFilterFiles.class.getResource( webFilterResource );
-	}
+			FilterResource.absolute( "metadata.filter" ) //
+	) //
+			.map( FilterResource::loader ) //
+			.collect( Collectors.toList() );
 
-	private static Pair<String, FilterLoader> loadFilterFromUrl( final URL url ) {
-		final URI uri = URI.create( url.toExternalForm() );
-		try {
-			final Path path = Paths.get( uri );
-			return Pair.of( getFileName( path ), FilterLoader.load( path ) );
-		} catch ( final FileSystemNotFoundException e ) {
-			return createFileSystemAndLoadFilter( uri );
-		}
-	}
-
-	private static Pair<String, FilterLoader> createFileSystemAndLoadFilter( final URI uri ) {
-		try ( final FileSystem fs = FileSystems.newFileSystem( uri, Collections.emptyMap() ) ) {
-			final Path path = fs.provider().getPath( uri );
-			return Pair.of( getFileName( path ), FilterLoader.provide( path ) );
-		} catch ( final IOException e ) {
-			log.error( "Could not load filter at '{}'", uri, e );
-			return null;
-		}
-	}
+	private SearchFilterFiles() {}
 
 	/**
 	 * @return The project filter files from the filter folder.
@@ -168,5 +139,24 @@ public class SearchFilterFiles {
 					.orElseGet( () -> new FilterNotFoundException( name ) );
 		}
 		return loadSilently( loader, name );
+	}
+
+	@Value( staticConstructor = "of" )
+	static class FilterResource {
+
+		private final String name;
+		private final String path;
+
+		static FilterResource absolute( final String path ) {
+			return of( path, "/" + String.join( "/", FILTER_DIR_NAME, path ) );
+		}
+
+		static FilterResource prefix( final String category, final String path ) {
+			return of( path, "/" + String.join( "/", FILTER_DIR_NAME, category, path ) );
+		}
+
+		public Pair<String, FilterLoader> loader() {
+			return Pair.of( name, FilterLoader.loadResource( path ) );
+		}
 	}
 }

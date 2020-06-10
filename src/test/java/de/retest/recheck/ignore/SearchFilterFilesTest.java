@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junitpioneer.jupiter.ClearSystemProperty;
 
 import de.retest.recheck.RecheckProperties;
+import de.retest.recheck.ignore.SearchFilterFiles.FilterResource;
 
 class SearchFilterFilesTest {
 
@@ -40,9 +42,8 @@ class SearchFilterFilesTest {
 		final List<String> actualFilterFileNames = defaultFilterFiles.stream() //
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
-		final List<String> expectedFilterFileNames = Arrays.asList( "positioning.filter", "style-attributes.filter",
-				"invisible-attributes.filter", "content.filter" );
-		assertThat( actualFilterFileNames ).isEqualTo( expectedFilterFileNames );
+		assertThat( actualFilterFileNames ).containsExactlyInAnyOrder( "content.filter", "invisible-attributes.filter",
+				"positioning.filter", "style-attributes.filter", "metadata.filter" );
 	}
 
 	@Test
@@ -161,5 +162,35 @@ class SearchFilterFilesTest {
 		final List<Filter> list = unwrap( ((CompoundFilter) result).getFilters() );
 		assertThat( result ).isNotNull();
 		assertThat( list.toString() ).startsWith( "[# Filter file for recheck that will filter content" );
+	}
+
+	@Nested
+	class FilterResourceTest {
+
+		@Test
+		void absolute_should_start_with_separator() {
+			final FilterResource cut = FilterResource.absolute( "content.filter" );
+
+			assertThat( cut.getName() ).isEqualTo( "content.filter" );
+			assertThat( cut.getPath() ).startsWith( "/filter" );
+		}
+
+		@Test
+		void prefix_should_start_with_separator() {
+			final FilterResource cut = FilterResource.prefix( "web", "content.filter" );
+
+			assertThat( cut.getName() ).isEqualTo( "content.filter" );
+			assertThat( cut.getPath() ).startsWith( "/filter/web" );
+		}
+
+		@Test
+		void loader_should_return_the_same_name_as_specified() {
+			final FilterResource cut = FilterResource.absolute( "content.filter" );
+
+			final Pair<String, FilterLoader> pair = cut.loader();
+			final String name = pair.getKey();
+
+			assertThat( name ).isEqualTo( cut.getName() );
+		}
 	}
 }
