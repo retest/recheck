@@ -100,6 +100,7 @@ Table of Contents
 * You can now specify that a specific value-regex should be filtered, either globally, for specific elements or specific attributes. This allows to e.g. ignore a date, but still ensure that it is actually a valid date.
 * You can now specify to ignore a percentage color-diff, much like a pixel-diff. This allows to ignore, e.g. minor color changes or changes where opacity value is added or missing. Can be added globally, per element or attribute or combination thereof.
 * Add the option to filter elements based on whether they are inserted, deleted or changed.
+* The report output now displays the `retestId`: `input (input-retest-id) at 'html[1]/body[1]/input[1]'`. This may be used, for example, by a filter: `matcher: retestId=input-retest-id`.
 
 ### Improvements
 
