@@ -19,6 +19,7 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
+import de.retest.recheck.ui.review.AttributeChanges;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -121,7 +122,8 @@ public class GlobalChangeSetApplier {
 		for ( final ActionReplayResult actionReplayResult : actionResultsWithDiffs ) {
 			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
 			assert correspondingActionChangeSet != null : "Should have been added during load and thus not be empty!";
-			correspondingActionChangeSet.getIdentAttributeChanges().add( identifyingAttributes, attributeDifference );
+			final AttributeChanges changes = correspondingActionChangeSet.getIdentAttributeChanges();
+			changes.add( identifyingAttributes, attributeDifference );
 		}
 		counter.add();
 	}
@@ -130,8 +132,9 @@ public class GlobalChangeSetApplier {
 			final AttributeDifference attributeDifference ) {
 		for ( final ActionReplayResult actionReplayResult : findAllActionResultsWithEqualDifferences(
 				identifyingAttributes, attributeDifference ) ) {
-			findCorrespondingActionChangeSet( actionReplayResult ).getAttributesChanges().add( identifyingAttributes,
-					attributeDifference );
+			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
+			final AttributeChanges changes = correspondingActionChangeSet.getAttributesChanges();
+			changes.add( identifyingAttributes, attributeDifference );
 		}
 		counter.add();
 	}
@@ -140,8 +143,9 @@ public class GlobalChangeSetApplier {
 			final AttributeDifference attributeDifference ) {
 		for ( final ActionReplayResult actionReplayResult : findAllActionResultsWithEqualDifferences(
 				identifyingAttributes, attributeDifference ) ) {
-			findCorrespondingActionChangeSet( actionReplayResult ).getIdentAttributeChanges()
-					.remove( identifyingAttributes, attributeDifference );
+			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
+			final AttributeChanges changes = correspondingActionChangeSet.getIdentAttributeChanges();
+			changes.remove( identifyingAttributes, attributeDifference );
 		}
 		counter.remove();
 	}
@@ -150,8 +154,9 @@ public class GlobalChangeSetApplier {
 			final AttributeDifference attributeDifference ) {
 		for ( final ActionReplayResult actionReplayResult : findAllActionResultsWithEqualDifferences(
 				identifyingAttributes, attributeDifference ) ) {
-			findCorrespondingActionChangeSet( actionReplayResult ).getAttributesChanges().remove( identifyingAttributes,
-					attributeDifference );
+			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
+			final AttributeChanges changes = correspondingActionChangeSet.getAttributesChanges();
+			changes.remove( identifyingAttributes, attributeDifference );
 		}
 		counter.remove();
 	}
