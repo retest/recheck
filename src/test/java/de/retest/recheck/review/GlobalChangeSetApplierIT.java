@@ -1,12 +1,15 @@
 package de.retest.recheck.review;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.awt.Rectangle;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,6 +23,7 @@ import de.retest.recheck.RecheckImpl;
 import de.retest.recheck.RecheckOptions;
 import de.retest.recheck.SuiteAggregator;
 import de.retest.recheck.persistence.SeparatePathsProjectLayout;
+import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.PathElement;
@@ -31,6 +35,9 @@ import de.retest.recheck.ui.descriptors.MutableAttributes;
 import de.retest.recheck.ui.descriptors.OutlineAttribute;
 import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.descriptors.StringAttribute;
+import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.ElementIdentificationWarning;
+import lombok.extern.slf4j.Slf4j;
 
 class GlobalChangeSetApplierIT {
 
@@ -91,6 +98,12 @@ class GlobalChangeSetApplierIT {
 		// Deleted:
 		// html[1]/body[1]/span[1] (large, small)
 		assertThat( cut.getDeletedDiffsLookupMap().asMap() ).hasSize( 1 );
+	}
+
+	@Test
+	void lookups_should_contain_all_warnings() {
+		// There are two differences for align-self (large, small)
+		assertThat( cut.getWarningsLookup().values() ).flatExtracting( Function.identity() ).hasSize( 2 );
 	}
 
 	private void capTest( final Recheck re ) {
@@ -173,6 +186,7 @@ class GlobalChangeSetApplierIT {
 		return attributes.immutable();
 	}
 
+	@Slf4j
 	private static class RootElementRecheckAdapter implements RecheckAdapter {
 
 		@Override
@@ -188,6 +202,19 @@ class GlobalChangeSetApplierIT {
 		@Override
 		public DefaultValueFinder getDefaultValueFinder() {
 			return ( identifyingAttributes, attributeKey, attributeValue ) -> false;
+		}
+
+		@Override
+		public void notifyAboutDifferences( final ActionReplayResult actionReplayResult ) {
+			final ElementIdentificationWarning warning = mock( ElementIdentificationWarning.class );
+			actionReplayResult.getAllElementDifferences().stream() //
+					.map( ElementDifference::getAttributeDifferences ) //
+					.flatMap( Collection::stream ) //
+					.filter( difference -> "align-self".equals( difference.getKey() ) ) //
+					.forEach( difference -> {
+						log.debug( "Adding warning to difference '{}' for '{}'.", difference, actionReplayResult );
+						difference.addElementIdentificationWarning( warning );
+					} );
 		}
 	}
 }

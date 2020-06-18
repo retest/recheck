@@ -1,8 +1,12 @@
 package de.retest.recheck.review;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
@@ -17,6 +21,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.ui.review.AttributeChanges;
@@ -30,6 +35,7 @@ public class GlobalChangeSetApplier {
 	private GlobalChangeSetApplier( final TestReport testReport, final Counter counter ) {
 		this.counter = counter;
 		attributeDiffsLookupMap = ArrayListMultimap.create();
+		warningsLookup = new HashMap<>();
 		insertedDiffsLookupMap = ArrayListMultimap.create();
 		deletedDiffsLookupMap = ArrayListMultimap.create();
 		actionChangeSetLookupMap = new HashMap<>();
@@ -49,6 +55,8 @@ public class GlobalChangeSetApplier {
 
 	@Getter( AccessLevel.PACKAGE )
 	private final Multimap<ImmutablePair<String, String>, ActionReplayResult> attributeDiffsLookupMap;
+	@Getter( AccessLevel.PACKAGE )
+	private final HashMap<ImmutablePair<String, String>, Set<ElementIdentificationWarning>> warningsLookup;
 	@Getter( AccessLevel.PACKAGE )
 	private final Multimap<String, ActionReplayResult> insertedDiffsLookupMap;
 	@Getter( AccessLevel.PACKAGE )
@@ -86,9 +94,13 @@ public class GlobalChangeSetApplier {
 			final ElementDifference elementDiff ) {
 		final IdentifyingAttributes identifyingAttributes = elementDiff.getIdentifyingAttributes();
 		for ( final AttributeDifference attributeDifference : elementDiff.getAttributeDifferences() ) {
-			attributeDiffsLookupMap.put(
-					ImmutablePair.of( identifier( identifyingAttributes ), identifier( attributeDifference ) ),
-					actionReplayResult );
+			final ImmutablePair<String, String> key =
+					ImmutablePair.of( identifier( identifyingAttributes ), identifier( attributeDifference ) );
+			attributeDiffsLookupMap.put( key, actionReplayResult );
+			final List<ElementIdentificationWarning> warnings = attributeDifference.getElementIdentificationWarnings();
+			if ( !warnings.isEmpty() ) {
+				warningsLookup.computeIfAbsent( key, k -> new HashSet<>() ).addAll( warnings );
+			}
 		}
 	}
 
@@ -96,6 +108,12 @@ public class GlobalChangeSetApplier {
 			final IdentifyingAttributes identifyingAttributes, final AttributeDifference attributeDifference ) {
 		return attributeDiffsLookupMap
 				.get( ImmutablePair.of( identifier( identifyingAttributes ), identifier( attributeDifference ) ) );
+	}
+
+	private Set<ElementIdentificationWarning> findAllWarningsForDifference( final IdentifyingAttributes attributes,
+			final AttributeDifference difference ) {
+		return warningsLookup.getOrDefault( ImmutablePair.of( identifier( attributes ), identifier( difference ) ),
+				Collections.emptySet() );
 	}
 
 	private ActionChangeSet findCorrespondingActionChangeSet( final ActionReplayResult actionReplayResult ) {
@@ -123,7 +141,7 @@ public class GlobalChangeSetApplier {
 			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
 			assert correspondingActionChangeSet != null : "Should have been added during load and thus not be empty!";
 			final AttributeChanges changes = correspondingActionChangeSet.getIdentAttributeChanges();
-			changes.add( identifyingAttributes, attributeDifference );
+			changes.add( identifyingAttributes, injectWarningsFor( identifyingAttributes, attributeDifference ) );
 		}
 		counter.add();
 	}
@@ -134,7 +152,7 @@ public class GlobalChangeSetApplier {
 				identifyingAttributes, attributeDifference ) ) {
 			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
 			final AttributeChanges changes = correspondingActionChangeSet.getAttributesChanges();
-			changes.add( identifyingAttributes, attributeDifference );
+			changes.add( identifyingAttributes, injectWarningsFor( identifyingAttributes, attributeDifference ) );
 		}
 		counter.add();
 	}
@@ -145,7 +163,7 @@ public class GlobalChangeSetApplier {
 				identifyingAttributes, attributeDifference ) ) {
 			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
 			final AttributeChanges changes = correspondingActionChangeSet.getIdentAttributeChanges();
-			changes.remove( identifyingAttributes, attributeDifference );
+			changes.remove( identifyingAttributes, injectWarningsFor( identifyingAttributes, attributeDifference ) );
 		}
 		counter.remove();
 	}
@@ -156,9 +174,17 @@ public class GlobalChangeSetApplier {
 				identifyingAttributes, attributeDifference ) ) {
 			final ActionChangeSet correspondingActionChangeSet = findCorrespondingActionChangeSet( actionReplayResult );
 			final AttributeChanges changes = correspondingActionChangeSet.getAttributesChanges();
-			changes.remove( identifyingAttributes, attributeDifference );
+			changes.remove( identifyingAttributes, injectWarningsFor( identifyingAttributes, attributeDifference ) );
 		}
 		counter.remove();
+	}
+
+	private AttributeDifference injectWarningsFor( final IdentifyingAttributes attributes,
+			final AttributeDifference difference ) {
+		final AttributeDifference copy =
+				new AttributeDifference( difference.getKey(), difference.getExpected(), difference.getActual() );
+		copy.addElementIdentificationWarnings( findAllWarningsForDifference( attributes, difference ) );
+		return copy;
 	}
 
 	// Add/remove inserted/deleted differences.

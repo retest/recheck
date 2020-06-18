@@ -1,7 +1,10 @@
 package de.retest.recheck.review;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.only;
@@ -11,10 +14,12 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import de.retest.recheck.report.ActionReplayResult;
 import de.retest.recheck.report.SuiteReplayResult;
@@ -24,6 +29,7 @@ import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
+import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 import de.retest.recheck.ui.diff.InsertedDeletedElementDifference;
 import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.ui.review.AttributeChanges;
@@ -65,7 +71,11 @@ class GlobalChangeSetApplierTest {
 	@BeforeEach
 	void setUp() {
 		identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.identifier() ).thenReturn( "a" );
 		attributeDifference = mock( AttributeDifference.class );
+		when( attributeDifference.identifier() ).thenReturn( "a" );
+		when( attributeDifference.getElementIdentificationWarnings() )
+				.thenReturn( Collections.singletonList( mock( ElementIdentificationWarning.class ) ) );
 
 		testReport = mock( TestReport.class );
 		suiteReplayResult = mock( SuiteReplayResult.class );
@@ -143,6 +153,7 @@ class GlobalChangeSetApplierTest {
 		verify( elementDifference1, times( 1 ) ).getIdentifyingAttributes();
 		verify( elementDifference1, times( 1 ) ).isInsertionOrDeletion();
 		verifyNoMoreInteractions( elementDifference1 );
+		verify( attributeDifference, times( 2 ) ).getElementIdentificationWarnings();
 	}
 
 	// Add/remove element differences.
@@ -154,8 +165,26 @@ class GlobalChangeSetApplierTest {
 
 		globalApplier.addChangeSetForAllEqualIdentAttributeChanges( identifyingAttributes, attributeDifference );
 
-		verify( identifyingAttributesChangeSet1, times( 1 ) ).add( identifyingAttributes, attributeDifference );
-		verify( identifyingAttributesChangeSet2, times( 1 ) ).add( identifyingAttributes, attributeDifference );
+		verify( identifyingAttributesChangeSet1, times( 1 ) ).add( eq( identifyingAttributes ), any() );
+		verify( identifyingAttributesChangeSet2, times( 1 ) ).add( eq( identifyingAttributes ), any() );
+	}
+
+	@Test
+	void add_for_all_ident_without_warnings_should_inject_warnings() {
+		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
+		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
+
+		final AttributeDifference withoutWarnings = mock( AttributeDifference.class );
+		when( withoutWarnings.identifier() ).thenReturn( "a" );
+
+		globalApplier.addChangeSetForAllEqualIdentAttributeChanges( identifyingAttributes, withoutWarnings );
+
+		final ArgumentCaptor<AttributeDifference> captor = ArgumentCaptor.forClass( AttributeDifference.class );
+		verify( identifyingAttributesChangeSet1, times( 1 ) ).add( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
+
+		verify( identifyingAttributesChangeSet2, times( 1 ) ).add( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
 	}
 
 	@Test
@@ -165,8 +194,26 @@ class GlobalChangeSetApplierTest {
 
 		globalApplier.createChangeSetForAllEqualAttributesChanges( identifyingAttributes, attributeDifference );
 
-		verify( attributeChangeSet1, times( 1 ) ).add( identifyingAttributes, attributeDifference );
-		verify( attributeChangeSet2, times( 1 ) ).add( identifyingAttributes, attributeDifference );
+		verify( attributeChangeSet1, times( 1 ) ).add( eq( identifyingAttributes ), any() );
+		verify( attributeChangeSet2, times( 1 ) ).add( eq( identifyingAttributes ), any() );
+	}
+
+	@Test
+	void add_for_all_state_without_warnings_should_inject_warnings() {
+		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
+		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
+
+		final AttributeDifference withoutWarnings = mock( AttributeDifference.class );
+		when( withoutWarnings.identifier() ).thenReturn( "a" );
+
+		globalApplier.createChangeSetForAllEqualAttributesChanges( identifyingAttributes, withoutWarnings );
+
+		final ArgumentCaptor<AttributeDifference> captor = ArgumentCaptor.forClass( AttributeDifference.class );
+		verify( attributeChangeSet1, times( 1 ) ).add( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
+
+		verify( attributeChangeSet2, times( 1 ) ).add( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
 	}
 
 	@Test
@@ -176,8 +223,26 @@ class GlobalChangeSetApplierTest {
 
 		globalApplier.removeChangeSetForAllEqualIdentAttributeChanges( identifyingAttributes, attributeDifference );
 
-		verify( identifyingAttributesChangeSet1, times( 1 ) ).remove( identifyingAttributes, attributeDifference );
-		verify( identifyingAttributesChangeSet2, times( 1 ) ).remove( identifyingAttributes, attributeDifference );
+		verify( identifyingAttributesChangeSet1, times( 1 ) ).remove( eq( identifyingAttributes ), any() );
+		verify( identifyingAttributesChangeSet2, times( 1 ) ).remove( eq( identifyingAttributes ), any() );
+	}
+
+	@Test
+	void remove_for_all_ident_should_inject_warnings() {
+		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
+		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
+
+		final AttributeDifference withoutWarnings = mock( AttributeDifference.class );
+		when( withoutWarnings.identifier() ).thenReturn( "a" );
+
+		globalApplier.removeChangeSetForAllEqualIdentAttributeChanges( identifyingAttributes, withoutWarnings );
+
+		final ArgumentCaptor<AttributeDifference> captor = ArgumentCaptor.forClass( AttributeDifference.class );
+		verify( identifyingAttributesChangeSet1, times( 1 ) ).remove( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
+
+		verify( identifyingAttributesChangeSet2, times( 1 ) ).remove( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
 	}
 
 	@Test
@@ -187,8 +252,26 @@ class GlobalChangeSetApplierTest {
 
 		globalApplier.removeChangeSetForAllEqualAttributesChanges( identifyingAttributes, attributeDifference );
 
-		verify( attributeChangeSet1, atLeastOnce() ).remove( identifyingAttributes, attributeDifference );
-		verify( attributeChangeSet2, atLeastOnce() ).remove( identifyingAttributes, attributeDifference );
+		verify( attributeChangeSet1, atLeastOnce() ).remove( eq( identifyingAttributes ), any() );
+		verify( attributeChangeSet2, atLeastOnce() ).remove( eq( identifyingAttributes ), any() );
+	}
+
+	@Test
+	void remove_for_all_state_should_inject_warnings() {
+		globalApplier.introduce( actionReplayResult1, actionChangeSet1 );
+		globalApplier.introduce( actionReplayResult2, actionChangeSet2 );
+
+		final AttributeDifference withoutWarnings = mock( AttributeDifference.class );
+		when( withoutWarnings.identifier() ).thenReturn( "a" );
+
+		globalApplier.removeChangeSetForAllEqualAttributesChanges( identifyingAttributes, withoutWarnings );
+
+		final ArgumentCaptor<AttributeDifference> captor = ArgumentCaptor.forClass( AttributeDifference.class );
+		verify( attributeChangeSet1, times( 1 ) ).remove( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
+
+		verify( attributeChangeSet2, times( 1 ) ).remove( any(), captor.capture() );
+		assertThat( captor.getValue().getElementIdentificationWarnings() ).hasSize( 1 );
 	}
 
 	@Test
