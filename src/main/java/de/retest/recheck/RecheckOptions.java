@@ -18,6 +18,7 @@ import de.retest.recheck.persistence.GradleProjectLayout;
 import de.retest.recheck.persistence.MavenProjectLayout;
 import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
+import de.retest.recheck.persistence.ProjectLayouts;
 import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
 import de.retest.recheck.util.RetestIdProviderUtil;
 import lombok.AccessLevel;
@@ -129,7 +130,7 @@ public class RecheckOptions {
 
 		private FileNamerStrategy fileNamerStrategy;
 		private NamingStrategy namingStrategy = new ClassAndMethodBasedNamingStrategy();
-		private ProjectLayout projectLayout = new MavenProjectLayout();
+		private ProjectLayout projectLayout;
 		private String suiteName = null;
 		private Boolean reportUploadEnabled;
 		private Filter ignoreFilter = null;
@@ -274,6 +275,9 @@ public class RecheckOptions {
 
 		public RecheckOptions build() {
 			ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
+			if ( projectLayout == null ) {
+				projectLayout( ProjectLayouts.detect() );
+			}
 			final String suiteName = getSuiteName();
 			final NamingStrategy namingStrategy = new FixedSuiteNamingStrategy( suiteName, this.namingStrategy );
 			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout,
