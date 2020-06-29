@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Fix accepting of attributes without warning deletes warnings of similar attribute differences.
+
 ### New Features
 
 ### Improvements

@@ -5,6 +5,7 @@ import static de.retest.recheck.util.ObjectUtil.isNullOrEmptyString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -78,6 +79,10 @@ public class AttributeDifference implements LeafDifference, Comparable<Attribute
 
 	public void addElementIdentificationWarning( final ElementIdentificationWarning elementIdentificationWarning ) {
 		elementIdentificationWarnings.add( elementIdentificationWarning );
+	}
+
+	public void addElementIdentificationWarnings( final Collection<? extends ElementIdentificationWarning> warnings ) {
+		elementIdentificationWarnings.addAll( warnings );
 	}
 
 	public boolean hasElementIdentificationWarning() {
