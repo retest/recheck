@@ -1,7 +1,7 @@
 package de.retest.recheck.ui.descriptors;
 
-import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.TYPE_ATTRIBUTE_KEY;
 import static de.retest.recheck.ui.Path.fromString;
+import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.TYPE_ATTRIBUTE_KEY;
 import static de.retest.recheck.ui.descriptors.IdentifyingAttributes.create;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
@@ -184,17 +184,17 @@ public class IdentifyingAttributesTest {
 	public void different_absolute_outline_should_result_in_change() {
 		final Collection<Attribute> expected = IdentifyingAttributes
 				.createList( Path.fromString( "html[1]/body[1]/ytd-app[1]" ), component.class.getName() );
-		expected.add( OutlineAttribute.createAbsolute(  new Rectangle( 0, 0, 1179, 2046 ) ) );
+		expected.add( OutlineAttribute.createAbsolute( new Rectangle( 0, 0, 1179, 2046 ) ) );
 		final IdentifyingAttributes expectedIdent = new IdentifyingAttributes( expected );
 
 		final Collection<Attribute> actual = IdentifyingAttributes
 				.createList( Path.fromString( "html[1]/body[1]/ytd-app[1]" ), component.class.getName() );
-		actual.add( OutlineAttribute.createAbsolute( new Rectangle( 0, 0, 1179, 2030 )) );
+		actual.add( OutlineAttribute.createAbsolute( new Rectangle( 0, 0, 1179, 2030 ) ) );
 		final IdentifyingAttributes actualIdent = new IdentifyingAttributes( actual );
 
-//		assertThat( expectedIdent.match( actualIdent ) ).isLessThan(1.0 ); should be less than 1.0
+		//		assertThat( expectedIdent.match( actualIdent ) ).isLessThan(1.0 ); should be less than 1.0
 		assertThat( expectedIdent.equals( actualIdent ) ).isFalse();
-		assertThat( expectedIdent.hashCode() ).isNotEqualTo(  actualIdent.hashCode() );
+		assertThat( expectedIdent.hashCode() ).isNotEqualTo( actualIdent.hashCode() );
 		assertThat( expectedIdent ).isNotEqualTo( actualIdent );
 	}
 
@@ -233,6 +233,16 @@ public class IdentifyingAttributesTest {
 	@Test( expected = NullPointerException.class )
 	public void null_Class_type_should_give_exception() {
 		create( fromString( "/HTML/DIV" ), (Class<?>) null );
+	}
+
+	@Test
+	public void apply_should_add_inserted_attribute() {
+		final Path path = fromString( "/html/div" );
+		final IdentifyingAttributes cut = create( path, String.class );
+
+		final IdentifyingAttributes applied = cut.applyChanges( createAttributeChanges( path, "text", null, "foo" ) );
+
+		assertThat( applied.getAttribute( "text" ) ).isNotNull();
 	}
 
 	private Set<AttributeDifference> createAttributeChanges( final Path path, final String key,
