@@ -245,6 +245,47 @@ public class IdentifyingAttributesTest {
 		assertThat( applied.getAttribute( "text" ) ).isNotNull();
 	}
 
+	@Test
+	public void apply_should_use_additional_attribute_if_inserted() {
+		final Path path = fromString( "/html/div" );
+		final IdentifyingAttributes cut = create( path, String.class );
+
+		final IdentifyingAttributes applied = cut.applyChanges( Collections
+				.singleton( new AdditionalAttributeDifference( "text", new TextAttribute( "text", "foo" ) ) ) );
+
+		final Attribute attribute = applied.getAttribute( "text" );
+		assertThat( attribute ).isInstanceOf( TextAttribute.class );
+		assertThat( attribute.getKey() ).isEqualTo( "text" );
+		assertThat( attribute.getValue() ).isEqualTo( "foo" );
+	}
+
+	@Test
+	public void apply_should_use_attribute_if_inserted() {
+		final Path path = fromString( "/html/div" );
+		final IdentifyingAttributes cut = create( path, String.class );
+
+		final IdentifyingAttributes applied = cut.applyChanges(
+				Collections.singleton( new AttributeDifference( "text", null, new TextAttribute( "text", "foo" ) ) ) );
+
+		final Attribute attribute = applied.getAttribute( "text" );
+		assertThat( attribute ).isInstanceOf( TextAttribute.class );
+		assertThat( attribute.getKey() ).isEqualTo( "text" );
+		assertThat( attribute.getValue() ).isEqualTo( "foo" );
+	}
+
+	@Test
+	public void apply_should_fallback_to_default_attribute_if_inserted() {
+		final Path path = fromString( "/html/div" );
+		final IdentifyingAttributes cut = create( path, String.class );
+
+		final IdentifyingAttributes applied = cut.applyChanges( createAttributeChanges( path, "text", null, "foo" ) );
+
+		final Attribute attribute = applied.getAttribute( "text" );
+		assertThat( attribute ).isInstanceOf( DefaultAttribute.class );
+		assertThat( attribute.getKey() ).isEqualTo( "text" );
+		assertThat( attribute.getValue() ).isEqualTo( "foo" );
+	}
+
 	private Set<AttributeDifference> createAttributeChanges( final Path path, final String key,
 			final Serializable expected, final Serializable actual ) {
 		return Collections.singleton( new AttributeDifference( key, expected, actual ) );

@@ -28,6 +28,7 @@ Table of Contents
 ### Bug Fixes
 
 * Fix accepting of attributes without warning deletes warnings of similar attribute differences.
+* Fix NPE when applying an identifying attribute that has been inserted.
 
 ### New Features
 
