@@ -27,15 +27,21 @@ Table of Contents
 
 ### Bug Fixes
 
-* Fix accepting of attributes without warning deletes warnings of similar attribute differences.
-* Fix NPE when applying an identifying attribute that has been inserted.
-
 ### New Features
 
 ### Improvements
 
 
 --------------------------------------------------------------------------------
+
+
+[1.11.2] (2020-07-01)
+---------------------
+
+### Bug Fixes
+
+* Fix accepting of attributes without warning deletes warnings of similar attribute differences.
+* Fix NPE when applying an identifying attribute that has been inserted.
 
 
 [1.11.1] (2020-06-10)
