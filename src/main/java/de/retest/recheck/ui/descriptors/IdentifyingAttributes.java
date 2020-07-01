@@ -232,9 +232,17 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		for ( final AttributeDifference attributeDifference : attributeChanges ) {
 			final String key = attributeDifference.getKey();
 			final Attribute attribute = attributes.get( key );
-			newAttributes.put( key, attributeDifference.applyChangeTo( attribute ) );
+			if ( attribute == null ) { // Insertion, assuming expected to be null
+				final Serializable actual = attributeDifference.getActual();
+				if ( actual instanceof Attribute ) {
+					newAttributes.put( key, (Attribute) actual );
+				} else {
+					newAttributes.put( key, new DefaultAttribute( key, actual ) );
+				}
+			} else { // Attribute must be present, either deleted or change
+				newAttributes.put( key, attributeDifference.applyChangeTo( attribute ) );
+			}
 		}
-
 		return newInstance( newAttributes.values() );
 	}
 
