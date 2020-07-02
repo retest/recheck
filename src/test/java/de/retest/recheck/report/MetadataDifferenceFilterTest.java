@@ -9,6 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.Filters;
 import de.retest.recheck.meta.global.TimeMetadataProvider;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
@@ -16,10 +18,12 @@ import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
 class MetadataDifferenceFilterTest {
 
 	MetadataDifferenceFilter cut;
+	Filter filter;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		cut = new MetadataDifferenceFilter();
+		filter = Filters.parse( "attribute=" + TimeMetadataProvider.TIME );
 	}
 
 	@Test
@@ -28,7 +32,7 @@ class MetadataDifferenceFilterTest {
 				new MetadataElementDifference( TimeMetadataProvider.TIME, "expected", "actual" );
 		final Set<MetadataElementDifference> diffs = new HashSet<>( Arrays.asList( elementDiff ) );
 		final MetadataDifference diff = MetadataDifference.of( diffs );
-		assertThat( cut.filter( diff ) ).isEmpty();
+		assertThat( cut.filter( diff, filter ) ).isEmpty();
 	}
 
 	@Test
@@ -36,7 +40,7 @@ class MetadataDifferenceFilterTest {
 		final MetadataElementDifference elementDiff = new MetadataElementDifference( "key", "expected", "actual" );
 		final Set<MetadataElementDifference> diffs = new HashSet<>( Arrays.asList( elementDiff ) );
 		final MetadataDifference diff = MetadataDifference.of( diffs );
-		assertThat( cut.filter( diff ) ).containsExactly( elementDiff );
+		assertThat( cut.filter( diff, filter ) ).containsExactly( elementDiff );
 	}
 
 }
