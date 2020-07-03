@@ -18,6 +18,7 @@ import de.retest.recheck.review.ignore.DeletedFilter.DeletedFilterLoader;
 import de.retest.recheck.review.ignore.InsertedFilter.InsertedFilterLoader;
 import de.retest.recheck.review.ignore.PixelDiffFilter.PixelDiffFilterLoader;
 import de.retest.recheck.review.ignore.ValueRegexFilter.ValueRegexFilterLoader;
+import de.retest.recheck.review.ignore.io.ImportExternalFilterLoader;
 import de.retest.recheck.review.ignore.io.InheritanceLoader;
 import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.review.ignore.io.Loaders;
@@ -49,7 +50,27 @@ public class MatcherFilter implements Filter {
 
 	public static class MatcherFilterLoader extends RegexLoader<Filter> {
 
+		static final String MATCHER = "matcher: ";
+
+		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+)" );
+
+		public static final Loader<Filter> excludeFilters = new InheritanceLoader<>( Arrays.asList( //
+				Pair.of( MatcherFilter.class, new MatcherFilterLoader() ), //
+
+				Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
+				Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
+
+				Pair.of( PixelDiffFilter.class, new PixelDiffFilterLoader() ), //
+				Pair.of( ValueRegexFilter.class, new ValueRegexFilterLoader() ), //
+				Pair.of( InsertedFilter.class, new InsertedFilterLoader() ), //
+				Pair.of( DeletedFilter.class, new DeletedFilterLoader() ), //
+
+				Pair.of( ImportedExternalFilter.class, new ImportExternalFilterLoader() ) //
+		) );
+
 		private static final Loader<Filter> chainableFilter = new InheritanceLoader<>( Arrays.asList( //
+				Pair.of( ExcludeFilter.class, new ExcludeFilter.FilterLoader( excludeFilters ) ), //
+
 				Pair.of( AttributeFilter.class, new AttributeFilterLoader() ), //
 				Pair.of( AttributeFilter.class, new LegacyAttributeFilterLoader() ), //
 				Pair.of( AttributeRegexFilter.class, new AttributeRegexFilterLoader() ), //
@@ -59,10 +80,6 @@ public class MatcherFilter implements Filter {
 				Pair.of( InsertedFilter.class, new InsertedFilterLoader() ), //
 				Pair.of( DeletedFilter.class, new DeletedFilterLoader() ) //
 		) );
-
-		static final String MATCHER = "matcher: ";
-
-		private static final Pattern REGEX = Pattern.compile( MATCHER + "(.+)" );
 
 		public MatcherFilterLoader() {
 			super( REGEX );
