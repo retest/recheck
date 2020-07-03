@@ -55,6 +55,7 @@ class RecheckImplIT {
 		execute( "with legacy spaces", RecheckOptions.builder() //
 				.setIgnore( METADATA_FILTER ) // Ignore metadata
 				.fileNamerStrategy( fileNamerStrategy ) //
+				.setIgnore( METADATA_FILTER ) //
 				.build() );
 	}
 
@@ -63,7 +64,14 @@ class RecheckImplIT {
 		execute( "with spaces", RecheckOptions.builder() //
 				.setIgnore( METADATA_FILTER ) //
 				.suiteName( RecheckImplIT.class.getName() + " spaces" ) //
+				.setIgnore( METADATA_FILTER ) //
 				.build() );
+	}
+
+	@Test
+	void diff_should_ignore_everything_but_include_deleted_and_same_attributes_with_change_suffix() {
+		execute( "with_exclude", withIgnore( Filters.parse(
+				"matcher: type=test, exclude(matcher: type=same, exclude(attribute-regex=bar-\\d)), exclude(matcher: type=delete)" ) ) );
 	}
 
 	private RecheckOptions withIgnore( final Filter ignore ) {
