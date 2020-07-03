@@ -5,7 +5,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.Loader;
 import de.retest.recheck.ui.descriptors.Element;
@@ -72,6 +76,8 @@ class ExcludeFilterTest {
 		void load_should_fail_if_incomplete() {
 			assertThat( cut.load( "exclude" ) ).isEmpty();
 			assertThat( cut.load( "exclude(" ) ).isEmpty();
+			assertThat( cut.load( "exclude(abc), exclude(" ) ).isEmpty();
+			assertThat( cut.load( "exclude(abc, exclude(cde)" ) ).isEmpty();
 		}
 
 		@Test
@@ -80,13 +86,44 @@ class ExcludeFilterTest {
 		}
 
 		@Test
-		void load_should_delegate_if_parsed() {
-			final Filter wrapped = mock( Filter.class );
-			when( delegate.load( "foo" ) ).thenReturn( Optional.of( wrapped ) );
+		void load_should_load_single() {
+			final Filter abc = mock( Filter.class );
 
-			assertThat( cut.load( "exclude(foo)" ) ).hasValueSatisfying( filter -> {
-				assertThat( filter.getFilter() ).isEqualTo( wrapped );
-			} );
+			when( delegate.load( "abc" ) ).thenReturn( Optional.of( abc ) );
+
+			assertThat( cut.load( "exclude(abc)" ) ).isPresent();
+			verify( delegate, only() ).load( "abc" );
+		}
+
+		@Test
+		void load_should_load_double() {
+			final Filter abc = mock( Filter.class );
+			final Filter def = mock( Filter.class );
+
+			when( delegate.load( "abc" ) ).thenReturn( Optional.of( abc ) );
+			when( delegate.load( "def" ) ).thenReturn( Optional.of( def ) );
+
+			assertThat( cut.load( "exclude(abc), exclude(def)" ) ).isPresent();
+			verify( delegate ).load( "abc" );
+			verify( delegate ).load( "def" );
+			verifyNoMoreInteractions( delegate );
+		}
+
+		@Test
+		void load_should_load_triple() {
+			final Filter abc = mock( Filter.class );
+			final Filter def = mock( Filter.class );
+			final Filter ghi = mock( Filter.class );
+
+			when( delegate.load( "abc" ) ).thenReturn( Optional.of( abc ) );
+			when( delegate.load( "def" ) ).thenReturn( Optional.of( def ) );
+			when( delegate.load( "ghi" ) ).thenReturn( Optional.of( ghi ) );
+
+			assertThat( cut.load( "exclude(abc), exclude(def), exclude(ghi)" ) ).isPresent();
+			verify( delegate ).load( "abc" );
+			verify( delegate ).load( "def" );
+			verify( delegate ).load( "ghi" );
+			verifyNoMoreInteractions( delegate );
 		}
 
 		@Test
@@ -114,6 +151,24 @@ class ExcludeFilterTest {
 		}
 
 		@Test
+		void load_should_parse_nested_excludes() {
+			when( delegate.load( "abc, exclude(def)" ) ).thenReturn( Optional.of( mock( Filter.class ) ) );
+			when( delegate.load( "ghi" ) ).thenReturn( Optional.of( mock( Filter.class ) ) );
+
+			assertThat( cut.load( "exclude(abc, exclude(def))" ) ).isPresent();
+			assertThat( cut.load( "exclude(abc, exclude(def)), exclude(ghi)" ) ).isPresent();
+		}
+
+		@Test
+		void load_should_abort_if_multiple_child_fails() {
+			final Filter abc = mock( Filter.class );
+			when( delegate.load( "abc" ) ).thenReturn( Optional.of( abc ) );
+
+			assertThat( cut.load( "exclude(abc), exclude(def)" ) ).isEmpty();
+			assertThat( cut.load( "exclude(def), exclude(abc)" ) ).isEmpty();
+		}
+
+		@Test
 		void save_should_delegate() {
 			when( delegate.save( any( Filter.class ) ) ).thenReturn( "foo" );
 
@@ -122,6 +177,17 @@ class ExcludeFilterTest {
 
 			assertThat( cut.save( negated ) ).isEqualTo( "exclude(foo)" );
 			verify( delegate ).save( filter );
+		}
+
+		@Test
+		void save_should_wrap_each_filter() {
+			when( delegate.save( any( Filter.class ) ) ).thenReturn( "foo" );
+
+			final Filter filter = mock( Filter.class );
+			final ExcludeFilter negated = new ExcludeFilter( new CompoundFilter( filter, filter ) );
+
+			assertThat( cut.save( negated ) ).isEqualTo( "exclude(foo), exclude(foo)" );
+			verify( delegate, times( 2 ) ).save( filter );
 		}
 	}
 }

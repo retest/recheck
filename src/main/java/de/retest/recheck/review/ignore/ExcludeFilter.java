@@ -1,13 +1,15 @@
 package de.retest.recheck.review.ignore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.review.ignore.io.Loader;
-import de.retest.recheck.review.ignore.io.RegexLoader;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.AccessLevel;
@@ -45,30 +47,57 @@ public class ExcludeFilter implements Filter {
 		return String.format( FilterLoader.FORMAT, filter );
 	}
 
-	public static class FilterLoader extends RegexLoader<ExcludeFilter> {
+	public static class FilterLoader implements Loader<ExcludeFilter> {
 
 		private static final String FORMAT = "exclude(%s)";
+		private static final Pattern controlRegex = Pattern.compile( "^exclude\\((.+?)\\)(?:, exclude\\((.+?)\\))*$" );
+		// Excludes can be nested, but must then only take the outermost closing parenthesis.
+		// Therefore a lookahead is necessary for the first and subsequent chunks, as well as the last chunk
+		private static final Pattern chunkRegex = Pattern.compile(
+				"(?:^exclude\\((.+?)\\)(?=, ))|(?:, exclude\\((.+?)\\)(?=, ))|(?:(?:, )?exclude\\((.+?)\\)$)" );
 
 		private final Loader<Filter> delegate;
 
 		public FilterLoader( final Loader<Filter> delegate ) {
-			super( Pattern.compile( "exclude\\((.+)\\)" ) );
 			this.delegate = delegate;
 		}
 
 		@Override
-		protected Optional<ExcludeFilter> load( final MatchResult matcher ) {
-			return delegate.load( matcher.group( 1 ) ) //
-					.map( ExcludeFilter::new );
+		public Optional<ExcludeFilter> load( final String line ) {
+			// Variable groups cannot be easily matched with Java Regex (see https://stackoverflow.com/a/6939587)
+			final Matcher control = controlRegex.matcher( line );
+			if ( !control.matches() ) {
+				return Optional.empty();
+			}
+			final Matcher chunks = chunkRegex.matcher( line );
+			final List<Filter> filters = new ArrayList<>();
+			while ( chunks.find() ) {
+				final String start = chunks.group( 1 );
+				final String middle = chunks.group( 2 );
+				final String end = chunks.group( 3 );
+				// Only one group matches, find out which
+				final String inner = start != null ? start : middle != null ? middle : end;
+				final Optional<Filter> load = delegate.load( inner );
+				if ( load.isPresent() ) {
+					filters.add( load.get() );
+				} else { // There was a loading error, abort
+					return Optional.empty();
+				}
+			}
+			// Filters should never be empty at this point
+			return Optional.of( new ExcludeFilter( new CompoundFilter( filters ) ) );
 		}
 
 		@Override
 		public String save( final ExcludeFilter filter ) {
-			return format( filter, delegate::save );
-		}
-
-		private static String format( final ExcludeFilter filter, final Function<Filter, String> wrapped ) {
-			return String.format( FORMAT, wrapped.apply( filter.filter ) );
+			final Filter inner = filter.getFilter();
+			if ( inner instanceof CompoundFilter ) {
+				final List<Filter> filters = ((CompoundFilter) inner).getFilters();
+				return filters.stream() //
+						.map( filter1 -> String.format( FORMAT, delegate.save( filter1 ) ) ) //
+						.collect( Collectors.joining( ", " ) );
+			}
+			return String.format( FORMAT, delegate.save( inner ) );
 		}
 	}
 }
