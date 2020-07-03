@@ -48,6 +48,11 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	@Override
+	public boolean matches( final Element element, final String attributeKey ) {
+		return any( filter -> filter.matches( element, attributeKey ) );
+	}
+
+	@Override
 	public boolean matches( final Element element, final AttributeDifference difference ) {
 		return any( filter -> filter.matches( element, difference ) );
 	}
