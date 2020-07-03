@@ -15,7 +15,9 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class ExcludeFilter implements Filter {
 
@@ -81,6 +83,7 @@ public class ExcludeFilter implements Filter {
 				if ( load.isPresent() ) {
 					filters.add( load.get() );
 				} else { // There was a loading error, abort
+					log.warn( "Could not find loader for inner part '{}'.", inner );
 					return Optional.empty();
 				}
 			}
