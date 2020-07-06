@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
+import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 
 class ElementDifferencePrinterTest {
@@ -63,13 +64,12 @@ class ElementDifferencePrinterTest {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.toString() ).thenReturn( "id" );
 
-		final ElementDifference d1 = mock( ElementDifference.class );
-		when( d1.getElementDifferences() ).thenReturn( Collections.emptyList() );
-		when( d1.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
+		final AttributeDifference a1 = mock( AttributeDifference.class );
+		final AttributeDifference a2 = mock( AttributeDifference.class );
 
 		final ElementDifference difference = mock( ElementDifference.class );
 		when( difference.getIdentifyingAttributes() ).thenReturn( identifyingAttributes );
-		when( difference.getElementDifferences() ).thenReturn( Arrays.asList( d1, d1 ) );
+		when( difference.getAttributeDifferences() ).thenReturn( Arrays.asList( a1, a2 ) );
 
 		final String string = cut.toString( difference );
 

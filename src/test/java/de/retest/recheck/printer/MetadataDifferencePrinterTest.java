@@ -24,11 +24,7 @@ class MetadataDifferencePrinterTest {
 		assertThat( cut.toString( differences, "____" ) ).isEqualTo( "____Metadata Differences:\n" //
 				+ "____  Please note that these differences do not affect the result and are not included " //
 				+ "in the difference count.\n" //
-				+ "____\ta:\n" //
-				+ "____\t  expected=\"b\",\n" //
-				+ "____\t    actual=\"c\"\n" //
-				+ "____\tb:\n" //
-				+ "____\t  expected=\"c\",\n" //
-				+ "____\t    actual=\"d\"" );
+				+ "____\ta: expected=\"b\", actual=\"c\"\n" //
+				+ "____\tb: expected=\"c\", actual=\"d\"" );
 	}
 }

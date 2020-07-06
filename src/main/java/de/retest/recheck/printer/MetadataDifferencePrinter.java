@@ -38,11 +38,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 	}
 
 	private String print( final MetadataElementDifference difference, final String indent ) {
-		final String expectedItemIndent = indent + "  ";
-		final String actualItemIndent = indent + "    "; // tab leads to wrong indent on console
-
-		final String keyExpectedActualFormat =
-				"%s:\n" + expectedItemIndent + "expected=\"%s\",\n" + actualItemIndent + "actual=\"%s\"";
+		final String keyExpectedActualFormat = "%s: expected=\"%s\", actual=\"%s\"";
 
 		return String.format( keyExpectedActualFormat, difference.getKey(), difference.getExpected(),
 				difference.getActual() );

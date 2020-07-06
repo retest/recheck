@@ -37,6 +37,7 @@ Table of Contents
 
 ### Improvements
 
+* Have the console output much more compact in terms of whitespace used. Con: makes it harder to spot difference details...
 
 --------------------------------------------------------------------------------
 

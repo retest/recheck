@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.printer.highlighting.DefaultHighlighter;
-import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.printer.highlighting.HighlightType;
+import de.retest.recheck.printer.highlighting.Highlighter;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -96,11 +96,9 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	}
 
 	private String getKeyExpectedActualFormat( final String indent ) {
-		final String expectedItemIndent = indent + "  ";
-		final String actualItemIndent = indent + "    "; // tab leads to wrong indent on console
 		final String expected = highlighter.highlight( "expected", HighlightType.EXPECTED );
 		final String actual = highlighter.highlight( "actual", HighlightType.ACTUAL );
-		return "%s:\n" + expectedItemIndent + expected + "=\"%s\",\n" + actualItemIndent + actual + "=\"%s\"";
+		return "%s: " + expected + "=\"%s\", " + actual + "=\"%s\"";
 	}
 
 }
