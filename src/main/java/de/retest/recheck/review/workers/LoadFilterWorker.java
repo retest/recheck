@@ -97,7 +97,7 @@ public class LoadFilterWorker {
 			log.info( "Reading ignore file from '{}'.", ignoreFile );
 			return wrap( ignoreFile, Loaders.filter().load( Files.lines( ignoreFile ) ) );
 		}
-		log.info( "Ignoring missing ignore file '{}'.", ignoreFile );
+		log.info( "No ignore file found at '{}'.", ignoreFile );
 		return Stream.empty();
 	}
 
