@@ -7,3 +7,11 @@ attribute=time.date
 attribute=time.time
 attribute=time.offset
 attribute=time.zone
+# for recheck-web
+attribute=browser.name
+attribute=browser.version
+attribute=check.type
+attribute=driver.type
+attribute=os.name
+attribute=os.version
+attribute=url
