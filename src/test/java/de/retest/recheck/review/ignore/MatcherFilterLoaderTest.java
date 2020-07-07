@@ -1,6 +1,7 @@
 package de.retest.recheck.review.ignore;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import java.util.Collection;
@@ -95,9 +96,9 @@ class MatcherFilterLoaderTest {
 	}
 
 	@Test
-	void load_with_invalid_matcher_should_not_load_parent() {
+	void load_with_invalid_matcher_should_throw_exception() {
 		final String line = "matcher: foo:bar";
-		assertThat( cut.load( line ) ).isNotPresent();
+		assertThrows( IllegalArgumentException.class, () -> cut.load( line ) );
 	}
 
 }
