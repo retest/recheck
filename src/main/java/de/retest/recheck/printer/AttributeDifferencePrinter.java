@@ -36,29 +36,29 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 	@Override
 	public String toString( final AttributeDifference difference, final String indent ) {
 		if ( difference.hasElementIdentificationWarning() ) {
-			return indent + format( difference, indent ) + printWarning( difference );
+			return indent + format( difference ) + printWarning( difference );
 		}
-		return indent + format( difference, indent );
+		return indent + format( difference );
 	}
 
-	private String format( final AttributeDifference difference, final String indent ) {
+	private String format( final AttributeDifference difference ) {
 		if ( isExpectedDefault( difference ) ) { // The attribute changed from default to a non-default
-			return printExpectedDefaultDifference( difference, indent );
+			return printExpectedDefaultDifference( difference );
 		}
 		if ( isActualDefault( difference ) ) { // The attribute changed back to default
-			return printActualDefaultDifference( difference, indent );
+			return printActualDefaultDifference( difference );
 		}
-		return printBothDifferences( difference, indent );
+		return printBothDifferences( difference );
 	}
 
 	private boolean isActualDefault( final AttributeDifference difference ) {
 		return defaultProvider.isDefaultValue( attributes, difference.getKey(), difference.getActual() );
 	}
 
-	private String printActualDefaultDifference( final AttributeDifference difference, final String indent ) {
+	private String printActualDefaultDifference( final AttributeDifference difference ) {
 		final String key = highlighter.highlight( difference.getKey(), HighlightType.KEY );
 		final String expected = highlighter.highlight( difference.getExpectedToString(), HighlightType.VALUE_EXPECTED );
-		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
+		final String keyExpectedActualFormat = getKeyExpectedActualFormat();
 
 		return String.format( keyExpectedActualFormat, key, expected, IS_DEFAULT );
 	}
@@ -67,19 +67,19 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 		return difference.getExpected() == null; // We do not save defaults, thus this is null
 	}
 
-	private String printExpectedDefaultDifference( final AttributeDifference difference, final String indent ) {
+	private String printExpectedDefaultDifference( final AttributeDifference difference ) {
 		final String key = highlighter.highlight( difference.getKey(), HighlightType.KEY );
 		final String actual = highlighter.highlight( difference.getActualToString(), HighlightType.VALUE_ACTUAL );
-		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
+		final String keyExpectedActualFormat = getKeyExpectedActualFormat();
 
 		return String.format( keyExpectedActualFormat, key, IS_DEFAULT, actual );
 	}
 
-	private String printBothDifferences( final AttributeDifference difference, final String indent ) {
+	private String printBothDifferences( final AttributeDifference difference ) {
 		final String key = highlighter.highlight( difference.getKey(), HighlightType.KEY );
 		final String expected = highlighter.highlight( difference.getExpectedToString(), HighlightType.VALUE_EXPECTED );
 		final String actual = highlighter.highlight( difference.getActualToString(), HighlightType.VALUE_ACTUAL );
-		final String keyExpectedActualFormat = getKeyExpectedActualFormat( indent );
+		final String keyExpectedActualFormat = getKeyExpectedActualFormat();
 
 		return String.format( keyExpectedActualFormat, key, expected, actual );
 	}
@@ -95,7 +95,7 @@ public class AttributeDifferencePrinter implements Printer<AttributeDifference> 
 		return warning.getTestFileName() + ":" + warning.getTestLineNumber();
 	}
 
-	private String getKeyExpectedActualFormat( final String indent ) {
+	private String getKeyExpectedActualFormat() {
 		final String expected = highlighter.highlight( "expected", HighlightType.EXPECTED );
 		final String actual = highlighter.highlight( "actual", HighlightType.ACTUAL );
 		return "%s: " + expected + "=\"%s\", " + actual + "=\"%s\"";

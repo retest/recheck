@@ -33,11 +33,11 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 
 	private String printDifferences( final MetadataDifference difference, final String indent ) {
 		return difference.getDifferences().stream() //
-				.map( d -> print( d, indent ) ) //
+				.map( d -> print( d ) ) //
 				.collect( Collectors.joining( "\n" + indent, "\n" + indent, "" ) );
 	}
 
-	private String print( final MetadataElementDifference difference, final String indent ) {
+	private String print( final MetadataElementDifference difference ) {
 		final String keyExpectedActualFormat = "%s: expected=\"%s\", actual=\"%s\"";
 
 		return String.format( keyExpectedActualFormat, difference.getKey(), difference.getExpected(),
