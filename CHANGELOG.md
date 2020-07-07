@@ -33,6 +33,7 @@ Table of Contents
 ### New Features
 
 * Metadata differences are now filterable via the recheck.ignore. A new `metadata.filter` has been added which can be imported with `import: metadata.filter` in `recheck.ignore`.
+* Add a `disableReportUpload` method.
 
 ### Improvements
 
