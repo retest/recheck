@@ -27,7 +27,7 @@ public class ImportExternalFilterLoader extends RegexLoader<ImportedExternalFilt
 			final Filter loaded = SearchFilterFiles.getFilterByName( reference );
 			return Optional.of( new ImportedExternalFilter( reference, loaded ) );
 		} catch ( final Exception e ) {
-			log.error( "Exception loading referenced filter '{}'.", reference );
+			log.error( "Exception loading referenced filter '{}': {}.", reference, e.getMessage() );
 			return Optional.empty();
 		} catch ( final StackOverflowError e ) {
 			log.error( "Encountered an infinite loop when loading cascading filters, e.g. see '{}'.", reference );
