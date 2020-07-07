@@ -53,6 +53,7 @@ class RecheckImplIT {
 		doReturn( RecheckImplIT.class.getName() + " legacy spaces" ).when( fileNamerStrategy ).getTestClassName();
 
 		execute( "with legacy spaces", RecheckOptions.builder() //
+				.setIgnore( METADATA_FILTER ) // Ignore metadata
 				.fileNamerStrategy( fileNamerStrategy ) //
 				.build() );
 	}
@@ -60,6 +61,7 @@ class RecheckImplIT {
 	@Test
 	void diff_should_handle_spaces_accordingly() {
 		execute( "with spaces", RecheckOptions.builder() //
+				.setIgnore( METADATA_FILTER ) //
 				.suiteName( RecheckImplIT.class.getName() + " spaces" ) //
 				.build() );
 	}

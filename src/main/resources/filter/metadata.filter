@@ -1,12 +1,5 @@
-attribute=machine.name
-attribute=os.arch
-attribute=vcs.branch
-attribute=vcs.commit
-attribute=vcs.name
-attribute=time.date
-attribute=time.time
-attribute=time.offset
-attribute=time.zone
+import: volatile-metadata.filter
+
 # for recheck-web
 attribute=browser.name
 attribute=browser.version
