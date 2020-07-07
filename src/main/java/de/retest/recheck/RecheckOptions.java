@@ -201,6 +201,17 @@ public class RecheckOptions {
 		}
 
 		/**
+		 * Disables upload to <a href="https://retest.de/rehub/">rehub</a> so that all reports are stored only locally.
+		 * Default: false.
+		 *
+		 * @return self
+		 */
+		public RecheckOptionsBuilder disableReportUpload() {
+			reportUploadEnabled = false;
+			return this;
+		}
+
+		/**
 		 * Overwrites the filter used for filtering the report after a test. The filter cannot be used in conjunction
 		 * with {@link #addIgnore(String)}.
 		 *
