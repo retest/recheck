@@ -32,7 +32,7 @@ Table of Contents
 
 ### New Features
 
-* Metadata differences are now filterable via the recheck.ignore. A new `metadata.filter` has been added which can be imported with `import: metadata.filter` in `recheck.ignore`.
+* Metadata differences are now filterable via the recheck.ignore. New `volatile-metadata.filter` and `metadata.filter` filters have been added, where the first one filters metadata which is added for diagnosing purposes and too verbose to be displayed upon every change and the latter filters _all_ metadata. They can be imported with `import: volatile-metadata.filter` and `import: metadata.filter` in `recheck.ignore`.
 * Add a `disableReportUpload` method.
 
 ### Improvements

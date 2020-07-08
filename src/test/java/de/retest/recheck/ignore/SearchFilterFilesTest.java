@@ -43,7 +43,7 @@ class SearchFilterFilesTest {
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
 		assertThat( actualFilterFileNames ).containsExactlyInAnyOrder( "content.filter", "invisible-attributes.filter",
-				"positioning.filter", "style-attributes.filter", "metadata.filter" );
+				"positioning.filter", "style-attributes.filter", "volatile-metadata.filter", "metadata.filter" );
 	}
 
 	@Test
