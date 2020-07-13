@@ -39,6 +39,8 @@ Table of Contents
 ### Improvements
 
 * Have the console output much more compact in terms of whitespace used. Con: makes it harder to spot difference details...
+* Project discovery and initialization is now done within `RecheckOptionsBuilder#build` instead of `RecheckImpl#new` to allow earlier access to project variables (e.g. retest.properties). Projects (i.e. `.retest` folders) should still be detected correctly.
+
 
 --------------------------------------------------------------------------------
 
