@@ -130,7 +130,7 @@ public class RecheckOptions {
 		private NamingStrategy namingStrategy = new ClassAndMethodBasedNamingStrategy();
 		private ProjectLayout projectLayout = new MavenProjectLayout();
 		private String suiteName = null;
-		private boolean reportUploadEnabled = false;
+		private Boolean reportUploadEnabled;
 		private Filter ignoreFilter = null;
 		private RetestIdProvider retestIdProvider = RetestIdProviderUtil.getConfiguredRetestIdProvider();
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
@@ -274,7 +274,9 @@ public class RecheckOptions {
 		public RecheckOptions build() {
 			final String suiteName = getSuiteName();
 			final NamingStrategy namingStrategy = new FixedSuiteNamingStrategy( suiteName, this.namingStrategy );
-			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout, reportUploadEnabled,
+			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout,
+					reportUploadEnabled != null ? reportUploadEnabled
+							: RecheckProperties.getInstance().rehubReportUploadEnabled(),
 					buildFilter( suiteName ), retestIdProvider );
 		}
 
