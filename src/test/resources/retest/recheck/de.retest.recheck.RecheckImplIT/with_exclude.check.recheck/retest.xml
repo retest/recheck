@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reTestXmlDataContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" reTestVersion="${pom.parent.version}" dataType="de.retest.recheck.ui.descriptors.SutState" dataTypeVersion="4">
+	<data xsi:type="sutState">
+		<descriptors retestId="foo-id" screenId="0" screen="screen" title="title">
+			<identifyingAttributes>
+				<attributes>
+					<attribute key="name" xsi:type="textAttribute">test</attribute>
+					<attribute key="path" xsi:type="pathAttribute">foo[1]/bar[1]</attribute>
+					<attribute key="suffix" xsi:type="suffixAttribute">1</attribute>
+					<attribute key="text" xsi:type="textAttribute">test</attribute>
+					<attribute key="type" xsi:type="stringAttribute">test</attribute>
+				</attributes>
+			</identifyingAttributes>
+			<attributes>
+				<attributes>
+					<entry>
+						<key>foo-1</key>
+						<value xsi:type="xsd:string">bar-1</value>
+					</entry>
+					<entry>
+						<key>foo-2</key>
+						<value xsi:type="xsd:string">bar-2</value>
+					</entry>
+					<entry>
+						<key>foo-3</key>
+						<value xsi:type="xsd:string">bar-3</value>
+					</entry>
+				</attributes>
+			</attributes>
+			<containedElements retestId="same-id">
+				<identifyingAttributes>
+					<attributes>
+						<attribute key="name" xsi:type="textAttribute">same</attribute>
+						<attribute key="path" xsi:type="pathAttribute">foo[1]/bar[1]/same[1]</attribute>
+						<attribute key="suffix" xsi:type="suffixAttribute">1</attribute>
+						<attribute key="text" xsi:type="textAttribute">same</attribute>
+						<attribute key="type" xsi:type="stringAttribute">same</attribute>
+					</attributes>
+				</identifyingAttributes>
+				<attributes>
+					<attributes>
+						<entry>
+							<key>bar-1</key>
+							<value xsi:type="xsd:string">bar-1</value>
+						</entry>
+						<entry>
+							<key>bar-2</key>
+							<value xsi:type="xsd:string">bar-2</value>
+						</entry>
+						<entry>
+							<key>bar-3</key>
+							<value xsi:type="xsd:string">bar-3</value>
+						</entry>
+					</attributes>
+				</attributes>
+			</containedElements>
+			<containedElements retestId="delete-id">
+				<identifyingAttributes>
+					<attributes>
+						<attribute key="name" xsi:type="textAttribute">delete</attribute>
+						<attribute key="path" xsi:type="pathAttribute">foo[1]/bar[1]/remove[1]/delete[1]</attribute>
+						<attribute key="suffix" xsi:type="suffixAttribute">1</attribute>
+						<attribute key="text" xsi:type="textAttribute">delete</attribute>
+						<attribute key="type" xsi:type="stringAttribute">delete</attribute>
+					</attributes>
+				</identifyingAttributes>
+				<attributes>
+					<attributes>
+						<entry>
+							<key>bar-1</key>
+							<value xsi:type="xsd:string">bar-1</value>
+						</entry>
+						<entry>
+							<key>bar-2</key>
+							<value xsi:type="xsd:string">bar-2</value>
+						</entry>
+						<entry>
+							<key>bar-3</key>
+							<value xsi:type="xsd:string">bar-3</value>
+						</entry>
+					</attributes>
+				</attributes>
+			</containedElements>
+		</descriptors>
+		<metadata>
+			<entry>
+				<key>time.time</key>
+				<value>16:55:21.113</value>
+			</entry>
+			<entry>
+				<key>time.zone</key>
+				<value>Europe/Berlin</value>
+			</entry>
+			<entry>
+				<key>time.offset</key>
+				<value>+02:00</value>
+			</entry>
+			<entry>
+				<key>os.arch</key>
+				<value>amd64</value>
+			</entry>
+			<entry>
+				<key>vcs.commit</key>
+				<value>79327c351bef2439fde41247598b8cacd5c175f6</value>
+			</entry>
+			<entry>
+				<key>os.name</key>
+				<value>Windows 10</value>
+			</entry>
+			<entry>
+				<key>time.date</key>
+				<value>2020-07-03</value>
+			</entry>
+			<entry>
+				<key>vcs.branch</key>
+				<value>feature/negate-filters</value>
+			</entry>
+			<entry>
+				<key>vcs.name</key>
+				<value>git</value>
+			</entry>
+			<entry>
+				<key>machine.name</key>
+				<value>PC-BASTIAN</value>
+			</entry>
+			<entry>
+				<key>os.version</key>
+				<value>10.0</value>
+			</entry>
+		</metadata>
+	</data>
+</reTestXmlDataContainer>

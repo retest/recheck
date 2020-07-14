@@ -6,6 +6,9 @@
 # Or via absolute XPath:
 # matcher: xpath=html[1]/body[1]/iframe[1]
 
+# Or if you want to ignore everything, except specific dom-subtrees:
+# matcher: type=html, exclude(matcher: xpath=html/body/section[4])
+
 # To ignore attributes globally, use:
 # attribute=class
 
