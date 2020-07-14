@@ -74,7 +74,7 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 		suite = SuiteAggregator.getInstance().getSuite( suiteName,
 				options.getProjectLayout().getTestSourcesRoot().orElse( null ) );
 
-		if ( isRehubEnabled( options ) ) {
+		if ( options.isReportUploadEnabled() ) {
 			try {
 				Rehub.authenticate();
 			} catch ( final HeadlessException e ) {
@@ -82,10 +82,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 						+ CloudPersistence.RECHECK_API_KEY + "'." );
 			}
 		}
-	}
-
-	private boolean isRehubEnabled( final RecheckOptions options ) {
-		return options.isReportUploadEnabled() || RecheckProperties.getInstance().rehubReportUploadEnabled();
 	}
 
 	@Override
