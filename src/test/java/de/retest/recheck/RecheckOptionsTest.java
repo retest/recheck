@@ -14,6 +14,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.ClearSystemProperty;
+import org.junitpioneer.jupiter.SetSystemProperty;
 
 import de.retest.recheck.RecheckOptions.RecheckOptionsBuilder;
 import de.retest.recheck.ignore.CompoundFilter;
@@ -138,5 +141,41 @@ class RecheckOptionsTest {
 						.projectLayout( projectLayout )//
 						.suiteName( "name" ) //
 		);
+	}
+
+	@Test
+	@SetSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, value = "true" )
+	void build_with_rehub_not_set_should_read_property_true() {
+		final RecheckOptions cut = RecheckOptions.builder().build();
+		assertThat( cut.isReportUploadEnabled() ).isTrue();
+	}
+
+	@Test
+	@SetSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, value = "false" )
+	void build_with_rehub_not_set_should_read_property_false() {
+		final RecheckOptions cut = RecheckOptions.builder().build();
+		assertThat( cut.isReportUploadEnabled() ).isFalse();
+	}
+
+	@ParameterizedTest
+	@ValueSource( strings = { "true", "false" } )
+	@ClearSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
+	void build_with_rehub_enabled_should_overwrite_property_regardless_of_its_value( String global ) {
+		System.setProperty( RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, global );
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.enableReportUpload() //
+				.build();
+		assertThat( cut.isReportUploadEnabled() ).isTrue();
+	}
+
+	@ParameterizedTest
+	@ValueSource( strings = { "true", "false" } )
+	@ClearSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
+	void build_with_rehub_disabled_should_overwrite_property_regardless_of_its_value( String global ) {
+		System.setProperty( RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, global );
+		final RecheckOptions cut = RecheckOptions.builder() //
+				.disableReportUpload() //
+				.build();
+		assertThat( cut.isReportUploadEnabled() ).isFalse();
 	}
 }
