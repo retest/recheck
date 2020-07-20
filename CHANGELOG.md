@@ -35,6 +35,7 @@ Table of Contents
 * Metadata differences are now filterable via the recheck.ignore. New `volatile-metadata.filter` and `metadata.filter` filters have been added, where the first one filters metadata which is added for diagnosing purposes and too verbose to be displayed upon every change and the latter filters _all_ metadata. They can be imported with `import: volatile-metadata.filter` and `import: metadata.filter` in `recheck.ignore`.
 * Add `exclude()` filter expression to allow child elements to be excluded. Ignoring an element `matcher: type=body, exclude(matcher: type=button)` will ignore everything below the `body` element but still capture changes for `button` elements.
 * Add a `disableReportUpload` method.
+* The `ProjectLayout` will now be automatically detected (Maven and Gradle) and will throw an error if it cannot fall back to Maven, in which case a custom `ProjectLayout` has to be provided.
 
 ### Improvements
 
