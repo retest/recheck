@@ -13,7 +13,7 @@ import de.retest.recheck.ui.diff.ElementIdentificationWarning;
 
 public class AttributeDifferencePrinter implements Printer<AttributeDifference> {
 
-	private static final String IS_DEFAULT = "(default or absent)";
+	private static final String IS_DEFAULT = "(derived or unspecified)";
 
 	private static final String WARNING_FILENAME_LINE_FORMAT = ", breaks=\"%s\"";
 
