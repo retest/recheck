@@ -148,7 +148,7 @@ class RootElementDifferenceFinderTest {
 	}
 
 	@Test
-	void lists_of_root_element_with_different_window_titles_are_not_matched() {
+	void lists_of_root_element_with_different_window_titles_are_matched() {
 		final RootElement descriptor_1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor_2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
@@ -156,7 +156,7 @@ class RootElementDifferenceFinderTest {
 				Collections.singletonList( descriptor_1 ), Collections.singletonList( descriptor_2 ) );
 
 		assertThat( differences.isEmpty() ).isFalse();
-		assertThat( ElementDifferenceFinder.getElementDifferences( differences ).size() ).isEqualTo( 2 );
+		assertThat( ElementDifferenceFinder.getElementDifferences( differences ).size() ).isEqualTo( 1 );
 		verify( ElementDifferenceFinder.getNonEmptyDifferences( differences ) );
 	}
 

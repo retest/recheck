@@ -1,1 +1,1 @@
-[WindowIdentifyingAttributesDifference [expected=Window[1], actual=null], WindowIdentifyingAttributesDifference [expected=null, actual=Other[1]]]
+[WindowIdentifyingAttributesDifference expected path: Window[1] expected type: de.retest.recheck.ui.diff.RootElementDifferenceFinderTest$Window - actual path: Other[1] actual type: javax.swing.JDialog]

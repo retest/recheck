@@ -69,7 +69,7 @@ public interface RecheckProperties extends Reloadable {
 	String ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY = "de.retest.recheck.rootElementMatchThreshold";
 
 	@Key( ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY )
-	@DefaultValue( "0.8" )
+	@DefaultValue( "0.5" )
 	double rootElementMatchThreshold();
 
 	String ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY_KEY =
