@@ -66,6 +66,10 @@ public class PixelDiffFilter implements Filter {
 	}
 
 	private boolean checkRectangle( final Rectangle expected, final Rectangle actual ) {
+		if ( expected == null || actual == null ) {
+			return false;
+		}
+
 		final boolean filterX = Math.abs( expected.x - actual.x ) <= pixelDiff;
 		final boolean filterY = Math.abs( expected.y - actual.y ) <= pixelDiff;
 		final boolean filterHeight = Math.abs( expected.height - actual.height ) <= pixelDiff;
