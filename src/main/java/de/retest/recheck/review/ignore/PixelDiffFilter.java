@@ -54,6 +54,10 @@ public class PixelDiffFilter implements Filter {
 			return false;
 		}
 
+		if ( expected == null || actual == null ) {
+			return false;
+		}
+
 		if ( expected instanceof Rectangle ) {
 			return checkRectangle( (Rectangle) expected, (Rectangle) actual );
 		}
@@ -74,10 +78,6 @@ public class PixelDiffFilter implements Filter {
 	}
 
 	private boolean checkString( final String key, final String expected, final String actual ) {
-		if ( expected == null || actual == null ) {
-			return false;
-		}
-
 		if ( !expected.endsWith( PIXEL ) || !actual.endsWith( PIXEL ) ) {
 			return false;
 		}
