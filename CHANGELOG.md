@@ -38,6 +38,7 @@ Table of Contents
 * Add `exclude()` filter expression to allow child elements to be excluded. Ignoring an element `matcher: type=body, exclude(matcher: type=button)` will ignore everything below the `body` element but still capture changes for `button` elements.
 * Add a `disableReportUpload` method.
 * The `ProjectLayout` will now be automatically detected (Maven and Gradle) and will throw an error if it cannot fall back to Maven, in which case a custom `ProjectLayout` has to be provided.
+* In case of an exception in the filter code, it will be treated as not filtered.
 
 ### Improvements
 
