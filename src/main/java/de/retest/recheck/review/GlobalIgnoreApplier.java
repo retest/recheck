@@ -1,5 +1,7 @@
 package de.retest.recheck.review;
 
+import static de.retest.recheck.util.Predicates.catchExceptionAsFalse;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,7 +103,7 @@ public class GlobalIgnoreApplier implements Filter {
 	}
 
 	private boolean any( final Predicate<Filter> filter ) {
-		return filtered.stream().anyMatch( filter );
+		return filtered.stream().anyMatch( catchExceptionAsFalse( filter ) );
 	}
 
 	public PersistableGlobalIgnoreApplier persist() {
