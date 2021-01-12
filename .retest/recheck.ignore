@@ -1,0 +1,33 @@
+# Ignore file for recheck. Please do not delete, even if it is empty.
+	
+# You can ignore specific elements like so (includes children):
+# matcher: type=meta
+
+# Or via absolute XPath:
+# matcher: xpath=html[1]/body[1]/iframe[1]
+
+# Or if you want to ignore everything, except specific dom-subtrees:
+# matcher: type=html, exclude(matcher: xpath=html/body/section[4])
+
+# To ignore attributes globally, use:
+# attribute=class
+
+# To ignore attributes for a subtree of the DOM, use:
+# matcher: id=menu, attribute=text
+
+# You can also use regex for elements or attributes:
+# attribute-regex=data-.*
+
+# You can import other filters to quickly achieve what you want:
+# import: positioning.filter
+
+# More details and examples can be found here:
+# https://docs.retest.de/recheck/usage/filter/
+
+# Ignore volatile metadata differences
+import: volatile-metadata.filter
+
+# These are sensible defaults, delete if they don't apply:
+attribute=style
+matcher: type=input, attribute-regex=border-.*-color
+pixel-diff=5px

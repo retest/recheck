@@ -37,4 +37,4 @@ Steps to reproduce the behavior:
 
 ### Additional Context
 
-<!-- A screenshot, report or Golden Master or minimal test setup can be helpful for reproducing this bug. Please check that you do not expose any secrets. -->
+<!-- A screenshot, report, Golden Master or minimal test setup can be helpful for reproducing this bug. Please check that you do not expose any secrets. -->

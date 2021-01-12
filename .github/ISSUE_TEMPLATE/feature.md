@@ -19,7 +19,7 @@ labels: enhancement
 
 ### Solution
 
-<!-- Do you have a solution in mind? If yes, please provide a clear and concise description of what you want to happen. If not, you may work together with the maintainers towards a solution.  -->
+<!-- Do you have a solution in mind? If yes, please provide a clear and concise description of what you want to happen. If not, you may work together with the maintainers towards a solution. -->
 
 ### Additional Context
 
