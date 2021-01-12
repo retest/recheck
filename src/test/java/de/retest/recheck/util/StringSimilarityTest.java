@@ -3,21 +3,16 @@ package de.retest.recheck.util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.stream.Stream;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
-import net.jqwik.api.constraints.AlphaChars;
-import net.jqwik.api.constraints.Chars;
-import net.jqwik.api.constraints.NumericChars;
 
 class StringSimilarityTest {
 
@@ -59,9 +54,10 @@ class StringSimilarityTest {
 		assertThat( similarity ).isZero();
 	}
 
-	@Property
-	void pathSimilarity_should_always_be_between_0_and_1( @ForAll @RandomPath final String randomPath0,
-			@ForAll @RandomPath final String randomPath1 ) throws Exception {
+	@ParameterizedTest
+	@MethodSource( "randomPathsPairs" )
+	void pathSimilarity_should_always_be_between_0_and_1( final String randomPath0, final String randomPath1 )
+			throws Exception {
 		final double similarity01 = StringSimilarity.pathSimilarity( randomPath0, randomPath1 );
 		final double similarity10 = StringSimilarity.pathSimilarity( randomPath1, randomPath0 );
 
@@ -69,11 +65,23 @@ class StringSimilarityTest {
 		assertThat( similarity10 ).as( "'%s' compared to '%s'", randomPath1, randomPath0 ).isBetween( 0.0, 1.0 );
 	}
 
-	@Property
-	void pathSimilarity_for_equal_paths_should_always_return_1( @ForAll @RandomPath final String randomPath )
-			throws Exception {
+	@ParameterizedTest
+	@MethodSource( "randomPaths" )
+	void pathSimilarity_for_equal_paths_should_always_return_1( final String randomPath ) throws Exception {
 		assertThat( StringSimilarity.pathSimilarity( randomPath, randomPath ) )
 				.as( "'%s' compared to itself", randomPath ).isEqualTo( 1.0 );
+	}
+
+	public static Stream<Arguments> randomPathsPairs() {
+		return Stream.generate( () -> Arguments.of( randomPath(), randomPath() ) ).limit( 50 );
+	}
+
+	public static Stream<Arguments> randomPaths() {
+		return Stream.generate( () -> Arguments.of( randomPath() ) ).limit( 50 );
+	}
+
+	private static String randomPath() {
+		return RandomStringUtils.randomAscii( 0, 100 );
 	}
 
 	@Test
@@ -166,12 +174,5 @@ class StringSimilarityTest {
 		}
 		logger.info( "Took {} ms.", System.currentTimeMillis() - start );
 	}
-
-	@Target( { ElementType.ANNOTATION_TYPE, ElementType.PARAMETER } )
-	@Retention( RetentionPolicy.RUNTIME )
-	@AlphaChars
-	@NumericChars
-	@Chars( { '[', ']' } )
-	private @interface RandomPath {}
 
 }
