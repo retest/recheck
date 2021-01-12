@@ -12,42 +12,23 @@
 	<url>https://retest.de/recheck/</url>
 
 	<organization>
-		<name>ReTest GmbH</name>
+		<name>retest @ UBS Hainer GmbH</name>
 		<url>https://retest.de/</url>
 	</organization>
 
 	<developers>
 		<developer>
-			<id>roessler</id>
-			<name>Dr. Jeremias Rößler</name>
-			<email>jeremias.roessler@retest.de</email>
-		</developer>
-		<developer>
-			<id>kraus</id>
-			<name>Daniel Kraus</name>
-			<email>daniel.kraus@retest.de</email>
-		</developer>
-		<developer>
-			<id>vietz</id>
-			<name>Martin Vietz</name>
-			<email>martin.vietz@retest.de</email>
-		</developer>
-		<developer>
-			<id>dillmann</id>
-			<name>Johannes Dillmann</name>
-			<email>johannes.dillmann@retest.de</email>
+			<id>team</id>
+			<name>The retest developers</name>
+			<email>info@retest.de</email>
+			<url>https://github.com/orgs/retest/people</url>
 		</developer>
 	</developers>
 
 	<contributors>
 		<contributor>
-			<name>Nicole Rauch</name>
-			<email>info@nicole-rauch.de</email>
-			<url>https://nicolerauch.de/</url>
-		</contributor>
-		<contributor>
-			<name>Robin Danzinger</name>
-			<email>robindanzinger@freenet.de</email>
+			<name>The contributors</name>
+			<url>https://github.com/retest/${project.artifactId}/graphs/contributors</url>
 		</contributor>
 	</contributors>
 
@@ -63,16 +44,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.surefire.and.failsafe.version>3.0.0-M5</maven.surefire.and.failsafe.version>
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		<logback.version>1.2.3</logback.version>
-		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<eclipse.persistence.version>2.5.2</eclipse.persistence.version>
 	</properties>
 
 	<scm>
-		<url>https://github.com/retest/recheck/</url>
-		<connection>scm:git:git@github.com:retest/recheck.git</connection>
-		<developerConnection>scm:git:git@github.com:retest/recheck.git</developerConnection>
+		<url>https://github.com/retest/${project.artifactId}/</url>
+		<connection>scm:git:git@github.com:retest/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:git@github.com:retest/${project.artifactId}.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -86,6 +67,17 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io/</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -329,13 +321,24 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven.surefire.version}</version>
+				<version>${maven.surefire.and.failsafe.version}</version>
+				<configuration>
+					<includes>
+						<!-- overwrite default, prevent run of files matching `Test*.class`  -->
+						<include>%regex[.*Test.class]</include>
+					</includes>
+					<properties>
+						<configurationParameters>
+							junit.jupiter.execution.parallel.enabled=true
+						</configurationParameters>
+					</properties>
+				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>${maven.surefire.version}</version>
+				<version>${maven.surefire.and.failsafe.version}</version>
 				<configuration>
 					<!-- combine Surefire and Failsafe reports for SonarCloud -->
 					<!-- see https://stackoverflow.com/a/15567782 -->
@@ -372,6 +375,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
+				<version>3.0.0-M1</version>
 				<configuration>
 					<goals>install</goals>
 					<tagNameFormat>v@{project.version}</tagNameFormat>
@@ -427,6 +431,27 @@
 						</tag>
 					</tags>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M3</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>3.4</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>

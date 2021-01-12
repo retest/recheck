@@ -3,21 +3,12 @@
 .project
 .settings/
 
+# IntelliJ.
+.idea/
+*.iml
+
 # Maven.
 /target/
 
 # Artifact from signing JARs.
 retest-gmbh-gpg.asc
-
-# IntelliJ
-.idea/
-*.iml
-
-# .retest folder
-.retest/
-
-# jqwik database to store data of previous runs
-.jqwik-database
-
-# ApprovalTests.
-**/*.received.*
