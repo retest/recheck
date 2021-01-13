@@ -46,7 +46,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.surefire.and.failsafe.version>3.0.0-M5</maven.surefire.and.failsafe.version>
 		<logback.version>1.2.3</logback.version>
-		<eclipse.persistence.version>2.5.2</eclipse.persistence.version>
+		<eclipse.persistence.version>3.0.0</eclipse.persistence.version>
 	</properties>
 
 	<distributionManagement>
