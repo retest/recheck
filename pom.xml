@@ -49,13 +49,6 @@
 		<eclipse.persistence.version>2.5.2</eclipse.persistence.version>
 	</properties>
 
-	<scm>
-		<url>https://github.com/retest/${project.artifactId}/</url>
-		<connection>scm:git:git@github.com:retest/${project.artifactId}.git</connection>
-		<developerConnection>scm:git:git@github.com:retest/${project.artifactId}.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -506,4 +499,11 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<scm>
+		<connection>scm:git:https://${git.repo.host}/${git.repo.path}.git</connection>
+		<developerConnection>scm:git:ssh://git@${git.repo.host}/${git.repo.path}.git</developerConnection>
+		<url>https://${git.repo.host}/${git.repo.path}/</url>
+		<tag>HEAD</tag>
+	</scm>
 </project>
