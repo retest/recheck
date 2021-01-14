@@ -106,7 +106,7 @@
 			<groupId>de.javakaffee</groupId>
 			<artifactId>kryo-serializers</artifactId>
 			<!-- last version compatible with Kryo v4.0.2 -->
-			<version>0.43</version>
+			<version>0.45</version>
 		</dependency>
 
 		<dependency>
