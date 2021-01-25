@@ -23,6 +23,7 @@ public interface RecheckProperties extends Reloadable {
 	static void init() {
 		ProjectRootFinderUtil.getProjectRoot().ifPresent(
 				projectRoot -> ConfigFactory.setProperty( "projectroot", projectRoot.toAbsolutePath().toString() ) );
+		ConfigCache.clear();
 	}
 
 	static RecheckProperties getInstance() {
