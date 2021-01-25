@@ -23,6 +23,7 @@ public interface RecheckProperties extends Reloadable {
 	static void init() {
 		ProjectRootFinderUtil.getProjectRoot().ifPresent(
 				projectRoot -> ConfigFactory.setProperty( "projectroot", projectRoot.toAbsolutePath().toString() ) );
+		ConfigCache.clear();
 	}
 
 	static RecheckProperties getInstance() {
@@ -43,7 +44,6 @@ public interface RecheckProperties extends Reloadable {
 	String DEFAULT_XML_FILE_NAME = "retest.xml";
 
 	String RETEST_FOLDER_NAME = ".retest";
-	String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
 
 	String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";
 	String TEST_REPORT_FILE_EXTENSION = ".report";

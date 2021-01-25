@@ -20,7 +20,7 @@ public class ProjectRootFinderUtil {
 		return getProjectRoot( baseFolder.toAbsolutePath() );
 	}
 
-	public static Optional<Path> getProjectRoot( final Path basePath ) {
+	static Optional<Path> getProjectRoot( final Path basePath ) {
 		return projectRootFinder.stream() //
 				.map( finder -> finder.findProjectRoot( basePath ) ) //
 				.flatMap( OptionalUtil::stream ) //

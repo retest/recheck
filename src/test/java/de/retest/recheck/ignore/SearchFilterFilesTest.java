@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -59,8 +58,7 @@ class SearchFilterFilesTest {
 		final List<String> actualFilterFileNames = projectFilterFiles.stream() //
 				.map( Pair::getLeft ) //
 				.collect( Collectors.toList() );
-		final List<String> expectedFilterFileNames = Arrays.asList( "another.filter.js", "some.filter" );
-		assertThat( actualFilterFileNames ).isEqualTo( expectedFilterFileNames );
+		assertThat( actualFilterFileNames ).containsOnly( "another.filter.js", "some.filter" );
 	}
 
 	@Test
