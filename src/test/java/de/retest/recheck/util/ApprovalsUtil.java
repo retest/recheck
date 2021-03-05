@@ -2,6 +2,7 @@ package de.retest.recheck.util;
 
 import static java.io.File.separator;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UncheckedIOException;
@@ -20,9 +21,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.approvaltests.Approvals;
 import org.approvaltests.core.ApprovalFailureReporter;
+import org.approvaltests.core.Options;
 import org.approvaltests.namer.ApprovalNamer;
 import org.approvaltests.reporters.DiffReporter;
 import org.approvaltests.writers.ApprovalTextWriter;
+import org.approvaltests.writers.Writer;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 
 import com.spun.util.io.StackElementSelector;
@@ -51,8 +54,9 @@ public class ApprovalsUtil {
 	}
 
 	private static void verify( final String actual, final String fileExtensionWithoutDot ) {
-		Approvals.verify( new ApprovalTextWriter( actual, fileExtensionWithoutDot ),
-				new MavenConformJUnitStackTraceNamer(), DIFF_HANDLER );
+		Approvals.verify(
+				new ApprovalTextWriter( actual, new Options().forFile().withExtension( fileExtensionWithoutDot ) ),
+				new MavenConformJUnitStackTraceNamer(), new Options( DIFF_HANDLER ) );
 	}
 
 	public static void verifyMultiXsd( final Class<?> clazz ) throws JAXBException, IOException {
@@ -60,8 +64,9 @@ public class ApprovalsUtil {
 	}
 
 	private static void verifyMulti( final String actual, final String name, final String fileExtensionWithoutDot ) {
-		Approvals.verify( new ApprovalTextWriter( actual, fileExtensionWithoutDot ),
-				new MultiMavenConformJUnitStackTraceNamer( name ), DIFF_HANDLER );
+		Approvals.verify(
+				new ApprovalTextWriter( actual, new Options().forFile().withExtension( fileExtensionWithoutDot ) ),
+				new MultiMavenConformJUnitStackTraceNamer( name ), new Options( DIFF_HANDLER ) );
 	}
 
 	private static String maskVersion( final String actual ) {
@@ -117,6 +122,17 @@ public class ApprovalsUtil {
 			final String testClassPath = info.getSourceFile().getAbsolutePath();
 			return (testClassPath + separator).replace( srcTestJavaPath, srcTestResourcesPath );
 		}
+
+		@Override
+		public File getReceivedFile( final String extensionWithDot ) {
+			return new File( getSourceFilePath() + separator + getApprovalName() + Writer.received + extensionWithDot );
+		}
+
+		@Override
+		public File getApprovedFile( final String extensionWithDot ) {
+			return new File( getSourceFilePath() + separator + getApprovalName() + Writer.approved + extensionWithDot );
+		}
+
 	}
 
 	@RequiredArgsConstructor
@@ -134,6 +150,17 @@ public class ApprovalsUtil {
 		public String getSourceFilePath() {
 			return approvalNamer.getSourceFilePath() + separator + approvalNamer.getApprovalName() + separator;
 		}
+
+		@Override
+		public File getReceivedFile( final String extensionWithDot ) {
+			return new File( getSourceFilePath() + separator + getApprovalName() + Writer.received + extensionWithDot );
+		}
+
+		@Override
+		public File getApprovedFile( final String extensionWithDot ) {
+			return new File( getSourceFilePath() + separator + getApprovalName() + Writer.approved + extensionWithDot );
+		}
+
 	}
 
 	public static class JUnitStackSelector implements StackElementSelector {
