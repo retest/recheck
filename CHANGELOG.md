@@ -26,6 +26,7 @@ Table of Contents
 ### Breaking Changes
 
 * Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
+* Update the storage library used for reports (kryo 4 -> 5), it's possible that older test reports can't longer be read.
 
 ### Bug Fixes
 
