@@ -1,7 +1,7 @@
 package de.retest.recheck.persistence;
 
-import javax.xml.bind.DatatypeConverter;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 // Using code from https://jaxb.java.net/tutorial/section_5_5-Interning-Strings.html
 public class StringInternerAdapter extends XmlAdapter<String, String> {

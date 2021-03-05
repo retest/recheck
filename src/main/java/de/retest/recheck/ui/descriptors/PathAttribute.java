@@ -4,11 +4,10 @@ import static de.retest.recheck.util.ObjectUtil.checkNull;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
-
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.util.StringSimilarity;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlValue;
 
 @XmlRootElement
 public class PathAttribute extends ParameterizedAttribute {

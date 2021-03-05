@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
 import org.apache.commons.io.IOUtils;
 
 import de.retest.recheck.ui.image.Screenshot;
@@ -20,6 +17,8 @@ import de.retest.recheck.util.FileUtil.Reader;
 import de.retest.recheck.util.FileUtil.Writer;
 import de.retest.recheck.util.NamedBufferedInputStream;
 import de.retest.recheck.util.ReflectionUtilities;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 public class ScreenshotFolderPersistence {
 

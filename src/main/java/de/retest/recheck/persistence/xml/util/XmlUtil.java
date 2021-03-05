@@ -1,10 +1,9 @@
 package de.retest.recheck.persistence.xml.util;
 
-import javax.xml.bind.Marshaller;
-
 import de.retest.recheck.ui.descriptors.IdentifyingAttributesAdapter;
 import de.retest.recheck.ui.descriptors.RenderContainedElementsAdapter;
 import de.retest.recheck.ui.descriptors.StateAttributesAdapter;
+import jakarta.xml.bind.Marshaller;
 
 public class XmlUtil {
 

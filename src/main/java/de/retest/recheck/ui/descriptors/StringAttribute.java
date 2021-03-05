@@ -2,12 +2,11 @@ package de.retest.recheck.ui.descriptors;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
-
 import org.apache.commons.lang3.StringUtils;
 
 import de.retest.recheck.util.StringSimilarity;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlValue;
 
 @XmlRootElement
 public class StringAttribute extends ParameterizedAttribute {

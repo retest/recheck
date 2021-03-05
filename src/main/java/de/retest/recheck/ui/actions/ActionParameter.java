@@ -3,10 +3,9 @@ package de.retest.recheck.ui.actions;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import de.retest.recheck.ui.descriptors.ParameterType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ActionParameter implements Serializable {
