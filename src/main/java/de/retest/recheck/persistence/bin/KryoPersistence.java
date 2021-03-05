@@ -74,10 +74,12 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 	private static Kryo createKryo() {
 		final Kryo kryo = new Kryo();
+		kryo.setInstantiatorStrategy( new StdInstantiatorStrategy() );
 
-		kryo.setInstantiatorStrategy( new Kryo.DefaultInstantiatorStrategy( new StdInstantiatorStrategy() ) );
+		kryo.setRegistrationRequired( false ); // TODO remove, see #836
 
-		final Registration registration = kryo.getRegistration( TreeMultiset.class );
+
+		final Registration registration = kryo.register( TreeMultiset.class );
 		registration.setInstantiator( TreeMultiset::create );
 
 		UnmodifiableCollectionsSerializer.registerSerializers( kryo );
