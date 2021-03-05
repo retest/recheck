@@ -1,8 +1,6 @@
 package de.retest.recheck;
 
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.Filters;
+import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.ui.DefaultValueFinder;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.descriptors.Element;
@@ -48,9 +47,19 @@ class RecheckImplIT {
 	}
 
 	@Test
+	@SuppressWarnings( "deprecation" )
 	void diff_should_handle_legacy_spaces_accordingly() {
-		final FileNamerStrategy fileNamerStrategy = spy( new MavenConformFileNamerStrategy() );
-		doReturn( RecheckImplIT.class.getName() + " legacy spaces" ).when( fileNamerStrategy ).getTestClassName();
+		final FileNamerStrategy fileNamerStrategy = new FileNamerStrategy() {
+			@Override
+			public FileNamer createFileNamer( final String... baseNames ) {
+				return new MavenConformFileNamerStrategy().createFileNamer( baseNames );
+			}
+
+			@Override
+			public String getTestClassName() {
+				return RecheckImplIT.class.getName() + " legacy spaces";
+			}
+		};
 
 		execute( "with legacy spaces", RecheckOptions.builder() //
 				.setIgnore( METADATA_FILTER ) // Ignore metadata

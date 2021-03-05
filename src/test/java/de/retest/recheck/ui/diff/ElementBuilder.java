@@ -18,7 +18,7 @@ import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.descriptors.TextAttribute;
 import de.retest.recheck.ui.image.Screenshot;
 
-class ElementBuilder {
+public class ElementBuilder {
 
 	public static Element buildElement() {
 		final IdentifyingAttributes identifyingAttributes =
