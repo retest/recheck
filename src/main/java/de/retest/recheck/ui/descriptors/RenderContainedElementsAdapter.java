@@ -3,7 +3,7 @@ package de.retest.recheck.ui.descriptors;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class RenderContainedElementsAdapter extends XmlAdapter<Element, Element> {
 

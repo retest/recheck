@@ -15,17 +15,16 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import de.retest.recheck.ignore.GloballyIgnoredAttributes;
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.util.ChecksumCalculator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode

@@ -2,7 +2,7 @@ package de.retest.recheck.ui.descriptors;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElement;
 
 public class DefaultAttribute extends ParameterizedAttribute {
 

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class AttributesAdapter
 		extends XmlAdapter<AttributesAdapter.PersistableAttributes, SortedMap<String, Attribute>> {

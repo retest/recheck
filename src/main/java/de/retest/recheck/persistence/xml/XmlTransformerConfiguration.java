@@ -1,8 +1,7 @@
 package de.retest.recheck.persistence.xml;
 
-import javax.xml.bind.Marshaller;
-
 import de.retest.recheck.persistence.xml.util.XmlUtil;
+import jakarta.xml.bind.Marshaller;
 import lombok.Builder;
 import lombok.Data;
 

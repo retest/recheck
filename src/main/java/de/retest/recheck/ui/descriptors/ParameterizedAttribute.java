@@ -1,9 +1,9 @@
 package de.retest.recheck.ui.descriptors;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.commons.lang3.StringUtils;
+
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public abstract class ParameterizedAttribute extends Attribute {

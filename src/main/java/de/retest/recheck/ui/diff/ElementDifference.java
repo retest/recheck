@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.Marshaller;
-
 import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Element;
@@ -21,6 +19,7 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.image.ImageUtils;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.util.ChecksumCalculator;
+import jakarta.xml.bind.Marshaller;
 
 public class ElementDifference implements Difference, Comparable<ElementDifference> {
 

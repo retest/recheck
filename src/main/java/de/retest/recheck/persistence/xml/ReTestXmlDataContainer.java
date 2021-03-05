@@ -2,12 +2,11 @@ package de.retest.recheck.persistence.xml;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.util.VersionProvider;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class ReTestXmlDataContainer<T extends Persistable> implements Serializable {

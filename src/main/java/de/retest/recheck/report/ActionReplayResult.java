@@ -6,13 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import de.retest.recheck.report.action.ActionReplayData;
 import de.retest.recheck.report.action.DifferenceRetriever;
 import de.retest.recheck.report.action.WindowRetriever;
@@ -28,6 +21,12 @@ import de.retest.recheck.ui.diff.RootElementDifference;
 import de.retest.recheck.ui.diff.StateDifference;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.image.Screenshot;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 
 /**

@@ -4,9 +4,9 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.TimeZone;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import org.apache.commons.lang3.time.FastDateFormat;
+
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class DateAdapter extends XmlAdapter<String, Date> {
 
