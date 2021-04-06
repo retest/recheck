@@ -32,6 +32,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
+import de.retest.recheck.RecheckProperties;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -43,9 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RetestAuthentication {
 
-	private static final String REALM = "customer";
-	private static final String KEYCLOAK_URL = "https://login.retest.de/auth";
-	private static final String BASE_URL = KEYCLOAK_URL + "/realms/" + REALM + "/protocol/openid-connect";
+	private static final String BASE_URL = RecheckProperties.getInstance().rehubReportAuthUrl();
 	private static final String AUTH_URL = BASE_URL + "/auth";
 	private static final String TOKEN_URL = BASE_URL + "/token";
 	private static final String CERTS_URL = BASE_URL + "/certs";
@@ -288,7 +287,7 @@ public class RetestAuthentication {
 
 				}
 			} catch ( final IOException e ) {
-				log.error( "Error during communication with {}", KEYCLOAK_URL, e );
+				log.error( "Error during communication with {}", BASE_URL, e );
 			}
 		}
 
