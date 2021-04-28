@@ -87,7 +87,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.18</version>
+			<version>1.18.20</version>
 		</dependency>
 
 		<dependency>
@@ -142,7 +142,7 @@
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
-			<version>3.14.0</version>
+			<version>3.15.0</version>
 		</dependency>
 
 		<dependency>
@@ -216,7 +216,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>3.8.0</version>
+			<version>3.9.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -251,7 +251,7 @@
 		<dependency>
 			<groupId>com.approvaltests</groupId>
 			<artifactId>approvaltests</artifactId>
-			<version>10.2.0</version>
+			<version>11.2.2</version>
 			<scope>test</scope>
 		</dependency>
 
