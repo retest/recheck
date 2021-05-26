@@ -91,6 +91,12 @@ public interface RecheckProperties extends Reloadable {
 	@DefaultValue( "https://login.retest.de/auth/realms/customer/protocol/openid-connect" )
 	String rehubReportAuthUrl();
 
+	String REHUB_REPORT_AUTH_KEY_PROPERTY_KEY = "de.retest.recheck.rehub.authKey";
+
+	@Key( REHUB_REPORT_AUTH_KEY_PROPERTY_KEY )
+	@DefaultValue( "tvrdxLHWA3h3SQRElQnGpKqxcCmMBpMSOhg4F7huUto" )
+	String rehubAuthKey();
+
 	String REHUB_REPORT_UPLOAD_URL_PROPERTY_KEY = "de.retest.recheck.rehub.reportUploadUrl";
 
 	@Key( REHUB_REPORT_UPLOAD_URL_PROPERTY_KEY )

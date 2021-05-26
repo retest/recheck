@@ -62,8 +62,6 @@ public class RetestAuthentication {
 	private static final String OAUTH_RESPONSE_TYPE_CODE = "code";
 	private static final String OAUTH_RESPONSE_TYPE = "response_type";
 
-	private static final String PUBLIC_KEY_ID = "cXdlj_AlGVf-TbXyauXYM2XairgNUahzgOXHAuAxAmQ";
-
 	private DecodedJWT accessToken;
 	private final AuthenticationHandler handler;
 	private final String client;
@@ -78,7 +76,7 @@ public class RetestAuthentication {
 	private JWTVerifier getJwtVerifier() {
 		try {
 			final UrlJwkProvider provider = new UrlJwkProvider( URI.create( CERTS_URL ).toURL() );
-			final PublicKey publicKey = provider.get( PUBLIC_KEY_ID ).getPublicKey();
+			final PublicKey publicKey = provider.get( RecheckProperties.getInstance().rehubAuthKey() ).getPublicKey();
 			return JWT.require( Algorithm.RSA256( (RSAPublicKey) publicKey, null ) ).acceptLeeway( 3 ).build();
 		} catch ( final SigningKeyNotFoundException e ) {
 			final RuntimeException offline = new UnableToAuthenticateOfflineException( e );
@@ -164,6 +162,9 @@ public class RetestAuthentication {
 			final JSONObject object = response.getBody().getObject();
 			bundle.setAccessToken( object.getString( OAUTH_ACCESS_TOKEN ) );
 			bundle.setRefreshToken( object.getString( OAUTH_REFRESH_TOKEN ) );
+		} else {
+			log.error( "Auth token url call failed with {} {}: {}", response.getStatus(), response.getStatusText(),
+					response.getBody() );
 		}
 
 		return bundle;
