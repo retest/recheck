@@ -5,7 +5,6 @@
 	<groupId>de.retest</groupId>
 	<artifactId>recheck</artifactId>
 	<version>1.12.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>recheck</name>
 	<description>Replace traditional assertions with a single check.</description>
@@ -41,6 +40,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<git.repo.host>github.com</git.repo.host>
+		<git.repo.path>retest/${project.artifactId}</git.repo.path>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.resources.sourceEncoding>UTF-8</project.resources.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -479,6 +480,11 @@
 						<configuration>
 							<skip>${gpg.skip}</skip>
 							<passphrase>${env.GPG_PASSPHRASE}</passphrase>
+							<gpgArguments>
+								<!-- This is necessary for gpg to not try to use the pinentry programs -->
+								<arg>--pinentry-mode</arg>
+								<arg>loopback</arg>
+							</gpgArguments>
 						</configuration>
 						<executions>
 							<execution>
