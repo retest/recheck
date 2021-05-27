@@ -377,7 +377,7 @@
 					<useSnapshotInHotfix>true</useSnapshotInHotfix>
 					<useSnapshotInRelease>true</useSnapshotInRelease>
 					<versionDigitToIncrement>1</versionDigitToIncrement>
-					<commitMessagePrefix>ci:&#032;</commitMessagePrefix>
+					<commitMessagePrefix xml:space="preserve">ci: </commitMessagePrefix>
 					<pushRemote>true</pushRemote>
 				</configuration>
 			</plugin>

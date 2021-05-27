@@ -1,6 +1,6 @@
 # <a href="https://retest.dev"><img src="https://assets.retest.org/retest/ci/logos/recheck-screen.svg" width="300"/></a>
 
-[![Build Status](https://github.com/retest/recheck/workflows/build/badge.svg)](https://github.com/retest/recheck/actions?query=workflow%3Abuild)
+[![Build Status](https://github.com/retest/recheck/actions/workflows/build-project.yml/badge.svg)](https://github.com/retest/recheck/actions/workflows/build-project.yml)
 [![Latest recheck on Maven Central](https://maven-badges.herokuapp.com/maven-central/de.retest/recheck/badge.svg?style=flat)](https://mvnrepository.com/artifact/de.retest/recheck)
 [![Latest recheck releases on JitPack](https://jitpack.io/v/de.retest/recheck.svg)](https://jitpack.io/#de.retest/recheck)
 [![license](https://img.shields.io/badge/license-AGPL-brightgreen.svg)](https://github.com/retest/recheck/blob/main/LICENSE)
