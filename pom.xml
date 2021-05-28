@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>com.esotericsoftware.kryo</groupId>
 			<artifactId>kryo5</artifactId>
-			<version>5.0.3</version>
+			<version>5.1.1</version>
 		</dependency>
 
 		<dependency>
