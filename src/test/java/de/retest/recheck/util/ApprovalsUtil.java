@@ -13,9 +13,6 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
@@ -33,6 +30,9 @@ import com.spun.util.tests.StackTraceReflectionResult;
 import com.spun.util.tests.TestUtils;
 
 import de.retest.recheck.TestCaseFinder;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.SchemaOutputResolver;
 import lombok.RequiredArgsConstructor;
 
 public class ApprovalsUtil {

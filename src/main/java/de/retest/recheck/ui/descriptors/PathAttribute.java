@@ -4,11 +4,14 @@ import static de.retest.recheck.util.ObjectUtil.checkNull;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
+import org.eclipse.persistence.oxm.annotations.XmlValueExtension;
 
 import de.retest.recheck.ui.Path;
+import de.retest.recheck.ui.PathAdapter;
 import de.retest.recheck.util.StringSimilarity;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlValue;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
 public class PathAttribute extends ParameterizedAttribute {
@@ -29,9 +32,9 @@ public class PathAttribute extends ParameterizedAttribute {
 	public static final String PATH_KEY = "path";
 
 	@XmlValue
-	private final String path;
-
-	private transient Path cachedPath;
+	@XmlValueExtension
+	@XmlJavaTypeAdapter( PathAdapter.class )
+	private final Path path;
 
 	// Used by JaxB
 	protected PathAttribute() {
@@ -45,16 +48,12 @@ public class PathAttribute extends ParameterizedAttribute {
 	public PathAttribute( final Path path, final String variableName ) {
 		super( PATH_KEY, variableName );
 		checkNull( path, PATH_KEY );
-		cachedPath = path;
-		this.path = path.toString();
+		this.path = path;
 	}
 
 	@Override
 	public Path getValue() {
-		if ( cachedPath == null ) {
-			cachedPath = Path.fromString( path );
-		}
-		return cachedPath;
+		return path;
 	}
 
 	@Override

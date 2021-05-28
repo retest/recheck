@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <xsd:complexType name="identifyingAttributesDifference">
-      <xsd:sequence>
-         <xsd:element name="attribute" type="attribute" minOccurs="0" maxOccurs="unbounded"/>
-         <xsd:element name="attributeDifference" type="attributeDifference" minOccurs="0" maxOccurs="unbounded"/>
-      </xsd:sequence>
-      <xsd:attribute name="differenceId" type="xsd:string"/>
-   </xsd:complexType>
-   <xsd:complexType name="elementIdentificationWarning">
+   <xsd:complexType name="attribute" abstract="true">
       <xsd:sequence/>
-      <xsd:attribute name="testFileName" type="xsd:string"/>
-      <xsd:attribute name="testLineNumber" type="xsd:int"/>
-      <xsd:attribute name="findByMethodName" type="xsd:string"/>
-      <xsd:attribute name="qualifiedTestName" type="xsd:string"/>
+      <xsd:attribute name="key" type="xsd:string"/>
    </xsd:complexType>
    <xsd:complexType name="attributeDifference">
       <xsd:sequence>
@@ -23,11 +13,21 @@
       <xsd:attribute name="key" type="xsd:string"/>
       <xsd:attribute name="attributeDifferenceId" type="xsd:string"/>
    </xsd:complexType>
-   <xsd:complexType name="attribute" abstract="true">
+   <xsd:complexType name="elementIdentificationWarning">
       <xsd:sequence/>
-      <xsd:attribute name="key" type="xsd:string"/>
+      <xsd:attribute name="testFileName" type="xsd:string"/>
+      <xsd:attribute name="testLineNumber" type="xsd:int"/>
+      <xsd:attribute name="findByMethodName" type="xsd:string"/>
+      <xsd:attribute name="qualifiedTestName" type="xsd:string"/>
    </xsd:complexType>
-   <xsd:element name="identifyingAttributesDifference" type="identifyingAttributesDifference"/>
-   <xsd:element name="attributeDifference" type="attributeDifference"/>
+   <xsd:complexType name="identifyingAttributesDifference">
+      <xsd:sequence>
+         <xsd:element name="attribute" type="attribute" minOccurs="0" maxOccurs="unbounded"/>
+         <xsd:element name="attributeDifference" type="attributeDifference" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="differenceId" type="xsd:string"/>
+   </xsd:complexType>
    <xsd:element name="attribute" type="attribute"/>
+   <xsd:element name="attributeDifference" type="attributeDifference"/>
+   <xsd:element name="identifyingAttributesDifference" type="identifyingAttributesDifference"/>
 </xsd:schema>

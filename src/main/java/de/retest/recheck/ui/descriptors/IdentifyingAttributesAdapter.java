@@ -1,6 +1,6 @@
 package de.retest.recheck.ui.descriptors;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class IdentifyingAttributesAdapter extends XmlAdapter<IdentifyingAttributes, IdentifyingAttributes> {
 
