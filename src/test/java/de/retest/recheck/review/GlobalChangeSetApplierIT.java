@@ -1,13 +1,13 @@
 package de.retest.recheck.review;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 
 import java.awt.Rectangle;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -206,7 +206,9 @@ class GlobalChangeSetApplierIT {
 
 		@Override
 		public void notifyAboutDifferences( final ActionReplayResult actionReplayResult ) {
-			final ElementIdentificationWarning warning = mock( ElementIdentificationWarning.class );
+			final ElementIdentificationWarning warning = new ElementIdentificationWarning( "testFileName",
+					new Random().nextInt(), "findByMethodName", "qualifiedTestName" );
+
 			actionReplayResult.getAllElementDifferences().stream() //
 					.map( ElementDifference::getAttributeDifferences ) //
 					.flatMap( Collection::stream ) //
