@@ -18,15 +18,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
-import org.objenesis.strategy.StdInstantiatorStrategy;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.Registration;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.kryo5.Kryo;
+import com.esotericsoftware.kryo.kryo5.Registration;
+import com.esotericsoftware.kryo.kryo5.io.Input;
+import com.esotericsoftware.kryo.kryo5.io.Output;
+import com.esotericsoftware.kryo.kryo5.objenesis.strategy.StdInstantiatorStrategy;
 import com.google.common.collect.TreeMultiset;
 
-import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
@@ -78,6 +77,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 	private static Kryo createKryo() {
 		final Kryo kryo = new Kryo();
 		kryo.setInstantiatorStrategy( new StdInstantiatorStrategy() );
+		kryo.setReferences( true );
 
 		kryo.setRegistrationRequired( false ); // TODO remove, see #836
 
@@ -89,8 +89,6 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 		final Registration registration = kryo.register( TreeMultiset.class );
 		registration.setInstantiator( TreeMultiset::create );
-
-		UnmodifiableCollectionsSerializer.registerSerializers( kryo );
 
 		return kryo;
 	}
