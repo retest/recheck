@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	private static final int MAX_REPORT_NAME_LENGTH = 50;
-	private static final String SERVICE_ENDPOINT = "https://marvin.prod.cloud.retest.org/api/report";
+
 	private final KryoPersistence<T> kryoPersistence = new KryoPersistence<>();
 	private final XmlFolderPersistence<T> folderPersistence = new XmlFolderPersistence<>( getXmlTransformer() );
 
@@ -63,22 +63,17 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	}
 
 	private void saveToCloud( final TestReport report, final byte[] data ) {
-		final HttpResponse<String> uploadUrlResponse = getUploadUrl();
+		final HttpResponse<String> uploadUrlResponse = getUploadUrl( String.join( ", ", getTestClasses( report ) ) );
 		if ( uploadUrlResponse.isSuccess() ) {
-			final ReportUploadContainer metadata = ReportUploadContainer.builder() //
-					.reportName( String.join( ", ", getTestClasses( report ) ) ) //
-					.data( data ) //
-					.uploadUrl( uploadUrlResponse.getBody() ) //
-					.build();
-			final boolean hasChanges = report.containsChanges();
+			log.info( "Upload URL: {}", uploadUrlResponse.getBody() );
 
 			final int maxAttempts = RecheckProperties.getInstance().rehubReportUploadAttempts();
 			for ( int remainingAttempts = maxAttempts - 1; remainingAttempts >= 0; remainingAttempts-- ) {
 				try {
-					uploadReport( metadata );
+					uploadReport( uploadUrlResponse.getBody(), data );
 					break; // Successful, abort retry
 				} catch ( final UnirestException e ) {
-					if ( !hasChanges ) {
+					if ( !report.containsChanges() ) {
 						log.warn(
 								"Failed to upload report. Ignoring exception because the report does not have any differences.",
 								e );
@@ -97,11 +92,10 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private void uploadReport( final ReportUploadContainer metadata ) {
+	private void uploadReport( final String uploadUrl, final byte[] data ) {
 		final long start = System.currentTimeMillis();
-		final HttpResponse<?> uploadResponse = Unirest.put( metadata.getUploadUrl() ) //
-				.header( "x-amz-meta-report-name", abbreviate( metadata.getReportName(), MAX_REPORT_NAME_LENGTH ) ) //
-				.body( metadata.getData() ) //
+		final HttpResponse<?> uploadResponse = Unirest.put( uploadUrl ) //
+				.body( data ) //
 				.asEmpty();
 
 		if ( uploadResponse.isSuccess() ) {
@@ -110,10 +104,11 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private HttpResponse<String> getUploadUrl() {
+	private HttpResponse<String> getUploadUrl( final String reportName ) {
 		final String token = String.format( "Bearer %s", Rehub.getAccessToken() );
 
-		return Unirest.post( SERVICE_ENDPOINT ) //
+		return Unirest.post( RecheckProperties.getInstance().rehubReportUploadUrl() ) //
+				.queryString( "name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
 				.header( "Authorization", token )//
 				.asString();
 	}
