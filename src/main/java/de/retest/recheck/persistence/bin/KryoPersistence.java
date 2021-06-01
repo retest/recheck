@@ -11,7 +11,6 @@ import java.net.URI;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -20,18 +19,15 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 
 import com.esotericsoftware.kryo.kryo5.Kryo;
-import com.esotericsoftware.kryo.kryo5.Registration;
 import com.esotericsoftware.kryo.kryo5.io.Input;
 import com.esotericsoftware.kryo.kryo5.io.Output;
-import com.esotericsoftware.kryo.kryo5.objenesis.strategy.StdInstantiatorStrategy;
-import com.google.common.collect.TreeMultiset;
+import com.esotericsoftware.kryo.kryo5.objenesis.strategy.SerializingInstantiatorStrategy;
+import com.esotericsoftware.kryo.kryo5.util.DefaultInstantiatorStrategy;
 
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
-import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
-import de.retest.recheck.ui.review.GoldenMasterSource;
 import de.retest.recheck.util.FileUtil;
 import de.retest.recheck.util.VersionProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -76,19 +72,11 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 	private static Kryo createKryo() {
 		final Kryo kryo = new Kryo();
-		kryo.setInstantiatorStrategy( new StdInstantiatorStrategy() );
+		kryo.setInstantiatorStrategy( new DefaultInstantiatorStrategy( new SerializingInstantiatorStrategy() ) );
 		kryo.setReferences( true );
 
-		kryo.setRegistrationRequired( false ); // TODO remove, see #836
-
-		kryo.register( TestReport.class );
-		kryo.register( GoldenMasterSource.class );
-		kryo.register( SuiteReplayResult.class );
-		kryo.register( ArrayList.class );
-		// TODO add more, see #836
-
-		final Registration registration = kryo.register( TreeMultiset.class );
-		registration.setInstantiator( TreeMultiset::create );
+		KryoRegister.addRecheckClasses( kryo );
+		KryoRegister.addUsedJdkClasses( kryo );
 
 		return kryo;
 	}

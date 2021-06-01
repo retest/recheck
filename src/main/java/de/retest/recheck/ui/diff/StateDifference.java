@@ -1,7 +1,6 @@
 package de.retest.recheck.ui.diff;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,7 @@ public class StateDifference implements Difference {
 
 	public StateDifference( final List<RootElementDifference> differences ) {
 		differenceId = getSumIdentifier( differences );
-		this.differences = Collections.unmodifiableList( differences );
+		this.differences = differences;
 	}
 
 	@Override

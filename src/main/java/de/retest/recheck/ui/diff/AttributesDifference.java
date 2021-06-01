@@ -1,5 +1,6 @@
 package de.retest.recheck.ui.diff;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,11 +28,11 @@ public class AttributesDifference implements Difference {
 	private AttributesDifference() {
 		// for JAXB
 		differenceId = null;
-		differences = null;
+		differences = new ArrayList<>();
 	}
 
 	public AttributesDifference( final List<AttributeDifference> differences ) {
-		this.differences = Collections.unmodifiableList( differences );
+		this.differences = differences;
 		differenceId = AttributeDifference.getSumIdentifier( differences );
 	}
 
