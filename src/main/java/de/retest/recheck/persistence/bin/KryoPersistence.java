@@ -23,7 +23,8 @@ import com.esotericsoftware.kryo.kryo5.Kryo;
 import com.esotericsoftware.kryo.kryo5.Registration;
 import com.esotericsoftware.kryo.kryo5.io.Input;
 import com.esotericsoftware.kryo.kryo5.io.Output;
-import com.esotericsoftware.kryo.kryo5.objenesis.strategy.StdInstantiatorStrategy;
+import com.esotericsoftware.kryo.kryo5.objenesis.strategy.SerializingInstantiatorStrategy;
+import com.esotericsoftware.kryo.kryo5.util.DefaultInstantiatorStrategy;
 import com.google.common.collect.TreeMultiset;
 
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
@@ -76,7 +77,7 @@ public class KryoPersistence<T extends Persistable> implements Persistence<T> {
 
 	private static Kryo createKryo() {
 		final Kryo kryo = new Kryo();
-		kryo.setInstantiatorStrategy( new StdInstantiatorStrategy() );
+		kryo.setInstantiatorStrategy( new DefaultInstantiatorStrategy( new SerializingInstantiatorStrategy() ) );
 		kryo.setReferences( true );
 
 		kryo.setRegistrationRequired( false ); // TODO remove, see #836

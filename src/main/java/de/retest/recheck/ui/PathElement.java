@@ -1,6 +1,10 @@
 package de.retest.recheck.ui;
 
-public class PathElement {
+import java.io.Serializable;
+
+public class PathElement implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final String elementName;
 

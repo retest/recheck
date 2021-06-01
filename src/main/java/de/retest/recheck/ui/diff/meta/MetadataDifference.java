@@ -1,7 +1,6 @@
 package de.retest.recheck.ui.diff.meta;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -10,15 +9,12 @@ import java.util.Spliterator;
 import java.util.TreeSet;
 import java.util.function.Consumer;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor( access = AccessLevel.PRIVATE )
 public final class MetadataDifference implements Iterable<MetadataElementDifference>, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,11 +22,7 @@ public final class MetadataDifference implements Iterable<MetadataElementDiffere
 	private static final MetadataDifference EMPTY = new MetadataDifference();
 
 	@Getter
-	private final Set<MetadataElementDifference> differences;
-
-	private MetadataDifference() {
-		this( Collections.emptySet() );
-	}
+	private final Set<MetadataElementDifference> differences = new LinkedHashSet<>();
 
 	public static MetadataDifference empty() {
 		return EMPTY;
@@ -43,7 +35,9 @@ public final class MetadataDifference implements Iterable<MetadataElementDiffere
 		final Set<MetadataElementDifference> unique =
 				new TreeSet<>( Comparator.comparing( MetadataElementDifference::getKey ) );
 		unique.addAll( differences );
-		return new MetadataDifference( new LinkedHashSet<>( unique ) );
+		final MetadataDifference metadataDifference = new MetadataDifference();
+		metadataDifference.differences.addAll( unique );
+		return metadataDifference;
 	}
 
 	public boolean isEmpty() {
