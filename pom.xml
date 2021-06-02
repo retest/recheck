@@ -290,10 +290,7 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
-					<compilerArguments>
-						<Xlint:unchecked />
-						<Xlint:deprecation />
-					</compilerArguments>
+					<compilerArgument>-Xlint:all</compilerArgument>
 				</configuration>
 			</plugin>
 
@@ -303,7 +300,7 @@
 				<version>${maven.surefire.and.failsafe.version}</version>
 				<configuration>
 					<includes>
-						<!-- overwrite default, prevent run of files matching `Test*.class`  -->
+						<!-- overwrite default, prevent run of files matching `Test*.class` -->
 						<include>%regex[.*Test.class]</include>
 					</includes>
 					<properties>
