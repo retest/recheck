@@ -13,7 +13,8 @@ import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.persistence.FileOutputFormat;
 
 @LoadPolicy( LoadType.MERGE )
-@Sources( { "system:properties", "file:${projectroot}/.retest/retest.properties" } )
+@Sources( { "system:properties", "system:env", "file:${projectroot}/.retest/retest.properties",
+		"file:${user.home}/.retest/retest.properties" } )
 public interface RecheckProperties extends Reloadable {
 
 	/*
