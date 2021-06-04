@@ -44,7 +44,7 @@ class AlignmentPseudoElementHack {
 		} );
 	}
 
-	static boolean isLeaf( final Element element, final Map<Element, Element> pseudoElementsMapping ) {
+	static boolean isLeafAndPrepareMapping( final Element element, final Map<Element, Element> pseudoElementsMapping ) {
 		boolean isLeaf = true;
 		for ( final Element child : element.getContainedElements() ) {
 			if ( isPseudoElement( child ) ) {

@@ -60,7 +60,7 @@ public final class Alignment {
 
 		for ( final Element childElement : element.getContainedElements() ) {
 			childParentMapping.put( childElement, element );
-			if ( AlignmentPseudoElementHack.isLeaf( childElement, pseudoElementsMapping ) ) {
+			if ( AlignmentPseudoElementHack.isLeafAndPrepareMapping( childElement, pseudoElementsMapping ) ) {
 				flattened.add( childElement );
 			} else {
 				flattened.addAll( flattenLeafElements( childElement, childParentMapping, pseudoElementsMapping ) );
