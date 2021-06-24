@@ -2,13 +2,12 @@ package de.retest.recheck.ui.actions;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlTransient;
-
 import de.retest.recheck.ui.Environment;
 import de.retest.recheck.ui.components.Component;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.review.ActionChangeSet;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 public interface Action extends Serializable, Comparable<Action> {
 

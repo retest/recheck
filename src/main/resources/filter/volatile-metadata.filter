@@ -1,0 +1,13 @@
+# These differences should be recorded in the GM for diagnosing,
+# but are too verbose and too volatile 
+# to be spilled out for every change
+
+attribute=machine.name
+attribute=os.arch
+attribute=vcs.branch
+attribute=vcs.commit
+attribute=vcs.name
+attribute=time.date
+attribute=time.time
+attribute=time.offset
+attribute=time.zone

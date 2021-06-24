@@ -1,0 +1,3 @@
+[Window[1]:
+ at: Window[1]:
+	expected type: de.retest.recheck.ui.diff.RootElementDifferenceFinderTest$Window - actual type: de.retest.recheck.ui.diff.RootElementDifferenceFinderTest$OtherWindow]

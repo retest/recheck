@@ -25,16 +25,28 @@ Table of Contents
 
 ### Breaking Changes
 
+* Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
+* Update the storage library used for reports (kryo 4 -> 5), it's possible that older test reports can't longer be read.
+
 ### Bug Fixes
 
 * Fix a rare `java.nio.file.FileSystemAlreadyExistsException` when accessing filters concurrently.
 * Fix 1-click-maintenance not respecting the key of the `AttributeDifference`. 
+* Updated and now configurable URLs for rehub backend services
 
 ### New Features
 
-* Metadata differences are now filterable via the recheck.ignore. A new `metadata.filter` has been added which can be imported with `import: metadata.filter` in `recheck.ignore`.
+* The recheck configuration is now additionally read from environment variables and from file `${user.home}/.retest/retest.properties`.
+* Metadata differences are now filterable via the recheck.ignore. New `volatile-metadata.filter` and `metadata.filter` filters have been added, where the first one filters metadata which is added for diagnosing purposes and too verbose to be displayed upon every change and the latter filters _all_ metadata. They can be imported with `import: volatile-metadata.filter` and `import: metadata.filter` in `recheck.ignore`.
+* Add `exclude()` filter expression to allow child elements to be excluded. Ignoring an element `matcher: type=body, exclude(matcher: type=button)` will ignore everything below the `body` element but still capture changes for `button` elements.
+* Add a `disableReportUpload` method.
+* The `ProjectLayout` will now be automatically detected (Maven and Gradle) and will throw an error if it cannot fall back to Maven, in which case a custom `ProjectLayout` has to be provided.
+* In case of an exception in the filter code, it will be treated as not filtered.
 
 ### Improvements
+
+* Have the console output much more compact in terms of whitespace used. Con: makes it harder to spot difference details...
+* Project discovery and initialization is now done within `RecheckOptionsBuilder#build` instead of `RecheckImpl#new` to allow earlier access to project variables (e.g. retest.properties). Projects (i.e. `.retest` folders) should still be detected correctly.
 
 
 --------------------------------------------------------------------------------

@@ -2,8 +2,7 @@ package de.retest.recheck.ui.diff;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
+import jakarta.xml.bind.annotation.XmlAttribute;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 

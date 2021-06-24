@@ -32,6 +32,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
+import de.retest.recheck.RecheckProperties;
 import kong.unirest.HttpResponse;
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -43,9 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RetestAuthentication {
 
-	private static final String REALM = "customer";
-	private static final String KEYCLOAK_URL = "https://login.retest.de/auth";
-	private static final String BASE_URL = KEYCLOAK_URL + "/realms/" + REALM + "/protocol/openid-connect";
+	private static final String BASE_URL = RecheckProperties.getInstance().rehubReportAuthUrl();
 	private static final String AUTH_URL = BASE_URL + "/auth";
 	private static final String TOKEN_URL = BASE_URL + "/token";
 	private static final String CERTS_URL = BASE_URL + "/certs";
@@ -63,8 +62,6 @@ public class RetestAuthentication {
 	private static final String OAUTH_RESPONSE_TYPE_CODE = "code";
 	private static final String OAUTH_RESPONSE_TYPE = "response_type";
 
-	private static final String PUBLIC_KEY_ID = "cXdlj_AlGVf-TbXyauXYM2XairgNUahzgOXHAuAxAmQ";
-
 	private DecodedJWT accessToken;
 	private final AuthenticationHandler handler;
 	private final String client;
@@ -79,7 +76,7 @@ public class RetestAuthentication {
 	private JWTVerifier getJwtVerifier() {
 		try {
 			final UrlJwkProvider provider = new UrlJwkProvider( URI.create( CERTS_URL ).toURL() );
-			final PublicKey publicKey = provider.get( PUBLIC_KEY_ID ).getPublicKey();
+			final PublicKey publicKey = provider.get( RecheckProperties.getInstance().rehubAuthKey() ).getPublicKey();
 			return JWT.require( Algorithm.RSA256( (RSAPublicKey) publicKey, null ) ).acceptLeeway( 3 ).build();
 		} catch ( final SigningKeyNotFoundException e ) {
 			final RuntimeException offline = new UnableToAuthenticateOfflineException( e );
@@ -165,6 +162,9 @@ public class RetestAuthentication {
 			final JSONObject object = response.getBody().getObject();
 			bundle.setAccessToken( object.getString( OAUTH_ACCESS_TOKEN ) );
 			bundle.setRefreshToken( object.getString( OAUTH_REFRESH_TOKEN ) );
+		} else {
+			log.error( "Auth token url call failed with {} {}: {}", response.getStatus(), response.getStatusText(),
+					response.getBody() );
 		}
 
 		return bundle;
@@ -288,7 +288,7 @@ public class RetestAuthentication {
 
 				}
 			} catch ( final IOException e ) {
-				log.error( "Error during communication with {}", KEYCLOAK_URL, e );
+				log.error( "Error during communication with {}", BASE_URL, e );
 			}
 		}
 

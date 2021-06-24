@@ -13,7 +13,8 @@ import de.retest.recheck.configuration.ProjectRootFinderUtil;
 import de.retest.recheck.persistence.FileOutputFormat;
 
 @LoadPolicy( LoadType.MERGE )
-@Sources( { "system:properties", "file:${projectroot}/.retest/retest.properties" } )
+@Sources( { "system:properties", "system:env", "file:${projectroot}/.retest/retest.properties",
+		"file:${user.home}/.retest/retest.properties" } )
 public interface RecheckProperties extends Reloadable {
 
 	/*
@@ -23,6 +24,7 @@ public interface RecheckProperties extends Reloadable {
 	static void init() {
 		ProjectRootFinderUtil.getProjectRoot().ifPresent(
 				projectRoot -> ConfigFactory.setProperty( "projectroot", projectRoot.toAbsolutePath().toString() ) );
+		ConfigCache.clear();
 	}
 
 	static RecheckProperties getInstance() {
@@ -43,7 +45,6 @@ public interface RecheckProperties extends Reloadable {
 	String DEFAULT_XML_FILE_NAME = "retest.xml";
 
 	String RETEST_FOLDER_NAME = ".retest";
-	String RETEST_PROPERTIES_FILE_NAME = "retest.properties";
 
 	String GOLDEN_MASTER_FILE_EXTENSION = ".recheck";
 	String TEST_REPORT_FILE_EXTENSION = ".report";
@@ -69,7 +70,7 @@ public interface RecheckProperties extends Reloadable {
 	String ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY = "de.retest.recheck.rootElementMatchThreshold";
 
 	@Key( ROOT_ELEMENT_MATCH_THRESHOLD_PROPERTY_KEY )
-	@DefaultValue( "0.8" )
+	@DefaultValue( "0.5" )
 	double rootElementMatchThreshold();
 
 	String ROOT_ELEMENT_CONTAINED_CHILDREN_MATCH_THRESHOLD_PROPERTY_KEY =
@@ -84,6 +85,24 @@ public interface RecheckProperties extends Reloadable {
 	@Key( REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
 	@DefaultValue( "false" )
 	boolean rehubReportUploadEnabled();
+
+	String REHUB_REPORT_AUTH_URL_PROPERTY_KEY = "de.retest.recheck.rehub.authUrl";
+
+	@Key( REHUB_REPORT_AUTH_URL_PROPERTY_KEY )
+	@DefaultValue( "https://login.retest.de/auth/realms/customer/protocol/openid-connect" )
+	String rehubReportAuthUrl();
+
+	String REHUB_REPORT_AUTH_KEY_PROPERTY_KEY = "de.retest.recheck.rehub.authKey";
+
+	@Key( REHUB_REPORT_AUTH_KEY_PROPERTY_KEY )
+	@DefaultValue( "tvrdxLHWA3h3SQRElQnGpKqxcCmMBpMSOhg4F7huUto" )
+	String rehubAuthKey();
+
+	String REHUB_REPORT_UPLOAD_URL_PROPERTY_KEY = "de.retest.recheck.rehub.reportUploadUrl";
+
+	@Key( REHUB_REPORT_UPLOAD_URL_PROPERTY_KEY )
+	@DefaultValue( "https://artifact-storage-steward.prod.cloud.retest.org/api/v1/report" )
+	String rehubReportUploadUrl();
 
 	String REHUB_REPORT_UPLOAD_ATTEMPTS = "de.retest.recheck.rehub.upload.attempts";
 

@@ -14,16 +14,16 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.KryoException;
+import com.esotericsoftware.kryo.kryo5.Kryo;
+import com.esotericsoftware.kryo.kryo5.KryoException;
 
 import de.retest.recheck.persistence.IncompatibleReportVersionException;
 import de.retest.recheck.persistence.Persistable;
+import de.retest.recheck.report.SuiteReplayResult;
 import de.retest.recheck.report.TestReport;
 import de.retest.recheck.util.VersionProvider;
 
@@ -35,18 +35,18 @@ class KryoPersistenceTest {
 		Files.createFile( file );
 		final URI identifier = file.toUri();
 
-		final KryoPersistence<de.retest.recheck.test.Test> kryoPersistence = new KryoPersistence<>();
-		final de.retest.recheck.test.Test persisted = createDummyTest();
+		final KryoPersistence<TestReport> kryoPersistence = new KryoPersistence<>();
+		final TestReport persisted = createDummyTest();
 		kryoPersistence.save( identifier, persisted );
-		final de.retest.recheck.test.Test loaded = kryoPersistence.load( identifier );
+		final TestReport loaded = kryoPersistence.load( identifier );
 
-		assertThat( persisted.getRelativeActionSequencePaths() ).isEqualTo( loaded.getRelativeActionSequencePaths() );
+		assertThat( loaded.getSuiteReplayResults().get( 0 ).getName() )
+				.isEqualTo( persisted.getSuiteReplayResults().get( 0 ).getName() );
 	}
 
-	public de.retest.recheck.test.Test createDummyTest() {
-		final ArrayList<String> tests = new ArrayList<>();
-		tests.add( "../test.test" );
-		return new de.retest.recheck.test.Test( tests );
+	public TestReport createDummyTest() {
+		final SuiteReplayResult suite = new SuiteReplayResult( "test", 23, null, "00", null );
+		return new TestReport( suite );
 	}
 
 	@Test
@@ -55,13 +55,12 @@ class KryoPersistenceTest {
 		Files.createFile( file );
 		final URI identifier = file.toUri();
 
-		final KryoPersistence<de.retest.recheck.test.Test> kryoPersistence = new KryoPersistence<>();
+		final KryoPersistence<TestReport> kryoPersistence = new KryoPersistence<>();
 		kryoPersistence.save( identifier, createDummyTest() );
 
 		final Kryo kryoMock = mock( Kryo.class );
 		when( kryoMock.readClassAndObject( any() ) ).thenThrow( KryoException.class );
-		final KryoPersistence<de.retest.recheck.test.Test> differentKryoPersistence =
-				new KryoPersistence<>( kryoMock, "old Version" );
+		final KryoPersistence<TestReport> differentKryoPersistence = new KryoPersistence<>( kryoMock, "old Version" );
 
 		assertThatThrownBy( () -> differentKryoPersistence.load( identifier ) )
 				.isInstanceOf( IncompatibleReportVersionException.class )
@@ -99,8 +98,7 @@ class KryoPersistenceTest {
 		final File nonexistent = new File( "nonexistent.report" );
 		final Kryo kryoMock = mock( Kryo.class );
 		doThrow( KryoException.class ).when( kryoMock ).writeClassAndObject( any(), any() );
-		final KryoPersistence<de.retest.recheck.test.Test> persistence =
-				new KryoPersistence<>( kryoMock, "some version" );
+		final KryoPersistence<TestReport> persistence = new KryoPersistence<>( kryoMock, "some version" );
 		assertThatThrownBy( () -> persistence.save( nonexistent.toURI(), createDummyTest() ) )
 				.isInstanceOf( KryoException.class );
 		assertThat( nonexistent ).doesNotExist();

@@ -2,12 +2,11 @@ package de.retest.recheck.persistence.xml;
 
 import java.io.IOException;
 
-import javax.xml.bind.Unmarshaller.Listener;
-
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.migration.XmlMigrator;
 import de.retest.recheck.persistence.xml.util.XmlVersionCheckResult;
 import de.retest.recheck.util.NamedBufferedInputStream;
+import jakarta.xml.bind.Unmarshaller.Listener;
 
 public class XmlPersistenceUtil {
 

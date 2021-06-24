@@ -10,14 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
@@ -26,6 +18,13 @@ import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.review.ActionChangeSet;
 import de.retest.recheck.util.RetestIdUtil;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
@@ -225,11 +224,7 @@ public class Element implements Serializable, Comparable<Element> {
 		}
 
 		final Object ordinaryAttribute = getAttributes().get( attributeName );
-		if ( ordinaryAttribute != null ) {
-			return ordinaryAttribute;
-		}
-
-		return null;
+		return ordinaryAttribute;
 	}
 
 	public String getRetestId() {
@@ -284,6 +279,9 @@ public class Element implements Serializable, Comparable<Element> {
 			return true;
 		}
 		if ( obj == null || getClass() != obj.getClass() ) {
+			return false;
+		}
+		if ( this.hashCode() != obj.hashCode() ) {
 			return false;
 		}
 		final Element other = (Element) obj;

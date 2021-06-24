@@ -11,7 +11,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.execution.RecheckAdapters;
 import de.retest.recheck.execution.RecheckDifferenceFinder;
 import de.retest.recheck.persistence.CloudPersistence;
@@ -67,14 +66,13 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 	}
 
 	public RecheckImpl( final RecheckOptions options ) {
-		ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
 		Runtime.getRuntime().addShutdownHook( capWarner );
 		this.options = options;
 		suiteName = options.getNamingStrategy().getSuiteName();
 		suite = SuiteAggregator.getInstance().getSuite( suiteName,
 				options.getProjectLayout().getTestSourcesRoot().orElse( null ) );
 
-		if ( isRehubEnabled( options ) ) {
+		if ( options.isReportUploadEnabled() ) {
 			try {
 				Rehub.authenticate();
 			} catch ( final HeadlessException e ) {
@@ -82,10 +80,6 @@ public class RecheckImpl implements Recheck, SutStateLoader {
 						+ CloudPersistence.RECHECK_API_KEY + "'." );
 			}
 		}
-	}
-
-	private boolean isRehubEnabled( final RecheckOptions options ) {
-		return options.isReportUploadEnabled() || RecheckProperties.getInstance().rehubReportUploadEnabled();
 	}
 
 	@Override

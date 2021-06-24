@@ -2,9 +2,8 @@ package de.retest.recheck.ui.descriptors;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import de.retest.recheck.util.StringSimilarity;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class TextAttribute extends StringAttribute {

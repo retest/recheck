@@ -113,6 +113,6 @@ class ImportExternalFilterLoaderIT {
 
 		assertThat( filter ).isEmpty();
 
-		warningAndErrorLogs.assertContains( "Exception loading referenced filter 'nonexistent.filter'." );
+		warningAndErrorLogs.assertContains( "Exception loading referenced filter 'nonexistent.filter'" );
 	}
 }

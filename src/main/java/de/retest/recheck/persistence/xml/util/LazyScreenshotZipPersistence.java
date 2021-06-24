@@ -13,9 +13,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +22,8 @@ import com.google.common.collect.Multimap;
 
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.util.ReflectionUtilities;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 public class LazyScreenshotZipPersistence {
 

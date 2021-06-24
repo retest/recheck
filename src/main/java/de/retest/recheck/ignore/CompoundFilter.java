@@ -1,5 +1,7 @@
 package de.retest.recheck.ignore;
 
+import static de.retest.recheck.util.Predicates.catchExceptionAsFalse;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +45,7 @@ public class CompoundFilter implements Filter {
 
 	@Override
 	public boolean matches( final Element element, final ChangeType change ) {
-		return filters.stream().anyMatch( f -> f.matches( element, change ) );
+		return filters.stream().anyMatch( catchExceptionAsFalse( f -> f.matches( element, change ) ) );
 	}
 
 	@Override

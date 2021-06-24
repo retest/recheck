@@ -30,12 +30,12 @@ public class PathBasedProjectRootFinder implements ProjectRootFinder {
 		}
 
 		final Path absoluteBasePath = base.toAbsolutePath();
-		logger.debug( "Searching for project root under {}.", absoluteBasePath );
+		logger.debug( "Searching for project root under '{}'.", absoluteBasePath );
 
 		for ( Path currentFolder = absoluteBasePath; currentFolder != null; currentFolder =
 				currentFolder.getParent() ) {
 			if ( containsSubPath( currentFolder ) ) {
-				logger.debug( "Found project root in {}.", currentFolder );
+				logger.debug( "Found project root in '{}'.", currentFolder );
 				return Optional.of( currentFolder.toAbsolutePath() );
 			}
 		}

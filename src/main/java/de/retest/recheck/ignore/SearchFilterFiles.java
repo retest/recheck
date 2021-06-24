@@ -39,6 +39,7 @@ public class SearchFilterFiles {
 			FilterResource.prefix( WEB_CATEGORY, "positioning.filter" ), //
 			FilterResource.prefix( WEB_CATEGORY, "style-attributes.filter" ), //
 
+			FilterResource.absolute( "volatile-metadata.filter" ), //
 			FilterResource.absolute( "metadata.filter" ) //
 	) //
 			.map( FilterResource::loader ) //

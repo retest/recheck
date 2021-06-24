@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.retest.recheck.configuration.ProjectConfiguration;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
 import de.retest.recheck.ignore.RecheckIgnoreLocator;
@@ -17,6 +18,7 @@ import de.retest.recheck.persistence.GradleProjectLayout;
 import de.retest.recheck.persistence.MavenProjectLayout;
 import de.retest.recheck.persistence.NamingStrategy;
 import de.retest.recheck.persistence.ProjectLayout;
+import de.retest.recheck.persistence.ProjectLayouts;
 import de.retest.recheck.ui.descriptors.idproviders.RetestIdProvider;
 import de.retest.recheck.util.RetestIdProviderUtil;
 import lombok.AccessLevel;
@@ -128,9 +130,9 @@ public class RecheckOptions {
 
 		private FileNamerStrategy fileNamerStrategy;
 		private NamingStrategy namingStrategy = new ClassAndMethodBasedNamingStrategy();
-		private ProjectLayout projectLayout = new MavenProjectLayout();
+		private ProjectLayout projectLayout;
 		private String suiteName = null;
-		private boolean reportUploadEnabled = false;
+		private Boolean reportUploadEnabled;
 		private Filter ignoreFilter = null;
 		private RetestIdProvider retestIdProvider = RetestIdProviderUtil.getConfiguredRetestIdProvider();
 		private final List<Filter> ignoreFilterToAdd = new ArrayList<>();
@@ -201,6 +203,17 @@ public class RecheckOptions {
 		}
 
 		/**
+		 * Disables upload to <a href="https://retest.de/rehub/">rehub</a> so that all reports are stored only locally.
+		 * Default: false.
+		 *
+		 * @return self
+		 */
+		public RecheckOptionsBuilder disableReportUpload() {
+			reportUploadEnabled = false;
+			return this;
+		}
+
+		/**
 		 * Overwrites the filter used for filtering the report after a test. The filter cannot be used in conjunction
 		 * with {@link #addIgnore(String)}.
 		 *
@@ -261,9 +274,15 @@ public class RecheckOptions {
 		}
 
 		public RecheckOptions build() {
+			ProjectConfiguration.getInstance().ensureProjectConfigurationInitialized();
+			if ( projectLayout == null ) {
+				projectLayout( ProjectLayouts.detect() );
+			}
 			final String suiteName = getSuiteName();
 			final NamingStrategy namingStrategy = new FixedSuiteNamingStrategy( suiteName, this.namingStrategy );
-			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout, reportUploadEnabled,
+			return new RecheckOptions( fileNamerStrategy, namingStrategy, projectLayout,
+					reportUploadEnabled != null ? reportUploadEnabled
+							: RecheckProperties.getInstance().rehubReportUploadEnabled(),
 					buildFilter( suiteName ), retestIdProvider );
 		}
 

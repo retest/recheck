@@ -3,36 +3,14 @@ A detailed report will be created at '*'. You can review the details by using ou
 1 check(s) in 'de.retest.recheck.RecheckImplIT' found the following difference(s):
 Test 'filter-deleted' has 8 difference(s) in 1 state(s):
 check resulted in:
-	Metadata Differences:
-	  Please note that these differences do not affect the result and are not included in the difference count.
-		os.name:
-		  expected="null",
-		    actual="Linux"
-		os.version:
-		  expected="null",
-		    actual="4.4.0-101-generic"
 	test (title) at 'foo[1]/bar[1]':
-		foo-1:
-		  expected="bar-1",
-		    actual="bar-3"
-		foo-3:
-		  expected="bar-3",
-		    actual="bar-1"
+		foo-1: expected="bar-1", actual="bar-3"
+		foo-3: expected="bar-3", actual="bar-1"
 	same (same-id) at 'foo[1]/bar[1]/same[1]':
-		bar-1:
-		  expected="bar-1",
-		    actual="bar-1-change"
-		bar-2:
-		  expected="bar-2",
-		    actual="null"
-		bar-3:
-		  expected="bar-3",
-		    actual="(default or absent)"
-		bar-2-change:
-		  expected="(default or absent)",
-		    actual="bar-2"
-		bar-3-change:
-		  expected="(default or absent)",
-		    actual="bar-3"
+		bar-1: expected="bar-1", actual="bar-1-change"
+		bar-2: expected="bar-2", actual="null"
+		bar-3: expected="bar-3", actual="(default or absent)"
+		bar-2-change: expected="(default or absent)", actual="bar-2"
+		bar-3-change: expected="(default or absent)", actual="bar-3"
 	insert (insert-id) at 'foo[1]/bar[1]/add[1]/insert[1]':
 		was inserted

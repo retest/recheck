@@ -2,7 +2,7 @@ package de.retest.recheck.ui.diff;
 
 import static de.retest.recheck.ui.diff.ElementDifference.getCopyWithFlattenedChildDifferenceHierarchy;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import de.retest.recheck.ui.diff.ElementDifference;
 
