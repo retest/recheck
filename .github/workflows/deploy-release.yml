@@ -1,8 +1,9 @@
 name: Deploy releases
 
 on:
-  create:
-    tags: v*
+  push:
+    tags:
+      - 'v*'
 
 env:
   MVN_ARGS: --batch-mode --errors --fail-fast --no-transfer-progress

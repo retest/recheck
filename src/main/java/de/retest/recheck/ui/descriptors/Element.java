@@ -224,11 +224,7 @@ public class Element implements Serializable, Comparable<Element> {
 		}
 
 		final Object ordinaryAttribute = getAttributes().get( attributeName );
-		if ( ordinaryAttribute != null ) {
-			return ordinaryAttribute;
-		}
-
-		return null;
+		return ordinaryAttribute;
 	}
 
 	public String getRetestId() {
@@ -283,6 +279,9 @@ public class Element implements Serializable, Comparable<Element> {
 			return true;
 		}
 		if ( obj == null || getClass() != obj.getClass() ) {
+			return false;
+		}
+		if ( this.hashCode() != obj.hashCode() ) {
 			return false;
 		}
 		final Element other = (Element) obj;
