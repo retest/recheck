@@ -25,6 +25,19 @@ Table of Contents
 
 ### Breaking Changes
 
+### Bug Fixes
+
+### New Features
+
+### Improvements
+
+--------------------------------------------------------------------------------
+
+[1.12.0] (2021-06-24)
+---------------------
+
+### Breaking Changes
+
 * Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
 * Update the storage library used for reports (kryo 4 -> 5), it's possible that older test reports can't longer be read.
 
@@ -47,9 +60,6 @@ Table of Contents
 
 * Have the console output much more compact in terms of whitespace used. Con: makes it harder to spot difference details...
 * Project discovery and initialization is now done within `RecheckOptionsBuilder#build` instead of `RecheckImpl#new` to allow earlier access to project variables (e.g. retest.properties). Projects (i.e. `.retest` folders) should still be detected correctly.
-
-
---------------------------------------------------------------------------------
 
 
 [1.11.2] (2020-07-01)
