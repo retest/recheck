@@ -23,10 +23,17 @@ Table of Contents
 [Unreleased]
 ------------
 
+### Breaking Changes
+
+### Bug Fixes
+
+### New Features
+
+### Improvements
 
 --------------------------------------------------------------------------------
 
-[1.12.0] (2021-06-25)
+[1.12.0] (2021-06-24)
 ---------------------
 
 ### Breaking Changes
