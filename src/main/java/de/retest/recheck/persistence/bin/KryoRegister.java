@@ -29,8 +29,10 @@ public class KryoRegister {
 		kryo.register( de.retest.recheck.ui.diff.RootElementDifference.class );
 		kryo.register( de.retest.recheck.ui.diff.ElementDifference.class );
 		kryo.register( de.retest.recheck.ui.diff.IdentifyingAttributesDifference.class );
+		kryo.register( de.retest.recheck.ui.diff.InsertedDeletedElementDifference.class );
 		kryo.register( de.retest.recheck.ui.diff.AttributeDifference.class );
 		kryo.register( de.retest.recheck.ui.diff.AttributesDifference.class );
+		kryo.register( de.retest.recheck.ui.diff.ElementIdentificationWarning.class );
 		kryo.register( de.retest.recheck.ui.diff.meta.MetadataDifference.class );
 		kryo.register( de.retest.recheck.ui.diff.meta.MetadataElementDifference.class );
 
@@ -52,6 +54,7 @@ public class KryoRegister {
 		kryo.register( java.util.Collections.EMPTY_LIST.getClass() );
 		kryo.register( java.util.Collections.EMPTY_MAP.getClass() );
 		kryo.register( java.util.Collections.EMPTY_SET.getClass() );
+		kryo.register( java.util.Collections.singletonList( Object.class ).getClass() );
 
 		kryo.register( byte[].class );
 		kryo.register( java.awt.Rectangle.class );
