@@ -27,6 +27,8 @@ Table of Contents
 
 ### Bug Fixes
 
+* Add path info to filter, after they where missing in last release because of `FileSystemAlreadyExistsException` fix.
+
 ### New Features
 
 ### Improvements

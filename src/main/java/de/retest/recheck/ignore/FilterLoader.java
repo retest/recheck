@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.IOUtils;
 
@@ -20,7 +21,7 @@ public interface FilterLoader {
 				if ( stream == null ) {
 					throw new NoSuchFileException( path );
 				}
-				return Filters.parse( IOUtils.readLines( stream, StandardCharsets.UTF_8 ) );
+				return Filters.parse( Paths.get( path ), IOUtils.readLines( stream, StandardCharsets.UTF_8 ).stream() );
 			}
 		};
 	}

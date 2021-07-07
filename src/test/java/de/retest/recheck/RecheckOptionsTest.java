@@ -21,6 +21,7 @@ import org.junitpioneer.jupiter.SetSystemProperty;
 import de.retest.recheck.RecheckOptions.RecheckOptionsBuilder;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.persistence.ClassAndMethodBasedShortNamingStrategy;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.NamingStrategy;
@@ -68,7 +69,8 @@ class RecheckOptionsTest {
 		final List<Filter> filters =
 				((CompoundFilter) ((CompoundFilter) ((CompoundFilter) cut.getFilter()).getFilters().get( 0 ))
 						.getFilters().get( 0 )).getFilters();
-		assertThat( filters.get( 0 ).toString() ).isEqualTo( "# Style attributes filter file for recheck." );
+		assertThat( ((PersistentFilter) filters.get( 0 )).getFilter().toString() )
+				.isEqualTo( "# Style attributes filter file for recheck." );
 	}
 
 	@Test
@@ -77,8 +79,9 @@ class RecheckOptionsTest {
 				.setIgnore( "style-attributes.filter" ) //
 				.build();
 		assertThat( cut.getFilter() ).isInstanceOf( CompoundFilter.class );
-		assertThat( ((CompoundFilter) cut.getFilter()).getFilters().get( 0 ).toString() )
-				.isEqualTo( "# Style attributes filter file for recheck." );
+		assertThat(
+				((PersistentFilter) ((CompoundFilter) cut.getFilter()).getFilters().get( 0 )).getFilter().toString() )
+						.isEqualTo( "# Style attributes filter file for recheck." );
 	}
 
 	@Test
