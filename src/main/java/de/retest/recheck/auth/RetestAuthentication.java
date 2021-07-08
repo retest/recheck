@@ -113,9 +113,11 @@ public class RetestAuthentication {
 			builder.addParameter( OAUTH_SCOPE, OAUTH_SCOPE_OFFLINE_ACCESS );
 
 			final URI loginUri = URI.create( builder.build().toString() );
+			log.info( "Show web login: {}", loginUri );
 			handler.showWebLoginUri( loginUri );
 
 			callback.join();
+			log.info( "Web login performed." );
 
 			if ( loginSuccessful( state, callback.result ) ) {
 				final TokenBundle bundle = accessCodeToToken( callback.result.getCode(), redirectUri );

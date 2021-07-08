@@ -15,6 +15,7 @@ public class RehubAuthenticationHandler implements AuthenticationHandler {
 	@Override
 	public void showWebLoginUri( final URI loginUri ) {
 		try {
+			log.info( "Open login page: '{}'", loginUri );
 			Desktop.getDesktop().browse( loginUri );
 		} catch ( final IOException e ) {
 			log.error( "Error opening browser for '{}'.", loginUri );
