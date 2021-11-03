@@ -92,7 +92,7 @@ public class PixelDiffFilter implements Filter {
 			try {
 				final double expectedDouble = Double.parseDouble( clean( expectedParts[i] ) );
 				final double actualDouble = Double.parseDouble( clean( actualParts[i] ) );
-				if ( (Math.abs( expectedDouble - actualDouble ) > pixelDiff) ) {
+				if ( Math.abs( expectedDouble - actualDouble ) > pixelDiff ) {
 					return false;
 				}
 			} catch ( final NumberFormatException e ) {

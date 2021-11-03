@@ -177,9 +177,7 @@ public final class ReflectionUtilities {
 				if ( field.get( parent ) == child ) {
 					field.set( parent, null );
 				}
-			} catch ( final IllegalArgumentException e ) {
-				throw new AssertionError( "Should not be possible!" );
-			} catch ( final IllegalAccessException e ) {
+			} catch ( final IllegalArgumentException | IllegalAccessException e ) {
 				throw new AssertionError( "Should not be possible!" );
 			}
 		}

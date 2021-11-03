@@ -21,9 +21,7 @@ public class ParseStringAttributeDifference extends AttributeDifference {
 				final ParameterType type = param.getType();
 				final Serializable value = (Serializable) type.parse( actual );
 				return attribute.applyChanges( value );
-			} catch ( final Exception e ) {
-				return attribute;
-			}
+			} catch ( final Exception e ) { /* ignore */ }
 		}
 		return attribute;
 	}

@@ -147,7 +147,7 @@ public class RecheckImplTest {
 		final ProjectLayout layout = mock( ProjectLayout.class );
 		when( layout.getSuiteFolder( any() ) ).thenReturn( path );
 
-		final RecheckImpl cut = new RecheckImpl( RecheckOptions.builder() //
+		new RecheckImpl( RecheckOptions.builder() //
 				.projectLayout( layout ) //
 				.build() );
 

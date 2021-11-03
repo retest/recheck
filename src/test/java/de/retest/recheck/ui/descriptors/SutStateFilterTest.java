@@ -48,7 +48,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_attributes_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final Attributes newState = cut.filter( element, attributes );
 
@@ -100,7 +100,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_identifying_attributes_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final IdentifyingAttributes filteredIdentifyingAttributes = cut.filter( element, identifyingAttributes );
 
@@ -197,7 +197,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_root_element_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final Element filteredRootElement = cut.filter( rootElement );
 
@@ -258,7 +258,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_sut_state_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final SutState filteredSutState = cut.filter( sutState );
 
@@ -296,8 +296,6 @@ class SutStateFilterTest {
 	}
 
 	private static class Component {}
-
-	private static class Parent {}
 
 	private static class Window {}
 
