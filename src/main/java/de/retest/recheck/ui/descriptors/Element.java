@@ -123,8 +123,7 @@ public class Element implements Serializable, Comparable<Element> {
 		newContainedElements = removeDeleted( actionChangeSet, newContainedElements );
 		newContainedElements =
 				applyChangesToContainedElements( actionChangeSet, newIdentAttributes, newContainedElements );
-		newContainedElements = addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
-		return newContainedElements;
+		return addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
 	}
 
 	private List<Element> removeDeleted( final ActionChangeSet actionChangeSet,
@@ -223,8 +222,7 @@ public class Element implements Serializable, Comparable<Element> {
 			return identifyingAttribute.getValue();
 		}
 
-		final Object ordinaryAttribute = getAttributes().get( attributeName );
-		return ordinaryAttribute;
+		return getAttributes().get( attributeName );
 	}
 
 	public String getRetestId() {

@@ -80,9 +80,8 @@ class ElementClassMatcherTest {
 		final Collection<Attribute> idAttribs =
 				IdentifyingAttributes.createList( Path.fromString( "html/div" ), "div" );
 		idAttribs.add( new StringAttribute( ElementClassMatcher.CLASS_KEY, classValue ) );
-		final Element element = Element.create( "retestId", mock( Element.class ),
-				new IdentifyingAttributes( idAttribs ), new MutableAttributes().immutable() );
-		return element;
+		return Element.create( "retestId", mock( Element.class ), new IdentifyingAttributes( idAttribs ),
+				new MutableAttributes().immutable() );
 	}
 
 }

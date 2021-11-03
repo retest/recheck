@@ -278,17 +278,14 @@ class SutStateFilterTest {
 	}
 
 	private Element createElement( final String path, final Class<?> type, final Element parent ) {
-		final Element element = Element.create( "asdas", parent,
-				IdentifyingAttributes.create( fromString( path ), type ), new Attributes() );
-		return element;
+		return Element.create( "asdas", parent, IdentifyingAttributes.create( fromString( path ), type ),
+				new Attributes() );
 	}
 
 	private RootElement createRootElement( final String path, final Class<?> type, final Screenshot screenshot,
 			final String screen, final String title ) {
-		final RootElement rootElement =
-				new RootElement( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
-						screenshot, screen, screen.hashCode(), title );
-		return rootElement;
+		return new RootElement( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
+				screenshot, screen, screen.hashCode(), title );
 	}
 
 	private SutState createSutState( final Collection<RootElement> rootElements ) {

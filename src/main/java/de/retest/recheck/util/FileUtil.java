@@ -341,7 +341,7 @@ public class FileUtil {
 			final URL url = new URL( input );
 			return new NamedBufferedInputStream( url.openStream(), input );
 		} catch ( final IOException exc ) {}
-		File result = null;
+		File result;
 		// relative path
 		result = new File( baseDir, input ).getCanonicalFile();
 		if ( result.exists() ) {
@@ -364,8 +364,7 @@ public class FileUtil {
 		result = result.replaceAll( System.getProperty( "line.separator" ), "-" );
 		result = result.replace( ':', '-' );
 		result = result.replace( '/', '-' );
-		result = result.replace( '\\', '-' );
-		return result;
+		return result.replace( '\\', '-' );
 	}
 
 	public static File readableCanonicalFileOrNull( final File file ) {
