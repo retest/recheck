@@ -4,7 +4,7 @@ import static de.retest.recheck.util.FileUtil.readFromZipFile;
 import static de.retest.recheck.util.FileUtil.writeToFile;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -71,8 +71,8 @@ class LazyScreenshotZipPersistenceTest {
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( obj1, obj2 );
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( obj2, obj1 );
 
-		verifyZeroInteractions( obj1 );
-		verifyZeroInteractions( obj2 );
+		verifyNoInteractions( obj1 );
+		verifyNoInteractions( obj2 );
 
 		assertThat( screenshotPersistence.screenshots ).isEmpty();
 	}
@@ -91,9 +91,9 @@ class LazyScreenshotZipPersistenceTest {
 		assertThat( screenshotPersistence.screenshots ).contains( obj1 );
 		assertThat( screenshotPersistence.screenshots ).contains( obj3 );
 
-		verifyZeroInteractions( obj1 );
-		verifyZeroInteractions( obj2 );
-		verifyZeroInteractions( obj3 );
+		verifyNoInteractions( obj1 );
+		verifyNoInteractions( obj2 );
+		verifyNoInteractions( obj3 );
 	}
 
 	@Test
@@ -110,9 +110,9 @@ class LazyScreenshotZipPersistenceTest {
 		assertThat( screenshotPersistence.screenshots ).contains( obj1 );
 		assertThat( screenshotPersistence.screenshots ).contains( obj3 );
 
-		verifyZeroInteractions( obj1 );
-		verifyZeroInteractions( obj2 );
-		verifyZeroInteractions( obj3 );
+		verifyNoInteractions( obj1 );
+		verifyNoInteractions( obj2 );
+		verifyNoInteractions( obj3 );
 	}
 
 	@Test
