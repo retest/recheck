@@ -202,12 +202,9 @@ public class ReflectionUtilitiesTest {
 		assertThat( getSimpleName( "de.retest.Main$1" ) ).isEqualTo( "Main$1" );
 	}
 
-	private class A {
-	};
+	private class A {};
 
-	private class B extends A {
-	};
+	private class B extends A {};
 
-	private class C extends B {
-	};
+	private class C extends B {};
 }

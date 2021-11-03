@@ -49,8 +49,7 @@ class JSFilterImplTest {
 
 	@Test
 	void nonexistent_file_should_not_cause_exception() {
-		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {
-		};
+		final JSFilterImpl cut = new JSFilterImpl( ctorArg ) {};
 		cut.matches( mock( Element.class ) );
 	}
 

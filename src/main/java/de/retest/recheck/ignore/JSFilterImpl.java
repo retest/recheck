@@ -83,7 +83,8 @@ public class JSFilterImpl implements Filter {
 		try {
 			final Object callResult = inv.invokeFunction( functionName, args );
 			if ( callResult == null ) {
-				logger.warn( "{} returned 'null' instead of a boolean value in file '{}'. Interpreting that as 'false'.",
+				logger.warn(
+						"{} returned 'null' instead of a boolean value in file '{}'. Interpreting that as 'false'.",
 						filePath, functionName );
 				return false;
 			}

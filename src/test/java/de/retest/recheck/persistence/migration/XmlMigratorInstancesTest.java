@@ -16,19 +16,19 @@ public class XmlMigratorInstancesTest {
 	@Test
 	public void get_XSLT_for_a_version_that_does_not_have_a_change() throws Exception {
 		// Attention: Test will break once we reach version 10000 of the ActionSequence :-)
-		assertThat( XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" )
-				.getXmlTransformersFor( 9999 ) ).containsExactly();
+		assertThat(
+				XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" ).getXmlTransformersFor( 9999 ) )
+						.containsExactly();
 	}
-	
+
 	@Test
 	public void get_XSLT_for_a_version_that_has_a_change() throws Exception {
 		// We cannot compare the whole list because the test will break as soon as we get the next migration for this type.
 		// The first entry is the migration for version 2 although we asked for version 1, so we get an idea that this actually returns a sequence,
 		// not just an individual entry.
 
-		assertThat(
-				XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" ).getXmlTransformersFor( 1 ).get( 0 ) )
-						.isInstanceOf( AddRetestIdTestTransformer.class );
+		assertThat( XmlMigratorInstances.get( "de.retest.recheck.ui.descriptors.SutState" ).getXmlTransformersFor( 1 )
+				.get( 0 ) ).isInstanceOf( AddRetestIdTestTransformer.class );
 	}
 
 	@Test

@@ -13,8 +13,7 @@ public class CodeLocAttribute extends TextAttribute {
 
 	// Used by JaxB
 	@SuppressWarnings( "unused" )
-	private CodeLocAttribute() {
-	}
+	private CodeLocAttribute() {}
 
 	public CodeLocAttribute( final String codeLoc ) {
 		this( codeLoc, null );

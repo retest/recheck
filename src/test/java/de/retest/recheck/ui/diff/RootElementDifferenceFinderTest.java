@@ -37,8 +37,7 @@ class RootElementDifferenceFinderTest {
 
 	private final Attributes attributes = new Attributes();
 	private final MutableAttributes otherAttributes = new MutableAttributes();
-	private final RootElementDifferenceFinder cut =
-			new RootElementDifferenceFinder( mock( Environment.class ) );
+	private final RootElementDifferenceFinder cut = new RootElementDifferenceFinder( mock( Environment.class ) );
 
 	@BeforeEach
 	public void setup() {
@@ -95,8 +94,7 @@ class RootElementDifferenceFinderTest {
 
 		final RootElement actualDescriptor = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
-		final RootElementDifference difference =
-				cut.findDifference( expectedDescriptor, actualDescriptor );
+		final RootElementDifference difference = cut.findDifference( expectedDescriptor, actualDescriptor );
 
 		assertThat( difference.elementDifference.actualScreenshot ).isEqualTo( screenshot );
 		assertThat( difference.elementDifference.expectedScreenshot ).isEqualTo( screenshot );
@@ -124,8 +122,8 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
-		final List<RootElementDifference> differences = cut.findDifferences(
-				Arrays.asList( descriptor1, descriptor2 ), Arrays.asList( descriptor2, descriptor1 ) );
+		final List<RootElementDifference> differences = cut.findDifferences( Arrays.asList( descriptor1, descriptor2 ),
+				Arrays.asList( descriptor2, descriptor1 ) );
 
 		assertThat( differences.isEmpty() ).isTrue();
 	}
@@ -152,8 +150,8 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor_1 = descriptorFor( identifyingAttributesA, attributes, screenshot );
 		final RootElement descriptor_2 = descriptorFor( identifyingAttributesB, attributes, screenshot );
 
-		final List<RootElementDifference> differences = cut.findDifferences(
-				Collections.singletonList( descriptor_1 ), Collections.singletonList( descriptor_2 ) );
+		final List<RootElementDifference> differences = cut.findDifferences( Collections.singletonList( descriptor_1 ),
+				Collections.singletonList( descriptor_2 ) );
 
 		assertThat( differences.isEmpty() ).isFalse();
 		assertThat( ElementDifferenceFinder.getElementDifferences( differences ).size() ).isEqualTo( 1 );
@@ -169,8 +167,8 @@ class RootElementDifferenceFinderTest {
 		final RootElement descriptor1 = descriptorFor( identifyingAttributes1, attributes, screenshot, buildElement() );
 		final RootElement descriptor2 = descriptorFor( identifyingAttributes2, attributes, screenshot, buildElement() );
 
-		final List<RootElementDifference> differences = cut
-				.findDifferences( Collections.singletonList( descriptor1 ), Collections.singletonList( descriptor2 ) );
+		final List<RootElementDifference> differences = cut.findDifferences( Collections.singletonList( descriptor1 ),
+				Collections.singletonList( descriptor2 ) );
 
 		assertThat( differences.isEmpty() ).isFalse();
 		verify( differences );
