@@ -116,6 +116,8 @@ class SearchFilterFilesTest {
 
 		System.setProperty( "user.home", temp.toString() );
 		final Path userPosFilterPath = temp.resolve( posFilterInFolder );
+		Files.createDirectories( userPosFilterPath.getParent() );
+
 		write( userPosFilterPath, "#userFilter".getBytes() );
 
 		final Map<String, Filter> mapping = SearchFilterFiles.toFileNameFilterMapping();
