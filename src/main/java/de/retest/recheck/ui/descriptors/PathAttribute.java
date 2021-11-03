@@ -61,7 +61,7 @@ public class PathAttribute extends ParameterizedAttribute {
 		if ( !(other instanceof PathAttribute) ) {
 			return NO_MATCH;
 		}
-		if ( !other.getKey().equals( PATH_KEY ) ) {
+		if ( !PATH_KEY.equals( other.getKey() ) ) {
 			return NO_MATCH;
 		}
 		final String parentPath = getValue().getParentPath() == null ? "" : getValue().getParentPath().toString();

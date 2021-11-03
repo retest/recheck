@@ -31,7 +31,7 @@ public class StackTraceParser {
 			if ( lineNumString != null ) {
 				lineNum = Integer.parseInt( lineNumString );
 			} else {
-				if ( traceMatcher.group( 3 ).equals( "Native Method" ) ) {
+				if ( "Native Method".equals( traceMatcher.group( 3 ) ) ) {
 					lineNum = -2;
 				}
 			}

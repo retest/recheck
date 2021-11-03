@@ -44,10 +44,10 @@ public class StringAttribute extends ParameterizedAttribute {
 	public static final ParameterType parameterTypeBoolean = new ParameterType( "BOOLEAN" ) {
 		@Override
 		public Boolean parse( final String value ) throws ParameterParseException {
-			if ( value.equalsIgnoreCase( "true" ) ) {
+			if ( "true".equalsIgnoreCase( value ) ) {
 				return Boolean.TRUE;
 			}
-			if ( value.equalsIgnoreCase( "false" ) ) {
+			if ( "false".equalsIgnoreCase( value ) ) {
 				return Boolean.FALSE;
 			}
 			throw new ParameterParseException( "Value must be 'true' or 'false' (ignoring case).",

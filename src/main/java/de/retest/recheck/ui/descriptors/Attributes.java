@@ -54,7 +54,7 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 	}
 
 	public Object get( final String name ) {
-		if ( name.equals( SCREENSHOT ) ) {
+		if ( SCREENSHOT.equals( name ) ) {
 			return screenshot;
 		}
 		return attributes.get( name );
@@ -135,7 +135,7 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 				}
 				continue;
 			}
-			if ( attributeDifference.getKey().equals( Attributes.SCREENSHOT ) ) {
+			if ( Attributes.SCREENSHOT.equals( attributeDifference.getKey() ) ) {
 				result.put( (Screenshot) attributeDifference.getActual() );
 			}
 		}

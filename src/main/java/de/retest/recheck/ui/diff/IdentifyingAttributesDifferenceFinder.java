@@ -37,7 +37,7 @@ public class IdentifyingAttributesDifferenceFinder {
 				continue;
 			}
 
-			if ( key.equals( PATH_ATTRIBUTE_KEY ) ) {
+			if ( PATH_ATTRIBUTE_KEY.equals( key ) ) {
 				if ( pathDiffers( expected, actual ) ) {
 					attributeDifferences.add( new AttributeDifference( key, expected.getPath(), actual.getPath() ) );
 				}

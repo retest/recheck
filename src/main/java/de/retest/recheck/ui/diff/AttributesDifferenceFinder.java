@@ -65,7 +65,7 @@ public class AttributesDifferenceFinder {
 		if ( !deleted( expected, actual ) && defaultValueFinder.isDefaultValue( identAttributes, key, actual ) ) {
 			return null;
 		}
-		if ( key.equals( Attributes.SCREENSHOT ) ) {
+		if ( Attributes.SCREENSHOT.equals( key ) ) {
 			final Screenshot expectedScreenshot = (Screenshot) expected;
 			final Screenshot actualScreenshot = (Screenshot) actual;
 			final ImageDifference imgDiff = imgDiffCalc.compare( expectedScreenshot, actualScreenshot );
