@@ -19,7 +19,7 @@ import de.retest.recheck.ui.Path;
 public class AttributeImplTest {
 
 	@DataPoints
-	public static final Attribute[] attributeImplementations = new Attribute[] { //
+	public static final Attribute[] attributeImplementations = { //
 			OutlineAttribute.create( new Rectangle( 10, 10, 40, 20 ) ), //
 			new StringAttribute( "name", "my name" ), //
 			new ContextAttribute( "some context" ), //
@@ -32,7 +32,7 @@ public class AttributeImplTest {
 	};
 
 	// for testing Attribute.applyChange( value )
-	public static Serializable[] changedValues = new Serializable[] { //
+	public static Serializable[] changedValues = { //
 			new Rectangle( 10, 10, 50, 50 ), //,
 			"new name", //
 			"other context", //

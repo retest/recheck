@@ -22,7 +22,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class AttributeImplPersistenceTest {
 
 	@DataPoints
-	public static final Attribute[] attributeImplementations = new Attribute[] { //
+	public static final Attribute[] attributeImplementations = { //
 			new PathAttribute( Path.fromString( "Window/Panel_0" ) ), //
 			new SuffixAttribute( 0 ), //
 			new StringAttribute( "name", "my name" ), //

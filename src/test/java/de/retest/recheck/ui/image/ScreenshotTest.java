@@ -18,7 +18,7 @@ class ScreenshotTest {
 
 	@Test
 	void updating_content_should_update_sha() {
-		final byte[] same = new byte[] { 1, 1, 1, 6, 3, 5, 2, 1, 2 };
+		final byte[] same = { 1, 1, 1, 6, 3, 5, 2, 1, 2 };
 		final Screenshot shot1 = new Screenshot( "some", same, ImageType.PNG );
 		final Screenshot shot2 = new Screenshot( "some", new byte[] { 1, 2, 4, 6, 3, 4, 7, 8, 2 }, ImageType.PNG );
 

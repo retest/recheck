@@ -21,7 +21,7 @@ class TestCaseFinderJunitJupiterTest {
 
 	@Test
 	void empty_trace_should_yield_nothing() throws Exception {
-		final StackTraceElement[] emptyTrace = new StackTraceElement[0];
+		final StackTraceElement[] emptyTrace = {};
 
 		final Optional<String> className = TestCaseFinder.getInstance().findTestCaseClassNameInStack( emptyTrace );
 		assertThat( className ).isEmpty();

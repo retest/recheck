@@ -37,7 +37,7 @@ public class StdXmlClassesProvider {
 		ParameterType.registerStdParameterTypes();
 	}
 
-	private static final Class<?>[] classes = new Class<?>[] { //
+	private static final Class<?>[] classes = { //
 			ActionParameter.class, //
 			ParameterizedAction.class, //
 			ActionSequence.class, //
