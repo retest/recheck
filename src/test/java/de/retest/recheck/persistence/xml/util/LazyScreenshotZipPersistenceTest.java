@@ -293,7 +293,7 @@ class LazyScreenshotZipPersistenceTest {
 
 	@Test
 	void screenshot_zippath_should_be_sanitized() {
-		Screenshot screenshot = new Screenshot( "../../testimage", new byte[] { 0 }, ImageType.PNG );
+		final Screenshot screenshot = new Screenshot( "../../testimage", new byte[] { 0 }, ImageType.PNG );
 		assertThat( LazyScreenshotZipPersistence.createFilePath( screenshot ) ).isEqualTo( "screenshot/testimage.png" );
 	}
 

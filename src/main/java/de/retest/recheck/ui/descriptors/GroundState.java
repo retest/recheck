@@ -59,7 +59,7 @@ public class GroundState implements Serializable {
 	private long getRandomSeedProperty() {
 		final String property = System.getProperty( PROPERTY_EXECUTION_SEED );
 		if ( property == null ) {
-			final long result = 1l;
+			final long result = 1L;
 			System.setProperty( PROPERTY_EXECUTION_SEED, Long.toString( result ) );
 			return result;
 		}

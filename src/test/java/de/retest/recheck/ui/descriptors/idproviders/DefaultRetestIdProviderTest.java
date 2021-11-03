@@ -42,7 +42,7 @@ class DefaultRetestIdProviderTest {
 
 	@Test
 	void should_prefer_text_over_id_over_name_over_type() {
-		IdentifyingAttributes ident = mock( IdentifyingAttributes.class );
+		final IdentifyingAttributes ident = mock( IdentifyingAttributes.class );
 		when( ident.get( "text" ) ).thenReturn( "My Text" );
 		when( ident.get( "id" ) ).thenReturn( "My ID" );
 		when( ident.get( "name" ) ).thenReturn( "My Name" );

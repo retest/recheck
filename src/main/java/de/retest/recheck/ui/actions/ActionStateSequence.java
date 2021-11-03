@@ -39,7 +39,7 @@ public class ActionStateSequence implements Serializable {
 		initialState = null;
 		actionStates = null;
 		name = null;
-		sumDuration = 0l;
+		sumDuration = 0L;
 	}
 
 	public ActionStateSequence( final SutState initialState, final List<ActionState> actionStates, final String name,

@@ -41,7 +41,7 @@ public class ExecutableSuite extends Persistable {
 	private ExecutableSuite() {
 		super( PERSISTENCE_VERSION );
 		groundState = null;
-		sumDuration = 0l;
+		sumDuration = 0L;
 		uuid = null;
 	}
 

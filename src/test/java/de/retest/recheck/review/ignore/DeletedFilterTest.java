@@ -17,15 +17,15 @@ class DeletedFilterTest {
 
 	@Test
 	void should_filter_deleted_elements() {
-		DeletedFilter cut = new DeletedFilter();
-		Element element = mock( Element.class );
+		final DeletedFilter cut = new DeletedFilter();
+		final Element element = mock( Element.class );
 		assertThat( cut.matches( element, ChangeType.DELETED ) ).isTrue();
 	}
 
 	@Test
 	void should_not_filter_nondeleted_elements() {
-		DeletedFilter cut = new DeletedFilter();
-		Element element = mock( Element.class );
+		final DeletedFilter cut = new DeletedFilter();
+		final Element element = mock( Element.class );
 		assertThat( cut.matches( element ) ).isFalse();
 		assertThat( cut.matches( element, ChangeType.INSERTED ) ).isFalse();
 		assertThat( cut.matches( element, ChangeType.CHANGED ) ).isFalse();
@@ -33,26 +33,26 @@ class DeletedFilterTest {
 
 	@Test
 	void should_load_filter_correctly() {
-		DeletedFilterLoader loader = new DeletedFilterLoader();
+		final DeletedFilterLoader loader = new DeletedFilterLoader();
 		assertThat( loader.load( "change=deleted" ).get() ).isInstanceOf( DeletedFilter.class );
 
-		String line = "matcher: id=myId, change=deleted";
-		Filter filter = Loaders.filter().load( line ).get();
+		final String line = "matcher: id=myId, change=deleted";
+		final Filter filter = Loaders.filter().load( line ).get();
 		assertThat( filter ).isInstanceOf( AllMatchFilter.class );
 		assertThat( ((AllMatchFilter) filter).getFilters() ).hasToString( "[" + line + "]" );
 	}
 
 	@Test
 	void should_work_with_other_filters() {
-		Filter filter = Loaders.filter().load( "matcher: retestid=myId, change=deleted" ).get();
+		final Filter filter = Loaders.filter().load( "matcher: retestid=myId, change=deleted" ).get();
 		assertThat( filter ).isInstanceOf( AllMatchFilter.class );
 
-		Element matching = mock( Element.class );
+		final Element matching = mock( Element.class );
 		when( matching.getRetestId() ).thenReturn( "myId" );
 
 		assertThat( filter.matches( matching, ChangeType.DELETED ) ).isTrue();
 
-		Element nonMatching = mock( Element.class );
+		final Element nonMatching = mock( Element.class );
 		when( nonMatching.getRetestId() ).thenReturn( "otherId" );
 
 		assertThat( filter.matches( nonMatching, ChangeType.DELETED ) ).isFalse();

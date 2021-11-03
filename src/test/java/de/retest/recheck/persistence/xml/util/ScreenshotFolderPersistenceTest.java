@@ -82,7 +82,7 @@ class ScreenshotFolderPersistenceTest {
 
 	@Test
 	void screenshot_filename_should_not_contain_path() {
-		Screenshot screenshot = new Screenshot( "../../testimage", filledImageBytes, ImageType.PNG );
+		final Screenshot screenshot = new Screenshot( "../../testimage", filledImageBytes, ImageType.PNG );
 		assertThat( ScreenshotFolderPersistence.createFileName( screenshot ) ).isEqualTo( "testimage.png" );
 	}
 

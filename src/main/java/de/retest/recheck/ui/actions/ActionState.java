@@ -31,7 +31,7 @@ public class ActionState implements Serializable {
 		// for JAXB
 		action = null;
 		state = null;
-		duration = 0l;
+		duration = 0L;
 	}
 
 	public ActionState( final Action action, final SutState resultingState, final long duration ) {
