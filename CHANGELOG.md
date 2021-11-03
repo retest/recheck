@@ -31,6 +31,8 @@ Table of Contents
 
 ### New Features
 
+* Support multiple values, like in `grid-template-columns` in PixelDiffFilter.
+
 ### Improvements
 
 --------------------------------------------------------------------------------
