@@ -22,9 +22,12 @@ import de.retest.recheck.configuration.ProjectConfiguration;
 @ClearSystemProperty( key = ProjectConfiguration.RETEST_PROJECT_ROOT )
 class ProjectLayoutsIT {
 
+	Path root;
+
 	@BeforeEach
 	void setUp( @TempDir final Path root ) {
 		System.setProperty( ProjectConfiguration.RETEST_PROJECT_ROOT, root.toString() );
+		this.root = root;
 	}
 
 	@Test
@@ -36,7 +39,7 @@ class ProjectLayoutsIT {
 
 	@ParameterizedTest
 	@ValueSource( strings = { POM_XML, BUILD_GRADLE } )
-	void detect_should_throw_if_project_does_not_exist( final String file, @TempDir final Path root ) throws IOException {
+	void detect_should_throw_if_project_does_not_exist( final String file ) throws IOException {
 		createFile( root, file );
 
 		assertThatThrownBy( ProjectLayouts::detect ) //
@@ -45,7 +48,7 @@ class ProjectLayoutsIT {
 	}
 
 	@Test
-	void detect_should_throw_if_project_present_without_indicator_file( @TempDir final Path root ) throws IOException {
+	void detect_should_throw_if_project_present_without_indicator_file() throws IOException {
 		createFolder( root );
 
 		assertThatThrownBy( ProjectLayouts::detect ) //
@@ -54,7 +57,7 @@ class ProjectLayoutsIT {
 	}
 
 	@Test
-	void detect_should_be_maven_if_pom_present( @TempDir final Path root ) throws IOException {
+	void detect_should_be_maven_if_pom_present() throws IOException {
 		createFolder( root );
 		createFile( root, POM_XML );
 
@@ -62,7 +65,7 @@ class ProjectLayoutsIT {
 	}
 
 	@Test
-	void detect_should_be_gradle_if_build_present( @TempDir final Path root ) throws IOException {
+	void detect_should_be_gradle_if_build_present() throws IOException {
 		createFolder( root );
 		createFile( root, BUILD_GRADLE );
 
@@ -70,7 +73,7 @@ class ProjectLayoutsIT {
 	}
 
 	@Test
-	void detect_should_prefer_maven_over_gradle( @TempDir final Path root ) throws IOException {
+	void detect_should_prefer_maven_over_gradle() throws IOException {
 		createFolder( root );
 		createFile( root, POM_XML );
 		createFile( root, BUILD_GRADLE );
