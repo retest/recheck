@@ -2,7 +2,7 @@ package de.retest.recheck.persistence.xml.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -57,8 +57,8 @@ class ScreenshotFolderPersistenceTest {
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( obj1, obj2 );
 		screenshotPersistence.getUnmarshallListener().afterUnmarshal( obj2, obj1 );
 
-		verifyZeroInteractions( obj1 );
-		verifyZeroInteractions( obj2 );
+		verifyNoInteractions( obj1 );
+		verifyNoInteractions( obj2 );
 	}
 
 	@Test
