@@ -7,11 +7,6 @@ import java.io.Serializable;
 
 import org.junit.Test;
 
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.ParameterType;
-import de.retest.recheck.ui.descriptors.ParameterizedAttribute;
-import de.retest.recheck.ui.descriptors.ParseStringAttributeDifference;
-
 public class ParseStringAttributeDifferenceTest {
 
 	@Test

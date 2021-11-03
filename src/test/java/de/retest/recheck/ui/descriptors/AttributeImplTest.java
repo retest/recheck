@@ -14,17 +14,6 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.CodeLocAttribute;
-import de.retest.recheck.ui.descriptors.ContextAttribute;
-import de.retest.recheck.ui.descriptors.DefaultAttribute;
-import de.retest.recheck.ui.descriptors.OutlineAttribute;
-import de.retest.recheck.ui.descriptors.ParameterizedAttribute;
-import de.retest.recheck.ui.descriptors.PathAttribute;
-import de.retest.recheck.ui.descriptors.StringAttribute;
-import de.retest.recheck.ui.descriptors.SuffixAttribute;
-import de.retest.recheck.ui.descriptors.TextAttribute;
-import de.retest.recheck.ui.descriptors.WeightedTextAttribute;
 
 @RunWith( Theories.class )
 public class AttributeImplTest {

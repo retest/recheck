@@ -1,12 +1,11 @@
 package de.retest.recheck.persistence.xml.util;
 
+import de.retest.recheck.persistence.Persistable;
+import de.retest.recheck.ui.image.Screenshot;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
-import de.retest.recheck.persistence.Persistable;
-import de.retest.recheck.ui.image.Screenshot;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )

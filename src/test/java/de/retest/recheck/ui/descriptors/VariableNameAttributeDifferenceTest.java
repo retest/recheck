@@ -4,11 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.DefaultAttribute;
-import de.retest.recheck.ui.descriptors.ParameterizedAttribute;
-import de.retest.recheck.ui.descriptors.VariableNameAttributeDifference;
-
 public class VariableNameAttributeDifferenceTest {
 
 	@Test

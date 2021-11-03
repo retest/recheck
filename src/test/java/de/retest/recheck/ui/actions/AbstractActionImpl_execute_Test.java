@@ -18,10 +18,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.retest.recheck.ui.Environment;
-import de.retest.recheck.ui.actions.AbstractAction;
-import de.retest.recheck.ui.actions.Action;
-import de.retest.recheck.ui.actions.ActionExecutionResult;
-import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.components.Component;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;

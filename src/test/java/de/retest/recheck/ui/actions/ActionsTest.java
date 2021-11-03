@@ -20,11 +20,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.actions.Action;
-import de.retest.recheck.ui.actions.ActionParameter;
-import de.retest.recheck.ui.actions.Actions;
-import de.retest.recheck.ui.actions.ParameterizedAction;
-import de.retest.recheck.ui.actions.ValueProvider;
 import de.retest.recheck.ui.descriptors.AttributeUtil;
 import de.retest.recheck.ui.descriptors.Attributes;
 import de.retest.recheck.ui.descriptors.Element;

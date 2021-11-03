@@ -8,9 +8,6 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.retest.recheck.ui.review.SuiteChangeSet;
-import de.retest.recheck.ui.review.TestChangeSet;
-
 public class SuiteChangeSetTest {
 
 	SuiteChangeSet suiteChangeSet;

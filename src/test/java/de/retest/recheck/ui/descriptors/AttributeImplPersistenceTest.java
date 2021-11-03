@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.awt.Rectangle;
 import java.io.ByteArrayInputStream;
 
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
@@ -18,15 +15,8 @@ import de.retest.recheck.persistence.xml.ReTestXmlDataContainer;
 import de.retest.recheck.persistence.xml.XmlTransformer;
 import de.retest.recheck.persistence.xml.util.StdXmlClassesProvider;
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.CodeLocAttribute;
-import de.retest.recheck.ui.descriptors.ContextAttribute;
-import de.retest.recheck.ui.descriptors.OutlineAttribute;
-import de.retest.recheck.ui.descriptors.PathAttribute;
-import de.retest.recheck.ui.descriptors.StringAttribute;
-import de.retest.recheck.ui.descriptors.SuffixAttribute;
-import de.retest.recheck.ui.descriptors.TextAttribute;
-import de.retest.recheck.ui.descriptors.WeightedTextAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @RunWith( Theories.class )
 public class AttributeImplPersistenceTest {

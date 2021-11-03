@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
-import de.retest.recheck.util.RetestIdUtil;
 import de.retest.recheck.util.RetestIdUtil.InvalidRetestIdException;
 
 class RetestIdUtilTest {
