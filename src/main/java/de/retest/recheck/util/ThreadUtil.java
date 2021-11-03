@@ -34,11 +34,11 @@ public class ThreadUtil {
 	}
 
 	public static String stackTraceToString( final StackTraceElement[] stackTrace ) {
-		String result = "";
+		final StringBuilder result = new StringBuilder();
 		for ( final StackTraceElement stackTraceElement : stackTrace ) {
-			result += "\n\tat " + stackTraceElement.toString();
+			result.append( "\n\tat " ).append( stackTraceElement.toString() );
 		}
-		return result;
+		return result.toString();
 	}
 
 	public static boolean stackTraceContainsClass( final String classInCurrentThread ) {

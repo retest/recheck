@@ -358,13 +358,13 @@ public class FileUtil {
 	public static String cleanForFilename( final String desc ) {
 		// filename = indicative name from throwable plus date/time
 		String result = desc;
-		result = result.replaceAll( " ", "_" );
-		result = result.replaceAll( "\n", "-" );
-		result = result.replaceAll( "\t", "-" );
+		result = result.replace( ' ', '_' );
+		result = result.replace( '\n', '-' );
+		result = result.replace( '\t', '-' );
 		result = result.replaceAll( System.getProperty( "line.separator" ), "-" );
-		result = result.replaceAll( ":", "-" );
-		result = result.replaceAll( "/", "-" );
-		result = result.replaceAll( "\\\\", "-" );
+		result = result.replace( ':', '-' );
+		result = result.replace( '/', '-' );
+		result = result.replace( '\\', '-' );
 		return result;
 	}
 

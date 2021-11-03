@@ -83,14 +83,14 @@ public class ExceptionWrapper implements Serializable {
 
 	@Override
 	public String toString() {
-		String result = type;
+		final StringBuilder result = new StringBuilder().append( type );
 		if ( errorMsg != null && !errorMsg.trim().isEmpty() ) {
-			result += ": " + errorMsg;
+			result.append( ": " ).append( errorMsg );
 		}
 		if ( errorLocation != null && !errorLocation.trim().isEmpty() ) {
-			result += " at " + errorLocation;
+			result.append( " at " ).append( errorLocation );
 		}
-		return result;
+		return result.toString();
 	}
 
 }
