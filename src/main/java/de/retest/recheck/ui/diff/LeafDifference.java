@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public interface LeafDifference extends Difference {
 
-	public Serializable getActual();
+	Serializable getActual();
 
-	public Serializable getExpected();
+	Serializable getExpected();
 
 }

@@ -199,7 +199,7 @@ public class FileUtil {
 		}
 	}
 
-	public static interface Writer {
+	public interface Writer {
 		void write( FileOutputStream out ) throws IOException;
 	}
 
@@ -243,7 +243,7 @@ public class FileUtil {
 		}
 	}
 
-	public static interface Reader<T> {
+	public interface Reader<T> {
 		T read( NamedBufferedInputStream in ) throws IOException;
 	}
 
@@ -266,7 +266,7 @@ public class FileUtil {
 		}
 	}
 
-	public static interface ZipReader<T> {
+	public interface ZipReader<T> {
 		T read( ZipFile in ) throws IOException;
 	}
 
