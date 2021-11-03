@@ -3,6 +3,7 @@ package de.retest.recheck.ui;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Path should be persisted as String, use {@link PathAdapter}.
@@ -53,11 +54,7 @@ public class Path implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (element == null ? 0 : element.hashCode());
-		result = prime * result + (parentPath == null ? 0 : parentPath.hashCode());
-		return result;
+		return Objects.hash( element, parentPath );
 	}
 
 	@Override
@@ -72,18 +69,10 @@ public class Path implements Serializable {
 			return false;
 		}
 		final Path other = (Path) obj;
-		if ( element == null ) {
-			if ( other.element != null ) {
-				return false;
-			}
-		} else if ( !element.equals( other.element ) ) {
+		if ( !Objects.equals( element, other.element ) ) {
 			return false;
 		}
-		if ( parentPath == null ) {
-			if ( other.parentPath != null ) {
-				return false;
-			}
-		} else if ( !parentPath.equals( other.parentPath ) ) {
+		if ( !Objects.equals( parentPath, other.parentPath ) ) {
 			return false;
 		}
 		return true;

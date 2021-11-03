@@ -1,6 +1,7 @@
 package de.retest.recheck.ui;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PathElement implements Serializable {
 
@@ -40,11 +41,7 @@ public class PathElement implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (elementName == null ? 0 : elementName.hashCode());
-		result = prime * result + suffix;
-		return result;
+		return Objects.hash( elementName, suffix );
 	}
 
 	@Override

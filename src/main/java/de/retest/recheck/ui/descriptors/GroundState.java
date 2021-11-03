@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import de.retest.recheck.persistence.DateAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -96,12 +97,7 @@ public class GroundState implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (executionDate == null ? 0 : executionDate.hashCode());
-		result = prime * result + (int) (randomSeed ^ randomSeed >>> 32);
-		result = prime * result + (sutVersion == null ? 0 : sutVersion.hashCode());
-		return result;
+		return Objects.hash( executionDate, randomSeed, sutVersion );
 	}
 
 	@Override
@@ -116,21 +112,13 @@ public class GroundState implements Serializable {
 			return false;
 		}
 		final GroundState other = (GroundState) obj;
-		if ( executionDate == null ) {
-			if ( other.executionDate != null ) {
-				return false;
-			}
-		} else if ( !executionDate.equals( other.executionDate ) ) {
+		if ( !Objects.equals( executionDate, other.executionDate ) ) {
 			return false;
 		}
 		if ( randomSeed != other.randomSeed ) {
 			return false;
 		}
-		if ( sutVersion == null ) {
-			if ( other.sutVersion != null ) {
-				return false;
-			}
-		} else if ( !sutVersion.equals( other.sutVersion ) ) {
+		if ( !Objects.equals( sutVersion, other.sutVersion ) ) {
 			return false;
 		}
 		return true;

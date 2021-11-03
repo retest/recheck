@@ -1,6 +1,7 @@
 package de.retest.recheck.ui.actions;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import de.retest.recheck.ui.descriptors.SutState;
 import de.retest.recheck.ui.review.ActionChangeSet;
@@ -57,12 +58,7 @@ public class ActionState implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (action == null ? 0 : action.hashCode());
-		result = prime * result + (int) (duration ^ duration >>> 32);
-		result = prime * result + (state == null ? 0 : state.hashCode());
-		return result;
+		return Objects.hash( action, duration, state );
 	}
 
 	@Override
@@ -77,21 +73,13 @@ public class ActionState implements Serializable {
 			return false;
 		}
 		final ActionState other = (ActionState) obj;
-		if ( action == null ) {
-			if ( other.action != null ) {
-				return false;
-			}
-		} else if ( !action.equals( other.action ) ) {
+		if ( !Objects.equals( action, other.action ) ) {
 			return false;
 		}
 		if ( duration != other.duration ) {
 			return false;
 		}
-		if ( state == null ) {
-			if ( other.state != null ) {
-				return false;
-			}
-		} else if ( !state.equals( other.state ) ) {
+		if ( !Objects.equals( state, other.state ) ) {
 			return false;
 		}
 		return true;
