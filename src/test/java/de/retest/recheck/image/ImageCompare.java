@@ -46,13 +46,9 @@ public class ImageCompare {
 	private boolean closeEnough( final int rgbActual, final int rgbExpected ) {
 		final Color actual = new Color( rgbActual );
 		final Color expected = new Color( rgbExpected );
-		if ( Math.abs( actual.getBlue() - expected.getBlue() ) > 1 ) {
-			return false;
-		}
-		if ( Math.abs( actual.getGreen() - expected.getGreen() ) > 1 ) {
-			return false;
-		}
-		if ( Math.abs( actual.getRed() - expected.getRed() ) > 1 ) {
+		if ( Math.abs( actual.getBlue() - expected.getBlue() ) > 1
+				|| Math.abs( actual.getGreen() - expected.getGreen() ) > 1
+				|| Math.abs( actual.getRed() - expected.getRed() ) > 1 ) {
 			return false;
 		}
 		return true;

@@ -105,20 +105,13 @@ public class GroundState implements Serializable {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null ) {
-			return false;
-		}
-		if ( getClass() != obj.getClass() ) {
+		if ( obj == null || getClass() != obj.getClass() ) {
 			return false;
 		}
 		final GroundState other = (GroundState) obj;
-		if ( !Objects.equals( executionDate, other.executionDate ) ) {
-			return false;
-		}
-		if ( randomSeed != other.randomSeed ) {
-			return false;
-		}
-		if ( !Objects.equals( sutVersion, other.sutVersion ) ) {
+		if ( !Objects.equals( executionDate, other.executionDate ) //
+				|| randomSeed != other.randomSeed //
+				|| !Objects.equals( sutVersion, other.sutVersion ) ) {
 			return false;
 		}
 		return true;

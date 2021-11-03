@@ -376,10 +376,8 @@ public class FileUtil {
 
 	public static File readableWriteableCanonicalDirectoryOrNull( final File directory ) {
 		final File canonicalDir = canonicalFileQuietly( directory );
-		if ( canonicalDir.exists() && canAll( canonicalDir ) ) {
-			return canonicalDir;
-		}
-		if ( !canonicalDir.exists() && canAll( canonicalDir.getParentFile() ) ) {
+		if ( canonicalDir.exists() && canAll( canonicalDir )
+				|| !canonicalDir.exists() && canAll( canonicalDir.getParentFile() ) ) {
 			return canonicalDir;
 		}
 		return null;

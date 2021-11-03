@@ -93,10 +93,7 @@ public class StringAttribute extends ParameterizedAttribute {
 
 	@Override
 	public double match( final Attribute other ) {
-		if ( !(other instanceof StringAttribute) ) {
-			return NO_MATCH;
-		}
-		if ( !other.getKey().equals( getKey() ) ) {
+		if ( !(other instanceof StringAttribute) || !other.getKey().equals( getKey() ) ) {
 			return NO_MATCH;
 		}
 		return StringSimilarity.simpleSimilarity( getValue(), ((StringAttribute) other).getValue() );

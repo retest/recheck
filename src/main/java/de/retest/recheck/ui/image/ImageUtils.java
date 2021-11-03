@@ -352,11 +352,7 @@ public class ImageUtils {
 	}
 
 	public static int extractScale() {
-		if ( GraphicsEnvironment.isHeadless() ) {
-			return DEFAULT_SCALE;
-		}
-
-		if ( !SystemUtils.IS_OS_MAC ) {
+		if ( GraphicsEnvironment.isHeadless() || !SystemUtils.IS_OS_MAC ) {
 			return DEFAULT_SCALE;
 		}
 

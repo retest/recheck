@@ -62,17 +62,11 @@ public class Path implements Serializable {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null ) {
-			return false;
-		}
-		if ( getClass() != obj.getClass() ) {
+		if ( obj == null || getClass() != obj.getClass() ) {
 			return false;
 		}
 		final Path other = (Path) obj;
-		if ( !Objects.equals( element, other.element ) ) {
-			return false;
-		}
-		if ( !Objects.equals( parentPath, other.parentPath ) ) {
+		if ( !Objects.equals( element, other.element ) || !Objects.equals( parentPath, other.parentPath ) ) {
 			return false;
 		}
 		return true;

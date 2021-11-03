@@ -276,17 +276,11 @@ public class Element implements Serializable, Comparable<Element> {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null || getClass() != obj.getClass() ) {
-			return false;
-		}
-		if ( hashCode() != obj.hashCode() ) {
+		if ( obj == null || getClass() != obj.getClass() || hashCode() != obj.hashCode() ) {
 			return false;
 		}
 		final Element other = (Element) obj;
-		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
-			return false;
-		}
-		if ( !attributes.equals( other.attributes ) ) {
+		if ( !identifyingAttributes.equals( other.identifyingAttributes ) || !attributes.equals( other.attributes ) ) {
 			return false;
 		}
 		return containedElements.equals( other.containedElements );

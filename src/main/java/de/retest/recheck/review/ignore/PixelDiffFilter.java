@@ -50,11 +50,7 @@ public class PixelDiffFilter implements Filter {
 		final Serializable actual = attributeDifference.getActual();
 		final String key = attributeDifference.getKey();
 
-		if ( ignoredKeys.contains( key ) ) {
-			return false;
-		}
-
-		if ( expected == null || actual == null ) {
+		if ( ignoredKeys.contains( key ) || expected == null || actual == null ) {
 			return false;
 		}
 

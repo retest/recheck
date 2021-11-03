@@ -41,10 +41,8 @@ public class IdentifyingAttributesDifferenceFinder {
 				if ( pathDiffers( expected, actual ) ) {
 					attributeDifferences.add( new AttributeDifference( key, expected.getPath(), actual.getPath() ) );
 				}
-			} else {
-				if ( differs( expectedValue, actualValue ) ) {
-					attributeDifferences.add( new AttributeDifference( key, expectedValue, actualValue ) );
-				}
+			} else if ( differs( expectedValue, actualValue ) ) {
+				attributeDifferences.add( new AttributeDifference( key, expectedValue, actualValue ) );
 			}
 		}
 

@@ -66,20 +66,12 @@ public class ActionState implements Serializable {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null ) {
-			return false;
-		}
-		if ( getClass() != obj.getClass() ) {
+		if ( obj == null || getClass() != obj.getClass() ) {
 			return false;
 		}
 		final ActionState other = (ActionState) obj;
-		if ( !Objects.equals( action, other.action ) ) {
-			return false;
-		}
-		if ( duration != other.duration ) {
-			return false;
-		}
-		if ( !Objects.equals( state, other.state ) ) {
+		if ( !Objects.equals( action, other.action ) || duration != other.duration
+				|| !Objects.equals( state, other.state ) ) {
 			return false;
 		}
 		return true;

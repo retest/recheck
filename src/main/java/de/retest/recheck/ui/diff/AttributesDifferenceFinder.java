@@ -56,15 +56,13 @@ public class AttributesDifferenceFinder {
 
 	private AttributeDifference differenceFor( final IdentifyingAttributes identAttributes, final Serializable expected,
 			final Serializable actual, final String key ) {
-		if ( GloballyIgnoredAttributes.getInstance().shouldIgnoreAttribute( key ) ) {
+
+		if ( GloballyIgnoredAttributes.getInstance().shouldIgnoreAttribute( key ) //
+				|| Objects.equals( expected, actual ) //
+				|| !deleted( expected, actual ) && defaultValueFinder.isDefaultValue( identAttributes, key, actual ) ) {
 			return null;
 		}
-		if ( Objects.equals( expected, actual ) ) {
-			return null;
-		}
-		if ( !deleted( expected, actual ) && defaultValueFinder.isDefaultValue( identAttributes, key, actual ) ) {
-			return null;
-		}
+
 		if ( Attributes.SCREENSHOT.equals( key ) ) {
 			final Screenshot expectedScreenshot = (Screenshot) expected;
 			final Screenshot actualScreenshot = (Screenshot) actual;

@@ -30,10 +30,8 @@ public class StackTraceParser {
 			int lineNum = -1;
 			if ( lineNumString != null ) {
 				lineNum = Integer.parseInt( lineNumString );
-			} else {
-				if ( "Native Method".equals( traceMatcher.group( 3 ) ) ) {
-					lineNum = -2;
-				}
+			} else if ( "Native Method".equals( traceMatcher.group( 3 ) ) ) {
+				lineNum = -2;
 			}
 			result.add( new StackTraceElement( className, methodName, sourceFile, lineNum ) );
 		}

@@ -38,11 +38,8 @@ public class RecheckSutState {
 	}
 
 	public static SutState loadExpected( final File file ) {
-		if ( !file.exists() ) {
-			return null;
-		}
 		// Folder could exist, but not the retest.xml...
-		if ( !new File( file, RecheckProperties.DEFAULT_XML_FILE_NAME ).exists() ) {
+		if ( !file.exists() || !new File( file, RecheckProperties.DEFAULT_XML_FILE_NAME ).exists() ) {
 			return null;
 		}
 		try {
