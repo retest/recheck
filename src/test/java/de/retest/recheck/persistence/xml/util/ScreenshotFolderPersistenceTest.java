@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -18,7 +17,6 @@ import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
 import de.retest.recheck.util.FileUtil;
-import de.retest.recheck.util.FileUtil.Writer;
 
 class ScreenshotFolderPersistenceTest {
 
@@ -127,12 +125,7 @@ class ScreenshotFolderPersistenceTest {
 	}
 
 	void createImageFileForEmptyScreenshot() throws IOException {
-		FileUtil.writeToFile( emptyImageFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( filledImageBytes );
-			}
-		} );
+		FileUtil.writeToFile( emptyImageFile, out -> out.write( filledImageBytes ) );
 	}
 
 }

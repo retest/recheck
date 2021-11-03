@@ -9,7 +9,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,6 @@ import de.retest.recheck.ioerror.ReTestLoadException;
 import de.retest.recheck.ioerror.ReTestSaveException;
 import de.retest.recheck.util.ApprovalsUtil;
 import de.retest.recheck.util.FileUtil;
-import de.retest.recheck.util.FileUtil.ZipReader;
 
 class XmlZipPersistenceTest {
 
@@ -47,12 +45,9 @@ class XmlZipPersistenceTest {
 	}
 
 	String readReTestXml( final File file ) throws IOException {
-		return FileUtil.readFromZipFile( file, new ZipReader<String>() {
-			@Override
-			public String read( final ZipFile in ) throws IOException {
-				final ZipEntry entry = in.getEntry( "retest.xml" );
-				return IOUtils.toString( in.getInputStream( entry ), StandardCharsets.UTF_8 );
-			}
+		return FileUtil.readFromZipFile( file, in -> {
+			final ZipEntry entry = in.getEntry( "retest.xml" );
+			return IOUtils.toString( in.getInputStream( entry ), StandardCharsets.UTF_8 );
 		} );
 	}
 

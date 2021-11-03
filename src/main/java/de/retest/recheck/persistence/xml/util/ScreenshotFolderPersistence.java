@@ -5,7 +5,6 @@ import static de.retest.recheck.util.FileUtil.tryReadFromFile;
 import static de.retest.recheck.util.FileUtil.tryWriteToFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.apache.commons.io.IOUtils;
 
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.util.FileUtil.Reader;
-import de.retest.recheck.util.FileUtil.Writer;
 import de.retest.recheck.util.NamedBufferedInputStream;
 import de.retest.recheck.util.ReflectionUtilities;
 import jakarta.xml.bind.Marshaller;
@@ -60,12 +58,7 @@ public class ScreenshotFolderPersistence {
 	private void saveScreenshot( final Screenshot screenshot ) {
 		final File file = new File( screenshotFolder, createFileName( screenshot ) );
 
-		tryWriteToFile( file, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( screenshot.getBinaryData() );
-			}
-		} );
+		tryWriteToFile( file, out -> out.write( screenshot.getBinaryData() ) );
 	}
 
 	public Unmarshaller.Listener getUnmarshallListener() {
