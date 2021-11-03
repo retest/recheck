@@ -24,7 +24,7 @@ import de.retest.recheck.ui.image.Screenshot.ImageType;
 class SutStateFilterTest {
 
 	@Nested
-	class AttributeFilterTests {
+	static class AttributeFilterTests {
 		Element element;
 		Attributes attributes;
 
@@ -78,7 +78,7 @@ class SutStateFilterTest {
 	}
 
 	@Nested
-	class IdentifyingAttributesFilterTests {
+	static class IdentifyingAttributesFilterTests {
 		Element element;
 		IdentifyingAttributes identifyingAttributes;
 

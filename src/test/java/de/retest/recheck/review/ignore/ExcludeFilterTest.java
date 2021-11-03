@@ -60,7 +60,7 @@ class ExcludeFilterTest {
 	}
 
 	@Nested
-	class FilterLoaderTest {
+	static class FilterLoaderTest {
 
 		Loader<Filter> delegate;
 		Loader<ExcludeFilter> cut;

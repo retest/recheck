@@ -165,7 +165,7 @@ class SearchFilterFilesTest {
 	}
 
 	@Nested
-	class FilterResourceTest {
+	static class FilterResourceTest {
 
 		@Test
 		void absolute_should_start_with_separator() {

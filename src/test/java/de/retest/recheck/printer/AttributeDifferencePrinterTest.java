@@ -99,7 +99,7 @@ class AttributeDifferencePrinterTest {
 		assertThat( string ).contains( "breaks=\"FooIT.java:2, BarIT.java:3\"" );
 	}
 
-	class PrinterFinder implements DefaultValueFinder {
+	static class PrinterFinder implements DefaultValueFinder {
 
 		@Override
 		public boolean isDefaultValue( final IdentifyingAttributes attributes, final String key,

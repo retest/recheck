@@ -59,11 +59,11 @@ class MatchTest {
 				toAttributes( "color", "green" ) );
 	}
 
-	private class comp1 extends Element {
+	private static class comp1 extends Element {
 		private static final long serialVersionUID = 1L;
 	};
 
-	private class comp2 extends Element {
+	private static class comp2 extends Element {
 		private static final long serialVersionUID = 1L;
 	};
 }

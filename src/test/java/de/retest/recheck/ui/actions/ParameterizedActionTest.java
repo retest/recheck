@@ -78,8 +78,8 @@ public class ParameterizedActionTest {
 		return new ActionParameter( "text", value, parameterTypeString );
 	}
 
-	class SomeType {}
+	static class SomeType {}
 
-	class SomeAction {}
+	static class SomeAction {}
 
 }
