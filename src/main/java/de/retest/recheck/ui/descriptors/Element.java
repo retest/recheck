@@ -279,7 +279,7 @@ public class Element implements Serializable, Comparable<Element> {
 		if ( obj == null || getClass() != obj.getClass() ) {
 			return false;
 		}
-		if ( this.hashCode() != obj.hashCode() ) {
+		if ( hashCode() != obj.hashCode() ) {
 			return false;
 		}
 		final Element other = (Element) obj;

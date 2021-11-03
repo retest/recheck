@@ -26,7 +26,6 @@ public class ScreenshotAttributeDifference extends AttributeDifference {
 
 	@SuppressWarnings( "unused" )
 	private ScreenshotAttributeDifference() {
-		super();
 		strategyName = null;
 		match = 0.0;
 	}

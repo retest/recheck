@@ -37,7 +37,6 @@ public class RootElementDifference implements Difference {
 	@SuppressWarnings( "unused" )
 	private RootElementDifference() {
 		// for JAXB
-		super();
 		differenceId = null;
 		title = null;
 		elementDifference = null;

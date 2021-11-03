@@ -86,7 +86,7 @@ public final class ReflectionUtilities {
 			if ( targetClass == null ) {
 				return null;
 			}
-			return getNonArgConstructor( targetClass ).newInstance( new Object[0] );
+			return getNonArgConstructor( targetClass ).newInstance();
 
 		} catch ( final InstantiationException exc ) {
 			throw new IllegalArgumentException( "Can't create instance of an abstract class!", exc );
@@ -202,6 +202,6 @@ public final class ReflectionUtilities {
 		if ( classname == null || !classname.contains( "." ) ) {
 			return classname;
 		}
-		return classname.substring( classname.lastIndexOf( "." ) + 1, classname.length() );
+		return classname.substring( classname.lastIndexOf( "." ) + 1 );
 	}
 }

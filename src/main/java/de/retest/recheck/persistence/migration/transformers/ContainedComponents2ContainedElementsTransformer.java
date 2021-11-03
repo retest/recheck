@@ -21,8 +21,7 @@ public class ContainedComponents2ContainedElementsTransformer extends XmlTransfo
 	@Override
 	public void convert( final XMLEvent event, final XMLEventWriter eventWriter ) throws XMLStreamException {
 		if ( isStartElementNamed( event, "containedComponents" ) ) {
-			final List<Attribute> attributes = new ArrayList<>();
-			attributes.addAll( toList( event.asStartElement().getAttributes() ) );
+			final List<Attribute> attributes = new ArrayList<>( toList( event.asStartElement().getAttributes() ) );
 			eventWriter.add( startElementNamed( "containedElements", attributes.iterator() ) );
 			return;
 		}
