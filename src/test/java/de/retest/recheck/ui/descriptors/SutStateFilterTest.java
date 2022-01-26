@@ -23,7 +23,6 @@ import de.retest.recheck.ui.image.Screenshot.ImageType;
 
 class SutStateFilterTest {
 
-	@Nested
 	static class AttributeFilterTests {
 		Element element;
 		Attributes attributes;
@@ -77,7 +76,6 @@ class SutStateFilterTest {
 
 	}
 
-	@Nested
 	static class IdentifyingAttributesFilterTests {
 		Element element;
 		IdentifyingAttributes identifyingAttributes;
