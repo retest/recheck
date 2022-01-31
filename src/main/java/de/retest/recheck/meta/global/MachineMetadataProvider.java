@@ -6,9 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.SystemUtils;
 
 import de.retest.recheck.meta.MetadataProvider;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public final class MachineMetadataProvider implements MetadataProvider {
 
 	public static final String MACHINE_NAME = "machine.name";

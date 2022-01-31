@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.persistence.FileNamer;
 
+@SuppressWarnings( "deprecation" )
 class FileNamerStrategyTest {
 
 	static class FileNamerStrategyImpl implements FileNamerStrategy {
