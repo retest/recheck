@@ -107,6 +107,6 @@ public interface Filter {
 	 */
 	// TODO Remove for a 2.0 release
 	@Deprecated
-	public static final Filter FILTER_NOTHING = NEVER_MATCH;
+	Filter FILTER_NOTHING = NEVER_MATCH;
 
 }

@@ -85,7 +85,7 @@ public class RootElement extends Element {
 
 	@Override
 	public String toString() {
-		if (title != null) {
+		if ( title != null ) {
 			return title;
 		}
 		return super.toString();

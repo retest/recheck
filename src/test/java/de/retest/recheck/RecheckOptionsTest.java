@@ -163,7 +163,7 @@ class RecheckOptionsTest {
 	@ParameterizedTest
 	@ValueSource( strings = { "true", "false" } )
 	@ClearSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
-	void build_with_rehub_enabled_should_overwrite_property_regardless_of_its_value( String global ) {
+	void build_with_rehub_enabled_should_overwrite_property_regardless_of_its_value( final String global ) {
 		System.setProperty( RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, global );
 		final RecheckOptions cut = RecheckOptions.builder() //
 				.enableReportUpload() //
@@ -174,7 +174,7 @@ class RecheckOptionsTest {
 	@ParameterizedTest
 	@ValueSource( strings = { "true", "false" } )
 	@ClearSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
-	void build_with_rehub_disabled_should_overwrite_property_regardless_of_its_value( String global ) {
+	void build_with_rehub_disabled_should_overwrite_property_regardless_of_its_value( final String global ) {
 		System.setProperty( RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, global );
 		final RecheckOptions cut = RecheckOptions.builder() //
 				.disableReportUpload() //

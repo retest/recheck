@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junitpioneer.jupiter.ClearSystemProperty;
@@ -164,8 +163,7 @@ class SearchFilterFilesTest {
 		assertThat( list.toString() ).startsWith( "[# Filter file for recheck that will filter content" );
 	}
 
-	@Nested
-	class FilterResourceTest {
+	static class FilterResourceTest {
 
 		@Test
 		void absolute_should_start_with_separator() {

@@ -6,10 +6,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attributes;
-import de.retest.recheck.ui.descriptors.Element;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.RenderContainedElementsAdapter;
 
 public class RenderContainedElementsAdapterTest {
 

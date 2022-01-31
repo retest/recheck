@@ -103,7 +103,7 @@ class AllMatchFilterTest {
 
 	@Test
 	void no_filters_given_should_throw_exception() {
-		assertThatThrownBy( () -> new AllMatchFilter() ).isInstanceOf( IllegalArgumentException.class );
+		assertThatThrownBy( AllMatchFilter::new ).isInstanceOf( IllegalArgumentException.class );
 	}
 
 }

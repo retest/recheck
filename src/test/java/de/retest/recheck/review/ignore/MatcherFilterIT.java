@@ -73,8 +73,9 @@ class MatcherFilterIT {
 
 	@ParameterizedTest
 	@ValueSource( strings = { "attribute", "attribute-regex" } )
-	void exclude_matcher_with_attribute_should_only_match_changed_for_that_element_and_attribute_value( String key ) {
-		String line = String.format( "matcher: type=body, exclude(matcher: id=form, %s=text)", key );
+	void exclude_matcher_with_attribute_should_only_match_changed_for_that_element_and_attribute_value(
+			final String key ) {
+		final String line = String.format( "matcher: type=body, exclude(matcher: id=form, %s=text)", key );
 		final AttributeDifference text = new AttributeDifference( "text", "foo", "bar" );
 		final AttributeDifference content = new AttributeDifference( "content", "foo", "bar" );
 
@@ -96,17 +97,17 @@ class MatcherFilterIT {
 	@ParameterizedTest
 	@ValueSource( strings = { "attribute", "attribute-regex" } )
 	void exclude_matcher_with_attribute_and_pixel_diff_should_only_match_element_attribute_pixel_differences(
-			String key ) {
-		String line = String
+			final String key ) {
+		final String line = String
 				.format( "matcher: type=body, exclude(matcher: id=div, %s=border-bottom-width, pixel-diff=5px)", key );
 
-		AttributeDifference equalBelow = new AttributeDifference( "border-bottom-width", "1px", "2px" );
-		AttributeDifference equalEqual = new AttributeDifference( "border-bottom-width", "1px", "5px" );
-		AttributeDifference equalAbove = new AttributeDifference( "border-bottom-width", "1px", "7px" );
+		final AttributeDifference equalBelow = new AttributeDifference( "border-bottom-width", "1px", "2px" );
+		final AttributeDifference equalEqual = new AttributeDifference( "border-bottom-width", "1px", "5px" );
+		final AttributeDifference equalAbove = new AttributeDifference( "border-bottom-width", "1px", "7px" );
 
-		AttributeDifference nonEqualBelow = new AttributeDifference( "border-top-width", "1px", "2px" );
-		AttributeDifference nonEqualEqual = new AttributeDifference( "border-top-width", "1px", "5px" );
-		AttributeDifference nonEqualAbove = new AttributeDifference( "border-top-width", "1px", "7px" );
+		final AttributeDifference nonEqualBelow = new AttributeDifference( "border-top-width", "1px", "2px" );
+		final AttributeDifference nonEqualEqual = new AttributeDifference( "border-top-width", "1px", "5px" );
+		final AttributeDifference nonEqualAbove = new AttributeDifference( "border-top-width", "1px", "7px" );
 
 		assertThat( loader.load( line ) ).hasValueSatisfying( filter -> {
 			assertThat( filter.matches( body ) ).isTrue();
@@ -134,8 +135,8 @@ class MatcherFilterIT {
 	@ParameterizedTest
 	@ValueSource( strings = { "attribute", "attribute-regex" } )
 	void exclude_matcher_with_attribute_and_value_should_only_match_changed_for_that_element_and_attribute_value(
-			String key ) {
-		String line = String
+			final String key ) {
+		final String line = String
 				.format( "matcher: type=body, exclude(matcher: id=div, %s=border-bottom-width, value-regex=5px)", key );
 
 		final AttributeDifference equalBelow = new AttributeDifference( "border-bottom-width", "1px", "2px" );
@@ -171,7 +172,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_matcher_with_pixel_diff_should_only_match_pixel_differences() {
-		String line = "matcher: type=body, exclude(matcher: id=div, pixel-diff=5px)";
+		final String line = "matcher: type=body, exclude(matcher: id=div, pixel-diff=5px)";
 
 		final AttributeDifference below = new AttributeDifference( "border-bottom-width", "1px", "2px" );
 		final AttributeDifference equal = new AttributeDifference( "border-bottom-width", "1px", "5px" );
@@ -192,7 +193,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_matcher_with_value_should_only_match_exact_value() {
-		String line = "matcher: type=body, exclude(matcher: id=div, value-regex=5px)";
+		final String line = "matcher: type=body, exclude(matcher: id=div, value-regex=5px)";
 
 		final AttributeDifference below = new AttributeDifference( "border-bottom-width", "1px", "2px" );
 		final AttributeDifference equal = new AttributeDifference( "border-bottom-width", "1px", "5px" );
@@ -213,7 +214,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_matcher_with_inserted_should_only_match_inserted_differences() {
-		String line = "matcher: xpath=html/body/div[2], exclude(matcher: type=nav, change=inserted)";
+		final String line = "matcher: xpath=html/body/div[2], exclude(matcher: type=nav, change=inserted)";
 
 		assertThat( loader.load( line ) ).hasValueSatisfying( filter -> {
 			assertThat( filter.matches( div2 ) ).isTrue();
@@ -228,7 +229,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_matcher_with_deleted_should_only_match_deleted_differences() {
-		String line = "matcher: xpath=html/body/div[2], exclude(matcher: type=nav, change=deleted)";
+		final String line = "matcher: xpath=html/body/div[2], exclude(matcher: type=nav, change=deleted)";
 
 		assertThat( loader.load( line ) ).hasValueSatisfying( filter -> {
 			assertThat( filter.matches( div2 ) ).isTrue();
@@ -243,8 +244,8 @@ class MatcherFilterIT {
 
 	@ParameterizedTest
 	@ValueSource( strings = { "attribute", "attribute-regex" } )
-	void exclude_attribute_should_just_match_changed( String key ) {
-		String line = String.format( "matcher: type=form, exclude(%s=text)", key );
+	void exclude_attribute_should_just_match_changed( final String key ) {
+		final String line = String.format( "matcher: type=form, exclude(%s=text)", key );
 		final AttributeDifference text = new AttributeDifference( "text", "foo", "bar" );
 		final AttributeDifference content = new AttributeDifference( "content", "foo", "bar" );
 
@@ -259,8 +260,8 @@ class MatcherFilterIT {
 
 	@ParameterizedTest
 	@ValueSource( strings = { "attribute", "attribute-regex" } )
-	void exclude_attribute_and_pixel_diff_should_match_changed( String key ) {
-		String line = String.format( "matcher: type=div, exclude(%s=border-bottom-width, pixel-diff=5px)", key );
+	void exclude_attribute_and_pixel_diff_should_match_changed( final String key ) {
+		final String line = String.format( "matcher: type=div, exclude(%s=border-bottom-width, pixel-diff=5px)", key );
 
 		final AttributeDifference equalBelow = new AttributeDifference( "border-bottom-width", "1px", "2px" );
 		final AttributeDifference equalEqual = new AttributeDifference( "border-bottom-width", "1px", "5px" );
@@ -287,8 +288,8 @@ class MatcherFilterIT {
 
 	@ParameterizedTest
 	@ValueSource( strings = { "attribute", "attribute-regex" } )
-	void exclude_attribute_and_value_should_match_changed( String key ) {
-		String line = String.format( "matcher: type=div, exclude(%s=border-bottom-width, value-regex=5px)", key );
+	void exclude_attribute_and_value_should_match_changed( final String key ) {
+		final String line = String.format( "matcher: type=div, exclude(%s=border-bottom-width, value-regex=5px)", key );
 
 		final AttributeDifference equalBelow = new AttributeDifference( "border-bottom-width", "1px", "2px" );
 		final AttributeDifference equalEqual = new AttributeDifference( "border-bottom-width", "1px", "5px" );
@@ -315,7 +316,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_pixel_diff_should_only_match_changed() {
-		String line = "matcher: id=div, exclude(pixel-diff=5px)";
+		final String line = "matcher: id=div, exclude(pixel-diff=5px)";
 
 		final AttributeDifference below = new AttributeDifference( "border-bottom-width", "1px", "2px" );
 		final AttributeDifference equal = new AttributeDifference( "border-bottom-width", "1px", "5px" );
@@ -331,7 +332,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_value_should_only_match_exact_value() {
-		String line = "matcher: id=div, exclude(value-regex=5px)";
+		final String line = "matcher: id=div, exclude(value-regex=5px)";
 
 		final AttributeDifference below = new AttributeDifference( "border-bottom-width", "1px", "2px" );
 		final AttributeDifference equal = new AttributeDifference( "border-bottom-width", "1px", "5px" );
@@ -347,7 +348,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_inserted_should_only_match_inserted_differences() {
-		String line = "matcher: type=nav, exclude(change=inserted)";
+		final String line = "matcher: type=nav, exclude(change=inserted)";
 
 		assertThat( loader.load( line ) ).hasValueSatisfying( filter -> {
 			assertThat( filter.matches( nav ) ).isTrue();
@@ -358,7 +359,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_deleted_should_only_match_deleted_differences() {
-		String line = "matcher: type=nav, exclude(change=deleted)";
+		final String line = "matcher: type=nav, exclude(change=deleted)";
 
 		assertThat( loader.load( line ) ).hasValueSatisfying( filter -> {
 			assertThat( filter.matches( nav ) ).isTrue();
@@ -369,7 +370,7 @@ class MatcherFilterIT {
 
 	@Test
 	void exclude_import_content_should_match_content() {
-		String line = "matcher: type=body, exclude(import: content.filter)";
+		final String line = "matcher: type=body, exclude(import: content.filter)";
 		final AttributeDifference text = new AttributeDifference( "text", "foo", "bar" );
 		final AttributeDifference width = new AttributeDifference( "width", "10px", "20px" );
 		final AttributeDifference placeholder = new AttributeDifference( "placeholder", "Email", "Username" );

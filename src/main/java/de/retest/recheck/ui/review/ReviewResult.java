@@ -2,6 +2,7 @@ package de.retest.recheck.ui.review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.ui.diff.AttributeDifference;
@@ -45,7 +46,7 @@ public class ReviewResult {
 		return getAllActionChangeSets().stream() //
 				.flatMap( actionChangeSet -> actionChangeSet.getAllAttributeChanges().stream() ) //
 				.flatMap( attributeChanges -> attributeChanges.getChanges().values().stream() ) //
-				.flatMap( attributeDifferences -> attributeDifferences.stream() ) //
+				.flatMap( Set::stream ) //
 				.collect( Collectors.toList() );
 	}
 

@@ -4,8 +4,6 @@ import static de.retest.recheck.ui.diff.ElementDifference.getCopyWithFlattenedCh
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-import de.retest.recheck.ui.diff.ElementDifference;
-
 public class ElementDifferenceAdapter extends XmlAdapter<ElementDifference, ElementDifference> {
 
 	private final boolean renderLightweightXml;

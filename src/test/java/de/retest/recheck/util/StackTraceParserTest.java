@@ -8,8 +8,6 @@ import java.io.StringWriter;
 
 import org.junit.Test;
 
-import de.retest.recheck.util.StackTraceParser;
-
 public class StackTraceParserTest {
 
 	private static final String AT = "\tat ";

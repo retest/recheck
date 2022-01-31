@@ -76,7 +76,7 @@ public enum XmlMigratorInstances {
 
 	public static XmlMigratorInstances get( final String dataTypeClass ) {
 		try {
-			return XmlMigratorInstances.valueOf( dataTypeClass.replaceAll( "\\.", "_" ) );
+			return XmlMigratorInstances.valueOf( dataTypeClass.replace( '.', '_' ) );
 		} catch ( final IllegalArgumentException exc ) {
 			return null;
 		}

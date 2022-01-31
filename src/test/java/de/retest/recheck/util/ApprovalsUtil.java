@@ -76,7 +76,7 @@ public class ApprovalsUtil {
 			return actual;
 		}
 		final String version = matcher.group( 2 );
-		if ( version.equals( UNSPECIFIED_DEVELOPMENT_VERSION ) ) {
+		if ( UNSPECIFIED_DEVELOPMENT_VERSION.equals( version ) ) {
 			return actual;
 		}
 		final String versionString = matcher.group( 1 );

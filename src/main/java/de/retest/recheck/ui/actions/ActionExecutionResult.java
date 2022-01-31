@@ -43,13 +43,13 @@ public class ActionExecutionResult implements Serializable {
 
 	@Override
 	public String toString() {
-		String result = "execution took " + duration + "ms";
+		final StringBuilder result = new StringBuilder( "execution took " ).append( duration ).append( "ms" );
 		if ( getError() != null ) {
-			result += " and resulted in " + error.toString();
+			result.append( " and resulted in " ).append( error.toString() );
 		}
 		if ( getTargetNotFound() != null ) {
-			result += " and did not find target " + targetNotFound.toString();
+			result.append( " and did not find target " ).append( targetNotFound.toString() );
 		}
-		return result;
+		return result.toString();
 	}
 }

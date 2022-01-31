@@ -14,23 +14,12 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.CodeLocAttribute;
-import de.retest.recheck.ui.descriptors.ContextAttribute;
-import de.retest.recheck.ui.descriptors.DefaultAttribute;
-import de.retest.recheck.ui.descriptors.OutlineAttribute;
-import de.retest.recheck.ui.descriptors.ParameterizedAttribute;
-import de.retest.recheck.ui.descriptors.PathAttribute;
-import de.retest.recheck.ui.descriptors.StringAttribute;
-import de.retest.recheck.ui.descriptors.SuffixAttribute;
-import de.retest.recheck.ui.descriptors.TextAttribute;
-import de.retest.recheck.ui.descriptors.WeightedTextAttribute;
 
 @RunWith( Theories.class )
 public class AttributeImplTest {
 
 	@DataPoints
-	public static final Attribute[] attributeImplementations = new Attribute[] { //
+	public static final Attribute[] attributeImplementations = { //
 			OutlineAttribute.create( new Rectangle( 10, 10, 40, 20 ) ), //
 			new StringAttribute( "name", "my name" ), //
 			new ContextAttribute( "some context" ), //
@@ -43,7 +32,7 @@ public class AttributeImplTest {
 	};
 
 	// for testing Attribute.applyChange( value )
-	public static Serializable[] changedValues = new Serializable[] { //
+	public static Serializable[] changedValues = { //
 			new Rectangle( 10, 10, 50, 50 ), //,
 			"new name", //
 			"other context", //

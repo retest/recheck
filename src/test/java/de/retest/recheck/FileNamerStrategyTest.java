@@ -8,7 +8,7 @@ import de.retest.recheck.persistence.FileNamer;
 
 class FileNamerStrategyTest {
 
-	class FileNamerStrategyImpl implements FileNamerStrategy {
+	static class FileNamerStrategyImpl implements FileNamerStrategy {
 		@Override
 		public FileNamer createFileNamer( final String... baseNames ) {
 			return null;

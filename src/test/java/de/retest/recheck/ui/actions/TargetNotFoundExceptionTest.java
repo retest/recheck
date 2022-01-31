@@ -6,8 +6,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import de.retest.recheck.ui.actions.Action;
-import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.descriptors.Element;
 
 public class TargetNotFoundExceptionTest {

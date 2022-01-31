@@ -85,15 +85,13 @@ public class ElementDifferenceFinder {
 
 		if ( expected == null ) {
 			identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( null, actual );
+		} else if ( actual == null ) {
+			identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( expected, null );
 		} else {
-			if ( actual == null ) {
-				identifyingAttributesDifference = InsertedDeletedElementDifference.differenceFor( expected, null );
-			} else {
-				identifyingAttributesDifference = identAttrDiffFinder
-						.differenceFor( expected.getIdentifyingAttributes(), actual.getIdentifyingAttributes() );
-				attributesDifference = attributesDifferenceFinder.differenceFor( expected, actual );
-				childDifferences.addAll( findChildDifferences( expected, actual ) );
-			}
+			identifyingAttributesDifference = identAttrDiffFinder.differenceFor( expected.getIdentifyingAttributes(),
+					actual.getIdentifyingAttributes() );
+			attributesDifference = attributesDifferenceFinder.differenceFor( expected, actual );
+			childDifferences.addAll( findChildDifferences( expected, actual ) );
 		}
 		if ( identifyingAttributesDifference == null && attributesDifference == null && childDifferences.isEmpty() ) {
 			return null;

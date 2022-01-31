@@ -41,7 +41,7 @@ public class ElementTest {
 	public void toString_returns_retestId() throws Exception {
 		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
 				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
-		Element element = Element.create( "asdef", rootElement, compIdentAttributes, new Attributes() );
+		final Element element = Element.create( "asdef", rootElement, compIdentAttributes, new Attributes() );
 		assertThat( element.toString() ).isEqualTo( "asdef" );
 	}
 

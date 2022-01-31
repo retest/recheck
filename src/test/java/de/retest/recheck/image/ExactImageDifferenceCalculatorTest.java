@@ -11,8 +11,6 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import de.retest.recheck.image.ExactImageDifferenceCalculator;
-import de.retest.recheck.image.ImageDifference;
 import de.retest.recheck.ui.image.Screenshot;
 
 public class ExactImageDifferenceCalculatorTest {

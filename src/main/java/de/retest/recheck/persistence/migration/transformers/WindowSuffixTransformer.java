@@ -29,10 +29,7 @@ public class WindowSuffixTransformer extends XmlTransformer {
 			eventWriter.add( event );
 			return;
 		}
-		if ( updatePath( event, eventWriter ) ) {
-			return;
-		}
-		if ( updateWindowsSuffix( event, eventWriter ) ) {
+		if ( updatePath( event, eventWriter ) || updateWindowsSuffix( event, eventWriter ) ) {
 			return;
 		}
 		eventWriter.add( event );

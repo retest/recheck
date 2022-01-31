@@ -33,7 +33,7 @@ public class MetadataDifferencePrinter implements Printer<MetadataDifference> {
 
 	private String printDifferences( final MetadataDifference difference, final String indent ) {
 		return difference.getDifferences().stream() //
-				.map( d -> print( d ) ) //
+				.map( this::print ) //
 				.collect( Collectors.joining( "\n" + indent, "\n" + indent, "" ) );
 	}
 

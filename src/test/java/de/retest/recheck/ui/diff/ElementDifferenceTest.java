@@ -229,7 +229,8 @@ class ElementDifferenceTest {
 
 		final ElementDifference cut1 = new ElementDifference( element, null, null, null, null, childDifferences );
 		final ElementDifference cut2 = new ElementDifference( element, attributes, null, null, null, childDifferences );
-		final ElementDifference cut3 = new ElementDifference( element, null, identifying, null, null, childDifferences );
+		final ElementDifference cut3 =
+				new ElementDifference( element, null, identifying, null, null, childDifferences );
 		final ElementDifference cut4 =
 				new ElementDifference( element, attributes, identifying, null, null, childDifferences );
 		final ElementDifference cut5 = new ElementDifference( element, null, insertion, null, null, childDifferences );

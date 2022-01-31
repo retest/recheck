@@ -257,7 +257,7 @@ public class RetestAuthentication {
 				.build();
 	}
 
-	private class CallbackListener extends Thread {
+	private static class CallbackListener extends Thread {
 
 		private final ServerSocket server;
 		private KeycloakResult result;

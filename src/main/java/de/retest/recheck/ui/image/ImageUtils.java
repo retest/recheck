@@ -313,8 +313,7 @@ public class ImageUtils {
 			}
 			// Normalize OSGI-bundleressources
 			if ( result.startsWith( "bundleresource:" ) ) {
-				result = result.replaceFirst( "bundleresource:\\/\\/[\\d\\.\\w:]+\\/", "" );
-				return result;
+				return result.replaceFirst( "bundleresource:\\/\\/[\\d\\.\\w:]+\\/", "" );
 			}
 			result = new File( result ).getName();
 		}
@@ -353,11 +352,7 @@ public class ImageUtils {
 	}
 
 	public static int extractScale() {
-		if ( GraphicsEnvironment.isHeadless() ) {
-			return DEFAULT_SCALE;
-		}
-
-		if ( !SystemUtils.IS_OS_MAC ) {
+		if ( GraphicsEnvironment.isHeadless() || !SystemUtils.IS_OS_MAC ) {
 			return DEFAULT_SCALE;
 		}
 

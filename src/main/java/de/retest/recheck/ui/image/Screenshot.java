@@ -90,17 +90,11 @@ public class Screenshot implements Serializable {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null ) {
-			return false;
-		}
-		if ( !(obj instanceof Screenshot) ) {
+		if ( obj == null || !(obj instanceof Screenshot) ) {
 			return false;
 		}
 		final Screenshot other = (Screenshot) obj;
-		if ( type != other.type ) {
-			return false;
-		}
-		if ( !persistenceId.equals( other.persistenceId ) ) {
+		if ( type != other.type || !persistenceId.equals( other.persistenceId ) ) {
 			return false;
 		}
 

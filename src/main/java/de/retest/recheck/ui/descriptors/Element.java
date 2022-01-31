@@ -123,8 +123,7 @@ public class Element implements Serializable, Comparable<Element> {
 		newContainedElements = removeDeleted( actionChangeSet, newContainedElements );
 		newContainedElements =
 				applyChangesToContainedElements( actionChangeSet, newIdentAttributes, newContainedElements );
-		newContainedElements = addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
-		return newContainedElements;
+		return addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
 	}
 
 	private List<Element> removeDeleted( final ActionChangeSet actionChangeSet,
@@ -223,8 +222,7 @@ public class Element implements Serializable, Comparable<Element> {
 			return identifyingAttribute.getValue();
 		}
 
-		final Object ordinaryAttribute = getAttributes().get( attributeName );
-		return ordinaryAttribute;
+		return getAttributes().get( attributeName );
 	}
 
 	public String getRetestId() {
@@ -278,17 +276,11 @@ public class Element implements Serializable, Comparable<Element> {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null || getClass() != obj.getClass() ) {
-			return false;
-		}
-		if ( this.hashCode() != obj.hashCode() ) {
+		if ( obj == null || getClass() != obj.getClass() || hashCode() != obj.hashCode() ) {
 			return false;
 		}
 		final Element other = (Element) obj;
-		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
-			return false;
-		}
-		if ( !attributes.equals( other.attributes ) ) {
+		if ( !identifyingAttributes.equals( other.identifyingAttributes ) || !attributes.equals( other.attributes ) ) {
 			return false;
 		}
 		return containedElements.equals( other.containedElements );

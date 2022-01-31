@@ -188,7 +188,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		}
 		String result = type;
 		if ( type.lastIndexOf( '.' ) > -1 ) {
-			result = type.substring( type.lastIndexOf( '.' ) + 1, type.length() );
+			result = type.substring( type.lastIndexOf( '.' ) + 1 );
 		}
 		final String text = get( "text" );
 		if ( text != null ) {

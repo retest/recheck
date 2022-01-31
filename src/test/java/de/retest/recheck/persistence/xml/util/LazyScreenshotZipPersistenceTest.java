@@ -7,13 +7,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.IOUtils;
@@ -25,8 +23,6 @@ import org.junit.jupiter.api.io.TempDir;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.ui.image.Screenshot;
 import de.retest.recheck.ui.image.Screenshot.ImageType;
-import de.retest.recheck.util.FileUtil.Writer;
-import de.retest.recheck.util.FileUtil.ZipReader;
 
 class LazyScreenshotZipPersistenceTest {
 
@@ -123,31 +119,25 @@ class LazyScreenshotZipPersistenceTest {
 		screenshotPersistence.screenshots.add( screenshot2 );
 
 		// write with productive code
-		writeToFile( zipFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				final ZipOutputStream zout = new ZipOutputStream( out );
-				screenshotPersistence.saveScreenshotsNow( zout );
-				zout.finish();
-			}
+		writeToFile( zipFile, out -> {
+			final ZipOutputStream zout = new ZipOutputStream( out );
+			screenshotPersistence.saveScreenshotsNow( zout );
+			zout.finish();
 		} );
 
 		// read with test code
-		readFromZipFile( zipFile, new ZipReader<Object>() {
-			@Override
-			public Object read( final ZipFile in ) throws IOException {
-				ZipEntry entry;
+		readFromZipFile( zipFile, in -> {
+			ZipEntry entry;
 
-				entry = in.getEntry( path1 );
-				assertThat( entry ).isNotNull();
-				assertThat( IOUtils.toByteArray( in.getInputStream( entry ) ) ).isEqualTo( imageBytes1 );
+			entry = in.getEntry( path1 );
+			assertThat( entry ).isNotNull();
+			assertThat( IOUtils.toByteArray( in.getInputStream( entry ) ) ).isEqualTo( imageBytes1 );
 
-				entry = in.getEntry( path2 );
-				assertThat( entry ).isNotNull();
-				assertThat( IOUtils.toByteArray( in.getInputStream( entry ) ) ).isEqualTo( imageBytes2 );
+			entry = in.getEntry( path2 );
+			assertThat( entry ).isNotNull();
+			assertThat( IOUtils.toByteArray( in.getInputStream( entry ) ) ).isEqualTo( imageBytes2 );
 
-				return null;
-			}
+			return null;
 		} );
 	}
 
@@ -159,28 +149,22 @@ class LazyScreenshotZipPersistenceTest {
 		screenshotPersistence.screenshots.add( screenshot1duplicate );
 
 		// write with productive code
-		writeToFile( zipFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				final ZipOutputStream zout = new ZipOutputStream( out );
-				screenshotPersistence.saveScreenshotsNow( zout );
-				zout.finish();
-			}
+		writeToFile( zipFile, out -> {
+			final ZipOutputStream zout = new ZipOutputStream( out );
+			screenshotPersistence.saveScreenshotsNow( zout );
+			zout.finish();
 		} );
 
 		// read with test code
-		readFromZipFile( zipFile, new ZipReader<Object>() {
-			@Override
-			public Object read( final ZipFile in ) throws IOException {
-				final ArrayList<? extends ZipEntry> entries = Collections.list( in.entries() );
+		readFromZipFile( zipFile, in -> {
+			final ArrayList<? extends ZipEntry> entries = Collections.list( in.entries() );
 
-				assertThat( entries ).hasSize( 1 );
-				final ZipEntry entry = entries.get( 0 );
-				assertThat( entry.getName() ).isEqualTo( path1 );
-				assertThat( IOUtils.toByteArray( in.getInputStream( entry ) ) ).isEqualTo( imageBytes1 );
+			assertThat( entries ).hasSize( 1 );
+			final ZipEntry entry = entries.get( 0 );
+			assertThat( entry.getName() ).isEqualTo( path1 );
+			assertThat( IOUtils.toByteArray( in.getInputStream( entry ) ) ).isEqualTo( imageBytes1 );
 
-				return null;
-			}
+			return null;
 		} );
 	}
 
@@ -195,28 +179,22 @@ class LazyScreenshotZipPersistenceTest {
 		screenshotPersistence.screenshots.add( screenshot2 );
 
 		// write with test code
-		writeToFile( zipFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				final ZipOutputStream zout = new ZipOutputStream( out );
+		writeToFile( zipFile, out -> {
+			final ZipOutputStream zout = new ZipOutputStream( out );
 
-				zout.putNextEntry( new ZipEntry( path1 ) );
-				zout.write( imageBytes1 );
+			zout.putNextEntry( new ZipEntry( path1 ) );
+			zout.write( imageBytes1 );
 
-				zout.putNextEntry( new ZipEntry( path2 ) );
-				zout.write( imageBytes2 );
+			zout.putNextEntry( new ZipEntry( path2 ) );
+			zout.write( imageBytes2 );
 
-				zout.finish();
-			}
+			zout.finish();
 		} );
 
 		// read with productive code
-		readFromZipFile( zipFile, new ZipReader<Object>() {
-			@Override
-			public Object read( final ZipFile in ) throws IOException {
-				screenshotPersistence.loadScreenshotsNow( in );
-				return null;
-			}
+		readFromZipFile( zipFile, in -> {
+			screenshotPersistence.loadScreenshotsNow( in );
+			return null;
 		} );
 
 		assertThat( screenshot1.getBinaryData() ).isNotEmpty();
@@ -233,25 +211,19 @@ class LazyScreenshotZipPersistenceTest {
 		screenshotPersistence.screenshots.add( screenshot1duplicate );
 
 		// write with test code
-		writeToFile( zipFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				final ZipOutputStream zout = new ZipOutputStream( out );
+		writeToFile( zipFile, out -> {
+			final ZipOutputStream zout = new ZipOutputStream( out );
 
-				zout.putNextEntry( new ZipEntry( path1 ) );
-				zout.write( imageBytes1 );
+			zout.putNextEntry( new ZipEntry( path1 ) );
+			zout.write( imageBytes1 );
 
-				zout.finish();
-			}
+			zout.finish();
 		} );
 
 		// read with productive code
-		readFromZipFile( zipFile, new ZipReader<Object>() {
-			@Override
-			public Object read( final ZipFile in ) throws IOException {
-				screenshotPersistence.loadScreenshotsNow( in );
-				return null;
-			}
+		readFromZipFile( zipFile, in -> {
+			screenshotPersistence.loadScreenshotsNow( in );
+			return null;
 		} );
 
 		assertThat( screenshot1.getBinaryData() ).isNotEmpty();
@@ -269,23 +241,17 @@ class LazyScreenshotZipPersistenceTest {
 		screenshotPersistence.screenshotParentMap.put( screenshot1, parent );
 
 		// write with test code
-		writeToFile( zipFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				final ZipOutputStream zout = new ZipOutputStream( out );
-				zout.putNextEntry( new ZipEntry( path2 ) );
-				zout.write( imageBytes2 );
-				zout.finish();
-			}
+		writeToFile( zipFile, out -> {
+			final ZipOutputStream zout = new ZipOutputStream( out );
+			zout.putNextEntry( new ZipEntry( path2 ) );
+			zout.write( imageBytes2 );
+			zout.finish();
 		} );
 
 		// read with productive code
-		readFromZipFile( zipFile, new ZipReader<Object>() {
-			@Override
-			public Object read( final ZipFile in ) throws IOException {
-				screenshotPersistence.loadScreenshotsNow( in );
-				return null;
-			}
+		readFromZipFile( zipFile, in -> {
+			screenshotPersistence.loadScreenshotsNow( in );
+			return null;
 		} );
 
 		assertThat( parent.getLeft() ).isNull();
@@ -293,7 +259,7 @@ class LazyScreenshotZipPersistenceTest {
 
 	@Test
 	void screenshot_zippath_should_be_sanitized() {
-		Screenshot screenshot = new Screenshot( "../../testimage", new byte[] { 0 }, ImageType.PNG );
+		final Screenshot screenshot = new Screenshot( "../../testimage", new byte[] { 0 }, ImageType.PNG );
 		assertThat( LazyScreenshotZipPersistence.createFilePath( screenshot ) ).isEqualTo( "screenshot/testimage.png" );
 	}
 

@@ -76,10 +76,10 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
 	@Override
 	public V get( final Object k1 ) {
-		for ( int idx = 0; idx < mappings.size(); idx++ ) {
-			final K k2 = mappings.get( idx ).getKey();
+		for ( final Pair<K, V> mapping : mappings ) {
+			final K k2 = mapping.getKey();
 			if ( k1 == null && k2 == null || k2 != null && k2.equals( k1 ) ) {
-				return mappings.get( idx ).getValue();
+				return mapping.getValue();
 			}
 		}
 		return null;
@@ -87,11 +87,11 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 
 	@Override
 	public V put( final K k1, final V value ) {
-		for ( int idx = 0; idx < mappings.size(); idx++ ) {
-			final K k2 = mappings.get( idx ).getKey();
+		for ( final Pair<K, V> mapping : mappings ) {
+			final K k2 = mapping.getKey();
 			if ( k1 == null && k2 == null || k2 != null && k2.equals( k1 ) ) {
-				final V result = mappings.get( idx ).getValue();
-				mappings.get( idx ).setValue( value );
+				final V result = mapping.getValue();
+				mapping.setValue( value );
 				return result;
 			}
 		}
@@ -145,8 +145,7 @@ public class ListMap<K, V> extends AbstractMap<K, V> implements Serializable {
 	@Override
 	public Set<Map.Entry<K, V>> entrySet() {
 		final Set<Map.Entry<K, V>> result = new ListSet<>();
-		for ( int idx = 0; idx < mappings.size(); idx++ ) {
-			final Pair<K, V> mapping = mappings.get( idx );
+		for ( final Pair<K, V> mapping : mappings ) {
 			result.add( Pair.of( mapping.getKey(), mapping.getValue() ) );
 		}
 		return result;

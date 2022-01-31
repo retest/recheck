@@ -40,8 +40,7 @@ class MatcherFilterLoaderTest {
 		final Element element = Element.create( "abc", mock( Element.class ), new IdentifyingAttributes( idAttribs ),
 				new MutableAttributes().immutable() );
 
-		final ElementRetestIdMatcher matcher = new ElementRetestIdMatcher( element );
-		return matcher;
+		return new ElementRetestIdMatcher( element );
 	}
 
 	@Test
