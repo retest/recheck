@@ -166,7 +166,7 @@ public class ApprovalsUtil {
 	public static class JUnitStackSelector implements StackElementSelector {
 
 		@Override
-		public StackTraceElement selectElement( final StackTraceElement[] trace ) throws Exception {
+		public StackTraceElement selectElement( final StackTraceElement[] trace ) {
 			return TestCaseFinder.getInstance().findTestCaseMethodInStack( trace ).getStackTraceElement();
 		}
 
