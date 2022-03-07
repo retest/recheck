@@ -27,8 +27,21 @@ Table of Contents
 
 ### Bug Fixes
 
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+[1.13.0] (2022-03-07)
+---------------------
+
+### Bug Fixes
+
 * Add path info to filter, after they where missing in last release because of `FileSystemAlreadyExistsException` fix.
 * Fix some cases where applying deleted elements would not remove them from the Golden Master.
+* Fix duplicate uploads to rehub for one test report.
 
 ### New Features
 
@@ -36,7 +49,9 @@ Table of Contents
 
 ### Improvements
 
---------------------------------------------------------------------------------
+* Better logging and fix small code smells to improve stability and performance.
+* Update dependencies to fix bugs and security issues.
+
 
 [1.12.0] (2021-06-24)
 ---------------------
