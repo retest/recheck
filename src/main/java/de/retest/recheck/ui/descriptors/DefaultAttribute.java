@@ -18,6 +18,7 @@ public class DefaultAttribute extends ParameterizedAttribute {
 	@XmlElement
 	private final Serializable value;
 
+	// Used by JaxB
 	@SuppressWarnings( "unused" )
 	protected DefaultAttribute() {
 		value = null;

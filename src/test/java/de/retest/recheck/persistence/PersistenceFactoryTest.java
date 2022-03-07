@@ -39,6 +39,7 @@ public class PersistenceFactoryTest {
 	public XmlFolderPersistence<Persistable> xmlFolderPersistence;
 
 	@Before
+	@SuppressWarnings( "unchecked" )
 	public void setUp() throws Exception {
 		factory = new PersistenceFactory( (XmlTransformer) null );
 		xmlZipPersistence = mock( XmlZipPersistence.class );

@@ -108,6 +108,7 @@ class RecheckOptionsTest {
 		verify( options.getProjectLayout(), atLeastOnce() ).getSuiteFolder( "name" );
 	}
 
+	@SuppressWarnings( "deprecation" )
 	static Stream<RecheckOptionsBuilder> suiteNamesFileNameStrategy() {
 		final FileNamer fileNamer = mock( FileNamer.class );
 		when( fileNamer.getFile( any() ) ).thenReturn( new File( "src/test/resources/retest/recheck/name" ) );

@@ -1,7 +1,10 @@
 package de.retest.recheck.persistence.migration;
 
+import java.util.Iterator;
+
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
@@ -22,7 +25,9 @@ public class RenameElementTransformer extends XmlTransformer {
 	public void convert( final XMLEvent event, final XMLEventWriter eventWriter ) throws XMLStreamException {
 		if ( isStartElementNamed( event, oldElementName ) ) {
 			final StartElement startAttributeEvent = (StartElement) event;
-			eventWriter.add( startElementNamed( newElementName, startAttributeEvent.getAttributes() ) );
+			@SuppressWarnings( "unchecked" )
+			final Iterator<? extends Attribute> attributes = startAttributeEvent.getAttributes();
+			eventWriter.add( startElementNamed( newElementName, attributes ) );
 			return;
 		}
 

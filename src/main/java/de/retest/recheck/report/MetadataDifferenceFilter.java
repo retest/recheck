@@ -12,9 +12,7 @@ import de.retest.recheck.ui.descriptors.RootElement;
 import de.retest.recheck.ui.diff.AttributeDifference;
 import de.retest.recheck.ui.diff.meta.MetadataDifference;
 import de.retest.recheck.ui.diff.meta.MetadataElementDifference;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class MetadataDifferenceFilter {
 
 	private static final Element DUMMY_ELEMENT = new RootElement( "recheck-metadata",

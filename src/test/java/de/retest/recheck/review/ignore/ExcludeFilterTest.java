@@ -64,6 +64,7 @@ class ExcludeFilterTest {
 		Loader<ExcludeFilter> cut;
 
 		@BeforeEach
+		@SuppressWarnings( "unchecked" )
 		void setUp() {
 			delegate = mock( Loader.class );
 
