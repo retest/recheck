@@ -270,8 +270,8 @@ class ElementDifferenceFinderTest {
 		assertThat( difference.getElementDifferences().size() ).isEqualTo( 2 );
 		assertThat( difference.hasChildDifferences() ).isTrue();
 		assertThat( expected.getContainedElements().size() ).isNotEqualTo( actual.getContainedElements().size() );
-		assertThat( difference.toString() )
-				.contains( "expected=null, actual=" + actual.getContainedElements().get( 0 ).getIdentifyingAttributes() );
+		assertThat( difference.toString() ).contains(
+				"expected=null, actual=" + actual.getContainedElements().get( 0 ).getIdentifyingAttributes() );
 	}
 
 	@Test
@@ -301,8 +301,8 @@ class ElementDifferenceFinderTest {
 		assertThat( difference.getElementDifferences().size() ).isEqualTo( 2 );
 		assertThat( difference.hasChildDifferences() ).isTrue();
 		assertThat( expected.getContainedElements().size() ).isNotEqualTo( actual.getContainedElements().size() );
-		assertThat( difference.toString() )
-				.contains( "expected=" + expected.getContainedElements().get( 2 ).getIdentifyingAttributes() + ", actual=null" );
+		assertThat( difference.toString() ).contains(
+				"expected=" + expected.getContainedElements().get( 2 ).getIdentifyingAttributes() + ", actual=null" );
 	}
 
 	@Test
@@ -318,7 +318,8 @@ class ElementDifferenceFinderTest {
 		assertThat( difference.size() ).isEqualTo( 1 );
 		assertThat( difference.getElementDifferences().size() ).isEqualTo( 1 );
 		assertThat( difference.hasAnyDifference() ).isTrue();
-		assertThat( difference.toString() ).contains( "expected=" + expected.getIdentifyingAttributes() + ", actual=null" );
+		assertThat( difference.toString() )
+				.contains( "expected=" + expected.getIdentifyingAttributes() + ", actual=null" );
 	}
 
 	@Test
@@ -379,8 +380,8 @@ class ElementDifferenceFinderTest {
 		assertThat( expected.countAllContainedElements() ).isEqualTo( 3 );
 		assertThat( expected.getContainedElements().contains( missing ) ).isTrue();
 		assertThat( actual.getContainedElements().contains( missing ) ).isFalse();
-		assertThat( difference.toString() )
-				.contains( "expected=" + expected.getContainedElements().get( 0 ).getIdentifyingAttributes() + ", actual=null" );
+		assertThat( difference.toString() ).contains(
+				"expected=" + expected.getContainedElements().get( 0 ).getIdentifyingAttributes() + ", actual=null" );
 	}
 
 	@Test

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import de.retest.recheck.ui.PathElement;
-
 public class PathElementTest {
 
 	@Test

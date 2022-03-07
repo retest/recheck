@@ -25,13 +25,46 @@ Table of Contents
 
 ### Breaking Changes
 
+### Bug Fixes
+
+### New Features
+
+### Improvements
+
+
+--------------------------------------------------------------------------------
+
+[1.13.0] (2022-03-07)
+---------------------
+
+### Bug Fixes
+
+* Add path info to filter, after they where missing in last release because of `FileSystemAlreadyExistsException` fix.
+* Fix some cases where applying deleted elements would not remove them from the Golden Master.
+* Fix duplicate uploads to rehub for one test report.
+
+### New Features
+
+* Support multiple values, like in `grid-template-columns` in PixelDiffFilter.
+
+### Improvements
+
+* Better logging and fix small code smells to improve stability and performance.
+* Update dependencies to fix bugs and security issues.
+
+
+[1.12.0] (2021-06-24)
+---------------------
+
+### Breaking Changes
+
 * Since 01.12.2020 this project is owned and developed by [UBS Hainer GmbH](https://ubs-hainer.com/).
 * Update the storage library used for reports (kryo 4 -> 5), it's possible that older test reports can't longer be read.
 
 ### Bug Fixes
 
 * Fix a rare `java.nio.file.FileSystemAlreadyExistsException` when accessing filters concurrently.
-* Fix 1-click-maintenance not respecting the key of the `AttributeDifference`. 
+* Fix 1-click-maintenance not respecting the key of the `AttributeDifference`.
 * Updated and now configurable URLs for rehub backend services
 
 ### New Features
@@ -47,9 +80,6 @@ Table of Contents
 
 * Have the console output much more compact in terms of whitespace used. Con: makes it harder to spot difference details...
 * Project discovery and initialization is now done within `RecheckOptionsBuilder#build` instead of `RecheckImpl#new` to allow earlier access to project variables (e.g. retest.properties). Projects (i.e. `.retest` folders) should still be detected correctly.
-
-
---------------------------------------------------------------------------------
 
 
 [1.11.2] (2020-07-01)

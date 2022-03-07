@@ -23,8 +23,7 @@ import de.retest.recheck.ui.image.Screenshot.ImageType;
 
 class SutStateFilterTest {
 
-	@Nested
-	class AttributeFilterTests {
+	static class AttributeFilterTests {
 		Element element;
 		Attributes attributes;
 
@@ -48,7 +47,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_attributes_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final Attributes newState = cut.filter( element, attributes );
 
@@ -77,8 +76,7 @@ class SutStateFilterTest {
 
 	}
 
-	@Nested
-	class IdentifyingAttributesFilterTests {
+	static class IdentifyingAttributesFilterTests {
 		Element element;
 		IdentifyingAttributes identifyingAttributes;
 
@@ -100,7 +98,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_identifying_attributes_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final IdentifyingAttributes filteredIdentifyingAttributes = cut.filter( element, identifyingAttributes );
 
@@ -197,7 +195,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_root_element_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final Element filteredRootElement = cut.filter( rootElement );
 
@@ -258,7 +256,7 @@ class SutStateFilterTest {
 
 		@Test
 		void should_return_same_sut_state_with_no_filter() {
-			final Filter noFilter = ( element ) -> false;
+			final Filter noFilter = element -> false;
 			final SutStateFilter cut = new SutStateFilter( noFilter );
 			final SutState filteredSutState = cut.filter( sutState );
 
@@ -278,17 +276,14 @@ class SutStateFilterTest {
 	}
 
 	private Element createElement( final String path, final Class<?> type, final Element parent ) {
-		final Element element = Element.create( "asdas", parent,
-				IdentifyingAttributes.create( fromString( path ), type ), new Attributes() );
-		return element;
+		return Element.create( "asdas", parent, IdentifyingAttributes.create( fromString( path ), type ),
+				new Attributes() );
 	}
 
 	private RootElement createRootElement( final String path, final Class<?> type, final Screenshot screenshot,
 			final String screen, final String title ) {
-		final RootElement rootElement =
-				new RootElement( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
-						screenshot, screen, screen.hashCode(), title );
-		return rootElement;
+		return new RootElement( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
+				screenshot, screen, screen.hashCode(), title );
 	}
 
 	private SutState createSutState( final Collection<RootElement> rootElements ) {
@@ -296,8 +291,6 @@ class SutStateFilterTest {
 	}
 
 	private static class Component {}
-
-	private static class Parent {}
 
 	private static class Window {}
 

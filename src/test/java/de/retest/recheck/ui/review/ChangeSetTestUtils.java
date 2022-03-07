@@ -4,9 +4,6 @@ import static org.mockito.Mockito.mock;
 
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.diff.AttributeDifference;
-import de.retest.recheck.ui.review.ActionChangeSet;
-import de.retest.recheck.ui.review.SuiteChangeSet;
-import de.retest.recheck.ui.review.TestChangeSet;
 
 public final class ChangeSetTestUtils {
 

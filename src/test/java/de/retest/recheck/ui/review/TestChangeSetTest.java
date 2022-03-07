@@ -6,9 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.retest.recheck.ui.review.ActionChangeSet;
-import de.retest.recheck.ui.review.TestChangeSet;
-
 public class TestChangeSetTest {
 
 	TestChangeSet testChangeSet;

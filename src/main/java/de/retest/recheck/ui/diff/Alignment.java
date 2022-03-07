@@ -42,8 +42,8 @@ public final class Alignment {
 	}
 
 	private Alignment( final Element expected, final Element actual ) {
-		final List<Element> expectedElements =
-				flattenLeafElements( expected, expectedChildParentMapping, pseudoElementHack.expectedPseudoElementsMapping );
+		final List<Element> expectedElements = flattenLeafElements( expected, expectedChildParentMapping,
+				pseudoElementHack.expectedPseudoElementsMapping );
 		final List<Element> actualElements =
 				flattenLeafElements( actual, actualChildParentMapping, pseudoElementHack.actualPseudoElementsMapping );
 		log.debug(

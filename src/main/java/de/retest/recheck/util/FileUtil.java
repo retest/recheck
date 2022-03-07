@@ -199,7 +199,7 @@ public class FileUtil {
 		}
 	}
 
-	public static interface Writer {
+	public interface Writer {
 		void write( FileOutputStream out ) throws IOException;
 	}
 
@@ -243,7 +243,7 @@ public class FileUtil {
 		}
 	}
 
-	public static interface Reader<T> {
+	public interface Reader<T> {
 		T read( NamedBufferedInputStream in ) throws IOException;
 	}
 
@@ -266,7 +266,7 @@ public class FileUtil {
 		}
 	}
 
-	public static interface ZipReader<T> {
+	public interface ZipReader<T> {
 		T read( ZipFile in ) throws IOException;
 	}
 
@@ -341,7 +341,7 @@ public class FileUtil {
 			final URL url = new URL( input );
 			return new NamedBufferedInputStream( url.openStream(), input );
 		} catch ( final IOException exc ) {}
-		File result = null;
+		File result;
 		// relative path
 		result = new File( baseDir, input ).getCanonicalFile();
 		if ( result.exists() ) {
@@ -358,18 +358,17 @@ public class FileUtil {
 	public static String cleanForFilename( final String desc ) {
 		// filename = indicative name from throwable plus date/time
 		String result = desc;
-		result = result.replaceAll( " ", "_" );
-		result = result.replaceAll( "\n", "-" );
-		result = result.replaceAll( "\t", "-" );
+		result = result.replace( ' ', '_' );
+		result = result.replace( '\n', '-' );
+		result = result.replace( '\t', '-' );
 		result = result.replaceAll( System.getProperty( "line.separator" ), "-" );
-		result = result.replaceAll( ":", "-" );
-		result = result.replaceAll( "/", "-" );
-		result = result.replaceAll( "\\\\", "-" );
-		return result;
+		result = result.replace( ':', '-' );
+		result = result.replace( '/', '-' );
+		return result.replace( '\\', '-' );
 	}
 
 	public static File readableCanonicalFileOrNull( final File file ) {
-		if ( file.exists() && file.canRead() ) {
+		if ( file != null && file.exists() && file.canRead() ) {
 			return canonicalFileQuietly( file );
 		}
 		return null;
@@ -377,10 +376,8 @@ public class FileUtil {
 
 	public static File readableWriteableCanonicalDirectoryOrNull( final File directory ) {
 		final File canonicalDir = canonicalFileQuietly( directory );
-		if ( canonicalDir.exists() && canAll( canonicalDir ) ) {
-			return canonicalDir;
-		}
-		if ( !canonicalDir.exists() && canAll( canonicalDir.getParentFile() ) ) {
+		if ( canonicalDir != null && canonicalDir.exists() && canAll( canonicalDir )
+				|| !canonicalDir.exists() && canAll( canonicalDir.getParentFile() ) ) {
 			return canonicalDir;
 		}
 		return null;

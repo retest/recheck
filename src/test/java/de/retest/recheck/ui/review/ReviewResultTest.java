@@ -8,9 +8,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.retest.recheck.ui.review.ReviewResult;
-import de.retest.recheck.ui.review.SuiteChangeSet;
-
 public class ReviewResultTest {
 
 	private ReviewResult reviewResult;

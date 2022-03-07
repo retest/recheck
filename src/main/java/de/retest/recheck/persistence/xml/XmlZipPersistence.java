@@ -5,7 +5,6 @@ import static de.retest.recheck.util.FileUtil.readFromZipFile;
 import static de.retest.recheck.util.FileUtil.writeToFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.zip.ZipEntry;
@@ -21,8 +20,6 @@ import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.xml.util.LazyScreenshotZipPersistence;
 import de.retest.recheck.util.FileUtil;
-import de.retest.recheck.util.FileUtil.Writer;
-import de.retest.recheck.util.FileUtil.ZipReader;
 import de.retest.recheck.util.NamedBufferedInputStream;
 
 public class XmlZipPersistence<T extends Persistable> implements Persistence<T> {
@@ -50,18 +47,15 @@ public class XmlZipPersistence<T extends Persistable> implements Persistence<T> 
 		}
 		FileUtil.ensureFolder( file );
 
-		writeToFile( file, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				final ZipOutputStream zout = new ZipOutputStream( out );
-				zout.setLevel( COMPRESSION_LEVEL );
-				zout.putNextEntry( new ZipEntry( RecheckProperties.DEFAULT_XML_FILE_NAME ) );
-				xml.toXML( container, zout, screenshotPersistence.getMarshallListener() );
-				logger.debug( "XML saved, now saving screenshots..." );
-				screenshotPersistence.saveScreenshotsNow( zout );
-				logger.debug( "Save to '{}' completed.", identifier );
-				zout.close();
-			}
+		writeToFile( file, out -> {
+			final ZipOutputStream zout = new ZipOutputStream( out );
+			zout.setLevel( COMPRESSION_LEVEL );
+			zout.putNextEntry( new ZipEntry( RecheckProperties.DEFAULT_XML_FILE_NAME ) );
+			xml.toXML( container, zout, screenshotPersistence.getMarshallListener() );
+			logger.debug( "XML saved, now saving screenshots..." );
+			screenshotPersistence.saveScreenshotsNow( zout );
+			logger.debug( "Save to '{}' completed.", identifier );
+			zout.close();
 		} );
 	}
 
@@ -71,18 +65,15 @@ public class XmlZipPersistence<T extends Persistable> implements Persistence<T> 
 
 		final LazyScreenshotZipPersistence screenshotPersistence = new LazyScreenshotZipPersistence();
 
-		final ReTestXmlDataContainer<T> container = readFromZipFile( file, new ZipReader<ReTestXmlDataContainer<T>>() {
-			@Override
-			public ReTestXmlDataContainer<T> read( final ZipFile zipFile ) throws IOException {
+		final ReTestXmlDataContainer<T> container = readFromZipFile( file, zipFile -> {
 
-				final ReTestXmlDataContainer<T> result = XmlPersistenceUtil.migrateAndRead( xml,
-						getReTestXmlInStream( zipFile ), screenshotPersistence.getUnmarshallListener() );
+			final ReTestXmlDataContainer<T> result = XmlPersistenceUtil.migrateAndRead( xml,
+					getReTestXmlInStream( zipFile ), screenshotPersistence.getUnmarshallListener() );
 
-				logger.debug( "XML loaded from file '{}', now loading screenshots.", identifier );
-				screenshotPersistence.loadScreenshotsNow( zipFile );
+			logger.debug( "XML loaded from file '{}', now loading screenshots.", identifier );
+			screenshotPersistence.loadScreenshotsNow( zipFile );
 
-				return result;
-			}
+			return result;
 		} );
 
 		if ( container == null ) {

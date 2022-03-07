@@ -53,17 +53,15 @@ class ElementByAttributeMatcherTest {
 				IdentifyingAttributes.createList( Path.fromString( "html/div/a" ), "a" );
 		final MutableAttributes attributes = new MutableAttributes();
 		attributes.put( key, value );
-		final Element element = Element.create( "retestId", mock( Element.class ),
-				new IdentifyingAttributes( idAttribs ), attributes.immutable() );
-		return element;
+		return Element.create( "retestId", mock( Element.class ), new IdentifyingAttributes( idAttribs ),
+				attributes.immutable() );
 	}
 
 	private Element mockElementWithTextValue( final String textValue ) {
 		final Collection<Attribute> idAttribs =
 				IdentifyingAttributes.createList( Path.fromString( "html/div/a" ), "a" );
 		idAttribs.add( new StringAttribute( "text", textValue ) );
-		final Element element = Element.create( "retestId", mock( Element.class ),
-				new IdentifyingAttributes( idAttribs ), new MutableAttributes().immutable() );
-		return element;
+		return Element.create( "retestId", mock( Element.class ), new IdentifyingAttributes( idAttribs ),
+				new MutableAttributes().immutable() );
 	}
 }

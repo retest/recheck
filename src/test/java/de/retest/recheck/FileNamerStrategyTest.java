@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.persistence.FileNamer;
 
+@SuppressWarnings( "deprecation" )
 class FileNamerStrategyTest {
 
-	class FileNamerStrategyImpl implements FileNamerStrategy {
+	static class FileNamerStrategyImpl implements FileNamerStrategy {
 		@Override
 		public FileNamer createFileNamer( final String... baseNames ) {
 			return null;

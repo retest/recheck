@@ -120,4 +120,23 @@ class PixelDiffFilterTest {
 
 		assertThat( cut.matches( element, difference ) ).isFalse();
 	}
+
+	@Test
+	void multiple_px_values_for_colums_should_be_parsed() throws Exception {
+		final String expected = "123px";
+		final String actual = "124px";
+		final AttributeDifference difference = new AttributeDifference( "grid-template-columns", expected, actual );
+
+		assertThat( cut.matches( element, difference ) ).isTrue();
+	}
+
+	@Test
+	void varying_multiple_px_values_for_colums_should_not_be_parsed() throws Exception {
+		final String expected = "123px";
+		final String actual = "64px 62px";
+		final AttributeDifference difference = new AttributeDifference( "grid-template-columns", expected, actual );
+
+		assertThat( cut.matches( element, difference ) ).isFalse();
+	}
+
 }

@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 
 import de.retest.recheck.persistence.Persistable;
-import de.retest.recheck.persistence.xml.ReTestXmlDataContainer;
 import de.retest.recheck.util.VersionProvider;
 
 public class ReTestXmlDataContainerTest {

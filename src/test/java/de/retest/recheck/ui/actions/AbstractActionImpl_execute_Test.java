@@ -2,8 +2,8 @@ package de.retest.recheck.ui.actions;
 
 import static de.retest.recheck.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Field;
@@ -18,10 +18,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.retest.recheck.ui.Environment;
-import de.retest.recheck.ui.actions.AbstractAction;
-import de.retest.recheck.ui.actions.Action;
-import de.retest.recheck.ui.actions.ActionExecutionResult;
-import de.retest.recheck.ui.actions.TargetNotFoundException;
 import de.retest.recheck.ui.components.Component;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
@@ -65,7 +61,7 @@ public class AbstractActionImpl_execute_Test {
 		assertThat( result.getDuration() ).isEqualTo( -1 );
 		assertThat( result.getTargetNotFound() ).isEqualTo( targetNotFound );
 
-		verifyZeroInteractions( actionLogger );
+		verifyNoInteractions( actionLogger );
 	}
 
 	@Test
@@ -80,7 +76,7 @@ public class AbstractActionImpl_execute_Test {
 		assertThat( result.getError() ).isNull();
 		assertThat( result.getTargetNotFound() ).isNull();
 
-		verifyZeroInteractions( actionLogger );
+		verifyNoInteractions( actionLogger );
 	}
 
 	@Test
@@ -97,7 +93,7 @@ public class AbstractActionImpl_execute_Test {
 		assertThat( result.getError().getThrowable() ).isInstanceOf( NullPointerException.class );
 		assertThat( result.getTargetNotFound() ).isNull();
 
-		verifyZeroInteractions( actionLogger );
+		verifyNoInteractions( actionLogger );
 	}
 
 	private AbstractAction action( final Element descriptor ) {

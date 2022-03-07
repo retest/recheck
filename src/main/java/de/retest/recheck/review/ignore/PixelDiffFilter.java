@@ -50,11 +50,7 @@ public class PixelDiffFilter implements Filter {
 		final Serializable actual = attributeDifference.getActual();
 		final String key = attributeDifference.getKey();
 
-		if ( ignoredKeys.contains( key ) ) {
-			return false;
-		}
-
-		if ( expected == null || actual == null ) {
+		if ( ignoredKeys.contains( key ) || expected == null || actual == null ) {
 			return false;
 		}
 
@@ -82,15 +78,26 @@ public class PixelDiffFilter implements Filter {
 			return false;
 		}
 
-		try {
-			final double expectedDouble = Double.parseDouble( clean( expected ) );
-			final double actualDouble = Double.parseDouble( clean( actual ) );
-			return Math.abs( expectedDouble - actualDouble ) <= pixelDiff;
-		} catch ( final NumberFormatException e ) {
-			log.error( "Could not parse difference with key {}, expected '{}' and actual '{}' for pixel diff.", key,
-					expected, actual );
+		final String[] expectedParts = expected.split( " " );
+		final String[] actualParts = actual.split( " " );
+		if ( expectedParts.length != actualParts.length ) {
 			return false;
 		}
+
+		for ( int i = 0; i < expectedParts.length; i++ ) {
+			try {
+				final double expectedDouble = Double.parseDouble( clean( expectedParts[i] ) );
+				final double actualDouble = Double.parseDouble( clean( actualParts[i] ) );
+				if ( Math.abs( expectedDouble - actualDouble ) > pixelDiff ) {
+					return false;
+				}
+			} catch ( final NumberFormatException e ) {
+				log.error( "Could not parse difference with key {}, expected '{}' and actual '{}' for pixel diff.", key,
+						expected, actual );
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static String clean( final String str ) {

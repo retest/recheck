@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.PathElement;
-import de.retest.recheck.ui.actions.ActionParameter;
-import de.retest.recheck.ui.actions.ParameterizedAction;
 import de.retest.recheck.ui.descriptors.Element;
 import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
 import de.retest.recheck.ui.descriptors.MutableAttributes;
@@ -80,8 +78,8 @@ public class ParameterizedActionTest {
 		return new ActionParameter( "text", value, parameterTypeString );
 	}
 
-	class SomeType {}
+	static class SomeType {}
 
-	class SomeAction {}
+	static class SomeAction {}
 
 }

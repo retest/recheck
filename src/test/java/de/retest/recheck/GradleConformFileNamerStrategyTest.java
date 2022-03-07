@@ -12,6 +12,7 @@ import de.retest.recheck.persistence.FileNamer;
 class GradleConformFileNamerStrategyTest {
 
 	@Test
+	@SuppressWarnings( "deprecation" )
 	void files_should_be_gradle_conform() throws Exception {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy();
 
@@ -24,6 +25,7 @@ class GradleConformFileNamerStrategyTest {
 	}
 
 	@Test
+	@SuppressWarnings( "deprecation" )
 	void files_should_be_in_the_correct_source_set() {
 		final FileNamerStrategy cut = new GradleConformFileNamerStrategy( "integrationTest" );
 

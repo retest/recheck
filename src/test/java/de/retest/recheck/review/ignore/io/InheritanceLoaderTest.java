@@ -23,6 +23,7 @@ class InheritanceLoaderTest {
 	final Z z = new Z();
 
 	@BeforeEach
+	@SuppressWarnings( "unchecked" )
 	void setUp() {
 		final Loader<A> aLoader = mock( Loader.class );
 		when( aLoader.load( "a" ) ).thenReturn( Optional.of( a ) );

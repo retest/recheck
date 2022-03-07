@@ -30,7 +30,7 @@ public class RetestIdUtil {
 		id = id.replaceAll( "[^\\w]", "" );
 		// remove long blanks
 		while ( id.contains( "__" ) ) {
-			id = id.replaceAll( "__", "_" );
+			id = id.replace( "__", "_" );
 		}
 		return id.toLowerCase();
 	}

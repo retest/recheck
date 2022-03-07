@@ -86,7 +86,7 @@ public final class ReflectionUtilities {
 			if ( targetClass == null ) {
 				return null;
 			}
-			return getNonArgConstructor( targetClass ).newInstance( new Object[0] );
+			return getNonArgConstructor( targetClass ).newInstance();
 
 		} catch ( final InstantiationException exc ) {
 			throw new IllegalArgumentException( "Can't create instance of an abstract class!", exc );
@@ -111,7 +111,7 @@ public final class ReflectionUtilities {
 		return getConstructor( clazz );
 	}
 
-	public static <T> Constructor<T> getConstructor( final Class<T> clazz, final Class... classes ) {
+	public static <T> Constructor<T> getConstructor( final Class<T> clazz, final Class<?>... classes ) {
 		try {
 			final Constructor<T> constructor = clazz.getDeclaredConstructor( classes );
 			constructor.setAccessible( true );
@@ -151,7 +151,9 @@ public final class ReflectionUtilities {
 		for ( int index = 0; index < params.length; index++ ) {
 			paramClasses[index] = params[index].getClass();
 		}
-		return (T) invokeMethod( callee, methodName, paramClasses, params );
+		@SuppressWarnings( "unchecked" )
+		final T result = (T) invokeMethod( callee, methodName, paramClasses, params );
+		return result;
 	}
 
 	public static boolean isThreadDeathWhileClosingSuT( final Throwable e ) {
@@ -177,9 +179,7 @@ public final class ReflectionUtilities {
 				if ( field.get( parent ) == child ) {
 					field.set( parent, null );
 				}
-			} catch ( final IllegalArgumentException e ) {
-				throw new AssertionError( "Should not be possible!" );
-			} catch ( final IllegalAccessException e ) {
+			} catch ( final IllegalArgumentException | IllegalAccessException e ) {
 				throw new AssertionError( "Should not be possible!" );
 			}
 		}
@@ -187,15 +187,11 @@ public final class ReflectionUtilities {
 
 	public static class IncompatibleTypesException extends Exception {
 		private static final long serialVersionUID = 1L;
-		private final String expectedType;
-		private final String actualType;
 
 		public IncompatibleTypesException( final Class<?> expectedType, final Class<?> actualType,
 				final String context ) {
 			super( "Incompatible types: expected a value of type " + expectedType + " but was " + actualType + " "
 					+ context );
-			this.expectedType = expectedType.getName();
-			this.actualType = actualType.getName();
 		}
 
 	}
@@ -204,6 +200,6 @@ public final class ReflectionUtilities {
 		if ( classname == null || !classname.contains( "." ) ) {
 			return classname;
 		}
-		return classname.substring( classname.lastIndexOf( "." ) + 1, classname.length() );
+		return classname.substring( classname.lastIndexOf( "." ) + 1 );
 	}
 }

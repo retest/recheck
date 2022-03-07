@@ -9,9 +9,9 @@ import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
  */
 public interface IgnoredTypes {
 
-	public boolean contains( final Element element );
+	boolean contains( final Element element );
 
-	public boolean contains( final IdentifyingAttributes identifyingAttributes );
+	boolean contains( final IdentifyingAttributes identifyingAttributes );
 
 	public static class NoIgnoredTypes implements IgnoredTypes {
 		@Override

@@ -68,5 +68,5 @@ class StateDifferenceTest {
 
 	private static class Window {}
 
-	private class OtherWindow {}
+	private static class OtherWindow {}
 }

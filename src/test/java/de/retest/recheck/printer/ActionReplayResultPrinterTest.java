@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -178,8 +177,6 @@ class ActionReplayResultPrinterTest {
 
 	@Test
 	void toString_should_not_print_child_differences_if_insertion_or_deletion() {
-		final List<ElementDifference> empty = Collections.emptyList();
-
 		final ElementDifference differences = change( "html[1]/body[1]", //
 				delete( "html[1]/body[1]/div[1]", //
 						delete( "html[1]/body[1]/div[1]/div[1]", //

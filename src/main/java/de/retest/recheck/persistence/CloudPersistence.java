@@ -8,6 +8,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 import de.retest.recheck.RecheckProperties;
@@ -63,14 +65,16 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 	}
 
 	private void saveToCloud( final TestReport report, final byte[] data ) {
-		final HttpResponse<String> uploadUrlResponse = getUploadUrl( String.join( ", ", getTestClasses( report ) ) );
-		if ( uploadUrlResponse.isSuccess() ) {
-			log.info( "Upload URL: {}", uploadUrlResponse.getBody() );
+
+		final String uploadUrl = getUploadUrlForTestReport( report );
+
+		if ( uploadUrl != null ) {
+			log.trace( "Upload URL: {}", uploadUrl );
 
 			final int maxAttempts = RecheckProperties.getInstance().rehubReportUploadAttempts();
 			for ( int remainingAttempts = maxAttempts - 1; remainingAttempts >= 0; remainingAttempts-- ) {
 				try {
-					uploadReport( uploadUrlResponse.getBody(), data );
+					uploadReport( uploadUrl, data );
 					break; // Successful, abort retry
 				} catch ( final UnirestException e ) {
 					if ( !report.containsChanges() ) {
@@ -89,6 +93,8 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 					}
 				}
 			}
+		} else {
+			log.error( "Failed to upload report. Aborting, because could not obtain a upload URL." );
 		}
 	}
 
@@ -104,13 +110,25 @@ public class CloudPersistence<T extends Persistable> implements Persistence<T> {
 		}
 	}
 
-	private HttpResponse<String> getUploadUrl( final String reportName ) {
+	WeakHashMap<TestReport, UUID> reportIdCache = new WeakHashMap<>();
+
+	private String getUploadUrlForTestReport( final TestReport report ) {
+		final UUID id = reportIdCache.computeIfAbsent( report, report2 -> UUID.randomUUID() );
+		final String reportName = String.join( ", ", getTestClasses( report ) );
 		final String token = String.format( "Bearer %s", Rehub.getAccessToken() );
 
-		return Unirest.post( RecheckProperties.getInstance().rehubReportUploadUrl() ) //
-				.queryString( "name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
-				.header( "Authorization", token )//
-				.asString();
+		final HttpResponse<String> uploadUrlResponse =
+				Unirest.post( RecheckProperties.getInstance().rehubReportUploadUrl() + "/" + id ) //
+						.queryString( "name", abbreviate( reportName, MAX_REPORT_NAME_LENGTH ) ) //
+						.header( "Authorization", token )//
+						.asString();
+
+		if ( uploadUrlResponse.isSuccess() ) {
+			return uploadUrlResponse.getBody();
+		} else {
+			return null;
+		}
+
 	}
 
 	@Override

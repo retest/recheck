@@ -37,12 +37,12 @@ public class PersistentFilter implements Filter {
 		// Delegate
 		return filter.matches( element );
 	}
-	
+
 	@Override
 	public boolean matches( final Element element, final ChangeType change ) {
 		return filter.matches( element, change );
 	}
-	
+
 	@Override
 	public boolean matches( final Element element, final String attributeKey ) {
 		// Delegate

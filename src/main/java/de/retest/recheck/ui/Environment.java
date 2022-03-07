@@ -21,7 +21,7 @@ public abstract class Environment<T> implements DefaultValueFinder {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( Environment.class );
 
-	public static interface Task {
+	public interface Task {
 		void execute();
 	}
 

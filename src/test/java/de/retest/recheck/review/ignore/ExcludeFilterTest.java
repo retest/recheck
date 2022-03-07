@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import de.retest.recheck.ignore.CompoundFilter;
@@ -59,13 +58,13 @@ class ExcludeFilterTest {
 		assertThat( cut.matches( falseElement, Filter.ChangeType.CHANGED ) ).isTrue();
 	}
 
-	@Nested
-	class FilterLoaderTest {
+	static class FilterLoaderTest {
 
 		Loader<Filter> delegate;
 		Loader<ExcludeFilter> cut;
 
 		@BeforeEach
+		@SuppressWarnings( "unchecked" )
 		void setUp() {
 			delegate = mock( Loader.class );
 

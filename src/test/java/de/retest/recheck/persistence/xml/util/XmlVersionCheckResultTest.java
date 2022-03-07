@@ -9,7 +9,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import de.retest.recheck.persistence.xml.TestPersistable;
-import de.retest.recheck.persistence.xml.util.XmlVersionCheckResult;
 
 public class XmlVersionCheckResultTest {
 

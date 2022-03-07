@@ -17,8 +17,7 @@ public class XmlUtil {
 		result = result.replace( "&", "&amp;" );
 		result = result.replace( "<", "&lt;" );
 		result = result.replace( ">", "&gt;" );
-		result = result.replace( "\"", "'" );
-		return result;
+		return result.replace( "\"", "'" );
 	}
 
 	public static void addLightWeightAdapter( final Marshaller marshaller ) {

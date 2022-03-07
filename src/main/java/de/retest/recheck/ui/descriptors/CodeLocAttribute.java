@@ -13,21 +13,20 @@ public class CodeLocAttribute extends TextAttribute {
 
 	// Used by JaxB
 	@SuppressWarnings( "unused" )
-	private CodeLocAttribute() {
-	}
+	private CodeLocAttribute() {}
 
 	public CodeLocAttribute( final String codeLoc ) {
 		this( codeLoc, null );
 	}
 
 	public CodeLocAttribute( final String codeLoc, final String variableName ) {
-		super( CODE_LOC_KEY, codeLoc != null && !codeLoc.equals( "[]" ) ? codeLoc : null, variableName );
+		super( CODE_LOC_KEY, codeLoc != null && !"[]".equals( codeLoc ) ? codeLoc : null, variableName );
 	}
 
 	@Override
 	public String getValue() {
 		final Serializable value = super.getValue();
-		return value != null && !value.equals( "[]" ) ? (String) value : null;
+		return value != null && !"[]".equals( value ) ? (String) value : null;
 	}
 
 	@Override

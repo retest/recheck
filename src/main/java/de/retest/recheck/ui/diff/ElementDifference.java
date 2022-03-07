@@ -103,14 +103,14 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 	}
 
 	public String getIdentifier() {
-		String result = getIdentifyingAttributes().identifier();
+		final StringBuilder result = new StringBuilder().append( getIdentifyingAttributes().identifier() );
 		if ( identifyingAttributesDifference != null ) {
-			result += getSumIdentifier( identifyingAttributesDifference.getNonEmptyDifferences() );
+			result.append( getSumIdentifier( identifyingAttributesDifference.getNonEmptyDifferences() ) );
 		}
 		if ( attributesDifference != null ) {
-			result += attributesDifference.getIdentifier();
+			result.append( attributesDifference.getIdentifier() );
 		}
-		return ChecksumCalculator.getInstance().sha256( result );
+		return ChecksumCalculator.getInstance().sha256( result.toString() );
 	}
 
 	private static String getSumIdentifier( final Collection<ElementDifference> differences ) {

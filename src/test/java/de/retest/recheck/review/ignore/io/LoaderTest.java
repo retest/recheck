@@ -47,7 +47,7 @@ class LoaderTest {
 
 		@Override
 		public Optional<String> load( final String line ) {
-			return line.equals( "ignore" ) ? Optional.empty() : Optional.of( line );
+			return "ignore".equals( line ) ? Optional.empty() : Optional.of( line );
 		}
 
 		@Override

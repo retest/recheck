@@ -109,8 +109,11 @@ public class LoadFilterWorker {
 
 	private void addIgnoreRuleFiles( final Path ignoreRuleFile, final GlobalIgnoreApplier result ) {
 		if ( ignoreRuleFile.toFile().exists() ) {
+			log.info( "Reading ignore file from '{}'.", ignoreRuleFile.toFile() );
 			result.addWithoutCounting(
 					new PersistentFilter( ignoreRuleFile, new CacheFilter( new JSFilterImpl( ignoreRuleFile ) ) ) );
+		} else {
+			log.info( "No ignore file found at '{}'.", ignoreRuleFile.toFile() );
 		}
 	}
 

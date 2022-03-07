@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
@@ -123,22 +124,22 @@ public class Element implements Serializable, Comparable<Element> {
 		newContainedElements = removeDeleted( actionChangeSet, newContainedElements );
 		newContainedElements =
 				applyChangesToContainedElements( actionChangeSet, newIdentAttributes, newContainedElements );
-		newContainedElements = addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
-		return newContainedElements;
+		return addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
 	}
 
 	private List<Element> removeDeleted( final ActionChangeSet actionChangeSet,
 			final List<Element> oldContainedElements ) {
 		final Set<IdentifyingAttributes> deletedChanges = actionChangeSet.getDeletedChanges();
-		final List<Element> newContainedElements = new ArrayList<>( oldContainedElements.size() );
-
-		for ( final Element oldElement : oldContainedElements ) {
-			if ( !deletedChanges.contains( oldElement.getIdentifyingAttributes() ) ) {
-				newContainedElements.add( oldElement );
-			}
-		}
-
-		return newContainedElements;
+		// IdentifyingAttributes#equals cannot be used here, due to volatile attributes (e.g. outline)
+		final List<String> deletedIdentifiers = deletedChanges.stream() //
+				.map( IdentifyingAttributes::identifier ) //
+				.collect( Collectors.toList() );
+		return oldContainedElements.stream() //
+				.filter( element -> {
+					final IdentifyingAttributes attributes = element.getIdentifyingAttributes();
+					return !deletedIdentifiers.contains( attributes.identifier() );
+				} ) //
+				.collect( Collectors.toList() );
 	}
 
 	private List<Element> applyChangesToContainedElements( final ActionChangeSet actionChangeSet,
@@ -223,8 +224,7 @@ public class Element implements Serializable, Comparable<Element> {
 			return identifyingAttribute.getValue();
 		}
 
-		final Object ordinaryAttribute = getAttributes().get( attributeName );
-		return ordinaryAttribute;
+		return getAttributes().get( attributeName );
 	}
 
 	public String getRetestId() {
@@ -278,17 +278,11 @@ public class Element implements Serializable, Comparable<Element> {
 		if ( this == obj ) {
 			return true;
 		}
-		if ( obj == null || getClass() != obj.getClass() ) {
-			return false;
-		}
-		if ( this.hashCode() != obj.hashCode() ) {
+		if ( obj == null || getClass() != obj.getClass() || hashCode() != obj.hashCode() ) {
 			return false;
 		}
 		final Element other = (Element) obj;
-		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
-			return false;
-		}
-		if ( !attributes.equals( other.attributes ) ) {
+		if ( !identifyingAttributes.equals( other.identifyingAttributes ) || !attributes.equals( other.attributes ) ) {
 			return false;
 		}
 		return containedElements.equals( other.containedElements );

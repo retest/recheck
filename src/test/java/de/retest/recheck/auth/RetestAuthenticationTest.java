@@ -2,7 +2,10 @@ package de.retest.recheck.auth;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import de.retest.recheck.Rehub;
 
 public class RetestAuthenticationTest {
 
@@ -21,6 +24,14 @@ public class RetestAuthenticationTest {
 		assertThat( sut.getError() ).isNull();
 		assertThat( sut.getErrorDescription() ).isNull();
 		assertThat( sut.getErrorException() ).isNull();
+	}
+
+	@Test
+	@Disabled( "manual test" )
+	void getRecheckApiKey_should_work() throws Exception {
+		Rehub.init();
+		Rehub.authenticate();
+		Rehub.getRecheckApiKey();
 	}
 
 }

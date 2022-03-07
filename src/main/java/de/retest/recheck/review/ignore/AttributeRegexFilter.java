@@ -59,7 +59,7 @@ public class AttributeRegexFilter implements Filter {
 
 		@Override
 		protected Optional<Filter> load( final MatchResult regex ) {
-			return ChainableFilterLoaderUtil.load( regex, match -> new AttributeRegexFilter( match ) );
+			return ChainableFilterLoaderUtil.load( regex, AttributeRegexFilter::new );
 		}
 	}
 

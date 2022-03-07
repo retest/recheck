@@ -10,13 +10,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.DefaultAttribute;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.OutlineAttribute;
-import de.retest.recheck.ui.descriptors.ParameterizedAttribute;
-import de.retest.recheck.ui.descriptors.StringAttribute;
-import de.retest.recheck.ui.descriptors.VariableNameAttributeDifference;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class VariableNameAttributeDifferenceIntTest {

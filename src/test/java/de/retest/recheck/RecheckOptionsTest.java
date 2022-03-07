@@ -21,6 +21,7 @@ import org.junitpioneer.jupiter.SetSystemProperty;
 import de.retest.recheck.RecheckOptions.RecheckOptionsBuilder;
 import de.retest.recheck.ignore.CompoundFilter;
 import de.retest.recheck.ignore.Filter;
+import de.retest.recheck.ignore.PersistentFilter;
 import de.retest.recheck.persistence.ClassAndMethodBasedShortNamingStrategy;
 import de.retest.recheck.persistence.FileNamer;
 import de.retest.recheck.persistence.NamingStrategy;
@@ -68,7 +69,8 @@ class RecheckOptionsTest {
 		final List<Filter> filters =
 				((CompoundFilter) ((CompoundFilter) ((CompoundFilter) cut.getFilter()).getFilters().get( 0 ))
 						.getFilters().get( 0 )).getFilters();
-		assertThat( filters.get( 0 ).toString() ).isEqualTo( "# Style attributes filter file for recheck." );
+		assertThat( ((PersistentFilter) filters.get( 0 )).getFilter().toString() )
+				.isEqualTo( "# Style attributes filter file for recheck." );
 	}
 
 	@Test
@@ -77,8 +79,9 @@ class RecheckOptionsTest {
 				.setIgnore( "style-attributes.filter" ) //
 				.build();
 		assertThat( cut.getFilter() ).isInstanceOf( CompoundFilter.class );
-		assertThat( ((CompoundFilter) cut.getFilter()).getFilters().get( 0 ).toString() )
-				.isEqualTo( "# Style attributes filter file for recheck." );
+		assertThat(
+				((PersistentFilter) ((CompoundFilter) cut.getFilter()).getFilters().get( 0 )).getFilter().toString() )
+						.isEqualTo( "# Style attributes filter file for recheck." );
 	}
 
 	@Test
@@ -105,6 +108,7 @@ class RecheckOptionsTest {
 		verify( options.getProjectLayout(), atLeastOnce() ).getSuiteFolder( "name" );
 	}
 
+	@SuppressWarnings( "deprecation" )
 	static Stream<RecheckOptionsBuilder> suiteNamesFileNameStrategy() {
 		final FileNamer fileNamer = mock( FileNamer.class );
 		when( fileNamer.getFile( any() ) ).thenReturn( new File( "src/test/resources/retest/recheck/name" ) );
@@ -160,7 +164,7 @@ class RecheckOptionsTest {
 	@ParameterizedTest
 	@ValueSource( strings = { "true", "false" } )
 	@ClearSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
-	void build_with_rehub_enabled_should_overwrite_property_regardless_of_its_value( String global ) {
+	void build_with_rehub_enabled_should_overwrite_property_regardless_of_its_value( final String global ) {
 		System.setProperty( RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, global );
 		final RecheckOptions cut = RecheckOptions.builder() //
 				.enableReportUpload() //
@@ -171,7 +175,7 @@ class RecheckOptionsTest {
 	@ParameterizedTest
 	@ValueSource( strings = { "true", "false" } )
 	@ClearSystemProperty( key = RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY )
-	void build_with_rehub_disabled_should_overwrite_property_regardless_of_its_value( String global ) {
+	void build_with_rehub_disabled_should_overwrite_property_regardless_of_its_value( final String global ) {
 		System.setProperty( RecheckProperties.REHUB_REPORT_UPLOAD_ENABLED_PROPERTY_KEY, global );
 		final RecheckOptions cut = RecheckOptions.builder() //
 				.disableReportUpload() //

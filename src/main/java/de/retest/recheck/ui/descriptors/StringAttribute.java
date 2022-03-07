@@ -44,10 +44,10 @@ public class StringAttribute extends ParameterizedAttribute {
 	public static final ParameterType parameterTypeBoolean = new ParameterType( "BOOLEAN" ) {
 		@Override
 		public Boolean parse( final String value ) throws ParameterParseException {
-			if ( value.equalsIgnoreCase( "true" ) ) {
+			if ( "true".equalsIgnoreCase( value ) ) {
 				return Boolean.TRUE;
 			}
-			if ( value.equalsIgnoreCase( "false" ) ) {
+			if ( "false".equalsIgnoreCase( value ) ) {
 				return Boolean.FALSE;
 			}
 			throw new ParameterParseException( "Value must be 'true' or 'false' (ignoring case).",
@@ -93,10 +93,7 @@ public class StringAttribute extends ParameterizedAttribute {
 
 	@Override
 	public double match( final Attribute other ) {
-		if ( !(other instanceof StringAttribute) ) {
-			return NO_MATCH;
-		}
-		if ( !other.getKey().equals( getKey() ) ) {
+		if ( !(other instanceof StringAttribute) || !other.getKey().equals( getKey() ) ) {
 			return NO_MATCH;
 		}
 		return StringSimilarity.simpleSimilarity( getValue(), ((StringAttribute) other).getValue() );

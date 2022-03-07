@@ -10,8 +10,6 @@ import java.util.TimeZone;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.retest.recheck.persistence.DateAdapter;
-
 public class DateAdapterTest {
 
 	DateAdapter dateAdapter;

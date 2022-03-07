@@ -1,6 +1,7 @@
 package de.retest.recheck.suite;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.retest.recheck.persistence.Persistable;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -31,8 +32,6 @@ public class CapturedSuite extends Persistable {
 	}
 
 	public void addTests( final String... testFileNames ) {
-		for ( final String test : testFileNames ) {
-			tests.add( test );
-		}
+		Collections.addAll( tests, testFileNames );
 	}
 }

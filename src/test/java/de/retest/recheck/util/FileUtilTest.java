@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.offset;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
@@ -112,12 +111,7 @@ public class FileUtilTest {
 		final File contendFolder = temp.newFolder();
 		final File fileToBeWritten = new File( contendFolder, "fileToBeWritten" );
 
-		FileUtil.writeToFile( fileToBeWritten, new FileUtil.Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( 0x41 );
-			}
-		} );
+		FileUtil.writeToFile( fileToBeWritten, out -> out.write( 0x41 ) );
 
 		assertThat( fileToBeWritten ).exists();
 		assertThat( FileUtil.readFileToString( fileToBeWritten ) ).isEqualTo( "A" );
@@ -128,12 +122,7 @@ public class FileUtilTest {
 		final File contendFolder = temp.newFolder();
 		final File fileToBeWritten = new File( contendFolder, "nonExsistingFolder/fileToBeWritten.txt" );
 
-		FileUtil.writeToFile( fileToBeWritten, new FileUtil.Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( 0x41 );
-			}
-		} );
+		FileUtil.writeToFile( fileToBeWritten, out -> out.write( 0x41 ) );
 
 		assertThat( fileToBeWritten ).exists();
 		assertThat( FileUtil.readFileToString( fileToBeWritten ) ).isEqualTo( "A" );
@@ -143,19 +132,9 @@ public class FileUtilTest {
 	public void writeFile_should_write_File_even_File_already_exsists() throws Exception {
 		final File contendFolder = temp.newFolder();
 		final File fileToBeWritten = new File( contendFolder, "fileToBeWritten" );
-		FileUtil.writeToFile( fileToBeWritten, new FileUtil.Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( 0x43 );
-			}
-		} );
+		FileUtil.writeToFile( fileToBeWritten, out -> out.write( 0x43 ) );
 
-		FileUtil.writeToFile( fileToBeWritten, new FileUtil.Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( 0x41 );
-			}
-		} );
+		FileUtil.writeToFile( fileToBeWritten, out -> out.write( 0x41 ) );
 
 		assertThat( fileToBeWritten ).exists();
 		assertThat( FileUtil.readFileToString( fileToBeWritten ) ).isEqualTo( "A" );
@@ -163,11 +142,8 @@ public class FileUtilTest {
 
 	@Test( expected = ReTestSaveException.class )
 	public void writeFile_should_throw_exception_if_error_occurs() throws Exception {
-		FileUtil.writeToFile( new File( "." ), new FileUtil.Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				throw new IOException( "Something bad happened" );
-			}
+		FileUtil.writeToFile( new File( "." ), out -> {
+			throw new IOException( "Something bad happened" );
 		} );
 	}
 
@@ -183,12 +159,7 @@ public class FileUtilTest {
 	public void writeFile_should_throw_exception_if_file_is_a_directory() throws Exception {
 		final File contendFolder = temp.newFolder();
 
-		FileUtil.writeToFile( contendFolder, new FileUtil.Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				out.write( 0x41 );
-			}
-		} );
+		FileUtil.writeToFile( contendFolder, out -> out.write( 0x41 ) );
 	}
 
 	@Test( expected = NullPointerException.class )
@@ -238,19 +209,8 @@ public class FileUtilTest {
 		final File file = Mockito.mock( File.class );
 		Mockito.when( file.listFiles() ).thenReturn( null );
 		Mockito.when( file.isDirectory() ).thenReturn( true );
-		FileUtil.listFilesRecursively( file, new FileFilter() {
-			@Override
-			public boolean accept( final File arg0 ) {
-				return false;
-			}
-		} );
-		FileUtil.listFilesRecursively( file, new FilenameFilter() {
-
-			@Override
-			public boolean accept( final File file, final String s ) {
-				return false;
-			}
-		} );
+		FileUtil.listFilesRecursively( file, (FileFilter) arg0 -> false );
+		FileUtil.listFilesRecursively( file, (FilenameFilter) ( file1, s ) -> false );
 		FileUtil.listFilesRecursively( file, new javax.swing.filechooser.FileFilter() {
 			@Override
 			public String getDescription() {

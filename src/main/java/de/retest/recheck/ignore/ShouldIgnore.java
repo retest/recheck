@@ -65,7 +65,7 @@ public interface ShouldIgnore extends Filter {
 		return shouldIgnoreAttributeDifference( element, attributeDifference );
 	}
 
-	public static final ShouldIgnore IGNORE_NOTHING = new ShouldIgnore() {
+	ShouldIgnore IGNORE_NOTHING = new ShouldIgnore() {
 
 		@Override
 		public boolean shouldIgnoreElement( final Element element ) {

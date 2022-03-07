@@ -119,13 +119,9 @@ public class ActionParameter implements Serializable {
 			return false;
 		}
 		final ActionParameter other = (ActionParameter) object;
-		if ( !name.equals( other.getName() ) ) {
-			return false;
-		}
-		if ( !Objects.equals( type, other.type ) ) {
-			return false;
-		}
-		if ( !Objects.equals( value, other.getValue() ) ) {
+		if ( !name.equals( other.getName() ) //
+				|| !Objects.equals( type, other.type ) //
+				|| !Objects.equals( value, other.getValue() ) ) {
 			return false;
 		}
 		return true;

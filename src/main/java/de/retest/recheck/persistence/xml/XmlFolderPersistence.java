@@ -4,7 +4,6 @@ import static de.retest.recheck.util.FileUtil.readFromFile;
 import static de.retest.recheck.util.FileUtil.writeToFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 
@@ -15,9 +14,6 @@ import de.retest.recheck.RecheckProperties;
 import de.retest.recheck.persistence.Persistable;
 import de.retest.recheck.persistence.Persistence;
 import de.retest.recheck.persistence.xml.util.ScreenshotFolderPersistence;
-import de.retest.recheck.util.FileUtil.Reader;
-import de.retest.recheck.util.FileUtil.Writer;
-import de.retest.recheck.util.NamedBufferedInputStream;
 
 public class XmlFolderPersistence<T extends Persistable> implements Persistence<T> {
 
@@ -49,12 +45,8 @@ public class XmlFolderPersistence<T extends Persistable> implements Persistence<
 		final ScreenshotFolderPersistence screenshotPersistence = new ScreenshotFolderPersistence( baseFolder );
 
 		final File xmlFile = new File( baseFolder, xmlFileName );
-		writeToFile( xmlFile, new Writer() {
-			@Override
-			public void write( final FileOutputStream out ) throws IOException {
-				xmlTransformer.toXML( container, out, screenshotPersistence.getMarshallListener() );
-			}
-		} );
+		writeToFile( xmlFile,
+				out -> xmlTransformer.toXML( container, out, screenshotPersistence.getMarshallListener() ) );
 
 	}
 
@@ -66,13 +58,8 @@ public class XmlFolderPersistence<T extends Persistable> implements Persistence<
 
 		final File xmlFile = new File( baseFolder, xmlFileName );
 
-		final ReTestXmlDataContainer<T> container = readFromFile( xmlFile, new Reader<ReTestXmlDataContainer<T>>() {
-			@Override
-			public ReTestXmlDataContainer<T> read( final NamedBufferedInputStream in ) throws IOException {
-				return XmlPersistenceUtil.<T> migrateAndRead( xmlTransformer, in,
-						screenshotPersistence.getUnmarshallListener() );
-			}
-		} );
+		final ReTestXmlDataContainer<T> container = readFromFile( xmlFile, in -> XmlPersistenceUtil
+				.<T> migrateAndRead( xmlTransformer, in, screenshotPersistence.getUnmarshallListener() ) );
 
 		if ( container == null ) {
 			return null;

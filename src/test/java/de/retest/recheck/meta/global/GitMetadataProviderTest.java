@@ -17,7 +17,7 @@ class GitMetadataProviderTest {
 		final GitMetadataProvider cut = new GitMetadataProvider( new GitExecutor() {
 			@Override
 			protected String executeGitCommand( final String command ) throws IOException, InterruptedException {
-				assertThat( command.equals( GitExecutor.GIT_COMMAND_VERSION ) );
+				assertThat( GitExecutor.GIT_COMMAND_VERSION.equals( command ) );
 
 				return "'git' is not recognized as an internal or external command,\n"
 						+ "operable program or batch file.\n" + "";
@@ -34,16 +34,16 @@ class GitMetadataProviderTest {
 		final GitMetadataProvider cut = new GitMetadataProvider( new GitExecutor() {
 			@Override
 			protected String executeGitCommand( final String command ) throws IOException, InterruptedException {
-				if ( command.equals( GitExecutor.GIT_COMMAND_VERSION ) ) {
+				if ( GitExecutor.GIT_COMMAND_VERSION.equals( command ) ) {
 					return "git version 2.8.1";
 				}
-				if ( command.equals( GitExecutor.GIT_COMMAND_BRANCH_NAME ) ) {
+				if ( GitExecutor.GIT_COMMAND_BRANCH_NAME.equals( command ) ) {
 					return branch;
 				}
-				if ( command.equals( GitExecutor.GIT_COMMAND_COMMIT_HASH ) ) {
+				if ( GitExecutor.GIT_COMMAND_COMMIT_HASH.equals( command ) ) {
 					return commit;
 				}
-				if ( command.equals( GitExecutor.GIT_COMMAND_STATUS ) ) {
+				if ( GitExecutor.GIT_COMMAND_STATUS.equals( command ) ) {
 					return "On branch master";
 				}
 				fail( "Should not be called with " + command );

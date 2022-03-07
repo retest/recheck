@@ -35,10 +35,7 @@ public abstract class ParameterType {
 
 	@Override
 	public boolean equals( final Object other ) {
-		if ( other == null ) {
-			return false;
-		}
-		if ( !(other instanceof ParameterType) ) {
+		if ( other == null || !(other instanceof ParameterType) ) {
 			return false;
 		}
 		return Objects.equals( toString, other.toString() );

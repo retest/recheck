@@ -132,9 +132,8 @@ class RecheckImplIT {
 
 		@Override
 		public DefaultValueFinder getDefaultValueFinder() {
-			return ( identifyingAttributes, attributeKey, attributeValue ) -> {
-				return "bar-3".equals( attributeKey ) && attributeValue == null; // Force default output for diffs
-			};
+			return ( identifyingAttributes, attributeKey,
+					attributeValue ) -> ("bar-3".equals( attributeKey ) && attributeValue == null); // Force default output for diffs
 		}
 	}
 

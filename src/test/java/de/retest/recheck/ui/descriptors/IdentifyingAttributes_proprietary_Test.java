@@ -11,11 +11,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import de.retest.recheck.ui.Path;
-import de.retest.recheck.ui.descriptors.AdditionalAttributeDifference;
-import de.retest.recheck.ui.descriptors.Attribute;
-import de.retest.recheck.ui.descriptors.ContextAttribute;
-import de.retest.recheck.ui.descriptors.IdentifyingAttributes;
-import de.retest.recheck.ui.descriptors.StringAttribute;
 import de.retest.recheck.ui.diff.AttributeDifference;
 
 public class IdentifyingAttributes_proprietary_Test {

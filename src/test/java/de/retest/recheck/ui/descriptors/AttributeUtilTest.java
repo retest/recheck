@@ -37,7 +37,8 @@ class AttributeUtilTest {
 		final IdentifyingAttributes expected = new IdentifyingAttributes( Collections.singletonList( expectedAtt ) );
 		final IdentifyingAttributes actual = new IdentifyingAttributes( Collections.singletonList( actualAtt ) );
 
-		final IdentifyingAttributesDifference identifyingAttributesDifference = finder.differenceFor( expected, actual );
+		final IdentifyingAttributesDifference identifyingAttributesDifference =
+				finder.differenceFor( expected, actual );
 
 		final Element element = Element.create( "id", mock( Element.class ), expected, new Attributes(), null );
 
@@ -70,7 +71,8 @@ class AttributeUtilTest {
 		final IdentifyingAttributes expected = new IdentifyingAttributes( Collections.singletonList( expectedAtt ) );
 		final IdentifyingAttributes actual = new IdentifyingAttributes( Collections.singletonList( actualAtt ) );
 
-		final IdentifyingAttributesDifference identifyingAttributesDifference = finder.differenceFor( expected, actual );
+		final IdentifyingAttributesDifference identifyingAttributesDifference =
+				finder.differenceFor( expected, actual );
 
 		final Element element = Element.create( "id", mock( Element.class ), expected, new Attributes(), null );
 

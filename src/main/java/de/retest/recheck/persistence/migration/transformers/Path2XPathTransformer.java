@@ -85,9 +85,7 @@ public class Path2XPathTransformer extends XmlTransformer {
 		result = sb.toString();
 
 		// treat popup speciality
-		result = result.replaceAll( "popup_([^\\/]+)(\\/|\\z){1}", "popup_$1[1]$2" );
-
-		return result;
+		return result.replaceAll( "popup_([^\\/]+)(\\/|\\z){1}", "popup_$1[1]$2" );
 	}
 
 }
