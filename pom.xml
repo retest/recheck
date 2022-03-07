@@ -4,7 +4,7 @@
 
 	<groupId>de.retest</groupId>
 	<artifactId>recheck</artifactId>
-	<version>1.13.0-SNAPSHOT</version>
+	<version>1.13.0</version>
 
 	<name>recheck</name>
 	<description>Replace traditional assertions with a single check.</description>
