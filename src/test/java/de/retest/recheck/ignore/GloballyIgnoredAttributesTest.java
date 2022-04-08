@@ -10,9 +10,13 @@ class GloballyIgnoredAttributesTest {
 
 	@Test
 	public void only_ignored_attribute_should_be_ignored() throws Exception {
-		final GloballyIgnoredAttributes ignored =
-				GloballyIgnoredAttributes.getTestInstance( Collections.singletonList( "text" ) );
-		assertThat( ignored.shouldIgnoreAttribute( "text" ) ).isTrue();
-		assertThat( ignored.shouldIgnoreAttribute( "color" ) ).isFalse();
+		try {
+			final GloballyIgnoredAttributes ignored =
+					GloballyIgnoredAttributes.getTestInstance( Collections.singletonList( "text" ) );
+			assertThat( ignored.shouldIgnoreAttribute( "text" ) ).isTrue();
+			assertThat( ignored.shouldIgnoreAttribute( "color" ) ).isFalse();
+		} finally {
+			GloballyIgnoredAttributes.resetTestInstance();
+		}
 	}
 }

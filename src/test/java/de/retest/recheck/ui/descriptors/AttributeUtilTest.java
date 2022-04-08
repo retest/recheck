@@ -7,11 +7,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.retest.recheck.ignore.GloballyIgnoredAttributes;
+import de.retest.recheck.ui.Path;
 import de.retest.recheck.ui.diff.AttributesDifference;
 import de.retest.recheck.ui.diff.ElementDifference;
 import de.retest.recheck.ui.diff.IdentifyingAttributesDifference;
@@ -65,21 +68,28 @@ class AttributeUtilTest {
 
 	@Test
 	void getActualAbsoluteOutline_should_return_actual_absolute_outline() {
-		final OutlineAttribute expectedAtt = OutlineAttribute.createAbsolute( EXPECTED );
-		final OutlineAttribute actualAtt = OutlineAttribute.createAbsolute( ACTUAL );
+		try {
+			GloballyIgnoredAttributes.getTestInstance( Collections.emptyList() );
+			final OutlineAttribute expectedAtt = OutlineAttribute.createAbsolute( EXPECTED );
+			final OutlineAttribute actualAtt = OutlineAttribute.createAbsolute( ACTUAL );
 
-		final IdentifyingAttributes expected = new IdentifyingAttributes( Collections.singletonList( expectedAtt ) );
-		final IdentifyingAttributes actual = new IdentifyingAttributes( Collections.singletonList( actualAtt ) );
+			final IdentifyingAttributes expected = new IdentifyingAttributes(
+					Arrays.asList( expectedAtt, new PathAttribute( Path.fromString( "." ) ) ) );
+			final IdentifyingAttributes actual = new IdentifyingAttributes(
+					Arrays.asList( actualAtt, new PathAttribute( Path.fromString( "." ) ) ) );
 
-		final IdentifyingAttributesDifference identifyingAttributesDifference =
-				finder.differenceFor( expected, actual );
+			final IdentifyingAttributesDifference identifyingAttributesDifference =
+					finder.differenceFor( expected, actual );
 
-		final Element element = Element.create( "id", mock( Element.class ), expected, new Attributes(), null );
+			final Element element = Element.create( "id", mock( Element.class ), expected, new Attributes(), null );
 
-		final ElementDifference difference = new ElementDifference( element, mock( AttributesDifference.class ),
-				identifyingAttributesDifference, null, null, Collections.singletonList( null ) );
+			final ElementDifference difference = new ElementDifference( element, mock( AttributesDifference.class ),
+					identifyingAttributesDifference, null, null, Collections.singletonList( null ) );
 
-		assertThat( AttributeUtil.getActualAbsoluteOutline( difference ) ).isEqualTo( ACTUAL );
+			assertThat( AttributeUtil.getActualAbsoluteOutline( difference ) ).isEqualTo( ACTUAL );
+		} finally {
+			GloballyIgnoredAttributes.resetTestInstance();
+		}
 	}
 
 	@Test
