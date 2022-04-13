@@ -205,9 +205,12 @@ public class IdentifyingAttributesTest {
 		final IdentifyingAttributes actual = IdentifyingAttributes
 				.create( Path.fromString( "Window[1]/path[1]/component[1]" ), otherComponent.class );
 
-		GloballyIgnoredAttributes.getTestInstance( Arrays.asList( TYPE_ATTRIBUTE_KEY ) );
-		assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.01 ) );
-		GloballyIgnoredAttributes.getTestInstance();
+		try {
+			GloballyIgnoredAttributes.getTestInstance( Arrays.asList( TYPE_ATTRIBUTE_KEY ) );
+			assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.01 ) );
+		} finally {
+			GloballyIgnoredAttributes.resetTestInstance();
+		}
 	}
 
 	@Test( expected = IllegalArgumentException.class )

@@ -32,8 +32,9 @@ public class GloballyIgnoredAttributes {
 		return instance;
 	}
 
-	public static GloballyIgnoredAttributes getTestInstance() {
-		return getTestInstance( new HashSet<String>() );
+	public static GloballyIgnoredAttributes resetTestInstance() {
+		instance = null;
+		return getInstance();
 	}
 
 	/**

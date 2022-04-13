@@ -53,11 +53,14 @@ class IdentifyingAttributesDifferenceFinderTest {
 	@Test
 	void ignored_attribute_should_produce_no_difference() throws Exception {
 		final Collection<String> ignoredAttributes = Arrays.asList( IdentifyingAttributes.PATH_ATTRIBUTE_KEY );
-		final GloballyIgnoredAttributes ignored = GloballyIgnoredAttributes.getTestInstance( ignoredAttributes );
-		final IdentifyingAttributesDifference diff = cut.differenceFor( origin, differentOnlyPath, ignored );
+		try {
+			final GloballyIgnoredAttributes ignored = GloballyIgnoredAttributes.getTestInstance( ignoredAttributes );
+			final IdentifyingAttributesDifference diff = cut.differenceFor( origin, differentOnlyPath, ignored );
 
-		assertThat( diff ).isNull();
-		GloballyIgnoredAttributes.getTestInstance();
+			assertThat( diff ).isNull();
+		} finally {
+			GloballyIgnoredAttributes.resetTestInstance();
+		}
 	}
 
 	@Test
